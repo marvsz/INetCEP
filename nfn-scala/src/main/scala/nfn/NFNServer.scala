@@ -371,9 +371,10 @@ success
 
       Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
       */
-        case Some(contentFromLocalCS) =>
+        case Some(contentFromLocalCS) =>{
           logger.debug(s"Served $contentFromLocalCS from local CS")
           senderCopy ! contentFromLocalCS
+        }
         case None => {
           val senderFace = senderCopy
           pit.get(i.name) match {
