@@ -1,0 +1,16 @@
+Improvements:
+
+- I was checking out your implementation branch and ran it on my set of VMS but it didn't work for me.. 
+
+- more queries in queryStore - at the moment it supports only one query, if there is another one it overwrites the earlier one (which should not be the case). 
+Is it possible to implement a handle of multiple queries?
+
+update ccn-lite and nfn scala and look if we still have the issue in precision? - implement the same in general for all queries (refer my centralized placement implementation) and update the precision calculation there - do the same in generic placement service. 
+- how much time will it take to implement streaming in nfn?  
+- how much time in fixing the operators implementation?
+- remove all the disk IO and introduce static configuration (like java config) for static information - e.g., quick fix in reading placement utility weights and decentralized k hop information.
+
+
+
+- by pass creating nfn queries and call the services directly- change in parsing--? 
+

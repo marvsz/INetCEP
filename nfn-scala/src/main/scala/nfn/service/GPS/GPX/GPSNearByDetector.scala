@@ -1,12 +1,13 @@
 package nfn.service.GPS.GPX
 
 import akka.actor.ActorRef
-import ccn.packet.{Content, Interest, CCNName, NFNInterest}
+import ccn.packet.{CCNName, Interest}
+import nfn.service.GPS.GPX.helpers._
 import nfn.service._
 import nfn.tools.Networking._
 
 import scala.concurrent.duration._
-import nfn.service.GPS.GPX.helpers._
+import scala.language.postfixOps
 /**
  * Created by blacksheeep on 20/01/16.
  */
@@ -115,7 +116,7 @@ class GPSNearByDetector extends  NFNService {
       }
     }
     catch {
-      case _ => return (smallest, distance)
+      case _ : Throwable => return (smallest, distance)
     }
     return (smallest, distance)
   }

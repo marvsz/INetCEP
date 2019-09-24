@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ccnl-unix"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\ccnl-core\;CMake Files\ccnl-pkt\;CMake Files\ccnl-fwd\;CMake Files\ccnl-unix\;CMake Files\ccnl-relay\;CMake Files\ccnl-utils\;CMake Files\ccnl-nfn\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ccnl-unix">
+				<Option output="/home/johannes/MA-Ali/ccn-lite/src/lib/libccnl-unix.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSE_DEBUG"/>
+					<Add option="-DUSE_LOGGING"/>
+					<Add option="-DUSE_DUP_CHECK"/>
+					<Add option="-DUSE_HMAC256"/>
+					<Add option="-DUSE_STATS"/>
+					<Add option="-DNEEDS_PACKET_CRAFTING"/>
+					<Add option="-DNEEDS_PREFIX_MATCHING"/>
+					<Add option="-DUSE_LINKLAYER"/>
+					<Add option="-DUSE_CCNxDIGEST"/>
+					<Add option="-DUSE_MGMT"/>
+					<Add option="-DUSE_UNIXSOCKET"/>
+					<Add option="-DUSE_IPV4"/>
+					<Add option="-DUSE_IPV6"/>
+					<Add option="-DUSE_DEBUG_MALLOC"/>
+					<Add option="-DUSE_HTTP_STATUS"/>
+					<Add option="-DCCNL_UNIX"/>
+					<Add option="-DUSE_SUITE_NDNTLV"/>
+					<Add option="-DUSE_SUITE_CCNB"/>
+					<Add option="-DUSE_SUITE_CCNTLV"/>
+					<Add option="-DUSE_SUITE_LOCALRPC"/>
+					<Add option="-DUSE_NFN"/>
+					<Add option="-DUSE_NFN_REQUESTS"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-addons/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-core/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-nfn/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 ccnl-unix"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ccnl-unix/fast">
+				<Option output="/home/johannes/MA-Ali/ccn-lite/src/lib/libccnl-unix.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUSE_DEBUG"/>
+					<Add option="-DUSE_LOGGING"/>
+					<Add option="-DUSE_DUP_CHECK"/>
+					<Add option="-DUSE_HMAC256"/>
+					<Add option="-DUSE_STATS"/>
+					<Add option="-DNEEDS_PACKET_CRAFTING"/>
+					<Add option="-DNEEDS_PREFIX_MATCHING"/>
+					<Add option="-DUSE_LINKLAYER"/>
+					<Add option="-DUSE_CCNxDIGEST"/>
+					<Add option="-DUSE_MGMT"/>
+					<Add option="-DUSE_UNIXSOCKET"/>
+					<Add option="-DUSE_IPV4"/>
+					<Add option="-DUSE_IPV6"/>
+					<Add option="-DUSE_DEBUG_MALLOC"/>
+					<Add option="-DUSE_HTTP_STATUS"/>
+					<Add option="-DCCNL_UNIX"/>
+					<Add option="-DUSE_SUITE_NDNTLV"/>
+					<Add option="-DUSE_SUITE_CCNB"/>
+					<Add option="-DUSE_SUITE_CCNTLV"/>
+					<Add option="-DUSE_SUITE_LOCALRPC"/>
+					<Add option="-DUSE_NFN"/>
+					<Add option="-DUSE_NFN_REQUESTS"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-addons/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-core/include"/>
+					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/../ccnl-nfn/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 ccnl-unix/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/include/ccnl-os-includes.h">
+			<Option target="ccnl-unix"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/include/ccnl-unix.h">
+			<Option target="ccnl-unix"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/src/ccnl-unix.c">
+			<Option target="ccnl-unix"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-core/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-core\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-pkt/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-pkt\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-fwd/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-fwd\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-unix\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-relay/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-relay\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-utils\"/>
+		</Unit>
+		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-nfn/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\ccnl-nfn\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

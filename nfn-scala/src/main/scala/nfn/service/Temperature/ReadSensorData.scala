@@ -3,7 +3,7 @@ package nfn.service.Temperature
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
-
+import scala.language.postfixOps
 import sys.process._
 
 /**

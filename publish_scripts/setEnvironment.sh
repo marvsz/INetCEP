@@ -14,6 +14,3 @@ for i in "${VMS[@]}"
 	ssh $user@$i 'echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.ssh/environment'
 	ssh $user@$i 'echo "PATH=$PATH:$CCNL_HOME/bin:$JAVA_HOME/bin" >> ~/.ssh/environment'
     done
-
-
-

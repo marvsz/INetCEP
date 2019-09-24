@@ -76,7 +76,7 @@ object Helpers {
     * Writes a string given as the first arguemtn in the queryOutput and a string given as the second argument in the queryWeightVariance
     *
     * @param runAnalysis    a string with all analysis data form the run
-    * @param weightVariance a string containing the weight variance
+    * @param queryResult a string containing the weight variance
     * @return void
     */
   def writeOutputFiles(runAnalysis: String, queryResult: String): Any = {
@@ -305,6 +305,7 @@ object Helpers {
   }
 
   /**
+    * @deprecated not used anymore
     * Returns the path for the node Information file
     *
     * @return the path for the node Information file
@@ -323,6 +324,7 @@ object Helpers {
   }
 
   /**
+    * @deprecated not used anymore since
     * Returns the decentralized nodeinformation for the given node name
     *
     * @param nodeName the name of the node we want to have the decentralized node information for
@@ -633,7 +635,7 @@ object Helpers {
     */
   def executeNFNQuery(query: String, nodeName: String, ccnApi: ActorRef, timeoutAfter: Int): String = {
 
-    LogMessage(nodeName, s"execute NFN query called with ${nodeName}")
+    LogMessage(nodeName, s"execute NFN query ${query} called with ${nodeName}")
     var result = new String(fetchContentRepeatedly(
       NFNInterest(query),ccnApi,
       timeoutAfter seconds).get.data)

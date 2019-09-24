@@ -20,6 +20,7 @@ import network._
 import nfn.NFNServer._
 import nfn.localAbstractMachine.LocalAbstractMachineWorker
 import nfn.service.LogMessage
+import scala.language.postfixOps
 
 
 
@@ -363,7 +364,13 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     } else {*/
     logger.debug(s"Handle interest.")
       cs.get(i.name) match {
+        /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
 
+      *[ERROR] [07/22/2019 00:59:44.759] [Sys-node-nodeA-akka.actor.default-dispatcher-11] [akka://Sys-node-nodeA/user/NFNServer/ComputeServer/ComputeWorker-931157519] Added to futures: /COMPUTE/call 9 /node/nodeA/nfn_service_Placement 'Centralized' '1' '' 'QS' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200' '00:59:44.563'/NFN
+success
+
+      Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
+      */
         case Some(contentFromLocalCS) =>
           logger.debug(s"Served $contentFromLocalCS from local CS")
           senderCopy ! contentFromLocalCS

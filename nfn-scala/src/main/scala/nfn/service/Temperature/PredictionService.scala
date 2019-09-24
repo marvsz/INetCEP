@@ -6,6 +6,7 @@ import lambdacalculus.parser.ast.{Constant, Str}
 import nfn.service._
 import nfn.tools.Networking._
 import scala.concurrent.duration._
+import scala.language.postfixOps
 /**
  * Created by blacksheeep on 17/11/15.
  */

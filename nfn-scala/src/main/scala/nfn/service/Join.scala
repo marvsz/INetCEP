@@ -32,8 +32,8 @@ class Join() extends NFNService {
   }
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
-    var nodeInfo = interestName.cmps.mkString(" ")
-    var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
+    val nodeInfo = interestName.cmps.mkString(" ")
+    val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
     def joinStrings(left: String, right: String) = "[" + left + "]" + "," + "[" + right + "]"
 

@@ -71,8 +71,8 @@ do
 	#echo $Content
 
 	#Set Content at parent (so that parent can fetch later):
-	#timeout 10 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 10 "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-	timeout 10 $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 10 "" "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
+	#timeout 10 $CCNL_HOME/src/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 10 "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
+	timeout 10 $CCNL_HOME/src/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 10 "" "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
 	if [ $? -eq 124 ]; then
 	    # Timeout occurred
 		echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request timed out after 10 seconds -' $?

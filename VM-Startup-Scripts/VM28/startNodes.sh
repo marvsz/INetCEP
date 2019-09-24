@@ -4,8 +4,8 @@ source "$work_dir/VMS.cfg"
 
 #Start nodes:
 #CCN-Lite-Old Version
-$CCNL_HOME/bin/ccn-nfn-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock &
-#$CCNL_HOME/bin/ccn-lite-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock &
+#$CCNL_HOME/bin/ccn-nfn-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock &
+$CCNL_HOME/bin/ccn-lite-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock &
 sleep 0.1
 echo "Relay started in BG"
 

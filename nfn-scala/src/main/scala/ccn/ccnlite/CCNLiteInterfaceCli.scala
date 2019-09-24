@@ -12,6 +12,7 @@ import myutil.systemcomandexecutor._
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration._
 import scala.util.{Random, Failure, Success}
+import scala.language.postfixOps
 
 object CCNLiteInterfaceCli {
   val maxChunkSize = 4096
@@ -119,6 +120,8 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
 
   override def addToCache(content: Content, mgmtSock: String)(implicit ec: ExecutionContext): Future[Int] = {
     logger.debug(s"add to cache for $content")
+//    var futmkBinaryContent(content, CCNLiteInterfaceCli.maxChunkSize)
+
     mkBinaryContent(content, CCNLiteInterfaceCli.maxChunkSize) flatMap { (binaryContents: List[Array[Byte]]) =>
       binaryContents.foldLeft(Future(0)) {
         case(futN, binaryContent) =>

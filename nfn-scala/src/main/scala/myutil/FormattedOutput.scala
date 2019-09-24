@@ -12,9 +12,9 @@ object FormattedOutput {
   def byteArrayToHex(bytes: Array[Byte]): String = bytes.map{ b => String.format("%02X", new java.lang.Integer(b & 0xff)) }.mkString("'", " ", "'")
 
   //Updated by Ali: 11.08.2018
-  def parseDouble(s: String) = try { (s.toDouble) } catch { case _ => 0.0 }
+  def parseDouble(s: String) = try { (s.toDouble) } catch { case _ : Throwable=> 0.0 }
 
-  def parseLong(s: String):Long = try { s.toLong } catch {case _ => 0}
+  def parseLong(s: String):Long = try { s.toLong } catch {case _ : Throwable => 0}
 
   def round(value: Either[Double, Float], places: Int) = {
     if (places < 0) 0.0

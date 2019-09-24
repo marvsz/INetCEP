@@ -1,16 +1,16 @@
 package orgOpenmhealth.helpers
 
 import java.io.{File, PrintWriter}
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
 
-import ccn.packet._
 import akka.actor.ActorRef
+import ccn.packet._
 import config.CCNLiteSystemPath
-import myutil.systemcomandexecutor.{ExecutionError, ExecutionSuccess, SystemCommandExecutor}
-import nfn.service.NFNValue
 import nfn.tools.Networking.fetchContent
+
 import scala.concurrent.duration._
-import sys.process._
+import scala.language.postfixOps
+import scala.sys.process._
 
 
 /**

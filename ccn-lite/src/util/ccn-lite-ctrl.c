@@ -724,14 +724,7 @@ mkAddToRelayCacheRequest(unsigned char *out, char *fname,
         return -1;
     }
     DEBUGMSG(DEBUG, "  prefix in file: <%s>\n", ccnl_prefix_to_path(prefix));
-    perror("prefix is:");
-    perror(ccnl_prefix_to_path(prefix));
     prefix_string = ccnl_prefix_to_path_detailed(prefix, 0, 1, 1);
-    perror(prefix_string);
-    //ali:
-    //prefix_string = ccnl_prefix_to_path(prefix);
-    //prefix_string = ccnl_prefix_to_path_detailed(prefix, 1, 0, 0);
-
 
     //Create ccn-lite-ctrl interest object with signature to add content...
     //out = (unsigned char *) malloc(sizeof(unsigned char)*fsize + 5000);
@@ -745,7 +738,6 @@ mkAddToRelayCacheRequest(unsigned char *out, char *fname,
     len1 += ccnl_ccnb_mkStrBlob(out1+len1, CCN_DTAG_COMPONENT, CCN_TT_DTAG, "ccnx");
     len1 += ccnl_ccnb_mkStrBlob(out1+len1, CCN_DTAG_COMPONENT, CCN_TT_DTAG, "");
     len1 += ccnl_ccnb_mkStrBlob(out1+len1, CCN_DTAG_COMPONENT, CCN_TT_DTAG, "addcacheobject");
-
 
     DEBUGMSG(DEBUG, "NAME:%s\n", prefix_string);
 
@@ -786,13 +778,11 @@ mkAddToRelayCacheRequest(unsigned char *out, char *fname,
     len1 += ccnl_ccnb_mkBlob(out1+len1, CCN_DTAG_COMPONENT, CCN_TT_DTAG,  // comp
                              (char*) contentobj, len2);
 
-
 #ifdef USE_SIGNATURES
     if(private_key_path) len += add_signature(out+len, private_key_path, out1, len1);
 #endif /*USE_SIGNATURES*/
     memcpy(out+len, out1, len1);
     len += len1;
-
     out[len++] = 0; //name end
     out[len++] = 0; //interest end
     // printf("Contentlen %d\n", len1);
@@ -1238,7 +1228,7 @@ help:
     }
 
     if (len > 0 && !msgOnly) {
-    	unsigned int slen = 0; int num = 1; int len2 = 0;
+        unsigned int slen = 0; int num = 1; int len2 = 0;
         int hasNext = 0;
 
         // socket for receiving
@@ -1258,8 +1248,7 @@ help:
         else
             udp_sendto(sock, udp, port, (unsigned char*)out, len);
 
-
-        //  sleep(1);
+//  sleep(1);
         memset(out, 0, sizeof(out));
         if (!use_udp)
             len = recv(sock, out, sizeof(out), 0);
@@ -1288,9 +1277,7 @@ help:
            if (!verified_i)
                verified = 0;
            ++numOfParts;
-
         }
-
         recvbuffer2 = malloc(sizeof(char)*recvbufferlen +1000);
         recvbufferlen2 += ccnl_ccnb_mkHeader(recvbuffer2+recvbufferlen2,
                                              CCN_DTAG_CONTENTOBJ, CCN_TT_DTAG);
@@ -1347,7 +1334,6 @@ help:
                 DEBUGMSG(INFO, "Sent file to relay\n");
             }
             free(ccnb_file);
-
         }
     } else if(msgOnly) {
         fwrite(out, len, 1, stdout);

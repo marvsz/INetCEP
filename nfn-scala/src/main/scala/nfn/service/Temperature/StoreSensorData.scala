@@ -11,6 +11,7 @@ import nfn.service._
 import nfn.tools.Networking.fetchContent
 import scala.concurrent.duration._
 import nfn.tools.Helpers._
+import scala.language.postfixOps
 
 import scala.reflect.io.Path
 

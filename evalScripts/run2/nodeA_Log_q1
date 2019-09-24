@@ -1,0 +1,345 @@
+[2019-02-14 13:24:34.677][SACEPICN]: Query Execution Started
+[2019-02-14 13:24:34.678][SACEPICN]: Right algorithm found!
+[2019-02-14 13:24:34.681][SACEPICN]: Query appended to Query Store - Source Source
+[2019-02-14 13:24:34.682][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:24:34.688][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:24:34.690][SACEPICN]: Operator Placement Started
+[2019-02-14 13:24:34.691][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:24:34.691][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147074687' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:24:34.692][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:24:34.806][SACEPICN]: Window OP Started
+
+[2019-02-14 13:24:34.824][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132434, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:24:34.824][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:24:34.870][SACEPICN]: Query Result from network node: /9001/window/victims/132434
+[2019-02-14 13:24:34.870][SACEPICN]: Deployment result: /9001/window/victims/132434
+
+[2019-02-14 13:24:34.870][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:24:34.871][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:24:34.871][SACEPICN]: Query Execution Completed
+[2019-02-14 13:24:50.447][SACEPICN]: Query Execution Started
+[2019-02-14 13:24:50.447][SACEPICN]: Right algorithm found!
+[2019-02-14 13:24:50.447][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:24:50.448][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:24:50.448][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:24:50.448][SACEPICN]: Operator Placement Started
+[2019-02-14 13:24:50.449][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:24:50.449][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147090448' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:24:50.449][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:24:50.516][SACEPICN]: Window OP Started
+
+[2019-02-14 13:24:50.517][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132450, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:24:50.518][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:24:50.559][SACEPICN]: Query Result from network node: /9001/window/victims/132450
+[2019-02-14 13:24:50.559][SACEPICN]: Deployment result: /9001/window/victims/132450
+
+[2019-02-14 13:24:50.560][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:24:50.560][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:24:50.560][SACEPICN]: Query Execution Completed
+[2019-02-14 13:25:10.795][SACEPICN]: Query Execution Started
+[2019-02-14 13:25:10.796][SACEPICN]: Right algorithm found!
+[2019-02-14 13:25:10.796][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:25:10.796][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:25:10.796][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:25:10.797][SACEPICN]: Operator Placement Started
+[2019-02-14 13:25:10.797][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:25:10.797][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147110796' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:25:10.797][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:25:10.860][SACEPICN]: Window OP Started
+
+[2019-02-14 13:25:10.861][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132510, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:25:10.862][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:25:10.904][SACEPICN]: Query Result from network node: /9001/window/victims/132510
+[2019-02-14 13:25:10.904][SACEPICN]: Deployment result: /9001/window/victims/132510
+
+[2019-02-14 13:25:10.904][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:25:10.904][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:25:10.905][SACEPICN]: Query Execution Completed
+[2019-02-14 13:25:31.084][SACEPICN]: Query Execution Started
+[2019-02-14 13:25:31.084][SACEPICN]: Right algorithm found!
+[2019-02-14 13:25:31.085][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:25:31.085][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:25:31.085][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:25:31.085][SACEPICN]: Operator Placement Started
+[2019-02-14 13:25:31.086][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:25:31.086][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147131085' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:25:31.086][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:25:31.151][SACEPICN]: Window OP Started
+
+[2019-02-14 13:25:31.153][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132531, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:25:31.153][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:25:31.193][SACEPICN]: Query Result from network node: /9001/window/victims/132531
+[2019-02-14 13:25:31.194][SACEPICN]: Deployment result: /9001/window/victims/132531
+
+[2019-02-14 13:25:31.194][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:25:31.194][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:25:31.194][SACEPICN]: Query Execution Completed
+[2019-02-14 13:25:51.374][SACEPICN]: Query Execution Started
+[2019-02-14 13:25:51.374][SACEPICN]: Right algorithm found!
+[2019-02-14 13:25:51.375][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:25:51.375][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:25:51.375][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:25:51.375][SACEPICN]: Operator Placement Started
+[2019-02-14 13:25:51.376][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:25:51.376][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147151375' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:25:51.376][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:25:51.468][SACEPICN]: Window OP Started
+
+[2019-02-14 13:25:51.470][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132551, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:25:51.470][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:25:51.531][SACEPICN]: Query Result from network node: /9001/window/victims/132551
+[2019-02-14 13:25:51.531][SACEPICN]: Deployment result: /9001/window/victims/132551
+
+[2019-02-14 13:25:51.531][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:25:51.531][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:25:51.532][SACEPICN]: Query Execution Completed
+[2019-02-14 13:26:11.714][SACEPICN]: Query Execution Started
+[2019-02-14 13:26:11.714][SACEPICN]: Right algorithm found!
+[2019-02-14 13:26:11.714][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:26:11.715][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:26:11.715][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:26:11.715][SACEPICN]: Operator Placement Started
+[2019-02-14 13:26:11.715][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:26:11.715][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147171715' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:26:11.715][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:26:11.778][SACEPICN]: Window OP Started
+
+[2019-02-14 13:26:11.779][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132611, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:26:11.779][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:26:11.829][SACEPICN]: Query Result from network node: /9001/window/victims/132611
+[2019-02-14 13:26:11.829][SACEPICN]: Deployment result: /9001/window/victims/132611
+
+[2019-02-14 13:26:11.830][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:26:11.830][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:26:11.830][SACEPICN]: Query Execution Completed
+[2019-02-14 13:26:31.976][SACEPICN]: Query Execution Started
+[2019-02-14 13:26:31.976][SACEPICN]: Right algorithm found!
+[2019-02-14 13:26:31.977][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:26:31.977][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:26:31.977][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:26:31.977][SACEPICN]: Operator Placement Started
+[2019-02-14 13:26:31.977][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:26:31.978][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147191977' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:26:31.978][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:26:32.068][SACEPICN]: Window OP Started
+
+[2019-02-14 13:26:32.069][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132632, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:26:32.069][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:26:32.126][SACEPICN]: Query Result from network node: /9001/window/victims/132632
+[2019-02-14 13:26:32.126][SACEPICN]: Deployment result: /9001/window/victims/132632
+
+[2019-02-14 13:26:32.126][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:26:32.127][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:26:32.127][SACEPICN]: Query Execution Completed
+[2019-02-14 13:26:52.349][SACEPICN]: Query Execution Started
+[2019-02-14 13:26:52.349][SACEPICN]: Right algorithm found!
+[2019-02-14 13:26:52.349][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:26:52.349][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:26:52.350][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:26:52.350][SACEPICN]: Operator Placement Started
+[2019-02-14 13:26:52.350][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:26:52.350][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147212349' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:26:52.351][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:26:52.440][SACEPICN]: Window OP Started
+
+[2019-02-14 13:26:52.441][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132652, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:26:52.442][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:26:52.499][SACEPICN]: Query Result from network node: /9001/window/victims/132652
+[2019-02-14 13:26:52.499][SACEPICN]: Deployment result: /9001/window/victims/132652
+
+[2019-02-14 13:26:52.499][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:26:52.499][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:26:52.499][SACEPICN]: Query Execution Completed
+[2019-02-14 13:27:12.688][SACEPICN]: Query Execution Started
+[2019-02-14 13:27:12.689][SACEPICN]: Right algorithm found!
+[2019-02-14 13:27:12.689][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:27:12.689][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:27:12.689][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:27:12.690][SACEPICN]: Operator Placement Started
+[2019-02-14 13:27:12.690][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:27:12.691][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147232689' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:27:12.691][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:27:12.783][SACEPICN]: Window OP Started
+
+[2019-02-14 13:27:12.784][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132712, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:27:12.784][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:27:12.837][SACEPICN]: Query Result from network node: /9001/window/victims/132712
+[2019-02-14 13:27:12.838][SACEPICN]: Deployment result: /9001/window/victims/132712
+
+[2019-02-14 13:27:12.838][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:27:12.838][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:27:12.838][SACEPICN]: Query Execution Completed
+[2019-02-14 13:27:32.991][SACEPICN]: Query Execution Started
+[2019-02-14 13:27:32.992][SACEPICN]: Right algorithm found!
+[2019-02-14 13:27:32.992][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:27:32.992][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:27:32.992][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:27:32.992][SACEPICN]: Operator Placement Started
+[2019-02-14 13:27:32.993][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:27:32.993][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147252992' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:27:32.993][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:27:33.061][SACEPICN]: Window OP Started
+
+[2019-02-14 13:27:33.062][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132733, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:27:33.063][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:27:33.107][SACEPICN]: Query Result from network node: /9001/window/victims/132733
+[2019-02-14 13:27:33.107][SACEPICN]: Deployment result: /9001/window/victims/132733
+
+[2019-02-14 13:27:33.107][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:27:33.108][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:27:33.108][SACEPICN]: Query Execution Completed
+[2019-02-14 13:27:53.258][SACEPICN]: Query Execution Started
+[2019-02-14 13:27:53.258][SACEPICN]: Right algorithm found!
+[2019-02-14 13:27:53.258][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:27:53.258][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:27:53.259][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:27:53.259][SACEPICN]: Operator Placement Started
+[2019-02-14 13:27:53.259][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:27:53.259][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147273258' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:27:53.259][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:27:53.322][SACEPICN]: Window OP Started
+
+[2019-02-14 13:27:53.323][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132753, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:27:53.324][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:27:53.390][SACEPICN]: Query Result from network node: /9001/window/victims/132753
+[2019-02-14 13:27:53.390][SACEPICN]: Deployment result: /9001/window/victims/132753
+
+[2019-02-14 13:27:53.390][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:27:53.390][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:27:53.390][SACEPICN]: Query Execution Completed
+[2019-02-14 13:28:13.620][SACEPICN]: Query Execution Started
+[2019-02-14 13:28:13.620][SACEPICN]: Right algorithm found!
+[2019-02-14 13:28:13.620][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:28:13.620][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:28:13.620][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:28:13.620][SACEPICN]: Operator Placement Started
+[2019-02-14 13:28:13.621][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:28:13.621][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147293620' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:28:13.621][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:28:13.689][SACEPICN]: Window OP Started
+
+[2019-02-14 13:28:13.691][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132813, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:28:13.691][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:28:13.735][SACEPICN]: Query Result from network node: /9001/window/victims/132813
+[2019-02-14 13:28:13.735][SACEPICN]: Deployment result: /9001/window/victims/132813
+
+[2019-02-14 13:28:13.735][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:28:13.735][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:28:13.736][SACEPICN]: Query Execution Completed
+[2019-02-14 13:28:33.943][SACEPICN]: Query Execution Started
+[2019-02-14 13:28:33.944][SACEPICN]: Right algorithm found!
+[2019-02-14 13:28:33.944][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:28:33.944][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:28:33.944][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:28:33.944][SACEPICN]: Operator Placement Started
+[2019-02-14 13:28:33.944][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:28:33.944][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147313944' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:28:33.944][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:28:34.034][SACEPICN]: Window OP Started
+
+[2019-02-14 13:28:34.035][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132834, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:28:34.035][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:28:34.100][SACEPICN]: Query Result from network node: /9001/window/victims/132834
+[2019-02-14 13:28:34.100][SACEPICN]: Deployment result: /9001/window/victims/132834
+
+[2019-02-14 13:28:34.100][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:28:34.100][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:28:34.100][SACEPICN]: Query Execution Completed
+[2019-02-14 13:28:54.317][SACEPICN]: Query Execution Started
+[2019-02-14 13:28:54.317][SACEPICN]: Right algorithm found!
+[2019-02-14 13:28:54.317][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:28:54.317][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:28:54.318][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:28:54.318][SACEPICN]: Operator Placement Started
+[2019-02-14 13:28:54.318][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:28:54.318][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147334318' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:28:54.318][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:28:54.386][SACEPICN]: Window OP Started
+
+[2019-02-14 13:28:54.387][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132854, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:28:54.387][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:28:54.428][SACEPICN]: Query Result from network node: /9001/window/victims/132854
+[2019-02-14 13:28:54.428][SACEPICN]: Deployment result: /9001/window/victims/132854
+
+[2019-02-14 13:28:54.428][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:28:54.428][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:28:54.429][SACEPICN]: Query Execution Completed
+[2019-02-14 13:29:14.587][SACEPICN]: Query Execution Started
+[2019-02-14 13:29:14.587][SACEPICN]: Right algorithm found!
+[2019-02-14 13:29:14.587][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 13:29:14.588][SACEPICN]: Operator Tree creation Started
+[2019-02-14 13:29:14.588][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 13:29:14.588][SACEPICN]: Operator Placement Started
+[2019-02-14 13:29:14.588][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 13:29:14.588][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550147354588' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 13:29:14.588][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 13:29:14.686][SACEPICN]: Window OP Started
+
+[2019-02-14 13:29:14.686][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/132914, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 13:29:14.686][SACEPICN]: Window OP Completed
+
+[2019-02-14 13:29:14.727][SACEPICN]: Query Result from network node: /9001/window/victims/132914
+[2019-02-14 13:29:14.728][SACEPICN]: Deployment result: /9001/window/victims/132914
+
+[2019-02-14 13:29:14.728][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 13:29:14.728][SACEPICN]: Operator Placement Completed
+[2019-02-14 13:29:14.728][SACEPICN]: Query Execution Completed

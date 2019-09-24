@@ -1,10 +1,9 @@
 
 package filterAccess.runnables
 
-import filterAccess.crypto.Encryption.symEncrypt
 import filterAccess.crypto.Decryption.symDecrypt
-import filterAccess.crypto.Helpers._
 
+import scala.language.postfixOps
 import scala.sys.process._
 
 

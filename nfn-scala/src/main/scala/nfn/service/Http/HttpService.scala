@@ -3,6 +3,7 @@ package nfn.service.Http
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
+import scala.language.postfixOps
 
 /**
  * NFN Service that can be used to access HTTP and HTTPS resources. The following HTTP methods are supported: HEAD, GET, PUT, POST, DELETE

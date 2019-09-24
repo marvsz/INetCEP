@@ -9,10 +9,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ExampleRunner {
 
     public static void main(String[] args) {
+        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+        logger.setLevel(Level.ALL);
 
         ServiceGenerator sg = new ServiceGenerator();
         JavaWordCount jvcService = new JavaWordCount();
@@ -37,12 +41,12 @@ public class ExampleRunner {
             bos.write(bc);
             bos.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe(e.toString());
         } finally {
             if(fos != null) try {
                 fos.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.severe(e.toString());
             }
         }
         System.out.print("wrote bc size=" + bc.length + " to " + filename);

@@ -33,8 +33,8 @@ centralProcessingOnHost() {
 	fi
 
 	echo 'received call with args' $1 $2
-	screen -d -m $CCNL_HOME/bin/ccn-nfn-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock -d $CCNL_HOME/test/ndntlv > $work_dir/VM-Startup-Scripts/relay.log
-	nohup java -jar $work_dir/nfn-scala/target/scala-2.10/nfn-assembly-0.2.0.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA > $work_dir/VM-Startup-Scripts/CS.log &
+	screen -d -m $CCNL_HOME/bin/ccn-lite-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock -d $CCNL_HOME/test/ndntlv > $work_dir/VM-Startup-Scripts/relay.log
+	nohup java -jar $work_dir/nfn-scala/target/scala-2.10/nfn-assembly-0.2.1.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA > $work_dir/VM-Startup-Scripts/CS.log &
 	nohup bash $work_dir/VM-Startup-Scripts/VM28/28/queryService_local.sh 127.0.0.1 9001 nodeA CentralizedPlacement 20 > $work_dir/VM-Startup-Scripts/startUp.log &
 	centralQuery $1 & sleep $2; shutdownHost
 }

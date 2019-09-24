@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class OperatorPredict2 extends OperatorA {
     public OperatorPredict2(String query) {
         super(query);
-        this.isOperatorCreatingNode = true;
+        this.isOperatorCreatingNode = false;
     }
 
     public Boolean checkParameters() {

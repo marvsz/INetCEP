@@ -7,4 +7,4 @@ sleep 0.1
 echo "Compute Server Updated"
 
 #Start Compute Server
-java -jar "$NODE_A"/nfn-assembly-0.2.0.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-addr "$IP" --ccnl-port 9001 --cs-port 9011 --debug --ccnl-already-running /node/nodeA
+java -jar "$NODE_A"/nfn-assembly-0.2.1.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-addr "$IP" --ccnl-port 9001 --cs-port 9011 --debug --ccnl-already-running /node/nodeA

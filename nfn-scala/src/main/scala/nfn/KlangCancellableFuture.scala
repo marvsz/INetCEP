@@ -90,7 +90,7 @@ class KlangCancellableFuture[T](work: => T)(implicit executor: ExecutionContext)
   @throws[TimeoutException](classOf[TimeoutException])
   override def ready(atMost: Duration)(implicit permit: CanAwait): KlangCancellableFuture.this.type = {
     this
-    //    KlangCancellableFuture[T](Await.result(future, atMost))
+//    KlangCancellableFuture[T](Await.result(future, atMost))
   }
 }
 

@@ -1,10 +1,12 @@
 package nfn.service
-/**
-  * Created by Ali on 06.02.18.
-  * This is the centralized query placement while using the fetch based network discovery approach
-  */
-import akka.actor.ActorRef
 
+/**
+ * Created by Ali on 06.02.18.
+ * This is the centralized query placement while using the fetch based network discovery approach
+ */
+
+import akka.actor.ActorRef
+import scala.collection.JavaConversions._
 import scala.io.Source
 import scala.util.control._
 import ccn.packet.CCNName
@@ -57,7 +59,7 @@ class Placement() extends NFNService {
     //Query: The complex query to process
     //Region: User Region to hit for sensors (currently unused but can be used in future work)
     //Timestamp: Used to distinguish the time of arrival for the queries
-    def processQuery(algorithm: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String): String = {
+    def processQuery(algorithm: String, processing: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String): String = {
 
       //Run output creation:
       var runTime = s"${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance.getTime)}"
@@ -92,7 +94,7 @@ class Placement() extends NFNService {
       //Get thisNodePort:
       val thisNode = mapping.getPort(nodeName)
       //Log Query for interval based trigger:
-      if (Helpers.save_to_QueryStore(algorithm, runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
+      if (Helpers.save_to_QueryStore(algorithm, processing, runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
         LogMessage(nodeName, s"Query appended to Query Store - Source $sourceOfQuery")
       } else
         LogMessage(nodeName, s"Query NOT appended to Query Store - Source $sourceOfQuery")
@@ -121,7 +123,7 @@ class Placement() extends NFNService {
       LogMessage(nodeName, s"Checking paths:")
       for (path <- paths) {
         LogMessage(nodeName, s"${path.pathNodes.reverse.mkString(" ") + " - BDP: " + path.cumulativePathCost + " - Hops: " + path.hopCount}")
-        if(maxPath < path.hopCount){
+        if (maxPath < path.hopCount) {
           maxPath = path.hopCount
         }
       }
@@ -131,7 +133,7 @@ class Placement() extends NFNService {
       var opCount = root._stackSize
       if (algorithmEnum == 1) {
         //2) For this size: Get the path matching the number of operators and the lowest BDP path:
-        if(root._stackSize > maxPath)
+        if (root._stackSize > maxPath)
           LogMessage(nodeName, s"Stack size of node is too big. Stacksize is ${opCount}, but we can only support ${maxPath} operators")
         var optimalPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost)
 
@@ -156,6 +158,7 @@ class Placement() extends NFNService {
         var timeNow_Placement_Deployment = Calendar.getInstance().getTimeInMillis
 
         LogMessage(nodeName, s"Operator Placement Started")
+
         @tailrec
         def processPlacementTree(currentNode: Node, optimalPath: mutable.Buffer[String]): Node = {
           if (currentNode._Cprocessed) {
@@ -219,6 +222,7 @@ class Placement() extends NFNService {
         LogMessage(nodeName, s"Operator Placement Completed")
 
         LogMessage(nodeName, s"Query Deployement Started")
+
         @tailrec
         def processDeploymentTree(currentNode: Node): Node = {
           if (currentNode._Vprocessed) {
@@ -240,26 +244,26 @@ class Placement() extends NFNService {
               var name = currentNode._query
               val query = currentNode._type match {
                 case Operator.WINDOW => name
-                case Operator.FILTER => name//.replace("[Q1]",currentNode.left._value)
+                case Operator.FILTER => name //.replace("[Q1]",currentNode.left._value)
                 case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
                 case Operator.AGGREGATION => name
                 case Operator.SEQUENCE => name
-                case Operator.PREDICT1 => name.replace("[Q1]",currentNode.left._value)
-                case Operator.PREDICT2 => name//.replace("[Q1]",currentNode.left._value)
-                case Operator.HEATMAP => name.replace("[Q1]",currentNode.left._value)
+                case Operator.PREDICT1 => name.replace("[Q1]", currentNode.left._value)
+                case Operator.PREDICT2 => name //.replace("[Q1]",currentNode.left._value)
+                case Operator.HEATMAP => name.replace("[Q1]", currentNode.left._value)
                 case _ => name
               }
-              if (currentNode._type == Operator.PREDICT1 ||currentNode._type ==  Operator.PREDICT2){
+              if (currentNode._type == Operator.PREDICT1 || currentNode._type == Operator.PREDICT2) {
 
                 //predictionInvolved = true
                 predictionGranularity = currentNode._parameters(2)
-                LogMessage(nodeName,s"Found Prediction Operation and saved parameter predictionGranularity: ${predictionGranularity}")
+                LogMessage(nodeName, s"Found Prediction Operation and saved parameter predictionGranularity: ${predictionGranularity}")
               }
-              if(currentNode._type == Operator.WINDOW){
+              if (currentNode._type == Operator.WINDOW) {
 
                 startTime = currentNode._parameters(2)
                 endTime = currentNode._parameters(3)
-                LogMessage(nodeName,s"Found Window Operation and saved parameters startTime: ${startTime}, endTime:${endTime}")
+                LogMessage(nodeName, s"Found Window Operation and saved parameters startTime: ${startTime}, endTime:${endTime}")
               }
 
               currentNode._query = query
@@ -273,7 +277,7 @@ class Placement() extends NFNService {
               //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
               //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
               //var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
-              val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+              val intermediateResult = Helpers.executeNFNQuery(currentNode._query, remoteNodeName, ccnApi, 60)
               currentNode._value = intermediateResult
               //currentNode._value = "TemporaryDeploymentValue";
 
@@ -298,7 +302,7 @@ class Placement() extends NFNService {
 
         //Output is what we send back as the final result:
         output = deployedRoot._value
-        output = Helpers.executeInterestQuery(output,nodeName,ccnApi)
+        output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
         if (output != null && !output.isEmpty)
           output = output.stripSuffix("\n").stripMargin('#')
         else
@@ -307,11 +311,11 @@ class Placement() extends NFNService {
         LogMessage(nodeName, s"Query Execution Completed")
         LogMessage(nodeName, s"Query Output = ${output}")
         var outputForPrecision = s"${runID.toString}"
-        if(predictionInvolved){
-          LogMessage(nodeName,s"Prediction was Involved, calculating Measurements")
-          var start = Helpers.parseTime(startTime,"")
-          var end = Helpers.parseTime(endTime,"")
-          outputForPrecision += MathHelper.getPrecisionRecallAccuracyFMeasure(start,end,predictionGranularity,output.split("\n").toList).toList.toString()
+        if (predictionInvolved) {
+          LogMessage(nodeName, s"Prediction was Involved, calculating Measurements")
+          var start = Helpers.parseTime(startTime, "")
+          var end = Helpers.parseTime(endTime, "")
+          outputForPrecision += MathHelper.getPrecisionRecallAccuracyFMeasure(start, end, predictionGranularity, output.split("\n").toList).toList.toString()
         }
         //Generate Output:
         var timeOffset = Calendar.getInstance().getTimeInMillis - timeNow
@@ -330,13 +334,12 @@ class Placement() extends NFNService {
         overheadWeightString.trim()
         //Format: runID, Time, ResponseTime, Path, EnergyWeight, OverheadWeight
         var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPath.toString},${energyWeightString.toString},${overheadWeightString.toString}"
-        if(!predictionInvolved)
-          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights,output)
+        if (!predictionInvolved)
+          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
         else
-          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights,outputForPrecision,output)
-
-        return output
-
+          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, outputForPrecision, output)
+        LogMessage(nodeName, s"Output Files written, Query store should be processed again now.")
+        //return output
       }
 
       if (algorithmEnum == 2) {
@@ -376,7 +379,7 @@ class Placement() extends NFNService {
 
           selectedPathDecentral = selectedPath.pathNodes.mkString(" - ").toString
           //Getting the cumulative path energy and bdp:
-          selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((selectedPath.cumulativePathEnergy.sum/ selectedPath.cumulativePathEnergy.length).toString()), 2)
+          selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((selectedPath.cumulativePathEnergy.sum / selectedPath.cumulativePathEnergy.length).toString()), 2)
           selectedPathOverhead = FormattedOutput.round(FormattedOutput.parseDouble((selectedPath.cumulativePathBDP.sum / selectedPath.cumulativePathBDP.length).toString()), 2)
 
           //Manage the adaptive path weights that changed over time
@@ -391,6 +394,7 @@ class Placement() extends NFNService {
           LogMessage(nodeName, s"The selected path is: $selectedPathDecentral")
 
           LogMessage(nodeName, s"Operator Placement Started")
+
           @tailrec
           def processPlacementTree(currentNode: Node, optimalPath: mutable.Buffer[String]): Node = {
             if (currentNode._Cprocessed) {
@@ -476,13 +480,13 @@ class Placement() extends NFNService {
                 var name = currentNode._query
                 val query = currentNode._type match {
                   case Operator.WINDOW => name
-                  case Operator.FILTER => name//.replace("[Q1]",currentNode.left._value)
+                  case Operator.FILTER => name //.replace("[Q1]",currentNode.left._value)
                   case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
                   case Operator.AGGREGATION => name
                   case Operator.SEQUENCE => name
-                  case Operator.PREDICT1 => name.replace("[Q1]",currentNode.left._value)
-                  case Operator.PREDICT2 => name//.replace("[Q1]",currentNode.left._value)
-                  case Operator.HEATMAP => name.replace("[Q1]",currentNode.left._value)
+                  case Operator.PREDICT1 => name.replace("[Q1]", currentNode.left._value)
+                  case Operator.PREDICT2 => name //.replace("[Q1]",currentNode.left._value)
+                  case Operator.HEATMAP => name.replace("[Q1]", currentNode.left._value)
                   case _ => name
                 }
                 currentNode._query = query
@@ -493,8 +497,8 @@ class Placement() extends NFNService {
                 //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
                 //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
                 //Determine the location (name) where this query will be executed:
-                var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6 , currentNode._query.indexOf("nfn_service") - 1);
-                var intermediateResult = Helpers.executeNFNQuery(currentNode._query, remoteNodeName,ccnApi,60)
+                var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1);
+                var intermediateResult = Helpers.executeNFNQuery(currentNode._query, remoteNodeName, ccnApi, 60)
 
                 currentNode._value = intermediateResult
 
@@ -527,7 +531,7 @@ class Placement() extends NFNService {
           var _executionNodePort = optimalPath(1) //Once again, we send the query to the second hop from us. I.e. the next hop;
           var _executionNode = mapping.getName(_executionNodePort)
           LogMessage(nodeName, s"No feasible path found. Sending query to: ${_executionNode}/${_executionNodePort}")
-          var output = Helpers.executeNFNQuery(s"call 8 /node/${_executionNode}/nfn_service_QueryDecentral '$runID' 'DQ' '${_executionNodePort}' '$clientID' '$query' '$region' '$runTime'",_executionNode,ccnApi,120)
+          var output = Helpers.executeNFNQuery(s"call 8 /node/${_executionNode}/nfn_service_QueryDecentral '$runID' 'DQ' '${_executionNodePort}' '$clientID' '$query' '$region' '$runTime'", _executionNode, ccnApi, 120)
 
           /*var output = createAndExecCCNQuery(
             _executionNode
@@ -538,7 +542,7 @@ class Placement() extends NFNService {
         }
 
         var timeOffset_Placement_Deployment = Calendar.getInstance().getTimeInMillis - timeNow_Placement_Deployment
-        output = Helpers.executeInterestQuery(output,nodeName,ccnApi)
+        output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
         if (output != null && !output.isEmpty)
           output = output.stripSuffix("\n").stripMargin('#')
         else
@@ -565,9 +569,9 @@ class Placement() extends NFNService {
         overheadWeightString.trim()
         var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPathDecentral.toString},${energyWeightString.toString},${overheadWeightString.toString}"
 
-        Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights,output)
+        Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
 
-        return output
+        //return output
       }
 
       output
@@ -580,32 +584,43 @@ class Placement() extends NFNService {
 
       var allNodes = new ListBuffer[NodeInfo]()
 
-      if(algorithmEnum == 1){
+      if (algorithmEnum == 1) {
 
         //Below file must be present in order to carry out proper placement:
-        val bufferedSource = Source.fromFile(Helpers.getNodeInformationPath)
-        bufferedSource
-          .getLines
-          .foreach {line: String =>
-            var nodeSplit = line.split("-"); //Data is always in the form of: nodeX-Port-IP
-          var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
-            //Get content from network
-            var mapping = new NodeMapping()
-            //val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
-            val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",nodeSplit(0),ccnApi,15)
-
-            if (intermediateResult != "") {
-              var ni = new NodeInfo(intermediateResult)
-              LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
-              allNodes += ni
-            }
+        for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList) {
+          val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+          //Get content from network
+          val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
+          if (intermediateResult != "") {
+            var ni = new NodeInfo(intermediateResult)
+            LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
+            allNodes += ni
           }
-        bufferedSource.close
+        }
+        /*
+                val bufferedSource = Source.fromFile(Helpers.getNodeInformationPath)
+                bufferedSource
+                  .getLines
+                  .foreach {line: String =>
+                    var nodeSplit = line.split("-"); //Data is always in the form of: nodeX-Port-IP
+                    var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+                    //Get content from network
+                    //var mapping = new NodeMapping()
+                    //val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
+                    val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",nodeSplit(0),ccnApi,15)
 
+                    if (intermediateResult != "") {
+                      var ni = new NodeInfo(intermediateResult)
+                      LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
+                      allNodes += ni
+                    }
+                  }
+                bufferedSource.close
+        */
         LogMessage(nodeName, s"Get Node Status Completed")
         allNodes
       }
-      else if(algorithmEnum == 2){
+      else if (algorithmEnum == 2) {
         val kHops = Source.fromFile(Helpers.getDecentralizedKHops)
         var K = 0
         kHops.getLines().foreach {
@@ -615,21 +630,35 @@ class Placement() extends NFNService {
 
         LogMessage(nodeName, s"Performing Decentralized lookup with $K hops")
 
-        //Below file must be present in order to carry out proper placement:
+
+        val decentralizedNodeInfo = DecentralizedNodeInformationSingleton.decentralizedNodeInformationHashMap.get(nodeName)
+        for ((k,e) <- decentralizedNodeInfo) {
+          val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+          if (e._hops <= K) {
+            //Get content from network
+            val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
+            if (intermediateResult != "") {
+              var ni = new NodeInfo(intermediateResult)
+              LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
+              allNodes += ni
+            }
+          }
+        }
+/*       //Below file must be present in order to carry out proper placement:
         val bufferedSource = Source.fromFile(Helpers.getDecentralizedNodeInformation(nodeName))
         bufferedSource
           .getLines
           .foreach { line: String =>
             var nodeSplit = line.split("-"); //Data is always in the form of: nodeX-Port-Hops-IP
-          var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+            var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
 
             //Only get information for K hops
-            if (FormattedOutput.toInt(nodeSplit(2)) <= K ) {
+            if (FormattedOutput.toInt(nodeSplit(2)) <= K) {
               //Get content from network
 
               var mapping = new NodeMapping()
 
-              val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",nodeSplit(0),ccnApi,15)
+              val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')", nodeSplit(0), ccnApi, 15)
 
               if (intermediateResult != "") {
                 var ni = new NodeInfo(intermediateResult)
@@ -639,7 +668,7 @@ class Placement() extends NFNService {
             }
           }
         bufferedSource.close
-
+*/
         LogMessage(nodeName, s"Get Node Status Completed")
         return allNodes
       }
@@ -661,7 +690,7 @@ class Placement() extends NFNService {
       var traversedNodes = new ListBuffer[NodeInfo]
       traversedNodes += root
 
-      var traversalNodes:ListBuffer[NodeInfo] = getTraversalNodes(nodeName, root, nodes, new ListBuffer[NodeInfo], traversedNodes)
+      var traversalNodes: ListBuffer[NodeInfo] = getTraversalNodes(nodeName, root, nodes, new ListBuffer[NodeInfo], traversedNodes)
       LogMessage(nodeName, s"getTraversalNodes -> on Root")
 
       var firstHopList = new ListBuffer[HopObject]
@@ -676,7 +705,7 @@ class Placement() extends NFNService {
       LogMessage(nodeName, s"oneStepTraverse -> on Root")
       var hopInfo = oneStepTraverse(nodeName, root, root, firstHopList)
 
-      while(traversalNodes.nonEmpty){
+      while (traversalNodes.nonEmpty) {
         var next = traversalNodes.head
         LogMessage(nodeName, s"While -> Next -> ${next.NI_NodeName}")
 
@@ -707,17 +736,17 @@ class Placement() extends NFNService {
 
       //Recursively print the paths AND store in a path list:
       @tailrec
-      def checkPath(hops:ListBuffer[HopObject]): String = {
-        if(hops.isEmpty) {
+      def checkPath(hops: ListBuffer[HopObject]): String = {
+        if (hops.isEmpty) {
           LogMessage(nodeName, s"Path Finished!")
           return "ok"
         }
         else {
           var current = hops.head
           LogMessage(nodeName, s"checkPath - Current => ${current.hopName}")
-          var pathCost:Double = 0.0
+          var pathCost: Double = 0.0
           var pathString = ""
-          var hopCount:Int = 0
+          var hopCount: Int = 0
           var pathNodes = new ListBuffer[String]
 
           var cumulativePathEnergy = new ListBuffer[Double]
@@ -729,7 +758,7 @@ class Placement() extends NFNService {
           var lastHopEnergy = 0.0
           var lastHopBDP = 0.0
 
-          while(current.previousHop != null) {
+          while (current.previousHop != null) {
             LogMessage(nodeName, s"Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = ${current.previousHop.hopName} -> ${current.hopName}");
             if (current.previousHop.previousHop == null
               || (current.previousHop.previousHop != null && (current.hopName != current.previousHop.previousHop.hopName))
@@ -743,7 +772,7 @@ class Placement() extends NFNService {
                 //Adaptive Hop Weight assignment. Vary the adaptive Weights for all hops based on each hop change in Energy and BDP values.
                 //Here, we initially start with 0.5,0.5 for both energy and bdp. We use Additive Increase, Additive Decrease to change the weights based on network conditions.
                 LogMessage(nodeName, s"Previous Weight values were: Energy=${previousBDPWeight.toString} and BDP=${previousEnergyWeight.toString} ")
-                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
+                if (previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
                   LogMessage(nodeName, s"This is the first hop for adaptive weight application")
                   //Use standard 0.5,0.5
                   hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
@@ -754,21 +783,21 @@ class Placement() extends NFNService {
                   lastHopEnergy = nodePower.head.NI_Battery
                   //By this time, we have the values of the weights and the hop metrics
                 }
-                else{
+                else {
                   LogMessage(nodeName, s"This is a subsequent hop/s for adaptive weight application")
                   //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
                   //we will increase or decrease a weight metric:
-                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
+                  if (nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP) {
                     //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
+                    if (previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
                       previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
                       previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
                     }
                   }
                   //else check the other way around - if bdp is more than the last hop and energy is less.
-                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
+                  else if (nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP) {
                     //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
+                    if (previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
                       previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
                       previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
                     }
@@ -784,7 +813,7 @@ class Placement() extends NFNService {
                 }
                 //Adding hop link cost in the overall path cost:
                 hopWeights_Energy += s"${current.hopName}" -> s"${previousEnergyWeight.toString}"
-                hopWeights_BDP+= s"${current.hopName}" -> s"${previousBDPWeight.toString}"
+                hopWeights_BDP += s"${current.hopName}" -> s"${previousBDPWeight.toString}"
 
                 cumulativePathEnergy += lastHopEnergy
                 cumulativePathBDP += lastHopBDP
@@ -805,10 +834,10 @@ class Placement() extends NFNService {
             current = current.previousHop
           }
           //Just for correct visual representation: Not utilized since the latency is always 0 in this case.
-          if(current.previousHop == null){
+          if (current.previousHop == null) {
             pathString = s"NULL --(${current.hopLatency})--> " + current.hopName + " " + pathString
             //This is the root node:
-            hopCount = hopCount+1
+            hopCount = hopCount + 1
             pathNodes += current.hopName
           }
 
@@ -821,13 +850,14 @@ class Placement() extends NFNService {
           path.cumulativePathEnergy = cumulativePathEnergy.toArray
           path.hopWeights_Energy = hopWeights_Energy
           path.hopWeights_BDP = hopWeights_BDP
-          paths+=path
+          paths += path
 
           LogMessage(nodeName, s"Path: $pathString\n")
 
           checkPath(hops.tail)
         }
       }
+
       checkPath(hopInfo)
 
       //Remove any duplicate paths that were created due to hop-linking:
@@ -837,7 +867,7 @@ class Placement() extends NFNService {
       paths
     }
 
-    def getTraversalNodes(nodeName: String, cNode: NodeInfo, nodes:ListBuffer[NodeInfo], traversalNodes: ListBuffer[NodeInfo], traversedNodes: ListBuffer[NodeInfo]): ListBuffer[NodeInfo] = {
+    def getTraversalNodes(nodeName: String, cNode: NodeInfo, nodes: ListBuffer[NodeInfo], traversalNodes: ListBuffer[NodeInfo], traversedNodes: ListBuffer[NodeInfo]): ListBuffer[NodeInfo] = {
       var retNodes = new ListBuffer[NodeInfo]()
       for (latency <- cNode.NI_Latency) {
         var node = nodes.filter(x => x.NI_NodeName == latency.Lat_Node)
@@ -855,12 +885,12 @@ class Placement() extends NFNService {
     }
 
     def oneStepTraverse(nodeName: String, myRoot: NodeInfo, cNode: NodeInfo, cPath: ListBuffer[HopObject]): ListBuffer[HopObject] = {
-      for(latency <- cNode.NI_Latency) {
+      for (latency <- cNode.NI_Latency) {
         LogMessage(nodeName, s"oneStepTraverse -> ${latency.Lat_Node} - ${latency.Lat_Latency}")
 
         //find root node in CPath:
-        var pathRoot = cPath.filter(x=> x.hopName == cNode.NI_NodeName)
-        if(pathRoot!= null){
+        var pathRoot = cPath.filter(x => x.hopName == cNode.NI_NodeName)
+        if (pathRoot != null) {
           var path = new HopObject()
           path.hopName = latency.Lat_Node
           path.hopLatency += latency.Lat_Latency
@@ -874,7 +904,7 @@ class Placement() extends NFNService {
 
     NFNStringValue(
       args match {
-        case Seq(algorithm: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processQuery(algorithm.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str)
+        case Seq(algorithm: NFNStringValue, processing: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processQuery(algorithm.str, processing.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str)
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
