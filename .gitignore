@@ -15,7 +15,6 @@ output/
 
 #ccn-lite
 ccn-lite/bin
-ccn-lite/test
 ccn-lite/src/ccn-lite-simu
 ccn-lite/src/ccn-lite-relay
 ccn-lite/src/ccn-nfn-relay
