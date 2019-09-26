@@ -18,14 +18,14 @@ public class SchemaBrokerSingleton {
         survivorSet.add("SequenceNumber");
         survivorSet.add("Gender");
         survivorSet.add("Age");
-        schemes.put("Survivors",survivorSet);
+        insertSchema("Survivors",survivorSet);
 
         Set<String> victimSet = new HashSet<>();
         victimSet.add("Date");
         victimSet.add("SequenceNumber");
         victimSet.add("Gender");
         victimSet.add("Age");
-        schemes.put("Victims",victimSet);
+        insertSchema("Victims",victimSet);
 
         Set<String> gpsSet = new HashSet<>();
         gpsSet.add("Date");
@@ -36,7 +36,7 @@ public class SchemaBrokerSingleton {
         gpsSet.add("Accuracy");
         gpsSet.add("Distance");
         gpsSet.add("Speed");
-        schemes.put("GPS",gpsSet);
+        insertSchema("GPS",gpsSet);
 
         Set<String> plugSet = new HashSet<>();
         plugSet.add("SequenceNumber");
@@ -46,7 +46,7 @@ public class SchemaBrokerSingleton {
         plugSet.add("Plug_ID");
         plugSet.add("Household_ID");
         plugSet.add("House_ID");
-        schemes.put("plug",plugSet);
+        insertSchema("Plug",plugSet);
     }
 
     /**
@@ -67,8 +67,12 @@ public class SchemaBrokerSingleton {
      * @return true iff the new schema did not already exist, false otherwise
      */
     public boolean insertSchema(String schemaName,Set<String> columnNames){
-        if(schemes.get(schemaName) == null){
-            schemes.put(schemaName,columnNames);
+        if(schemes.get(schemaName.toLowerCase()) == null){
+            Set<String> lowerCaseColumnNames = new HashSet<>();
+            for(String i : columnNames){
+                lowerCaseColumnNames.add(i.toLowerCase());
+            }
+            schemes.put(schemaName.toLowerCase(),lowerCaseColumnNames);
             return true;
         }
         else
@@ -81,7 +85,7 @@ public class SchemaBrokerSingleton {
      * @return a set of column names representing the schema, null if it does not exist.
      */
     public Set<String> getSchema(String schemaName){
-        return schemes.get(schemaName);
+        return schemes.get(schemaName.toLowerCase());
     }
 
     /**
@@ -92,7 +96,7 @@ public class SchemaBrokerSingleton {
      * @return true if the schema was originally present in the schema list, false if it was not present
      */
     public boolean removeSchema(String schemaName){
-        if(schemes.remove(schemaName)!=null)
+        if(schemes.remove(schemaName.toLowerCase())!=null)
             return true;
         return false;
     }
@@ -116,16 +120,16 @@ public class SchemaBrokerSingleton {
         Set<String> columnNames2 = getSchema(schema2);
         String newSchemaName="Join(".concat(schema1).concat(",").concat(schema2).concat("|").concat(joinOn).concat(")");
         if(columnNames1 != null && columnNames2 != null){
-            if(columnNames1.contains(joinOn)&&columnNames2.contains(joinOn)){
+            if(columnNames1.contains(joinOn.toLowerCase())&&columnNames2.contains(joinOn.toLowerCase())){
                 Set<String> newColumnNames = new HashSet<>();
                 for(String cName : columnNames1){
-                    if(cName.equals(joinOn))
+                    if(cName.equals(joinOn.toLowerCase()))
                         newColumnNames.add(cName);
                     else
                         newColumnNames.add(schema1.concat("_").concat(cName));
                 }
                 for(String cName: columnNames2){
-                    if(!cName.equals(joinOn))
+                    if(!cName.equals(joinOn.toLowerCase()))
                         newColumnNames.add(schema2.concat("_").concat(cName));
                 }
                 return insertSchema(newSchemaName, newColumnNames);
