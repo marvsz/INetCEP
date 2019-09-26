@@ -2,6 +2,7 @@ package SACEPICN;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -13,21 +14,21 @@ public class SchemaBrokerSingleton {
     public HashMap<String, Set<String>> schemes = new HashMap<String,Set<String>>();
 
     public SchemaBrokerSingleton(){
-        Set<String> survivorSet = new HashSet<>();
+        Set<String> survivorSet = new LinkedHashSet<>();
         survivorSet.add("Date");
         survivorSet.add("SequenceNumber");
         survivorSet.add("Gender");
         survivorSet.add("Age");
         insertSchema("Survivors",survivorSet);
 
-        Set<String> victimSet = new HashSet<>();
+        Set<String> victimSet = new LinkedHashSet<>();
         victimSet.add("Date");
         victimSet.add("SequenceNumber");
         victimSet.add("Gender");
         victimSet.add("Age");
         insertSchema("Victims",victimSet);
 
-        Set<String> gpsSet = new HashSet<>();
+        Set<String> gpsSet = new LinkedHashSet<>();
         gpsSet.add("Date");
         gpsSet.add("Identifier");
         gpsSet.add("Latitude");
@@ -38,7 +39,7 @@ public class SchemaBrokerSingleton {
         gpsSet.add("Speed");
         insertSchema("GPS",gpsSet);
 
-        Set<String> plugSet = new HashSet<>();
+        Set<String> plugSet = new LinkedHashSet<>();
         plugSet.add("SequenceNumber");
         plugSet.add("Date");
         plugSet.add("Value");
@@ -68,7 +69,7 @@ public class SchemaBrokerSingleton {
      */
     public boolean insertSchema(String schemaName,Set<String> columnNames){
         if(schemes.get(schemaName.toLowerCase()) == null){
-            Set<String> lowerCaseColumnNames = new HashSet<>();
+            Set<String> lowerCaseColumnNames = new LinkedHashSet<>();
             for(String i : columnNames){
                 lowerCaseColumnNames.add(i.toLowerCase());
             }
@@ -121,7 +122,7 @@ public class SchemaBrokerSingleton {
         String newSchemaName="Join(".concat(schema1).concat(",").concat(schema2).concat("|").concat(joinOn).concat(")");
         if(columnNames1 != null && columnNames2 != null){
             if(columnNames1.contains(joinOn.toLowerCase())&&columnNames2.contains(joinOn.toLowerCase())){
-                Set<String> newColumnNames = new HashSet<>();
+                Set<String> newColumnNames = new LinkedHashSet<>();
                 for(String cName : columnNames1){
                     if(cName.equals(joinOn.toLowerCase()))
                         newColumnNames.add(cName);
@@ -136,5 +137,18 @@ public class SchemaBrokerSingleton {
             }
         }
         return false;
+    }
+
+    public int getColumnId(String schema, String columnName){
+        int columnId = 0;
+        Set<String> columns = getSchema(schema);
+        if(columns!=null)
+            if(columns.contains(columnName.toLowerCase()))
+                for (String co : columns){
+                    if(co.equals(columnName.toLowerCase()))
+                        return columnId;
+                    columnId++;
+                }
+        return -1;
     }
 }
