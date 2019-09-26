@@ -1,5 +1,8 @@
 package SACEPICN;
 
+import lambdacalculus.parser.ast.Str;
+import scala.util.parsing.combinator.token.StdTokens;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +17,40 @@ public class SchemaBrokerSingleton {
     public HashMap<String, Set<String>> schemes = new HashMap<String,Set<String>>();
 
     public SchemaBrokerSingleton(){
+        Set<String> survivorSet = new HashSet<>();
+        survivorSet.add("Date");
+        survivorSet.add("SequenceNumber");
+        survivorSet.add("Gender");
+        survivorSet.add("Age");
+        schemes.put("Survivors",survivorSet);
+
+        Set<String> victimSet = new HashSet<>();
+        victimSet.add("Date");
+        victimSet.add("SequenceNumber");
+        victimSet.add("Gender");
+        victimSet.add("Age");
+        schemes.put("Victims",victimSet);
+
+        Set<String> gpsSet = new HashSet<>();
+        gpsSet.add("Date");
+        gpsSet.add("Identifier");
+        gpsSet.add("Latitude");
+        gpsSet.add("Longitude");
+        gpsSet.add("Altitude");
+        gpsSet.add("Accuracy");
+        gpsSet.add("Distance");
+        gpsSet.add("Speed");
+        schemes.put("GPS",gpsSet);
+
+        Set<String> plugSet = new HashSet<>();
+        plugSet.add("SequenceNumber");
+        plugSet.add("Date");
+        plugSet.add("Value");
+        plugSet.add("Property");
+        plugSet.add("Plug_ID");
+        plugSet.add("Household_ID");
+        plugSet.add("House_ID");
+        schemes.put("plug",plugSet);
     }
 
     /**
