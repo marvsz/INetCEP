@@ -139,6 +139,12 @@ public class SchemaBrokerSingleton {
         return false;
     }
 
+    /**
+     * Returns the ID of a column name in the schema
+     * @param schema the schema from which we need to know the column ID
+     * @param columnName the column Name for which we need the ID
+     * @return A number representing the ID of the column name, -1 if the column name does not exist in the schema.
+     */
     public int getColumnId(String schema, String columnName){
         int columnId = 0;
         Set<String> columns = getSchema(schema);
