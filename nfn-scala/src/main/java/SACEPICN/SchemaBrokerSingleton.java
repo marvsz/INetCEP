@@ -1,11 +1,7 @@
 package SACEPICN;
 
-import lambdacalculus.parser.ast.Str;
-import scala.util.parsing.combinator.token.StdTokens;
-
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
