@@ -5,14 +5,14 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.{Base64, Calendar}
 
-import SACEPICN.NodeMapping
+import SACEPICN.{NodeMapping, SchemaBrokerSingleton}
 import akka.actor.ActorRef
 import ccn.packet._
 import config.StaticConfig
 import myutil.FormattedOutput
 import nfn.NFNApi
 import nfn.service.LogMessage
-import nfn.tools.Networking.{fetchContentAndKeepAlive, fetchContentRepeatedly,fetchContent}
+import nfn.tools.Networking.{fetchContent, fetchContentAndKeepAlive, fetchContentRepeatedly}
 
 import scala.concurrent.duration._
 import scala.io.Source
@@ -694,6 +694,17 @@ object Helpers {
     ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty), prependLocalPrefix = false)
     LogMessage(nodeName, s"Inside ${operation} -> ${operation} name: ${name}, ${operation} content: ${input}")
     name
+  }
+
+  /**
+   * Returns the column number for a sensor and a given column name
+   * @param sensorName the name of the sensor
+   * @param columnName the name of the column
+   * @return the id of the column
+   */
+  def getColumnNumber(sensorName: String, columnName:String):Int={
+    val broker = SchemaBrokerSingleton.getInstance()
+    broker.getColumnId(sensorName, columnName)
   }
 
 }
