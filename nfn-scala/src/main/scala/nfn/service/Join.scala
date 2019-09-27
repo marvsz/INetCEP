@@ -155,7 +155,7 @@ class Join() extends NFNService {
           joinFound = true
         }
       }
-      if(!joinFound){
+      if (!joinFound) {
         sb.append(leftLine).append(delimiter).append(generateNullLines(rightColumn, delimiter)).append("\n")
       }
       joinFound = false
@@ -167,11 +167,11 @@ class Join() extends NFNService {
    * Generates a row with a null values
    * This is used for outer Joins where there are mismatches
    *
-   * @param columns: the number of required null values
+   * @param columns   : the number of required null values
    * @param delimiter the delimiter which separates the columns
    * @return the row filled with x -1 null values where x is the number of columns
    */
-  def generateNullLines(columns : Int, delimiter: String) = {
+  def generateNullLines(columns: Int, delimiter: String) = {
     Array.fill[String](columns)("Null").mkString(delimiter)
   }
 
@@ -197,7 +197,7 @@ class Join() extends NFNService {
           joinFound = true
         }
       }
-      if(!joinFound){
+      if (!joinFound) {
         sb.append(generateNullLines(leftColumn, delimiter)).append(delimiter).append(rightLine).append("\n")
       }
       joinFound = false
@@ -227,7 +227,7 @@ class Join() extends NFNService {
           joinFound = true
         }
       }
-      if(!joinFound){
+      if (!joinFound) {
         sb.append(leftLine).append(delimiter).append(generateNullLines(columnCount, delimiter)).append("\n")
       }
       joinFound = false
@@ -238,12 +238,12 @@ class Join() extends NFNService {
         columnCount = leftLine.split(delimiter).size - 1
         if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
           val maybeElement = leftLine.concat(delimiter).concat(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).concat("\n")
-          if(!sb.toString().contains(maybeElement))
+          if (!sb.toString().contains(maybeElement))
             sb.append(maybeElement)
           joinFound = true
         }
       }
-      if(!joinFound){
+      if (!joinFound) {
         sb.append(generateNullLines(columnCount, delimiter)).append(delimiter).append(rightLine).append("\n")
       }
       joinFound = false
