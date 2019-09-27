@@ -143,7 +143,7 @@ class Join2() extends NFNService {
    *
    * @param line           one event
    * @param joinOnPosRight the position in the event tuple to delete
-   * @param delimiter      the delimiter which seperates the columns
+   * @param delimiter      the delimiter which separates the columns
    * @return the event without the column to delete
    */
   def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String) = {
@@ -151,7 +151,14 @@ class Join2() extends NFNService {
     newLine.mkString(delimiter)
   }
 
-  def generateNullLines(line: String, delimiter: String): Unit = {
+  /**
+   * Takes a row and replaces each value minus one with Null
+   * This is used for outer Joins where there are mismatches
+   * @param line a row of data tuples
+   * @param delimiter the delimiter which separates the columns
+   * @return the row filled with x -1 null values where x is the number of columns
+   */
+  def generateNullLines(line: String, delimiter: String) = {
     val columns = line.split(delimiter).size - 1
     Array.fill[String](columns)("Null").mkString(delimiter)
   }
