@@ -3,7 +3,8 @@ package filterAccess.crypto
 import java.security.KeyFactory
 import java.security.spec.PKCS8EncodedKeySpec
 import javax.crypto.Cipher
-import nfn.tools.Helpers._
+import nfn.tools.IOHelpers._
+
 import filterAccess.crypto.Helpers._
 
 /**

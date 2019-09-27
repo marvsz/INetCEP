@@ -6,6 +6,7 @@ package nfn.service
 
 //Added for contentfetch
 import akka.actor.ActorRef
+import nfn.tools.SensorHelpers
 
 import scala.language.postfixOps
 
@@ -29,11 +30,11 @@ class Heatmap extends NFNService {
       //Sensor is not the preferred way to perform a heatmap. Suggested is 'name'
       if (inputFormat.toLowerCase().equals("sensor")) {
         LogMessage(nodeName, s"Performing Heatmap on Sensor data")
-        heatmap = generateHeatmap(Helpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
+        heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
       }
       else if (inputFormat.toLowerCase().equals("data")) {
         LogMessage(nodeName, s"Perform Heatmap on inline data")
-        heatmap = generateHeatmap(Helpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
+        heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
       }
       else if (inputFormat.toLowerCase().equals("name")) {
         LogMessage(nodeName, s"Perform Heatmap on named data")
@@ -41,8 +42,8 @@ class Heatmap extends NFNService {
         LogMessage(nodeName,"Heatmap is after the fetch")
         var input = ""
         if(!intermediateResult.contains("redirect")){
-          input += Helpers.trimData(intermediateResult)
-          heatmap = generateHeatmap(Helpers.parseData(inputFormat, input), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
+          input += SensorHelpers.trimData(intermediateResult)
+          heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, input), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
         }
       }
       else {
@@ -80,14 +81,15 @@ class Heatmap extends NFNService {
   }
 
   /**
-    *
-    * @param data             the raw data to process
-    * @param granularity      the lenght and high of one cell in the resulting heatmap.
-    * @param minimalLongitude the minimal Longitude value
-    * @param minmalLattitude  the minimal latitude value
-    * @param heatmap          a two dimensional array of integer values
-    * @return the generated heatmap as a two dimensional array
-    */
+   *
+    * @param data the raw data to process
+   * @param granularity the lenght and high of one cell in the resulting heatmap.
+   * @param minimalLongitude the minimal Longitude value
+   * @param maximalLongitude the maximal Longitude value
+   * @param minmalLattitude the minimal latitude value
+   * @param maximalLattitude the maximale latitude value
+   * @return the generated heatmap as a two dimensional array
+   */
   def generateHeatmap(data: List[String], granularity: Double, minimalLongitude: Double, maximalLongitude:Double, minmalLattitude: Double, maximalLattitude:Double): Array[Array[Int]] = {
     var output = ""
     val horizontalSize = maximalLattitude.toDouble - minmalLattitude.toDouble
@@ -98,9 +100,9 @@ class Heatmap extends NFNService {
     val heatmap = Array.ofDim[Int](numberOfWidths.toInt, numberOfHeights.toInt)
     var lat = 0.0
     var long = 0.0
-    val delimiter = Helpers.getDelimiterFromLine(data.head)
-    val longitudePosition = Helpers.getLongitudePosition(delimiter)
-    val latitudePosition = Helpers.getLattitudePosition(delimiter)
+    val delimiter = SensorHelpers.getDelimiterFromLine(data.head)
+    val longitudePosition = SensorHelpers.getLongitudePosition(delimiter)
+    val latitudePosition = SensorHelpers.getLattitudePosition(delimiter)
     var correspondingRow = 0
     var correspondingCol = 0
     if (data.nonEmpty) {

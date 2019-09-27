@@ -1,6 +1,6 @@
 package nfn.service
 
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 //Added for contentfetch
 import akka.actor.ActorRef
@@ -31,16 +31,16 @@ class Prediction2 extends NFNService {
       //Sensor is not the preferred way to perform a prediction. Suggested is 'name'
       if (inputFormat.toLowerCase().equals("sensor")) {
         LogMessage(nodeName, s"Performing Prediction on Sensor data")
-        output = predict(Helpers.parseData(inputFormat, stream), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity)
       }
       else if (inputFormat.toLowerCase().equals("data")) {
         LogMessage(nodeName, s"Perform Prediction on inline data")
-        output = predict(Helpers.parseData(inputFormat, stream), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity)
       }
       else if (inputFormat.toLowerCase().equals("name")) {
         LogMessage(nodeName, s"Perform Prediction on named data")
         val intermediateResult = Helpers.handleNamedInputSource(nodeName, stream, ccnApi)
-        output = predict(Helpers.parseData(inputFormat, intermediateResult), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, intermediateResult), granularity)
       }
       if (output != "")
         output = output.stripSuffix("\n").stripMargin('#')
@@ -70,8 +70,7 @@ class Prediction2 extends NFNService {
   /**
     *
     * @param data                 the data on which to perform the prediction on
-    * @param granularityInSeconds the granularity at which rate predictions are made
-    * @param historyArray         an array with past values
+    * @param granularity the granularity at which rate predictions are made
     * @return a string with predictions written in it. each prediction is in a new line and is a new tuple of information
     */
   def predict(data: List[String], granularity: String): String = {
@@ -87,14 +86,14 @@ class Prediction2 extends NFNService {
     }
     val output = new StringBuilder
     if (data.nonEmpty && !data.head.contains("No Results!")) {
-      val delimiter = Helpers.getDelimiterFromLine(data.head)
-      val valuePosition = Helpers.getValuePosition(delimiter)
-      val datePosition = Helpers.getDatePosition(delimiter)
+      val delimiter = SensorHelpers.getDelimiterFromLine(data.head)
+      val valuePosition = SensorHelpers.getValuePosition(delimiter)
+      val datePosition = SensorHelpers.getDatePosition(delimiter)
       val propertyPosition = 3
       val plugIdPosition = 4
       val householdIdPosition = 5
       val houseIdPosition = 6
-      val initialSecondsOfDay = Helpers.parseTime(data.head.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter)
+      val initialSecondsOfDay = SensorHelpers.parseTime(data.head.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter)
       val initialTimeStamp = initialSecondsOfDay.getHour * 60 * 60 + initialSecondsOfDay.getMinute * 60 + initialSecondsOfDay.getSecond
       if(currentGranularity == -1){
         currentGranularity = Math.round(initialTimeStamp / granularityInSeconds)
@@ -103,7 +102,7 @@ class Prediction2 extends NFNService {
       for (line <- data) {
         //Iterate through each line
         if (line != "") {
-          val timeStamp = Helpers.parseTime(line.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter) // get the time stamp of one tuple
+          val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter) // get the time stamp of one tuple
           val secondsOfTheDay = timeStamp.getHour * 60 * 60 + timeStamp.getMinute * 60 + timeStamp.getSecond // calculates how many seconds have passed since midnight
           val correspondingGranularity = Math.round(secondsOfTheDay / granularityInSeconds) // maps the timestamp to a corresponding granularity in the history Array.
 

@@ -7,7 +7,7 @@ package nfn.service
 import java.io.FileNotFoundException
 
 import akka.actor.ActorRef
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 import scala.io.{BufferedSource, Source}
 //Added for contentfetch
@@ -143,17 +143,17 @@ class Window() extends NFNService {
     val sb: StringBuilder = new StringBuilder
     var output: String = ""
     val lineList = bufferedSource.getLines().toList
-    val delimiter: String = Helpers.getDelimiterFromLine(lineList.head)
-    val datePosition = Helpers.getDatePosition(delimiter)
+    val delimiter: String = SensorHelpers.getDelimiterFromLine(lineList.head)
+    val datePosition = SensorHelpers.getDatePosition(delimiter)
 
     if (relativeTime == null) {
-      relativeTime = Helpers.parseTime(lineList.head.split(delimiter)(datePosition), delimiter)
+      relativeTime = SensorHelpers.parseTime(lineList.head.split(delimiter)(datePosition), delimiter)
     }
     val futureTime = FormattedOutput.getFutureTime(relativeTime, timePeriod, timeUnit)
     //LogMessage(nodeName, s"Read Sensor from Current Time: ${relativeTime.toString}")
     //LogMessage(nodeName, s"Unitl Future Time: ${futureTime.toString}")
     for (line <- lineList) {
-      val timeStamp = Helpers.parseTime(line.split(delimiter)(datePosition), delimiter)
+      val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition), delimiter)
       if ((relativeTime.isBefore(timeStamp) || relativeTime.equals(timeStamp)) && futureTime.isAfter(timeStamp)) {
         sb.append(line + "\n")
       }
@@ -183,8 +183,8 @@ class Window() extends NFNService {
     var output = ""
     val sb = new StringBuilder
     val lineList = bufferedSource.getLines().toList
-    val delimiter: String = Helpers.getDelimiterFromLine(lineList.head)
-    val datePosition = Helpers.getDatePosition(delimiter)
+    val delimiter: String = SensorHelpers.getDelimiterFromLine(lineList.head)
+    val datePosition = SensorHelpers.getDatePosition(delimiter)
     //val valuePosition = getValuePosition(delimiter)
 
     for (line <- lineList) {
@@ -195,7 +195,7 @@ class Window() extends NFNService {
       /*
       Added by Johannes
       */
-      val timeStamp = Helpers.parseTime(line.split(delimiter)(datePosition), delimiter)
+      val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition), delimiter)
       /*
       End Edit
        */
@@ -227,8 +227,8 @@ class Window() extends NFNService {
     var sb = new StringBuilder
     var output: String = ""
     val lineList = bufferedSource.getLines().toList
-    val delimiter: String = Helpers.getDelimiterFromLine(lineList.head)
-    val datePosition = Helpers.getDatePosition(delimiter)
+    val delimiter: String = SensorHelpers.getDelimiterFromLine(lineList.head)
+    val datePosition = SensorHelpers.getDatePosition(delimiter)
     //Get current time:
     var currentTime: LocalTime = LocalTime.now()
     var lbDate = currentTime.format(DateTimeFormat)
@@ -239,7 +239,7 @@ class Window() extends NFNService {
     //LogMessage(nodeName, s"Current Time: ${currentTime.toString}")
     for (line <- lineList) {
       //process each event line
-      val timeStamp = Helpers.parseTime(line.split(delimiter)(datePosition), delimiter)
+      val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition), delimiter)
       if ((pastTime.isBefore(timeStamp) || pastTime.equals(timeStamp)) && (currentTime.isAfter(timeStamp) || currentTime.equals(timeStamp))) {
         sb.append(line.toString() + "\n")
       }

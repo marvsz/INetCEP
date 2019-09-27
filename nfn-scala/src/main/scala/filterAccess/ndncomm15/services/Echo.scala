@@ -13,7 +13,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future, ExecutionContext}
 import scala.io.Source
 import scala.util._
-import nfn.tools.Helpers._
+import nfn.tools.IOHelpers._
 
 class Echo extends NFNService{
 

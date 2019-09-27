@@ -1,7 +1,7 @@
 package nfn.service
 
 import config.StaticConfig
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 import org.junit.Test
 class TestJoin {
   val sacepicnEnv = StaticConfig.systemPath
@@ -21,9 +21,9 @@ class TestJoin {
     val conditions = ""
     val joinType = "innerjoin"
     System.out.println("New Schema:")
-    val joiningWorked = Helpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    val joinedSchemaName = Helpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    System.out.println(Helpers.getSchema(joinedSchemaName))
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    System.out.println(SensorHelpers.getSchema(joinedSchemaName))
     System.out.println("Query Result: ")
     val res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     if(res == "")

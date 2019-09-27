@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 
 import org.junit.Test
 import config.StaticConfig
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 import scala.io.{BufferedSource, Source}
 
@@ -30,7 +30,7 @@ class PredictionComplexityAnalysis {
 
   def joinStrings(left:String, right:String) ={
     val buf = new StringBuilder
-    buf.append(Helpers.trimData(left)).append(Helpers.trimData(right))
+    buf.append(SensorHelpers.trimData(left)).append(SensorHelpers.trimData(right))
     sortByDateTime(buf).toString()
   }
 

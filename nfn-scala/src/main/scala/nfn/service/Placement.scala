@@ -313,8 +313,8 @@ class Placement() extends NFNService {
         var outputForPrecision = s"${runID.toString}"
         if (predictionInvolved) {
           LogMessage(nodeName, s"Prediction was Involved, calculating Measurements")
-          var start = Helpers.parseTime(startTime, "")
-          var end = Helpers.parseTime(endTime, "")
+          var start = SensorHelpers.parseTime(startTime, "")
+          var end = SensorHelpers.parseTime(endTime, "")
           outputForPrecision += MathHelper.getPrecisionRecallAccuracyFMeasure(start, end, predictionGranularity, output.split("\n").toList).toList.toString()
         }
         //Generate Output:
@@ -335,9 +335,9 @@ class Placement() extends NFNService {
         //Format: runID, Time, ResponseTime, Path, EnergyWeight, OverheadWeight
         var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPath.toString},${energyWeightString.toString},${overheadWeightString.toString}"
         if (!predictionInvolved)
-          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
+          IOHelpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
         else
-          Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, outputForPrecision, output)
+          IOHelpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, outputForPrecision, output)
         LogMessage(nodeName, s"Output Files written, Query store should be processed again now.")
         //return output
       }
@@ -569,7 +569,7 @@ class Placement() extends NFNService {
         overheadWeightString.trim()
         var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPathDecentral.toString},${energyWeightString.toString},${overheadWeightString.toString}"
 
-        Helpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
+        IOHelpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, output)
 
         //return output
       }
@@ -725,7 +725,7 @@ class Placement() extends NFNService {
       hopInfo = hopInfo.distinct
 
       //Get the utility function data:
-      var multiObjFunction = Helpers.getMultiObjectiveFunctionMetrics
+      var multiObjFunction = IOHelpers.getMultiObjectiveFunctionMetrics
 
       var energyWeight = multiObjFunction(0)
       var bdpWeight = multiObjFunction(1)

@@ -14,8 +14,8 @@ class TestMathHelper {
   @Test
   def testAllEqual = {
 
-    val startTime = Helpers.parseTime("16:22:00.000", "")
-    val endTime = Helpers.parseTime("16:27:00.000", "")
+    val startTime = SensorHelpers.parseTime("16:22:00.000", "")
+    val endTime = SensorHelpers.parseTime("16:27:00.000", "")
     val relevantData = window.readBoundSensor(path, startTime, endTime, "debugTest").split("\n").toList.sortWith(_.split(",")(1).toInt < _.split(",")(1).toInt)
     val granularity = "2m"
     val granularityInSeconds = 2 * 60
@@ -28,8 +28,8 @@ class TestMathHelper {
   }
   @Test
   def testOneTupleMore={
-    val startTime = Helpers.parseTime("16:22:00.000", "")
-    val endTime = Helpers.parseTime("16:27:00.000", "")
+    val startTime = SensorHelpers.parseTime("16:22:00.000", "")
+    val endTime = SensorHelpers.parseTime("16:27:00.000", "")
     val relevantData = window.readBoundSensor(path, startTime, endTime, "debugTest").split("\n").toList.sortWith(_.split(",")(1).toInt < _.split(",")(1).toInt)
     val granularity = "2m"
     val granularityInSeconds = 2 * 60
@@ -42,8 +42,8 @@ class TestMathHelper {
   }
   @Test
   def testOneTupleMissing={
-    val startTime = Helpers.parseTime("16:22:00.000", "")
-    val endTime = Helpers.parseTime("16:27:00.000", "")
+    val startTime = SensorHelpers.parseTime("16:22:00.000", "")
+    val endTime = SensorHelpers.parseTime("16:27:00.000", "")
     val relevantData = window.readBoundSensor(path, startTime, endTime, "debugTest").split("\n").toList.sortWith(_.split(",")(1).toInt < _.split(",")(1).toInt)
     val granularity = "2m"
     val granularityInSeconds = 2 * 60
@@ -55,8 +55,8 @@ class TestMathHelper {
   }
   @Test
   def testOneWrongTuple={
-    val startTime = Helpers.parseTime("16:22:00.000", "")
-    val endTime = Helpers.parseTime("16:27:00.000", "")
+    val startTime = SensorHelpers.parseTime("16:22:00.000", "")
+    val endTime = SensorHelpers.parseTime("16:27:00.000", "")
     val relevantData = window.readBoundSensor(path, startTime, endTime, "debugTest").split("\n").toList.sortWith(_.split(",")(1).toInt < _.split(",")(1).toInt)
     val granularity = "2m"
     val granularityInSeconds = 2 * 60

@@ -5,7 +5,7 @@ package nfn.service
   */
 
 import akka.actor.ActorRef
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 //Added for contentfetch
 import ccn.packet.CCNName
@@ -21,8 +21,8 @@ class Concatenate() extends NFNService {
   def joinStreams(right: String, left: String) = {
     var output = ""
     var sb = new StringBuilder
-    sb.append(Helpers.trimData(left))
-    sb.append(Helpers.trimData(right))
+    sb.append(SensorHelpers.trimData(left))
+    sb.append(SensorHelpers.trimData(right))
     output = sb.toString()
     if(output == "")
       output = "No Results!"

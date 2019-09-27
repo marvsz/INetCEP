@@ -1,6 +1,7 @@
 package nfn.service
 
 import config.StaticConfig
+import nfn.tools.FilterHelpers
 import org.junit.Test
 
 class GoldStandards {
@@ -46,7 +47,7 @@ class GoldStandards {
     val path1 = victimsSensorPath
     var a = 0
     val executionTimes = 30
-    var arguments1 = filter.parseFilterArguments("3=M&4>30")
+    var arguments1 = FilterHelpers.parseFilterArguments("3=M&4>30")
     System.out.println("Q2 New Gold Standard: ")
     for (a <- 1 to executionTimes) {
       val window1 = new Window()
@@ -66,7 +67,7 @@ class GoldStandards {
     val path = gps1SensorPath
     var a = 0
     val executionTimes = 30
-    var arguments = filter.parseFilterArguments("3>50")
+    var arguments = FilterHelpers.parseFilterArguments("3>50")
     System.out.println("Q2 Gold Standard: ")
     for (a <- 1 to executionTimes) {
       System.out.println("Query Result: ")
@@ -87,8 +88,8 @@ class GoldStandards {
     val path2 = survivorsSensorPath
     var a = 0
     val executionTimes = 30
-    var arguments1 = filter.parseFilterArguments("3=f&4>25")
-    var arguments2 = filter.parseFilterArguments("3=M&4>30")
+    var arguments1 = FilterHelpers.parseFilterArguments("3=f&4>25")
+    var arguments2 = FilterHelpers.parseFilterArguments("3=M&4>30")
     System.out.println("Q3 New Gold Standard: ")
     for (a <- 1 to executionTimes) {
       val window1 = new Window()
@@ -112,7 +113,7 @@ class GoldStandards {
     val path2 = gps2SensorPath
     var a = 0
     val executionTimes = 30
-    var arguments = filter.parseFilterArguments("3>50")
+    var arguments = FilterHelpers.parseFilterArguments("3>50")
     System.out.println("Q3 Gold Standard: ")
     for (a <- 1 to executionTimes) {
       System.out.println("Query Result: ")
@@ -152,7 +153,7 @@ class GoldStandards {
     val path2 = plug2SensorPath
     var a = 0
     val executionTimes = 120
-    var arguments = filter.parseFilterArguments("6>50")
+    var arguments = FilterHelpers.parseFilterArguments("6>50")
     System.out.println("Q5 Gold Standard: ")
     for (a <- 1 to executionTimes){
       val window1 = new Window()

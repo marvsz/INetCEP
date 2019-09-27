@@ -171,7 +171,7 @@ class CentralizedPlacement() extends NFNService {
         //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Output
         var output_for_Run = s"${runID.toString},${runTime.toString},${timeOffset.toString},${timeOffset_OpTreeCreation.toString},${timeOffset_Placement_Deployment.toString}, " +
           s"${timeOffset_executeNFNquery}"
-        Helpers.writeOutputFiles(output_for_Run,output)
+        IOHelpers.writeOutputFiles(output_for_Run,output)
 
 
       }
