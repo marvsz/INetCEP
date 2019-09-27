@@ -116,10 +116,10 @@ public class SchemaBrokerSingleton {
      * @param schema2 the name of the second sensor that provides a data stream
      * @return true iff joining was successfull and a new schema was inserted into the schema list, flase otherwise
      */
-    public boolean joinSchema(String joinOn, String schema1, String schema2){
+    public boolean joinSchema(String joinOn, String conditions, String schema1, String schema2){
         Set<String> columnNames1 = getSchema(schema1);
         Set<String> columnNames2 = getSchema(schema2);
-        String newSchemaName="Join(".concat(schema1).concat(",").concat(schema2).concat("|").concat(joinOn).concat(")");
+        String newSchemaName="Join(".concat(schema1).concat(",").concat(schema2).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")");
         if(columnNames1 != null && columnNames2 != null){
             if(columnNames1.contains(joinOn.toLowerCase())&&columnNames2.contains(joinOn.toLowerCase())){
                 Set<String> newColumnNames = new LinkedHashSet<>();
