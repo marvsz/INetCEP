@@ -707,4 +707,26 @@ object Helpers {
     broker.getColumnId(sensorName, columnName)
   }
 
+  def joinSensors(leftSensorName: String, rightSensorName:String, joinOn:String, conditions:String)={
+    val broker = SchemaBrokerSingleton.getInstance()
+    broker.joinSchema(joinOn,conditions,leftSensorName,rightSensorName)
+  }
+
+  def getSchema(sensorName:String)={
+    val broker = SchemaBrokerSingleton.getInstance()
+    broker.getSchema(sensorName).toArray().mkString(",")
+  }
+
+  /**
+   * Returns the new schema name of two joined data streams
+   *
+   * @param leftSensorName  the name of the first data stream
+   * @param rightSensorName the name of the second data stream
+   * @param joinOn          the column on which to join on
+   * @param conditions the conditions
+   * @return the new name of the joined schemas
+   */
+  def getJoinedSchemaName(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) =
+    "Join(".concat(leftSensorName).concat(",").concat(rightSensorName).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")")
+
 }
