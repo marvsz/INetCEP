@@ -90,10 +90,10 @@ class Join() extends NFNService {
       rightTrimmed.replace(rightDelimiter, leftDelimiter)
     }
     joinType.toLowerCase() match {
-      case "innerjoin" => innerjoin(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "leftouterjoin" => leftOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "rightouterjoin" => rightOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "fullouterjoin" => fullOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
+      case "innerjoin" => innerjoin(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "leftouterjoin" => leftOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "rightouterjoin" => rightOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "fullouterjoin" => fullOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
       case _ => "Join Type not Supported"
     }
   }
