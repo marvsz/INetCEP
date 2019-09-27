@@ -29,7 +29,7 @@ class ChainIntermediates() extends NFNService {
       val c = new String(content.data)
       println(s"intermediate handler: $index, $c")
     }
-    fetchContentAndKeepalive(ccnApi, simulationInterest, 20 seconds, Some(intermediateHandler))
+    fetchContentAndKeepAlive(ccnApi, simulationInterest, 20 seconds, Some(intermediateHandler))
 
 //    val futureContent = requestContentAndKeepalive(ccnApi, simulationInterest)
 //    requestIntermediates(ccnApi, simulationInterest, handleIntermediates = { (c: Content) =>

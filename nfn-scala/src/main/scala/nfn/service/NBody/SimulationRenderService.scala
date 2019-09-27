@@ -7,7 +7,7 @@ import javax.imageio.ImageIO
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.service.{NFNStringValue, _}
-import nfn.tools.Networking.{fetchContentAndKeepalive, intermediateResult}
+import nfn.tools.Networking.{fetchContentAndKeepAlive, intermediateResult}
 
 
 class SimulationRenderService extends NFNService {
@@ -60,7 +60,7 @@ class SimulationRenderService extends NFNService {
         intermediateResult(ccnApi, interestName, index, renderConfig(content))
       }
 
-      fetchContentAndKeepalive(ccnApi, simulationInterest, handleIntermediate = Some(intermediateHandler)) match {
+      fetchContentAndKeepAlive(ccnApi, simulationInterest, handleIntermediate = Some(intermediateHandler)) match {
         case Some(content) => renderConfig(content)
         case _ => NFNStringValue("Simulation could not be completed.")
       }
