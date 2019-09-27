@@ -17,9 +17,9 @@ class TestJoin {
     val sensor1Name = "Victims"
     val win2 = window2.readRelativeTimedSensor(testData2,5,"S","debugTest")
     val sensor2Name = "Survivors"
-    val joinOn = "Date"
+    val joinOn = "Gender"
     val conditions = ""
-    val joinType = "innerjoin"
+    val joinType = "leftouterjoin"
     System.out.println("New Schema:")
     val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
     val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)

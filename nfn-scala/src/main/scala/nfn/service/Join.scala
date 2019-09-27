@@ -143,15 +143,21 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def leftOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var outerJoinDone = false
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
     for (leftLine <- left) {
       for (rightLine <- right) {
         if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          outerJoinDone = true
         }
         else {
-          sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
+          if(!outerJoinDone){
+            sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
+            outerJoinDone = true
+          }
+
         }
       }
     }
@@ -181,15 +187,21 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def rightOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var outerJoinDone = false
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
     for (rightLine <- right) {
       for (leftLine <- left) {
         if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          outerJoinDone = true
         }
         else {
-          sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
+          if(!outerJoinDone){
+            sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
+            outerJoinDone = true
+          }
+
         }
       }
     }
@@ -206,25 +218,35 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def fullOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var outerJoinDone = false
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
     for (rightLine <- right) {
       for (leftLine <- left) {
         if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          outerJoinDone = true
         }
         else {
-          sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
+          if(!outerJoinDone){
+            sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
+            outerJoinDone = true
+          }
         }
       }
     }
+    outerJoinDone = false
     for (leftLine <- left) {
       for (rightLine <- right) {
         if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          outerJoinDone = true
         }
         else {
-          sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
+          if(!outerJoinDone){
+            sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
+            outerJoinDone = true
+          }
         }
       }
     }
