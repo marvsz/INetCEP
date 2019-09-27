@@ -140,7 +140,19 @@ class Join2() extends NFNService {
    * @return the generated output
    */
   def rightOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    " "
+    val sb = new StringBuilder
+    val delimiter = Helpers.getDelimiterFromLine(left(0))
+    for(rightLine <- right){
+      for(leftLine <- left){
+        if(rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))){
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine,joinOnPosRight,delimiter)).append("\n")
+        }
+        else{
+          sb.append(generateNullLines(leftLine,delimiter)).append(delimiter).append(rightLine).append("\n")
+        }
+      }
+    }
+    sb.toString()
   }
 
   /**
