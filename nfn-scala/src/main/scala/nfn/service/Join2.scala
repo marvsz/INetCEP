@@ -20,16 +20,63 @@ import config.StaticConfig
 class Join2() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  /**
-   * Returns the new schema name of two joined data streams
-   *
-   * @param leftDataStream  the name of the first data stream
-   * @param rightDataStream the name of the second data stream
-   * @param joinOn          the column on which to join on
-   * @return the new name of the joined schemas
-   */
-  def getJoinedSchemaName(leftDataStream: String, rightDataStream: String, joinOn: String) =
-    "Join(".concat(leftDataStream).concat(",").concat(rightDataStream).concat("|").concat(joinOn).concat(")")
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+    val nodeInfo = interestName.cmps.mkString(" ")
+    val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
+
+    def processJoin(inputSource: String, left: String, right: String, outputFormat: String): String = {
+      LogMessage(nodeName, s"\nJoin OP Started")
+      var output = ""
+      if (inputSource == "name") {
+        LogMessage(nodeName, "Handle left stream")
+        val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
+        LogMessage(nodeName, "Handle right stream")
+        val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
+        output = joinStreams(intermediateResultLeft, intermediateResultRight)
+      }
+      else if (inputSource == "data") {
+        return joinStreams(left, right)
+      }
+      if (outputFormat == "name") {
+        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
+      }
+      else {
+        LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
+      }
+      LogMessage(nodeName, s"Join OP Completed\n")
+      output
+    }
+
+    def processJoinOn(inputSource: String, outputFormat: String, left: String, right: String, joinOn: String, conditions: String, joinType: String): String = {
+      LogMessage(nodeName, s"\n JoinOn OP Started")
+      var output = ""
+      if (inputSource == "name") {
+        LogMessage(nodeName, "Handle left stream")
+        val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
+        LogMessage(nodeName, "Handle right stream")
+        val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
+        output = joinStreamsOn(intermediateResultLeft, left, intermediateResultRight, right, joinOn, conditions, joinType)
+      }
+      if (outputFormat == "name") {
+        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
+      }
+      else {
+        LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
+      }
+      LogMessage(nodeName, s"Join OP Completed\n")
+      output
+    }
+
+    NFNStringValue(
+      args match {
+        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue) => processJoin(inputSource.str, left.str, right.str, outputFormat.str)
+        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue, joinOn: NFNStringValue, conditions: NFNStringValue, joinType: NFNStringValue) => processJoinOn(inputSource.str, outputFormat.str, left.str, right.str, joinOn.str, conditions.str, joinType.str
+        )
+        case _ =>
+          throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
+      }
+    )
+  }
 
   /**
    * Joins the content of two windows by matching each event of one window to all events in the other window on the given condition.
@@ -51,17 +98,25 @@ class Join2() extends NFNService {
     val rightTrimmed = Helpers.trimData(right)
     val leftDelimiter = Helpers.getDelimiterFromLine(leftTrimmed)
     val rightDelimiter = Helpers.getDelimiterFromLine(rightTrimmed)
-    val leftTrimmedSplit: Array[String] = applyConditions(leftSensorName, leftTrimmed.split("\n"), conditions, leftDelimiter)
-    val rightTrimmedSplit: Array[String] = applyConditions(rightSensorName, rightTrimmed.split("\n"), conditions, rightDelimiter)
+    var leftTrimmedSplit: Array[String] = null
+    var rightTrimmedSplit: Array[String] = null
+    if (conditions != "") {
+      leftTrimmedSplit = applyConditions(leftSensorName, leftTrimmed.split("\n"), conditions, leftDelimiter)
+      rightTrimmedSplit = applyConditions(rightSensorName, rightTrimmed.split("\n"), conditions, rightDelimiter)
+    }
+    else {
+      leftTrimmedSplit = leftTrimmed.split("\n")
+      rightTrimmedSplit = rightTrimmed.split("\n")
+    }
     //if the delimiters are different we need to choose one, in this case the delimiter from the left data stream
     if (leftDelimiter != rightDelimiter) {
       rightTrimmed.replace(rightDelimiter, leftDelimiter)
     }
-    joinType match {
-      case "innerJoinOn" => innerjoin(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "leftOuterJoin" => leftOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "rightOuterJoin" => rightOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
-      case "fullOuterJoin" => fullOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
+    joinType.toLowerCase() match {
+      case "innerjoin" => innerjoin(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
+      case "leftouterjoin" => leftOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
+      case "rightouterjoin" => rightOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
+      case "fullouterjoin" => fullOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight)
       case _ => "Join Type not Supported"
     }
   }
@@ -114,6 +169,32 @@ class Join2() extends NFNService {
   }
 
   /**
+   * removes a column from a given string
+   *
+   * @param line           one event
+   * @param joinOnPosRight the position in the event tuple to delete
+   * @param delimiter      the delimiter which separates the columns
+   * @return the event without the column to delete
+   */
+  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String) = {
+    val newLine = line.split(delimiter).toSeq.patch(joinOnPosRight, Nil, 1)
+    newLine.mkString(delimiter)
+  }
+
+  /**
+   * Takes a row and replaces each value minus one with Null
+   * This is used for outer Joins where there are mismatches
+   *
+   * @param line      a row of data tuples
+   * @param delimiter the delimiter which separates the columns
+   * @return the row filled with x -1 null values where x is the number of columns
+   */
+  def generateNullLines(line: String, delimiter: String) = {
+    val columns = line.split(delimiter).size - 1
+    Array.fill[String](columns)("Null").mkString(delimiter)
+  }
+
+  /**
    * It returns all the events in the right stream even if there are no matching events on the left stream by having null values at the left stream
    *
    * @param left          the left data stream
@@ -136,31 +217,6 @@ class Join2() extends NFNService {
       }
     }
     sb.toString()
-  }
-
-  /**
-   * removes a column from a given string
-   *
-   * @param line           one event
-   * @param joinOnPosRight the position in the event tuple to delete
-   * @param delimiter      the delimiter which separates the columns
-   * @return the event without the column to delete
-   */
-  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String) = {
-    var newLine = line.split(delimiter).take(joinOnPosRight)
-    newLine.mkString(delimiter)
-  }
-
-  /**
-   * Takes a row and replaces each value minus one with Null
-   * This is used for outer Joins where there are mismatches
-   * @param line a row of data tuples
-   * @param delimiter the delimiter which separates the columns
-   * @return the row filled with x -1 null values where x is the number of columns
-   */
-  def generateNullLines(line: String, delimiter: String) = {
-    val columns = line.split(delimiter).size - 1
-    Array.fill[String](columns)("Null").mkString(delimiter)
   }
 
   /**
@@ -232,7 +288,7 @@ class Join2() extends NFNService {
 
   def conditionHandler(sensor: String, filter: String, line: String, delimiter: String): Boolean = {
     val operatorPattern = "[>,<,=,<>]+".r // regex for all operators
-    val operator = operatorPattern.findFirstIn(filter).toString
+    val operator = operatorPattern.findFirstIn(filter).map(_.toString).getOrElse("")
     val value = filter.toString.split("[>,<,=,<>]+").map(_.trim)
 
     var queryVariable = ""
@@ -244,15 +300,17 @@ class Join2() extends NFNService {
       return false
 
     queryVariable = value(1).stripPrefix("(").stripSuffix(")").trim
-    matchCondition(operator, queryColumn, queryVariable, line, delimiter)
+    val returnValue = matchCondition(operator, queryColumn, queryVariable, line, delimiter)
+    returnValue
   }
 
   def matchCondition(operator: String, queryColumn: Int, queryVariable: String, line: String, delimiter: String): Boolean = {
     //First, split the link into schema:
     var schema = line.split(delimiter);
 
-    var index = queryColumn - 1;
-
+    var index = queryColumn
+    //val schamaValue = schema(index).toDouble
+    //val quaryVariableValue = queryVariable.toString.toDouble
     if (schema.length > index) {
       try {
         operator match {
@@ -324,66 +382,6 @@ class Join2() extends NFNService {
     retVal(0) = allANDs
     retVal(1) = allORs
     retVal
-  }
-
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
-    val nodeInfo = interestName.cmps.mkString(" ")
-    var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
-
-    def processJoin(inputSource: String, left: String, right: String, outputFormat: String): String = {
-      LogMessage(nodeName, s"\nJoin OP Started")
-      var output = ""
-      if (inputSource == "name") {
-        LogMessage(nodeName, "Handle left stream")
-        val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
-        LogMessage(nodeName, "Handle right stream")
-        val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
-        output = joinStreams(intermediateResultLeft, intermediateResultRight)
-      }
-      else if (inputSource == "data") {
-        return joinStreams(left, right)
-      }
-      if (outputFormat == "name") {
-        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
-      }
-      else {
-        LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
-      }
-      LogMessage(nodeName, s"Join OP Completed\n")
-      output
-    }
-
-    def processJoinOn(inputSource: String, outputFormat: String, left: String, right: String, joinOn: String): String = {
-      LogMessage(nodeName, s"\n JoinOn OP Started")
-      var output = ""
-      if (inputSource == "name") {
-        LogMessage(nodeName, "Handle left stream")
-        val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
-        LogMessage(nodeName, "Handle right stream")
-        val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
-        output = joinStreams(intermediateResultLeft, intermediateResultRight)
-      }
-      else if (inputSource == "data") {
-        return joinStreams(left, right)
-      }
-      if (outputFormat == "name") {
-        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
-      }
-      else {
-        LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
-      }
-      LogMessage(nodeName, s"Join OP Completed\n")
-      output
-    }
-
-    NFNStringValue(
-      args match {
-        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue) => processJoin(inputSource.str, left.str, right.str, outputFormat.str)
-        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue, joinOn: NFNStringValue) => processJoinOn(inputSource.str, outputFormat.str, left.str, right.str, joinOn.str)
-        case _ =>
-          throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
-      }
-    )
   }
 
   def joinStreams(left: String, right: String) = {
