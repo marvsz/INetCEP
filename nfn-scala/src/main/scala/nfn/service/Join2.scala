@@ -76,7 +76,28 @@ class Join2() extends NFNService {
    * @return the generated output
    */
   def innerjoin(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    " "
+    val sb = new StringBuilder
+    val delimiter = Helpers.getDelimiterFromLine(left(0))
+    for(leftLine <- left){
+      for(rightLine <- right){
+        if(leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))){
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine,joinOnPosRight,delimiter)).append("\n")
+        }
+      }
+    }
+    sb.toString()
+  }
+
+  /**
+   * removes a column from a given string
+   * @param line one event
+   * @param joinOnPosRight the position in the event tuple to delete
+   * @param delimiter the delimiter which seperates the columns
+   * @return the event without the column to delete
+   */
+  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String)={
+    var newLine = line.split(delimiter).take(joinOnPosRight)
+    newLine.mkString(delimiter)
   }
 
   /**
