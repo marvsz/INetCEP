@@ -12,7 +12,7 @@ import scala.io.{BufferedSource, Source}
 
 class PredictionComplexityAnalysis {
   val sacepicnEnv = StaticConfig.systemPath
-  val join = new Join()
+  val join = new Concatenate()
   val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
   val tuples = 10800
 

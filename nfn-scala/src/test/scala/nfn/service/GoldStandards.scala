@@ -81,7 +81,7 @@ class GoldStandards {
   @Test
   def q3NewGoldStandard() = {
 
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = victimsSensorPath
     val path2 = survivorsSensorPath
@@ -106,7 +106,7 @@ class GoldStandards {
   def q3GoldStandard() = {
     val window1 = new Window()
     val window2 = new Window()
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = gps1SensorPath
     val path2 = gps2SensorPath
@@ -123,7 +123,7 @@ class GoldStandards {
   @Test
   def q4GoldStandard()={
 
-    val join = new Join()
+    val join = new Concatenate()
     val path1 = plug1SensorPath
     val path2 = plug2SensorPath
     var a = 0
@@ -146,7 +146,7 @@ class GoldStandards {
   @Test
   def q5GoldStandard()={
 
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = plug1SensorPath
     val path2 = plug2SensorPath
@@ -171,7 +171,7 @@ class GoldStandards {
   @Test
   def q6GoldStandard(): Unit ={
 
-    val join = new Join()
+    val join = new Concatenate()
     val heatmap = new Heatmap()
     val path1 = gps1SensorPath
     val path2 = gps2SensorPath

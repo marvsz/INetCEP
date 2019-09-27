@@ -60,49 +60,49 @@ class EnvironmentTest extends ExpressionTester with SequentialNestedSuiteExecuti
     node6.registerPrefixToNodes(node5,List(node2))
 
     val wPrefix = new Window().ccnName
-    val jPrefix = new Join().ccnName
+    val jPrefix = new Concatenate().ccnName
     val fPrefix = new nfn.service.Filter().ccnName
     val hPrefix = new Heatmap().ccnName
     val pPrefix = new Prediction2().ccnName
 
     node1.publishService(new Window)
-    node1.publishService(new Join)
+    node1.publishService(new Concatenate)
     node1.publishService(new nfn.service.Filter)
     node1.publishService(new Heatmap)
     node1.publishService(new Prediction2)
 
     node2.publishService(new Window)
-    node2.publishService(new Join)
+    node2.publishService(new Concatenate)
     node2.publishService(new nfn.service.Filter)
     node2.publishService(new Heatmap)
     node2.publishService(new Prediction2)
 
     node3.publishService(new Window)
-    node3.publishService(new Join)
+    node3.publishService(new Concatenate)
     node3.publishService(new nfn.service.Filter)
     node3.publishService(new Heatmap)
     node3.publishService(new Prediction2)
 
     node4.publishService(new Window)
-    node4.publishService(new Join)
+    node4.publishService(new Concatenate)
     node4.publishService(new nfn.service.Filter)
     node4.publishService(new Heatmap)
     node4.publishService(new Prediction2)
 
     node5.publishService(new Window)
-    node5.publishService(new Join)
+    node5.publishService(new Concatenate)
     node5.publishService(new nfn.service.Filter)
     node5.publishService(new Heatmap)
     node5.publishService(new Prediction2)
 
     node6.publishService(new Window)
-    node6.publishService(new Join)
+    node6.publishService(new Concatenate)
     node6.publishService(new nfn.service.Filter)
     node6.publishService(new Heatmap)
     node6.publishService(new Prediction2)
 
     node7.publishService(new Window)
-    node7.publishService(new Join)
+    node7.publishService(new Concatenate)
     node7.publishService(new nfn.service.Filter)
     node7.publishService(new Heatmap)
     node7.publishService(new Prediction2)

@@ -116,7 +116,7 @@ object ComputeServerStarter extends Logging {
           * Updated by Ali on 06.02.18.
           * To make a new service available for computations - it is important to add it here. Once done, named-function interests containing these service names will be available for resolution.
           */
-        node.publishServiceLocalPrefix(new Join())
+        node.publishServiceLocalPrefix(new Concatenate())
         node.publishServiceLocalPrefix(new Window())
         node.publishServiceLocalPrefix(new Filter())
         node.publishServiceLocalPrefix(new Sequence())
