@@ -3,14 +3,14 @@ package nfn.service
 import config.StaticConfig
 import nfn.tools.Helpers
 import org.junit.Test
-class TestJoin2 {
+class TestJoin {
   val sacepicnEnv = StaticConfig.systemPath
   val testData1 = "TestData1Join2"
   val testData2 = "TestData2Join2"
 
   @Test
   def equalLinesequalDelimiter(){
-    val join = new Join2()
+    val join = new Join()
     val window1 = new Window()
     val window2 = new Window()
     val win1 = window1.readRelativeTimedSensor(testData1,5,"S","debugTest")
