@@ -78,26 +78,14 @@ class Join2() extends NFNService {
   def innerjoin(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
     val sb = new StringBuilder
     val delimiter = Helpers.getDelimiterFromLine(left(0))
-    for(leftLine <- left){
-      for(rightLine <- right){
-        if(leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))){
-          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine,joinOnPosRight,delimiter)).append("\n")
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
         }
       }
     }
     sb.toString()
-  }
-
-  /**
-   * removes a column from a given string
-   * @param line one event
-   * @param joinOnPosRight the position in the event tuple to delete
-   * @param delimiter the delimiter which seperates the columns
-   * @return the event without the column to delete
-   */
-  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String)={
-    var newLine = line.split(delimiter).take(joinOnPosRight)
-    newLine.mkString(delimiter)
   }
 
   /**
@@ -112,22 +100,17 @@ class Join2() extends NFNService {
   def leftOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
     val sb = new StringBuilder
     val delimiter = Helpers.getDelimiterFromLine(left(0))
-    for(leftLine <- left){
-      for(rightLine <- right){
-        if(leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))){
-          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine,joinOnPosRight,delimiter)).append("\n")
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
         }
-        else{
-          sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine,delimiter)).append("\n")
+        else {
+          sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
         }
       }
     }
     sb.toString()
-  }
-
-  def generateNullLines(line: String, delimiter: String): Unit ={
-    val columns = line.split(delimiter).size-1
-    Array.fill[String](columns)("Null").mkString(delimiter)
   }
 
   /**
@@ -142,17 +125,35 @@ class Join2() extends NFNService {
   def rightOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
     val sb = new StringBuilder
     val delimiter = Helpers.getDelimiterFromLine(left(0))
-    for(rightLine <- right){
-      for(leftLine <- left){
-        if(rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))){
-          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine,joinOnPosRight,delimiter)).append("\n")
+    for (rightLine <- right) {
+      for (leftLine <- left) {
+        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
         }
-        else{
-          sb.append(generateNullLines(leftLine,delimiter)).append(delimiter).append(rightLine).append("\n")
+        else {
+          sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
         }
       }
     }
     sb.toString()
+  }
+
+  /**
+   * removes a column from a given string
+   *
+   * @param line           one event
+   * @param joinOnPosRight the position in the event tuple to delete
+   * @param delimiter      the delimiter which seperates the columns
+   * @return the event without the column to delete
+   */
+  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String) = {
+    var newLine = line.split(delimiter).take(joinOnPosRight)
+    newLine.mkString(delimiter)
+  }
+
+  def generateNullLines(line: String, delimiter: String): Unit = {
+    val columns = line.split(delimiter).size - 1
+    Array.fill[String](columns)("Null").mkString(delimiter)
   }
 
   /**
@@ -165,7 +166,29 @@ class Join2() extends NFNService {
    * @return the generated output
    */
   def fullOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    " "
+    val sb = new StringBuilder
+    val delimiter = Helpers.getDelimiterFromLine(left(0))
+    for (rightLine <- right) {
+      for (leftLine <- left) {
+        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+        }
+        else {
+          sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
+        }
+      }
+    }
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+        }
+        else {
+          sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
+        }
+      }
+    }
+    sb.toString()
   }
 
   def applyConditions(sensorName: String, stream: Array[String], conditions: String, delimiter: String): Array[String] = {
