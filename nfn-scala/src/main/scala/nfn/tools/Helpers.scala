@@ -20,45 +20,45 @@ import scala.language.postfixOps
 import scala.sys.process._
 
 /**
-  * Created by blacksheeep on 17/11/15.
-  * Updated by Ali on 22/09/2018
-  * Updated by Johannes on 31/01/2019
-  */
+ * Created by blacksheeep on 17/11/15.
+ * Updated by Ali on 22/09/2018
+ * Updated by Johannes on 31/01/2019
+ */
 object Helpers {
   val sacepicnEnv: String = StaticConfig.systemPath
 
   /**
-    * Convert a Array[Byte] to a String (base64 encoding)
-    * Inverse function of stringToByte(...)
-    *
-    * NOTE: Output String has more characters than length of data:Byte[Array] because of base64 encoding.
-    *
-    * @param   data Data to convert
-    * @return Same data as String (base64 encoding)
-    */
+   * Convert a Array[Byte] to a String (base64 encoding)
+   * Inverse function of stringToByte(...)
+   *
+   * NOTE: Output String has more characters than length of data:Byte[Array] because of base64 encoding.
+   *
+   * @param   data Data to convert
+   * @return Same data as String (base64 encoding)
+   */
   def byteToString(data: Array[Byte]): String =
     Base64.getEncoder.encodeToString(data) // note: this is new in java 8
 
 
   /**
-    * Convert a String (base64 encoding) to a Array[Byte].
-    * Inverse function of byteToString(...)
-    *
-    * NOTE: data:String has more characters than length of returned Byte[Array] because of base64 encoding.
-    *
-    * @param   data Data to convert (base64 encoding)
-    * @return Same data as Array[Byte]
-    */
+   * Convert a String (base64 encoding) to a Array[Byte].
+   * Inverse function of byteToString(...)
+   *
+   * NOTE: data:String has more characters than length of returned Byte[Array] because of base64 encoding.
+   *
+   * @param   data Data to convert (base64 encoding)
+   * @return Same data as Array[Byte]
+   */
   def stringToByte(data: String): Array[Byte] =
     Base64.getDecoder.decode(data) // note: this is new in java 8
 
   /**
-    * Writes two strings into a single file placementUtilityFunction
-    *
-    * @param Energy   the Energy data
-    * @param Overhead the overhead used
-    * @return void
-    */
+   * Writes two strings into a single file placementUtilityFunction
+   *
+   * @param Energy   the Energy data
+   * @param Overhead the overhead used
+   * @return void
+   */
   def writeMetricsToStore(Energy: String, Overhead: String): Any = {
     val weights = s"$sacepicnEnv/nodeData/placementUtilityFunction"
     val file1 = new File(weights)
@@ -73,12 +73,12 @@ object Helpers {
   }
 
   /**
-    * Writes a string given as the first arguemtn in the queryOutput and a string given as the second argument in the queryWeightVariance
-    *
-    * @param runAnalysis    a string with all analysis data form the run
-    * @param queryResult a string containing the weight variance
-    * @return void
-    */
+   * Writes a string given as the first arguemtn in the queryOutput and a string given as the second argument in the queryWeightVariance
+   *
+   * @param runAnalysis a string with all analysis data form the run
+   * @param queryResult a string containing the weight variance
+   * @return void
+   */
   def writeOutputFiles(runAnalysis: String, queryResult: String): Any = {
 
     var queryOutput = s"$sacepicnEnv/nodeData/queryOutput"
@@ -92,7 +92,7 @@ object Helpers {
 
     val pw1 = new PrintWriter(new FileOutputStream(file1, true))
 
-    val pw4 = new PrintWriter(new FileOutputStream(file4,true))
+    val pw4 = new PrintWriter(new FileOutputStream(file4, true))
     pw1.println(runAnalysis)
     pw1.close()
     pw4.println("Query Result:")
@@ -101,12 +101,12 @@ object Helpers {
   }
 
   /**
-    * Writes a string given as the first arguemtn in the queryOutput and a string given as the second argument in the queryWeightVariance
-    *
-    * @param runAnalysis    a string with all analysis data form the run
-    * @param weightVariance a string containing the weight variance
-    * @return void
-    */
+   * Writes a string given as the first arguemtn in the queryOutput and a string given as the second argument in the queryWeightVariance
+   *
+   * @param runAnalysis    a string with all analysis data form the run
+   * @param weightVariance a string containing the weight variance
+   * @return void
+   */
   def writeOutputFiles(runAnalysis: String, weightVariance: String, queryResult: String): Any = {
 
     var queryOutput = s"$sacepicnEnv/nodeData/queryOutput"
@@ -125,7 +125,7 @@ object Helpers {
     val pw1 = new PrintWriter(new FileOutputStream(file1, true))
     val pw2 = new PrintWriter(new FileOutputStream(file2, true))
 
-    val pw4 = new PrintWriter(new FileOutputStream(file4,true))
+    val pw4 = new PrintWriter(new FileOutputStream(file4, true))
     pw1.println(runAnalysis)
     pw1.close()
     pw2.println(weightVariance)
@@ -156,7 +156,7 @@ object Helpers {
     val pw1 = new PrintWriter(new FileOutputStream(file1, true))
     val pw2 = new PrintWriter(new FileOutputStream(file2, true))
     val pw3 = new PrintWriter(new FileOutputStream(file3, true))
-    val pw4 = new PrintWriter(new FileOutputStream(file4,true))
+    val pw4 = new PrintWriter(new FileOutputStream(file4, true))
     pw1.println(runAnalysis)
     pw1.close()
     pw2.println(weightVariance)
@@ -199,18 +199,18 @@ object Helpers {
 
   //Overloaded method for QS Storage. The queryService.sh script will use this version and will read queries as per this signature. (11/03/18)
   /**
-    * Stores the initial query in the query store
-    *
-    * @param algorithm      the algorithm of the placement service
-    * @param runID          the id of the run (the one given in the publish remotely script I guess)
-    * @param sourceOfQuery  the client on which the query runs
-    * @param interestOrigin not used
-    * @param clientID       the id of the client
-    * @param query          the actual query
-    * @param region         the region given in the query
-    * @param timestamp      the timestamp given in the query
-    * @return true if the source of the query was not the queryStore (so we do not flood it) or a decentralized query, false otherwise
-    */
+   * Stores the initial query in the query store
+   *
+   * @param algorithm      the algorithm of the placement service
+   * @param runID          the id of the run (the one given in the publish remotely script I guess)
+   * @param sourceOfQuery  the client on which the query runs
+   * @param interestOrigin not used
+   * @param clientID       the id of the client
+   * @param query          the actual query
+   * @param region         the region given in the query
+   * @param timestamp      the timestamp given in the query
+   * @return true if the source of the query was not the queryStore (so we do not flood it) or a decentralized query, false otherwise
+   */
   def save_to_QueryStore(algorithm: String, runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
     //Source is not QueryStore and DecentralizeQuery
     if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
@@ -240,20 +240,20 @@ object Helpers {
 
   //Overloaded method for QS Storage. The queryService.sh script will use this version and will read queries as per this signature. (11/03/18)
   /**
-    * Stores the initial query in the query store
-    *
-    * @param algorithm      the algorithm of the placement service
-    * @param processing     processing type: centralized or decentralized
-    * @param runID          the id of the run (the one given in the publish remotely script I guess)
-    * @param sourceOfQuery  the client on which the query runs
-    * @param interestOrigin not used
-    * @param clientID       the id of the client
-    * @param query          the actual query
-    * @param region         the region given in the query
-    * @param timestamp      the timestamp given in the query
-    * @return true if the source of the query was not the queryStore (so we do not flood it) or a decentralized query, false otherwise
-    */
-  def save_to_QueryStore(algorithm: String, processing:String, runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
+   * Stores the initial query in the query store
+   *
+   * @param algorithm      the algorithm of the placement service
+   * @param processing     processing type: centralized or decentralized
+   * @param runID          the id of the run (the one given in the publish remotely script I guess)
+   * @param sourceOfQuery  the client on which the query runs
+   * @param interestOrigin not used
+   * @param clientID       the id of the client
+   * @param query          the actual query
+   * @param region         the region given in the query
+   * @param timestamp      the timestamp given in the query
+   * @return true if the source of the query was not the queryStore (so we do not flood it) or a decentralized query, false otherwise
+   */
+  def save_to_QueryStore(algorithm: String, processing: String, runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
     //Source is not QueryStore and DecentralizeQuery
     if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
       var filename = s"$sacepicnEnv/nodeData/queryStore"
@@ -305,64 +305,42 @@ object Helpers {
   }
 
   /**
-    * @deprecated not used anymore
-    * Returns the path for the node Information file
-    *
-    * @return the path for the node Information file
-    */
+   * @deprecated not used anymore
+   *             Returns the path for the node Information file
+   * @return the path for the node Information file
+   */
   def getNodeInformationPath: String = {
     s"$sacepicnEnv/nodeData/nodeInformation"
   }
 
   /**
-    * Returns the path for the decentralized k-hop value file
-    *
-    * @return the path for the decentralilzed k-hop value file
-    */
+   * Returns the path for the decentralized k-hop value file
+   *
+   * @return the path for the decentralilzed k-hop value file
+   */
   def getDecentralizedKHops: String = {
     s"$sacepicnEnv/nodeData/Decentralized_KHop"
   }
 
   /**
-    * @deprecated not used anymore since
-    * Returns the decentralized nodeinformation for the given node name
-    *
-    * @param nodeName the name of the node we want to have the decentralized node information for
-    * @return the decentralized node information for the given node name
-    */
+   * @deprecated not used anymore since
+   *             Returns the decentralized nodeinformation for the given node name
+   * @param nodeName the name of the node we want to have the decentralized node information for
+   * @return the decentralized node information for the given node name
+   */
   def getDecentralizedNodeInformation(nodeName: String): String = {
     s"$sacepicnEnv/nodeData/$nodeName"
   }
 
   /**
-    *
-    * @param query
-    * @param nodeName
-    * @param ccnApi
-    * @return
-    */
-  def executeInterestQuery(query: String, nodeName: String, ccnApi: ActorRef): String = {
-    val nameOfContentWithoutPrefixToAdd = CCNName(new String(query).split("/").tail: _*)
-    LogMessage(nodeName, s"execute Interest query ${query} called with ${nodeName}")
-    var result = new String(fetchContentRepeatedly(
-      Interest(nameOfContentWithoutPrefixToAdd),
-      ccnApi,
-      15 seconds).get.data)
-    LogMessage(nodeName, s"Query Result from network node: ${result}")
-    if (result.contains("timeout") || result.contains("interest") || result == "")
-      result = "No Result!"
-    return result
-  }
-
-  /**
-    * Was used to create a CCNQuery and the execute it on the command line
-    *
-    * @param nodeName the nodename that executes the command, used for debugging purposes only
-    * @param query    the query to execute
-    * @param port     the port of the remote node
-    * @param IP       the ip address of the remote node
-    * @return the result of the execution
-    */
+   * Was used to create a CCNQuery and the execute it on the command line
+   *
+   * @param nodeName the nodename that executes the command, used for debugging purposes only
+   * @param query    the query to execute
+   * @param port     the port of the remote node
+   * @param IP       the ip address of the remote node
+   * @return the result of the execution
+   */
   @deprecated("Was used to bypass the face but is not used anymore. Use executeNFNQuery instead.", "02.02.2019")
   def createAndExecCCNQuery(nodeName: String, query: String, port: String, IP: String): String = {
     //var cmd:String = getValueOrDefault("CCN.NFNPeek", "echo No Result!")
@@ -388,17 +366,17 @@ object Helpers {
   }
 
   /**
-    * Not used at the moment
-    * Is responsible to resolve a redirect and fetch larger content
-    *
-    * @param nodeName the nodename that executes the command, used for debugging purposes only
-    * @param query    the query to execute
-    * @param port     the port of the remote node
-    * @param IP       the ip address of the remote node
-    * @return the result of the execution
-    */
+   * Not used at the moment
+   * Is responsible to resolve a redirect and fetch larger content
+   *
+   * @param nodeName the nodename that executes the command, used for debugging purposes only
+   * @param query    the query to execute
+   * @param port     the port of the remote node
+   * @param IP       the ip address of the remote node
+   * @return the result of the execution
+   */
   def createAndExecCCNQueryForRedirect(nodeName: String, query: String, port: String, IP: String): String = {
-    var cmd ="""$CCNL_HOME/bin/ccn-lite-fetch -s ndn2013 -u #IP#/#PORT# "#QUERY#""""
+    var cmd = """$CCNL_HOME/bin/ccn-lite-fetch -s ndn2013 -u #IP#/#PORT# "#QUERY#""""
     cmd = cmd.replace("#IP#", s"${IP}").replace("#PORT#", s"${port}").replace("#QUERY#", query);
     LogMessage(nodeName, s"Query sent to network node: ${cmd}")
     var result = execcmdwithoutformatter(cmd)
@@ -409,24 +387,24 @@ object Helpers {
   }
 
   /**
-    * Not used at the moment
-    * Exevutes a single command
-    *
-    * @param cmd1 the command to execute
-    * @return the result of the executed commaned
-    */
+   * Not used at the moment
+   * Exevutes a single command
+   *
+   * @param cmd1 the command to execute
+   * @return the result of the executed commaned
+   */
   def execcmdwithoutformatter(cmd1: String): String = {
     val result = cmd1.!!
     return result
   }
 
   /**
-    * Returns a LocalTime from a given string
-    *
-    * @param datePart  a string representing the date. either in the form of a unix timestamp or in the form of HH:mm:ss.SSS
-    * @param delimiter the delimiter that separates the values of the tuple.
-    * @return the parsed time in the LocalTime Format
-    */
+   * Returns a LocalTime from a given string
+   *
+   * @param datePart  a string representing the date. either in the form of a unix timestamp or in the form of HH:mm:ss.SSS
+   * @param delimiter the delimiter that separates the values of the tuple.
+   * @return the parsed time in the LocalTime Format
+   */
   def parseTime(datePart: String, delimiter: String): LocalTime = {
     val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
     var dateString = datePart
@@ -440,19 +418,19 @@ object Helpers {
 
       dateString = ("0" + hour).takeRight(2) + ":" + ("0" + minute).takeRight(2) + ":" + ("0" + second).takeRight(2) + ".000"
     }
-    if(delimiter.equals(";")){
-      dateString = datePart.split(" ")(1)+".000"
+    if (delimiter.equals(";")) {
+      dateString = datePart.split(" ")(1) + ".000"
     }
 
     LocalTime.parse(dateString, DateTimeFormat)
   }
 
   /**
-    * Returns the delimiter that separates a tuple of values when given a single line
-    *
-    * @param line one tuple of values
-    * @return the delimiter specifically for this tuple
-    */
+   * Returns the delimiter that separates a tuple of values when given a single line
+   *
+   * @param line one tuple of values
+   * @return the delimiter specifically for this tuple
+   */
   def getDelimiterFromLine(line: String): String = {
     var output: String = ""
     if (line.contains("/"))
@@ -465,11 +443,11 @@ object Helpers {
   }
 
   /**
-    * Returns the position of the date in a tuple when given a delimiter
-    *
-    * @param delimiter the delmiiter that separates the values of the tuple. based on this we can return the position of the date in the tuple
-    * @return the position of the date in the tuple
-    */
+   * Returns the position of the date in a tuple when given a delimiter
+   *
+   * @param delimiter the delmiiter that separates the values of the tuple. based on this we can return the position of the date in the tuple
+   * @return the position of the date in the tuple
+   */
   def getDatePosition(delimiter: String): Int = {
     var output: Int = 0
     if (delimiter.equals("/"))
@@ -482,11 +460,11 @@ object Helpers {
   }
 
   /**
-    * Returns the position of the value in a tuple when given a delimiter
-    *
-    * @param delimiter the delimiter that separates the values of the tuple. based on this we can return the position of the value in the tuple
-    * @return the position of the value in the tuple
-    */
+   * Returns the position of the value in a tuple when given a delimiter
+   *
+   * @param delimiter the delimiter that separates the values of the tuple. based on this we can return the position of the value in the tuple
+   * @return the position of the value in the tuple
+   */
   def getValuePosition(delimiter: String): Int = {
     var output: Int = 0
     if (delimiter.equals("/"))
@@ -499,11 +477,11 @@ object Helpers {
   }
 
   /**
-    * Returns the delimiter that seperates a tuple of values when given a file path
-    *
-    * @param path the path to where the file is located.
-    * @return the delimiter specifically for the tuples in this file
-    */
+   * Returns the delimiter that seperates a tuple of values when given a file path
+   *
+   * @param path the path to where the file is located.
+   * @return the delimiter specifically for the tuples in this file
+   */
   def getDelimiterFromPath(path: String): String = {
     val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
     var output: String = ""
@@ -518,12 +496,12 @@ object Helpers {
   }
 
   /**
-    * Returns the input data as a list of strings
-    *
-    * @param inputSource either name, sensor or data. decides what type of data is used for the input
-    * @param sourceValue either a named interest or a path to a file
-    * @return The input data read from the sourceValue as a list of strings
-    */
+   * Returns the input data as a list of strings
+   *
+   * @param inputSource either name, sensor or data. decides what type of data is used for the input
+   * @param sourceValue either a named interest or a path to a file
+   * @return The input data read from the sourceValue as a list of strings
+   */
   def parseData(inputSource: String, sourceValue: String): List[String] = {
     var output: List[String] = null
     if (inputSource == "sensor") {
@@ -548,10 +526,10 @@ object Helpers {
   }
 
   /**
-    *
-    * @param delimiter the delimiter on which we base our decision on where to find the longitude position
-    * @return the position on where to find the longitude in a given tuple
-    */
+   *
+   * @param delimiter the delimiter on which we base our decision on where to find the longitude position
+   * @return the position on where to find the longitude in a given tuple
+   */
   def getLongitudePosition(delimiter: String): Int = {
     var output: Int = 0
     if (delimiter.equals(";"))
@@ -560,10 +538,10 @@ object Helpers {
   }
 
   /**
-    *
-    * @param delimiter the delimiter on which we base our decision on where to find the latitude position
-    * @return the position on where to find the latitude in a given tuple
-    */
+   *
+   * @param delimiter the delimiter on which we base our decision on where to find the latitude position
+   * @return the position on where to find the latitude in a given tuple
+   */
   def getLattitudePosition(delimiter: String): Int = {
     var output: Int = 0
     if (delimiter.equals(";"))
@@ -572,24 +550,24 @@ object Helpers {
   }
 
   /**
-    * Handles a named interest which can be either a nested query or a named address. Resolves either and returns the wanted data
-    *
-    * @param nodeName The name of the node that has to handle the nfn call
-    * @param stream   The stream of data that is to be handled
-    * @param ccnApi   The actorRef of the caller
-    * @return A string containing the resulting data
-    */
+   * Handles a named interest which can be either a nested query or a named address. Resolves either and returns the wanted data
+   *
+   * @param nodeName The name of the node that has to handle the nfn call
+   * @param stream   The stream of data that is to be handled
+   * @param ccnApi   The actorRef of the caller
+   * @return A string containing the resulting data
+   */
   def handleNamedInputSource(nodeName: String, stream: String, ccnApi: ActorRef) = {
     var intermediateResult = ""
     if (stream.contains("[") && stream.contains("]")) {
       //This means, filter contains RAW window query (named-function): first resolve the window query:
-      val interest = stream.replace("[", "").replace("]", "").replace("{", "\'").replace("}", "\'").replace("(","").replace(")","")
+      val interest = stream.replace("[", "").replace("]", "").replace("{", "\'").replace("}", "\'").replace("(", "").replace(")", "")
       LogMessage(nodeName, s"Intermediate Named-Function is: ${interest}")
-      intermediateResult = Helpers.executeNFNQuery(interest, nodeName, ccnApi,25)
+      intermediateResult = Helpers.executeNFNQuery(interest, nodeName, ccnApi, 25)
       LogMessage(nodeName, s"Intermediate Named-Function Result is: ${intermediateResult}")
 
       if (intermediateResult.contains("/") && intermediateResult.split("/").length > 1) {
-        intermediateResult = executeInterestQuery(intermediateResult,nodeName,ccnApi)
+        intermediateResult = executeInterestQuery(intermediateResult, nodeName, ccnApi)
       }
     }
     else {
@@ -612,32 +590,52 @@ object Helpers {
   }
 
   /**
-    *
-    * @param nodeName The current nodename that wants to fetch the data (for debugging pruposes only)
-    * @param address  the address/named interest to get
-    * @param ccnApi   the actorRef of the current node
-    * @return A string with the result
-    */
+   *
+   * @param query
+   * @param nodeName
+   * @param ccnApi
+   * @return
+   */
+  def executeInterestQuery(query: String, nodeName: String, ccnApi: ActorRef): String = {
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(query).split("/").tail: _*)
+    LogMessage(nodeName, s"execute Interest query ${query} called with ${nodeName}")
+    var result = new String(fetchContentRepeatedly(
+      Interest(nameOfContentWithoutPrefixToAdd),
+      ccnApi,
+      15 seconds).get.data)
+    LogMessage(nodeName, s"Query Result from network node: ${result}")
+    if (result.contains("timeout") || result.contains("interest") || result == "")
+      result = "No Result!"
+    return result
+  }
+
+  /**
+   *
+   * @param nodeName The current nodename that wants to fetch the data (for debugging pruposes only)
+   * @param address  the address/named interest to get
+   * @param ccnApi   the actorRef of the current node
+   * @return A string with the result
+   */
   def fetchFromRemoteNode(nodeName: String, address: String, ccnApi: ActorRef) = {
     val mapping = new NodeMapping()
     LogMessage(nodeName, s"Intermediate Named-Interest is: ${address}")
-    val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${mapping.getName(address.split("/")(1))}/nfn_service_GetContent '${address}')", mapping.getName(address.split("/")(1)), ccnApi,20)
+    val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${mapping.getName(address.split("/")(1))}/nfn_service_GetContent '${address}')", mapping.getName(address.split("/")(1)), ccnApi, 20)
     LogMessage(nodeName, s"Result after fetching: ${intermediateResult}")
     intermediateResult
   }
 
   /**
-    *
-    * @param query    the query to execute
-    * @param nodeName the nodename for debugging purposes
-    * @param ccnApi   the actorRef
-    * @return the result of the execution of the NFNQuery
-    */
+   *
+   * @param query    the query to execute
+   * @param nodeName the nodename for debugging purposes
+   * @param ccnApi   the actorRef
+   * @return the result of the execution of the NFNQuery
+   */
   def executeNFNQuery(query: String, nodeName: String, ccnApi: ActorRef, timeoutAfter: Int): String = {
 
     LogMessage(nodeName, s"execute NFN query ${query} called with ${nodeName}")
     var result = new String(fetchContentRepeatedly(
-      NFNInterest(query),ccnApi,
+      NFNInterest(query), ccnApi,
       timeoutAfter seconds).get.data)
     LogMessage(nodeName, s"Query Result from network node: ${result}");
 
@@ -647,11 +645,11 @@ object Helpers {
   }
 
   /**
-    * Trims the data and adds a # in front of each line
-    *
-    * @param input A string of data
-    * @return a string with a # as a leading symbol
-    */
+   * Trims the data and adds a # in front of each line
+   *
+   * @param input A string of data
+   * @return a string with a # as a leading symbol
+   */
   def trimData(input: String) = {
     val output = new StringBuilder
     if (input != null && input != "") {
@@ -661,8 +659,8 @@ object Helpers {
         .filter(_ != "")
 
       bufferedSource
-        .foreach { line: String =>{
-          if (!line.contains("redirect")){
+        .foreach { line: String => {
+          if (!line.contains("redirect")) {
             output.append(line.toString + "\n")
           }
         }
@@ -672,15 +670,15 @@ object Helpers {
   }
 
   /**
-    * Stores content in the cache of a node
-    *
-    * @param nodeName The name of the node
-    * @param input    The content to store
-    * @param ccnApi   The Actor ref
-    * @param operation The operation that took place
-    * @param onWhat On what the opeartion was performed on
-    * @return An named address that indicates where to find the content
-    */
+   * Stores content in the cache of a node
+   *
+   * @param nodeName  The name of the node
+   * @param input     The content to store
+   * @param ccnApi    The Actor ref
+   * @param operation The operation that took place
+   * @param onWhat    On what the opeartion was performed on
+   * @return An named address that indicates where to find the content
+   */
   def storeOutput(nodeName: String, input: String, operation: String, onWhat: String, ccnApi: ActorRef) = {
     //Return a name that contains the window data. This is a cached content.
     val now = Calendar.getInstance()
@@ -698,21 +696,22 @@ object Helpers {
 
   /**
    * Returns the column number for a sensor and a given column name
+   *
    * @param sensorName the name of the sensor
    * @param columnName the name of the column
    * @return the id of the column
    */
-  def getColumnNumber(sensorName: String, columnName:String):Int={
+  def getColumnNumber(sensorName: String, columnName: String): Int = {
     val broker = SchemaBrokerSingleton.getInstance()
     broker.getColumnId(sensorName, columnName)
   }
 
-  def joinSensors(leftSensorName: String, rightSensorName:String, joinOn:String, conditions:String)={
+  def joinSensors(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) = {
     val broker = SchemaBrokerSingleton.getInstance()
-    broker.joinSchema(joinOn,conditions,leftSensorName,rightSensorName)
+    broker.joinSchema(joinOn, conditions, leftSensorName, rightSensorName)
   }
 
-  def getSchema(sensorName:String)={
+  def getSchema(sensorName: String) = {
     val broker = SchemaBrokerSingleton.getInstance()
     broker.getSchema(sensorName).toArray().mkString(",")
   }
@@ -723,7 +722,7 @@ object Helpers {
    * @param leftSensorName  the name of the first data stream
    * @param rightSensorName the name of the second data stream
    * @param joinOn          the column on which to join on
-   * @param conditions the conditions
+   * @param conditions      the conditions
    * @return the new name of the joined schemas
    */
   def getJoinedSchemaName(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) =
