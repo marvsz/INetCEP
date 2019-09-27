@@ -143,37 +143,35 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def leftOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    var outerJoinDone = false
+    var joinFound = false
+    var rightColumn = 0
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
     for (leftLine <- left) {
       for (rightLine <- right) {
+        rightColumn = rightLine.split(delimiter).size - 1
         if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
-          outerJoinDone = true
-        }
-        else {
-          if(!outerJoinDone){
-            sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
-            outerJoinDone = true
-          }
-
+          joinFound = true
         }
       }
+      if(!joinFound){
+        sb.append(leftLine).append(delimiter).append(generateNullLines(rightColumn, delimiter)).append("\n")
+      }
+      joinFound = false
     }
     sb.toString()
   }
 
   /**
-   * Takes a row and replaces each value minus one with Null
+   * Generates a row with a null values
    * This is used for outer Joins where there are mismatches
    *
-   * @param line      a row of data tuples
+   * @param columns: the number of required null values
    * @param delimiter the delimiter which separates the columns
    * @return the row filled with x -1 null values where x is the number of columns
    */
-  def generateNullLines(line: String, delimiter: String) = {
-    val columns = line.split(delimiter).size - 1
+  def generateNullLines(columns : Int, delimiter: String) = {
     Array.fill[String](columns)("Null").mkString(delimiter)
   }
 
@@ -187,23 +185,22 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def rightOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    var outerJoinDone = false
+    var joinFound = false
+    var leftColumn = 0
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
     for (rightLine <- right) {
       for (leftLine <- left) {
+        leftColumn = leftLine.split(delimiter).size - 1
         if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
-          outerJoinDone = true
-        }
-        else {
-          if(!outerJoinDone){
-            sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
-            outerJoinDone = true
-          }
-
+          joinFound = true
         }
       }
+      if(!joinFound){
+        sb.append(generateNullLines(leftColumn, delimiter)).append(delimiter).append(rightLine).append("\n")
+      }
+      joinFound = false
     }
     sb.toString()
   }
@@ -218,37 +215,38 @@ class Join() extends NFNService {
    * @return the generated output
    */
   def fullOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
-    var outerJoinDone = false
+    var joinFound = false
+    var columnCount = 0
     val sb = new StringBuilder
     val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
-    for (rightLine <- right) {
-      for (leftLine <- left) {
-        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
-          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
-          outerJoinDone = true
-        }
-        else {
-          if(!outerJoinDone){
-            sb.append(generateNullLines(leftLine, delimiter)).append(delimiter).append(rightLine).append("\n")
-            outerJoinDone = true
-          }
-        }
-      }
-    }
-    outerJoinDone = false
     for (leftLine <- left) {
       for (rightLine <- right) {
+        columnCount = rightLine.split(delimiter).size - 1
         if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
           sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
-          outerJoinDone = true
-        }
-        else {
-          if(!outerJoinDone){
-            sb.append(leftLine).append(delimiter).append(generateNullLines(rightLine, delimiter)).append("\n")
-            outerJoinDone = true
-          }
+          joinFound = true
         }
       }
+      if(!joinFound){
+        sb.append(leftLine).append(delimiter).append(generateNullLines(columnCount, delimiter)).append("\n")
+      }
+      joinFound = false
+    }
+
+    for (rightLine <- right) {
+      for (leftLine <- left) {
+        columnCount = leftLine.split(delimiter).size - 1
+        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
+          val maybeElement = leftLine.concat(delimiter).concat(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).concat("\n")
+          if(!sb.toString().contains(maybeElement))
+            sb.append(maybeElement)
+          joinFound = true
+        }
+      }
+      if(!joinFound){
+        sb.append(generateNullLines(columnCount, delimiter)).append(delimiter).append(rightLine).append("\n")
+      }
+      joinFound = false
     }
     sb.toString()
   }

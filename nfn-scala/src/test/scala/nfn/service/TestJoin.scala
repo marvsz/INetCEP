@@ -19,7 +19,7 @@ class TestJoin {
     val sensor2Name = "Survivors"
     val joinOn = "Gender"
     val conditions = ""
-    val joinType = "leftouterjoin"
+    val joinType = "innerJoin"
     System.out.println("New Schema:")
     val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
     val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
