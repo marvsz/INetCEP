@@ -706,14 +706,31 @@ object Helpers {
     broker.getColumnId(sensorName, columnName)
   }
 
+  /**
+   * Call to the joinSchema function of the Schema Broker
+   * @param leftSensorName the name of the first Sensor
+   * @param rightSensorName the name of the second Sensor
+   * @param joinOn the name of the Column on which to join on
+   * @param conditions the conditions on which to join on
+   * @return true if the new sensor schema was created, false otherwise.
+   */
   def joinSensors(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) = {
     val broker = SchemaBrokerSingleton.getInstance()
     broker.joinSchema(joinOn, conditions, leftSensorName, rightSensorName)
   }
 
+  /**
+   * Returns the Column Names of a Schema separated by commas
+   * @param sensorName the name of the sensor for which we want the schema for
+   * @return the column names of the request schema separated by commas if the sensor exists, ohterwise an error Message
+   */
   def getSchema(sensorName: String) = {
     val broker = SchemaBrokerSingleton.getInstance()
-    broker.getSchema(sensorName).toArray().mkString(",")
+    val schema = broker.getSchema(sensorName)
+    if (schema!=null)
+      schema.toArray().mkString(",")
+    else
+      "Schema does not exist"
   }
 
   /**
