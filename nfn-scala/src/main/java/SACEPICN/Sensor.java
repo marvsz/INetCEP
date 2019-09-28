@@ -53,4 +53,16 @@ public class Sensor {
         tupleToRead++;
         return data.get(tupleToRead);
     }
+
+    public Set<String> getSchema(){
+        return this.schema;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
+    public String getId(){
+        return this.id;
+    }
 }
