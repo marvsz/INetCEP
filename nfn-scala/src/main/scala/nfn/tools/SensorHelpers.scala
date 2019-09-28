@@ -4,7 +4,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-import SACEPICN.SchemaBrokerSingleton
+import SACEPICN.{ConnectedSensorsSingleton, SchemaBrokerSingleton, Sensor}
 import nfn.tools.Helpers.sacepicnEnv
 
 import scala.io.Source
@@ -242,4 +242,16 @@ object SensorHelpers {
    */
   def getJoinedSchemaName(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) =
     "Join(".concat(leftSensorName).concat(",").concat(rightSensorName).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")")
+
+  def addSensor(filename:String, delimiter:String){
+    val connectedSensors = ConnectedSensorsSingleton.getInstance()
+    val broker = SchemaBrokerSingleton.getInstance()
+    connectedSensors.addSensor(filename,new Sensor(delimiter.charAt(0),filename))
+    val schemaInserted = broker.insertSchema(connectedSensors.getSensor(filename).getType,connectedSensors.getSensor(filename).getSchema)
+  }
+
+  def removeSensor(sensorName:String){
+    val connectedSensors = ConnectedSensorsSingleton.getInstance()
+    connectedSensors.removeSensor(sensorName)
+  }
 }
