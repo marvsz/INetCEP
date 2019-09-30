@@ -964,6 +964,7 @@ ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     }
     fwd->prefix = pfx;
     fwd->face = face;
+
     DEBUGMSG_CUTL(DEBUG, "added FIB via %s\n", ccnl_addr2ascii(&fwd->face->peer));
 
     return 0;
@@ -1002,7 +1003,13 @@ ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
             break;
         }
     }
-    DEBUGMSG_CUTL(DEBUG, "added FIB via %s\n", ccnl_addr2ascii(&fwd->face->peer));
+    if (fwd) {
+        if (fwd->face) {
+            if (fwd->face->peer) {
+                DEBUGMSG_CUTL(DEBUG, "added FIB via %s\n", ccnl_addr2ascii(&fwd->face->peer));
+            }
+        }
+    }
 
     return res;
 }
