@@ -35,6 +35,11 @@ target_link_libraries(test_producer ccnl-core cmocka)
 target_link_libraries(test_producer ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
 add_test(test_producer test_producer)
 
+add_executable(test_content test_content.c)
+target_link_libraries(test_content ccnl-core ccnl-pkt cmocka)
+target_link_libraries(test_content ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
+add_test(test_content test_content)
+
 add_executable(test_prefix test_prefix.c)
 target_link_libraries(test_prefix ccnl-core ccnl-fwd ccnl-pkt ccnl-unix cmocka)
 target_link_libraries(test_prefix ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
