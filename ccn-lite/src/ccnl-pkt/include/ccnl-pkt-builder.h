@@ -22,10 +22,9 @@
 
 #include "../../ccnl-core/include/ccnl-core.h"
 
+#include "../../ccnl-core/include/ccnl-pkt.h"
 #include "../include/ccnl-pkt-ccnb.h"
 #include "../include/ccnl-pkt-ccntlv.h"
-#include "../include/ccnl-pkt-cistlv.h"
-#include "../include/ccnl-pkt-iottlv.h"
 #include "../include/ccnl-pkt-ndntlv.h"
 #include "../include/ccnl-pkt-switch.h"
 #include "../include/ccnl-pkt-localrpc.h"
@@ -44,17 +43,6 @@ int ccntlv_isData(unsigned char *buf, int len);
 int ccntlv_isFragment(unsigned char *buf, int len);
 #endif // USE_SUITE_CCNTLV
 
-#ifdef USE_SUITE_CISTLV
-
-int cistlv_isData(unsigned char *buf, int len);
-#endif // USE_SUITE_CISTLV
-
-#ifdef USE_SUITE_IOTTLV
-int iottlv_isReply(unsigned char *buf, int len);
-
-int iottlv_isFragment(unsigned char *buf, int len);
-#endif // USE_SUITE_IOTTLV
-
 #ifdef  USE_SUITE_NDNTLV
 int ndntlv_isData(unsigned char *buf, int len);
 #endif //USE_SUITE_NDNTLV
@@ -69,25 +57,27 @@ ccnl_isFragment(unsigned char *buf, int len, int suite);
 
 struct ccnl_content_s *
 ccnl_mkContentObject(struct ccnl_prefix_s *name,
-                     unsigned char *payload, int paylen);
+                     unsigned char *payload, int paylen,
+                     ccnl_data_opts_u *opts);
 
 struct ccnl_buf_s*
 ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
-                     unsigned char *payload, int paylen, int *payoffset);
+                     unsigned char *payload, int paylen, int *payoffset,
+                     ccnl_data_opts_u *opts);
 
 void
 ccnl_mkContent(struct ccnl_prefix_s *name, unsigned char *payload, int paylen, unsigned char *tmp,
-               int *len, int *contentpos, int *offs);
+               int *len, int *contentpos, int *offs, ccnl_data_opts_u *opts);
 
 
 struct ccnl_interest_s *
-ccnl_mkInterestObject(struct ccnl_prefix_s *name, int *nonce);
+ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
 
 struct ccnl_buf_s*
-ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, int *nonce);
+ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
 
 void
-ccnl_mkInterest(struct ccnl_prefix_s *name, int *nonce, unsigned char *tmp,
+ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, unsigned char *tmp,
                 int *len, int *offs);
 
 #endif

@@ -20,13 +20,13 @@
  * 2013-04-11 created
  */
 
-void null_func();
+void null_func(void);
 
 #ifdef USE_HTTP_STATUS
 
 
-#include "../include/ccnl-http-status.h"
-#include "../include/ccnl-os-time.h"
+#include "ccnl-http-status.h"
+#include "ccnl-os-time.h"
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +36,7 @@ ccnl_http_new(struct ccnl_relay_s *ccnl, int serverport)
     int s, i = 1;
     struct sockaddr_in me;
     struct ccnl_http_s *http;
+    (void) ccnl;
 
     s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (!s) {
@@ -85,6 +86,7 @@ int
 ccnl_http_anteselect(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http,
                      fd_set *readfs, fd_set *writefs, int *maxfd)
 {
+    (void) ccnl;
     if (!http)
         return -1;
     if (!http->client) {
@@ -92,7 +94,7 @@ ccnl_http_anteselect(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http,
         if (*maxfd <= http->server)
             *maxfd = http->server + 1;
     } else {
-        if (http->inlen < sizeof(http->in))
+        if ((unsigned long)http->inlen < sizeof(http->in))
             FD_SET(http->client, readfs);
         if (http->outlen > 0)
             FD_SET(http->client, writefs);
@@ -199,6 +201,7 @@ ccnl_http_status(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http)
     struct ccnl_forward_s *fwd;
     struct ccnl_interest_s *ipt;
     struct ccnl_buf_s *bpt;
+    char s[CCNL_MAX_PREFIX_SIZE];
 
     strcpy(txt, hdr);
     len += sprintf(txt+len,
@@ -243,7 +246,7 @@ ccnl_http_status(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http)
                 sprintf(fname, "?");
             len += sprintf(txt+len,
                            "<li>via %4s: <font face=courier>%s</font>\n",
-                           fname, ccnl_prefix_to_path(fwda[i]->prefix));
+                           fname, ccnl_prefix_to_str(fwda[i]->prefix,s,CCNL_MAX_PREFIX_SIZE));
         }
         ccnl_free(fwda);
     }

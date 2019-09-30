@@ -25,11 +25,6 @@
 #include "../../ccnl-nfn/include/ccnl-nfn-common.h"
 #endif
 #include "../include/ccnl-core.h"
-#ifdef USE_SUITE_COMPRESSED
-#ifdef USE_SUITE_NDNTLV
-#include "../../ccnl-pkt-compression/incldue/ccnl-pkt-ndn-compression.h"
-#endif //USE_SUITE_NDNTLV
-#endif //USE_SUITE_COMPRESSED
 #include <stdio.h>
 #include <inttypes.h>
 #include <assert.h>
@@ -37,6 +32,9 @@
 #include "../include/ccnl-core.h"
 #endif //CCNL_LINUXKERNEL
 
+#ifdef CCNL_RIOT
+#include "ccn-lite-riot.h"
+#endif
 
 
 
@@ -60,8 +58,12 @@ ccnl_get_face_or_create(struct ccnl_relay_s *ccnl, int ifndx,
                 return f;
             continue;
         }
-        if (ifndx != -1 && !ccnl_addr_cmp(&f->peer, (sockunion*)sa)) {
+        if (ifndx != -1 && (f->ifndx == ifndx) &&
+            !ccnl_addr_cmp(&f->peer, (sockunion*)sa)) {
             f->last_used = CCNL_NOW();
+#ifdef CCNL_RIOT
+            ccnl_evtimer_reset_face_timeout(f);
+#endif
             return f;
         }
     }
@@ -103,6 +105,11 @@ ccnl_get_face_or_create(struct ccnl_relay_s *ccnl, int ifndx,
     DBL_LINKED_LIST_ADD(ccnl->faces, f);
 
     TRACEOUT();
+
+#ifdef CCNL_RIOT
+    ccnl_evtimer_reset_face_timeout(f);
+#endif
+
     return f;
 }
 
@@ -268,19 +275,7 @@ int
 ccnl_send_pkt(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                 struct ccnl_pkt_s *pkt)
 {
-#ifdef USE_SUITE_COMPRESSED
-#ifdef USE_SUITE_NDNTLV
-     struct ccnl_pkt_s *pkt_compressed = ccnl_pkt_ndn_compress(pkt);
-     if(!pkt_compressed) return 0;
-
-     int ret = ccnl_face_enqueue(ccnl, to, buf_dup(pkt_compressed->buf));
-     ccnl_free(pkt_compressed->pfx->comp[0]);
-     ccnl_pkt_free(pkt_compressed);
-     return ret;
-#endif //USE_SUITE_NDNTLV
-#else
     return ccnl_face_enqueue(ccnl, to, buf_dup(pkt->buf));
-#endif //USE_SUITE_COMPRESSED
 }
 
 int
@@ -328,23 +323,31 @@ struct ccnl_interest_s*
 ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   struct ccnl_pkt_s **pkt)
 {
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
+
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                             sizeof(struct ccnl_interest_s));
-    char *s = NULL;
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
-                  (s = ccnl_prefix_to_path((*pkt)->pfx)),
+                  ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
-    ccnl_free(s);
 
     if (!i)
         return NULL;
     i->pkt = *pkt;
+    /* currently, the aging function relies on seconds rather than on milli seconds */
+    i->lifetime = (*pkt)->s.ndntlv.interestlifetime / 1000;
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
     DBL_LINKED_LIST_ADD(ccnl->pit, i);
+
+#ifdef CCNL_RIOT
+    ccnl_evtimer_reset_interest_retrans(i);
+    ccnl_evtimer_reset_interest_timeout(i);
+#endif
 
     return i;
 }
@@ -366,6 +369,12 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
         return i->next;
 #endif
 */
+
+#ifdef CCNL_RIOT
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_retrans);
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_timeout);
+#endif
+
     while (i->pending) {
         struct ccnl_pendint_s *tmp = i->pending->next;          \
         ccnl_free(i->pending);
@@ -388,7 +397,9 @@ ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
 {
     struct ccnl_forward_s *fwd;
     int rc = 0;
-    char *s = NULL;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
+
 #if defined(USE_NACK) || defined(USE_RONR)
     int matching_face = 0;
 #endif
@@ -431,10 +442,9 @@ ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
             }
 
             DEBUGMSG_CFWD(INFO, "  outgoing interest=<%s> nonce=%i to=%s\n",
-                          (s = ccnl_prefix_to_path(i->pkt->pfx)), nonce,
+                          ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), nonce,
                           fwd->face ? ccnl_addr2ascii(&fwd->face->peer)
                                     : "<tap>");
-            ccnl_free(s);
 #ifdef USE_NFN_MONITOR
             ccnl_nfn_monitor(ccnl, fwd->face, i->pkt->pfx, NULL, 0);
 #endif //USE_NFN_MONITOR
@@ -549,6 +559,9 @@ ccnl_content_remove(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     ccnl_free(c);
 
     ccnl->contentcnt--;
+#ifdef CCNL_RIOT
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&c->evtmsg_cstimeout);
+#endif
     return c2;
 }
 
@@ -556,14 +569,15 @@ struct ccnl_content_s*
 ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 {
     struct ccnl_content_s *cit;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
 
-    char *s = NULL;
     DEBUGMSG_CORE(DEBUG, "ccnl_content_add2cache (%d/%d) --> %p = %s [%d]\n",
                   ccnl->contentcnt, ccnl->max_cache_entries,
-                  (void*)c, (s = ccnl_prefix_to_path(c->pkt->pfx)), (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1);
-    ccnl_free(s);
+                  (void*)c, ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1);
+
     for (cit = ccnl->contents; cit; cit = cit->next) {
-        if (c == cit) {
+        if (ccnl_prefix_cmp(c->pkt->pfx, NULL, cit->pkt->pfx, CMP_EXACT) == 0) {
             DEBUGMSG_CORE(DEBUG, "--- Already in cache ---\n");
             return NULL;
         }
@@ -575,7 +589,7 @@ ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     if (ccnl->max_cache_entries > 0 &&
         ccnl->contentcnt >= ccnl->max_cache_entries) { // remove oldest content
         struct ccnl_content_s *c2, *oldest = NULL;
-        int age = 0;
+        uint32_t age = 0;
         for (c2 = ccnl->contents; c2; c2 = c2->next) {
              if (!(c2->flags & CCNL_CONTENT_FLAGS_STATIC)) {
                  if ((age == 0) || c2->last_used < age) {
@@ -593,6 +607,12 @@ ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
          (ccnl->contentcnt <= ccnl->max_cache_entries)) {
             DBL_LINKED_LIST_ADD(ccnl->contents, c);
             ccnl->contentcnt++;
+#ifdef CCNL_RIOT
+            /* set cache timeout timer if content is not static */
+            if (!(c->flags & CCNL_CONTENT_FLAGS_STATIC)) {
+                ccnl_evtimer_set_cs_timeout(c);
+            }
+#endif
     }
 
     return c;
@@ -604,8 +624,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     struct ccnl_interest_s *i;
     struct ccnl_face_s *f;
     int cnt = 0;
-    char *s = NULL;
     DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pending\n");
+    char s[CCNL_MAX_PREFIX_SIZE];
 
  #ifdef USE_TIMEOUT_KEEPALIVE // TODO: shouldn't this be USE_NFN_REQUESTS?
      if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
@@ -646,24 +666,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 #ifdef USE_SUITE_CCNTLV
         case CCNL_SUITE_CCNTLV:
             if (ccnl_prefix_cmp(c->pkt->pfx, NULL, i->pkt->pfx, CMP_EXACT)) {
-                // XX must also check keyid
-                i = i->next;
-                continue;
-            }
-            break;
-#endif
-#ifdef USE_SUITE_CISTLV
-        case CCNL_SUITE_CISTLV:
-            if (ccnl_prefix_cmp(c->pkt->pfx, NULL, i->pkt->pfx, CMP_EXACT)) {
-                // XX must also check keyid
-                i = i->next;
-                continue;
-            }
-            break;
-#endif
-#ifdef USE_SUITE_IOTTLV
-        case CCNL_SUITE_IOTTLV:
-          if (ccnl_prefix_cmp(c->pkt->pfx, NULL, i->pkt->pfx, CMP_EXACT)) {
                 // XX must also check keyid
                 i = i->next;
                 continue;
@@ -722,16 +724,15 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 #endif
 #ifndef CCNL_LINUXKERNEL
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%"PRIi32" to=%s\n",
-                          (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                          ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                           ccnl_addr2ascii(&pi->face->peer));
 #else
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%d to=%s\n",
-                          (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                          ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                           ccnl_addr2ascii(&pi->face->peer));
 #endif
-                ccnl_free(s);
                 DEBUGMSG_CORE(VERBOSE, "    Serve to face: %d (pkt=%p)\n",
                          pi->face->faceid, (void*) c->pkt);
 #ifdef USE_NFN_MONITOR
@@ -767,13 +768,11 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     return cnt;
 }
 
-#define DEBUGMSG_AGEING(trace, debug)                  \
-char *s = NULL;                                        \
+#define DEBUGMSG_AGEING(trace, debug, buf, buf_len)    \
 DEBUGMSG_CORE(TRACE, "%s %p\n", (trace), (void*) i);   \
 DEBUGMSG_CORE(DEBUG, " %s 0x%p <%s>\n", (debug),       \
     (void*)i,                                          \
-    (s = ccnl_prefix_to_path(i->pkt->pfx)));           \
-ccnl_free(s);
+    ccnl_prefix_to_str(i->pkt->pfx,buf,buf_len));
 
 void
 ccnl_do_ageing(void *ptr, void *dummy)
@@ -786,49 +785,59 @@ ccnl_do_ageing(void *ptr, void *dummy)
     time_t t = CCNL_NOW();
     DEBUGMSG_CORE(VERBOSE, "ageing t=%d\n", (int)t);
     (void) dummy;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
 
     while (c) {
-        if ((c->last_used + CCNL_CONTENT_TIMEOUT) <= t &&
+        if ((c->last_used + CCNL_CONTENT_TIMEOUT) <= (uint32_t) t &&
                                 !(c->flags & CCNL_CONTENT_FLAGS_STATIC)){
             DEBUGMSG_CORE(TRACE, "AGING: CONTENT REMOVE %p\n", (void*) c);
             c = ccnl_content_remove(relay, c);
         }
-        else
+        else {
+#ifdef USE_SUITE_NDNTLV
+            if (c->pkt->suite == CCNL_SUITE_NDNTLV) {
+                if ((c->last_used + (c->pkt->s.ndntlv.freshnessperiod / 1000)) <= (uint32_t) t) {
+                    c->stale = true;
+                }
+            }
+#endif
             c = c->next;
+        }
     }
     while (i) { // CONFORM: "Entries in the PIT MUST timeout rather
                 // than being held indefinitely."
-        if ((i->last_used + CCNL_INTEREST_TIMEOUT) <= t ||
+        if ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT) {
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
-                    DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest");
+                    DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (ccnl_nfnprefix_isIntermediate(i->pkt->pfx)) {
-                    DEBUGMSG_AGEING("AGING: REMOVE INTERMEDIATE INTEREST", "timeout: remove interest");
+                    DEBUGMSG_AGEING("AGING: REMOVE INTERMEDIATE INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (!(ccnl_nfnprefix_isKeepalive(i->pkt->pfx))) {
                     if (i->keepalive == NULL) {
                         if (ccnl_nfn_already_computing(relay, i->pkt->pfx)) {
-                            DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: already computing");
+                            DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: already computing", s, CCNL_MAX_PREFIX_SIZE);
                             i->last_used = CCNL_NOW();
                             i->retries = 0;
                         } else {
-                            DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: request status info");
+                            DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: request status info", s, CCNL_MAX_PREFIX_SIZE);
                             ccnl_nfn_interest_keepalive(relay, i);
                         }
                     } else {
-                        DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: wait for status info");
+                        DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: wait for status info", s, CCNL_MAX_PREFIX_SIZE);
                     }
                     i = i->next;
                 } else {
-                    DEBUGMSG_AGEING("AGING: REMOVE KEEP ALIVE INTEREST", "timeout: remove keep alive interest");
+                    DEBUGMSG_AGEING("AGING: REMOVE KEEP ALIVE INTEREST", "timeout: remove keep alive interest", s, CCNL_MAX_PREFIX_SIZE);
                     struct ccnl_interest_s *origin = i->keepalive_origin;
                     ccnl_nfn_interest_remove(relay, origin);
                     i = ccnl_nfn_interest_remove(relay, i);
                 }
 #else // USE_NFN_REQUESTS
-                DEBUGMSG_AGEING("AGING: REMOVE INTEREST", "timeout: remove interest");
+                DEBUGMSG_AGEING("AGING: REMOVE INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef USE_NFN
                 i = ccnl_nfn_interest_remove(relay, i);
 #else
@@ -838,10 +847,8 @@ ccnl_do_ageing(void *ptr, void *dummy)
         } else {
             // CONFORM: "A node MUST retransmit Interest Messages
             // periodically for pending PIT entries."
-            char *s = NULL;
             DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
-                     (s = ccnl_prefix_to_path(i->pkt->pfx)));
-            ccnl_free(s);
+                     ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
 #ifdef USE_NFN
             if (i->flags & CCNL_PIT_COREPROPAGATES){
 #endif
@@ -928,11 +935,11 @@ ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                    struct ccnl_face_s *face)
 {
     struct ccnl_forward_s *fwd, **fwd2;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
 
-    char *s = NULL;
     DEBUGMSG_CUTL(INFO, "adding FIB for <%s>, suite %s\n",
-             (s = ccnl_prefix_to_path(pfx)), ccnl_suite2str(pfx->suite));
-    ccnl_free(s);
+             ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
 
     for (fwd = relay->fib; fwd; fwd = fwd->next) {
         if (fwd->suite == pfx->suite &&
@@ -967,12 +974,13 @@ ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     struct ccnl_forward_s *fwd;
     int res = -1;
     struct ccnl_forward_s *last = NULL;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
 
     if (pfx != NULL) {
         char *s = NULL;
         DEBUGMSG_CUTL(INFO, "removing FIB for <%s>, suite %s\n",
-                      (s = ccnl_prefix_to_path(pfx)), ccnl_suite2str(pfx->suite));
-        ccnl_free(s);
+                      ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
     }
 
     for (fwd = relay->fib; fwd; last = fwd, fwd = fwd->next) {
@@ -1002,7 +1010,7 @@ void
 ccnl_fib_show(struct ccnl_relay_s *relay)
 {
 #ifndef CCNL_LINUXKERNEL
-    char *s = NULL;
+    char s[CCNL_MAX_PREFIX_SIZE];
     struct ccnl_forward_s *fwd;
 
     printf("%-30s | %-10s | %-9s | Peer\n",
@@ -1016,7 +1024,7 @@ ccnl_fib_show(struct ccnl_relay_s *relay)
     puts("-------------------------------|------------|-----------|------------------------------------");
 
     for (fwd = relay->fib; fwd; fwd = fwd->next) {
-        printf("%-30s | %-10s |        %02i | %s\n", (s = ccnl_prefix_to_path(fwd->prefix)),
+        printf("%-30s | %-10s |        %02i | %s\n", ccnl_prefix_to_str(fwd->prefix,s,CCNL_MAX_PREFIX_SIZE),
                                      ccnl_suite2str(fwd->suite), (int)
                                      /* TODO: show correct interface instead of always 0 */
 #ifdef CCNL_RIOT
@@ -1025,7 +1033,6 @@ ccnl_fib_show(struct ccnl_relay_s *relay)
                                      (relay->ifs[0]).sock,
 #endif
                                      ccnl_addr2ascii(&fwd->face->peer));
-        ccnl_free(s);
     }
 #endif
 }
@@ -1036,14 +1043,15 @@ ccnl_cs_dump(struct ccnl_relay_s *ccnl)
 #ifndef CCNL_LINUXKERNEL
     struct ccnl_content_s *c = ccnl->contents;
     unsigned i = 0;
-    char *s;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
+
     while (c) {
-        printf("CS[%u]: %s [%d]: %s\n", i++,
-               (s = ccnl_prefix_to_path(c->pkt->pfx)),
+        printf("CS[%u]: %s [%d]: %.*s\n", i++,
+               ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1,
-               c->pkt->content);
+               c->pkt->contlen, c->pkt->content);
         c = c->next;
-        ccnl_free(s);
     }
 #endif
 }
@@ -1079,4 +1087,65 @@ ccnl_interface_CTS(void *aux1, void *aux2)
         req.txdone(req.txdone_face, 1, req.buf->datalen);
 #endif
     ccnl_free(req.buf);
+}
+
+int
+ccnl_cs_add(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
+{
+    struct ccnl_content_s *content;
+
+    content = ccnl_content_add2cache(ccnl, c);
+    if (content) {
+        ccnl_content_serve_pending(ccnl, content);
+        return 0;
+    }
+
+    return -1;
+}
+
+int
+ccnl_cs_remove(struct ccnl_relay_s *ccnl, char *prefix)
+{
+    struct ccnl_content_s *c;
+
+    if (!ccnl || !prefix) {
+        return -1;
+    }
+
+    for (c = ccnl->contents; c; c = c->next) {
+        char *spref = ccnl_prefix_to_path(c->pkt->pfx);
+        if (!spref) {
+            return -2;
+        }
+        if (memcmp(prefix, spref, strlen(spref)) == 0) {
+            ccnl_free(spref);
+            ccnl_content_remove(ccnl, c);
+            return 0;
+        }
+        ccnl_free(spref);
+    }
+    return -3;
+}
+
+struct ccnl_content_s *
+ccnl_cs_lookup(struct ccnl_relay_s *ccnl, char *prefix)
+{
+    struct ccnl_content_s *c;
+
+    if (!ccnl || !prefix) {
+        return NULL;
+    }
+
+    for (c = ccnl->contents; c; c = c->next) {
+        char *spref = ccnl_prefix_to_path(c->pkt->pfx);
+        if (!spref) {
+            return NULL;
+        }
+        if (memcmp(prefix, spref, strlen(spref)) == 0) {
+            ccnl_free(spref);
+            return c;
+        }
+        ccnl_free(spref);
+    }
+    return NULL;
 }

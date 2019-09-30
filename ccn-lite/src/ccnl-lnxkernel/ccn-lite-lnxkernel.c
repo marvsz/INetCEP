@@ -38,8 +38,6 @@
 // #define USE_SIGNATURES
 #define USE_SUITE_CCNB          // must select this for USE_MGMT
 #define USE_SUITE_CCNTLV
-#define USE_SUITE_CISTLV
-#define USE_SUITE_IOTTLV
 #define USE_SUITE_NDNTLV
 #define USE_UNIXSOCKET
 
@@ -99,6 +97,8 @@
 //#include <ccnl-dispatch.h>
 #include "../../ccnl-core/include/ccnl-malloc.h"
 //#include <ccnl-malloc.h>
+#include "../../ccnl-core/include/ccnl-producer.h"
+//#include <ccnl-producer.h>
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 //#include <ccnl-pkt-switch.h>
 
@@ -109,14 +109,8 @@
 #ifdef USE_SUITE_CCNTLV
 #include "../../ccnl-pkt/src/ccnl-pkt-ccntlv.c"
 #endif
-#ifdef USE_SUITE_CISTLV
-#include "../../ccnl-pkt/src/ccnl-pkt-cistlv.c"
-#endif
 #ifdef USE_SUITE_CCNB
 #include "../../ccnl-pkt/src/ccnl-pkt-ccnb.c"
-#endif
-#ifdef USE_SUITE_IOTTLV
-#include "../../ccnl-pkt/src/ccnl-pkt-iottlv.c"
 #endif
 #include "../../ccnl-core/src/ccnl-pkt.c"
 #include "../../ccnl-core/src/ccnl-logging.c"
@@ -139,7 +133,6 @@
 #define assert(p) do{if(!p){DEBUGMSG(FATAL,"assertion violated %s:%d\n",__FILE__,__LINE__);}}while(0)
 
 #define ccnl_app_RX(x,y)                do{}while(0)
-//#define local_producer(...)             0
 
 #define cache_strategy_remove(...)      0
 
@@ -151,12 +144,6 @@ static int ccnl_eth_RX(struct sk_buff *skb, struct net_device *indev,
                       struct packet_type *pt, struct net_device *outdev);
 
 void ccnl_udp_data_ready(struct sock *sk);
-
-int
-local_producer(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-               struct ccnl_pkt_s *pkt){
-    return 0;
-}
 
 // ----------------------------------------------------------------------
 
@@ -586,7 +573,7 @@ module_param(p, charp, 0);
 MODULE_PARM_DESC(p, "private key path");
 
 module_param(s, charp, 0);
-MODULE_PARM_DESC(s, "suite (ccnb, ccnx2015, cisco2015, iot2014, ndn2013)");
+MODULE_PARM_DESC(s, "suite (ccnb, ccnx2015, ndn2013)");
 
 module_param(u, int, 0);
 MODULE_PARM_DESC(u, "UDP port (default is 6363 for ndntlv, 9695 for ccnb)");

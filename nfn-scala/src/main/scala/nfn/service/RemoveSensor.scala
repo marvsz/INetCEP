@@ -20,3 +20,4 @@ class RemoveSensor extends NFNService {
     )
   }
 }
+

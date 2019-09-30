@@ -35,8 +35,6 @@
 #include "../../ccnl-pkt/include/ccnl-pkt-localrpc.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-cistlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-iottlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 
@@ -108,12 +106,6 @@ static const char *compile_string = ""
 #endif
 #ifdef USE_SUITE_CCNTLV
         "SUITE_CCNTLV, "
-#endif
-#ifdef USE_SUITE_CISTLV
-        "SUITE_CISTLV, "
-#endif
-#ifdef USE_SUITE_IOTTLV
-        "SUITE_IOTTLV, "
 #endif
 #ifdef USE_SUITE_LOCALRPC
         "SUITE_LOCALRPC, "
@@ -419,11 +411,6 @@ rpc_forward(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         encoding = CCNL_SUITE_CCNTLV;
     else
 #endif
-#ifdef CCNL_SUITE_IOTTLV
-    if (!strcmp(cp, "/rpc/const/encoding/iot2014"))
-        encoding = CCNL_SUITE_IOTTLV;
-    else
-#endif
 #ifdef CCNL_SUITE_NDNTLV
     if (!strcmp(cp,      "/rpc/const/encoding/ndn2013"))
         encoding = CCNL_SUITE_NDNTLV;
@@ -456,11 +443,6 @@ rpc_forward(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_SUITE_CCNTLV
         case CCNL_SUITE_CCNTLV:
             ccnl_ccntlv_forwarder(relay, from, &ucp, &len);
-            break;
-#endif
-#ifdef USE_SUITE_IOTTLV
-        case CCNL_SUITE_IOTTLV:
-            ccnl_iottlv_forwarder(relay, from, &ucp, &len);
             break;
 #endif
 #ifdef USE_SUITE_NDNTLV
@@ -651,5 +633,8 @@ ccnl_localrpc_exec(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 }
 
 #endif //USE_SUITE_LOCALRPC
+
+/* suppress empty translation unit error */
+typedef int unused_typedef;
 
 // eof

@@ -42,42 +42,8 @@
 
 #include "ccnl-os-time.h"
 #include "ccnl-fwd.h"
-
-#ifdef USE_SUITE_COMPRESSED
-#include "ccnl-pkt-ndn-compression.h"
-#endif
-
-/**
- * @brief Some macro definitions
- * @{
- */
-
-#define free_2ptr_list(a,b)     ccnl_free(a), ccnl_free(b)
-#define free_3ptr_list(a,b,c)   ccnl_free(a), ccnl_free(b), ccnl_free(c)
-#define free_4ptr_list(a,b,c,d) ccnl_free(a), ccnl_free(b), ccnl_free(c), ccnl_free(d);
-#define free_5ptr_list(a,b,c,d,e) ccnl_free(a), ccnl_free(b), ccnl_free(c), ccnl_free(d), ccnl_free(e);
-
-/**
- * Frees all memory directly and indirectly allocated for prefix information
- */
-#define free_prefix(p)  do{ if(p) \
-                free_5ptr_list(p->bytes,p->comp,p->complen,p->chunknum,p); } while(0)
-
-/**
- * Frees memory for a given content and the associated packet data
- */
-#define free_content(c) do{ /* free_prefix(c->name); */ ccnl_pkt_free(c->pkt); \
-                        ccnl_free(c); } while(0)
-
-/**
- * @}
- */
-
-/**
- * @brief May be defined for ad-hoc content creation
- */
-int local_producer(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                   struct ccnl_pkt_s *pkt);
+#include "ccnl-producer.h"
+#include "ccnl-pkt-builder.h"
 
 /**
  * @brief May be defined for a particular caching strategy
@@ -100,21 +66,6 @@ static msg_t _msg_queue[CCNL_QUEUE_SIZE];
 static char _ccnl_stack[CCNL_STACK_SIZE];
 
 /**
- * PID of the eventloop thread
- */
-static kernel_pid_t _ccnl_event_loop_pid = KERNEL_PID_UNDEF;
-
-/**
- * Timer to process ageing
- */
-static xtimer_t _ageing_timer = { .target = 0, .long_target = 0 };
-
-/**
- * local producer function defined by the application
- */
-static ccnl_producer_func _prod_func = NULL;
-
-/**
  * caching strategy removal function
  */
 static ccnl_cache_strategy_func _cs_remove_func = NULL;
@@ -128,31 +79,12 @@ static int _ccnl_suite = CCNL_SUITE_NDNTLV;
  * @}
  */
 
+kernel_pid_t ccnl_event_loop_pid = KERNEL_PID_UNDEF;
+
+evtimer_msg_t ccnl_evtimer;
+
 #include "ccnl-defs.h"
 #include "ccnl-core.h"
-
-/**
- * @brief function prototypes required by ccnl-core.c
- * @{
- */
-//void ccnl_pkt_free(struct ccnl_pkt_s *pkt);
-
-struct ccnl_interest_s* ccnl_interest_remove(struct ccnl_relay_s *ccnl,
-                     struct ccnl_interest_s *i);
-int ccnl_pkt2suite(unsigned char *data, int len, int *skip);
-
-char* ccnl_prefix_to_path_detailed(struct ccnl_prefix_s *pr,
-                    int ccntlv_skip, int escape_components, int call_slash);
-#define ccnl_prefix_to_path(P) ccnl_prefix_to_path_detailed(P, 1, 0, 0)
-
-char* ccnl_addr2ascii(sockunion *su);
-void ccnl_core_addToCleanup(struct ccnl_buf_s *buf);
-const char* ccnl_suite2str(int suite);
-bool ccnl_isSuite(int suite);
-
-/**
- * @}
- */
 
 /**
  * @brief Central relay information
@@ -197,39 +129,12 @@ int ccnl_app_RX(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
  */
 static gnrc_netreg_entry_t _ccnl_ne;
 
-/**
- * @brief Some function pointers
- * @{
- */
-
-extern struct ccnl_buf_s* ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, int *nonce);
-extern int ccnl_isContent(unsigned char *buf, int len, int suite);
-
-/**
- * @}
- */
-
-// ----------------------------------------------------------------------
-struct ccnl_buf_s*
-ccnl_buf_new(void *data, int len)
-{
-    struct ccnl_buf_s *b = ccnl_malloc(sizeof(struct ccnl_buf_s) + len);
-
-    if (!b)
-        return NULL;
-    b->next = NULL;
-    b->datalen = len;
-    if (data)
-        memcpy(b->data, data, len);
-    return b;
-}
-
 /* add a netif to CCN-lite's interfaces, set the nettype, and register a receiver */
 int
 ccnl_open_netif(kernel_pid_t if_pid, gnrc_nettype_t netreg_type)
 {
     assert(pid_is_valid(if_pid));
-    if (!gnrc_netif_exist(if_pid)) {
+    if (gnrc_netif_get_by_pid(if_pid) == NULL) {
         return -1;
     }
     if (ccnl_relay.ifcount >= CCNL_MAX_INTERFACES) {
@@ -247,11 +152,13 @@ ccnl_open_netif(kernel_pid_t if_pid, gnrc_nettype_t netreg_type)
     i->addr.sa.sa_family = AF_PACKET;
 
     int res;
-    res = gnrc_netapi_get(if_pid, NETOPT_MAX_PACKET_SIZE, 0, &(i->mtu), sizeof(i->mtu));
+    uint16_t mtu;
+    res = gnrc_netapi_get(if_pid, NETOPT_MAX_PACKET_SIZE, 0, &(mtu), sizeof(mtu));
     if (res < 0) {
         DEBUGMSG(ERROR, "error: unable to determine MTU for if=<%u>\n", (unsigned) i->if_pid);
         return -ECANCELED;
     }
+    i->mtu = (int)mtu;
     DEBUGMSG(DEBUG, "interface's MTU is set to %i\n", i->mtu);
 
     res = gnrc_netapi_get(if_pid, NETOPT_ADDR_LEN, 0, &(i->addr_len), sizeof(i->addr_len));
@@ -273,13 +180,14 @@ ccnl_open_netif(kernel_pid_t if_pid, gnrc_nettype_t netreg_type)
 
     /* configure the interface to use the specified nettype protocol */
     gnrc_netapi_set(if_pid, NETOPT_PROTO, 0, &netreg_type, sizeof(gnrc_nettype_t));
-    /* register for this nettype */
-    gnrc_netreg_entry_init_pid(&_ccnl_ne, GNRC_NETREG_DEMUX_CTX_ALL,
-                               _ccnl_event_loop_pid);
-    return gnrc_netreg_register(netreg_type, &_ccnl_ne);
+    /* register for this nettype if not already done */
+    if (_ccnl_ne.demux_ctx == 0) {
+        gnrc_netreg_entry_init_pid(&_ccnl_ne, GNRC_NETREG_DEMUX_CTX_ALL,
+                                   ccnl_event_loop_pid);
+        return gnrc_netreg_register(netreg_type, &_ccnl_ne);
+    }
+    return 0;
 }
-
-static msg_t _ageing_reset = { .type = CCNL_MSG_AGEING };
 
 /* (link layer) sending function */
 void
@@ -289,10 +197,6 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
     (void) ccnl;
     int rc;
     DEBUGMSG(TRACE, "ccnl_ll_TX %d bytes to %s\n", (int)(buf ? buf->datalen : -1), ccnl_addr2ascii(dest));
-    /* reset ageing timer */
-    xtimer_remove(&_ageing_timer);
-    xtimer_set_msg(&_ageing_timer, US_PER_SEC, &_ageing_reset, _ccnl_event_loop_pid);
-    DEBUGMSG(TRACE, "ccnl_ll_TX: reset timer\n");
 
     (void) ifc;
     switch(dest->sa.sa_family) {
@@ -305,7 +209,7 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
                                                                  GNRC_NETTYPE_CCN);
 
                             if (pkt == NULL) {
-                                puts("error: packet buffer full");
+                                printf("error: packet buffer full trying to allocate %d bytes\n", buf->datalen);
                                 return;
                             }
 
@@ -332,7 +236,7 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
 
                             /* check if header building succeeded */
                             if (hdr == NULL) {
-                                puts("error: packet buffer full");
+                                puts("error: packet buffer full trying to allocate netif_hdr");
                                 gnrc_pktbuf_release(pkt);
                                 return;
                             }
@@ -340,7 +244,7 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
 
                             if (is_loopback) {
                                     DEBUGMSG(DEBUG, "loopback packet\n");
-                                    if (gnrc_netapi_receive(_ccnl_event_loop_pid, pkt) < 1) {
+                                    if (gnrc_netapi_receive(ccnl_event_loop_pid, pkt) < 1) {
                                         DEBUGMSG(ERROR, "error: unable to loopback packet, discard it\n");
                                         gnrc_pktbuf_release(pkt);
                                     }
@@ -404,14 +308,6 @@ ccnl_app_RX(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     return 0;
 }
 
-/* periodic callback */
-void
-ccnl_ageing(void *relay, void *aux)
-{
-    ccnl_do_ageing(relay, aux);
-    ccnl_set_timer(US_PER_SEC, ccnl_ageing, relay, 0);
-}
-
 /* receiving callback for CCN packets */
 void
 _receive(struct ccnl_relay_s *ccnl, msg_t *m)
@@ -447,21 +343,38 @@ _receive(struct ccnl_relay_s *ccnl, msg_t *m)
     gnrc_pktbuf_release(pkt);
 }
 
+static void
+ccnl_interest_retransmit(struct ccnl_relay_s *relay, struct ccnl_interest_s *ccnl_int)
+{
+    if(ccnl_int->retries >= CCNL_MAX_INTEREST_RETRANSMIT) {
+        return;
+    }
+
+    ccnl_int->evtmsg_retrans.msg.type = CCNL_MSG_INT_RETRANS;
+    ccnl_int->evtmsg_retrans.msg.content.ptr = ccnl_int;
+    ((evtimer_event_t *)&ccnl_int->evtmsg_retrans)->offset = CCNL_INTEREST_RETRANS_TIMEOUT;
+    evtimer_add_msg(&ccnl_evtimer, &ccnl_int->evtmsg_retrans, ccnl_event_loop_pid);
+    ccnl_int->retries++;
+    ccnl_interest_propagate(relay, ccnl_int);
+}
+
 /* the main event-loop */
 void
 *_ccnl_event_loop(void *arg)
 {
+    struct ccnl_content_s *content;
+    struct ccnl_pkt_s *pkt;
+    struct ccnl_prefix_s *prefix;
+    struct ccnl_interest_s *ccnl_int;
+    struct ccnl_face_s *face;
+    char *spref;
+
     msg_init_queue(_msg_queue, CCNL_QUEUE_SIZE);
+    evtimer_init_msg(&ccnl_evtimer);
     struct ccnl_relay_s *ccnl = (struct ccnl_relay_s*) arg;
 
-
-    /* XXX: https://xkcd.com/221/ */
-    random_init(0x4);
-
     while(!ccnl->halt_flag) {
-        msg_t m, reply;
-        /* start periodic timer */
-        reply.type = CCNL_MSG_AGEING;
+        msg_t m, reply, mr;
         DEBUGMSG(VERBOSE, "ccn-lite: waiting for incoming message.\n");
         msg_receive(&m);
 
@@ -473,15 +386,9 @@ void
 
             case GNRC_NETAPI_MSG_TYPE_SND:
                 DEBUGMSG(DEBUG, "ccn-lite: GNRC_NETAPI_MSG_TYPE_SND received\n");
-                gnrc_pktsnip_t *pkt = (gnrc_pktsnip_t*) m.content.ptr;
-                if (pkt->type != GNRC_NETTYPE_CCN) {
-                    DEBUGMSG(WARNING, "ccn-lite: wrong nettype\n");
-                }
-                else {
-                    ccnl_interest_t *i = (ccnl_interest_t*) pkt->data;
-                    ccnl_send_interest(i->prefix, i->buf, i->buflen);
-                }
-                gnrc_pktbuf_release(pkt);
+                pkt = (struct ccnl_pkt_s *) m.content.ptr;
+                ccnl_fwd_handleInterest(ccnl, loopback_face, &pkt, ccnl_ndntlv_cMatch);
+                ccnl_pkt_free(pkt);
                 break;
 
             case GNRC_NETAPI_MSG_TYPE_GET:
@@ -490,11 +397,54 @@ void
                 reply.content.value = -ENOTSUP;
                 msg_reply(&m, &reply);
                 break;
-            case CCNL_MSG_AGEING:
-                DEBUGMSG(VERBOSE, "ccn-lite: ageing timer\n");
-                ccnl_do_ageing(arg, NULL);
-                xtimer_remove(&_ageing_timer);
-                xtimer_set_msg(&_ageing_timer, US_PER_SEC, &reply, sched_active_pid);
+            case CCNL_MSG_CS_ADD:
+                DEBUGMSG(VERBOSE, "ccn-lite: CS add\n");
+                content = (struct ccnl_content_s *)m.content.ptr;
+                ccnl_cs_add(ccnl, content);
+                break;
+            case CCNL_MSG_CS_DEL:
+                DEBUGMSG(VERBOSE, "ccn-lite: CS remove\n");
+                prefix = (struct ccnl_prefix_s *)m.content.ptr;
+                spref = ccnl_prefix_to_path(prefix);
+                if (!spref) {
+                    DEBUGMSG(WARNING, "ccn-lite: CS remove failed, because of no memory available\n");
+                    break;
+                }
+                if (ccnl_cs_remove(ccnl, spref) < 0) {
+                    DEBUGMSG(WARNING, "removing CS entry failed\n");
+                }
+                ccnl_free(spref);
+                break;
+            case CCNL_MSG_CS_LOOKUP:
+                DEBUGMSG(VERBOSE, "ccn-lite: CS lookup\n");
+                prefix = (struct ccnl_prefix_s *)m.content.ptr;
+                spref = ccnl_prefix_to_path(prefix);
+                mr.type = CCNL_MSG_CS_LOOKUP;
+                if (spref) {
+                    content = ccnl_cs_lookup(ccnl, spref);
+                    ccnl_free(spref);
+                }
+                else {
+                    DEBUGMSG(WARNING, "ccn-lite: CS lookup failed, because of no memory available\n");
+                    content = NULL;
+                }
+                mr.content.ptr = content;
+                msg_reply(&m, &mr);
+                break;
+            case CCNL_MSG_INT_RETRANS:
+                ccnl_int = (struct ccnl_interest_s *)m.content.ptr;
+                ccnl_interest_retransmit(ccnl, ccnl_int);
+                break;
+            case CCNL_MSG_INT_TIMEOUT:
+                ccnl_int = (struct ccnl_interest_s *)m.content.ptr;
+                ccnl_interest_remove(ccnl, ccnl_int);
+                break;
+            case CCNL_MSG_FACE_TIMEOUT:
+                face = (struct ccnl_face_s *)m.content.ptr;
+                if (face &&
+                    !(face->flags & CCNL_FACE_FLAGS_STATIC)) {
+                    ccnl_face_remove(ccnl, face);
+                }
                 break;
             default:
                 DEBUGMSG(WARNING, "ccn-lite: unknown message type\n");
@@ -517,11 +467,11 @@ ccnl_start(void)
     ccnl_relay.ccnl_ll_TX_ptr = &ccnl_ll_TX;
 
     /* start the CCN-Lite event-loop */
-    _ccnl_event_loop_pid =  thread_create(_ccnl_stack, sizeof(_ccnl_stack),
-                                          THREAD_PRIORITY_MAIN - 1,
+    ccnl_event_loop_pid =  thread_create(_ccnl_stack, sizeof(_ccnl_stack),
+                                          CCNL_THREAD_PRIORITY,
                                           THREAD_CREATE_STACKTEST, _ccnl_event_loop,
                                           &ccnl_relay, "ccnl");
-    return _ccnl_event_loop_pid;
+    return ccnl_event_loop_pid;
 }
 
 static xtimer_t _wait_timer = { .target = 0, .long_target = 0 };
@@ -580,90 +530,76 @@ ccnl_wait_for_chunk(void *buf, size_t buf_len, uint64_t timeout)
 
 /* generates and send out an interest */
 int
-ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, size_t buf_len)
+ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len,
+                   ccnl_interest_opts_u *int_opts)
 {
-    int ret = -1;
+    int ret = 0;
     int len = 0;
-
-    /* we are not using these _for now_. Need to adjust ccnl_mkSimpleInterest
-       to work with static buffers first */
-    (void) buf;
-    (void) buf_len;
+    ccnl_interest_opts_u default_opts;
+    default_opts.ndntlv.nonce = 0;
+    default_opts.ndntlv.mustbefresh = false;
+    default_opts.ndntlv.interestlifetime = CCNL_INTEREST_TIMEOUT * 1000; // ms
 
     if (_ccnl_suite != CCNL_SUITE_NDNTLV) {
-        DEBUGMSG(WARNING, "Suite not supported by RIOT!");
-        return ret;
+        DEBUGMSG(WARNING, "Suite not supported by RIOT!\n");
+        return -1;
     }
 
     DEBUGMSG(INFO, "interest for chunk number: %u\n", (prefix->chunknum == NULL) ? 0 : *prefix->chunknum);
 
     if (!prefix) {
         DEBUGMSG(ERROR, "prefix could not be created!\n");
-        return ret;
+        return -2;
     }
 
-    int nonce = random_uint32();
-    DEBUGMSG(DEBUG, "nonce: %i\n", nonce);
-
-    struct ccnl_buf_s *interest = ccnl_mkSimpleInterest(prefix, &nonce);
-    if(!interest){
-        return -1;
+    if (!int_opts) {
+        int_opts = &default_opts;
     }
 
-    unsigned char *start = interest->data;
-    unsigned char *data = interest->data;
+    if (!int_opts->ndntlv.nonce) {
+        int_opts->ndntlv.nonce = random_uint32();
+    }
+
+    DEBUGMSG(DEBUG, "nonce: %" PRIi32 "\n", int_opts->ndntlv.nonce);
+
+    ccnl_mkInterest(prefix, int_opts, buf, &len, &buf_len);
+
+    buf += buf_len;
+
+    unsigned char *start = buf;
+    unsigned char *data = buf;
     struct ccnl_pkt_s *pkt, *pktc;
     (void) pktc;
-    len = interest->datalen;
 
     int typ;
     int int_len;
 
-#ifndef USE_SUITE_COMPRESSED
     /* TODO: support other suites */
     if (ccnl_ndntlv_dehead(&data, &len, (int*) &typ, &int_len) || (int) int_len > len) {
         DEBUGMSG(WARNING, "  invalid packet format\n");
-        ccnl_free(interest);
-        return ret;
+        return -3;
     }
+
     pkt = ccnl_ndntlv_bytes2pkt(NDN_TLV_Interest, start, &data, &len);
-#else //USE_SUITE_COMPRESSED
-    (void) start;
-    (void) int_len;
-    (void) typ;
-    pktc = ccnl_ndntlvCompressed_bytes2pkt(&data, &len);
-    pkt = ccnl_pkt_ndn_decompress(pktc);
-    ccnl_pkt_free(pktc);
-#endif //USE_SUITE_COMPRESSED
 
-    ret = ccnl_fwd_handleInterest(&ccnl_relay, loopback_face, &pkt, ccnl_ndntlv_cMatch);
+    if (!pkt) {
+        DEBUGMSG(WARNING, "could not create Interest pkt\n");
+        return -4;
+    }
 
-    ccnl_pkt_free(pkt);
-    ccnl_free(interest);
+    msg_t m = { .type = GNRC_NETAPI_MSG_TYPE_SND, .content.ptr = pkt };
+    ret = msg_send(&m, ccnl_event_loop_pid);
+    if(ret < 1){
+        DEBUGMSG(WARNING, "could not send Interest: %i\n", ret);
+    }
 
     return ret;
-}
-
-void
-ccnl_set_local_producer(ccnl_producer_func func)
-{
-    _prod_func = func;
 }
 
 void
 ccnl_set_cache_strategy_remove(ccnl_cache_strategy_func func)
 {
     _cs_remove_func = func;
-}
-
-int
-local_producer(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                   struct ccnl_pkt_s *pkt)
-{
-    if (_prod_func) {
-        return _prod_func(relay, from, pkt);
-    }
-    return 0;
 }
 
 int

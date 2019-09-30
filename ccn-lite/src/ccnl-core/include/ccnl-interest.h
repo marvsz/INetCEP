@@ -3,6 +3,7 @@
  * @b CCN lite (CCNL), core header file (internal data structures)
  *
  * Copyright (C) 2011-17, University of Basel
+ * Copyright (C) 2018 HAW Hamburg
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -26,11 +27,14 @@
 #include "ccnl-pkt.h"
 #include "ccnl-face.h"
 
+#ifdef CCNL_RIOT
+#include "evtimer_msg.h"
+#endif
 
 struct ccnl_pendint_s { // pending interest
     struct ccnl_pendint_s *next; // , *prev;
     struct ccnl_face_s *face;
-    int last_used;
+    uint32_t last_used;
 };
 
 struct ccnl_interest_s {
@@ -39,13 +43,18 @@ struct ccnl_interest_s {
     struct ccnl_face_s *from;
     struct ccnl_pendint_s *pending; // linked list of faces wanting that content
     unsigned short flags;
+    uint32_t lifetime;
 #define CCNL_PIT_COREPROPAGATES    0x01
 #define CCNL_PIT_TRACED            0x02
-    int last_used;
+    uint32_t last_used;
     int retries;
 #ifdef USE_NFN_REQUESTS
     struct ccnl_interest_s *keepalive; // the keepalive interest dispatched for this interest
     struct ccnl_interest_s *keepalive_origin; // the interest that dispatched this keepalive interest 
+#endif
+#ifdef CCNL_RIOT
+    evtimer_msg_event_t evtmsg_retrans;
+    evtimer_msg_event_t evtmsg_timeout;
 #endif
 };
 

@@ -72,7 +72,7 @@ struct ccnl_relay_s {
 };
 
 /**
- * @brief Breadcast an interest message to all available interfaces
+ * @brief Broadcast an interest message to all available interfaces
  *
  * @param[in] ccnl          The CCN-lite relay used to send the interest
  * @param[in] interest      The interest which should be sent
@@ -100,12 +100,8 @@ ccnl_face_dequeue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f);
 void
 ccnl_face_CTS_done(void *ptr, int cnt, int len);
 
-void
-ccnl_face_CTS(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f);
-
 /**
- * @brief send a packet to the face @p to 
- * @note here it is possible to add compression for packets
+ * @brief Send a packet to the face @p to
  *
  * @param[in] ccnl  pointer to current ccnl relay
  * @param[in] to    face to send to
@@ -119,7 +115,7 @@ ccnl_send_pkt(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                 struct ccnl_pkt_s *pkt);
 
 /**
- * @brief send a buffer to the face @p to 
+ * @brief Send a buffer to the face @p to 
  *
  * @param[in] ccnl  pointer to current ccnl relay
  * @param[in] to    face to send to
@@ -140,7 +136,7 @@ struct ccnl_interest_s*
 ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i);
 
 /**
- * @brief forwards interest message according to FIB rules 
+ * @brief Forwards interest message according to FIB rules 
  *
  * @param[in] ccnl  pointer to current ccnl relay
  * @param[in] i     interest message to be forwarded
@@ -148,18 +144,21 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i);
 void
 ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i);
 
-/**
- * @brief broadcasts interest message to all faces
- *
- * @param[in] ccnl  pointer to current ccnl relay
- * @param[in] i     interest message to be forwarded
-*/
-void
-ccnl_interest_broadcast(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *interest);
 
 struct ccnl_content_s*
 ccnl_content_remove(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
 
+/**
+ * @brief add content @p c to the content store
+ *
+ * @note adding content with this function bypasses pending interests
+ *
+ * @param[in] ccnl  pointer to current ccnl relay
+ * @param[in] c     content to be added to the content store
+ *
+ * @return   reference to the content @p c
+ * @return   NULL, if @p c cannot be added
+*/
 struct ccnl_content_s*
 ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
 
@@ -187,18 +186,48 @@ void
 ccnl_core_cleanup(struct ccnl_relay_s *ccnl);
 
 #ifdef NEEDS_PREFIX_MATCHING
+/**
+ * @brief Add entry to the FIB
+ *
+ * @par[in] relay   Local relay struct
+ * @par[in] pfx     Prefix of the FIB entry
+ * @par[in] face    Face for the FIB entry
+ *
+ * @return 0    on success
+ * @return -1   on error
+ */
 int
 ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                    struct ccnl_face_s *face);
 
+/**
+ * @brief Remove entry from the FIB
+ *
+ * @par[in] relay   Local relay struct
+ * @par[in] pfx     Prefix of the FIB entry, may be NULL
+ * @par[in] face    Face for the FIB entry, may be NULL
+ *
+ * @return 0    on success
+ * @return -1   on error
+ */
 int
 ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                    struct ccnl_face_s *face);
 #endif //NEEDS_PREFIX_MATCHING
 
+/**
+ * @brief Prints the current FIB
+ *
+ * @par[in] relay   Local relay struct
+ */
 void
 ccnl_fib_show(struct ccnl_relay_s *relay);
 
+/**
+ * @brief Prints the content of the content store
+ *
+ * @par[in] ccnl Local relay struct
+ */
 void
 ccnl_cs_dump(struct ccnl_relay_s *ccnl);
 
@@ -220,6 +249,46 @@ ccnl_interface_CTS(void *aux1, void *aux2);
 #ifdef CCNL_APP_RX
 int ccnl_app_RX(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
 #endif
+
+/**
+ * @brief Add content @p c to the Content Store and serve pending Interests
+ *
+ * @param[in] ccnl  pointer to current ccnl relay
+ * @param[in] c     content to add to the content store
+ *
+ * @return   0,  if @p c was added to the content store
+ * @return   -1, otherwise
+*/
+int
+ccnl_cs_add(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
+
+/**
+ * @brief Remove content with @p prefix from the Content Store
+ *
+ * @param[in] ccnl      pointer to current ccnl relay
+ * @param[in] prefix    prefix of the content to remove from the Content Store
+ *
+ * @return    0, if content with @p prefix was removed
+ * @return   -1, if @p ccnl or @p prefix are NULL
+ * @return   -2, if no memory could be allocated
+ * @return   -3, if no content with @p prefix was found to be removed
+*/
+int
+ccnl_cs_remove(struct ccnl_relay_s *ccnl, char *prefix);
+
+/**
+ * @brief Lookup content from the Content Store with prefix @p prefix
+ *
+ * @param[in] ccnl      pointer to current ccnl relay
+ * @param[in] prefix    prefix of the content to lookup from the Content Store
+ *
+ * @return              pointer to the content, if found
+ * @return              NULL, if @p ccnl or @p prefix are NULL
+ * @return              NULL, on memory allocation failure
+ * @return              NULL, if not found
+*/
+struct ccnl_content_s *
+ccnl_cs_lookup(struct ccnl_relay_s *ccnl, char *prefix);
 
 #endif //CCNL_RELAY_H
 /** @} */

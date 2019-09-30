@@ -38,8 +38,6 @@
 //#define USE_SCHEDULER
 #define USE_SUITE_CCNB
 #define USE_SUITE_CCNTLV
-#define USE_SUITE_CISTLV
-#define USE_SUITE_IOTTLV
 #define USE_SUITE_NDNTLV
 
 #define NEEDS_PREFIX_MATCHING
@@ -156,7 +154,7 @@ ccnl_simu_add2cache(char node, const char *name, int seqn, void *data, int len)
     pkt = ccnl_calloc(1, sizeof(*pkt));
     pkt->pfx = ccnl_URItoPrefix(tmp, theSuite, NULL, NULL);
     DEBUGMSG(VERBOSE, "  %s\n", ccnl_prefix_to_path(pkt->pfx));
-    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, data, len, &dataoffset);
+    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, data, len, &dataoffset, NULL);
     pkt->content = pkt->buf->data + dataoffset;
     pkt->contlen = len;
     c = ccnl_content_new(relay, &pkt);
@@ -174,6 +172,7 @@ ccnl_client_TX(char node, char *name, int seqn, int nonce)
     struct ccnl_prefix_s *p;
     struct ccnl_buf_s *buf;
     struct ccnl_relay_s *relay = char2relay(node);
+    ccnl_interets_opts_u opts;
 
     DEBUGMSG(TRACE, "ccnl_client_tx node=%c: request %s #%d\n",
              node, name, seqn);
@@ -185,9 +184,14 @@ ccnl_client_TX(char node, char *name, int seqn, int nonce)
     //    p = ccnl_path_to_prefix(tmp);
     //    p->suite = suite;
     p = ccnl_URItoPrefix(tmp, theSuite, NULL, NULL);
+
+    if (theSuite == CCNL_SUITE_NDNTLV) {
+        opts.ndntlv.nonce = nonce;
+    }
+
     DEBUGMSG(TRACE, "  create interest for %s\n", ccnl_prefix_to_path(p));
-    buf = ccnl_mkSimpleInterest(p, &nonce);
-    free_prefix(p);
+    buf = ccnl_mkSimpleInterest(p, &opts);
+    ccnl_prefix_free(p);
 
     // inject it into the relay:
     if (buf) {
@@ -256,7 +260,7 @@ ccnl_app_RX(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     char tmp[200], tmp2[10];
     struct ccnl_prefix_s *p = c->pkt->pfx;
 
-    if (theSuite == CCNL_SUITE_CCNTLV || theSuite == CCNL_SUITE_CISTLV) {
+    if (theSuite == CCNL_SUITE_CCNTLV ) {
         tmp[0] = '\0';
         for (i = 0; i < p->compcnt-1; i++) {
             strcat((char*)tmp, "/");
@@ -607,7 +611,7 @@ main(int argc, char **argv)
                     "  [-g MIN_INTER_PACKET_INTERVAL]\n"
                     "  [-i MIN_INTER_CCNMSG_INTERVAL]\n"
                     "  [-m MTU]\n"
-                    "  [-s SUITE (ccnb, ccnx2015, cisco2015, iot2014, ndn2013)]\n"
+                    "  [-s SUITE (ccnb, ccnx2015, ndn2013)]\n"
                     "  [-v DEBUG_LEVEL]\n",
                     argv[0]);
             exit(EXIT_FAILURE);

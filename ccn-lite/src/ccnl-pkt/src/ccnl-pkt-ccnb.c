@@ -28,8 +28,8 @@
 #ifdef USE_SUITE_CCNB
 
 #ifndef CCNL_LINUXKERNEL
-#include "../include/ccnl-pkt-ccnb.h"
-#include "../../ccnl-core/include/ccnl-core.h"
+#include "ccnl-pkt-ccnb.h"
+#include "ccnl-core.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -482,5 +482,8 @@ ccnl_ccnb_fillContent(struct ccnl_prefix_s *name, unsigned char *data,
 #endif // NEEDS_PACKET_CRAFTING
 
 #endif // USE_SUITE_CCNB
+
+/* suppress empty translation unit error */
+typedef int unused_typedef;
 
 // eof

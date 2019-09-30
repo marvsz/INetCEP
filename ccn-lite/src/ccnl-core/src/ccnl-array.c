@@ -20,15 +20,15 @@
  * 2017-06-16 created
  */
 
-void null_func();
+void null_func(void);
 
 #ifndef CCNL_LINUXKERNEL
 
-#include "../include/ccnl-array.h"
+#include "ccnl-array.h"
 
 #include <stddef.h>
 
-#include "../include/ccnl-malloc.h"
+#include "ccnl-malloc.h"
 
 struct ccnl_array_s*
 ccnl_array_new(int capacity)
@@ -74,6 +74,7 @@ ccnl_array_pop(struct ccnl_array_s *array)
 void
 ccnl_array_insert(struct ccnl_array_s *array, void *item, int index)
 {
+    int i;
     #ifdef CCNL_ARRAY_CHECK_BOUNDS
         if (index > array->count)
         {
@@ -86,7 +87,8 @@ ccnl_array_insert(struct ccnl_array_s *array, void *item, int index)
         array->capacity = array->capacity * 3 / 2;
         array->items = (void **)ccnl_realloc(array->items, array->capacity * sizeof(void *));
     }
-    for (int i = array->count - 1; i >= index; i--) 
+
+    for (i = array->count - 1; i >= index; i--)
     {
         array->items[i+1] = array->items[i];
     }
@@ -117,6 +119,7 @@ ccnl_array_remove(struct ccnl_array_s *array, void *item)
 void 
 ccnl_array_remove_index(struct ccnl_array_s *array, int index)
 {
+    int i;
     #ifdef CCNL_ARRAY_CHECK_BOUNDS
         if (index >= array->count)
         {
@@ -124,7 +127,7 @@ ccnl_array_remove_index(struct ccnl_array_s *array, int index)
             return;
         }
     #endif
-    for (int i = index; i < array->count - 1; i++) 
+    for (i = index; i < array->count - 1; i++)
     {
         array->items[i] = array->items[i+1];
     }
@@ -134,7 +137,8 @@ ccnl_array_remove_index(struct ccnl_array_s *array, int index)
 int 
 ccnl_array_find(struct ccnl_array_s *array, void *item)
 {
-    for (int i = 0; i < array->count; i++) 
+    int i;
+    for (i = 0; i < array->count; i++)
     {
         if (array->items[i] == item) 
         {

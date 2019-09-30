@@ -23,7 +23,19 @@
 #ifndef CCNL_PKT_NDNTLV_H
 #define CCNL_PKT_NDNTLV_H
 
+//#include <stdint-gcc.h>
+//#include <stdint.h>
+#include <stdbool.h>
+
 #include "../../ccnl-core/include/ccnl-content.h"
+
+/**
+ * Default interest lifetime in milliseconds. If the element is omitted by a user, a default
+ * value of 4 seconds is used.
+ */
+#ifndef NDN_DEFAULT_INTEREST_LIFETIME
+#define NDN_DEFAULT_INTEREST_LIFETIME (4000u)
+#endif
 
 #define NDN_UDP_PORT                    6363
 #define NDN_DEFAULT_MTU                 4096
@@ -108,6 +120,27 @@ Values          Designation
 #define NDN_Marker_Timestamp			0xFC
 #define NDN_Marker_SequenceNumber		0xFE
 
+/**
+ * @brief NDN Interest options
+ */
+struct ccnl_ndntlv_interest_opts_s {
+    int32_t nonce;              /**< Nonce value */
+    /* Selectors */
+    bool mustbefresh;           /**< MustBeFresh Selector */
+    /* Guiders */
+    uint32_t interestlifetime;  /**< Interest Lifetime Guider */
+};
+
+/**
+ * @brief NDN Data options
+ */
+struct ccnl_ndntlv_data_opts_s {
+    /* MetaInfo */
+    uint32_t freshnessperiod;       /**< freshness period */
+    /* FinalBlockID is actually from type NameComponent.
+     * Use integer for simplicity for now */
+    uint32_t finalblockid;          /**< final block ID */
+};
 
 #ifdef USE_SUITE_NDNTLV
 int
@@ -117,6 +150,14 @@ unsigned long int
 ccnl_ndntlv_nonNegInt(unsigned char *cp, int len);
 #endif // USE_SUITE_NDNTLV
 
+/**
+ * Opens a TLV and reads the Type and the Length Value
+ * @param buf allocated buffer in which the tlv should be opened
+ * @param len length of the buffer
+ * @param typ return value via pointer: type value of the tlv
+ * @param vallen return value via pointer: length value of the tlv
+ * @return 0 on success, -1 on failure.
+ */
 int
 ccnl_ndntlv_dehead(unsigned char **buf, int *len,
                    int *typ, int *vallen);
@@ -129,13 +170,13 @@ int
 ccnl_ndntlv_cMatch(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
 
 int
-ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, int *nonce,
+ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
                             int *offset, unsigned char *buf);
 
 int
 ccnl_ndntlv_prependContent(struct ccnl_prefix_s *name,
                            unsigned char *payload, int paylen,
-                           int *contentpos, unsigned int *final_block_id,
+                           int *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
                            int *offset, unsigned char *buf);
 
 int

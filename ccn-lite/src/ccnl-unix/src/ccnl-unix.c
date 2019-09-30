@@ -25,16 +25,28 @@
 #include "ccnl-os-includes.h"
 
 #include "ccnl-core.h"
+#include "ccnl-producer.h"
 
 #include "ccnl-pkt-ccnb.h"
 #include "ccnl-pkt-ccntlv.h"
-#include "ccnl-pkt-cistlv.h"
-#include "ccnl-pkt-iottlv.h"
 #include "ccnl-pkt-ndntlv.h"
 #include "ccnl-pkt-switch.h"
 #include "ccnl-dispatch.h"
+#ifdef USE_HTTP_STATUS
+#include "ccnl-http-status.h"
+#endif
 
 #include "ccnl-nfn.h"
+
+/**
+ * TODO: The variables are never updated within the context of
+ * ccnl_unix.c
+ */
+static int lasthour = -1;
+#ifdef USE_SCHEDULER
+static int inter_ccn_interval = 0; // in usec
+static int inter_pkt_interval = 0; // in usec
+#endif 
 
 #ifdef USE_LINKLAYER
 int
@@ -417,6 +429,11 @@ ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
 
     DEBUGMSG(INFO, "configuring relay\n");
 
+    relay->contents = NULL;
+    relay->pit = NULL;
+    relay->fib = NULL;
+    relay->faces = NULL;
+    relay->nonces = NULL;
     relay->max_cache_entries = max_cache_entries;
     relay->max_pit_entries = CCNL_DEFAULT_MAX_PIT_ENTRIES;
     relay->ccnl_ll_TX_ptr = &ccnl_ll_TX;
@@ -664,7 +681,7 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
         int fd, datalen, suite, skip;
         unsigned char *data;
         (void) data; // silence compiler warning (if any USE_SUITE_* is not set)
-#if defined(USE_SUITE_IOTTLV) || defined(USE_SUITE_NDNTLV)
+#if defined(USE_SUITE_NDNTLV)
         unsigned int typ;
         int len;
 #endif
@@ -742,35 +759,6 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
             break;
         }
 #endif
-#ifdef USE_SUITE_CISTLV
-        case CCNL_SUITE_CISTLV: {
-            int hdrlen;
-            unsigned char *start;
-
-            data = start = buf->data + skip;
-            datalen -=  skip;
-
-            hdrlen = ccnl_cistlv_getHdrLen(data, datalen);
-            data += hdrlen;
-            datalen -= hdrlen;
-
-            pk = ccnl_cistlv_bytes2pkt(start, &data, &datalen);
-            break;
-        }
-#endif
-#ifdef USE_SUITE_IOTTLV
-        case CCNL_SUITE_IOTTLV: {
-            unsigned char *olddata;
-
-            data = olddata = buf->data + skip;
-            datalen -= skip;
-            if (ccnl_iottlv_dehead(&data, &datalen, &typ, &len) ||
-                                                       typ != IOT_TLV_Reply)
-                goto notacontent;
-            pk = ccnl_iottlv_bytes2pkt(typ, olddata, &data, &datalen);
-            break;
-        }
-#endif
 #ifdef USE_SUITE_NDNTLV
         case CCNL_SUITE_NDNTLV: {
             unsigned char *olddata;
@@ -803,7 +791,7 @@ Done:
         ccnl_pkt_free(pk);
         ccnl_free(buf);
         continue;
-#if defined(USE_SUITE_CCNB) || defined(USE_SUITE_IOTTLV) || defined(USE_SUITE_NDNTLV)
+#if defined(USE_SUITE_CCNB) || defined(USE_SUITE_NDNTLV)
 notacontent:
         DEBUGMSG(WARNING, "not a content object (%s)\n", de->d_name);
         ccnl_free(buf);
@@ -813,15 +801,3 @@ notacontent:
     closedir(dir);
 }
 
-int
-local_producer(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                   struct ccnl_pkt_s *pkt){
-                       //for unix not implemented yet
-    (void)relay;
-    (void)from;
-    (void)pkt;
-    (void)lasthour;
-    (void)inter_ccn_interval;
-    (void)inter_pkt_interval;
-    return 0;
-}

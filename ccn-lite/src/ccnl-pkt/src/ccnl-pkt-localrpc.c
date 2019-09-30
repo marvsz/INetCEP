@@ -23,16 +23,16 @@
 
 #ifdef USE_SUITE_LOCALRPC
 #ifndef CCNL_LINUXKERNEL
-#include "../include/ccnl-pkt-localrpc.h"
-#include "../../ccnl-core/include/ccnl-core.h"
-#include "../include/ccnl-pkt-ndntlv.h"
+#include "ccnl-pkt-localrpc.h"
+#include "ccnl-core.h"
+#include "ccnl-pkt-ndntlv.h"
 #include <stdlib.h>
 #include <string.h>
 #include <arpa/inet.h>
 #else
-#include "../include/ccnl-pkt-localrpc.h"
-#include "../../ccnl-core/include/ccnl-core.h"
-#include "../include/ccnl-pkt-ndntlv.h"
+#include <ccnl-pkt-localrpc.h>
+#include <ccnl-core.h>
+#include <ccnl-pkt-ndntlv.h>
 #endif
 
 // ----------------------------------------------------------------------
@@ -638,5 +638,8 @@ int ccnl_rdr_serialize(struct rdr_ds_s *ds, unsigned char *buf, int buflen)
 }
 
 #endif // USE_SUITE_LOCALRPC
+
+/* suppress empty translation unit error */
+typedef int unused_typedef;
 
 // eof

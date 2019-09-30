@@ -19,12 +19,7 @@
  */
 
 
-#include "../include/ccnl-pkt-builder.h"
-
-#ifdef USE_SUITE_COMPRESSED
-#include "ccnl-pkt-ndn-compression.h"
-#include "ccnl-pkt-namecompression.h"
-#endif //USE_SUITE_COMPRESSED
+#include "ccnl-pkt-builder.h"
 
 #ifdef USE_SUITE_CCNB
 
@@ -83,80 +78,6 @@ int ccntlv_isFragment(unsigned char *buf, int len)
 
 // ----------------------------------------------------------------------
 
-#ifdef USE_SUITE_CISTLV
-
-int cistlv_isData(unsigned char *buf, int len)
-{
-    struct cisco_tlvhdr_201501_s *hp = (struct cisco_tlvhdr_201501_s*)buf;
-    unsigned short hdrlen, pktlen; // payloadlen;
-
-    TRACEIN();
-
-    if (len < (int) sizeof(struct cisco_tlvhdr_201501_s)) {
-        DEBUGMSG(ERROR, "cistlv header not large enough");
-        return -1;
-    }
-    hdrlen = hp->hlen; // ntohs(hp->hdrlen);
-    pktlen = ntohs(hp->pktlen);
-    //    payloadlen = ntohs(hp->payloadlen);
-
-    if (hp->version != CISCO_TLV_V1) {
-        DEBUGMSG(ERROR, "cistlv version %d not supported\n", hp->version);
-        return -1;
-    }
-
-    if (pktlen < len) {
-        DEBUGMSG(ERROR, "cistlv packet too small (%d instead of %d bytes)\n",
-                 pktlen, len);
-        return -1;
-    }
-    buf += hdrlen;
-    len -= hdrlen;
-
-    TRACEOUT();
-
-    if(hp->pkttype == CISCO_PT_Content)
-        return 1;
-    else
-        return 0;
-}
-#endif // USE_SUITE_CISTLV
-
-// ----------------------------------------------------------------------
-
-#ifdef USE_SUITE_IOTTLV
-// return 1 for Reply, 0 for Request, -1 if invalid
-int iottlv_isReply(unsigned char *buf, int len)
-{
-    int enc = 1, suite;
-    unsigned int typ;
-    int vallen;
-
-    while (!ccnl_switch_dehead(&buf, &len, &enc));
-    suite = ccnl_enc2suite(enc);
-    if (suite != CCNL_SUITE_IOTTLV)
-        return -1;
-    DEBUGMSG(DEBUG, "suite ok\n");
-    if (len < 1 || ccnl_iottlv_dehead(&buf, &len, &typ, &vallen) < 0)
-        return -1;
-    DEBUGMSG(DEBUG, "typ=%d, len=%d\n", typ, vallen);
-    if (typ == IOT_TLV_Reply)
-        return 1;
-    if (typ == IOT_TLV_Request)
-        return 0;
-    return -1;
-}
-
-int iottlv_isFragment(unsigned char *buf, int len)
-{
-    int enc;
-    while (!ccnl_switch_dehead(&buf, &len, &enc));
-    return ccnl_iottlv_peekType(buf, len) == IOT_TLV_Fragment;
-}
-
-#endif // USE_SUITE_IOTTLV
-
-// ----------------------------------------------------------------------
 #ifdef  USE_SUITE_NDNTLV
 int ndntlv_isData(unsigned char *buf, int len) {
     int typ;
@@ -184,14 +105,6 @@ ccnl_isContent(unsigned char *buf, int len, int suite)
     case CCNL_SUITE_CCNTLV:
         return ccntlv_isData(buf, len);
 #endif
-#ifdef USE_SUITE_CISTLV
-    case CCNL_SUITE_CISTLV:
-        return cistlv_isData(buf, len);
-#endif
-#ifdef USE_SUITE_IOTTLV
-    case CCNL_SUITE_IOTTLV:
-        return iottlv_isReply(buf, len);
-#endif
 #ifdef USE_SUITE_NDNTLV
     case CCNL_SUITE_NDNTLV:
         return ndntlv_isData(buf, len);
@@ -206,14 +119,13 @@ ccnl_isContent(unsigned char *buf, int len, int suite)
 int
 ccnl_isFragment(unsigned char *buf, int len, int suite)
 {
+    (void) buf;
+    (void) len;
+
     switch(suite) {
 #ifdef USE_SUITE_CCNTLV
     case CCNL_SUITE_CCNTLV:
         return ccntlv_isFragment(buf, len);
-#endif
-#ifdef USE_SUITE_IOTTLV
-    case CCNL_SUITE_IOTTLV:
-        return iottlv_isFragment(buf, len);
 #endif
     }
 
@@ -225,11 +137,12 @@ ccnl_isFragment(unsigned char *buf, int len, int suite)
 #ifdef NEEDS_PACKET_CRAFTING
 
 struct ccnl_interest_s *
-ccnl_mkInterestObject(struct ccnl_prefix_s *name, int *nonce)
+ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 {
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                                                        sizeof(struct ccnl_interest_s));
-    i->pkt->buf = ccnl_mkSimpleInterest(name, nonce);
+    i->pkt = (struct ccnl_pkt_s *) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
+    i->pkt->buf = ccnl_mkSimpleInterest(name, opts);
     i->pkt->pfx = ccnl_prefix_dup(name);
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = NULL;
@@ -237,7 +150,7 @@ ccnl_mkInterestObject(struct ccnl_prefix_s *name, int *nonce)
 }
 
 struct ccnl_buf_s*
-ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, int *nonce)
+ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 {
     struct ccnl_buf_s *buf = NULL;
     unsigned char *tmp;
@@ -248,7 +161,7 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, int *nonce)
     tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
 
-    ccnl_mkInterest(name, nonce, tmp, &len, &offs);
+    ccnl_mkInterest(name, opts, tmp, &len, &offs);
 
     if (len > 0)
         buf = ccnl_buf_new(tmp + offs, len);
@@ -257,7 +170,10 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, int *nonce)
     return buf;
 }
 
-void ccnl_mkInterest(struct ccnl_prefix_s *name, int *nonce, unsigned char *tmp, int *len, int *offs) {
+void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
+                     unsigned char *tmp, int *len, int *offs) {
+    ccnl_interest_opts_u default_opts;
+
     switch (name->suite) {
 #ifdef USE_SUITE_CCNB
         case CCNL_SUITE_CCNB:
@@ -270,39 +186,17 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, int *nonce, unsigned char *tmp,
             (*len) = ccnl_ccntlv_prependInterestWithHdr(name, offs, tmp);
             break;
 #endif
-#ifdef USE_SUITE_CISTLV
-        case CCNL_SUITE_CISTLV:
-            (*len) = ccnl_cistlv_prependInterestWithHdr(name, offs, tmp);
-            break;
-#endif
-#ifdef USE_SUITE_IOTTLV
-        case CCNL_SUITE_IOTTLV: {
-            int rc = ccnl_iottlv_prependRequest(name, NULL, offs, tmp);
-            if (rc <= 0)
-                break;
-            (*len) = rc;
-            rc = ccnl_switch_prependCoding(CCNL_ENC_IOT2014, offs, tmp);
-            (*len) = (rc <= 0) ? 0 : (*len) + rc;
-            break;
-        }
-#endif
 #ifdef USE_SUITE_NDNTLV
         case CCNL_SUITE_NDNTLV:
-#ifndef USE_SUITE_COMPRESSED
-            (*len) = ccnl_ndntlv_prependInterest(name, -1, nonce, offs, tmp);
-#else //USE_SUITE_COMPRESSED
-            {
-            struct ccnl_prefix_s *prefix = ccnl_pkt_prefix_compress(name);
-            if(!prefix){
-                return;
+            if (!opts) {
+                opts = &default_opts;
             }
-            (*len) = ccnl_ndntlv_prependInterestCompressed(prefix, nonce, offs, tmp);
-            if(prefix->comp[0]){
-                ccnl_free(prefix->comp[0]); //only required in this special case
+
+            if (!opts->ndntlv.nonce) {
+                opts->ndntlv.nonce = rand();
             }
-            ccnl_prefix_free(prefix);
-            }
-#endif //USE_SUITE_COMPRESSED
+
+            (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp);
             break;
 #endif
         default:
@@ -312,11 +206,12 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, int *nonce, unsigned char *tmp,
 
 struct ccnl_content_s *
 ccnl_mkContentObject(struct ccnl_prefix_s *name,
-                     unsigned char *payload, int paylen)
+                     unsigned char *payload, int paylen,
+                     ccnl_data_opts_u *opts)
 {
     int dataoffset;
     struct ccnl_pkt_s *c_p = ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
-    c_p->buf = ccnl_mkSimpleContent(name, payload, paylen, &dataoffset);
+    c_p->buf = ccnl_mkSimpleContent(name, payload, paylen, &dataoffset, opts);
     c_p->pfx = ccnl_prefix_dup(name);
     c_p->content = c_p->buf->data + dataoffset;
     c_p->contlen = paylen;
@@ -326,23 +221,25 @@ ccnl_mkContentObject(struct ccnl_prefix_s *name,
 
 struct ccnl_buf_s*
 ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
-                     unsigned char *payload, int paylen, int *payoffset)
+                     unsigned char *payload, int paylen, int *payoffset,
+                     ccnl_data_opts_u *opts)
 {
     struct ccnl_buf_s *buf = NULL;
     unsigned char *tmp;
     int len = 0, contentpos = 0, offs;
     struct ccnl_prefix_s *prefix;
     (void)prefix;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
 
-    char *s = NULL;
     DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
-                  (s = ccnl_prefix_to_path(name)), paylen);
-    ccnl_free(s);
+                  ccnl_prefix_to_str(name, s, CCNL_MAX_PREFIX_SIZE),
+                  paylen);
 
     tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
 
-    ccnl_mkContent(name, payload, paylen, tmp, &len, &contentpos, &offs);
+    ccnl_mkContent(name, payload, paylen, tmp, &len, &contentpos, &offs, opts);
 
     if (len) {
         buf = ccnl_buf_new(tmp + offs, len);
@@ -356,7 +253,7 @@ ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
 
 void
 ccnl_mkContent(struct ccnl_prefix_s *name, unsigned char *payload, int paylen, unsigned char *tmp,
-int *len, int *contentpos, int *offs) {
+               int *len, int *contentpos, int *offs, ccnl_data_opts_u *opts) {
     switch (name->suite) {
 #ifdef USE_SUITE_CCNB
         case CCNL_SUITE_CCNB:
@@ -372,38 +269,11 @@ int *len, int *contentpos, int *offs) {
             break;
         }
 #endif
-#ifdef USE_SUITE_CISTLV
-        case CCNL_SUITE_CISTLV:
-            (*len) = ccnl_cistlv_prependContentWithHdr(name, payload, paylen,
-                                                       NULL, // lastchunknum
-                                                       offs, contentpos, tmp);
-            break;
-#endif
-#ifdef USE_SUITE_IOTTLV
-        case CCNL_SUITE_IOTTLV: {
-            int rc = ccnl_iottlv_prependReply(name, payload, paylen,
-                                              offs, contentpos, NULL, tmp);
-            if (rc <= 0)
-             break;
-            (*len) = rc;
-            rc = ccnl_switch_prependCoding(CCNL_ENC_IOT2014, offs, tmp);
-            (*len) = (rc <= 0) ? 0 : (*len) + rc;
-            break;
-        }
-#endif
 #ifdef USE_SUITE_NDNTLV
-case CCNL_SUITE_NDNTLV:
-#ifndef USE_SUITE_COMPRESSED
-        (*len) = ccnl_ndntlv_prependContent(name, payload, paylen,
-                                            contentpos, NULL, offs, tmp);
-#else //USE_SUITE_COMPRESSED
-        {
-        struct ccnl_prefix_s *prefix = ccnl_pkt_prefix_compress(name);
-        (*len) = ccnl_ndntlv_prependContentCompressed(prefix, payload, paylen,
-                                      contentpos, NULL, offs, tmp);
-        }
-#endif //USE_SUITE_COMPRESSED
-        break;
+        case CCNL_SUITE_NDNTLV:
+            (*len) = ccnl_ndntlv_prependContent(name, payload, paylen,
+                                                contentpos, &(opts->ndntlv), offs, tmp);
+            break;
 #endif
         default:
         break;

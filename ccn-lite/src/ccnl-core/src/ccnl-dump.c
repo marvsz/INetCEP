@@ -24,6 +24,8 @@
 
 //#ifdef USE_DEBUG
 
+#include <inttypes.h>
+
 #include "../include/ccnl-logging.h"
 #include "../include/ccnl-prefix.h"
 #include "../include/ccnl-sockunion.h"
@@ -67,6 +69,9 @@ ccnl_dump(int lev, int typ, void *p)
     struct ccnl_content_s *con = (struct ccnl_content_s *) p;
     int i, k;
 
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
+
     #define INDENT(lev)   for (i = 0; i < (lev); i++) CONSOLE("  ")
 
     switch (typ) {
@@ -81,7 +86,7 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_PREFIX:
             INDENT(lev);
             CONSOLE("%p PREFIX len=%d val=%s\n",
-                    (void *) pre, pre->compcnt, ccnl_prefix_to_path(pre));
+                    (void *) pre, pre->compcnt, ccnl_prefix_to_str(pre,s,CCNL_MAX_PREFIX_SIZE));
             break;
         case CCNL_RELAY:
             INDENT(lev);
@@ -188,7 +193,7 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_INTEREST:
             while (itr) {
                 INDENT(lev);
-                CONSOLE("%p INTEREST next=%p prev=%p last=%d retries=%d\n",
+                CONSOLE("%p INTEREST next=%p prev=%p last=%" PRIu32 " retries=%d\n",
                         (void *) itr, (void *) itr->next, (void *) itr->prev,
                         itr->last_used, itr->retries);
                 ccnl_dump(lev + 1, CCNL_PACKET, itr->pkt);
@@ -204,7 +209,7 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_PENDINT:
             while (pir) {
                 INDENT(lev);
-                CONSOLE("%p PENDINT next=%p face=%p last=%d\n",
+                CONSOLE("%p PENDINT next=%p face=%p last=%" PRIu32 "\n",
                         (void *) pir, (void *) pir->next,
                         (void *) pir->face, pir->last_used);
                 pir = pir->next;
@@ -247,12 +252,6 @@ ccnl_dump(int lev, int typ, void *p)
                     }
                     break;
 #endif
-#ifdef USE_SUITE_IOTTLV
-                case CCNL_SUITE_IOTTLV:
-                    INDENT(lev + 1);
-                    CONSOLE("ttl=%d\n", pkt->s.iottlv.ttl);
-                    break;
-#endif
 #ifdef USE_SUITE_NDNTLV
                 case CCNL_SUITE_NDNTLV:
                     INDENT(lev + 1);
@@ -281,7 +280,7 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_CONTENT:
             while (con) {
                 INDENT(lev);
-                CONSOLE("%p CONTENT  next=%p prev=%p last_used=%d served_cnt=%d\n",
+                CONSOLE("%p CONTENT  next=%p prev=%p last_used=%" PRIu32 " served_cnt=%d\n",
                         (void *) con, (void *) con->next, (void *) con->prev,
                         con->last_used, con->served_cnt);
                 //            ccnl_dump(lev+1, CCNL_PREFIX, con->pkt->pfx);
@@ -317,13 +316,14 @@ int
 get_prefix_dump(int lev, void *p, int *len, char** val)
 {
     struct ccnl_prefix_s   *pre = (struct ccnl_prefix_s   *) p;
+    char s[CCNL_MAX_PREFIX_SIZE];
 //    int i;
 //    INDENT(lev);
     //*prefix =  (void *) pre;
     (void)lev;
     *len = pre->compcnt;
     //*val = ccnl_prefix_to_path(pre);
-    sprintf(*val, "%s", ccnl_prefix_to_path(pre));
+    sprintf(*val, "%s", ccnl_prefix_to_str(pre,s,CCNL_MAX_PREFIX_SIZE));
     return 1;
 }
 

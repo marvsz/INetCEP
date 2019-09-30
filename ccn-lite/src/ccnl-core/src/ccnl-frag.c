@@ -19,11 +19,11 @@
  * File history:
  * 2017-06-16 created
  */
-
-#include "../include/ccnl-frag.h"
-#include "../include/ccnl-malloc.h"
-#include "../include/ccnl-pkt.h"
-#include "../include/ccnl-logging.h"
+ 
+#include "ccnl-frag.h"
+#include "ccnl-malloc.h"
+#include "ccnl-pkt.h"
+#include "ccnl-logging.h" 
 
 #ifdef USE_FRAG
 
@@ -46,7 +46,8 @@
  *
  * CCNL_FRAG_SEQUENCED2015
  *  - CCNTLV and CISTLV define a new fixed header: we use this
- *    for a simple fragmentation protocol, also implemented for IOTTLV
+ *    for a simple fragmentation protocol (Note: This was also implemented
+ *    for IOTTLV, which is now deprecated and no longer supported)
  *
  * CCNL_FRAG_BEGINEND2015 ("Begin-End fragmentation")
  *  - cleanup (simplification) of old "sequenced" protocol
@@ -337,11 +338,6 @@ ccnl_frag_getnextSEQD2015(struct ccnl_frag_s *fr, int *ifndx, sockunion *su)
         buf = ccnl_ccntlv_mkFrag(fr, &datalen);
         break;
 #endif
-#ifdef USE_SUITE_IOTTLV
-    case CCNL_SUITE_IOTTLV:
-        buf = ccnl_iottlv_mkFrag(fr, &datalen);
-        break;
-#endif
 #ifdef USE_SUITE_NDNTLV
     case CCNL_SUITE_NDNTLV:
         buf = ccnl_ndntlv_mkFrag(fr, &datalen);
@@ -388,11 +384,6 @@ ccnl_frag_getnextBE2015(struct ccnl_frag_s *fr, int *ifndx, sockunion *su)
 #ifdef USE_SUITE_CCNTLV
     case CCNL_SUITE_CCNTLV:
         buf = ccnl_ccntlv_mkFrag(fr, &datalen);
-        break;
-#endif
-#ifdef USE_SUITE_IOTTLV
-    case CCNL_SUITE_IOTTLV:
-        buf = ccnl_iottlv_mkFrag(fr, &datalen);
         break;
 #endif
 #ifdef USE_SUITE_NDNTLV

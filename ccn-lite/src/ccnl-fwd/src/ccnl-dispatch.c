@@ -35,19 +35,11 @@
 
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-cistlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-iottlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-localrpc.h"
 
 #include "../../ccnl-core/include/ccnl-logging.h"
-
-#ifdef USE_SUITE_COMPRESSED
-#include "ccnl-fwd-decompress.h"
-#include "ccnl-pkt-ndn-compression.h"
-#endif
-
 
 struct ccnl_suite_s ccnl_core_suites[CCNL_SUITE_LAST];
 
@@ -82,17 +74,15 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
 
     // loop through all packets in the received frame (UDP, Ethernet etc)
     while (datalen > 0) {
-#ifndef USE_SUITE_COMPRESSED
         // work through explicit code switching
         while (!ccnl_switch_dehead(&data, &datalen, &enc))
             suite = ccnl_enc2suite(enc);
-#endif // USE_SUITE_COMPRESSED
         if (suite == -1)
             suite = ccnl_pkt2suite(data, datalen, &skip);
 
         if (!ccnl_isSuite(suite)) {
-            DEBUGMSG_CORE(WARNING, "?unknown packet format? ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %zd\n",
-                     ifndx, datalen, *data, data - base);
+            DEBUGMSG_CORE(WARNING, "?unknown packet format? ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d\n",
+                     ifndx, datalen, *data, (int)(data - base));
             return;
         }
 
@@ -123,14 +113,6 @@ ccnl_core_init(void)
     ccnl_core_suites[CCNL_SUITE_CCNTLV].RX       = ccnl_ccntlv_forwarder;
     ccnl_core_suites[CCNL_SUITE_CCNTLV].cMatch   = ccnl_ccntlv_cMatch;
 #endif
-#ifdef USE_SUITE_CISTLV
-    ccnl_core_suites[CCNL_SUITE_CISTLV].RX       = ccnl_cistlv_forwarder;
-    ccnl_core_suites[CCNL_SUITE_CISTLV].cMatch   = ccnl_cistlv_cMatch;
-#endif
-#ifdef USE_SUITE_IOTTLV
-    ccnl_core_suites[CCNL_SUITE_IOTTLV].RX       = ccnl_iottlv_forwarder;
-    ccnl_core_suites[CCNL_SUITE_IOTTLV].cMatch   = ccnl_iottlv_cMatch;
-#endif
 #ifdef USE_SUITE_LOCALRPC
     ccnl_core_suites[CCNL_SUITE_LOCALRPC].RX     = ccnl_localrpc_exec;
     //    ccnl_core_suites[CCNL_SUITE_LOCALRPC].cMatch = ccnl_localrpc_cMatch;
@@ -138,10 +120,6 @@ ccnl_core_init(void)
 #ifdef USE_SUITE_NDNTLV
     ccnl_core_suites[CCNL_SUITE_NDNTLV].RX       = ccnl_ndntlv_forwarder;
     ccnl_core_suites[CCNL_SUITE_NDNTLV].cMatch   = ccnl_ndntlv_cMatch;
-
-    #ifdef USE_SUITE_COMPRESSED
-    ccnl_core_suites[CCNL_SUITE_NDNTLV].RX = ccnl_ndntlv_forwarder_decompress;
-    #endif
 #endif
 
 #ifdef USE_NFN

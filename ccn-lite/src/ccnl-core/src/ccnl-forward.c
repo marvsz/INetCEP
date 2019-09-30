@@ -20,4 +20,4 @@
  * 2017-06-16 created
  */
 
-#include "../include/ccnl-forward.h"
+#include "ccnl-forward.h"

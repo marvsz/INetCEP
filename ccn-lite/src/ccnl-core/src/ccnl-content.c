@@ -43,10 +43,12 @@ ccnl_content_new(struct ccnl_pkt_s **pkt)
 {
     struct ccnl_content_s *c;
 
-    char *s = NULL;
+    char s[CCNL_MAX_PREFIX_SIZE];
+    (void) s;
+
     DEBUGMSG_CORE(TRACE, "ccnl_content_new %p <%s [%d]>\n",
-             (void*) *pkt, (s = ccnl_prefix_to_path((*pkt)->pfx)), ((*pkt)->pfx->chunknum)? *((*pkt)->pfx->chunknum) : -1);
-    ccnl_free(s);
+             (void*) *pkt, ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
+             ((*pkt)->pfx->chunknum)? *((*pkt)->pfx->chunknum) : -1);
 
     c = (struct ccnl_content_s *) ccnl_calloc(1, sizeof(struct ccnl_content_s));
     if (!c)
@@ -54,6 +56,13 @@ ccnl_content_new(struct ccnl_pkt_s **pkt)
     c->pkt = *pkt;
     *pkt = NULL;
     c->last_used = CCNL_NOW();
+#ifdef USE_SUITE_NDNTLV
+    if (c->pkt->suite == CCNL_SUITE_NDNTLV) {
+        /* convert from milli seconds to seconds for now, as CCNL_NOW() has second granularity */
+        c->freshnessperiod = CCNL_NOW() + (c->pkt->s.ndntlv.freshnessperiod / 1000);
+        c->stale = false;
+    }
+#endif
 
     return c;
 }

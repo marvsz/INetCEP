@@ -1,9 +1,15 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 2.8)
 project(ccn-lite NONE)
 
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(CMAKE_SYSTEM_NAME Generic)
+
+option(BUILD_TESTING "Build the testing tree." ON)
+
+if (BUILD_TESTING)
+    enable_testing()
+endif()
 
 # CCNL flags
 set(CCNL_BASIC_FLAGS
@@ -24,17 +30,17 @@ set(CCNL_BASIC_FLAGS
 add_definitions(${CCNL_BASIC_FLAGS})
 
 if (NOT DEFINED CCNL_RIOT)
-   set(CCNL_EXTRA_FLAGS 
+   set(CCNL_EXTRA_FLAGS
         -DUSE_CCNxDIGEST
         -DUSE_MGMT
         -DUSE_UNIXSOCKET
         -DUSE_IPV4
         -DUSE_IPV6
         -DUSE_DEBUG_MALLOC
+        -DUSE_HTTP_STATUS
     )
     add_definitions(${CCNL_EXTRA_FLAGS})
 endif()
-
 
 
 # Platforms
@@ -49,15 +55,20 @@ add_definitions(${CCNL_PLATFORM_FLAGS})
 # Packet formats
 set(CCNL_PACKETFORMAT_FLAGS
     -DUSE_SUITE_NDNTLV
-    -DUSE_SUITE_CCNB
-    -DUSE_SUITE_CCNTLV
-    -DUSE_SUITE_CISTLV
-    -DUSE_SUITE_IOTTLV
-    -DUSE_SUITE_LOCALRPC
-#    -DUSE_SUITE_COMPRESSED
     CACHE PATH
     "packet format flags for CCN-lite"
 )
+if (NOT DEFINED CCNL_RIOT)
+    set(CCNL_PACKETFORMAT_FLAGS
+        "${CCNL_PACKETFORMAT_FLAGS}"
+        -DUSE_SUITE_CCNB
+        -DUSE_SUITE_CCNTLV
+        -DUSE_SUITE_LOCALRPC
+        CACHE PATH
+        "packet format flags for CCN-lite"
+        FORCE
+    )
+endif()
 add_definitions(${CCNL_PACKETFORMAT_FLAGS})
 
 # NFN flags
@@ -82,12 +93,19 @@ endif()
 
 if (NOT DEFINED CCNL_RIOT)
     add_definitions(${CCNL_NFN_FLAGS})
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wall -Werror -std=c99 -g -pedantic")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wall -Werror -std=c99 -g -pedantic") #TODO: add -fsanitize=address
 else()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wall -Werror -std=c99 -g")
 endif()
 
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g")
+
+if (NOT DEFINED CCNL_LINUXKERNEL AND NOT DEFINED CCNL_RIOT)
+    find_package(OpenSSL REQUIRED)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+    message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
+    message("OpenSSL libraries: ${OPENSSL_LIBRARIES}")
+endif()
 
 #add_subdirectory(ccnl-addons)
 #if (DEFINED CCNL_RIOT)
@@ -102,7 +120,6 @@ if (NOT DEFINED CCNL_LINUXKERNEL)
         add_subdirectory(ccnl-relay)
         add_subdirectory(ccnl-utils)
         add_subdirectory(ccnl-nfn)
-        add_subdirectory(ccnl-pkt-compression)
     endif()
 endif()
 if (DEFINED CCNL_RIOT)
@@ -115,7 +132,7 @@ endif()
 
 if (NOT DEFINED CCNL_LINUXKERNEL)
 if (NOT DEFINED CCNL_RIOT)
-    add_dependencies(ccn-lite-relay ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-pkt-compression)
+    add_dependencies(ccn-lite-relay ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)
 endif()
 endif()
 
@@ -133,7 +150,8 @@ if (DOXYGEN_FOUND)
         VERBATIM )
 endif()
 
+
 # unused:
-set(CCNL_DISABLED_FLAGS "USE_LINKLAYER USE_DEBUG USE_DEBUG_MALLOC USE_FRAG \
-						USE_NACK USE_NFN USE_NFN_MONITOR USE_NFN_KEEPALIVE \
-						USE_NFN_PULL USE_SCHEDULER USE_SIGNATURES -DUSE_HTTP_STATUS")
+set(CCNL_DISABLED_FLAGS "USE_LINKLAYER USE_DEBUG USE_DEBUG_MALLOC USE_FRAG
+						USE_NACK USE_NFN USE_NFN_MONITOR USE_NFN_KEEPALIVE
+						USE_NFN_PULL USE_SCHEDULER USE_SIGNATURES")

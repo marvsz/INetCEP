@@ -1,5 +1,13 @@
 ![](doc/logo/ccn-lite-logo-712x184.png)
 
+# Status of Automatic Tests
+
+[![Build Status](https://semaphoreci.com/api/v1/cn-unibas/ccn-lite/branches/master/badge.svg)](https://semaphoreci.com/cn-unibas/ccn-lite)
+
+(Currently, CCN-lite V2 supports only automatic build testing, there are no functionality tests)
+
+# Overview
+
 *Jump to the [Table of Contents](#toc)*
 
 CCN-lite is a reduced and lightweight -- yet functionally
@@ -23,8 +31,6 @@ excellent starting point for commercial products.
 
 CCN-lite has been included in the RIOT operating system for the
 Internet of Things (IoT): http://www.riot-os.org/
-
-[![Build Status](https://travis-ci.org/cn-uofbasel/ccn-lite.svg?branch=master)](https://travis-ci.org/cn-uofbasel/ccn-lite)
 
 
 <a name="toc"></a>
@@ -153,7 +159,7 @@ Featue             | Description
 `USE_ECHO`         | Enable an echo prefix, returning the current time.
 `USE_LINKLAYER`    | Talk to Ethernet, W-LAN, 802.15.4 devices, raw frames.
 `USE_FRAG`         | Enable fragments, to run CCNx over Ethernet.
-`USE_HMAC256`      | Enables hash-based authentification codes.
+`USE_HMAC256`      | Enables hash-based message authentication codes.
 `USE_HTTP_STATUS`  | Provide status info for web browsers.
 `USE_IPV4`         | Enable IP support.
 `USE_LOGGING`      | Enable log messages.
@@ -166,7 +172,7 @@ Featue             | Description
 `USE_SCHEDULER`    | Rate control at CCNx msg and fragment level.
 `USE_SIGNATURES`   | Authenticate management messages.
 `USE_STATS`        | Enable statistics.
-`USE_SUITE_*`      | Enable a specific protocol: CCNB, NDN2013, CCNx2014, IOT2014, LOCALRPC or CISCO2015.
+`USE_SUITE_*`      | Enable a specific protocol: CCNB, NDNTLV (NDN 2014), CCNTLV (CCNx2014), or LOCALRPC and COMPRESSED (for packet compression)
 `USE_UNIXSOCKET`   | Add UNIX IPC to the set of interfaces.
 
 The approach for these extensions is that one can tailor a CCN forwarder to
@@ -270,7 +276,7 @@ Tool                           | Description
  - add further RIOT support 
         - add compressed packet format in an early stage
  - Fix a lot of Bugs
- - Fix some CVEs (discovered by Eric Sesterhenn / X41- D-Sec):
+ - Fix some CVEs (discovered by Eric Sesterhenn / X41 D-Sec):
    CVE-2017-12412, CVE-2017-12464, CVE-2017-12465, CVE-2017-12466, CVE-2017-12467, CVE-2017-12468, CVE-2017-12469, CVE-2017-12471, CVE-2017-12472 
 
 ### [Release 0.3.0](https://github.com/cn-uofbasel/ccn-lite/releases/tag/0.3.0) (Jul 2015)

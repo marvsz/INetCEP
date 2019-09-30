@@ -32,6 +32,9 @@
 #include "ccnl-dispatch.h"
 //#include "ccnl-pkt-builder.h"
 
+#include "evtimer.h"
+#include "evtimer_msg.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -49,27 +52,6 @@ extern "C" {
  * @}
  */
 
-
-
-/**
- * @brief Some macro definitions
- * @{
- */
-#define free_2ptr_list(a,b)     ccnl_free(a), ccnl_free(b)
-#define free_3ptr_list(a,b,c)   ccnl_free(a), ccnl_free(b), ccnl_free(c)
-#define free_4ptr_list(a,b,c,d) ccnl_free(a), ccnl_free(b), ccnl_free(c), ccnl_free(d);
-#define free_5ptr_list(a,b,c,d,e) ccnl_free(a), ccnl_free(b), ccnl_free(c), ccnl_free(d), ccnl_free(e);
-/**
- * @}
- */
-
-/**
- * Frees all memory directly and indirectly allocated for prefix information
- */
-#define free_prefix(p)  do{ if(p) \
-                free_5ptr_list(p->bytes,p->comp,p->complen,p->chunknum,p); } while(0)
-
-
 /**
  * Constant string
  */
@@ -78,12 +60,23 @@ extern "C" {
 /**
  * Stack size for CCN-Lite event loop
  */
+#ifndef CCNL_STACK_SIZE
 #define CCNL_STACK_SIZE (THREAD_STACKSIZE_MAIN)
+#endif
 
 /**
  * Size of the message queue of CCN-Lite's event loop
  */
+#ifndef CCNL_QUEUE_SIZE
 #define CCNL_QUEUE_SIZE     (8)
+#endif
+
+/**
+ * Interest retransmission interval in milliseconds
+ */
+#ifndef CCNL_INTEREST_RETRANS_TIMEOUT
+#define CCNL_INTEREST_RETRANS_TIMEOUT   (1000)
+#endif
 
 /**
  * @brief Data structure for interest packet
@@ -94,6 +87,10 @@ typedef struct {
     size_t buflen;                  /**< size of the buffer */
 } ccnl_interest_t;
 
+/**
+ * PID of the eventloop thread
+ */
+extern kernel_pid_t ccnl_event_loop_pid;
 
 /**
  * Maximum string length for prefix representation
@@ -111,6 +108,36 @@ typedef struct {
 #define CCNL_MSG_AGEING         (0x1702)
 
 /**
+ * Message type for Interest retransmissions
+ */
+#define CCNL_MSG_INT_RETRANS    (0x1703)
+
+/**
+ * Message type for adding content store entries
+ */
+#define CCNL_MSG_CS_ADD         (0x1704)
+
+/**
+ * Message type for deleting content store entries
+ */
+#define CCNL_MSG_CS_DEL         (0x1705)
+
+/**
+ * Message type for performing a content store lookup
+ */
+#define CCNL_MSG_CS_LOOKUP      (0x1706)
+
+/**
+ * Message type for Interest timeouts
+ */
+#define CCNL_MSG_INT_TIMEOUT    (0x1707)
+
+/**
+ * Message type for Face timeouts
+ */
+#define CCNL_MSG_FACE_TIMEOUT   (0x1708)
+
+/**
  * Maximum number of elements that can be cached
  */
 #ifndef CCNL_CACHE_SIZE
@@ -120,17 +147,19 @@ typedef struct {
 #define CCNL_CACHE_SIZE
 #endif
 
+#ifndef CCNL_THREAD_PRIORITY
+#define CCNL_THREAD_PRIORITY (THREAD_PRIORITY_MAIN - 1)
+#endif
+
 /**
  * Struct holding CCN-Lite's central relay information
  */
 extern struct ccnl_relay_s ccnl_relay;
 
 /**
- * @brief Function pointer type for local producer function
+ * Struct Evtimer for various ccnl events
  */
-typedef int (*ccnl_producer_func)(struct ccnl_relay_s *relay,
-                                  struct ccnl_face_s *from,
-                                  struct ccnl_pkt_s *pkt);
+extern evtimer_msg_t ccnl_evtimer;
 
 /**
  * @brief Function pointer type for caching strategy function
@@ -163,12 +192,17 @@ int ccnl_open_netif(kernel_pid_t if_pid, gnrc_nettype_t netreg_type);
  * @param[in] prefix    The name that is requested
  * @param[out] buf      Buffer to write the content chunk to
  * @param[in] buf_len   Size of @p buf
+ * @param[in] int_opts  Interest options (@ref ccnl_interest_opts_u)
  *
  * @return 0 on success
- * @return -1 on failure
+ * @return -1, packet format not supported
+ * @return -2, prefix is NULL
+ * @return -3, packet deheading failed
+ * @return -4, parsing failed
  */
 int ccnl_send_interest(struct ccnl_prefix_s *prefix,
-                       unsigned char *buf, size_t buf_len);
+                       unsigned char *buf, int buf_len,
+                       ccnl_interest_opts_u *int_opts);
 
 /**
  * @brief Wait for incoming content chunk
@@ -189,48 +223,6 @@ int ccnl_send_interest(struct ccnl_prefix_s *prefix,
 int ccnl_wait_for_chunk(void *buf, size_t buf_len, uint64_t timeout);
 
 /**
- * @brief Add entry to the CCN-Lite FIB
- *
- * @par[in] relay   Local relay struct
- * @par[in] pfx     Prefix of the FIB entry
- * @par[in] face    Face for the FIB entry
- *
- * @return 0    on success
- * @return -1   on error
- */
-int ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
-                       struct ccnl_face_s *face);
-
-/**
- * @brief Remove entry from the CCN-Lite FIB
- *
- * @par[in] relay   Local relay struct
- * @par[in] pfx     Prefix of the FIB entry, may be NULL
- * @par[in] face    Face for the FIB entry, may be NULL
- *
- * @return 0    on success
- * @return -1   on error
- */
-int ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx, struct ccnl_face_s *face);
-
-/**
- * @brief Prints the current CCN-Lite FIB
- *
- * @par[in] relay   Local relay struct
- */
-void ccnl_fib_show(struct ccnl_relay_s *relay);
-
-/**
- * @brief Set a local producer function
- *
- * Setting a local producer function allows to generate content on the fly or
- * react otherwise on any kind of incoming interest.
- *
- * @param[in] func  The function to be called first for any incoming interest
- */
-void ccnl_set_local_producer(ccnl_producer_func func);
-
-/**
  * @brief Set a function to control the caching strategy
  *
  * The given function will be called if the cache is full and a new content
@@ -244,6 +236,101 @@ void ccnl_set_local_producer(ccnl_producer_func func);
  *                  the cache is full.
  */
 void ccnl_set_cache_strategy_remove(ccnl_cache_strategy_func func);
+
+/**
+ * @brief Send a message to the CCN-lite thread to add @p to the content store
+ *
+ * @param[in] content   The content to add to the content store
+ */
+static inline void ccnl_msg_cs_add(struct ccnl_content_s *content)
+{
+    msg_t ms = { .type = CCNL_MSG_CS_ADD, .content.ptr = content };
+    msg_send(&ms, ccnl_event_loop_pid);
+}
+
+/**
+ * @brief Send a message to the CCN-lite thread to remove a content with
+ * the @p prefix from the content store
+ *
+ * @param[in] content   The prefix of the content to remove from the content store
+ */
+static inline void ccnl_msg_cs_remove(struct ccnl_prefix_s *prefix)
+{
+    msg_t ms = { .type = CCNL_MSG_CS_DEL, .content.ptr = prefix };
+    msg_send(&ms, ccnl_event_loop_pid);
+}
+
+/**
+ * @brief Send a message to the CCN-lite thread to perform a content store
+ * lookup for the @p prefix
+ *
+ * @param[in] content   The prefix of the content to perform a lookup for
+ *
+ * @return              pointer to the content, if found
+ * @reutn               NULL, if not found
+ */
+static inline struct ccnl_content_s *ccnl_msg_cs_lookup(struct ccnl_prefix_s *prefix)
+{
+    msg_t mr, ms = { .type = CCNL_MSG_CS_LOOKUP, .content.ptr = prefix };
+    msg_send_receive(&ms, &mr, ccnl_event_loop_pid);
+    return (struct ccnl_content_s *) mr.content.ptr;
+}
+
+/**
+ * @brief Reset Interest retransmissions
+ *
+ * @param[in] i         The interest to update
+ */
+static inline void ccnl_evtimer_reset_interest_retrans(struct ccnl_interest_s *i)
+{
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_retrans);
+    i->evtmsg_retrans.msg.type = CCNL_MSG_INT_RETRANS;
+    i->evtmsg_retrans.msg.content.ptr = i;
+    ((evtimer_event_t *)&i->evtmsg_retrans)->offset = CCNL_INTEREST_RETRANS_TIMEOUT;
+    evtimer_add_msg(&ccnl_evtimer, &i->evtmsg_retrans, ccnl_event_loop_pid);
+}
+
+/**
+ * @brief Reset Interest timeout
+ *
+ * @param[in] i         The interest to update
+ */
+static inline void ccnl_evtimer_reset_interest_timeout(struct ccnl_interest_s *i)
+{
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_timeout);
+    i->evtmsg_timeout.msg.type = CCNL_MSG_INT_TIMEOUT;
+    i->evtmsg_timeout.msg.content.ptr = i;
+    ((evtimer_event_t *)&i->evtmsg_timeout)->offset = i->lifetime * 1000; // ms
+    evtimer_add_msg(&ccnl_evtimer, &i->evtmsg_timeout, ccnl_event_loop_pid);
+}
+
+/**
+ * @brief Reset Face timeout
+ *
+ * @param[in] f         The face to update
+ */
+static inline void ccnl_evtimer_reset_face_timeout(struct ccnl_face_s *f)
+{
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&f->evtmsg_timeout);
+    f->evtmsg_timeout.msg.type = CCNL_MSG_FACE_TIMEOUT;
+    f->evtmsg_timeout.msg.content.ptr = f;
+    ((evtimer_event_t *)&f->evtmsg_timeout)->offset = CCNL_FACE_TIMEOUT * 1000; // ms
+    evtimer_add_msg(&ccnl_evtimer, &f->evtmsg_timeout, ccnl_event_loop_pid);
+}
+
+/**
+ * @brief Set content timeout
+ *
+ * @param[in] c         The content to timeout
+ */
+static inline void ccnl_evtimer_set_cs_timeout(struct ccnl_content_s *c)
+{
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&c->evtmsg_cstimeout);
+    c->evtmsg_cstimeout.msg.type = CCNL_MSG_CS_DEL;
+    c->evtmsg_cstimeout.msg.content.ptr = c->pkt->pfx;
+    ((evtimer_event_t *)&c->evtmsg_cstimeout)->offset = CCNL_CONTENT_TIMEOUT * 1000; // ms
+    evtimer_add_msg(&ccnl_evtimer, &c->evtmsg_cstimeout, ccnl_event_loop_pid);
+}
 
 #ifdef __cplusplus
 }

@@ -37,9 +37,19 @@
 #define CCNL_BROADCAST_OCTET            0xFF
 
 #if defined(CCNL_ARDUINO) || defined(CCNL_RIOT)
-# define CCNL_MAX_INTERFACES             1
+# if defined(CCNL_RIOT)
+#  include "net/gnrc/netif.h"
+#  define CCNL_MAX_INTERFACES            GNRC_NETIF_NUMOF
+# else
+#  define CCNL_MAX_INTERFACES            1
+# endif
 # define CCNL_MAX_IF_QLEN                14
+#ifndef CCNL_MAX_PACKET_SIZE
 # define CCNL_MAX_PACKET_SIZE            120
+#endif
+#ifndef CCNL_MAX_PREFIX_SIZE
+# define CCNL_MAX_PREFIX_SIZE            50
+#endif
 # define CCNL_MAX_ADDRESS_LEN            8
 # define CCNL_MAX_NAME_COMP              8
 # define CCNL_DEFAULT_MAX_PIT_ENTRIES    20
@@ -50,21 +60,31 @@
 # define CCNL_MAX_ADDRESS_LEN            6
 # define CCNL_MAX_NAME_COMP              16
 # define CCNL_DEFAULT_MAX_PIT_ENTRIES    100
+# define CCNL_MAX_PREFIX_SIZE            2048
 #else
 # define CCNL_MAX_INTERFACES             10
 # define CCNL_MAX_IF_QLEN                64
 # define CCNL_MAX_PACKET_SIZE            8096
 # define CCNL_MAX_ADDRESS_LEN            6
 # define CCNL_MAX_NAME_COMP              64
+# define CCNL_MAX_PREFIX_SIZE            2048
 # define CCNL_DEFAULT_MAX_PIT_ENTRIES    (-1)
 #endif
 
-#define CCNL_CONTENT_TIMEOUT            300 // sec
-#define CCNL_INTEREST_TIMEOUT           21  // sec
-#define CCNL_MAX_INTEREST_RETRANSMIT    7
+#ifndef CCNL_CONTENT_TIMEOUT
+# define CCNL_CONTENT_TIMEOUT            300 // sec
+#endif
+#ifndef CCNL_INTEREST_TIMEOUT
+# define CCNL_INTEREST_TIMEOUT           10  // sec
+#endif
+#ifndef CCNL_MAX_INTEREST_RETRANSMIT
+# define CCNL_MAX_INTEREST_RETRANSMIT    7
+#endif
 
-// #define CCNL_FACE_TIMEOUT    60 // sec
-#define CCNL_FACE_TIMEOUT       150 // sec
+#ifndef CCNL_FACE_TIMEOUT
+// # define CCNL_FACE_TIMEOUT    60 // sec
+# define CCNL_FACE_TIMEOUT       30 // sec
+#endif
 
 #define CCNL_DEFAULT_MAX_CACHE_ENTRIES  0   // means: no content caching
 #ifdef CCNL_RIOT
@@ -79,12 +99,6 @@ enum {
 #endif
 #ifdef USE_SUITE_CCNTLV
   CCNL_SUITE_CCNTLV = 2,
-#endif
-#ifdef USE_SUITE_CISTLV
-  CCNL_SUITE_CISTLV = 3,
-#endif
-#ifdef USE_SUITE_IOTTLV
-  CCNL_SUITE_IOTTLV = 4,
 #endif
 #ifdef USE_SUITE_LOCALRPC
   CCNL_SUITE_LOCALRPC = 5,
@@ -102,14 +116,19 @@ enum {
 // 0x80 followed by:
 // (add new encodings at the end)
 
-enum {
-  CCNL_ENC_CCNB,
-  CCNL_ENC_NDN2013,
-  CCNL_ENC_CCNX2014,
-  CCNL_ENC_IOT2014,
-  CCNL_ENC_LOCALRPC,
-  CCNL_ENC_CISCO2015
-};
+/**
+ * @brief Provides an (internal) mapping to the supported packet types
+ *
+ * Note: Previous versions of CCN-lite supported Cisco's IOT packet format
+ * which has since be removed. In previous versions, this enum had a 
+ * member CCNL_ENC_IOT2014 (with an implictly assigned value of 3).
+ */
+typedef enum ccnl_enc_e {
+  CCNL_ENC_CCNB,     /**< encoding for CCN */
+  CCNL_ENC_NDN2013,  /**< NDN encoding (version 2013) */
+  CCNL_ENC_CCNX2014, /**< CCNx encoding (version 2014) */
+  CCNL_ENC_LOCALRPC  /**< encoding type for local rpc mechanism */
+} ccnl_enc;
 
 // ----------------------------------------------------------------------
 // our own CCN-lite extensions for the ccnb encoding:

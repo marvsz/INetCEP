@@ -24,8 +24,8 @@
 #ifdef USE_SUITE_CCNTLV
 
 #ifndef CCNL_LINUXKERNEL
-#include "../include/ccnl-pkt-ccntlv.h"
-#include "../../ccnl-core/include/ccnl-core.h"
+#include "ccnl-pkt-ccntlv.h"
+#include "ccnl-core.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -84,7 +84,6 @@ ccnl_ccntlv_getHdrLen(unsigned char *data, int len)
     return -1;
 }
 
-// parse TL (returned in typ and vallen) and adjust buf and len
 int
 ccnl_ccntlv_dehead(unsigned char **buf, int *len,
                    unsigned int *typ, unsigned int *vallen)
@@ -92,8 +91,9 @@ ccnl_ccntlv_dehead(unsigned char **buf, int *len,
 // Avoiding casting pointers to uint16t -- issue with the RFduino compiler?
 // Workaround:
     uint16_t tmp;
+    size_t maxlen = *len;
 
-    if (*len < 4)
+    if (*len < 4) //ensure that len is not negative!
         return -1;
     memcpy(&tmp, *buf, 2);
     *typ = ntohs(tmp);
@@ -101,6 +101,8 @@ ccnl_ccntlv_dehead(unsigned char **buf, int *len,
     *vallen = ntohs(tmp);
     *len -= 4;
     *buf += 4;
+    if(*vallen > maxlen)
+        return -1; //Return failure (-1) if length value in the tlv is longer than the buffer
     return 0;
 /*
     unsigned short *ip;
@@ -630,5 +632,8 @@ ccnl_ccntlv_mkFrag(struct ccnl_frag_s *fr, unsigned int *consumed)
 #endif // NEEDS_PACKET_CRAFTING
 
 #endif // USE_SUITE_CCNTLV
+
+/* suppress empty translation unit error */
+typedef int unused_typedef;
 
 // eof

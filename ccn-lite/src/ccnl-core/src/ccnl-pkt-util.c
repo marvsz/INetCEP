@@ -20,24 +20,22 @@
  */
 
 #ifndef CCNL_LINUXKERNEL
+
 #include "../include/ccnl-pkt-util.h"
 #include "../include/ccnl-defs.h"
 #include "../include/ccnl-os-time.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-cistlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-iottlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include "../include/ccnl-logging.h"
+
 #else
 #include "../include/ccnl-pkt-util.h"
 #include "../include/ccnl-defs.h"
 #include "../include/ccnl-os-time.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-cistlv.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-iottlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include "../include/ccnl-logging.h"
@@ -45,8 +43,7 @@
 
 
 int
-ccnl_str2suite(char *cp)
-{
+ccnl_str2suite(char *cp) {
     if (!cp)
         return -1;
 #ifdef USE_SUITE_CCNB
@@ -56,14 +53,6 @@ ccnl_str2suite(char *cp)
 #ifdef USE_SUITE_CCNTLV
     if (!strcmp(cp, CONSTSTR("ccnx2015")))
         return CCNL_SUITE_CCNTLV;
-#endif
-#ifdef USE_SUITE_CISTLV
-    if (!strcmp(cp, CONSTSTR("cisco2015")))
-        return CCNL_SUITE_CISTLV;
-#endif
-#ifdef USE_SUITE_IOTTLV
-    if (!strcmp(cp, CONSTSTR("iot2014")))
-        return CCNL_SUITE_IOTTLV;
 #endif
 #ifdef USE_SUITE_LOCALRPC
     if (!strcmp(cp, CONSTSTR("localrpc")))
@@ -76,9 +65,8 @@ ccnl_str2suite(char *cp)
     return -1;
 }
 
-const char*
-ccnl_suite2str(int suite)
-{
+const char *
+ccnl_suite2str(int suite) {
 #ifdef USE_SUITE_CCNB
     if (suite == CCNL_SUITE_CCNB)
         return CONSTSTR("ccnb");
@@ -86,14 +74,6 @@ ccnl_suite2str(int suite)
 #ifdef USE_SUITE_CCNTLV
     if (suite == CCNL_SUITE_CCNTLV)
         return CONSTSTR("ccnx2015");
-#endif
-#ifdef USE_SUITE_CISTLV
-    if (suite == CCNL_SUITE_CISTLV)
-        return CONSTSTR("cisco2015");
-#endif
-#ifdef USE_SUITE_IOTTLV
-    if (suite == CCNL_SUITE_IOTTLV)
-        return CONSTSTR("iot2014");
 #endif
 #ifdef USE_SUITE_LOCALRPC
     if (suite == CCNL_SUITE_LOCALRPC)
@@ -107,8 +87,7 @@ ccnl_suite2str(int suite)
 }
 
 int
-ccnl_suite2defaultPort(int suite)
-{
+ccnl_suite2defaultPort(int suite) {
 #ifdef USE_SUITE_CCNB
     if (suite == CCNL_SUITE_CCNB)
         return CCN_UDP_PORT;
@@ -116,14 +95,6 @@ ccnl_suite2defaultPort(int suite)
 #ifdef USE_SUITE_CCNTLV
     if (suite == CCNL_SUITE_CCNTLV)
         return CCN_UDP_PORT;
-#endif
-#ifdef USE_SUITE_CISTLV
-    if (suite == CCNL_SUITE_CISTLV)
-        return CCN_UDP_PORT;
-#endif
-#ifdef USE_SUITE_IOTTLV
-    if (suite == CCNL_SUITE_IOTTLV)
-        return NDN_UDP_PORT;
 #endif
 #ifdef USE_SUITE_NDNTLV
     if (suite == CCNL_SUITE_NDNTLV)
@@ -133,22 +104,13 @@ ccnl_suite2defaultPort(int suite)
 }
 
 bool
-ccnl_isSuite(int suite)
-{
+ccnl_isSuite(int suite) {
 #ifdef USE_SUITE_CCNB
     if (suite == CCNL_SUITE_CCNB)
         return true;
 #endif
 #ifdef USE_SUITE_CCNTLV
     if (suite == CCNL_SUITE_CCNTLV)
-        return true;
-#endif
-#ifdef USE_SUITE_CISTLV
-    if (suite == CCNL_SUITE_CISTLV)
-        return true;
-#endif
-#ifdef USE_SUITE_IOTTLV
-    if (suite == CCNL_SUITE_IOTTLV)
         return true;
 #endif
 #ifdef USE_SUITE_LOCALRPC
@@ -163,9 +125,7 @@ ccnl_isSuite(int suite)
 }
 
 int
-ccnl_pkt2suite(unsigned char *data, int len, int *skip)
-{
-#ifndef USE_SUITE_COMPRESSED
+ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
     int enc, suite = -1;
     unsigned char *olddata = data;
 
@@ -188,10 +148,10 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip)
     if (*data == 0x04)
         return CCNL_SUITE_CCNB;
     if (*data == 0x01 && len > 1 && // check for CCNx2015 and Cisco collision:
-                                (data[1] != 0x00 && // interest
-                                 data[1] != 0x01 && // data
-                                 data[1] != 0x02 && // interestReturn
-                                 data[1] != 0x03))  // fragment
+        (data[1] != 0x00 && // interest
+         data[1] != 0x01 && // data
+         data[1] != 0x02 && // interestReturn
+         data[1] != 0x03))  // fragment
         return CCNL_SUITE_CCNB;
 #endif
 
@@ -205,15 +165,6 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip)
     }
 #endif
 
-#ifdef USE_SUITE_CISTLV
-    if (data[0] == CISCO_TLV_V1 && len > 1) {
-        if (data[1] == CISCO_PT_Interest ||
-            data[1] == CISCO_PT_Content ||
-            data[1] == CISCO_PT_Nack)
-            return CCNL_SUITE_CISTLV;
-    }
-#endif
-
 #ifdef USE_SUITE_NDNTLV
     if (*data == NDN_TLV_Interest || *data == NDN_TLV_Data ||
         *data == NDN_TLV_Fragment)
@@ -221,40 +172,26 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip)
 #endif
 
 /*
-#ifdef USE_SUITE_IOTTLV
-        if (*data == IOT_TLV_Request || *data == IOT_TLV_Reply)
-            return CCNL_SUITE_IOTTLV;
-#endif
-
 #ifdef USE_SUITE_LOCALRPC
         if (*data == LRPC_PT_REQUEST || *data == LRPC_PT_REPLY)
             return CCNL_SUITE_LOCALRPC;
 #endif
     }
 */
-#else //USE_SUITE_COMPRESSED
-#ifdef USE_SUITE_NDNTLV
-    (void) len;
-    (void) data;
-    (void) skip;
-    return CCNL_SUITE_NDNTLV;
-#endif //USE_SUITE_NDNTLV
-#endif  //USE_SUITE_COMPRESSED
     return -1;
 }
 
 int
-ccnl_cmp2int(unsigned char *cmp, int cmplen)
-{
+ccnl_cmp2int(unsigned char *cmp, int cmplen) {
     long int i;
-    char *str = (char *)ccnl_malloc(cmplen+1);
+    char *str = (char *) ccnl_malloc(cmplen + 1);
     DEBUGMSG(DEBUG, "  inter a: %i\n", cmplen);
     DEBUGMSG(DEBUG, "  inter b\n");
-    memcpy(str, (char *)cmp, cmplen);
+    memcpy(str, (char *) cmp, cmplen);
     str[cmplen] = '\0';
     DEBUGMSG(DEBUG, "  inter c: %s\n", str);
     i = strtol(str, NULL, 0);
     DEBUGMSG(DEBUG, "  inter d\n");
     ccnl_free(str);
-    return (int)i;
+    return (int) i;
 }

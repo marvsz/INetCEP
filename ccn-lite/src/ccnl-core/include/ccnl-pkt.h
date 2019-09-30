@@ -29,12 +29,35 @@
 #include "ccnl-buf.h"
 #include "ccnl-prefix.h"
 
+#ifdef USE_SUITE_NDNTLV
+//#include "ccnl-pkt-ndntlv.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
+#endif
+
 // packet flags:  0000ebtt
 #define CCNL_PKT_REQUEST    0x01 // "Interest"
 #define CCNL_PKT_REPLY      0x02 // "Object", "Data"
 #define CCNL_PKT_FRAGMENT   0x03 // "Fragment"
 #define CCNL_PKT_FRAG_BEGIN 0x04 // see also CCNL_DATA_FRAG_FLAG_FIRST etc
 #define CCNL_PKT_FRAG_END   0x08
+
+/**
+ * @brief Options for Interest messages of all TLV formats
+ */
+typedef union {
+#ifdef USE_SUITE_NDNTLV
+    struct ccnl_ndntlv_interest_opts_s ndntlv;      /**< options for NDN Interest messages */
+#endif
+} ccnl_interest_opts_u;
+
+/**
+ * @brief Options for Data messages of all TLV formats
+ */
+typedef union {
+#ifdef USE_SUITE_NDNTLV
+    struct ccnl_ndntlv_data_opts_s ndntlv;      /**< options for NDN Data messages */
+#endif
+} ccnl_data_opts_u;
 
 struct ccnl_pktdetail_ccnb_s {
     int minsuffix, maxsuffix, aok, scope;
@@ -46,14 +69,17 @@ struct ccnl_pktdetail_ccntlv_s {
     struct ccnl_buf_s *keyid;       /**< publisher keyID */
 };
 
-struct ccnl_pktdetail_iottlv_s {
-    int ttl;
-};
-
+/**
+ * @brief Packet details for the NDN TLV format
+ */
 struct ccnl_pktdetail_ndntlv_s {
+    /* Interest */
     int minsuffix, maxsuffix, mbf, scope;
     struct ccnl_buf_s *nonce;      /**< nonce */
     struct ccnl_buf_s *ppkl;       /**< publisher public key locator */
+    uint32_t interestlifetime;     /**< interest lifetime */
+    /* Data */
+    uint32_t freshnessperiod;      /**< content freshness period */
 };
 
 struct ccnl_pkt_s {
@@ -69,7 +95,6 @@ struct ccnl_pkt_s {
     union {
         struct ccnl_pktdetail_ccnb_s   ccnb;
         struct ccnl_pktdetail_ccntlv_s ccntlv;
-        struct ccnl_pktdetail_iottlv_s iottlv;
         struct ccnl_pktdetail_ndntlv_s ndntlv;
     } s;                           /**< suite specific packet details */
 #ifdef USE_HMAC256
