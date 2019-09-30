@@ -113,11 +113,11 @@ ccnb_deheadAndPrint(int lev, unsigned char *base, unsigned char **buf,
         fprintf(out, "%04zx  ", *buf - base);
     }
 
-    for (i = 0; i < lev; i++) {
-        fprintf(out, "  ");
-    }
     if (**buf == 0) {
         if (!rawxml) {
+            for (i = 0; lev > 0 && i < lev - 1; i++) {
+                fprintf(out, "  ");
+            }
             fprintf(out, "00 ");
         }
         *num = *typ = 0;
@@ -125,6 +125,11 @@ ccnb_deheadAndPrint(int lev, unsigned char *base, unsigned char **buf,
         *len -= 1;
         return 0;
     }
+
+    for (i = 0; i < lev; i++) {
+        fprintf(out, "  ");
+    }
+
     for (i = 0; i < (int) sizeof(i) && i < *len; i++) {
         unsigned char c = (*buf)[i];
         if (!rawxml) {
@@ -1364,12 +1369,12 @@ main(int argc, char *argv[]) {
                     goto help;
                 break;
             case 'f':
-                format = strtol(optarg);
+                format = strtol(optarg, (char**) NULL,10);
                 break;
             case 'v':
 #ifdef USE_LOGGING
                 if (isdigit(optarg[0]))
-                    debug_level = strtol(optarg);
+                    debug_level = strtol(optarg, (char**) NULL,10);
                 else
                     debug_level = ccnl_debug_str2level(optarg);
 #endif
