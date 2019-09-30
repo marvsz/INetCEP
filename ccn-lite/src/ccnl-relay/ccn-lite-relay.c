@@ -189,7 +189,7 @@ main(int argc, char **argv)
     while ((opt = getopt(argc, argv, "hc:d:e:g:i:o:p:s:t:u:6:v:w:x:")) != -1) {
         switch (opt) {
         case 'c':
-            max_cache_entries = atoi(optarg);
+            max_cache_entries = strtol(optarg);
             break;
         case 'd':
             datadir = optarg;
@@ -198,10 +198,10 @@ main(int argc, char **argv)
             ethdev = optarg;
             break;
         case 'g':
-            inter_pkt_interval = atoi(optarg);
+            inter_pkt_interval = strtol(optarg);
             break;
         case 'i':
-            inter_ccn_interval = atoi(optarg);
+            inter_ccn_interval = strtol(optarg);
             break;
 #ifdef USE_ECHO
         case 'o':
@@ -217,24 +217,24 @@ main(int argc, char **argv)
                 goto usage;
             break;
         case 't':
-            httpport = atoi(optarg);
+            httpport = strtol(optarg);
             break;
         case 'u':
             if (udpport1 == -1)
-                udpport1 = atoi(optarg);
+                udpport1 = strtol(optarg);
             else
-                udpport2 = atoi(optarg);
+                udpport2 = strtol(optarg);
             break;
         case '6':
             if (udp6port1 == -1)
-                udp6port1 = atoi(optarg);
+                udp6port1 = strtol(optarg);
             else
-                udp6port2 = atoi(optarg);
+                udp6port2 = strtol(optarg);
             break;
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = atoi(optarg);
+                debug_level = strtol(optarg);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif

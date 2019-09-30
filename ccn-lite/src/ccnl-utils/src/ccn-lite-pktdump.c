@@ -1198,12 +1198,12 @@ main(int argc, char *argv[])
                 goto help;
             break;
         case 'f':
-            format = atoi(optarg);
+            format = strtol(optarg);
             break;
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = atoi(optarg);
+                debug_level = strtol(optarg);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif

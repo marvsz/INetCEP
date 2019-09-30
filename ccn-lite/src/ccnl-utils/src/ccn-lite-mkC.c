@@ -69,10 +69,10 @@ main(int argc, char *argv[])
             keys = load_keys_from_file(optarg);
             break;
         case 'l':
-            lastchunknum = atoi(optarg);
+            lastchunknum = strtol(optarg);
             break;
         case 'n':
-            chunknum = atoi(optarg);
+            chunknum = strtol(optarg);
             break;
         case 'o':
             outfname = optarg;
@@ -97,7 +97,7 @@ main(int argc, char *argv[])
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = atoi(optarg);
+                debug_level = strtol(optarg);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif

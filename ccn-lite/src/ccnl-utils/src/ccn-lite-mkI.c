@@ -67,13 +67,13 @@ main(int argc, char *argv[])
             }
             break;
         case 'e':
-            nonce = atoi(optarg);
+            nonce = strtol(optarg);
             break;
         case 'l':
             isLambda = 1 - isLambda;
             break;
         case 'n':
-            chunknum = atoi(optarg);
+            chunknum = strtol(optarg);
             break;
         case 'o':
             fname = optarg;
@@ -91,7 +91,7 @@ main(int argc, char *argv[])
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = atoi(optarg);
+                debug_level = strtol(optarg);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif
