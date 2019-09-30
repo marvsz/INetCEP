@@ -38,6 +38,7 @@ struct ccnl_prefix_s;
  * static or stale.
  */
 typedef enum ccnl_content_flags_e {
+    CCNL_CONTENT_FLAGS_NOT_STALE = 0x0, /** < content is not stale*/
     CCNL_CONTENT_FLAGS_STATIC = 0x01,   /**< content is static */
     CCNL_CONTENT_FLAGS_STALE = 0x02,    /**< content is stale */
     CCNL_CONTENT_DO_NOT_USE = UINT8_MAX /**< for internal use only, sets the width of the enum to sizeof(uint8_t) */
@@ -60,10 +61,6 @@ typedef struct ccnl_content_s {
     // >> CCNL: currently no stale bit, old content is fully removed <<
 
     uint32_t last_used;                   /**< indicates when the stored content was last used */
-
-#ifdef USE_SUITE_NDNTLV
-    bool stale;                           /**< indicates if a packet was marked 'non-fresh' -> staled */
-#endif
 
 #ifdef CCNL_RIOT
     evtimer_msg_event_t evtmsg_cstimeout; /**< event timer message which is triggered when a timeout in the content store occurs */
