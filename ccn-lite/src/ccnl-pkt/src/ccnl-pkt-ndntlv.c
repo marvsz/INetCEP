@@ -114,9 +114,6 @@ ccnl_ndntlv_bytes2pkt(uint64_t pkttype, uint8_t *start,
     int validAlgoIsHmac256 = 0;
 #endif
 
-
-    write(1, *data, *datalen);
-
     DEBUGMSG(DEBUG, "ccnl_ndntlv_bytes2pkt len=%zu\n", *datalen);
 
     pkt = (struct ccnl_pkt_s*) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
