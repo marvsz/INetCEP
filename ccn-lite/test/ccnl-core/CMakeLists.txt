@@ -23,12 +23,12 @@ add_definitions(${CCNL_NFN_FLAGS})
 link_directories(
         ${CMAKE_BINARY_DIR}/lib
 )
-include_directories(include ../../src/ccnl-pkt/include ../../src/ccnl-fwd/include ../../src/ccnl-core/include ../../src/ccnl-unix/include)
+include_directories(include ../../src/ccnl-pkt/include ../../src/ccnl-fwd/include ../../src/ccnl-core/include ../../src/ccnl-unix/include ../../src/ccnl-nfn/include)
 
-#add_executable(test_interest test_interest.c)
-#target_link_libraries(test_interest ccnl-core ccnl-pkt cmocka)
-#target_link_libraries(test_interest ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
-#add_test(test_interest test_interest)
+add_executable(test_interest test_interest.c)
+target_link_libraries(test_interest ccnl-core ccnl-pkt cmocka)
+target_link_libraries(test_interest ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
+add_test(test_interest test_interest)
 
 add_executable(test_sockunion test_sockunion.c)
 target_link_libraries(test_sockunion ccnl-core cmocka)
@@ -51,6 +51,6 @@ target_link_libraries(test_content ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENS
 add_test(test_content test_content)
 
 add_executable(test_prefix test_prefix.c)
-target_link_libraries(test_prefix ccnl-core ccnl-fwd ccnl-pkt ccnl-unix cmocka)
+target_link_libraries(test_prefix ccnl-core ccnl-fwd ccnl-pkt ccnl-unix ccnl-nfn cmocka)
 target_link_libraries(test_prefix ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
 add_test(test_prefix test_prefix)
