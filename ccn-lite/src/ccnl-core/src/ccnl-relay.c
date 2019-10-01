@@ -341,8 +341,7 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
 */
 
 #ifdef CCNL_RIOT
-    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_retrans);
-    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_timeout);
+    ccnl_riot_interest_remove((evtimer_t *)(&ccnl_evtimer), i);
 #endif
 
     while (i->pending) {
@@ -353,7 +352,7 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
     i2 = i->next;
 
     ccnl->pitcnt--;
-    
+
     DBL_LINKED_LIST_REMOVE(ccnl->pit, i);
 
     if(i->pkt){
