@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <ccnl-pkt.h>
 
 
 uint8_t
@@ -52,5 +53,15 @@ ccnl_pkt2suite(uint8_t *data, size_t len, size_t *skip);
  */
 int
 ccnl_cmp2int(unsigned char *cmp, size_t cmplen);
+
+/**
+ * Returns the Interest lifetime in seconds
+ *
+ * @param[in] pkt Pointer to the Interest packet
+ *
+ * @return        The interest lifetime in seconds
+ */
+uint64_t
+ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt);
 
 #endif
