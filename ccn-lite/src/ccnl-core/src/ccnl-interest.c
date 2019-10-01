@@ -63,7 +63,16 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
+
+    if (ccnl->pitcnt >= ccnl->max_pit_entries) {
+        ccnl_pkt_free(i->pkt);
+        ccnl_free(i);
+        return NULL;
+    }
+
     DBL_LINKED_LIST_ADD(ccnl->pit, i);
+
+    ccnl->pitcnt++;
 
 #ifdef CCNL_RIOT
     ccnl_evtimer_reset_interest_retrans(i);
