@@ -24,18 +24,18 @@
 #ifndef CCNL_FWD_H
 #define CCNL_FWD_H
 
-#include "../../ccnl-core/include/ccnl-core.h"
+#include "ccnl-core.h"
 
 /**
  * @brief       Functionpointer to a CCN-lite Forwarder Function
  */
-typedef int (*dispatchFct)(struct ccnl_relay_s*, struct ccnl_face_s*, 
-                           unsigned char**, int*);
+typedef int8_t (*dispatchFct)(struct ccnl_relay_s*, struct ccnl_face_s*,
+                              uint8_t**, size_t *);
 
 /**
  * @brief       Functionpointer to a CCN-lite CS-Matching Function
  */
-typedef int (*cMatchFct)(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
+typedef int8_t (*cMatchFct)(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
 
 /**
  * @brief       Defines for every Packet format the Forwarding and CS-Matching function
@@ -49,7 +49,7 @@ struct ccnl_suite_s {
 #ifdef USE_SUITE_CCNB
 /**
  * @brief       Helper to process one CCNB packet
- * 
+ *
  * @param[in] relay     pointer to current ccnl relay
  * @param[in] from      face on which the message was received
  * @param[in] data      data which were received
@@ -58,13 +58,13 @@ struct ccnl_suite_s {
  *
  * @return      < 0 if no bytes consumed or error
  */
-int
+int8_t
 ccnl_ccnb_fwd(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-              unsigned char **data, int *datalen, int typ);
+              uint8_t **data, size_t *datalen, uint64_t typ);
 
 /**
  * @brief       process one CCNB packet (CCNB forwarding pipeline)
- * 
+ *
  * @param[in] relay     pointer to current ccnl relay
  * @param[in] from      face on which the message was received
  * @param[in] data      data which were received
@@ -72,15 +72,15 @@ ccnl_ccnb_fwd(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
  *
  * @return      < 0 if no bytes consumed or error
  */
-int
+int8_t
 ccnl_ccnb_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                    unsigned char **data, int *datalen);
+                    uint8_t **data, size_t *datalen);
 #endif // USE_SUITE_CCNB
 
 #ifdef USE_SUITE_CCNTLV
 /**
  * @brief       process one CCNTLV packet (CCNTLV forwarding pipeline)
- * 
+ *
  * @param[in] relay     pointer to current ccnl relay
  * @param[in] from      face on which the message was received
  * @param[in] data      data which were received
@@ -88,15 +88,15 @@ ccnl_ccnb_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
  *
  * @return      < 0 if no bytes consumed or error
  */
-int
+int8_t
 ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                      unsigned char **data, int *datalen);
+                      uint8_t **data, size_t *datalen);
 #endif // USE_SUITE_CCNTLV
 
 #ifdef USE_SUITE_NDNTLV
 /**
  * @brief       process one NDNTLV packet (NDN forwarding pipeline)
- * 
+ *
  * @param[in] relay     pointer to current ccnl relay
  * @param[in] from      face on which the message was received
  * @param[in] data      data which were received
@@ -104,9 +104,9 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
  *
  * @return      < 0 if no bytes consumed or error
  */
-int
+int8_t
 ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                      unsigned char **data, int *datalen);
+                      uint8_t **data, size_t *datalen);
 #endif // USE_SUITE_NDNTLV
 
 /**
@@ -114,8 +114,8 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
  *
  * @param[in] relay   pointer to current ccnl relay
  * @param[in] from    face on which the interest was received
- * @param[in] pkt     packet which was received   
- * @param[in] cMatch  matching strategy for the Content Store 
+ * @param[in] pkt     packet which was received
+ * @param[in] cMatch  matching strategy for the Content Store
  *
  * @return   0 on success
  * @return   < 0 on failure
@@ -130,7 +130,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
  *
  * @param[in] relay   pointer to current ccnl relay
  * @param[in] from    face on which the interest was received
- * @param[in] pkt     packet which was received   
+ * @param[in] pkt     packet which was received
  *
  * @return   0 on success
  * @return   < 0 on failure

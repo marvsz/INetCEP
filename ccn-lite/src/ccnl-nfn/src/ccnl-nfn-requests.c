@@ -178,7 +178,7 @@ int nfn_request_intermediate_num(struct ccnl_relay_s *relay, struct ccnl_prefix_
     int highest = -1;
     for (c = relay->contents; c; c = c->next) {
         if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
-            if (prefix->compcnt == ccnl_prefix_cmp(prefix, NULL, c->pkt->pfx, CMP_LONGEST)) {
+            if (prefix->compcnt == (unsigned) ccnl_prefix_cmp(prefix, NULL, c->pkt->pfx, CMP_LONGEST)) {
                 int internum = nfn_request_get_arg_int(c->pkt->pfx->request);
                 if (highest < internum) {
                     highest = internum;
@@ -265,7 +265,7 @@ nfn_request_content_pkt_new(struct ccnl_prefix_s *pfx, unsigned char* payload, i
     int nonce = rand();
 #endif 
     struct ccnl_pkt_s *pkt;
-    int dataoffset;
+    size_t dataoffset;
 
     DEBUGMSG(TRACE, "nfn_request_content_pkt_new() nonce=%i\n", nonce);
     
@@ -478,7 +478,7 @@ nfn_request_handle_interest(struct ccnl_relay_s *relay, struct ccnl_face_s *from
             if (ccnl_nfn_already_computing(relay, (*pkt)->pfx)) {
                 int internum = nfn_request_intermediate_num(relay, (*pkt)->pfx);
                 DEBUGMSG_CFWD(DEBUG, "  highest intermediate result: %i\n", internum);
-                int offset;
+                size_t offset;
                 char reply[16];
                 snprintf(reply, 16, "%d", internum);
                 int size = internum >= 0 ? strlen(reply) : 0;
@@ -591,7 +591,7 @@ nfn_request_RX_intermediate(struct ccnl_relay_s *relay, struct ccnl_face_s *from
     // ccnl_free((*pkt)->pfx);    
     // (*pkt)->pfx = interm_pfx; // ok?
 
-    int dataoffset;
+    size_t dataoffset;
     struct ccnl_pkt_s *packet;
     packet = ccnl_calloc(1, sizeof(*packet));
     packet->pfx = interm_pfx;
@@ -605,7 +605,7 @@ nfn_request_RX_intermediate(struct ccnl_relay_s *relay, struct ccnl_face_s *from
     // ccnl_free(content);
 
     DEBUGMSG_CFWD(INFO, "data after caching intermediate result %.*s\n", 
-    content->pkt->contlen, content->pkt->content);
+                  (int) content->pkt->contlen, content->pkt->content);
 
     TRACEOUT();
     return 1;
@@ -634,7 +634,7 @@ nfn_request_RX_cancel(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     DEBUGMSG(INFO, "Original (modified) prefix for cancel response: %s\n", s = ccnl_prefix_to_path(cancel_pfx));
     ccnl_free(s);  
 
-    int dataoffset;
+    size_t dataoffset;
     struct ccnl_pkt_s *packet;
     packet = ccnl_calloc(1, sizeof(*packet));
     packet->pfx = cancel_pfx;
@@ -644,7 +644,7 @@ nfn_request_RX_cancel(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     struct ccnl_content_s *content = ccnl_content_new(&packet);
     DEBUGMSG_CFWD(INFO, "data after creating cancel response %.*s\n", 
-        content->pkt->contlen, content->pkt->content);
+                  (int) content->pkt->contlen, content->pkt->content);
 
     if (!ccnl_content_serve_pending(relay, content)) { // unsolicited content
         DEBUGMSG_CFWD(DEBUG, "  no matching interest for cancel response\n");
@@ -679,7 +679,7 @@ nfn_request_handle_content(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     if (needs_content) {
         c = ccnl_content_new(pkt);
-        DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
+        DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", (int)c->pkt->contlen, c->pkt->content);
         if (!c)
             return 0;
     }

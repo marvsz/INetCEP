@@ -196,13 +196,13 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
     }
     if (prefix->compcnt > 1)
         len += sprintf(str + len, " ");
-    for (i = 0; i < prefix->compcnt-1; i++) {
+    for (i = 0; (unsigned) i <  prefix->compcnt-1; i++) {
 #if defined(USE_SUITE_CCNTLV) 
         if (prefix->suite == CCNL_SUITE_CCNTLV)
-            len += sprintf(str+len,"/%.*s",prefix->complen[i]-4,prefix->comp[i]+4);
+            len += sprintf(str+len,"/%.*s",(int)prefix->complen[i]-4,prefix->comp[i]+4);
         else
 #endif
-            len += sprintf(str+len,"/%.*s",prefix->complen[i],prefix->comp[i]);
+            len += sprintf(str+len,"/%.*s",(int)prefix->complen[i],prefix->comp[i]);
     }
 
     DEBUGMSG(DEBUG, "expr is <%s>\n", str);
@@ -308,7 +308,7 @@ ccnl_nfn_RX_result(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     int found = 0;
     (void)from;
 
-    DEBUGMSG_CFWD(INFO, "data in rx result %.*s\n", c->pkt->contlen, c->pkt->content);
+    DEBUGMSG_CFWD(INFO, "data in rx result %.*s\n", (int)c->pkt->contlen, c->pkt->content);
     TRACEIN();
 #ifdef USE_NACK
     if (ccnl_nfnprefix_contentIsNACK(c)) {
@@ -335,7 +335,7 @@ ccnl_nfn_RX_result(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             }
 #endif
             
-	        DEBUGMSG_CFWD(INFO, "data in rx resulti after add to cache %.*s\n", c->pkt->contlen, c->pkt->content);
+	        DEBUGMSG_CFWD(INFO, "data in rx resulti after add to cache %.*s\n",(int) c->pkt->contlen, c->pkt->content);
             DEBUGMSG(DEBUG, "Continue configuration for configid: %d with prefix: %s\n",
                   faceid, ccnl_prefix_to_path(c->pkt->pfx));
             i_it->flags |= CCNL_PIT_COREPROPAGATES;
