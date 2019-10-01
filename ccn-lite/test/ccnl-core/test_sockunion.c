@@ -91,14 +91,14 @@ void test_ccnl_addr2ascii_invalid()
 
 int main(void)
 {
-    const UnitTest tests[] = {
-            unit_test(test_half_byte_to_char),
-            unit_test(test_ll2ascii_invalid),
-            unit_test(test_ll2ascii_valid),
-            unit_test(test_ccnl_is_local_addr_invalid),
-            unit_test(test_ccnl_is_local_addr_valid),
-            unit_test(test_ccnl_addr2ascii_invalid),
+    const struct CMUnitTest tests[] = {
+            cmocka_unit_test(test_half_byte_to_char),
+            cmocka_unit_test(test_ll2ascii_invalid),
+            cmocka_unit_test(test_ll2ascii_valid),
+            cmocka_unit_test(test_ccnl_is_local_addr_invalid),
+            cmocka_unit_test(test_ccnl_is_local_addr_valid),
+            cmocka_unit_test(test_ccnl_addr2ascii_invalid),
     };
 
-    return run_tests(tests);
+    return cmocka_run_group_tests(tests, NULL, NULL);
 }

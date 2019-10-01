@@ -32,7 +32,7 @@ void test_uri_to_prefix(){
     memset(c, 0, 100);
     strcpy(cmpstr, "/path/to/data");
     strcpy(c, "/path/to/data");
-    struct ccnl_prefix_s *prefix = ccnl_URItoPrefix(c, uri_to_prefix_suite, NULL);
+    struct ccnl_prefix_s *prefix = ccnl_URItoPrefix(c, uri_to_prefix_suite,NULL, NULL);
     assert_string_equal(cmpstr, ccnl_prefix_to_path(prefix));
     ccnl_prefix_free(prefix);
     ccnl_free(c);
@@ -45,7 +45,7 @@ void test_append_to_prefix(){
     char *c = ccnl_malloc(100);
     strcpy(cmpstr, "/path/to/data/cmp");
     strcpy(c, "/path/to/data");
-    struct ccnl_prefix_s *prefix = ccnl_URItoPrefix(c, uri_to_prefix_suite, NULL);
+    struct ccnl_prefix_s *prefix = ccnl_URItoPrefix(c, uri_to_prefix_suite,NULL, NULL);
     char *component = ccnl_malloc(100);
     strcpy(component, "cmp");
     ccnl_prefix_appendCmp(prefix, (unsigned char*) component, 3);
@@ -61,11 +61,11 @@ void test_prefix_exact_match()
     int prefix_cmp_suite = 0;
     char *c1 = ccnl_malloc(100);
     strcpy(c1, "/path/to/data");
-    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite,NULL, NULL);
 
     char *c2 = ccnl_malloc(100);
     strcpy(c2, "/path/to/data");
-    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite,NULL, NULL);
     int res = ccnl_prefix_cmp(p1, 0, p2, CMP_EXACT);
 
     ccnl_prefix_free(p1);
@@ -79,11 +79,11 @@ void test_prefix_no_exact_match()
     int prefix_cmp_suite = 0;
     char *c1 = ccnl_malloc(100);
     strcpy(c1, "/path/to/data");
-    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite,NULL, NULL);
 
     char *c2 = ccnl_malloc(100);
     strcpy(c2, "/path/to/data1");
-    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite,NULL, NULL);
     int res = ccnl_prefix_cmp(p1, 0, p2, CMP_EXACT);
 
     ccnl_prefix_free(p1);
@@ -97,11 +97,11 @@ void test_prefix_longest_match()
     int prefix_cmp_suite = 0;
     char *c1 = ccnl_malloc(100);
     strcpy(c1, "/path/to/data");
-    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite,NULL, NULL);
 
     char *c2 = ccnl_malloc(100);
     strcpy(c2, "/path/to/data/files");
-    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite,NULL, NULL);
     int res = ccnl_prefix_cmp(p1, 0, p2, CMP_LONGEST);
 
     ccnl_prefix_free(p1);
@@ -115,11 +115,11 @@ void test_prefix_no_longest_match()
     int prefix_cmp_suite = 0;
     char *c1 = ccnl_malloc(100);
     strcpy(c1, "/path2/to/data");
-    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p1 = ccnl_URItoPrefix(c1, prefix_cmp_suite,NULL, NULL);
 
     char *c2 = ccnl_malloc(100);
     strcpy(c2, "/path/to/data/files");
-    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite, NULL);
+    struct ccnl_prefix_s *p2 = ccnl_URItoPrefix(c2, prefix_cmp_suite,NULL, NULL);
     int res = ccnl_prefix_cmp(p1, 0, p2, CMP_LONGEST);
     ccnl_prefix_free(p1);
     ccnl_prefix_free(p2);
@@ -129,15 +129,15 @@ void test_prefix_no_longest_match()
 
 int main(void)
 {
-    const UnitTest tests[] = {
-            unit_test(test_prefix_to_path),
-            unit_test(test_uri_to_prefix),
-            unit_test(test_append_to_prefix),
-            unit_test(test_prefix_exact_match),
-            unit_test(test_prefix_no_exact_match),
-            unit_test(test_prefix_longest_match),
-            unit_test(test_prefix_no_longest_match),
+    const struct CMUnitTest tests[] = {
+            cmocka_unit_test(test_prefix_to_path),
+            cmocka_unit_test(test_uri_to_prefix),
+            cmocka_unit_test(test_append_to_prefix),
+            cmocka_unit_test(test_prefix_exact_match),
+            cmocka_unit_test(test_prefix_no_exact_match),
+            cmocka_unit_test(test_prefix_longest_match),
+            cmocka_unit_test(test_prefix_no_longest_match),
     };
 
-    return run_tests(tests);
+    return cmocka_run_group_tests(tests, NULL, NULL);;
 }

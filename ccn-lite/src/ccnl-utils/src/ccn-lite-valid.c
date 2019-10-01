@@ -117,7 +117,7 @@ main(int argc, char *argv[])
     while ((opt = getopt(argc, argv, "e:hk:v:")) != -1) {
         switch (opt) {
         case 'e':
-            exitBehavior = strtol(optarg);
+            exitBehavior = strtol(optarg,NULL,10);
             break;
         case 'k':
             keyfile = optarg;
@@ -125,7 +125,7 @@ main(int argc, char *argv[])
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = strtol(optarg);
+                debug_level = strtol(optarg,NULL,10);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif

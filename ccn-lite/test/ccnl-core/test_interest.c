@@ -61,12 +61,12 @@ void test1()
 
 int main(void)
 {
-    const UnitTest tests[] = {
-            unit_test(test1),
-            unit_test(test_ccnl_interest_is_same_invalid_parameters),
-            unit_test(test_ccnl_interest_remove_pending_invalid_parameters),
-            unit_test(test_ccnl_interest_append_pending_invalid_parameters),
+    const struct CMUnitTest tests[] = {
+            cmocka_unit_test(test1),
+            cmocka_unit_test(test_ccnl_interest_is_same_invalid_parameters),
+            cmocka_unit_test(test_ccnl_interest_remove_pending_invalid_parameters),
+            cmocka_unit_test(test_ccnl_interest_append_pending_invalid_parameters),
     };
 
-    return run_tests(tests);
+    return cmocka_run_group_tests(tests, NULL, NULL);
 }

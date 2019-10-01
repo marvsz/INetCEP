@@ -183,8 +183,7 @@ ccnl_face_remove(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
 void
 ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
                        struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
-                       struct ccnl_buf_s *buf, sockunion *dest)
-{
+                       struct ccnl_buf_s *buf, sockunion *dest) {
     if (ifc) {
         struct ccnl_txrequest_s *r;
 
@@ -195,7 +194,7 @@ ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
         }
 
         if (ifc->qlen >= CCNL_MAX_IF_QLEN) {
-            DEBUGMSG_CORE(WARNING, "  DROPPING buf=%p\n", (void*)buf);
+            DEBUGMSG_CORE(WARNING, "  DROPPING buf=%p\n", (void *) buf);
             ccnl_free(buf);
             return;
         }
@@ -211,6 +210,7 @@ ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
 #else
         ccnl_interface_CTS(ccnl, ifc);
 #endif
+    }
 }
 
 struct ccnl_buf_s*

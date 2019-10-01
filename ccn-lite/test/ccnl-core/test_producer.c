@@ -67,10 +67,10 @@ void test_local_producer_is_not_set()
 
 int main(void)
 {
-    const UnitTest tests[] = {
-            unit_test(test_local_producer_is_set),
-            unit_test(test_local_producer_is_not_set),
+    const struct CMUnitTest tests[] = {
+            cmocka_unit_test(test_local_producer_is_set),
+            cmocka_unit_test(test_local_producer_is_not_set),
     };
 
-    return run_tests(tests);
+    return cmocka_run_group_tests(tests, NULL, NULL);
 }
