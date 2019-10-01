@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #This script has to be started on each node capable of handling queries to utilize the queryStore and execute the commands after an interval.
-input="$HOME/MA-Ali/nodeData/queryStore"
+input="$HOME/INetCEP/nodeData/queryStore"
 
 rm $input
 
