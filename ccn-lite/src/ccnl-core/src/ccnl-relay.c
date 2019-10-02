@@ -250,6 +250,7 @@ ccnl_face_CTS(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
     if (!f->frag || f->frag->protocol == CCNL_FRAG_NONE) {
         buf = ccnl_face_dequeue(ccnl, f);
         if (buf)
+            DEBUGMSG_CORE(DEBUG, "in ccnl_face_CTS the content of the buffer is %s\n",buf->data);
             ccnl_interface_enqueue(ccnl_face_CTS_done, f,
                                    ccnl, ccnl->ifs + f->ifndx, buf, &f->peer);
     }
@@ -278,6 +279,7 @@ int
 ccnl_send_pkt(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                 struct ccnl_pkt_s *pkt)
 {
+    DEBUGMSG(DEBUG,"We are in ccnl_send_pkt and about to enqueue\n");
     return ccnl_face_enqueue(ccnl, to, buf_dup(pkt->buf));
 }
 
@@ -290,6 +292,7 @@ ccnl_face_enqueue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
         DEBUGMSG_CORE(ERROR, "enqueue face: buf most not be NULL\n");
         return -1;
     }
+    DEBUGMSG(DEBUG,"When enqueuing, the content was %s\n",buf->data);
     DEBUGMSG_CORE(TRACE, "enqueue face=%p (id=%d.%d) buf=%p len=%zd\n",
              (void*) to, ccnl->id, to->faceid, (void*) buf, buf ? buf->datalen : 0);
 
@@ -772,6 +775,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 // Mark content as stale if its freshness period expired and it is not static
                 if ((c->last_used + (c->pkt->s.ndntlv.freshnessperiod / 1000)) <= (uint32_t) t &&
                     !(c->flags & CCNL_CONTENT_FLAGS_STATIC)) {
+                    DEBUGMSG(DEBUG,"Content marked as stale");
                     c->flags |= CCNL_CONTENT_FLAGS_NOT_STALE;
                 }
             }
@@ -783,6 +787,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 // than being held indefinitely."
         if ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT) {
+
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
@@ -1059,6 +1064,7 @@ ccnl_interface_CTS(void *aux1, void *aux2)
 #ifndef CCNL_LINUXKERNEL
     assert(ccnl->ccnl_ll_TX_ptr != 0);
 #endif
+    DEBUGMSG_CORE(DEBUG, "In ccnl_interface_CTS the content of the buffer is %s\n",req.buf->data);
     ccnl->ccnl_ll_TX_ptr(ccnl, ifc, &req.dst, req.buf);
 #ifdef USE_SCHEDULER
     ccnl_sched_CTS_done(ifc->sched, 1, req.buf->datalen);

@@ -359,6 +359,8 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
             rc = sendto(ifc->sock,
                         buf->data, buf->datalen, 0,
                         (struct sockaddr*) &dest->ip4, sizeof(struct sockaddr_in));
+            DEBUGMSG(DEBUG,"IIPV4 was used, the sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu",ifc->sock,buf->data,buf->datalen,
+                     sizeof(struct sockaddr_in));
             DEBUGMSG(DEBUG, "udp sendto %s/%d returned %zd\n",
                      inet_ntoa(dest->ip4.sin_addr), ntohs(dest->ip4.sin_port), rc);
             /*
@@ -383,6 +385,8 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
                 DEBUGMSG(DEBUG, "udp sendto %s/%d returned %zd\n",
                          inet_ntop(AF_INET6, &dest->ip6.sin6_addr, abuf, sizeof(abuf)),
                          ntohs(dest->ip6.sin6_port), rc);
+                DEBUGMSG(DEBUG,"IIPV6 was used, the sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu",ifc->sock,buf->data,buf->datalen,
+                         sizeof(struct sockaddr_in));
 
             }
 
@@ -405,9 +409,12 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
 #endif
 #ifdef USE_UNIXSOCKET
         case AF_UNIX:
+            DEBUGMSG(DEBUG,"We are now before the sending to the sock\n");
             rc = sendto(ifc->sock,
                         buf->data, buf->datalen, 0,
-                        (struct sockaddr*) &dest->ux, sizeof(struct sockaddr_un));
+                        (struct sockaddr*) &dest->ux, sizeof(struct sockaddr_un)); // This returns -1 at the moment which is a problem
+            DEBUGMSG(DEBUG,"The sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu, the sockaddr data is is %s and the sockaddr family is %us\n",ifc->sock,buf->data,buf->datalen,
+                     sizeof(struct sockaddr_in),((struct sockaddr*) &dest->ux)->sa_data,((struct sockaddr*) &dest->ux)->sa_family);
             DEBUGMSG(DEBUG, "unix sendto %s returned %zd\n",
                      dest->ux.sun_path, rc);
             break;

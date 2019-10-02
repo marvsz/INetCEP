@@ -677,7 +677,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
         {
 #endif
             result = snprintf(buf + len, buflen - len, "/");
-            DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
+            //DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
             if (!(result > -1 && (size_t)result < (buflen - len))) {
                 DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
                 return NULL;
@@ -686,7 +686,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
 #ifdef USE_NFN
         }else{
             result = snprintf(buf + len, buflen - len, " ");
-            DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
+            //DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
             if (!(result > -1 && (size_t)result < (buflen - len))) {
                 DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
                 return NULL;
@@ -711,7 +711,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
 #else
                   (char *) "%%%02x" : (char *) "%c";
             result = snprintf(buf + len, buflen - len, fmt, c);
-            DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
+            //DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
             if (!(result > -1 && (size_t)result < (buflen - len))) {
                 DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
                 return NULL;
@@ -728,7 +728,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
 #ifdef USE_NFN
     if (pr->nfnflags) {
         result = snprintf(buf + len, buflen - len, "]");
-        DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
+        //DEBUGMSG(TRACE, "result: %d, buf: %s, avail size: %zd, buflen: %zd\n", result, buf+len, buflen - len, buflen);
         if (!(result > -1 && (size_t)result < (buflen - len))) {
             DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
             return NULL;

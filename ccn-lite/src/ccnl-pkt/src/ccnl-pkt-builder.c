@@ -179,6 +179,7 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
     (void)prefix;
 
     tmp = (uint8_t*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
+    //
     if (!tmp) {
         return NULL;
     }
@@ -190,7 +191,9 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
     }
 
     if (len > 0) {
+        DEBUGMSG(DEBUG,"The temp value in mkSimpleInterest is %s\n",tmp);
         buf = ccnl_buf_new(tmp + offs, len);
+        DEBUGMSG(DEBUG,"The buffer created from mkSimpleInterest is %s\n",buf->data);
     }
     ccnl_free(tmp);
 
@@ -237,7 +240,7 @@ ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
                 DEBUGMSG(ERROR, "Failed to create interest");
                 return -1;
             }
-            DEBUGMSG(TRACE, "Packet length: %zd\n", *len);
+            //DEBUGMSG(TRACE, "Packet length: %zd\n", *len);
             break;
 #endif
         default:

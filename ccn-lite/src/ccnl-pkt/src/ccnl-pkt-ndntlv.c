@@ -530,6 +530,7 @@ ccnl_ndntlv_prependName(struct ccnl_prefix_s *name,
         if (ccnl_ndntlv_prependBlob(NDN_TLV_NameComponent,
                                     (unsigned char*) "NFN", 3, offset, buf) < 0)
             return -1;
+        DEBUGMSG(DEBUG,"CCNL_PREFIX_NFN Flag was present");
     }
 // #ifdef USE_TIMEOUT_KEEPALIVE
 //     if (name->nfnflags & CCNL_PREFIX_INTERMEDIATE) {
@@ -545,6 +546,7 @@ ccnl_ndntlv_prependName(struct ccnl_prefix_s *name,
 // #endif
 #ifdef USE_NFN_REQUESTS
     if (name->nfnflags & CCNL_PREFIX_REQUEST) {
+        DEBUGMSG(DEBUG,"CCNL_PREFIX_REQUEST Flag was present");
         if (ccnl_ndntlv_prependBlob(NDN_TLV_NameComponent,
                                     (unsigned char*) name->request->comp,
                                     name->request->complen, offset, buf) < 0)

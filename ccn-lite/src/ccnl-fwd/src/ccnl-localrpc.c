@@ -248,6 +248,7 @@ ccnl_emit_RpcReturn(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     *(pkt->data + switchlen) = LRPC_PT_REPLY;
     pkt->datalen = switchlen + len;
+    DEBUGMSG(DEBUG,"We are in ccnl_emit_RpcReturn and will soon enqueue\n");
     ccnl_face_enqueue(relay, from, pkt);
 
     return 0;

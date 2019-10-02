@@ -31,19 +31,18 @@ if [[ -z $simRunTime ]]
 
 #Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
-#new Usage: bash publishRemotely.sh all "Placement" 3 20 1200
+#new Usage: bash publishRemotely.sh all "Placement" 1 20 1200
 all() {
 	
 	#deployCCN
-	buildNFN
-	sleep 2s
-	#setup	
+	#buildNFN	
 	#sleep 2s
 	#copyNodeInfo
 	#sleep 2s
-	copyNFNFiles
-	sleep 2s
+	#copyNFNFiles
+	#sleep 2s
 	deleteOldLogs
+	sleep 2s	
 	createTopology
 	sleep 5s
 	execute
@@ -151,6 +150,7 @@ echo "copying NodeInformation"
 		mkdir -p ~/INetCEP/sensors
 		rm -rf ~/INetCEP/evalData
 		mkdir -p ~/INetCEP/evalData
+		mkdir -p ~/INetCEP/computeservers/nodes/
 		ENDSSH
 		nodesdir=($(ls -d $work_dir/computeservers/nodes/*))
 		scp -rp ${nodesdir[$count]} $user@$i:~/INetCEP/computeservers/nodes/

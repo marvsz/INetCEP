@@ -234,6 +234,7 @@ ccnl_mgmt_send_return_split(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
             if (!retbuf) {
                 goto Bail;
             }
+            DEBUGMSG(DEBUG,"We are in ccnl_mgmt_send_return_split and about to enqueue\n");
             ccnl_face_enqueue(ccnl, from, retbuf);
         } else {
             char uri[50];
@@ -2685,6 +2686,7 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     struct ccnl_prefix_s *prefix_new;
     char s[CCNL_MAX_PREFIX_SIZE];
 
+    DEBUGMSG(DEBUG,"The Prefix in ccnl_mgmt_addcacheobject is%s \n",prefix->comp[3]);
     buf = prefix->comp[3];
     buflen = prefix->complen[3];
 
@@ -2810,24 +2812,30 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         switch(pkt->suite) {
             case CCNL_SUITE_CCNB:
                 pkt->s.ccnb.maxsuffix = CCNL_MAX_NAME_COMP;
+                DEBUGMSG(DEBUG,"The Packet suit is CCNL_SUITE_CCNB\n");
                 break;
             case CCNL_SUITE_NDNTLV:
                 pkt->s.ndntlv.maxsuffix = CCNL_MAX_NAME_COMP;
+                DEBUGMSG(DEBUG,"The Packet suit is CCNL_SUITE_NDNTLV\n");
                 break;
             default:
                 break;
         }
 
         pkt->pfx = prefix_new;
+        //DEBUGMSG(DEBUG,"The Packet suite is %s\n",prefix_new->suite);
+        //DEBUGMSG(DEBUG,"Packet Buffer in ccnl_mgmt_addcacheobject is %s\n",prefix_new);
         pkt->buf = ccnl_mkSimpleInterest(prefix_new, NULL);
         if (!pkt->buf) {
             goto Bail;
         }
         pkt->val.final_block_id = -1;
+        DEBUGMSG(DEBUG,"Packet Buffer in ccnl_mgmt_addcacheobject is %s\n",pkt->buf->data);
         buffer = buf_dup(pkt->buf);
         if (!buffer) {
             goto Bail;
         }
+        DEBUGMSG(DEBUG,"Buffer in ccnl_mgmt_addcacheobject is %s\n",buffer->data);
 
         interest = ccnl_interest_new(ccnl, from, &pkt);
         if (!interest) {
@@ -2835,6 +2843,7 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         }
 
         //Send interest to from!
+        DEBUGMSG(DEBUG,"We are in ccnl_mgmt_addcacheobject and about to enqueue\n");
         ccnl_face_enqueue(ccnl, from, buffer);
     }
 //    ccnl_prefix_free(prefix_new);

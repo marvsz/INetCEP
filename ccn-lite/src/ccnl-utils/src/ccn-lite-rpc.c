@@ -50,7 +50,7 @@ loadFile(char **cpp)
     struct rdr_ds_s *c;
 
     (*cpp)++;
-    n = strtol(*cpp,NULL,10);
+    n = (int)strtol(*cpp,(char**)NULL,10);
     while (isdigit(**cpp))
         (*cpp)++;
     if (n < 1 || n >= filecnt) {

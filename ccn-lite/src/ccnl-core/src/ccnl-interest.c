@@ -54,11 +54,11 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
-    DEBUGMSG(TRACE,"size of ccnl_interest_s was %lu\n",sizeof(struct ccnl_interest_s));
-    if (!i){
+    //DEBUGMSG(TRACE,"size of ccnl_interest_s was %lu\n",sizeof(struct ccnl_interest_s));
+    /*if (!i){
         DEBUGMSG(TRACE,"The Interest was not created");
         return NULL;
-    }
+    }*/
 
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
@@ -68,7 +68,7 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     i->from = from;
     i->last_used = CCNL_NOW();
 
-    DEBUGMSG(TRACE,"pitcnt is %i, and max_pit_entries is %i\n",ccnl->pitcnt,ccnl->max_pit_entries);
+    //DEBUGMSG(TRACE,"pitcnt is %i, and max_pit_entries is %i\n",ccnl->pitcnt,ccnl->max_pit_entries);
     if(ccnl->max_pit_entries != -1){
         if (ccnl->pitcnt >= ccnl->max_pit_entries) {
             ccnl_pkt_free(i->pkt);

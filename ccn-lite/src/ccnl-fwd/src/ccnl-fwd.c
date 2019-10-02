@@ -396,10 +396,10 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         return -1;
     if (!i) {
         i = ccnl_interest_new(relay, from, pkt); // hier wird der neue interest produziert
-        DEBUGMSG_CFWD(DEBUG, "  New Interest really created\n"); // anscheinend passiert das was falsch läuft hiernach
+        /*DEBUGMSG_CFWD(DEBUG, "  New Interest really created\n"); // anscheinend passiert das was falsch läuft hiernach
         if(!i){
             DEBUGMSG_CFWD(DEBUG, "  Irgendwas ist falsch gelaufen, der Interest wurde nicht erstellt\n");
-        }
+        }*/
 #ifdef USE_NFN
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
