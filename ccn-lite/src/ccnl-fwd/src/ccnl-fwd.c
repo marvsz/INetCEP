@@ -276,7 +276,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #ifdef USE_DUP_CHECK
 
-    if (ccnl_nonce_isDup(relay, *pkt)) {
+    if (ccnl_nonce_isDup(relay, *pkt)) { // produziert das ccnl_nonce_find_or_append
     #ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %"PRIi32"\n", nonce);
     #else
@@ -348,6 +348,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             continue;
 
         DEBUGMSG_CFWD(DEBUG, "  found matching content %p\n", (void *) c);
+
         if (from->ifndx >= 0) {
 #ifdef USE_NFN_REQUESTS
             struct ccnl_pkt_s *cpkt = c->pkt;
@@ -394,8 +395,11 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     if (!ccnl_pkt_fwdOK(*pkt))
         return -1;
     if (!i) {
-        i = ccnl_interest_new(relay, from, pkt);
-
+        i = ccnl_interest_new(relay, from, pkt); // hier wird der neue interest produziert
+        DEBUGMSG_CFWD(DEBUG, "  New Interest really created\n"); // anscheinend passiert das was falsch läuft hiernach
+        if(!i){
+            DEBUGMSG_CFWD(DEBUG, "  Irgendwas ist falsch gelaufen, der Interest wurde nicht erstellt\n");
+        }
 #ifdef USE_NFN
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
