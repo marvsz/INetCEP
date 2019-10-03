@@ -50,7 +50,7 @@ struct mhdr {
 
 #ifdef USE_DEBUG_MALLOC
 
-void *debug_realloc(void *p, size_t s, const char *fn, int lno);
+void *debug_realloc(void *p, int s, const char *fn, int lno);
 void debug_free(void *p, const char *fn, int lno);
 
 #ifdef CCNL_ARDUINO
@@ -69,9 +69,9 @@ debug_strdup(const char *s, const char *fn, int lno, double tstamp);
 
 #else 
 void*
-debug_malloc(size_t num, const char *fn, int lno, char *tstamp);
+debug_malloc(int num, const char *fn, int lno, char *tstamp);
 void* 
-debug_calloc(size_t num, size_t size, const char *fn, int lno, char *tstamp);
+debug_calloc(int num, int size, const char *fn, int lno, char *tstamp);
 void*
 debug_strdup(const char *s, const char *fn, int lno, char *tstamp);
 
@@ -112,10 +112,10 @@ debug_strdup(const char *s, const char *fn, int lno, char *tstamp);
  * @return Upon success, a pointer to the memory block allocated by the function
  */
 static inline void*
-ccnl_malloc(size_t s);
+ccnl_malloc(int s);
 
 static inline void*
-ccnl_calloc(size_t num, size_t size);
+ccnl_calloc(int num, int size);
 
 static inline void
 ccnl_free(void *ptr);

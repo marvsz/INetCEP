@@ -50,6 +50,6 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip);
  * @return Upon failure the function returns 0 (e.g. if no valid conversion could be performed)
  */
 int
-ccnl_cmp2int(unsigned char *cmp, size_t cmplen);
+ccnl_cmp2int(unsigned char *cmp, int cmplen);
 
 #endif
