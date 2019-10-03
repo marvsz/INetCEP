@@ -19,7 +19,7 @@ include_directories(
 
 file(GLOB SOURCES "*.c")
 
-add_executable(${PROJECT_NAME} ${SOURCES} ../../test/ccnl-core/test_interest.c ../../test/ccnl-core/test_prefix.c ../../test/ccnl-core/test_state.c)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-relay ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)

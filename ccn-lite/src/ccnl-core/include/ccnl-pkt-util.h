@@ -24,6 +24,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <ccnl-pkt.h>
 
 bool
 ccnl_isSuite(int suite);
@@ -50,6 +51,16 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip);
  * @return Upon failure the function returns 0 (e.g. if no valid conversion could be performed)
  */
 int
-ccnl_cmp2int(unsigned char *cmp, size_t cmplen);
+ccnl_cmp2int(unsigned char *cmp, int cmplen);
+
+/**
+ * Returns the Interest lifetime in seconds
+ *
+ * @param[in] pkt Pointer to the Interest packet
+ *
+ * @return        The interest lifetime in seconds
+ */
+uint32_t
+ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt);
 
 #endif

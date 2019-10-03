@@ -11,7 +11,7 @@ initializetopology() {
 }
 
 startexecution() {
-	dirs=($(ls -d ~/MA-Ali/VM-Startup-Scripts/*))
+	dirs=($(ls -d ~/INetCEP/VM-Startup-Scripts/*))
 	cd "${dirs[@]}"
 	rm *.log
 	#execute this script the last once all the nodes and compute servers are started 

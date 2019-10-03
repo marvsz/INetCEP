@@ -212,6 +212,7 @@ ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
         ccnl_interface_CTS(ccnl, ifc);
 #endif
 }
+}
 
 struct ccnl_buf_s*
 ccnl_face_dequeue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
@@ -351,6 +352,9 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
         i->pending = tmp;
     }
     i2 = i->next;
+
+    ccnl->pitcnt--;
+
     DBL_LINKED_LIST_REMOVE(ccnl->pit, i);
 
     if(i->pkt){

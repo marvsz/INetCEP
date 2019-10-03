@@ -10,7 +10,7 @@ for i in "${VMS[@]}"
 	ssh -t $user@$i 'echo "# Set this to allow user environment path at the remote server" | sudo tee -a /etc/ssh/sshd_config'
 	ssh -t $user@$i 'echo "PermitUserEnvironment yes" | sudo tee -a /etc/ssh/sshd_config'
 	ssh -t $user@$i 'sudo service ssh restart'	
-	ssh $user@$i 'echo "CCNL_HOME=$HOME/MA-Ali/ccn-lite" >> ~/.ssh/environment'
+	ssh $user@$i 'echo "CCNL_HOME=$HOME/INetCEP/ccn-lite" >> ~/.ssh/environment'
 	ssh $user@$i 'echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ~/.ssh/environment'
 	ssh $user@$i 'echo "PATH=$PATH:$CCNL_HOME/bin:$JAVA_HOME/bin" >> ~/.ssh/environment'
     done

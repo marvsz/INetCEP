@@ -30,7 +30,7 @@
 void* debug_malloc(size_t s, const char *fn, int lno, double tstamp)
 #else
 
-void *debug_malloc(size_t s, const char *fn, int lno, char *tstamp)
+void *debug_malloc(int s, const char *fn, int lno, char *tstamp)
 #endif
 {
     size_t size;
@@ -96,7 +96,7 @@ void *debug_malloc(size_t s, const char *fn, int lno, char *tstamp)
 void* debug_calloc(size_t n, size_t s, const char *fn, int lno, double tstamp)
 #else
 
-void *debug_calloc(size_t n, size_t s, const char *fn, int lno, char *tstamp)
+void *debug_calloc(int n, int s, const char *fn, int lno, char *tstamp)
 #endif
 {
     size_t size;
@@ -135,7 +135,7 @@ debug_unlink(struct mhdr *hdr) {
 }
 
 void *
-debug_realloc(void *p, size_t s, const char *fn, int lno) {
+debug_realloc(void *p, int s, const char *fn, int lno) {
     size_t size;
     struct mhdr *h = (struct mhdr *) (((unsigned char *) p) - sizeof(struct mhdr));
 #ifndef BUILTIN_INT_ADD_OVERFLOW_DETECTION_UNAVAILABLE

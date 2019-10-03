@@ -28,8 +28,7 @@
 // ----------------------------------------------------------------------
 
 void
-indent(char *s, int lev)
-{
+indent(char *s, int lev) {
     if (s)
         printf("%s", s);
     while (lev-- >= 0)
@@ -38,9 +37,8 @@ indent(char *s, int lev)
 
 void
 hexdump(int lev, unsigned char *base, unsigned char *cp, int len,
-        int rawxml, FILE* out)
-{
-    int i, maxi, lastlen=-1;
+        int rawxml, FILE *out) {
+    int i, maxi, lastlen = -1;
     unsigned char cmp[8], star = 0;
 
     while (len > 0) {
@@ -65,14 +63,14 @@ hexdump(int lev, unsigned char *base, unsigned char *cp, int len,
         }
 
         indent(NULL, lev);
-        for (i = 0; i < 8; i++){
+        for (i = 0; i < 8; i++) {
             if (i < maxi)
-                    fprintf(out, "%02x ", cp[i]);
+                fprintf(out, "%02x ", cp[i]);
             else
-                    fprintf(out, "   ");
+                fprintf(out, "   ");
         }
         if (!rawxml) {
-            for (i = 79 - 6 - 2*(lev+1) - 8*3 - 12; i > 0; i--)
+            for (i = 79 - 6 - 2 * (lev + 1) - 8 * 3 - 12; i > 0; i--)
                 fprintf(out, " ");
             fprintf(out, "  |");
             for (i = 0; i < maxi; i++, cp++)
@@ -87,15 +85,15 @@ hexdump(int lev, unsigned char *base, unsigned char *cp, int len,
 }
 
 void
-base64dump(int lev, unsigned char *base, unsigned char *cp, int len, int rawxml, FILE* out) {
+base64dump(int lev, unsigned char *base, unsigned char *cp, int len, int rawxml, FILE *out) {
     int encodedLen = -1;
     int i;
-    (void)base;
-    (void)rawxml;
-    for(i = 0; i < lev + 1; i++) {
+    (void) base;
+    (void) rawxml;
+    for (i = 0; i < lev + 1; i++) {
         fprintf(out, "  ");
     }
-    fprintf(out, "%s\n", base64_encode((char*)cp, len, (size_t*)&encodedLen));
+    fprintf(out, "%s\n", base64_encode((char *) cp, len, (size_t *) &encodedLen));
     cp += len;
 }
 
@@ -104,8 +102,7 @@ base64dump(int lev, unsigned char *base, unsigned char *cp, int len, int rawxml,
 
 int
 ccnb_deheadAndPrint(int lev, unsigned char *base, unsigned char **buf,
-            int *len, int *num, int *typ, int rawxml, FILE* out)
-{
+                    int *len, int *num, int *typ, int rawxml, FILE *out) {
     int i, val = 0;
 
     if (*len <= 0) {
@@ -128,16 +125,16 @@ ccnb_deheadAndPrint(int lev, unsigned char *base, unsigned char **buf,
         *len -= 1;
         return 0;
     }
-    for (i = 0; i < (int)sizeof(i) && i < *len; i++) {
+    for (i = 0; i < (int) sizeof(i) && i < *len; i++) {
         unsigned char c = (*buf)[i];
         if (!rawxml) {
             fprintf(out, "%02x ", c);
         }
-        if ( c & 0x80 ) {
+        if (c & 0x80) {
             *num = (val << 4) | ((c >> 3) & 0xf);
             *typ = c & 0x7;
-            *buf += i+1;
-            *len -= i+1;
+            *buf += i + 1;
+            *len -= i + 1;
             return 0;
         }
         val = (val << 7) | c;
@@ -149,55 +146,129 @@ ccnb_deheadAndPrint(int lev, unsigned char *base, unsigned char **buf,
 }
 
 static int
-ccnb_must_recurse(/* work in progress */)
-{
+ccnb_must_recurse(/* work in progress */) {
     return 0;
 }
 
-static char*
-ccnb_dtag2name(int num)
-{
+static char *
+ccnb_dtag2name(int num) {
     char *n;
 
     switch (num) {
-    case CCN_DTAG_ANY:           n = "any"; break;
-    case CCN_DTAG_NAME:          n = "name"; break;
-    case CCN_DTAG_COMPONENT:     n = "component"; break;
-    case CCN_DTAG_CONTENT:       n = "content"; break;
-    case CCN_DTAG_SIGNEDINFO:    n = "signedinfo"; break;
-    case CCN_DTAG_INTEREST:      n = "interest"; break;
-    case CCN_DTAG_KEY:           n = "key"; break;
-    case CCN_DTAG_KEYLOCATOR:    n = "keylocator"; break;
-    case CCN_DTAG_KEYNAME:       n = "keyname"; break;
-    case CCN_DTAG_SIGNATURE:     n = "signature"; break;
-    case CCN_DTAG_TIMESTAMP:     n = "timestamp"; break;
-    case CCN_DTAG_TYPE:          n = "type"; break;
-    case CCN_DTAG_NONCE:         n = "nonce"; break;
-    case CCN_DTAG_SCOPE:         n = "scope"; break;
-    case CCN_DTAG_WITNESS:       n = "witness"; break;
-    case CCN_DTAG_SIGNATUREBITS: n = "signaturebits"; break;
-    case CCN_DTAG_FRESHNESS:     n = "freshnessSeconds"; break;
-    case CCN_DTAG_FINALBLOCKID:  n = "finalblockid"; break;
-    case CCN_DTAG_PUBPUBKDIGEST: n = "publisherPubKeyDigest"; break;
-    case CCN_DTAG_PUBCERTDIGEST: n = "publisherCertDigest"; break;
-    case CCN_DTAG_CONTENTOBJ:    n = "contentobj"; break;
-    case CCN_DTAG_ACTION:        n = "action"; break;
-    case CCN_DTAG_FACEID:        n = "faceID"; break;
-    case CCN_DTAG_IPPROTO:       n = "ipProto"; break;
-    case CCN_DTAG_HOST:          n = "host"; break;
-    case CCN_DTAG_PORT:          n = "port"; break;
-    case CCN_DTAG_FWDINGFLAGS:   n = "forwardingFlags"; break;
-    case CCN_DTAG_FACEINSTANCE:  n = "faceInstance"; break;
-    case CCN_DTAG_FWDINGENTRY:   n = "forwardingEntry"; break;
-    case CCN_DTAG_MINSUFFCOMP:   n = "minSuffixComponents"; break;
-    case CCN_DTAG_MAXSUFFCOMP:   n = "maxSuffixComponents"; break;
-    case CCN_DTAG_SEQNO:         n = "sequenceNumber"; break;
-    case CCN_DTAG_FragA:         n = "FragA (Type)"; break;  // frag Type
-    case CCN_DTAG_FragB:         n = "FragB (SeqNr)"; break; // frag SeqNr
-    case CCN_DTAG_FragC:         n = "FragC (Flag)"; break;  // frag h2h Flag
-    case CCN_DTAG_FragD:         n = "FragD"; break;
-    case CCN_DTAG_FragP:         n = "FragP (Fragment)"; break; // frag
-    case CCN_DTAG_CCNPDU:        n = "ccnProtocolDataUnit"; break;
+        case CCN_DTAG_ANY:
+            n = "any";
+            break;
+        case CCN_DTAG_NAME:
+            n = "name";
+            break;
+        case CCN_DTAG_COMPONENT:
+            n = "component";
+            break;
+        case CCN_DTAG_CONTENT:
+            n = "content";
+            break;
+        case CCN_DTAG_SIGNEDINFO:
+            n = "signedinfo";
+            break;
+        case CCN_DTAG_INTEREST:
+            n = "interest";
+            break;
+        case CCN_DTAG_KEY:
+            n = "key";
+            break;
+        case CCN_DTAG_KEYLOCATOR:
+            n = "keylocator";
+            break;
+        case CCN_DTAG_KEYNAME:
+            n = "keyname";
+            break;
+        case CCN_DTAG_SIGNATURE:
+            n = "signature";
+            break;
+        case CCN_DTAG_TIMESTAMP:
+            n = "timestamp";
+            break;
+        case CCN_DTAG_TYPE:
+            n = "type";
+            break;
+        case CCN_DTAG_NONCE:
+            n = "nonce";
+            break;
+        case CCN_DTAG_SCOPE:
+            n = "scope";
+            break;
+        case CCN_DTAG_WITNESS:
+            n = "witness";
+            break;
+        case CCN_DTAG_SIGNATUREBITS:
+            n = "signaturebits";
+            break;
+        case CCN_DTAG_FRESHNESS:
+            n = "freshnessSeconds";
+            break;
+        case CCN_DTAG_FINALBLOCKID:
+            n = "finalblockid";
+            break;
+        case CCN_DTAG_PUBPUBKDIGEST:
+            n = "publisherPubKeyDigest";
+            break;
+        case CCN_DTAG_PUBCERTDIGEST:
+            n = "publisherCertDigest";
+            break;
+        case CCN_DTAG_CONTENTOBJ:
+            n = "contentobj";
+            break;
+        case CCN_DTAG_ACTION:
+            n = "action";
+            break;
+        case CCN_DTAG_FACEID:
+            n = "faceID";
+            break;
+        case CCN_DTAG_IPPROTO:
+            n = "ipProto";
+            break;
+        case CCN_DTAG_HOST:
+            n = "host";
+            break;
+        case CCN_DTAG_PORT:
+            n = "port";
+            break;
+        case CCN_DTAG_FWDINGFLAGS:
+            n = "forwardingFlags";
+            break;
+        case CCN_DTAG_FACEINSTANCE:
+            n = "faceInstance";
+            break;
+        case CCN_DTAG_FWDINGENTRY:
+            n = "forwardingEntry";
+            break;
+        case CCN_DTAG_MINSUFFCOMP:
+            n = "minSuffixComponents";
+            break;
+        case CCN_DTAG_MAXSUFFCOMP:
+            n = "maxSuffixComponents";
+            break;
+        case CCN_DTAG_SEQNO:
+            n = "sequenceNumber";
+            break;
+        case CCN_DTAG_FragA:
+            n = "FragA (Type)";
+            break;  // frag Type
+        case CCN_DTAG_FragB:
+            n = "FragB (SeqNr)";
+            break; // frag SeqNr
+        case CCN_DTAG_FragC:
+            n = "FragC (Flag)";
+            break;  // frag h2h Flag
+        case CCN_DTAG_FragD:
+            n = "FragD";
+            break;
+        case CCN_DTAG_FragP:
+            n = "FragP (Fragment)";
+            break; // frag
+        case CCN_DTAG_CCNPDU:
+            n = "ccnProtocolDataUnit";
+            break;
 
 /*
     case CCNL_DTAG_MACSRC:   n = "MACsrc"; break;
@@ -211,117 +282,116 @@ ccnb_dtag2name(int num)
     case CCNL_DTAG_FRAG2012_YSEQN:   n = "fragmentYourSeqNo"; break;
 */
 
-    default:
-    n = NULL;
+        default:
+            n = NULL;
     }
     return n;
 }
 
 static int
 ccnb_parse_lev(int lev, unsigned char *base, unsigned char **buf,
-           int *len, char *cur_tag, int rawxml, FILE* out)
-{
+               int *len, char *cur_tag, int rawxml, FILE *out) {
     int num, typ = -1;
     char *next_tag;
 
     while (ccnb_deheadAndPrint(lev, base, buf, len, &num, &typ, rawxml, out) == 0) {
-        if (num > *len) return 0;
         switch (typ) {
-        case CCN_TT_BLOB:
-        case CCN_TT_UDATA:
-            if (rawxml) {
-                fprintf(out, "<data ");
-                fprintf(out, "size=\"%i\" dt=\"binary.base64\"", num);
-            } else {
-                fprintf(out, " -- <data (%d byte%s)", num, num > 1 ? "s" : "");
-            }
-            if (ccnb_must_recurse(/* work in progress */)) {
-              if (!rawxml) {
-                fprintf(out, ", recursive decoding>\n");
-              }
-            // ...
-    //      *buf += num;
-    //      *len -= num;
-            }
-            fprintf(out, ">\n");
-            if (!rawxml) {
-                hexdump(lev, base, *buf, num, rawxml, out);
-            } else {
-                base64dump(lev, base, *buf, num, rawxml, out);
-            }
-    /*
-            for (i = 0; i < num; i++) {
-                if ((i%8) == 0) {
-                fprintf(out, "\n%04zx  ", *buf - base + i);
-                for (j = 0; j < lev; j++) fprintf(out, "  ");
+            case CCN_TT_BLOB:
+            case CCN_TT_UDATA:
+                if (num > *len) {
+                    return 0;
                 }
-                fprintf(out, " %02x", (*buf)[i]);
-            }
-            fprintf(out, "\n");
-    */
-            *buf += num;
-            *len -= num;
-            if (rawxml) {
-                int i;
-                for(i = 0; i < lev ; i++)
-                    fprintf(out, "  ");
-                fprintf(out, "</data>\n");
-            }
-            break;
-        case CCN_TT_DTAG:
-            next_tag = ccnb_dtag2name(num);
-            if (next_tag) {
-                if (!rawxml) {
-                    fprintf(out, " -- <%s>\n", next_tag);
+                if (rawxml) {
+                    fprintf(out, "<data ");
+                    fprintf(out, "size=\"%i\" dt=\"binary.base64\"", num);
                 } else {
-                    fprintf(out, "<%s>\n", next_tag);
+                    fprintf(out, " -- <data (%d byte%s)", num, num > 1 ? "s" : "");
                 }
-            }
-            else {
+                if (ccnb_must_recurse(/* work in progress */)) {
+                    if (!rawxml) {
+                        fprintf(out, ", recursive decoding>\n");
+                    }
+                    // ...
+                    //      *buf += num;
+                    //      *len -= num;
+                }
+                fprintf(out, ">\n");
                 if (!rawxml) {
-                    fprintf(out, " -- <unknown tt=%d num=%d>\n", typ, num);
+                    hexdump(lev, base, *buf, num, rawxml, out);
                 } else {
-                    fprintf(out, "<unknown>\n");
+                    base64dump(lev, base, *buf, num, rawxml, out);
                 }
-            }
-            if (ccnb_parse_lev(lev+1, base, buf, len, next_tag, rawxml, out) < 0) {
-                return -1;
-            }
-            if (lev == 0) {
-                if (*len > 0) {
-                    fprintf(out, "\n");
+                /*
+                        for (i = 0; i < num; i++) {
+                            if ((i%8) == 0) {
+                            fprintf(out, "\n%04zx  ", *buf - base + i);
+                            for (j = 0; j < lev; j++) fprintf(out, "  ");
+                            }
+                            fprintf(out, " %02x", (*buf)[i]);
+                        }
+                        fprintf(out, "\n");
+                */
+                *buf += num;
+                *len -= num;
+                if (rawxml) {
+                    int i;
+                    for (i = 0; i < lev; i++)
+                        fprintf(out, "  ");
+                    fprintf(out, "</data>\n");
                 }
-            }
-            break;
-        case 0:
-            if (num == 0 || cur_tag != NULL) { // end tag
-                if (!rawxml) {
-                    fprintf(out, " -- </%s>\n", cur_tag);
+                break;
+            case CCN_TT_DTAG:
+                next_tag = ccnb_dtag2name(num);
+                if (next_tag) {
+                    if (!rawxml) {
+                        fprintf(out, " -- <%s>\n", next_tag);
+                    } else {
+                        fprintf(out, "<%s>\n", next_tag);
+                    }
                 } else {
-                    fprintf(out, "</%s>\n", cur_tag );
+                    if (!rawxml) {
+                        fprintf(out, " -- <unknown tt=%d num=%d>\n", typ, num);
+                    } else {
+                        fprintf(out, "<unknown>\n");
+                    }
                 }
-                return 0;
-            }
+                if (ccnb_parse_lev(lev + 1, base, buf, len, next_tag, rawxml, out) < 0) {
+                    return -1;
+                }
+                if (lev == 0) {
+                    if (*len > 0) {
+                        fprintf(out, "\n");
+                    }
+                }
+                break;
+            case 0:
+                if (num == 0 || cur_tag != NULL) { // end tag
+                    if (!rawxml) {
+                        fprintf(out, " -- </%s>\n", cur_tag);
+                    } else {
+                        fprintf(out, "</%s>\n", cur_tag);
+                    }
+                    return 0;
+                }
                 /* falls through */
-        default:
-            if (!rawxml) {
-                fprintf(out, "-- tt=%d num=%d not implemented yet\n", typ, num);
-            } else {
-                fprintf(out, "=%d num=%d not implemented yet\n", typ, num);
-            }
-            break;
+            default:
+                if (!rawxml) {
+                    fprintf(out, "-- tt=%d num=%d not implemented yet\n", typ, num);
+                } else {
+                    fprintf(out, "=%d num=%d not implemented yet\n", typ, num);
+                }
+                break;
         }
     }
     if (cur_tag != NULL) {
-        fprintf(out, "</%s>\n", cur_tag );
+        fprintf(out, "</%s>\n", cur_tag);
     }
     return 0;
 }
 
 
 void
-ccnb_parse(int lev, unsigned char *data, int len, int rawxml, FILE* out)
-{
+ccnb_parse(int lev, unsigned char *data, int len, int rawxml, FILE *out) {
     unsigned char *buf = data;
 
     ccnb_parse_lev(lev, data, &buf, &len, NULL, rawxml, out);
@@ -343,18 +413,17 @@ enum {
 };
 
 static char ccntlv_recurse[][3] = {
-    {CTX_TOPLEVEL, CCNX_TLV_TL_Interest, CTX_MSG},
-    {CTX_TOPLEVEL, CCNX_TLV_TL_Object, CTX_MSG},
-    {CTX_TOPLEVEL, CCNX_TLV_TL_ValidationAlgo, CTX_VALIDALGO},
-    {CTX_MSG, CCNX_TLV_M_Name, CTX_NAME},
-    {CTX_NAME, CCNX_TLV_N_Meta, CTX_METADATA},
-    {CTX_VALIDALGO, CCNX_VALIDALGO_HMAC_SHA256, CTX_VALIDALGODEPEND},
-    {0,0,0}
+        {CTX_TOPLEVEL,  CCNX_TLV_TL_Interest,       CTX_MSG},
+        {CTX_TOPLEVEL,  CCNX_TLV_TL_Object,         CTX_MSG},
+        {CTX_TOPLEVEL,  CCNX_TLV_TL_ValidationAlgo, CTX_VALIDALGO},
+        {CTX_MSG,       CCNX_TLV_M_Name,            CTX_NAME},
+        {CTX_NAME,      CCNX_TLV_N_Meta,            CTX_METADATA},
+        {CTX_VALIDALGO, CCNX_VALIDALGO_HMAC_SHA256, CTX_VALIDALGODEPEND},
+        {0, 0,                                      0}
 };
 
 static char
-ccntlv_must_recurse(char ctx, char typ)
-{
+ccntlv_must_recurse(char ctx, char typ) {
     int i;
     for (i = 0; ccntlv_recurse[i][0]; i++) {
         if (ccntlv_recurse[i][0] == ctx && ccntlv_recurse[i][1] == typ) {
@@ -367,9 +436,8 @@ ccntlv_must_recurse(char ctx, char typ)
 
 // ----------------------------------------------------------------------
 
-static char*
-ccnl_ccntlv_type2name(unsigned char ctx, unsigned int type, int rawxml)
-{
+static char *
+ccnl_ccntlv_type2name(unsigned char ctx, unsigned int type, int rawxml) {
     char *cn = "globalCtx", *tn = NULL;
     static char tmp[50];
 
@@ -385,80 +453,118 @@ ccnl_ccntlv_type2name(unsigned char ctx, unsigned int type, int rawxml)
             case CTX_GLOBAL:
                 cn = "global";
                 switch (type) {
-                case CCNX_TLV_G_Pad:        tn = "Pad"; break;
-                default: break;
+                    case CCNX_TLV_G_Pad:
+                        tn = "Pad";
+                        break;
+                    default:
+                        break;
                 }
                 break;
 
             case CTX_TOPLEVEL:
                 cn = "toplevelCtx";
                 switch (type) {
-                case CCNX_TLV_TL_Interest:          tn = "Interest"; break;
-                case CCNX_TLV_TL_Object:            tn = "Object"; break;
-                case CCNX_TLV_TL_ValidationAlgo:    tn = "ValidationAlgo"; break;
-                case CCNX_TLV_TL_ValidationPayload: tn = "ValidationPayload"; break;
-                default: break;
+                    case CCNX_TLV_TL_Interest:
+                        tn = "Interest";
+                        break;
+                    case CCNX_TLV_TL_Object:
+                        tn = "Object";
+                        break;
+                    case CCNX_TLV_TL_ValidationAlgo:
+                        tn = "ValidationAlgo";
+                        break;
+                    case CCNX_TLV_TL_ValidationPayload:
+                        tn = "ValidationPayload";
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case CTX_MSG:
                 cn = "msgCtx";
                 switch (type) {
-                case CCNX_TLV_M_Name:       tn = "Name"; break;
-                case CCNX_TLV_M_Payload:    tn = "Payload"; break;
-                case CCNX_TLV_M_ENDChunk:   tn = "EndChunk"; break;
-                default: break;
+                    case CCNX_TLV_M_Name:
+                        tn = "Name";
+                        break;
+                    case CCNX_TLV_M_Payload:
+                        tn = "Payload";
+                        break;
+                    case CCNX_TLV_M_ENDChunk:
+                        tn = "EndChunk";
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case CTX_NAME:
                 cn = "nameCtx";
                 switch (type) {
-                case CCNX_TLV_N_NameSegment:    tn = "NameSegment"; break;
-                case CCNX_TLV_N_IPID:           tn = "InterestPID"; break;
-                  /*
-                case CCNX_TLV_N_NameKey:        tn = "NameKey"; break;
-                case CCNX_TLV_N_ObjHash:        tn = "ObjHash"; break;
-                  */
-                case CCNX_TLV_N_Chunk:          tn = "Chunk"; break;
-                case CCNX_TLV_N_Meta:           tn = "MetaData"; break;
-                default: break;
+                    case CCNX_TLV_N_NameSegment:
+                        tn = "NameSegment";
+                        break;
+                    case CCNX_TLV_N_IPID:
+                        tn = "InterestPID";
+                        break;
+                        /*
+                      case CCNX_TLV_N_NameKey:        tn = "NameKey"; break;
+                      case CCNX_TLV_N_ObjHash:        tn = "ObjHash"; break;
+                        */
+                    case CCNX_TLV_N_Chunk:
+                        tn = "Chunk";
+                        break;
+                    case CCNX_TLV_N_Meta:
+                        tn = "MetaData";
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case CTX_METADATA:
                 cn = "metaDataCtx";
                 switch (type) {
-                  /*
-                case CCNX_TLV_M_KeyID:       tn = "KeyId"; break;
-                case CCNX_TLV_M_ObjHash:     tn = "ObjHash"; break;
-                case CCNX_TLV_M_PayldType:   tn = "PayloadType"; break;
-                case CCNX_TLV_M_Create:      tn = "Create"; break;
-                  */
-                default: break;
+                    /*
+                  case CCNX_TLV_M_KeyID:       tn = "KeyId"; break;
+                  case CCNX_TLV_M_ObjHash:     tn = "ObjHash"; break;
+                  case CCNX_TLV_M_PayldType:   tn = "PayloadType"; break;
+                  case CCNX_TLV_M_Create:      tn = "Create"; break;
+                    */
+                    default:
+                        break;
                 }
                 break;
             case CTX_VALIDALGO:
                 cn = "validAlgoCtx";
                 switch (type) {
-                case CCNX_VALIDALGO_CRC32C:
-                    tn = "CRC32C"; break;
-                case CCNX_VALIDALGO_HMAC_SHA256:
-                    tn = "HMAC_SHA256"; break;
-                case CCNX_VALIDALGO_VMAC_128:
-                    tn = "VMAC_128"; break;
-                case CCNX_VALIDALGO_RSA_SHA256:
-                    tn = "RSA_SHA256"; break;
-                case CCNX_VALIDALGO_EC_SECP_256K1:
-                    tn = "EC_SECP_256K1"; break;
-                case CCNX_VALIDALGO_EC_SECP_384R1:
-                    tn = "EC_SECP_384R1"; break;
-                default: break;
+                    case CCNX_VALIDALGO_CRC32C:
+                        tn = "CRC32C";
+                        break;
+                    case CCNX_VALIDALGO_HMAC_SHA256:
+                        tn = "HMAC_SHA256";
+                        break;
+                    case CCNX_VALIDALGO_VMAC_128:
+                        tn = "VMAC_128";
+                        break;
+                    case CCNX_VALIDALGO_RSA_SHA256:
+                        tn = "RSA_SHA256";
+                        break;
+                    case CCNX_VALIDALGO_EC_SECP_256K1:
+                        tn = "EC_SECP_256K1";
+                        break;
+                    case CCNX_VALIDALGO_EC_SECP_384R1:
+                        tn = "EC_SECP_384R1";
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case CTX_VALIDALGODEPEND:
                 cn = "validAlgoDependendCtx";
                 switch (type) {
-                case CCNX_VALIDALGO_KEYID:
-                    tn = "KeyID"; break;
-                default: break;
+                    case CCNX_VALIDALGO_KEYID:
+                        tn = "KeyID";
+                        break;
+                    default:
+                        break;
                 }
                 break;
             default:
@@ -467,7 +573,7 @@ ccnl_ccntlv_type2name(unsigned char ctx, unsigned int type, int rawxml)
         }
     }
     if (tn) {
-        if(!rawxml)
+        if (!rawxml)
             sprintf(tmp, "%s\\%s", tn, cn);
         else
             sprintf(tmp, "%s", tn);
@@ -482,14 +588,13 @@ ccnl_ccntlv_type2name(unsigned char ctx, unsigned int type, int rawxml)
 
 static int
 ccntlv_parse_sequence(int lev, unsigned char ctx, unsigned char *base,
-              unsigned char **buf, int *len, char *cur_tag, int rawxml, FILE* out)
-{
+                      unsigned char **buf, int *len, char *cur_tag, int rawxml, FILE *out) {
     unsigned int typ;
     int i;
     unsigned vallen;
     unsigned char ctx2, *cp;
     char *n, n_old[100], tmp[100];
-    (void)cur_tag;
+    (void) cur_tag;
 
     while (*len > 0) {
         cp = *buf;
@@ -497,30 +602,30 @@ ccntlv_parse_sequence(int lev, unsigned char ctx, unsigned char *base,
             return -1;
         }
 
-        if ((int)vallen > *len) {
-          fprintf(stderr, "\n%04zx ** CCNTLV length problem:\n"
-              "  type=0x%04hx, len=0x%04hx larger than %d available bytes\n",
-              *buf - base, (unsigned short)typ, (unsigned short)vallen, *len);
-          exit(-1);
+        if ((int) vallen > *len) {
+            fprintf(stderr, "\n%04zx ** CCNTLV length problem:\n"
+                            "  type=0x%04hx, len=0x%04hx larger than %d available bytes\n",
+                    *buf - base, (unsigned short) typ, (unsigned short) vallen, *len);
+            exit(-1);
         }
 
         n = ccnl_ccntlv_type2name(ctx, typ, rawxml);
         if (!n) {
-            sprintf(tmp, "type=%hu", (unsigned short)typ);
+            sprintf(tmp, "type=%hu", (unsigned short) typ);
             n = tmp;
         }
 
 
-        if(!rawxml)
+        if (!rawxml)
             fprintf(out, "%04zx  ", cp - base);
         for (i = 0; i < lev; i++) {
-                fprintf(out, "  ");
+            fprintf(out, "  ");
         }
         for (; cp < *buf; cp++) {
-            if(!rawxml)
+            if (!rawxml)
                 fprintf(out, "%02x ", *cp);
         }
-        if(!rawxml)
+        if (!rawxml)
             fprintf(out, "-- <%s, len=%d>\n", n, vallen);
 
         // if(rawxml)
@@ -532,13 +637,13 @@ ccntlv_parse_sequence(int lev, unsigned char ctx, unsigned char *base,
             *len -= vallen;
             i = vallen;
             strcpy(n_old, n);
-            if (ccntlv_parse_sequence(lev+1, ctx2, base, buf, &i,
-                                                        n, rawxml, out) < 0)
+            if (ccntlv_parse_sequence(lev + 1, ctx2, base, buf, &i,
+                                      n, rawxml, out) < 0)
                 return -1;
 
-            if(rawxml) {
+            if (rawxml) {
                 for (i = 0; i < lev; i++) {
-                        fprintf(out, "  ");
+                    fprintf(out, "  ");
                 }
                 fprintf(out, "</%s>\n", n_old);
             }
@@ -547,7 +652,7 @@ ccntlv_parse_sequence(int lev, unsigned char ctx, unsigned char *base,
                 fprintf(out, "<%s size=\"%i\" dt=\"binary.base64\">\n", n, vallen);
                 base64dump(lev, base, *buf, vallen, rawxml, out);
                 for (i = 0; i < lev; i++) {
-                        fprintf(out, "  ");
+                    fprintf(out, "  ");
                 }
                 fprintf(out, "</%s>\n", n);
             } else
@@ -561,14 +666,13 @@ ccntlv_parse_sequence(int lev, unsigned char ctx, unsigned char *base,
 }
 
 void
-ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE* out)
-{
+ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE *out) {
     unsigned char *buf;
     char *mp;
     unsigned short hdrlen, pktlen; // payloadlen;
     struct ccnx_tlvhdr_ccnx2015_s *hp;
 
-    hp = (struct ccnx_tlvhdr_ccnx2015_s*) data;
+    hp = (struct ccnx_tlvhdr_ccnx2015_s *) data;
     hdrlen = hp->hdrlen; // ntohs(hp->hdrlen);
     pktlen = ntohs(hp->pktlen);
 
@@ -578,7 +682,7 @@ ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE* out)
 
     if (!rawxml)
         fprintf(out, "%04zx  hdr.vers=%d\n",
-            (unsigned char*) &(hp->version) - data, hp->version);
+                (unsigned char *) &(hp->version) - data, hp->version);
     if (hp->pkttype == CCNX_PT_Interest)
         mp = rawxml ? "Interest" : "Interest\\toplevelCtx";
     else if (hp->pkttype == CCNX_PT_Data)
@@ -591,18 +695,18 @@ ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE* out)
         mp = "unknown";
     if (!rawxml) {
         fprintf(out, "%04zx  hdr.pkttyp=0x%02x (%s)\n",
-                (unsigned char*) &(hp->pkttype) - data, hp->pkttype, mp);
+                (unsigned char *) &(hp->pkttype) - data, hp->pkttype, mp);
         fprintf(out, "%04zx  hdr.pktlen=%d\n",
-                (unsigned char*) &(hp->pktlen) - data, pktlen);
+                (unsigned char *) &(hp->pktlen) - data, pktlen);
         if (hp->pkttype == CCNX_PT_Interest || hp->pkttype == CCNX_PT_NACK)
             fprintf(out, "%04zx  hdr.hoplim=%d\n",
-                    (unsigned char*) &(hp->hoplimit) - data, hp->hoplimit);
+                    (unsigned char *) &(hp->hoplimit) - data, hp->hoplimit);
         if (hp->pkttype == CCNX_PT_Fragment) {
             struct ccnx_tlvhdr_ccnx2015_s *fp;
 
-            fp = (struct ccnx_tlvhdr_ccnx2015_s*) hp;
+            fp = (struct ccnx_tlvhdr_ccnx2015_s *) hp;
             fprintf(out, "%04zx  hdr.frag: seqnr=0x%05x ",
-                    fp->fill - data, ntohs(*(uint16_t*)fp->fill) & 0x03fff);
+                    fp->fill - data, ntohs(*(uint16_t *) fp->fill) & 0x03fff);
             if ((fp->fill[0] >> 6) == 0x0)
                 fprintf(out, "MID\n");
             else if ((fp->fill[0] >> 6) == 0x1)
@@ -613,10 +717,10 @@ ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE* out)
                 fprintf(out, "SINGLE\n");
         }
         fprintf(out, "%04zx  hdr.hdrlen=%d\n",
-                (unsigned char*) &(hp->hdrlen) - data, hdrlen);
+                (unsigned char *) &(hp->hdrlen) - data, hdrlen);
         if (hp->pkttype == CCNX_PT_NACK) {
             fprintf(out, "%04zx  hdr.errorc=%d\n",
-                    (unsigned char*) &hp->fill - data, hp->fill[0]);
+                    (unsigned char *) &hp->fill - data, hp->fill[0]);
         }
     }
 
@@ -643,11 +747,11 @@ ccntlv_2015(int lev, unsigned char *data, int len, int rawxml, FILE* out)
     buf = data + hdrlen;
     len = pktlen - hdrlen;
     if (hp->pkttype == CCNX_PT_Interest ||
-             hp->pkttype == CCNX_PT_Data || hp->pkttype == CCNX_PT_NACK) {
+        hp->pkttype == CCNX_PT_Data || hp->pkttype == CCNX_PT_NACK) {
 
         // dump the sequence of TLV fields of the message body
         ccntlv_parse_sequence(lev, CTX_TOPLEVEL, data, &buf, &len,
-                                                        "message", rawxml, out);
+                              "message", rawxml, out);
     } else {
         hexdump(lev, data, buf, len, rawxml, out);
         buf += len;
@@ -730,70 +834,124 @@ ccntlv_201411(unsigned char *data, int len, int rawxml, FILE* out)
 #define NDN_TLV_MAX_TYPE 256
 static char ndntlv_recurse[NDN_TLV_MAX_TYPE];
 
-static char*
-ndn_type2name(unsigned type)
-{
+static char *
+ndn_type2name(unsigned type) {
     char *n;
 
     switch (type) {
-    case NDN_TLV_Interest:          n = "Interest"; break;
-    case NDN_TLV_Data:              n = "Data"; break;
-    case NDN_TLV_NDNLP:             n = "NDNLP"; break; // fragment
-    case NDN_TLV_Name:              n = "Name"; break;
-    case NDN_TLV_NameComponent:     n = "NameComponent"; break;
-    case NDN_TLV_Selectors:         n = "Selectors"; break;
-    case NDN_TLV_Nonce:             n = "Nonce"; break;
-    case NDN_TLV_Scope:             n = "Scope"; break;
-    case NDN_TLV_InterestLifetime:  n = "InterestLifetime"; break;
-    case NDN_TLV_MinSuffixComponents:   n = "MinSuffixComponents"; break;
-    case NDN_TLV_MaxSuffixComponents:   n = "MaxSuffixComponents"; break;
-    case NDN_TLV_PublisherPublicKeyLocator: n = "PublisherPublicKeyLocator"; break;
-    case NDN_TLV_Exclude:           n = "Exclude"; break;
-    case NDN_TLV_ChildSelector:     n = "ChildSelector"; break;
-    case NDN_TLV_MustBeFresh:       n = "MustBeFresh"; break;
-    case NDN_TLV_Any:               n = "Any"; break;
-    case NDN_TLV_MetaInfo:          n = "MetaInfo"; break;
-    case NDN_TLV_Content:           n = "Content"; break;
-    case NDN_TLV_SignatureInfo:     n = "SignatureInfo"; break;
-    case NDN_TLV_SignatureValue:    n = "SignatureValue"; break;
-    case NDN_TLV_ContentType:       n = "ContentType"; break;
-    case NDN_TLV_FreshnessPeriod:   n = "FreshnessPeriod"; break;
-    case NDN_TLV_FinalBlockId:      n = "FinalBlockId"; break;
-    case NDN_TLV_SignatureType:     n = "SignatureType"; break;
-    case NDN_TLV_KeyLocator:        n = "KeyLocator"; break;
-    case NDN_TLV_KeyLocatorDigest:  n = "KeyLocatorDigest"; break;
-    case NDN_TLV_Frag_BeginEndFields: n = "FragBeginEndFields"; break;
-    case NDN_TLV_NdnlpFragment:     n = "FragmentPayload"; break;
-    default:
-        n = NULL;
+        case NDN_TLV_Interest:
+            n = "Interest";
+            break;
+        case NDN_TLV_Data:
+            n = "Data";
+            break;
+        case NDN_TLV_NDNLP:
+            n = "NDNLP";
+            break; // fragment
+        case NDN_TLV_Name:
+            n = "Name";
+            break;
+        case NDN_TLV_NameComponent:
+            n = "NameComponent";
+            break;
+        case NDN_TLV_Selectors:
+            n = "Selectors";
+            break;
+        case NDN_TLV_Nonce:
+            n = "Nonce";
+            break;
+        case NDN_TLV_Scope:
+            n = "Scope";
+            break;
+        case NDN_TLV_InterestLifetime:
+            n = "InterestLifetime";
+            break;
+        case NDN_TLV_MinSuffixComponents:
+            n = "MinSuffixComponents";
+            break;
+        case NDN_TLV_MaxSuffixComponents:
+            n = "MaxSuffixComponents";
+            break;
+        case NDN_TLV_PublisherPublicKeyLocator:
+            n = "PublisherPublicKeyLocator";
+            break;
+        case NDN_TLV_Exclude:
+            n = "Exclude";
+            break;
+        case NDN_TLV_ChildSelector:
+            n = "ChildSelector";
+            break;
+        case NDN_TLV_MustBeFresh:
+            n = "MustBeFresh";
+            break;
+        case NDN_TLV_Any:
+            n = "Any";
+            break;
+        case NDN_TLV_MetaInfo:
+            n = "MetaInfo";
+            break;
+        case NDN_TLV_Content:
+            n = "Content";
+            break;
+        case NDN_TLV_SignatureInfo:
+            n = "SignatureInfo";
+            break;
+        case NDN_TLV_SignatureValue:
+            n = "SignatureValue";
+            break;
+        case NDN_TLV_ContentType:
+            n = "ContentType";
+            break;
+        case NDN_TLV_FreshnessPeriod:
+            n = "FreshnessPeriod";
+            break;
+        case NDN_TLV_FinalBlockId:
+            n = "FinalBlockId";
+            break;
+        case NDN_TLV_SignatureType:
+            n = "SignatureType";
+            break;
+        case NDN_TLV_KeyLocator:
+            n = "KeyLocator";
+            break;
+        case NDN_TLV_KeyLocatorDigest:
+            n = "KeyLocatorDigest";
+            break;
+        case NDN_TLV_Frag_BeginEndFields:
+            n = "FragBeginEndFields";
+            break;
+        case NDN_TLV_NdnlpFragment:
+            n = "FragmentPayload";
+            break;
+        default:
+            n = NULL;
     }
     return n;
 }
 
 static int
 ndn_parse_sequence(int lev, unsigned char *base, unsigned char **buf,
-                   unsigned int *len, char *cur_tag, int rawxml, FILE* out)
-{
+                   unsigned int *len, char *cur_tag, int rawxml, FILE *out) {
     int i, maxi;
     unsigned int typ, vallen;
     unsigned char *cp;
     char *n, tmp[100];
-    (void)cur_tag;
+    (void) cur_tag;
 
     while (*len > 0) {
         cp = *buf;
-        if (ccnl_ndntlv_dehead(buf, (int*) len, (int*)&typ, (int*)&vallen) < 0)
+        if (ccnl_ndntlv_dehead(buf, (int *) len, (int *) &typ, (int *) &vallen) < 0)
             return -1;
         if (vallen > *len) {
             fprintf(stderr, "\n%04zx ** NDN_TLV length problem for %s:\n"
-                "  type=%hu, len=%hu larger than %u available bytes\n",
-                cp - base, base, (unsigned short)typ, (unsigned short)vallen, *len);
+                            "  type=%hu, len=%hu larger than %u available bytes\n",
+                    cp - base, base, (unsigned short) typ, (unsigned short) vallen, *len);
             exit(-1);
         }
 
         n = ndn_type2name(typ);
         if (!n) {
-            sprintf(tmp, "type=%hu", (unsigned short)typ);
+            sprintf(tmp, "type=%hu", (unsigned short) typ);
             n = tmp;
         }
 
@@ -816,7 +974,7 @@ ndn_parse_sequence(int lev, unsigned char *base, unsigned char **buf,
 
         if (typ < NDN_TLV_MAX_TYPE && ndntlv_recurse[typ]) {
             *len -= vallen;
-            if (ndn_parse_sequence(lev+1, base, buf, &vallen, n, rawxml, out) < 0) {
+            if (ndn_parse_sequence(lev + 1, base, buf, &vallen, n, rawxml, out) < 0) {
                 return -1;
             }
             if (rawxml) {
@@ -839,20 +997,20 @@ ndn_parse_sequence(int lev, unsigned char *base, unsigned char **buf,
                 maxi = vallen > 8 ? 8 : vallen;
                 cp = *buf;
                 fprintf(out, "%04zx  ", cp - base);
-                for (i = 0; i < lev+1; i++)
+                for (i = 0; i < lev + 1; i++)
                     fprintf(out, "  ");
-                for (i = 0; i < 8; i++, cp++){
-                        if (i < maxi)
-                                fprintf(out, "%02x ", *cp);
-                        else
-                                fprintf(out, "   ");
+                for (i = 0; i < 8; i++, cp++) {
+                    if (i < maxi)
+                        fprintf(out, "%02x ", *cp);
+                    else
+                        fprintf(out, "   ");
                 }
                 cp = *buf;
-                for (i = 79 - 6 - 2*(lev+1) - 8*3 - 12; i > 0; i--)
-                fprintf(out, " ");
+                for (i = 79 - 6 - 2 * (lev + 1) - 8 * 3 - 12; i > 0; i--)
+                    fprintf(out, " ");
                 fprintf(out, "  |");
                 for (i = 0; i < maxi; i++, cp++)
-                fprintf(out, "%c", isprint(*cp) ? *cp : '.');
+                    fprintf(out, "%c", isprint(*cp) ? *cp : '.');
                 fprintf(out, "|");
                 fprintf(out, "\n");
 
@@ -869,20 +1027,18 @@ ndn_parse_sequence(int lev, unsigned char *base, unsigned char **buf,
 }
 
 static void
-ndntlv_201311(unsigned char *data, int len, int rawxml, FILE* out)
-{
+ndntlv_201311(unsigned char *data, int len, int rawxml, FILE *out) {
     unsigned char *buf = data;
 
     // dump the sequence of TLV fields, should start with a name TLV
-    ndn_parse_sequence(0, data, &buf, (unsigned int*)&len, "payload", rawxml, out);
+    ndn_parse_sequence(0, data, &buf, (unsigned int *) &len, "payload", rawxml, out);
     if (!rawxml) {
         fprintf(out, "%04zx  pkt.end\n", buf - data);
     }
 }
 
 static void
-ndn_init()
-{
+ndn_init() {
     ndntlv_recurse[NDN_TLV_Interest] = 1;
     ndntlv_recurse[NDN_TLV_Data] = 1;
     ndntlv_recurse[NDN_TLV_Fragment] = 1;
@@ -899,8 +1055,7 @@ ndn_init()
 
 int
 localrpc_parse(int lev, unsigned char *base, unsigned char **buf, int *len,
-               int rawxml, FILE* out)
-{
+               int rawxml, FILE *out) {
     unsigned int typ, vallen, i;
     unsigned char *cp;
     char *n, tmp[100], dorecurse;
@@ -909,55 +1064,70 @@ localrpc_parse(int lev, unsigned char *base, unsigned char **buf, int *len,
         cp = *buf;
 
         dorecurse = 0;
-    /*
-    if (*cp && *cp < LRPC_APPLICATION) { // private type value
-        sprintf(tmp, "Variable=v%02x", *cp);
-        n = tmp;
-        *buf += 1;
-        *len -= 1;
-        vallen = 0;
-    } else
-    */
+        /*
+        if (*cp && *cp < LRPC_APPLICATION) { // private type value
+            sprintf(tmp, "Variable=v%02x", *cp);
+            n = tmp;
+            *buf += 1;
+            *len -= 1;
+            vallen = 0;
+        } else
+        */
         {
-            if (ccnl_lrpc_dehead(buf, len, (int*)&typ, (int*)&vallen) < 0)
+            if (ccnl_lrpc_dehead(buf, len, (int *) &typ, (int *) &vallen) < 0)
                 return -1;
-            if (vallen > (unsigned int)*len) {
+            if (vallen > (unsigned int) *len) {
                 fprintf(stderr, "\n%04zx ** LRPC length problem:\n"
-                        "  type=%hu, len=%hu larger than %d available bytes\n",
-                        cp - base, (unsigned short)typ, (unsigned short)vallen,
+                                "  type=%hu, len=%hu larger than %d available bytes\n",
+                        cp - base, (unsigned short) typ, (unsigned short) vallen,
                         *len);
                 exit(-1);
             }
-            switch(typ) {
-            case LRPC_PT_REQUEST:
-                n = "Request"; dorecurse = 1; break;
-            case LRPC_PT_REPLY:
-                n = "Reply"; dorecurse = 1; break;
-            case LRPC_APPLICATION:
-                n = "Application"; dorecurse = 1; break;
-            case LRPC_LAMBDA:
-                n = "Lambda"; dorecurse = 1; break;
-            case LRPC_SEQUENCE:
-                n = "Sequence"; dorecurse = 1; break;
-            case LRPC_FLATNAME:
-                n = "FlatName"; break;
-            case LRPC_NONNEGINT:
-                n = "Integer"; break;
-            case LRPC_STR:
-                n = "String"; break;
-            case LRPC_BIN:
-                n = "BinaryData"; break;
-            case LRPC_NONCE:
-                n = "Nonce"; break;
-            default:
-                sprintf(tmp, "Type=0x%x", (unsigned short)typ);
-                n = tmp;
-                break;
+            switch (typ) {
+                case LRPC_PT_REQUEST:
+                    n = "Request";
+                    dorecurse = 1;
+                    break;
+                case LRPC_PT_REPLY:
+                    n = "Reply";
+                    dorecurse = 1;
+                    break;
+                case LRPC_APPLICATION:
+                    n = "Application";
+                    dorecurse = 1;
+                    break;
+                case LRPC_LAMBDA:
+                    n = "Lambda";
+                    dorecurse = 1;
+                    break;
+                case LRPC_SEQUENCE:
+                    n = "Sequence";
+                    dorecurse = 1;
+                    break;
+                case LRPC_FLATNAME:
+                    n = "FlatName";
+                    break;
+                case LRPC_NONNEGINT:
+                    n = "Integer";
+                    break;
+                case LRPC_STR:
+                    n = "String";
+                    break;
+                case LRPC_BIN:
+                    n = "BinaryData";
+                    break;
+                case LRPC_NONCE:
+                    n = "Nonce";
+                    break;
+                default:
+                    sprintf(tmp, "Type=0x%x", (unsigned short) typ);
+                    n = tmp;
+                    break;
             }
         }
 
         printf("%04zx  ", cp - base);
-        for (i = 0; i < (unsigned int)lev; i++)
+        for (i = 0; i < (unsigned int) lev; i++)
             printf("  ");
         for (; cp < *buf; cp++)
             printf("%02x ", *cp);
@@ -965,24 +1135,24 @@ localrpc_parse(int lev, unsigned char *base, unsigned char **buf, int *len,
 
         if (dorecurse) {
             *len -= vallen;
-            localrpc_parse(lev+1, base, buf, (int*)&vallen, rawxml, out);
+            localrpc_parse(lev + 1, base, buf, (int *) &vallen, rawxml, out);
             continue;
         }
 
         if (typ == LRPC_NONNEGINT) {
             printf("%04zx  ", *buf - base);
-            for (i = 0; i <= (unsigned int)lev; i++)
+            for (i = 0; i <= (unsigned int) lev; i++)
                 printf("  ");
             printf("%ld\n", ccnl_ndntlv_nonNegInt(*buf, vallen));
         } else if (typ == LRPC_FLATNAME) {
             printf("%04zx  ", *buf - base);
-            for (i = 0; i <= (unsigned int)lev; i++)
+            for (i = 0; i <= (unsigned int) lev; i++)
                 printf("  ");
             strcpy(tmp, "\"");
             i = sizeof(tmp) - 6;
             if (vallen < i)
                 i = vallen;
-            memcpy(tmp+1, *buf, i);
+            memcpy(tmp + 1, *buf, i);
             strcpy(tmp + i + 1, vallen > i ? "\"..." : "\"");
             printf("%s\n", tmp);
         } else if (vallen > 0)
@@ -994,15 +1164,14 @@ localrpc_parse(int lev, unsigned char *base, unsigned char **buf, int *len,
 }
 
 static void
-localrpc_201405(unsigned char *data, int len, int rawxml, FILE* out)
-{
+localrpc_201405(unsigned char *data, int len, int rawxml, FILE *out) {
     unsigned char *buf = data;
     int origlen = len, typ, vallen;
     // int typ2, vallen2, len2;
     //    unsigned char *cp;
 
     if (len <= 0 || ccnl_lrpc_dehead(&buf, &len, &typ, &vallen) < 0 ||
-                              (typ != LRPC_PT_REQUEST && typ != LRPC_PT_REPLY))
+        (typ != LRPC_PT_REQUEST && typ != LRPC_PT_REPLY))
         return;
 
     /*
@@ -1019,8 +1188,8 @@ localrpc_201405(unsigned char *data, int len, int rawxml, FILE* out)
         localrpc_parse(1, data, &buf, &len, rawxml, out);
     } else { // RPC request
     */
-        buf = data;
-        localrpc_parse(0, data, &buf, &origlen, rawxml, out);
+    buf = data;
+    localrpc_parse(0, data, &buf, &origlen, rawxml, out);
     //    }
 
     printf("%04zx  pkt.end\n", buf - data);
@@ -1029,39 +1198,38 @@ localrpc_201405(unsigned char *data, int len, int rawxml, FILE* out)
 // ----------------------------------------------------------------------
 
 int
-emit_content_only(unsigned char *start, int len, int suite, int format)
-{
+emit_content_only(unsigned char *start, int len, int suite, int format) {
     unsigned char *data;
     struct ccnl_pkt_s *pkt;
 
     // we cheat, by hardwired jump over the outermost container heads
     switch (suite) {
-    case CCNL_SUITE_CCNB: {
-        data = start + 2;
-        len -= 2;
+        case CCNL_SUITE_CCNB: {
+            data = start + 2;
+            len -= 2;
 
-        pkt = ccnl_ccnb_bytes2pkt(start, &data, &len);
-        break;
-    }
-    case CCNL_SUITE_CCNTLV: {
-        int hdrlen = ccnl_ccntlv_getHdrLen(start, len);
-        data = start + hdrlen;
-        len -= hdrlen;
+            pkt = ccnl_ccnb_bytes2pkt(start, &data, &len);
+            break;
+        }
+        case CCNL_SUITE_CCNTLV: {
+            int hdrlen = ccnl_ccntlv_getHdrLen(start, len);
+            data = start + hdrlen;
+            len -= hdrlen;
 
-        pkt = ccnl_ccntlv_bytes2pkt(start, &data, &len);
-        break;
-    }
-    case CCNL_SUITE_NDNTLV: {
-        int pkttype;
-        int vallen;
-        data = start;
-        if (ccnl_ndntlv_dehead(&data, &len, &pkttype, &vallen) < 0)
+            pkt = ccnl_ccntlv_bytes2pkt(start, &data, &len);
+            break;
+        }
+        case CCNL_SUITE_NDNTLV: {
+            int pkttype;
+            int vallen;
+            data = start;
+            if (ccnl_ndntlv_dehead(&data, &len, &pkttype, &vallen) < 0)
+                return -1;
+            pkt = ccnl_ndntlv_bytes2pkt(pkttype, start, &data, &len);
+            break;
+        }
+        default:
             return -1;
-        pkt = ccnl_ndntlv_bytes2pkt(pkttype, start, &data, &len);
-        break;
-    }
-    default:
-        return -1;
     }
     if (!pkt) {
         DEBUGMSG(WARNING, "extract (%s): parsing error or no prefix\n",
@@ -1083,8 +1251,7 @@ emit_content_only(unsigned char *start, int len, int suite, int format)
 // returns 0 on success, -1 on error, 1 on "warning"
 int
 dump_content(int lev, unsigned char *base, unsigned char *data,
-             int len, int format, int suite, FILE *out)
-{
+             int len, int format, int suite, FILE *out) {
     char *forced;
     int enc, oldlen = len;
     unsigned char *olddata = data;
@@ -1100,7 +1267,7 @@ dump_content(int lev, unsigned char *base, unsigned char *data,
         while (!ccnl_switch_dehead(&data, &len, &enc)) {
             if (format)
                 continue;
-            printf("%04x", (int)(olddata - base));
+            printf("%04x", (int) (olddata - base));
             indent(NULL, lev);
             while (olddata < data)
                 printf("0x%02x ", *(olddata++));
@@ -1113,7 +1280,7 @@ dump_content(int lev, unsigned char *base, unsigned char *data,
             suite = ccnl_enc2suite(enc);
             if (format)
                 continue;
-            printf("%04x", (int)(olddata - base));
+            printf("%04x", (int) (olddata - base));
             indent(NULL, lev);
             while (olddata < data)
                 printf("0x%02x ", *(olddata++));
@@ -1129,49 +1296,49 @@ dump_content(int lev, unsigned char *base, unsigned char *data,
         return emit_content_only(data, len, suite, format);
 
     switch (suite) {
-    case CCNL_SUITE_CCNB:
-        if (format == 0) {
-            indent("#   ", lev);
-            printf("%s CCNB format\n#\n", forced);
-        }
-        ccnb_parse(lev, data, len, format == 1, out);
-        break;
-    case CCNL_SUITE_CCNTLV:
-        if (format == 0) {
-            indent("#   ", lev);
-            printf("%s CCNx TLV format (as of Mar 2015)\n#\n", forced);
-        }
-        ccntlv_2015(lev, data, len, format == 1, out);
-        break;
-    case CCNL_SUITE_LOCALRPC:
-        if (format == 0) {
-            indent("#   ", lev);
-            printf("%s local RPC format (Dec 2014, with NDNTLV encoding)\n#\n",
-                   forced);
-        }
-        localrpc_201405(data, len, format == 1, out);
-        break;
-    case CCNL_SUITE_NDNTLV:
-        if (format == 0) {
-            indent("#   ", lev);
-            printf("%s NDN TLV format (as of Mar 2014)\n#\n", forced);
-        }
-        ndntlv_201311(data, len, format == 1, out);
-        break;
-    default:
-        rc = -1;
-        if (format == 0) {
-            indent("#   ", lev);
-            printf("unknown pkt format, showing plain hex\n");
-        }
-        hexdump(-1, data, data, len, format == 1, out);
-done:
-        if (format == 0) {
-            printf("%04x", (int)(data - base));
-            indent(NULL, lev);
-            printf("pkt.end\n");
-        }
-        break;
+        case CCNL_SUITE_CCNB:
+            if (format == 0) {
+                indent("#   ", lev);
+                printf("%s CCNB format\n#\n", forced);
+            }
+            ccnb_parse(lev, data, len, format == 1, out);
+            break;
+        case CCNL_SUITE_CCNTLV:
+            if (format == 0) {
+                indent("#   ", lev);
+                printf("%s CCNx TLV format (as of Mar 2015)\n#\n", forced);
+            }
+            ccntlv_2015(lev, data, len, format == 1, out);
+            break;
+        case CCNL_SUITE_LOCALRPC:
+            if (format == 0) {
+                indent("#   ", lev);
+                printf("%s local RPC format (Dec 2014, with NDNTLV encoding)\n#\n",
+                       forced);
+            }
+            localrpc_201405(data, len, format == 1, out);
+            break;
+        case CCNL_SUITE_NDNTLV:
+            if (format == 0) {
+                indent("#   ", lev);
+                printf("%s NDN TLV format (as of Mar 2014)\n#\n", forced);
+            }
+            ndntlv_201311(data, len, format == 1, out);
+            break;
+        default:
+            rc = -1;
+            if (format == 0) {
+                indent("#   ", lev);
+                printf("unknown pkt format, showing plain hex\n");
+            }
+            hexdump(-1, data, data, len, format == 1, out);
+        done:
+            if (format == 0) {
+                printf("%04x", (int) (data - base));
+                indent(NULL, lev);
+                printf("pkt.end\n");
+            }
+            break;
     }
 
     return rc;
@@ -1182,45 +1349,44 @@ done:
 #ifndef USE_JNI_LIB
 
 int
-main(int argc, char *argv[])
-{
+main(int argc, char *argv[]) {
     int opt, rc;
-    unsigned char data[64*1024];
+    unsigned char data[64 * 1024];
     int len, maxlen, suite = -1, format = 0;
     FILE *out = stdout;
 
     ndn_init();
     while ((opt = getopt(argc, argv, "hs:f:v:")) != -1) {
         switch (opt) {
-        case 's':
-            suite = ccnl_str2suite(optarg);
-            if (!ccnl_isSuite(suite))
-                goto help;
-            break;
-        case 'f':
-            format = atoi(optarg);
-            break;
-        case 'v':
+            case 's':
+                suite = ccnl_str2suite(optarg);
+                if (!ccnl_isSuite(suite))
+                    goto help;
+                break;
+            case 'f':
+                format = atoi(optarg);
+                break;
+            case 'v':
 #ifdef USE_LOGGING
-            if (isdigit(optarg[0]))
-                debug_level = atoi(optarg);
-            else
-                debug_level = ccnl_debug_str2level(optarg);
+                if (isdigit(optarg[0]))
+                    debug_level = atoi(optarg);
+                else
+                    debug_level = ccnl_debug_str2level(optarg);
 #endif
-            break;
-        default:
-help:
-            fprintf(stderr,
-                    "usage: %s [options] <encoded_data\n"
-                    "  -f FORMAT    (0=readable, 1=rawxml, 2=content, 3=content+newline)\n"
-                    "  -h           this help\n"
-                    "  -s SUITE     (ccnb, ccnx2015, ndn2013)\n"
-#ifdef USE_LOGGING
-                    "  -v DEBUG_LEVEL (fatal, error, warning, info, debug, verbose, trace)\n"
+                break;
+            default:
+            help:
+                fprintf(stderr,
+                        "usage: %s [options] <encoded_data\n"
+                        "  -f FORMAT    (0=readable, 1=rawxml, 2=content, 3=content+newline)\n"
+                        "  -h           this help\n"
+                        "  -s SUITE     (ccnb, ccnx2015, ndn2013)\n"
+                        #ifdef USE_LOGGING
+                        "  -v DEBUG_LEVEL (fatal, error, warning, info, debug, verbose, trace)\n"
 #endif
-                    ,
-                    argv[0]);
-            exit(1);
+                        ,
+                        argv[0]);
+                exit(1);
         }
     }
 
@@ -1230,7 +1396,7 @@ help:
     len = 0;
     maxlen = sizeof(data);
     while (maxlen > 0) {
-        rc = read(0, data+len, maxlen);
+        rc = read(0, data + len, maxlen);
         if (rc == 0)
             break;
         if (rc < 0) {
@@ -1242,10 +1408,11 @@ help:
     }
 
     if (format == 0)
-        printf("# ccn-lite-pktdump, parsing %d byte%s\n", len, len!=1 ? "s":"");
+        printf("# ccn-lite-pktdump, parsing %d byte%s\n", len, len != 1 ? "s" : "");
 
     return dump_content(0, data, data, len, format, suite, out);
 }
+
 #endif
 
 // eof

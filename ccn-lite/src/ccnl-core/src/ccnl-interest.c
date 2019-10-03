@@ -58,12 +58,20 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         return NULL;
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
-    i->lifetime = (*pkt)->s.ndntlv.interestlifetime / 1000;
+    i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
+    if(ccnl->max_pit_entries != -1){
+        if (ccnl->pitcnt >= ccnl->max_pit_entries) {
+            ccnl_pkt_free(i->pkt);
+            ccnl_free(i);
+            return NULL;
+        }
+    }
     DBL_LINKED_LIST_ADD(ccnl->pit, i);
+    ccnl->pitcnt++;
 
 #ifdef CCNL_RIOT
     ccnl_evtimer_reset_interest_retrans(i);

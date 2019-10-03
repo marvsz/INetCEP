@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;CMake Files\ccnl-core\;CMake Files\ccnl-pkt\;CMake Files\ccnl-fwd\;CMake Files\ccnl-unix\;CMake Files\ccnl-relay\;CMake Files\ccnl-utils\;CMake Files\ccnl-nfn\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-fetch">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-fetch" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-fetch" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -46,23 +46,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-fetch"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-fetch"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-fetch/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-fetch" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-fetch" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -89,23 +89,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-fetch/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-fetch/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-cryptoserver">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-cryptoserver" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-cryptoserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -132,23 +132,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-cryptoserver"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-cryptoserver"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-cryptoserver/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-cryptoserver" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-cryptoserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -175,23 +175,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-cryptoserver/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-cryptoserver/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-ccnb2xml">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-ccnb2xml" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-ccnb2xml" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -218,23 +218,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ccnb2xml"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ccnb2xml"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-ccnb2xml/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-ccnb2xml" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-ccnb2xml" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -261,23 +261,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ccnb2xml/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ccnb2xml/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-peek">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-peek" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-peek" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -304,23 +304,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-peek"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-peek"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-peek/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-peek" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-peek" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -347,23 +347,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-peek/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-peek/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="common">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/libcommon.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/libcommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -390,23 +390,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 common"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 common"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="common/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/libcommon.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/libcommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -433,23 +433,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 common/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 common/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-ctrl">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-ctrl" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-ctrl" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -476,23 +476,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ctrl"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ctrl"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-ctrl/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-ctrl" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-ctrl" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -519,23 +519,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ctrl/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-ctrl/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-rpc">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-rpc" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-rpc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -562,23 +562,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-rpc"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-rpc"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-rpc/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-rpc" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-rpc" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -605,23 +605,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-rpc/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-rpc/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccnl-crypto">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/libccnl-crypto.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/libccnl-crypto.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -648,23 +648,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccnl-crypto"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccnl-crypto"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccnl-crypto/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/libccnl-crypto.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/libccnl-crypto.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
@@ -691,23 +691,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccnl-crypto/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccnl-crypto/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-mkI">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-mkI" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-mkI" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -734,23 +734,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkI"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkI"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-mkI/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-mkI" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-mkI" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -777,23 +777,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkI/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkI/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-mkC">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-mkC" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-mkC" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -820,23 +820,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkC"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkC"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-mkC/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-mkC" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-mkC" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -863,23 +863,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkC/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-mkC/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-produce">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-produce" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-produce" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -906,23 +906,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-produce"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-produce"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-produce/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-produce" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-produce" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -949,23 +949,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-produce/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-produce/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-pktdump">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-pktdump" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-pktdump" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -992,23 +992,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-pktdump"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-pktdump"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-pktdump/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-pktdump" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-pktdump" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1035,23 +1035,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-pktdump/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-pktdump/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-simplenfn">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-simplenfn" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-simplenfn" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1078,23 +1078,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-simplenfn"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-simplenfn"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-simplenfn/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-simplenfn" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-simplenfn" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1121,23 +1121,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-simplenfn/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-simplenfn/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-valid">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-valid" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-valid" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1164,23 +1164,23 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-valid"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-valid"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ccn-lite-valid/fast">
-				<Option output="/home/johannes/MA-Ali/ccn-lite/src/bin/ccn-lite-valid" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../bin"/>
+				<Option output="/home/johannes/INetCEP/ccn-lite/src/bin/ccn-lite-valid" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../bin"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -1207,97 +1207,97 @@
 					<Add option="-DUSE_SUITE_LOCALRPC"/>
 					<Add option="-DUSE_NFN"/>
 					<Add option="-DUSE_NFN_REQUESTS"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
-					<Add directory="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-pkt/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-fwd/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-core/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-unix/include"/>
+					<Add directory="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/../ccnl-nfn/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-valid/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 ccn-lite-valid/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/base64.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/base64.c">
 			<Option target="common"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-ccnb2xml.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-ccnb2xml.c">
 			<Option target="ccn-lite-ccnb2xml"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-cryptoserver.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-cryptoserver.c">
 			<Option target="ccn-lite-cryptoserver"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-ctrl.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-ctrl.c">
 			<Option target="ccn-lite-ctrl"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-fetch.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-fetch.c">
 			<Option target="ccn-lite-fetch"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-mkC.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-mkC.c">
 			<Option target="ccn-lite-mkC"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-mkI.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-mkI.c">
 			<Option target="ccn-lite-mkI"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-peek.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-peek.c">
 			<Option target="ccn-lite-peek"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-pktdump.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-pktdump.c">
 			<Option target="ccn-lite-pktdump"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-produce.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-produce.c">
 			<Option target="ccn-lite-produce"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-rpc.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-rpc.c">
 			<Option target="ccn-lite-rpc"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-simplenfn.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-simplenfn.c">
 			<Option target="ccn-lite-simplenfn"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccn-lite-valid.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccn-lite-valid.c">
 			<Option target="ccn-lite-valid"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccnl-common.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccnl-common.c">
 			<Option target="common"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccnl-crypto.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccnl-crypto.c">
 			<Option target="ccnl-crypto"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccnl-ext-hmac.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccnl-ext-hmac.c">
 			<Option target="ccnl-crypto"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/ccnl-socket.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/ccnl-socket.c">
 			<Option target="common"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/src/lib-sha256.c">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/src/lib-sha256.c">
 			<Option target="ccnl-crypto"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-core/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-core/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-core\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-pkt/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-pkt/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-pkt\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-fwd/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-fwd/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-fwd\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-unix/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-unix/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-unix\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-relay/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-relay/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-relay\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-utils/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-utils/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-utils\"/>
 		</Unit>
-		<Unit filename="/home/johannes/MA-Ali/ccn-lite/src/ccnl-nfn/CMakeLists.txt">
+		<Unit filename="/home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\ccnl-nfn\"/>
 		</Unit>
 	</Project>

@@ -182,12 +182,12 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
 }
 
 int
-ccnl_cmp2int(unsigned char *cmp, size_t cmplen) {
+ccnl_cmp2int(unsigned char *cmp, int cmplen) {
     if (cmp) {
         long int i;
         char *str = (char *)ccnl_malloc(cmplen+1);
 
-        DEBUGMSG(DEBUG, "  inter a: %zd\n", cmplen);
+        DEBUGMSG(DEBUG, "  inter a: %i\n", cmplen);
         DEBUGMSG(DEBUG, "  inter b\n");
 
         memcpy(str, (char *)cmp, cmplen);
@@ -204,4 +204,24 @@ ccnl_cmp2int(unsigned char *cmp, size_t cmplen) {
     }
 
     return 0;
+}
+
+uint32_t
+ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt)
+{
+    switch(pkt->suite) {
+#ifdef USE_SUITE_CCNTLV
+        case CCNL_SUITE_CCNTLV:
+            /* CCN-TLV parser does not support lifetime parsing, yet. */
+            return CCNL_INTEREST_TIMEOUT;
+#endif
+#ifdef USE_SUITE_NDNTLV
+        case CCNL_SUITE_NDNTLV:
+            return (pkt->s.ndntlv.interestlifetime / 1000);
+#endif
+        default:
+            break;
+    }
+
+    return CCNL_INTEREST_TIMEOUT;
 }
