@@ -27,7 +27,7 @@
 void
 file2frags(int suite, unsigned char *data, int datalen, char *fileprefix,
            int bytelimit, unsigned int *seqnr, unsigned int seqnrwidth,
-           uint8_t noclobber)
+           bool noclobber)
 {
     struct ccnl_buf_s *fragbuf;
     struct ccnl_frag_s fr;
@@ -78,7 +78,7 @@ main(int argc, char *argv[])
     int opt, len, fd;
     unsigned int bytelimit = 1500, seqnr = 0, seqnrlen = 4;
     char *cmdname = argv[0], *cp, *fname, *fileprefix = "frag";
-    uint8_t noclobber = false;
+    bool noclobber = false;
     int suite = CCNL_SUITE_DEFAULT;
 
     while ((opt = getopt(argc, argv, "a:b:f:hns:v:")) != -1) {
@@ -86,10 +86,10 @@ main(int argc, char *argv[])
         case 'a':
             seqnr = strtol(optarg, &cp, 0);
             if (cp && cp[0]== '/' && isdigit(cp[1]))
-                seqnrlen = strtol(cp+1);
+                seqnrlen = atoi(cp+1);
             break;
         case 'b':
-            bytelimit = strtol((char*) optarg);
+            bytelimit = atoi((char*) optarg);
             break;
         case 'f':
             fileprefix = optarg;

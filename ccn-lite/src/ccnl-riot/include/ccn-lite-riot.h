@@ -31,7 +31,7 @@
 #include "net/gnrc/netreg.h"
 #include "ccnl-dispatch.h"
 //#include "ccnl-pkt-builder.h"
-#include "irq.h"
+
 #include "evtimer.h"
 #include "evtimer_msg.h"
 
@@ -328,33 +328,9 @@ static inline void ccnl_evtimer_set_cs_timeout(struct ccnl_content_s *c)
     evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&c->evtmsg_cstimeout);
     c->evtmsg_cstimeout.msg.type = CCNL_MSG_CS_DEL;
     c->evtmsg_cstimeout.msg.content.ptr = c->pkt->pfx;
-    ((evtimer_event_t *)&c->evtmsg_cstimeout)->offset = CCNL_CONTENT_TIMEOUT * 1000UL; // ms
+    ((evtimer_event_t *)&c->evtmsg_cstimeout)->offset = CCNL_CONTENT_TIMEOUT * 1000; // ms
     evtimer_add_msg(&ccnl_evtimer, &c->evtmsg_cstimeout, ccnl_event_loop_pid);
 }
-
-/**
- * @brief Remove RIOT related structures for Interests
- *
- * @param[in] et        RIOT related event queue that holds timer events
- * @param[in] i         The Interest structure
- */
-static inline void ccnl_riot_interest_remove(evtimer_t *et, struct ccnl_interest_s *i)
-{
-    evtimer_del(et, (evtimer_event_t *)&i->evtmsg_retrans);
-    evtimer_del(et, (evtimer_event_t *)&i->evtmsg_timeout);
-
-    unsigned state = irq_disable();
-    /* remove messages that relate to this interest from the message queue */
-    thread_t *me = (thread_t*) sched_threads[sched_active_pid];
-    for (unsigned j = 0; j <= me->msg_queue.mask; j++) {
-        if (me->msg_array[j].content.ptr == i) {
-            /* removing is done by setting to zero */
-            memset(&(me->msg_array[j]), 0, sizeof(me->msg_array[j]));
-        }
-    }
-    irq_restore(state);
-}
-
 
 #ifdef __cplusplus
 }

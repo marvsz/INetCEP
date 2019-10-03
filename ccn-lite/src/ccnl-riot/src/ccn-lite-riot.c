@@ -159,7 +159,7 @@ ccnl_open_netif(kernel_pid_t if_pid, gnrc_nettype_t netreg_type)
         return -ECANCELED;
     }
     i->mtu = (int)mtu;
-    DEBUGMSG(DEBUG, "interface's MTU is set to %lu\n", (unsigned long) i->mtu);
+    DEBUGMSG(DEBUG, "interface's MTU is set to %i\n", i->mtu);
 
     res = gnrc_netapi_get(if_pid, NETOPT_ADDR_LEN, 0, &(i->addr_len), sizeof(i->addr_len));
     if (res < 0) {
@@ -196,7 +196,7 @@ ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
 {
     (void) ccnl;
     int rc;
-    DEBUGMSG(TRACE, "ccnl_ll_TX %d bytes to %s\n", (buf ? (int)buf->datalen : -1), ccnl_addr2ascii(dest));
+    DEBUGMSG(TRACE, "ccnl_ll_TX %d bytes to %s\n", (int)(buf ? buf->datalen : -1), ccnl_addr2ascii(dest));
 
     (void) ifc;
     switch(dest->sa.sa_family) {
@@ -534,7 +534,7 @@ ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len
                    ccnl_interest_opts_u *int_opts)
 {
     int ret = 0;
-    size_t len = 0;
+    int len = 0;
     ccnl_interest_opts_u default_opts;
     default_opts.ndntlv.nonce = 0;
     default_opts.ndntlv.mustbefresh = false;
@@ -545,7 +545,7 @@ ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len
         return -1;
     }
 
-    DEBUGMSG(INFO, "interest for chunk number: %lu\n", (prefix->chunknum == NULL) ? (unsigned long) 0 : (unsigned long) *prefix->chunknum);
+    DEBUGMSG(INFO, "interest for chunk number: %u\n", (prefix->chunknum == NULL) ? 0 : *prefix->chunknum);
 
     if (!prefix) {
         DEBUGMSG(ERROR, "prefix could not be created!\n");
@@ -562,7 +562,7 @@ ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len
 
     DEBUGMSG(DEBUG, "nonce: %" PRIi32 "\n", int_opts->ndntlv.nonce);
 
-    ccnl_mkInterest(prefix, int_opts, buf, (buf + buf_len), &len, (size_t *)&buf_len);
+    ccnl_mkInterest(prefix, int_opts, buf, &len, &buf_len);
 
     buf += buf_len;
 
@@ -571,11 +571,11 @@ ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len
     struct ccnl_pkt_s *pkt, *pktc;
     (void) pktc;
 
-    uint64_t typ;
-    size_t int_len;
+    int typ;
+    int int_len;
 
     /* TODO: support other suites */
-    if (ccnl_ndntlv_dehead(&data, &len, &typ, &int_len) || (int_len > len)) {
+    if (ccnl_ndntlv_dehead(&data, &len, (int*) &typ, &int_len) || (int) int_len > len) {
         DEBUGMSG(WARNING, "  invalid packet format\n");
         return -3;
     }

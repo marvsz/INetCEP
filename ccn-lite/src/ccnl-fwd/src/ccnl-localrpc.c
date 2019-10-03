@@ -22,101 +22,101 @@
 
 #ifdef USE_SUITE_LOCALRPC
 
-#include "ccnl-localrpc.h"
+#include "../include/ccnl-localrpc.h"
 
 #include <string.h>
 #include <stdio.h>
-#include <time.h>
+#include <time.h> 
 
-#include "ccnl-os-time.h"
-#include "ccnl-fwd.h"
-#include "ccnl-malloc.h"
+#include "../../ccnl-core/include/ccnl-os-time.h"
+#include "../include/ccnl-fwd.h"
+#include "../../ccnl-core/include/ccnl-malloc.h"
 
-#include "ccnl-pkt-localrpc.h"
-#include "ccnl-pkt-ccnb.h"
-#include "ccnl-pkt-ccntlv.h"
-#include "ccnl-pkt-ndntlv.h"
-#include "ccnl-pkt-switch.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-localrpc.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 
-#include "ccnl-logging.h"
+#include "../../ccnl-core/include/ccnl-logging.h"
 
 
 #ifdef CCNL_ARDUINO
 static const char compile_string[] PROGMEM = ""
 #else
 static const char *compile_string = ""
-                                    #endif
-
-                                    #ifdef USE_CCNxDIGEST
-                                    "CCNxDIGEST, "
-                                    #endif
-                                    #ifdef USE_DEBUG
-                                    "DEBUG, "
-                                    #endif
-                                    #ifdef USE_DEBUG_MALLOC
-                                    "DEBUG_MALLOC, "
-                                    #endif
-                                    #ifdef USE_ECHO
-                                    "ECHO, "
-                                    #endif
-                                    #ifdef USE_LINKLAYER
-                                    "ETHERNET, "
-                                    #endif
-                                    #ifdef USE_WPAN
-                                    "WPAN, "
-                                    #endif
-                                    #ifdef USE_FRAG
-                                    "FRAG, "
-                                    #endif
-                                    #ifdef USE_HMAC256
-                                    "HMAC256, "
-                                    #endif
-                                    #ifdef USE_HTTP_STATUS
-                                    "HTTP_STATUS, "
-                                    #endif
-                                    #ifdef USE_KITE
-                                    "KITE, "
-                                    #endif
-                                    #ifdef USE_LOGGING
-                                    "LOGGING, "
-                                    #endif
-                                    #ifdef USE_MGMT
-                                    "MGMT, "
-                                    #endif
-                                    #ifdef USE_NACK
-                                    "NACK, "
-                                    #endif
-                                    #ifdef USE_NFN
-                                    "NFN, "
-                                    #endif
-                                    #ifdef USE_NFN_MONITOR
-                                    "NFN_MONITOR, "
-                                    #endif
-                                    #ifdef USE_NFN_NSTRANS
-                                    "NFN_NSTRANS, "
-                                    #endif
-                                    #ifdef USE_SCHEDULER
-                                    "SCHEDULER, "
-                                    #endif
-                                    #ifdef USE_SIGNATURES
-                                    "SIGNATURES, "
-                                    #endif
-                                    #ifdef USE_SUITE_CCNB
-                                    "SUITE_CCNB, "
-                                    #endif
-                                    #ifdef USE_SUITE_CCNTLV
-                                    "SUITE_CCNTLV, "
-                                    #endif
-                                    #ifdef USE_SUITE_LOCALRPC
-                                    "SUITE_LOCALRPC, "
-                                    #endif
-                                    #ifdef USE_SUITE_NDNTLV
-                                    "SUITE_NDNTLV, "
-                                    #endif
-                                    #ifdef USE_UNIXSOCKET
-                                    "UNIXSOCKET, "
 #endif
-;
+
+#ifdef USE_CCNxDIGEST
+        "CCNxDIGEST, "
+#endif
+#ifdef USE_DEBUG
+        "DEBUG, "
+#endif
+#ifdef USE_DEBUG_MALLOC
+        "DEBUG_MALLOC, "
+#endif
+#ifdef USE_ECHO
+        "ECHO, "
+#endif
+#ifdef USE_LINKLAYER
+        "ETHERNET, "
+#endif
+#ifdef USE_WPAN
+        "WPAN, "
+#endif
+#ifdef USE_FRAG
+        "FRAG, "
+#endif
+#ifdef USE_HMAC256
+        "HMAC256, "
+#endif
+#ifdef USE_HTTP_STATUS
+        "HTTP_STATUS, "
+#endif
+#ifdef USE_KITE
+        "KITE, "
+#endif
+#ifdef USE_LOGGING
+        "LOGGING, "
+#endif
+#ifdef USE_MGMT
+        "MGMT, "
+#endif
+#ifdef USE_NACK
+        "NACK, "
+#endif
+#ifdef USE_NFN
+        "NFN, "
+#endif
+#ifdef USE_NFN_MONITOR
+        "NFN_MONITOR, "
+#endif
+#ifdef USE_NFN_NSTRANS
+        "NFN_NSTRANS, "
+#endif
+#ifdef USE_SCHEDULER
+        "SCHEDULER, "
+#endif
+#ifdef USE_SIGNATURES
+        "SIGNATURES, "
+#endif
+#ifdef USE_SUITE_CCNB
+        "SUITE_CCNB, "
+#endif
+#ifdef USE_SUITE_CCNTLV
+        "SUITE_CCNTLV, "
+#endif
+#ifdef USE_SUITE_LOCALRPC
+        "SUITE_LOCALRPC, "
+#endif
+#ifdef USE_SUITE_NDNTLV
+        "SUITE_NDNTLV, "
+#endif
+#ifdef USE_UNIXSOCKET
+        "UNIXSOCKET, "
+#endif
+        ;
 
 
 int ccnl_rdr_dump(int lev, struct rdr_ds_s *x)
@@ -134,54 +134,54 @@ int ccnl_rdr_dump(int lev, struct rdr_ds_s *x)
     } else
     */
     switch (t) {
-        case LRPC_PT_REQUEST:
-            n = "REQ"; break;
-        case LRPC_PT_REPLY:
-            n = "REP"; break;
-        case LRPC_APPLICATION:
-            n = "APP"; break;
-        case LRPC_LAMBDA:
-            n = "LBD"; break;
-        case LRPC_SEQUENCE:
-            n = "SEQ"; break;
-        case LRPC_FLATNAME:
-            n = "VAR"; break;
-        case LRPC_NONNEGINT:
-            n = "INT"; break;
-        case LRPC_BIN:
-            n = "BIN"; break;
-        case LRPC_STR:
-            n = "STR"; break;
-        case LRPC_NONCE:
-            n = "NCE"; break;
-        default:
-            n = "???"; break;
+    case LRPC_PT_REQUEST:
+        n = "REQ"; break;
+    case LRPC_PT_REPLY:
+        n = "REP"; break;
+    case LRPC_APPLICATION:
+        n = "APP"; break;
+    case LRPC_LAMBDA:
+        n = "LBD"; break;
+    case LRPC_SEQUENCE:
+        n = "SEQ"; break;
+    case LRPC_FLATNAME:
+        n = "VAR"; break;
+    case LRPC_NONNEGINT:
+        n = "INT"; break;
+    case LRPC_BIN:
+        n = "BIN"; break;
+    case LRPC_STR:
+        n = "STR"; break;
+    case LRPC_NONCE:
+        n = "NCE"; break;
+    default:
+        n = "???"; break;
     }
     for (i = 0; i < lev; i++)
         fprintf(stderr, "  ");
     if (t == LRPC_FLATNAME)
-        fprintf(stderr, "%s (0x%x, len=%zu)\n", n, t, x->u.namelen);
+        fprintf(stderr, "%s (0x%x, len=%d)\n", n, t, x->u.namelen);
     else
         fprintf(stderr, "%s (0x%x)\n", n, t);
 
     switch (t) {
-        case LRPC_PT_REQUEST:
-        case LRPC_PT_REPLY:
-        case LRPC_APPLICATION:
-            ccnl_rdr_dump(lev+1, x->u.fct);
-            break;
-        case LRPC_LAMBDA:
-            ccnl_rdr_dump(lev+1, x->u.lambdavar);
-            break;
-        case LRPC_SEQUENCE:
-            break;
-        case LRPC_FLATNAME:
-        case LRPC_NONNEGINT:
-        case LRPC_BIN:
-        case LRPC_STR:
-        case LRPC_NONCE:
-        default:
-            return 0;
+    case LRPC_PT_REQUEST:
+    case LRPC_PT_REPLY:
+    case LRPC_APPLICATION:
+        ccnl_rdr_dump(lev+1, x->u.fct);
+        break;
+    case LRPC_LAMBDA:
+        ccnl_rdr_dump(lev+1, x->u.lambdavar);
+        break;
+    case LRPC_SEQUENCE:
+        break;
+    case LRPC_FLATNAME:
+    case LRPC_NONNEGINT:
+    case LRPC_BIN:
+    case LRPC_STR:
+    case LRPC_NONCE:
+    default:
+        return 0;
     }
     x = x->aux;
     while (x) {
@@ -193,7 +193,7 @@ int ccnl_rdr_dump(int lev, struct rdr_ds_s *x)
 
 // ----------------------------------------------------------------------
 
-int8_t
+int
 ccnl_emit_RpcReturn(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                     struct rdr_ds_s *nonce, int rc, char *reason,
                     struct rdr_ds_s *content)
@@ -201,25 +201,21 @@ ccnl_emit_RpcReturn(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     struct ccnl_buf_s *pkt;
     struct rdr_ds_s *seq, *element;
-    size_t len = 0, switchlen = 0;
+    int len, switchlen;
     unsigned char tmp[10];
 
     len = strlen(reason) + 50; // add some headroom
-    if (content) {
-        if (ccnl_rdr_getFlatLen(content, &len)) {
-            return -1;
-        }
-    }
+    if (content)
+        len += ccnl_rdr_getFlatLen(content);
     pkt = ccnl_buf_new(NULL, len);
-    if (!pkt) {
-        return -1;
-    }
+    if (!pkt)
+        return 0;
 
     // we build a sequence, and later change the type in the flattened bytes
     seq = ccnl_rdr_mkSeq();
-    element = ccnl_rdr_mkNonce((uint8_t*)nonce->aux, nonce->u.binlen);
+    element = ccnl_rdr_mkNonce((char*)nonce->aux, nonce->u.binlen);
     ccnl_rdr_seqAppend(seq, element);
-    element = ccnl_rdr_mkNonNegInt((uint64_t) rc);
+    element = ccnl_rdr_mkNonNegInt(rc);
     ccnl_rdr_seqAppend(seq, element);
     element = ccnl_rdr_mkStr(reason);
     ccnl_rdr_seqAppend(seq, element);
@@ -228,27 +224,23 @@ ccnl_emit_RpcReturn(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     }
 
     len = sizeof(tmp);
-    if (ccnl_switch_prependCoding(CCNL_ENC_LOCALRPC, &len, tmp, &switchlen)) {
-        ccnl_rdr_free(seq);
-        ccnl_free(pkt);
-        return -1;
-    }
+    switchlen = ccnl_switch_prependCoding(CCNL_ENC_LOCALRPC, &len, tmp);
+    if (switchlen > 0)
+        memcpy(pkt->data, tmp+len, switchlen);
+    else // this should not happen
+        switchlen = 0;
 
-    memcpy(pkt->data, tmp + len, switchlen);
-
-    if (ccnl_rdr_serialize(seq, pkt->data + switchlen,
-                           pkt->datalen - switchlen, &len)) {
-        ccnl_rdr_free(seq);
-        ccnl_free(pkt);
-        return -1;
-    }
+    len = ccnl_rdr_serialize(seq, pkt->data + switchlen,
+                             pkt->datalen - switchlen);
     ccnl_rdr_free(seq);
-
+    if (len < 0) {
+        ccnl_free(pkt);
+        return 0;
+    }
 //    fprintf(stderr, "%d bytes to return face=%p\n", len, from);
 
     *(pkt->data + switchlen) = LRPC_PT_REPLY;
     pkt->datalen = switchlen + len;
-    DEBUGMSG(DEBUG,"We are in ccnl_emit_RpcReturn and will soon enqueue\n");
     ccnl_face_enqueue(relay, from, pkt);
 
     return 0;
@@ -394,8 +386,7 @@ rpc_forward(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             struct rdr_ds_s *nonce, struct rpc_exec_s *exec,
             struct rdr_ds_s *param)
 {
-    int encoding;
-    size_t len;
+    int encoding, len;
     char *cp;
     unsigned char *ucp;
     (void)exec;
@@ -425,7 +416,7 @@ rpc_forward(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         encoding = CCNL_SUITE_NDNTLV;
     else
 #endif
-    encoding = -1;
+        encoding = -1;
     ccnl_free(cp);
 
     if (encoding < 0) {
@@ -445,22 +436,22 @@ rpc_forward(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         len = param->u.binlen;
         switch(encoding) {
 #ifdef USE_SUITE_CCNB
-            case CCNL_SUITE_CCNB:
-                ccnl_ccnb_forwarder(relay, from, &ucp, &len);
-                break;
+        case CCNL_SUITE_CCNB:
+            ccnl_ccnb_forwarder(relay, from, &ucp, &len);
+            break;
 #endif
 #ifdef USE_SUITE_CCNTLV
-            case CCNL_SUITE_CCNTLV:
-                ccnl_ccntlv_forwarder(relay, from, &ucp, &len);
-                break;
+        case CCNL_SUITE_CCNTLV:
+            ccnl_ccntlv_forwarder(relay, from, &ucp, &len);
+            break;
 #endif
 #ifdef USE_SUITE_NDNTLV
-            case CCNL_SUITE_NDNTLV:
-                ccnl_ndntlv_forwarder(relay, from, &ucp, &len);
-                break;
+        case CCNL_SUITE_NDNTLV:
+            ccnl_ndntlv_forwarder(relay, from, &ucp, &len);
+            break;
 #endif
-            default:
-                break;
+        default:
+            break;
         }
     }
     return 0;
@@ -479,7 +470,7 @@ rpc_lookup(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         memcpy(cp, param->aux, param->u.namelen);
         cp[param->u.namelen] = '\0';
         if (!strcmp(cp, "/rpc/config/compileString")) {
-            val = ccnl_rdr_mkStr((char*)compile_string);
+          val = ccnl_rdr_mkStr((char*)compile_string);
         } else if (!strcmp(cp, "/rpc/config/localTime")) {
             time_t t = time(NULL);
             char *p = ctime(&t);
@@ -491,7 +482,7 @@ rpc_lookup(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             ccnl_emit_RpcReturn(relay, from, nonce, 200, "ok", val);
         else
             ccnl_emit_RpcReturn(relay, from, nonce,
-                                415, "rpc_lookup: no such variable", NULL);
+                            415, "rpc_lookup: no such variable", NULL);
     } else {
         ccnl_emit_RpcReturn(relay, from, nonce,
                             415, "rpc_lookup: not a variable name", NULL);
@@ -504,12 +495,12 @@ struct x_s {
     char *name;
     rpcBuiltinFct *fct;
 } builtin[] = {
-        {"/rpc/builtin/cache/add",    rpc_cacheAdd},
-        {"/rpc/builtin/cache/remove", rpc_cacheRemove},
-        {"/rpc/builtin/forward",      rpc_forward},
-        {"/rpc/builtin/lookup",       rpc_lookup},
-        {"/rpc/builtin/syslog",       rpc_syslog},
-        {NULL, NULL}
+    {"/rpc/builtin/cache/add",    rpc_cacheAdd},
+    {"/rpc/builtin/cache/remove", rpc_cacheRemove},
+    {"/rpc/builtin/forward",      rpc_forward},
+    {"/rpc/builtin/lookup",       rpc_lookup},
+    {"/rpc/builtin/syslog",       rpc_syslog},
+    {NULL, NULL}
 };
 
 rpcBuiltinFct*
@@ -520,7 +511,7 @@ rpc_getBuiltinFct(struct rdr_ds_s *var)
     if (var->type != LRPC_FLATNAME)
         return NULL;
     while (x->name) {
-        if (strlen(x->name) == var->u.namelen &&
+        if ((int)strlen(x->name) == var->u.namelen &&
             !memcmp(x->name, var->aux, var->u.namelen))
             return x->fct;
         x++;
@@ -530,7 +521,7 @@ rpc_getBuiltinFct(struct rdr_ds_s *var)
 
 int
 ccnl_localrpc_handleReply(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                          struct rdr_ds_s *aux)
+                           struct rdr_ds_s *aux)
 {
     (void) relay;
     (void) from;
@@ -583,19 +574,19 @@ ccnl_localrpc_handleRequest(struct ccnl_relay_s *relay,
     exec = rpc_exec_new();
     rc = fct(relay, from, nonce, exec, fexpr->aux);
     rpc_exec_free(exec);
-    done:
+done:
 
     return rc;
 }
-
-int8_t
+ 
+int
 ccnl_localrpc_exec(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                   uint8_t **buf, size_t *buflen)
+                   unsigned char **buf, int *buflen)
 {
     struct rdr_ds_s *a; // , *fct;
     int rc = 0, type;
 
-    DEBUGMSG(DEBUG, "ccnl_localrpc_exec: %zu bytes from face=%p (id=%d.%d)\n",
+    DEBUGMSG(DEBUG, "ccnl_localrpc_exec: %d bytes from face=%p (id=%d.%d)\n",
              *buflen, (void*)from, relay->id, from ? from->faceid : -1);
 
     while (rc == 0 && *buflen > 0) {
@@ -613,11 +604,11 @@ ccnl_localrpc_exec(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
         type = ccnl_rdr_getType(a);
         //        fprintf(stderr, "type=%d\n", type);
-        if (type == LRPC_PT_REQUEST) {
+        if (type == LRPC_PT_REQUEST)
             rc = ccnl_localrpc_handleRequest(relay, from, a);
-        } else if (type == LRPC_PT_REPLY) {
+        else if (type == LRPC_PT_REPLY)
             rc = ccnl_localrpc_handleReply(relay, from, a);
-        } else {
+        else {
             DEBUGMSG(DEBUG, "  unserialization error %d\n", type);
             return -1;
         }
@@ -635,10 +626,6 @@ ccnl_localrpc_exec(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         }
         ccnl_rdr_free(a);
         *buf += a->flatlen;
-        if (a->flatlen > *buflen) {
-            *buflen -= a->flatlen;
-            break;
-        }
         *buflen -= a->flatlen;
     }
 

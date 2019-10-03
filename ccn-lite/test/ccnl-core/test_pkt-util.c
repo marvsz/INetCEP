@@ -142,15 +142,15 @@ void test_ccnl_cmp2int_invalid()
 
 void test_ccnl_cmp2int_valid()
 {
-    int result = ccnl_cmp2int((unsigned char*)"42", 2);
+    int result = ccnl_cmp2int("42", 2);
     assert_int_equal(result, 42);
 
     /** if we pass a larger than actual size number it is still 42 */
-    result = ccnl_cmp2int((unsigned char*)"42", 42);
+    result = ccnl_cmp2int("42", 42);
     assert_int_equal(result, 42);
 
     /** if we pass a less than it is the first digit */
-    result = ccnl_cmp2int((unsigned char*)"42", 1);
+    result = ccnl_cmp2int("42", 1);
     assert_int_equal(result, 4);
 }
 
@@ -166,34 +166,34 @@ void test_ccnl_pkt2suite_valid()
     char buffer[2];
     buffer[0] = CCNL_SUITE_NDNTLV;
     buffer[1] = 0x01;
-    int result = ccnl_pkt2suite((unsigned char*)buffer, 2, NULL);
+    int result = ccnl_pkt2suite(buffer, 2, NULL);
     assert_int_equal(result, CCNL_SUITE_NDNTLV);
 
     buffer[0] = 0x04;
-    result = ccnl_pkt2suite((unsigned char*)buffer, 2, NULL);
+    result = ccnl_pkt2suite(buffer, 2, NULL);
     assert_int_equal(result, CCNL_SUITE_CCNB);
 
     buffer[0] = CCNX_TLV_V1;
-    result = ccnl_pkt2suite((unsigned char*)buffer, 2, NULL);
+    result = ccnl_pkt2suite(buffer, 2, NULL);
     assert_int_equal(result, CCNL_SUITE_CCNTLV);
 }
 
 int main(void)
 {
-    const struct CMUnitTest tests[] = {
-            cmocka_unit_test(test_ccnl_is_suite_invalid),
-            cmocka_unit_test(test_ccnl_is_suite_valid),
-            cmocka_unit_test(test_ccnl_suite2default_port_invalid),
-            cmocka_unit_test(test_ccnl_suite2default_port_valid),
-            cmocka_unit_test(test_ccnl_suite2str_invalid),
-            cmocka_unit_test(test_ccnl_suite2str_valid),
-            cmocka_unit_test(test_ccnl_str2suite_invalid),
-            cmocka_unit_test(test_ccnl_str2suite_valid),
-            cmocka_unit_test(test_ccnl_cmp2int_invalid),
-            cmocka_unit_test(test_ccnl_cmp2int_valid),
-            cmocka_unit_test(test_ccnl_pkt2suite_invalid),
-            cmocka_unit_test(test_ccnl_pkt2suite_valid),
+    const UnitTest tests[] = {
+            unit_test(test_ccnl_is_suite_invalid),
+            unit_test(test_ccnl_is_suite_valid),
+            unit_test(test_ccnl_suite2default_port_invalid),
+            unit_test(test_ccnl_suite2default_port_valid),
+            unit_test(test_ccnl_suite2str_invalid),
+            unit_test(test_ccnl_suite2str_valid),
+            unit_test(test_ccnl_str2suite_invalid),
+            unit_test(test_ccnl_str2suite_valid),
+            unit_test(test_ccnl_cmp2int_invalid),
+            unit_test(test_ccnl_cmp2int_valid),
+            unit_test(test_ccnl_pkt2suite_invalid),
+            unit_test(test_ccnl_pkt2suite_valid),
     };
 
-    return cmocka_run_group_tests(tests, NULL, NULL);
+    return run_tests(tests);
 }

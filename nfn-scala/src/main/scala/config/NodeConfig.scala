@@ -24,8 +24,8 @@ object StaticConfig {
   private var wireFormat: Option[CCNWireFormat] = None
 
   def systemPath = {
-    val path = System.getenv("HOME")+ "/INetCEP" //"/manisha/gitlab/ws18_aoc2_lab"//"/INetCEP" // ws18_aoc2_lab
-    //val path = System.getenv("HOME")+ "/manisha/gitlab/ws18_aoc2_lab"//"/INetCEP" // ws18_aoc2_lab
+    val path = System.getenv("HOME")+ "/INetCEP" //"/manisha/gitlab/ws18_aoc2_lab"//"/MA-Ali" // ws18_aoc2_lab
+    //val path = System.getenv("HOME")+ "/manisha/gitlab/ws18_aoc2_lab"//"/MA-Ali" // ws18_aoc2_lab
     path
   }
 

@@ -54,33 +54,16 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
-    //DEBUGMSG(TRACE,"size of ccnl_interest_s was %lu\n",sizeof(struct ccnl_interest_s));
-    /*if (!i){
-        DEBUGMSG(TRACE,"The Interest was not created");
+    if (!i)
         return NULL;
-    }*/
-
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
-    i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
+    i->lifetime = (*pkt)->s.ndntlv.interestlifetime / 1000;
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
-
-    //DEBUGMSG(TRACE,"pitcnt is %i, and max_pit_entries is %i\n",ccnl->pitcnt,ccnl->max_pit_entries);
-    if(ccnl->max_pit_entries != -1){
-        if (ccnl->pitcnt >= ccnl->max_pit_entries) {
-            ccnl_pkt_free(i->pkt);
-            ccnl_free(i);
-            return NULL;
-        }
-    }
-
-
     DBL_LINKED_LIST_ADD(ccnl->pit, i);
-
-    ccnl->pitcnt++;
 
 #ifdef CCNL_RIOT
     ccnl_evtimer_reset_interest_retrans(i);

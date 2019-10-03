@@ -29,11 +29,6 @@ void test_ll2ascii_invalid()
 {
     char *result = ll2ascii(NULL, 1);
     assert_true(result == NULL);
-
-    const char *address = "deadbeef";
-    /** size (second parameter) should be larger than the array which stores the result (in order to fail) */
-    result = ll2ascii(NULL, CCNL_LLADDR_STR_MAX_LEN + 1);
-    assert_true(result == NULL);
 }
 
 void test_ll2ascii_valid()
@@ -42,31 +37,18 @@ void test_ll2ascii_valid()
     char *result = ll2ascii((unsigned char*)address, 6);
     assert_true(result != NULL);
     // shouldn't it be ff:ff:ff:ff:ff:ff?
-    /**
-     * The test will actually fail at the above "assert_true" statement if 'result'
-     * is null - however, the static code analyzer of LLVM does not recognize this
-     * behavior, hence, the actual check if 'result' is not NULL
-     */
-    if (result) {
-        /**
-         * This caused some confusion, but "f" is a numerical 102 in ASCII and
-         * (102 >> 4) => 6 and (also 102 & 0xF) => 6, so the result is '66'. Writing
-         * something alike "fff...fff" in order to retrieve "ff:ff ... ff" does
-         * not work.
-         */
-        assert_true(memcmp("66:66:66:66:66:66", result, 17) == 0);
-    }
+    assert_true(memcmp("66:66:66:66:66:66", result, 17) == 0);
 }
 
 void test_half_byte_to_char()
 {
-    uint8_t half_byte = 0x9;
+    uint8_t half_byte = 9;
     char result = _half_byte_to_char(half_byte);
     assert_true(result == '9');
 
-    half_byte = 0x8;
+    half_byte = 11;
     result = _half_byte_to_char(half_byte);
-    assert_true(result == ('b'));
+    assert_true(result == ('a' + 1));
 }
 
 void test_ccnl_is_local_addr_invalid()
@@ -109,14 +91,14 @@ void test_ccnl_addr2ascii_invalid()
 
 int main(void)
 {
-    const struct CMUnitTest tests[] = {
-            cmocka_unit_test(test_half_byte_to_char),
-            cmocka_unit_test(test_ll2ascii_invalid),
-            cmocka_unit_test(test_ll2ascii_valid),
-            cmocka_unit_test(test_ccnl_is_local_addr_invalid),
-            cmocka_unit_test(test_ccnl_is_local_addr_valid),
-            cmocka_unit_test(test_ccnl_addr2ascii_invalid),
+    const UnitTest tests[] = {
+            unit_test(test_half_byte_to_char),
+            unit_test(test_ll2ascii_invalid),
+            unit_test(test_ll2ascii_valid),
+            unit_test(test_ccnl_is_local_addr_invalid),
+            unit_test(test_ccnl_is_local_addr_valid),
+            unit_test(test_ccnl_addr2ascii_invalid),
     };
 
-    return cmocka_run_group_tests(tests, NULL, NULL);
+    return run_tests(tests);
 }

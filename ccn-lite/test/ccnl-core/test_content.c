@@ -69,12 +69,12 @@ void test_ccnl_content_free_valid()
 
 int main(void)
 {
-    const struct CMUnitTest tests[] = {
-            cmocka_unit_test(test_ccnl_content_new_invalid),
-            cmocka_unit_test(test_ccnl_content_new_valid),
-            cmocka_unit_test(test_ccnl_content_free_invalid),
-            cmocka_unit_test(test_ccnl_content_free_valid),
+    const UnitTest tests[] = {
+            unit_test(test_ccnl_content_new_invalid),
+            unit_test(test_ccnl_content_new_valid),
+            unit_test(test_ccnl_content_free_invalid),
+            unit_test(test_ccnl_content_free_valid),
     };
 
-    return cmocka_run_group_tests(tests, NULL, NULL);
+    return run_tests(tests);
 }

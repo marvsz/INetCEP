@@ -130,7 +130,7 @@ ccnl_nfn_result2content(struct ccnl_relay_s *ccnl,
                         struct ccnl_prefix_s **prefix,
                         unsigned char *resultstr, int resultlen)
 {
-    size_t resultpos = 0;
+    int resultpos = 0;
     struct ccnl_pkt_s *pkt;
     struct ccnl_content_s *c;
     (void)ccnl;
@@ -356,8 +356,7 @@ create_prefix_for_content_on_result_stack(struct ccnl_relay_s *ccnl,
                                           struct configuration_s *config)
 {
     struct ccnl_prefix_s *name;
-    int it, len = 0;
-    size_t offset = 0;
+    int it, len = 0, offset = 0;
     (void)ccnl;
 
     name = ccnl_prefix_new(config->suite, 2);
@@ -745,8 +744,7 @@ struct ccnl_prefix_s *
 ccnl_nfnprefix_mkCallPrefix(struct ccnl_prefix_s *name,
                             struct configuration_s *config, int parameter_num)
 {
-    uint32_t i, len;
-    size_t offset = 0;
+    int i, len, offset = 0;
     struct ccnl_prefix_s *p;
     char *bytes = ccnl_malloc(CCNL_MAX_PACKET_SIZE);
 
@@ -800,8 +798,7 @@ ccnl_nfnprefix_mkCallPrefix(struct ccnl_prefix_s *name,
 struct ccnl_prefix_s*
 ccnl_nfnprefix_mkComputePrefix(struct configuration_s *config, int suite)
 {
-    uint32_t i, len = 0;
-    size_t offset = 0;
+    int i, len = 0, offset = 0;
     struct ccnl_prefix_s *p;
     char *bytes = ccnl_malloc(CCNL_MAX_PACKET_SIZE);
 

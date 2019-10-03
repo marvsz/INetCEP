@@ -50,7 +50,7 @@ loadFile(char **cpp)
     struct rdr_ds_s *c;
 
     (*cpp)++;
-    n = (int)strtol(*cpp,(char**)NULL,10);
+    n = atoi(*cpp);
     while (isdigit(**cpp))
         (*cpp)++;
     if (n < 1 || n >= filecnt) {
@@ -243,7 +243,7 @@ int ccnl_rdr_dump(int lev, struct rdr_ds_s *x)
     }
     for (i = 0; i < lev; i++)
         fprintf(stderr, "  ");
-    fprintf(stderr, "%s (0x%x, len=%zu)\n", n, t, x->flatlen);
+    fprintf(stderr, "%s (0x%x, len=%d)\n", n, t, x->flatlen);
 
     switch (t) {
     case LRPC_APPLICATION:
@@ -291,8 +291,7 @@ int
 main(int argc, char *argv[])
 {
     unsigned char request[64*1024], reply[64*1024], tmp[10];
-    int cnt, opt, port, sock = 0;
-    size_t reqlen, replen, switchlen;
+    int cnt, opt, reqlen, replen, port, sock = 0, switchlen;
     struct sockaddr sa;
     char *addr = NULL, *udp = NULL, *ux = NULL, noreply = 0;
     float wait = 3.0;
@@ -311,13 +310,13 @@ main(int argc, char *argv[])
         case 'v':
 #ifdef USE_LOGGING
             if (isdigit(optarg[0]))
-                debug_level = strtol(optarg,NULL,10);
+                debug_level = atoi(optarg);
             else
                 debug_level = ccnl_debug_str2level(optarg);
 #endif
             break;
         case 'w':
-            wait = (float)strtof(optarg, (char**) NULL);
+            wait = atof(optarg);
             break;
         case 'x':
             ux = optarg;
@@ -363,45 +362,33 @@ Usage:
         int n = random();
 
         nonce = calloc(1, sizeof(*nonce));
-        if (!nonce) {
-            if (expr) {
-                free(expr);
-            }
-            return -1;
-        }
         nonce->type = LRPC_NONCE;
-        nonce->aux = malloc(sizeof(struct rdr_ds_s));
+        nonce->flatlen = -1;
+        nonce->aux = malloc(sizeof(int));
         memcpy(nonce->aux, &n, sizeof(int));
         nonce->u.binlen = sizeof(int);
         nonce->nextinseq = expr;
 
         req = calloc(1, sizeof(*req));
-        if (!req) {
-            if (expr) {
-                free(expr);
-            }
-            free(nonce);
-            return -1;
-        }
         req->type = LRPC_PT_REQUEST;
+        req->flatlen = -1;
         req->aux = nonce;
         expr = req;
     }
 
     reqlen = sizeof(tmp);
-    if (ccnl_switch_prependCoding(CCNL_ENC_LOCALRPC, &reqlen, tmp, &switchlen)) {
-        if (expr) {
-            free(expr);
-        }
-        return -1;
-    }
-    memcpy(request, tmp+reqlen, switchlen);
+    switchlen = ccnl_switch_prependCoding(CCNL_ENC_LOCALRPC, &reqlen, tmp);
+    if (switchlen > 0)
+        memcpy(request, tmp+reqlen, switchlen);
+    else // this should not happen
+        switchlen = 0;
 
-    if (ccnl_rdr_serialize(expr, request + switchlen,
-                           sizeof(request) - switchlen, &reqlen)) {
+    reqlen = ccnl_rdr_serialize(expr, request + switchlen,
+                                sizeof(request) - switchlen);
+    if (reqlen <= 0) {
         DEBUGMSG(ERROR, "could no serialize\n");
-    }
-    reqlen += switchlen;
+    } else
+        reqlen += switchlen;
 
 //    fprintf(stderr, "%p len=%d flatlen=%d\n", expr, reqlen, expr->flatlen);
 //    write(1, request, reqlen);
@@ -429,7 +416,7 @@ Usage:
     }
 
     for (cnt = 0; cnt < 3; cnt++) {
-        DEBUGMSG(DEBUG, "sending %zu bytes\n", reqlen);
+        DEBUGMSG(DEBUG, "sending %d bytes\n", reqlen);
         if (sendto(sock, request, reqlen, 0, &sa, sizeof(sa)) < 0) {
             perror("sendto");
             myexit(1);
@@ -438,20 +425,13 @@ Usage:
             goto done;
 
         for (;;) { // wait for a content pkt (ignore interests)
-            size_t offs = 0;
-            ssize_t recvlen;
+            int offs = 0;
 
-            if (block_on_read(sock, wait) <= 0) {// timeout
+            if (block_on_read(sock, wait) <= 0) // timeout
                 break;
-            }
-            recvlen = recv(sock, reply, sizeof(reply), 0);
-            if (recvlen < 0) { //recv failure
-                DEBUGMSG(ERROR, "receive failed: %d\n", errno);
-                break;
-            }
-            replen = (size_t) recvlen;
+            replen = recv(sock, reply, sizeof(reply), 0);
 
-            DEBUGMSG(DEBUG, "received %zu bytes\n", replen);
+            DEBUGMSG(DEBUG, "received %d bytes\n", replen);
             if (replen > 0) {
                 DEBUGMSG(DEBUG, "  suite=%d\n",
                          ccnl_pkt2suite(reply, replen, NULL));

@@ -42,9 +42,7 @@
  * @param[in] klen The length of the key
  * @param[in] keyval The (final) key (to be copied or generated)
  */
-void
-ccnl_hmac256_keyval(uint8_t *key, size_t klen,
-                    uint8_t *keyval);
+void ccnl_hmac256_keyval(unsigned char *key, int klen, unsigned char *keyval); 
 
 /**
  * @brief TODO
@@ -56,8 +54,8 @@ ccnl_hmac256_keyval(uint8_t *key, size_t klen,
  * @param[in] keyid TODO
  */
 void
-ccnl_hmac256_keyid(uint8_t *key, size_t klen,
-        uint8_t *keyid);
+ccnl_hmac256_keyid(unsigned char *key, int klen,
+                   unsigned char *keyid); 
 
 /**
  * @brief Adds padding bytes to a key 
@@ -68,8 +66,8 @@ ccnl_hmac256_keyid(uint8_t *key, size_t klen,
  * @param[in] pad The padding byte
  */
 void
-ccnl_hmac256_keysetup(SHA256_CTX_t *ctx, uint8_t *keyval, size_t kvlen,
-                      uint8_t pad);
+ccnl_hmac256_keysetup(SHA256_CTX_t *ctx, unsigned char *keyval, int kvlen,
+                      unsigned char pad);
 
 /**
  * @brief Generates an HMAC signature
@@ -82,9 +80,9 @@ ccnl_hmac256_keysetup(SHA256_CTX_t *ctx, uint8_t *keyval, size_t kvlen,
  * @param[out] mlen The length of the message digest
  */
 void
-ccnl_hmac256_sign(uint8_t *keyval, size_t kvlen,
-                  uint8_t *data, size_t dlen,
-                  uint8_t *md, size_t *mlen);
+ccnl_hmac256_sign(unsigned char *keyval, int kvlen,
+                  unsigned char *data, int dlen,
+                  unsigned char *md, int *mlen);
 
 
 #ifdef NEEDS_PACKET_CRAFTING
@@ -107,14 +105,14 @@ ccnl_hmac256_sign(uint8_t *keyval, size_t kvlen,
  *
  * @return Upon success, the function returns the number of used bytes
  */
-int8_t
+int
 ccnl_ccntlv_prependSignedContentWithHdr(struct ccnl_prefix_s *name,
-                                        uint8_t *payload, size_t paylen,
-                                        uint32_t *lastchunknum,
-                                        size_t *contentpos,
-                                        uint8_t *keyval, // 64B
-                                        uint8_t *keydigest, // 32B
-                                        size_t *offset, uint8_t *buf, size_t *retlen);
+                                        unsigned char *payload, int paylen,
+                                        unsigned int *lastchunknum,
+                                        int *contentpos,
+                                        unsigned char *keyval, 
+                                        unsigned char *keydigest, 
+                                        int *offset, unsigned char *buf);
 #endif // USE_SUITE_CCNTLV
 
 #ifdef USE_SUITE_NDNTLV
@@ -131,15 +129,15 @@ ccnl_ccntlv_prependSignedContentWithHdr(struct ccnl_prefix_s *name,
  * @param[out] offset TODO
  * @param[out] buf A byte representation of the actual packet
  * 
- * @return 0 upon success, nonzero upon failure
+ * @return Upon success, the function returns the number of used bytes
  */
-int8_t
+int
 ccnl_ndntlv_prependSignedContent(struct ccnl_prefix_s *name,
-                                 uint8_t *payload, size_t paylen,
-                                 uint32_t *final_block_id, size_t *contentpos,
-                                 uint8_t *keyval, // 64B
-                                 uint8_t *keydigest, // 32B
-                                 size_t *offset, uint8_t *buf, size_t *reslen);
+                           unsigned char *payload, int paylen,
+                           unsigned int *final_block_id, int *contentpos,
+                           unsigned char *keyval, 
+                           unsigned char *keydigest, 
+                           int *offset, unsigned char *buf);
 #endif // USE_SUITE_NDNTLV
 #endif // NEEDS_PACKET_CRAFTING
 

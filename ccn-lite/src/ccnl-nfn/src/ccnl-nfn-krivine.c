@@ -371,7 +371,7 @@ recontinue: //loop by reentering after timeout of the interest...
         //TODO Check? //TODO remove interest here?
         if (c) {
 	    DEBUGMSG(DEBUG, "Result was found\n");
-            DEBUGMSG_CFWD(INFO, "data after result was found %.*s\n", (int)c->pkt->contlen, c->pkt->content);
+            DEBUGMSG_CFWD(INFO, "data after result was found %.*s\n", c->pkt->contlen, c->pkt->content);
             goto handlecontent;
 	}
     }
@@ -428,7 +428,7 @@ handlecontent: //if result was found ---> handle it
         }
 #endif
         int isANumber = 1, i = 0;
-	    for(i = 0; i < (int)c->pkt->contlen; ++i){
+	    for(i = 0; i < c->pkt->contlen; ++i){
 	    	if(!isdigit(c->pkt->content[i])){
                 isANumber = 0;
                 break;

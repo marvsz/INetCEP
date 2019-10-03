@@ -80,7 +80,7 @@ udp_sendto(int sock, char *dest, unsigned char *data, int len)
 
     dst.sin_family = PF_INET;
     dst.sin_addr.s_addr = inet_addr(strtok(buf, "/"));
-    dst.sin_port = htons((int)strtol(strtok(NULL, "/"),(char**)NULL,10));
+    dst.sin_port = htons(atoi(strtok(NULL, "/")));
 
     return sendto(sock, data, len, 0, (struct sockaddr*) &dst, sizeof(dst));
 }
@@ -118,8 +118,7 @@ ux_open()
     return sock;
 }
 
-ssize_t
-ux_sendto(int sock, char *topath, uint8_t *data, size_t len)
+int ux_sendto(int sock, char *topath, unsigned char *data, int len)
 {
     struct sockaddr_un name;
 

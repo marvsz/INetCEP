@@ -40,7 +40,7 @@
 
 struct ccnl_face_s*
 ccnl_get_face_or_create(struct ccnl_relay_s *ccnl, int ifndx,
-                        struct sockaddr *sa, size_t addrlen)
+                       struct sockaddr *sa, int addrlen)
 // sa==NULL means: local(=in memory) client, search for existing ifndx being -1
 // sa!=NULL && ifndx==-1: search suitable interface for given sa_family
 // sa!=NULL && ifndx!=-1: use this (incoming) interface for outgoing
@@ -183,18 +183,19 @@ ccnl_face_remove(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
 void
 ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
                        struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
-                       struct ccnl_buf_s *buf, sockunion *dest) {
+                       struct ccnl_buf_s *buf, sockunion *dest)
+{
     if (ifc) {
         struct ccnl_txrequest_s *r;
 
         if (buf) {
-            DEBUGMSG_CORE(TRACE, "enqueue interface=%p buf=%p len=%zu (qlen=%zu)\n",
+            DEBUGMSG_CORE(TRACE, "enqueue interface=%p buf=%p len=%zd (qlen=%d)\n",
                           (void *) ifc, (void *) buf,
-                          buf ? buf->datalen : 0, ifc ? ifc->qlen : 0);
+                          buf ? buf->datalen : -1, ifc ? ifc->qlen : -1);
         }
 
         if (ifc->qlen >= CCNL_MAX_IF_QLEN) {
-            DEBUGMSG_CORE(WARNING, "  DROPPING buf=%p\n", (void *) buf);
+            DEBUGMSG_CORE(WARNING, "  DROPPING buf=%p\n", (void*)buf);
             ccnl_free(buf);
             return;
         }
@@ -210,7 +211,6 @@ ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
 #else
         ccnl_interface_CTS(ccnl, ifc);
 #endif
-    }
 }
 
 struct ccnl_buf_s*
@@ -250,7 +250,6 @@ ccnl_face_CTS(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
     if (!f->frag || f->frag->protocol == CCNL_FRAG_NONE) {
         buf = ccnl_face_dequeue(ccnl, f);
         if (buf)
-            DEBUGMSG_CORE(DEBUG, "in ccnl_face_CTS the content of the buffer is %s\n",buf->data);
             ccnl_interface_enqueue(ccnl_face_CTS_done, f,
                                    ccnl, ccnl->ifs + f->ifndx, buf, &f->peer);
     }
@@ -279,7 +278,6 @@ int
 ccnl_send_pkt(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                 struct ccnl_pkt_s *pkt)
 {
-    DEBUGMSG(DEBUG,"We are in ccnl_send_pkt and about to enqueue\n");
     return ccnl_face_enqueue(ccnl, to, buf_dup(pkt->buf));
 }
 
@@ -292,9 +290,8 @@ ccnl_face_enqueue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
         DEBUGMSG_CORE(ERROR, "enqueue face: buf most not be NULL\n");
         return -1;
     }
-    DEBUGMSG(DEBUG,"When enqueuing, the content was %s\n",buf->data);
     DEBUGMSG_CORE(TRACE, "enqueue face=%p (id=%d.%d) buf=%p len=%zd\n",
-             (void*) to, ccnl->id, to->faceid, (void*) buf, buf ? buf->datalen : 0);
+             (void*) to, ccnl->id, to->faceid, (void*) buf, buf ? buf->datalen : -1);
 
     for (msg = to->outq; msg; msg = msg->next) // already in the queue?
         if (buf_equal(msg, buf)) {
@@ -344,7 +341,8 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
 */
 
 #ifdef CCNL_RIOT
-    ccnl_riot_interest_remove((evtimer_t *)(&ccnl_evtimer), i);
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_retrans);
+    evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&i->evtmsg_timeout);
 #endif
 
     while (i->pending) {
@@ -353,9 +351,6 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
         i->pending = tmp;
     }
     i2 = i->next;
-
-    ccnl->pitcnt--;
-
     DBL_LINKED_LIST_REMOVE(ccnl->pit, i);
 
     if(i->pkt){
@@ -400,9 +395,9 @@ ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
 
         rc = ccnl_prefix_cmp(fwd->prefix, NULL, i->pkt->pfx, CMP_LONGEST);
 
-        DEBUGMSG_CORE(DEBUG, "  ccnl_interest_propagate, rc=%ld/%ld\n",
-                      (long) rc, (long) fwd->prefix->compcnt);
-        if (rc < (signed) fwd->prefix->compcnt)
+        DEBUGMSG_CORE(DEBUG, "  ccnl_interest_propagate, rc=%d/%d\n",
+                 rc, fwd->prefix->compcnt);
+        if (rc < fwd->prefix->compcnt)
             continue;
 
         DEBUGMSG_CORE(DEBUG, "  ccnl_interest_propagate, fwd==%p\n", (void*)fwd);
@@ -549,7 +544,7 @@ ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 
     DEBUGMSG_CORE(DEBUG, "ccnl_content_add2cache (%d/%d) --> %p = %s [%d]\n",
                   ccnl->contentcnt, ccnl->max_cache_entries,
-                  (void*)c, ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), (c->pkt->pfx->chunknum)? (signed)*(c->pkt->pfx->chunknum) : -1);
+                  (void*)c, ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1);
 
     for (cit = ccnl->contents; cit; cit = cit->next) {
         if (ccnl_prefix_cmp(c->pkt->pfx, NULL, cit->pkt->pfx, CMP_EXACT) == 0) {
@@ -775,7 +770,6 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 // Mark content as stale if its freshness period expired and it is not static
                 if ((c->last_used + (c->pkt->s.ndntlv.freshnessperiod / 1000)) <= (uint32_t) t &&
                     !(c->flags & CCNL_CONTENT_FLAGS_STATIC)) {
-                    DEBUGMSG(DEBUG,"Content marked as stale");
                     c->flags |= CCNL_CONTENT_FLAGS_NOT_STALE;
                 }
             }
@@ -787,7 +781,6 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 // than being held indefinitely."
         if ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT) {
-
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
@@ -843,7 +836,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
     }
     while (f) {
         if (!(f->flags & CCNL_FACE_FLAGS_STATIC) &&
-                (f->last_used + CCNL_FACE_TIMEOUT) <= (uint32_t) t){
+                (f->last_used + CCNL_FACE_TIMEOUT) <= t){
             DEBUGMSG_CORE(TRACE, "AGING: FACE REMOVE %p\n", (void*) f);
             f = ccnl_face_remove(relay, f);
     }
@@ -1033,8 +1026,8 @@ ccnl_cs_dump(struct ccnl_relay_s *ccnl)
     while (c) {
         printf("CS[%u]: %s [%d]: %.*s\n", i++,
                ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
-               (c->pkt->pfx->chunknum)? (signed) *(c->pkt->pfx->chunknum) : -1,
-               (int) c->pkt->contlen, c->pkt->content);
+               (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1,
+               c->pkt->contlen, c->pkt->content);
         c = c->next;
     }
 #endif
@@ -1047,7 +1040,7 @@ ccnl_interface_CTS(void *aux1, void *aux2)
     struct ccnl_if_s *ifc = (struct ccnl_if_s *)aux2;
     struct ccnl_txrequest_s *r, req;
 
-    DEBUGMSG_CORE(TRACE, "interface_CTS interface=%p, qlen=%zu, sched=%p\n",
+    DEBUGMSG_CORE(TRACE, "interface_CTS interface=%p, qlen=%d, sched=%p\n",
              (void*)ifc, ifc->qlen, (void*)ifc->sched);
 
     if (ifc->qlen <= 0)
@@ -1064,7 +1057,6 @@ ccnl_interface_CTS(void *aux1, void *aux2)
 #ifndef CCNL_LINUXKERNEL
     assert(ccnl->ccnl_ll_TX_ptr != 0);
 #endif
-    DEBUGMSG_CORE(DEBUG, "In ccnl_interface_CTS the content of the buffer is %s\n",req.buf->data);
     ccnl->ccnl_ll_TX_ptr(ccnl, ifc, &req.dst, req.buf);
 #ifdef USE_SCHEDULER
     ccnl_sched_CTS_done(ifc->sched, 1, req.buf->datalen);

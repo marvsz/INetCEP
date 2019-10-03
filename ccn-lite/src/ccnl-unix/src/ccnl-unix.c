@@ -50,7 +50,7 @@ static int inter_pkt_interval = 0; // in usec
 
 #ifdef USE_LINKLAYER
 int
-ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, uint16_t ethtype)
+ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, int ethtype)
 {
     struct ifreq ifr;
     int s;
@@ -64,15 +64,15 @@ ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, uint16_t ethtype)
     }
 
     memset(&ifr, 0, sizeof(ifr));
-    strncpy(ifr.ifr_name, devname, IFNAMSIZ);
-    if (ioctl(s, SIOCGIFHWADDR, (void *) &ifr) < 0 ) {
+    strncpy(ifr.ifr_name, (char*) devname, IFNAMSIZ);
+    if(ioctl(s, SIOCGIFHWADDR, (void *) &ifr) < 0 ) {
         perror("ethsock ioctl get hw addr");
         return -1;
     }
 
     sll->sll_family = AF_PACKET;
     memcpy(sll->sll_addr, &ifr.ifr_hwaddr.sa_data, ETH_ALEN);
-    if (ioctl(s, SIOCGIFINDEX, (void *) &ifr) < 0 ) {
+    if(ioctl(s, SIOCGIFINDEX, (void *) &ifr) < 0 ) {
         perror("ethsock ioctl get index");
         return -1;
     }
@@ -105,7 +105,7 @@ ccnl_open_wpandev(char *devname, struct sockaddr_ieee802154 *swpan)
 
     memset(&ifr, 0, sizeof(ifr));
     strncpy(ifr.ifr_name, (char*) devname, IFNAMSIZ);
-    if (ioctl(s, SIOCGIFHWADDR, (void *) &ifr) < 0 ) {
+    if(ioctl(s, SIOCGIFHWADDR, (void *) &ifr) < 0 ) {
         perror("wpansock ioctl get hw addrbuf_new");
         return -1;
     }
@@ -127,7 +127,7 @@ ccnl_open_wpandev(char *devname, struct sockaddr_ieee802154 *swpan)
 int
 ccnl_open_unixpath(char *path, struct sockaddr_un *ux)
 {
-    int sock, bufsize;
+  int sock, bufsize;
 
     sock = socket(AF_UNIX, SOCK_DGRAM, 0);
     if (sock < 0) {
@@ -157,10 +157,10 @@ ccnl_open_unixpath(char *path, struct sockaddr_un *ux)
 
 #ifdef USE_IPV4
 int
-ccnl_open_udpdev(uint16_t port, struct sockaddr_in *si)
+ccnl_open_udpdev(int port, struct sockaddr_in *si)
 {
     int s, opt_value;
-    socklen_t len;
+    unsigned int len;
 
     s = socket(PF_INET, SOCK_DGRAM, 0);
     if (s < 0) {
@@ -171,7 +171,7 @@ ccnl_open_udpdev(uint16_t port, struct sockaddr_in *si)
     si->sin_addr.s_addr = INADDR_ANY;
     si->sin_port = htons(port);
     si->sin_family = PF_INET;
-    if (bind(s, (struct sockaddr *)si, sizeof(*si)) < 0) {
+    if(bind(s, (struct sockaddr *)si, sizeof(*si)) < 0) {
         perror("udp sock bind");
         return -1;
     }
@@ -191,10 +191,10 @@ ccnl_open_udpdev(uint16_t port, struct sockaddr_in *si)
 
 #ifdef USE_IPV6
 int
-ccnl_open_udp6dev(uint16_t port, struct sockaddr_in6 *sin)
+ccnl_open_udp6dev(int port, struct sockaddr_in6 *sin)
 {
     int s;
-    socklen_t len;
+    unsigned int len;
 
     s = socket(PF_INET6, SOCK_DGRAM, 0);
     if (s < 0) {
@@ -205,7 +205,7 @@ ccnl_open_udp6dev(uint16_t port, struct sockaddr_in6 *sin)
     sin->sin6_addr = in6addr_any;
     sin->sin6_port = htons(port);
     sin->sin6_family = PF_INET6;
-    if (bind(s, (struct sockaddr *)sin, sizeof(*sin)) < 0) {
+    if(bind(s, (struct sockaddr *)sin, sizeof(*sin)) < 0) {
         perror("udp sock bind");
         return -1;
     }
@@ -218,24 +218,23 @@ ccnl_open_udp6dev(uint16_t port, struct sockaddr_in6 *sin)
 
 
 #ifdef USE_LINKLAYER
-ssize_t
-ccnl_eth_sendto(int sock, uint8_t *dst, uint8_t *src,
-                uint8_t *data, size_t datalen)
+int
+ccnl_eth_sendto(int sock, unsigned char *dst, unsigned char *src,
+                unsigned char *data, int datalen)
 {
-    uint16_t type = htons(CCNL_ETH_TYPE);
-    uint8_t buf[2000];
-    size_t hdrlen;
+    short type = htons(CCNL_ETH_TYPE);
+    unsigned char buf[2000];
+    int hdrlen;
 
 #ifdef USE_DEBUG
     strcpy((char*)buf, ll2ascii(dst, 6));
-    DEBUGMSG(TRACE, "ccnl_eth_sendto %zu bytes (src=%s, dst=%s)\n",
+    DEBUGMSG(TRACE, "ccnl_eth_sendto %d bytes (src=%s, dst=%s)\n",
              datalen, ll2ascii(src, 6), buf);
 #endif
 
     hdrlen = 14;
-    if ((datalen+hdrlen) > (int)sizeof(buf)) {
-        datalen = sizeof(buf) - hdrlen;
-    }
+    if ((datalen+hdrlen) > (int)sizeof(buf))
+            datalen = sizeof(buf) - hdrlen;
     memcpy(buf, dst, 6);
     memcpy(buf+6, src, 6);
     memcpy(buf+12, &type, sizeof(type));
@@ -291,29 +290,26 @@ void ccnl_ageing(void *relay, void *aux)
 
 #if defined(USE_IPV4) || defined(USE_IPV6)
 void
-ccnl_relay_udp(struct ccnl_relay_s *relay, int32_t sport, int af, int suite)
+ccnl_relay_udp(struct ccnl_relay_s *relay, int port, int af, int suite)
 {
     struct ccnl_if_s *i;
-    uint16_t port;
-    if (sport < 0 || sport > UINT16_MAX) {
-        return;
-    }
-    port = (uint16_t) sport;
 
+    if (port < 0)
+        return;
     i = &relay->ifs[relay->ifcount];
     switch (af) {
 #ifdef USE_IPV4
-        case AF_INET:
-            i->sock = ccnl_open_udpdev(port, &i->addr.ip4);
-            break;
+    case AF_INET:
+	i->sock = ccnl_open_udpdev(port, &i->addr.ip4);
+	break;
 #endif
 #ifdef USE_IPV6
-        case AF_INET6:
-            i->sock = ccnl_open_udp6dev(port, &i->addr.ip6);
-            break;
+    case AF_INET6:
+	i->sock = ccnl_open_udp6dev(port, &i->addr.ip6);
+	break;
 #endif
-        default:
-            return;
+    default:
+	return;
     }
     if (i->sock <= 0) {
         DEBUGMSG(WARNING, "sorry, could not open udp device (port %d)\n",
@@ -323,19 +319,16 @@ ccnl_relay_udp(struct ccnl_relay_s *relay, int32_t sport, int af, int suite)
 
 //      i->frag = CCNL_DGRAM_FRAG_NONE;
 #ifdef USE_SUITE_CCNB
-    if (suite == CCNL_SUITE_CCNB) {
+    if (suite == CCNL_SUITE_CCNB)
         i->mtu = CCN_DEFAULT_MTU;
-    }
 #endif
 #ifdef USE_SUITE_CCNTLV
-    if (suite == CCNL_SUITE_CCNTLV) {
+    if (suite == CCNL_SUITE_CCNTLV)
         i->mtu = CCN_DEFAULT_MTU;
-    }
 #endif
 #ifdef USE_SUITE_NDNTLV
-    if (suite == CCNL_SUITE_NDNTLV) {
+    if (suite == CCNL_SUITE_NDNTLV)
         i->mtu = NDN_DEFAULT_MTU;
-    }
 #endif
     i->fwdalli = 1;
     relay->ifcount++;
@@ -343,7 +336,7 @@ ccnl_relay_udp(struct ccnl_relay_s *relay, int32_t sport, int af, int suite)
              ccnl_addr2ascii(&i->addr));
     if (relay->defaultInterfaceScheduler)
         i->sched = relay->defaultInterfaceScheduler(relay,
-                                                    ccnl_interface_CTS);
+                                                        ccnl_interface_CTS);
 }
 #endif
 
@@ -351,85 +344,78 @@ void
 ccnl_ll_TX(struct ccnl_relay_s *ccnl, struct ccnl_if_s *ifc,
            sockunion *dest, struct ccnl_buf_s *buf)
 {
-    ssize_t rc = -1;
+    int rc;
     (void) ccnl;
     switch(dest->sa.sa_family) {
 #ifdef USE_IPV4
-        case AF_INET:
-            rc = sendto(ifc->sock,
-                        buf->data, buf->datalen, 0,
-                        (struct sockaddr*) &dest->ip4, sizeof(struct sockaddr_in));
-            DEBUGMSG(DEBUG,"IIPV4 was used, the sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu",ifc->sock,buf->data,buf->datalen,
-                     sizeof(struct sockaddr_in));
-            DEBUGMSG(DEBUG, "udp sendto %s/%d returned %zd\n",
-                     inet_ntoa(dest->ip4.sin_addr), ntohs(dest->ip4.sin_port), rc);
-            /*
-            {
-                int fd = open("t.bin", O_WRONLY | O_CREAT | O_TRUNC);
-                write(fd, buf->data, buf->datalen);
-                close(fd);
-            }
-            */
+    case AF_INET:
+        rc = sendto(ifc->sock,
+                    buf->data, buf->datalen, 0,
+                    (struct sockaddr*) &dest->ip4, sizeof(struct sockaddr_in));
+        DEBUGMSG(DEBUG, "udp sendto %s/%d returned %d\n",
+                 inet_ntoa(dest->ip4.sin_addr), ntohs(dest->ip4.sin_port), rc);
+        /*
+        {
+            int fd = open("t.bin", O_WRONLY | O_CREAT | O_TRUNC);
+            write(fd, buf->data, buf->datalen);
+            close(fd);
+        }
+        */
 
-            break;
+        break;
 #endif
 #ifdef USE_IPV6
-        case AF_INET6:
-            rc = sendto(ifc->sock,
-                        buf->data, buf->datalen, 0,
-                        (struct sockaddr*) &dest->ip6, sizeof(struct sockaddr_in6));
-            {
+    case AF_INET6:
+        rc = sendto(ifc->sock,
+                    buf->data, buf->datalen, 0,
+                    (struct sockaddr*) &dest->ip6, sizeof(struct sockaddr_in6));
+	{
 #ifdef USE_LOGGING
-                char abuf[INET6_ADDRSTRLEN];
+	    char abuf[INET6_ADDRSTRLEN];
 #endif //USE_LOGGING
-                DEBUGMSG(DEBUG, "udp sendto %s/%d returned %zd\n",
-                         inet_ntop(AF_INET6, &dest->ip6.sin6_addr, abuf, sizeof(abuf)),
-                         ntohs(dest->ip6.sin6_port), rc);
-                DEBUGMSG(DEBUG,"IIPV6 was used, the sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu",ifc->sock,buf->data,buf->datalen,
-                         sizeof(struct sockaddr_in));
+	    DEBUGMSG(DEBUG, "udp sendto %s/%d returned %d\n",
+		     inet_ntop(AF_INET6, &dest->ip6.sin6_addr, abuf, sizeof(abuf)),
+		     ntohs(dest->ip6.sin6_port), rc);
 
-            }
+	}
 
-            break;
+        break;
 #endif
 #ifdef USE_LINKLAYER
-        case AF_PACKET:
-            rc = ccnl_eth_sendto(ifc->sock,
-                                 dest->linklayer.sll_addr,
-                                 ifc->addr.linklayer.sll_addr,
-                                 buf->data, buf->datalen);
-            DEBUGMSG(DEBUG, "eth_sendto %s returned %zd\n",
-                     ll2ascii(dest->linklayer.sll_addr, dest->linklayer.sll_halen), rc);
-            break;
+    case AF_PACKET:
+        rc = ccnl_eth_sendto(ifc->sock,
+                             dest->linklayer.sll_addr,
+                             ifc->addr.linklayer.sll_addr,
+                             buf->data, buf->datalen);
+        DEBUGMSG(DEBUG, "eth_sendto %s returned %d\n",
+                 ll2ascii(dest->linklayer.sll_addr, dest->linklayer.sll_halen), rc);
+        break;
 #endif
 #ifdef USE_WPAN
-        case AF_IEEE802154:
+    case AF_IEEE802154:
         rc = ccnl_wpan_sendto(ifc->sock, buf->data, buf->datalen, &dest->wpan);
         break;
 #endif
 #ifdef USE_UNIXSOCKET
-        case AF_UNIX:
-            DEBUGMSG(DEBUG,"We are now before the sending to the sock\n");
-            rc = sendto(ifc->sock,
-                        buf->data, buf->datalen, 0,
-                        (struct sockaddr*) &dest->ux, sizeof(struct sockaddr_un)); // This returns -1 at the moment which is a problem
-            DEBUGMSG(DEBUG,"The sock was %i, the data was %s, the datalen was %lu, the size of the struct was %lu, the sockaddr data is is %s and the sockaddr family is %us\n",ifc->sock,buf->data,buf->datalen,
-                     sizeof(struct sockaddr_in),((struct sockaddr*) &dest->ux)->sa_data,((struct sockaddr*) &dest->ux)->sa_family);
-            DEBUGMSG(DEBUG, "unix sendto %s returned %zd\n",
-                     dest->ux.sun_path, rc);
-            break;
+    case AF_UNIX:
+        rc = sendto(ifc->sock,
+                    buf->data, buf->datalen, 0,
+                    (struct sockaddr*) &dest->ux, sizeof(struct sockaddr_un));
+        DEBUGMSG(DEBUG, "unix sendto %s returned %d\n",
+                 dest->ux.sun_path, rc);
+        break;
 #endif
-        default:
-            DEBUGMSG(WARNING, "unknown transport\n");
-            break;
+    default:
+        DEBUGMSG(WARNING, "unknown transport\n");
+        break;
     }
     (void) rc; // just to silence a compiler warning (if USE_DEBUG is not set)
 }
 
 void
 ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
-                  int32_t udpport1, int32_t udpport2,
-                  int32_t udp6port1, int32_t udp6port2, int32_t httpport,
+                  int udpport1, int udpport2,
+		  int udp6port1, int udp6port2, int httpport,
                   char *uxpath, int suite, int max_cache_entries,
                   char *crypto_face_path)
 {
@@ -470,14 +456,14 @@ ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
                      ethdev, ccnl_addr2ascii(&i->addr));
             if (relay->defaultInterfaceScheduler)
                 i->sched = relay->defaultInterfaceScheduler(relay,
-                                                            ccnl_interface_CTS);
+                                                        ccnl_interface_CTS);
         } else
             DEBUGMSG(WARNING, "sorry, could not open eth device\n");
     }
 #endif // USE_LINKLAYER
 
 #ifdef USE_WPAN
-        if (wpandev) {
+    if (wpandev) {
         i = &relay->ifs[relay->ifcount];
         i->sock = ccnl_open_wpandev(wpandev, &i->addr.wpan);
         i->mtu = 123;
@@ -510,10 +496,12 @@ ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
         relay->http = ccnl_http_new(relay, httpport);
     }
 #endif // USE_HTTP_STATUS
+
 #ifdef USE_NFN
     relay->km = ccnl_calloc(1, sizeof(struct ccnl_krivine_s));
     relay->km->configid = -1;
 #endif
+
 #ifdef USE_UNIXSOCKET
     if (uxpath) {
         i = &relay->ifs[relay->ifcount];
@@ -525,7 +513,7 @@ ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
                      ccnl_addr2ascii(&i->addr));
             if (relay->defaultInterfaceScheduler)
                 i->sched = relay->defaultInterfaceScheduler(relay,
-                                                            ccnl_interface_CTS);
+                                                        ccnl_interface_CTS);
         } else
             DEBUGMSG(WARNING, "sorry, could not open unix datagram device\n");
     }
@@ -574,8 +562,7 @@ ccnl_relay_config(struct ccnl_relay_s *relay, char *ethdev, char *wpandev,
 int
 ccnl_io_loop(struct ccnl_relay_s *ccnl)
 {
-    int i, maxfd = -1, rc;
-    size_t len;
+    int i, len, maxfd = -1, rc;
     fd_set readfs, writefs;
     unsigned char buf[CCNL_MAX_PACKET_SIZE];
 
@@ -583,11 +570,9 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
         DEBUGMSG(ERROR, "no socket to work with, not good, quitting\n");
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i < ccnl->ifcount; i++) {
-        if (ccnl->ifs[i].sock > maxfd) {
+    for (i = 0; i < ccnl->ifcount; i++)
+        if (ccnl->ifs[i].sock > maxfd)
             maxfd = ccnl->ifs[i].sock;
-        }
-    }
     maxfd++;
 
     DEBUGMSG(INFO, "starting main event and IO loop\n");
@@ -602,9 +587,8 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
 #endif
         for (i = 0; i < ccnl->ifcount; i++) {
             FD_SET(ccnl->ifs[i].sock, &readfs);
-            if (ccnl->ifs[i].qlen > 0) {
+            if (ccnl->ifs[i].qlen > 0)
                 FD_SET(ccnl->ifs[i].sock, &writefs);
-            }
         }
 
         usec = ccnl_run_events();
@@ -613,9 +597,8 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
             deadline.tv_sec = usec / 1000000;
             deadline.tv_usec = usec % 1000000;
             rc = select(maxfd, &readfs, &writefs, NULL, &deadline);
-        } else {
+        } else
             rc = select(maxfd, &readfs, &writefs, NULL, NULL);
-        }
 
         if (rc < 0) {
             perror("select(): ");
@@ -629,10 +612,8 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
             if (FD_ISSET(ccnl->ifs[i].sock, &readfs)) {
                 sockunion src_addr;
                 socklen_t addrlen = sizeof(sockunion);
-                ssize_t recvlen;
-                if ((recvlen = recvfrom(ccnl->ifs[i].sock, buf, sizeof(buf), 0,
-                                        (struct sockaddr*) &src_addr, &addrlen)) > 0) {
-                    len = (size_t) recvlen;
+                if ((len = recvfrom(ccnl->ifs[i].sock, buf, sizeof(buf), 0,
+                                (struct sockaddr*) &src_addr, &addrlen)) > 0) {
                     if (0) {}
 #ifdef USE_IPV4
                     else if (src_addr.sa.sa_family == AF_INET) {
@@ -648,18 +629,16 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
 #endif
 #ifdef USE_LINKLAYER
                     else if (src_addr.sa.sa_family == AF_PACKET) {
-                        if (len > 14) {
-                            ccnl_core_RX(ccnl, i, buf + 14, len - 14,
+                        if (len > 14)
+                            ccnl_core_RX(ccnl, i, buf+14, len-14,
                                          &src_addr.sa, sizeof(src_addr.linklayer));
-                        }
                     }
 #endif
 #ifdef USE_WPAN
-                        else if (src_addr.sa.sa_family == AF_IEEE802154) {
-                        if (len > 14) {
+                    else if (src_addr.sa.sa_family == AF_IEEE802154) {
+                        if (len > 14)
                             ccnl_core_RX(ccnl, i, buf, len,
                                          &src_addr.sa, sizeof(src_addr.linklayer));
-                        }
                     }
 #endif
 #ifdef USE_UNIXSOCKET
@@ -672,7 +651,7 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
             }
 
             if (FD_ISSET(ccnl->ifs[i].sock, &writefs)) {
-                ccnl_interface_CTS(ccnl, ccnl->ifs + i);
+              ccnl_interface_CTS(ccnl, ccnl->ifs + i);
             }
         }
     }
@@ -699,20 +678,17 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
         struct stat s;
         struct ccnl_buf_s *buf = 0; // , *nonce=0, *ppkd=0, *pkt = 0;
         struct ccnl_content_s *c = 0;
-        int fd, suite;
-        ssize_t recvlen;
-        size_t datalen, skip, flen;
-        uint8_t *data;
+        int fd, datalen, suite, skip;
+        unsigned char *data;
         (void) data; // silence compiler warning (if any USE_SUITE_* is not set)
 #if defined(USE_SUITE_NDNTLV)
-        uint64_t typ;
-        size_t len;
+        unsigned int typ;
+        int len;
 #endif
         struct ccnl_pkt_s *pk;
 
-        if (de->d_name[0] == '.') {
+        if (de->d_name[0] == '.')
             continue;
-        }
 
         strcpy(fname, path);
         strcat(fname, "/");
@@ -722,15 +698,11 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
             perror("stat");
             continue;
         }
-        if (S_ISDIR(s.st_mode)) {
+        if (S_ISDIR(s.st_mode))
             continue;
-        }
-        if (s.st_size < 0) {
-            continue;
-        }
-        flen = (size_t) s.st_size;
 
-        DEBUGMSG(INFO, "loading file %s, %zu bytes\n", de->d_name, flen);
+        DEBUGMSG(INFO, "loading file %s, %d bytes\n", de->d_name,
+                 (int) s.st_size);
 
         fd = open(fname, O_RDONLY);
         if (!fd) {
@@ -739,16 +711,15 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
         }
 
         buf = (struct ccnl_buf_s *) ccnl_malloc(sizeof(*buf) + s.st_size);
-        if (buf) {
-            recvlen = read(fd, buf->data, flen);
-        } else {
-            recvlen = -1;
-        }
+        if (buf)
+            datalen = read(fd, buf->data, s.st_size);
+        else
+            datalen = -1;
         close(fd);
 
-        if (!buf || recvlen < 0 || (datalen = (size_t) recvlen) != flen || datalen < 2) {
-            DEBUGMSG(WARNING, "size mismatch for file %s, %ld/%lld bytes\n",
-                     de->d_name, datalen, (long long) s.st_size);
+        if (!buf || datalen != s.st_size || datalen < 2) {
+            DEBUGMSG(WARNING, "size mismatch for file %s, %d/%d bytes\n",
+                     de->d_name, datalen, (int) s.st_size);
             continue;
         }
         buf->datalen = datalen;
@@ -757,57 +728,53 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
         pk = NULL;
         switch (suite) {
 #ifdef USE_SUITE_CCNB
-            case CCNL_SUITE_CCNB: {
-                uint8_t *start;
+        case CCNL_SUITE_CCNB: {
+            unsigned char *start;
 
-                data = start = buf->data + skip;
-                datalen -= skip;
+            data = start = buf->data + skip;
+            datalen -= skip;
 
-                if (data[0] != 0x04 || data[1] != 0x82) {
-                    goto notacontent;
-                }
-                data += 2;
-                datalen -= 2;
+            if (data[0] != 0x04 || data[1] != 0x82)
+                goto notacontent;
+            data += 2;
+            datalen -= 2;
 
-                pk = ccnl_ccnb_bytes2pkt(start, &data, &datalen);
-                break;
-            }
+            pk = ccnl_ccnb_bytes2pkt(start, &data, &datalen);
+            break;
+        }
 #endif
 #ifdef USE_SUITE_CCNTLV
-            case CCNL_SUITE_CCNTLV: {
-                size_t hdrlen;
-                uint8_t *start;
+        case CCNL_SUITE_CCNTLV: {
+            int hdrlen;
+            unsigned char *start;
 
-                data = start = buf->data + skip;
-                datalen -=  skip;
+            data = start = buf->data + skip;
+            datalen -=  skip;
 
-                if (ccnl_ccntlv_getHdrLen(data, datalen, &hdrlen)) {
-                    goto notacontent;
-                }
-                data += hdrlen;
-                datalen -= hdrlen;
+            hdrlen = ccnl_ccntlv_getHdrLen(data, datalen);
+            data += hdrlen;
+            datalen -= hdrlen;
 
-                pk = ccnl_ccntlv_bytes2pkt(start, &data, &datalen);
-                break;
-            }
+            pk = ccnl_ccntlv_bytes2pkt(start, &data, &datalen);
+            break;
+        }
 #endif
 #ifdef USE_SUITE_NDNTLV
-            case CCNL_SUITE_NDNTLV: {
-                uint8_t *olddata;
+        case CCNL_SUITE_NDNTLV: {
+            unsigned char *olddata;
 
-                data = olddata = buf->data + skip;
-                datalen -= skip;
-                if (ccnl_ndntlv_dehead(&data, &datalen, &typ, &len) ||
-                    typ != NDN_TLV_Data) {
-                    goto notacontent;
-                }
-                pk = ccnl_ndntlv_bytes2pkt(typ, olddata, &data, &datalen);
-                break;
-            }
+            data = olddata = buf->data + skip;
+            datalen -= skip;
+            if (ccnl_ndntlv_dehead(&data, &datalen, (int*) &typ, &len) ||
+                                                         typ != NDN_TLV_Data)
+                goto notacontent;
+            pk = ccnl_ndntlv_bytes2pkt(typ, olddata, &data, &datalen);
+            break;
+        }
 #endif
-            default:
-                DEBUGMSG(WARNING, "unknown packet format (%s)\n", de->d_name);
-                goto Done;
+        default:
+            DEBUGMSG(WARNING, "unknown packet format (%s)\n", de->d_name);
+            goto Done;
         }
         if (!pk) {
             DEBUGMSG(DEBUG, "  parsing error in %s\n", de->d_name);
@@ -820,12 +787,12 @@ ccnl_populate_cache(struct ccnl_relay_s *ccnl, char *path)
         }
         ccnl_content_add2cache(ccnl, c);
         c->flags |= CCNL_CONTENT_FLAGS_STATIC;
-        Done:
+Done:
         ccnl_pkt_free(pk);
         ccnl_free(buf);
         continue;
 #if defined(USE_SUITE_CCNB) || defined(USE_SUITE_NDNTLV)
-        notacontent:
+notacontent:
         DEBUGMSG(WARNING, "not a content object (%s)\n", de->d_name);
         ccnl_free(buf);
 #endif

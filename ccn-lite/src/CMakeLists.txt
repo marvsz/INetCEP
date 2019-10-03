@@ -6,17 +6,6 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 set(CMAKE_SYSTEM_NAME Generic)
 
 option(BUILD_TESTING "Build the testing tree." ON)
-option(CCNL_RIOT "Build for RIOT." OFF)
-option(CCNL_PACKETFORMAT_NDN "Use the NDN (v0.2) packet parser." ON)
-option(CCNL_PACKETFORMAT_CCNB "Use the CCNb packet parser." ON)
-option(CCNL_PACKETFORMAT_CCNTLV "Use the CCNTLV packet parser." ON)
-option(CCNL_PACKETFORMAT_LOCALRPC "Use localrpc." ON)
-
-if (CCNL_RIOT)
-    set(CCNL_PACKETFORMAT_CCNB OFF)
-    set(CCNL_PACKETFORMAT_CCNTLV OFF)
-    set(CCNL_PACKETFORMAT_LOCALRPC OFF)
-endif ()
 
 # CCNL flags
 set(CCNL_BASIC_FLAGS
@@ -36,7 +25,7 @@ set(CCNL_BASIC_FLAGS
 
 add_definitions(${CCNL_BASIC_FLAGS})
 
-if (NOT CCNL_RIOT)
+if (NOT DEFINED CCNL_RIOT)
    set(CCNL_EXTRA_FLAGS
         -DUSE_CCNxDIGEST
         -DUSE_MGMT
@@ -60,20 +49,22 @@ set(CCNL_PLATFORM_FLAGS
 add_definitions(${CCNL_PLATFORM_FLAGS})
 
 # Packet formats
-set(CCNL_PACKETFORMAT_FLAGS "")
-if (CCNL_PACKETFORMAT_NDN)
-    set(CCNL_PACKETFORMAT_FLAGS "${CCNL_PACKETFORMAT_FLAGS}" -DUSE_SUITE_NDNTLV)
-endif ()
-if (CCNL_PACKETFORMAT_CCNB)
-    set(CCNL_PACKETFORMAT_FLAGS "${CCNL_PACKETFORMAT_FLAGS}" -DUSE_SUITE_CCNB)
-endif ()
-if (CCNL_PACKETFORMAT_CCNTLV)
-    set(CCNL_PACKETFORMAT_FLAGS "${CCNL_PACKETFORMAT_FLAGS}" -DUSE_SUITE_CCNTLV)
-endif ()
-if (CCNL_PACKETFORMAT_LOCALRPC)
-    set(CCNL_PACKETFORMAT_FLAGS "${CCNL_PACKETFORMAT_FLAGS}" -DUSE_SUITE_LOCALRPC)
-endif ()
-set("${CCNL_PACKETFORMAT_FLAGS}" CACHE PATH "packet format flags for CCN-lite")
+set(CCNL_PACKETFORMAT_FLAGS
+    -DUSE_SUITE_NDNTLV
+    CACHE PATH
+    "packet format flags for CCN-lite"
+)
+if (NOT DEFINED CCNL_RIOT)
+    set(CCNL_PACKETFORMAT_FLAGS
+        "${CCNL_PACKETFORMAT_FLAGS}"
+        -DUSE_SUITE_CCNB
+        -DUSE_SUITE_CCNTLV
+        -DUSE_SUITE_LOCALRPC
+        CACHE PATH
+        "packet format flags for CCN-lite"
+        FORCE
+    )
+endif()
 add_definitions(${CCNL_PACKETFORMAT_FLAGS})
 
 # NFN flags
@@ -85,7 +76,7 @@ set(CCNL_NFN_FLAGS
     "NFN flags for CCN-lite"
 )
 
-if(CCNL_RIOT)
+if(DEFINED CCNL_RIOT)
     set(CCNL_RIOT_FLAGS
         -DCCNL_APP_RX
         -DUSE_DUP_CHECK
@@ -96,7 +87,7 @@ if(CCNL_RIOT)
     add_definitions(${CCNL_RIOT_FLAGS})
 endif()
 
-if (NOT CCNL_RIOT)
+if (NOT DEFINED CCNL_RIOT)
     add_definitions(${CCNL_NFN_FLAGS})
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wall -Werror -std=c99 -g -pedantic") #TODO: add -fsanitize=address
 else()
@@ -105,7 +96,7 @@ endif()
 
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g")
 
-if (NOT DEFINED CCNL_LINUXKERNEL AND NOT CCNL_RIOT)
+if (NOT DEFINED CCNL_LINUXKERNEL AND NOT DEFINED CCNL_RIOT)
     find_package(OpenSSL REQUIRED)
     include_directories(${OPENSSL_INCLUDE_DIR})
     message("OpenSSL include dir: ${OPENSSL_INCLUDE_DIR}")
@@ -113,21 +104,21 @@ if (NOT DEFINED CCNL_LINUXKERNEL AND NOT CCNL_RIOT)
 endif()
 
 #add_subdirectory(ccnl-addons)
-#if (CCNL_RIOT)
+#if (DEFINED CCNL_RIOT)
   #  set(CMAKE_C_FLAGS ${RIOT_CFLAGS})
 #endif()
 if (NOT DEFINED CCNL_LINUXKERNEL)
     add_subdirectory(ccnl-core)
     add_subdirectory(ccnl-pkt)
     add_subdirectory(ccnl-fwd)
-    if (NOT CCNL_RIOT)
+    if (NOT DEFINED CCNL_RIOT)
         add_subdirectory(ccnl-unix)
         add_subdirectory(ccnl-relay)
         add_subdirectory(ccnl-utils)
         add_subdirectory(ccnl-nfn)
     endif()
 endif()
-if (CCNL_RIOT)
+if (DEFINED CCNL_RIOT)
     add_subdirectory(ccnl-riot)
 endif()
 if (DEFINED CCNL_LINUXKERNEL)
@@ -136,7 +127,7 @@ endif()
 
 
 if (NOT DEFINED CCNL_LINUXKERNEL)
-if (NOT CCNL_RIOT)
+if (NOT DEFINED CCNL_RIOT)
     add_dependencies(ccn-lite-relay ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)
 endif()
 endif()

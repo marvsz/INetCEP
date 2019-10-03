@@ -1,7 +1,7 @@
 #!/bin/bash
 #get IP address referred https://stackoverflow.com/questions/8529181/which-terminal-command-to-get-just-ip-address-and-nothing-else
 IP=$(hostname -I)
-NODE_A="$HOME/INetCEP/computeservers/nodes/nodeA"
+NODE_A="$HOME/MA-Ali/computeservers/nodes/nodeA"
 
 sleep 0.1
 echo "Compute Server Updated"

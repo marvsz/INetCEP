@@ -13,7 +13,7 @@ queryServiceInterval=$4
 #simulation run time in seconds
 simRunTime=$5
 #TODO fix workaround: setting CCNL_HOME for executeQuery method (env variables of the remote machine cannot be accessed if quotes are removed from "ENDSSH" and if quotes are put then "queryType" cannot be accessed)
-CCNL_HOME="~/INetCEP/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
+CCNL_HOME="~/MA-Ali/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
 
 #This script automates the execution of the system remotely on seven VMS (check VMS.cfg) 
 #It first sets up the environment by copying the relevant binaries and scripts for execution remotely 
@@ -31,18 +31,19 @@ if [[ -z $simRunTime ]]
 
 #Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
-#new Usage: bash publishRemotely.sh all "Placement" 1 20 1200
+#new Usage: bash publishRemotely.sh all "Placement" 3 20 1200
 all() {
 	
 	#deployCCN
-	#buildNFN	
+	buildNFN
+	sleep 2s
+	#setup	
 	#sleep 2s
 	#copyNodeInfo
 	#sleep 2s
-	#copyNFNFiles
-	#sleep 2s
+	copyNFNFiles
+	sleep 2s
 	deleteOldLogs
-	sleep 2s	
 	createTopology
 	sleep 5s
 	execute
@@ -125,7 +126,7 @@ echo "copying NFN-jar"
 	#copy only the required jar
 	for i in "${VMS[@]}"
 	do
-		scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@$i:~/INetCEP/computeservers/nodes/*/
+		scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@$i:~/MA-Ali/computeservers/nodes/*/
 	done
 }
 
@@ -144,34 +145,33 @@ echo "copying NodeInformation"
 		echo "logged in: " $i 	
 		# empty stuff in nodeData
 		ssh -t $user@$i <<-'ENDSSH'	
-		rm -rf ~/INetCEP/nodeData/
-		mkdir -p ~/INetCEP/nodeData/
-		rm -rf ~/INetCEP/sensors
-		mkdir -p ~/INetCEP/sensors
-		rm -rf ~/INetCEP/evalData
-		mkdir -p ~/INetCEP/evalData
-		mkdir -p ~/INetCEP/computeservers/nodes/
+		rm -rf ~/MA-Ali/nodeData/
+		mkdir -p ~/MA-Ali/nodeData/
+		rm -rf ~/MA-Ali/sensors
+		mkdir -p ~/MA-Ali/sensors
+		rm -rf ~/MA-Ali/evalData
+		mkdir -p ~/MA-Ali/evalData
 		ENDSSH
 		nodesdir=($(ls -d $work_dir/computeservers/nodes/*))
-		scp -rp ${nodesdir[$count]} $user@$i:~/INetCEP/computeservers/nodes/
-		scp -rp "$work_dir"/nodeData $user@$i:~/INetCEP/
+		scp -rp ${nodesdir[$count]} $user@$i:~/MA-Ali/computeservers/nodes/
+		scp -rp "$work_dir"/nodeData $user@$i:~/MA-Ali/
 
-		scp -rp "$work_dir/VMS.cfg" $user@$i:~/INetCEP/
-		scp -rp "$work_dir"/sensors/* $user@$i:~/INetCEP/sensors/
+		scp -rp "$work_dir/VMS.cfg" $user@$i:~/MA-Ali/
+		scp -rp "$work_dir"/sensors/* $user@$i:~/MA-Ali/sensors/
 	
-		#scp -rp "$work_dir"/evalData/* $USER@$i:~/INetCEP/evalData/
+		#scp -rp "$work_dir"/evalData/* $USER@$i:~/MA-Ali/evalData/
 
 		#copy the scripts only once for this VM
-		ssh $user@$i 'rm -r ~/INetCEP/VM-Startup-Scripts'
+		ssh $user@$i 'rm -r ~/MA-Ali/VM-Startup-Scripts'
 		VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
 		
 		#copy the start up scripts
-		scp -r ${VMSdir[$count]} $user@$i:~/INetCEP/VM-Startup-Scripts
+		scp -r ${VMSdir[$count]} $user@$i:~/MA-Ali/VM-Startup-Scripts
 
 		#copy the shutdown scripts
-		ssh $user@$i 'rm -r ~/INetCEP/VM-Shutdown-Scripts'
+		ssh $user@$i 'rm -r ~/MA-Ali/VM-Shutdown-Scripts'
 		VMSdir=($(ls -d $work_dir/VM-Shutdown-Scripts/*))
-		scp -r ${VMSdir[$count]} $user@$i:~/INetCEP/VM-Shutdown-Scripts
+		scp -r ${VMSdir[$count]} $user@$i:~/MA-Ali/VM-Shutdown-Scripts
 		
 		((count++))
 	
@@ -186,7 +186,7 @@ for i in "${VMS[@]}"
 	echo "logged in: " $i 	
 	# empty stuff in nodeData
 	ssh -t $user@$i <<-'ENDSSH'
-	cd ~/INetCEP/nodeData
+	cd ~/MA-Ali/nodeData
 	find . -name "*_Log" -type f -delete
 	ENDSSH
 	done
@@ -200,7 +200,7 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		ssh -t $user@$i <<-'ENDSSH'
-		cd ~/INetCEP/VM-Startup-Scripts
+		cd ~/MA-Ali/VM-Startup-Scripts
 		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
 		#first create topology and start the compute server in all nodes
 		screen -d -m bash executeScripts.sh initialize
@@ -216,7 +216,7 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		ssh -t $user@$i <<-ENDSSH
-		cd ~/INetCEP/VM-Startup-Scripts
+		cd ~/MA-Ali/VM-Startup-Scripts
 		#second start the query service and update node state 
 		bash executeScripts.sh start $queryType $queryServiceInterval
 		ENDSSH
@@ -284,7 +284,7 @@ echo "building CCNLite"
 # Usage bash publishRemotely.sh getOutput
 getOutput(){
 	mkdir -p $work_dir/Output2/	
-	scp -r $user@${VMS[0]}:~/INetCEP/nodeData/* $work_dir/Output2/
+	scp -r $user@${VMS[0]}:~/MA-Ali/nodeData/* $work_dir/Output2/
 
 }
 
@@ -295,7 +295,7 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		# Shutdown script stops the relay and destroys the face
-		ssh -t $user@$i 'screen -d -m bash ~/INetCEP/VM-Shutdown-Scripts/shutdown.sh'
+		ssh -t $user@$i 'screen -d -m bash ~/MA-Ali/VM-Shutdown-Scripts/shutdown.sh'
 		# Still the java and bash processes needs to be stopped
 		bash $work_dir/publish_scripts/pkill.sh		
 	done
@@ -307,16 +307,16 @@ VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
 for i in "${VMS[@]}"
 	do
 		mkdir -p $work_dir/Logs/$count	
-		scp -r $user@$i:~/INetCEP/nodeData/nodeA_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeB_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeC_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeD_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeE_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeF_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/nodeData/nodeG_Log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/CS.log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/nodes.log $work_dir/Logs/$count
-		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/*/startUp.log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeA_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeB_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeC_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeD_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeE_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeF_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/nodeData/nodeG_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/VM-Startup-Scripts/CS.log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/VM-Startup-Scripts/nodes.log $work_dir/Logs/$count
+		scp -r $user@$i:~/MA-Ali/VM-Startup-Scripts/*/startUp.log $work_dir/Logs/$count
 		((count++))
 	done
 }

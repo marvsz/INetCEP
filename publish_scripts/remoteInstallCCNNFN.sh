@@ -4,7 +4,7 @@ work_dir="$(cd "$(dirname "$0")" ; pwd -P)/.."
 source "$work_dir/VMS.cfg"
 count=0
 declare -a VMSdir
-CCNL_HOME="~/INetCEP/nfn-scala/ccn-lite-nfn" #requires project to copied at the home location (~)
+CCNL_HOME="~/MA-Ali/nfn-scala/ccn-lite-nfn" #requires project to copied at the home location (~)
 all(){
 deployCCN
 deployNFN

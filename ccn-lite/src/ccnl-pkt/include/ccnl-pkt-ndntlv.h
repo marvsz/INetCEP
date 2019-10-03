@@ -23,10 +23,11 @@
 #ifndef CCNL_PKT_NDNTLV_H
 #define CCNL_PKT_NDNTLV_H
 
-#include <stdint.h>
-#include <stddef.h>
+//#include <stdint-gcc.h>
+//#include <stdint.h>
+#include <stdbool.h>
 
-#include "ccnl-content.h"
+#include "../../ccnl-core/include/ccnl-content.h"
 
 /**
  * Default interest lifetime in milliseconds. If the element is omitted by a user, a default
@@ -91,6 +92,7 @@
 // reserved values:
 /*
 Values          Designation
+
 0-4, 30-79      Reserved for future assignments (1-byte encoding)
 80-100          Reserved for assignments related to local link data
                 processing (NDNLP header, LocalControlHeader, etc.)
@@ -124,7 +126,7 @@ Values          Designation
 struct ccnl_ndntlv_interest_opts_s {
     int32_t nonce;              /**< Nonce value */
     /* Selectors */
-    uint8_t mustbefresh;           /**< MustBeFresh Selector */
+    bool mustbefresh;           /**< MustBeFresh Selector */
     /* Guiders */
     uint32_t interestlifetime;  /**< Interest Lifetime Guider */
 };
@@ -141,11 +143,11 @@ struct ccnl_ndntlv_data_opts_s {
 };
 
 #ifdef USE_SUITE_NDNTLV
-int8_t
-ccnl_ndntlv_varlenint(uint8_t **buf, size_t *len, uint64_t *val);
+int
+ccnl_ndntlv_varlenint(unsigned char **buf, int *len, int *val);
 
-uint64_t
-ccnl_ndntlv_nonNegInt(uint8_t *cp, size_t len);
+unsigned long int
+ccnl_ndntlv_nonNegInt(unsigned char *cp, int len);
 #endif // USE_SUITE_NDNTLV
 
 /**
@@ -156,45 +158,45 @@ ccnl_ndntlv_nonNegInt(uint8_t *cp, size_t len);
  * @param vallen return value via pointer: length value of the tlv
  * @return 0 on success, -1 on failure.
  */
-int8_t
-ccnl_ndntlv_dehead(uint8_t **buf, size_t *len,
-                   uint64_t *typ, size_t *vallen);
+int
+ccnl_ndntlv_dehead(unsigned char **buf, int *len,
+                   int *typ, int *vallen);
 
 struct ccnl_pkt_s*
-ccnl_ndntlv_bytes2pkt(uint64_t pkttype, uint8_t *start,
-                      uint8_t **data, size_t *datalen);
+ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
+                      unsigned char **data, int *datalen);
 
-int8_t
+int
 ccnl_ndntlv_cMatch(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
 
-int8_t
+int
 ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
-                            size_t *offset, uint8_t *buf, size_t *reslen);
+                            int *offset, unsigned char *buf);
 
-int8_t
+int
 ccnl_ndntlv_prependContent(struct ccnl_prefix_s *name,
-                           uint8_t *payload, size_t paylen,
-                           size_t *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
-                           size_t *offset, uint8_t *buf, size_t *reslen);
+                           unsigned char *payload, int paylen,
+                           int *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
+                           int *offset, unsigned char *buf);
 
-int8_t
-ccnl_ndntlv_prependTL(uint64_t type, uint64_t len,
-                      size_t *offset, uint8_t *buf);
+int
+ccnl_ndntlv_prependTL(int type, unsigned int len,
+                      int *offset, unsigned char *buf);
 
-int8_t
-ccnl_ndntlv_prependTLval(uint64_t val, size_t *offset, uint8_t *buf);
+int
+ccnl_ndntlv_prependTLval(unsigned long val, int *offset, unsigned char *buf);
 
-int8_t
-ccnl_ndntlv_prependBlob(uint64_t type, uint8_t *blob, size_t len,
-                        size_t *offset, uint8_t *buf);
+int
+ccnl_ndntlv_prependBlob(int type, unsigned char *blob, int len,
+                        int *offset, unsigned char *buf);
 
-int8_t
-ccnl_ndntlv_prependIncludedNonNegInt(uint64_t type, uint64_t val,
-                                     uint8_t marker,
-                                     size_t *offset, uint8_t *buf);
+int
+ccnl_ndntlv_prependIncludedNonNegInt(int type, unsigned int val,
+                                     char marker,
+                                     int *offset, unsigned char *buf);
 
-int8_t
+int
 ccnl_ndntlv_prependName(struct ccnl_prefix_s *name,
-                        size_t *offset, uint8_t *buf);
+                        int *offset, unsigned char *buf);
 
 #endif // EOF

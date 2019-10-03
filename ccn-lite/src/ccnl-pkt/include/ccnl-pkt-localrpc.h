@@ -23,8 +23,8 @@
 #ifndef CCNL_PKT_LOCALRPC_H
 #define CCNL_PKT_LOCALRPC_H
 
-#include "ccnl-face.h"
-#include "ccnl-relay.h"
+#include "../../ccnl-core/include/ccnl-face.h"
+#include "../../ccnl-core/include/ccnl-relay.h"
 
 struct rpc_exec_s { // execution context
     struct rdr_ds_s *ostack; // operands
@@ -53,40 +53,47 @@ typedef int(rpcBuiltinFct)(struct ccnl_relay_s *, struct ccnl_face_s *,
 
 
 struct rdr_ds_s { // RPC Data Representation (RDR) data structure
-    int32_t type;
-    size_t flatlen; // The value of flatlen is only significant if flat is non-NULL!
-    uint8_t *flat;
+    int type;
+    int flatlen;
+    unsigned char *flat;
     struct rdr_ds_s *nextinseq;
     union {
         struct rdr_ds_s *fct;
         struct rdr_ds_s *lambdavar;
-        uint64_t nonnegintval;
-        size_t namelen;
-        size_t binlen;
-        size_t strlen;
+        unsigned int nonnegintval;
+        int namelen;
+        int binlen;
+        int strlen;
     } u;
     struct rdr_ds_s *aux;
 };
 
 /* use of struct rdr_ds_s:
+
   Req->u.fct (the RPC proper)
      ->aux (nonce)
+
   Rep->u.nonnegintval (nonce)
      ->aux (seq)
               ->u.nonnegintval (retcode)
               ->u.nextinseq (more info, string) ...
+
   App->u.fct (function)
      ->aux (1st param)
               -> u.nextinseq (2nd param) ...
+
   Lambda->u.lambdavar
      ->aux (1st body part)
               -> u.nextinseq (2nd body part) ...
+
   Seq->aux (first element)
               -> u.nextinseq (2nd element)
                                 -> u.nextinseq (3rd element) ...
+
   Var->aux (char*)
   BIN->aux (char*)
   STR->aux (char*)
+
 */
 
 
@@ -94,39 +101,39 @@ struct rdr_ds_s { // RPC Data Representation (RDR) data structure
 
 
 
-int
+int 
 ccnl_rdr_getType(struct rdr_ds_s *ds);
 
-void
+void 
 ccnl_rdr_free(struct rdr_ds_s *x);
 
-struct rdr_ds_s*
+struct rdr_ds_s* 
 ccnl_rdr_mkSeq(void);
 
-struct rdr_ds_s*
+struct rdr_ds_s* 
 ccnl_rdr_seqAppend(struct rdr_ds_s *seq, struct rdr_ds_s *el);
 
-struct rdr_ds_s*
-ccnl_rdr_mkNonNegInt(uint64_t val);
+struct rdr_ds_s* 
+ccnl_rdr_mkNonNegInt(unsigned int val);
 
-int8_t
-ccnl_rdr_serialize(struct rdr_ds_s *ds, uint8_t *buf, size_t buflen, size_t *res);
+int 
+ccnl_rdr_serialize(struct rdr_ds_s *ds, unsigned char *buf, int buflen);
 
-struct rdr_ds_s*
-ccnl_rdr_unserialize(uint8_t *buf, size_t buflen);
+struct rdr_ds_s* 
+ccnl_rdr_unserialize(unsigned char *buf, int buflen);
 
-int8_t
-ccnl_rdr_getFlatLen(struct rdr_ds_s *ds, size_t *flatlen);
+int 
+ccnl_rdr_getFlatLen(struct rdr_ds_s *ds);
 
-struct rdr_ds_s*
-ccnl_rdr_mkNonce(uint8_t *data, size_t len);
+struct rdr_ds_s* 
+ccnl_rdr_mkNonce(char *data, int len);
 
-struct rdr_ds_s*
+struct rdr_ds_s* 
 ccnl_rdr_mkStr(char *s);
 
-int8_t
-ccnl_lrpc_dehead(uint8_t **buf, size_t *len,
-                 uint64_t *typ, size_t *vallen);
+int
+ccnl_lrpc_dehead(unsigned char **buf, int *len,
+                 int *typ, int *vallen);
 
 #endif // CCNL_PKT_LOCALRPC_H
 // eof

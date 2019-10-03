@@ -135,7 +135,7 @@ Starting up nodes requires the following:
 1. Starting ccn-lite relay on a network node (X) requires us to execute the startup script for that specific node. Let's take nodeID 28 as our sample node for the rest of this tutorial.
 
 	```bash
-	cd INetCEP/VM-Startup-Scripts/VM28/
+	cd MA-Ali/VM-Startup-Scripts/VM28/
 	./startNodes.sh
 	```
 
@@ -144,7 +144,7 @@ Inside the VM28 folder, the startNodes script resides. This script initializes a
 2. Starting the Compute Server is similar to a node. Make sure that you are in the same /VM28 folder and then execute the following script.
 
 	```bash
-	cd INetCEP/VM-Startup-Scripts/VM28/
+	cd MA-Ali/VM-Startup-Scripts/VM28/
 	./startCS.sh
 	```
 
@@ -156,7 +156,7 @@ Inside the VM28 folder, the startNodes script resides. This script initializes a
 To start decentralized query processing in the network, we have to pass the Query Type (Centralized, Random, Decentralized) and the interval of re-evaluation for the query store.
 
 
-    cd INetCEP/VM-Startup-Scripts/VM28/28
+    cd MA-Ali/VM-Startup-Scripts/VM28/28
     ./startRemoteAny.sh QueryDecentral 20
 
 The startRemoteAny.sh script takes the query type (QueryDecentral -> basically the placement algorithm) that the system has to manage and the interval (20) that the query service has to consider for re-evaluations.
@@ -309,7 +309,7 @@ The following services, classes were added to the system in order to build up SA
 In CCN-Lite, the major change was to manage the control interests. This was done in the ccnl_fwd_handleInterest and ccnl_fwd_handleContent methods of ccnl-core-fwd.c code file.
 Here, instead of saving the interest data in the content store, we skipped this process to reduce content store overload from control messages.
 
-    /home/veno/INetCEP/ccn-lite/src/ccnl-core-fwd.c
+    /home/veno/MA-Ali/ccn-lite/src/ccnl-core-fwd.c
 
 ## Services and Plots
 The services that were created for the system are:
@@ -318,12 +318,12 @@ The services that were created for the system are:
 * Starting Compute Server: StartCS.sh shell service (on each node)
 * Query Service: queryService.sh shell service (on each node) to manage the query store
 
-    /INetCEP/VM-Startup-Scripts/VM28/queryService.sh
+    /MA-Ali/VM-Startup-Scripts/VM28/queryService.sh
 
 * Update Node State: updateNodeState_NodeID.sh (on each node) shell service to gather network data from iPerf and ping tools as well as node battery status to update the nodes network state on its local Compute Server.
 
-    /INetCEP/VM-Startup-Scripts/VM28/updateNodeState_9001.sh
+    /MA-Ali/VM-Startup-Scripts/VM28/updateNodeState_9001.sh
 
 * Plots: Evaluation plots for the system created in Python using matplotlib.
 
-    /INetCEP/plots/Thesis
+    /MA-Ali/plots/Thesis

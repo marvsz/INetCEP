@@ -38,7 +38,6 @@
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include <inttypes.h>
-#include <limits.h>
 #else
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
@@ -86,6 +85,8 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             (*pkt)->pfx->nfnflags, nonce, "");
 
     }
+
+    DEBUGMSG_CFWD(INFO, "  data %.*s\n", (*pkt)->contlen, (*pkt)->content);
 #else
     if (from) {
         char *from_as_str = ccnl_addr2ascii(&(from->peer));
@@ -137,6 +138,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
 
     c = ccnl_content_new(pkt);
+    DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
     if (!c)
         return 0;
 
@@ -172,8 +174,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if (relay->max_cache_entries != 0) { // it's set to -1 or a limit
             DEBUGMSG_CFWD(DEBUG, "  adding content to cache\n");
             ccnl_content_add2cache(relay, c);
-            int contlen = (int) (c->pkt->contlen > INT_MAX ? INT_MAX : c->pkt->contlen);
-            DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", contlen, c->pkt->content);
+            DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
         } else {
             DEBUGMSG_CFWD(DEBUG, "  content not added to cache\n");
             ccnl_content_free(c);
@@ -181,14 +182,13 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_NFN_REQUESTS
     } else {
         DEBUGMSG_CFWD(DEBUG, "  not caching nfn request\n");
-        ccnl_content_free(c);
     }
 #endif
 
 #ifdef USE_RONR
     /* if we receive a chunk, we assume more chunks of this content may be
      * retrieved along the same path */
-    if (c->pkt->pfx->chunknum) {
+    if ((c->pkt->pfx->chunknum) && (*(c->pkt->pfx->chunknum) >= 0)) {
         struct ccnl_prefix_s *pfx_wo_chunk = ccnl_prefix_dup(c->pkt->pfx);
         pfx_wo_chunk->compcnt--;
         ccnl_free(pfx_wo_chunk->chunknum);
@@ -276,7 +276,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #ifdef USE_DUP_CHECK
 
-    if (ccnl_nonce_isDup(relay, *pkt)) { // produziert das ccnl_nonce_find_or_append
+    if (ccnl_nonce_isDup(relay, *pkt)) {
     #ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %"PRIi32"\n", nonce);
     #else
@@ -348,7 +348,6 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             continue;
 
         DEBUGMSG_CFWD(DEBUG, "  found matching content %p\n", (void *) c);
-
         if (from->ifndx >= 0) {
 #ifdef USE_NFN_REQUESTS
             struct ccnl_pkt_s *cpkt = c->pkt;
@@ -395,11 +394,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     if (!ccnl_pkt_fwdOK(*pkt))
         return -1;
     if (!i) {
-        i = ccnl_interest_new(relay, from, pkt); // hier wird der neue interest produziert
-        /*DEBUGMSG_CFWD(DEBUG, "  New Interest really created\n"); // anscheinend passiert das was falsch läuft hiernach
-        if(!i){
-            DEBUGMSG_CFWD(DEBUG, "  Irgendwas ist falsch gelaufen, der Interest wurde nicht erstellt\n");
-        }*/
+        i = ccnl_interest_new(relay, from, pkt);
+
 #ifdef USE_NFN
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
@@ -427,14 +423,14 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_SUITE_CCNB
 
 // helper proc: work on a message, top level type is already stripped
-int8_t
+int
 ccnl_ccnb_fwd(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-              uint8_t **data, size_t *datalen, uint64_t typ)
+              unsigned char **data, int *datalen, int typ)
 {
-    int8_t rc= -1;
+    int rc= -1;
     struct ccnl_pkt_s *pkt;
 
-    DEBUGMSG_CFWD(DEBUG, "ccnb fwd (%zu bytes left)\n", *datalen);
+    DEBUGMSG_CFWD(DEBUG, "ccnb fwd (%d bytes left)\n", *datalen);
 
     pkt = ccnl_ccnb_bytes2pkt(*data - 2, data, datalen);
     if (!pkt) {
@@ -458,14 +454,12 @@ Done:
 }
 
 // loops over a frame until empty or error
-int8_t
+int
 ccnl_ccnb_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                    uint8_t **data, size_t *datalen)
+                    unsigned char **data, int *datalen)
 {
-    int8_t rc = 0;
-    uint64_t num;
-    uint8_t typ;
-    DEBUGMSG_CFWD(DEBUG, "ccnl_ccnb_forwarder: %zuB from face=%p (id=%d.%d)\n",
+    int rc = 0, num, typ;
+    DEBUGMSG_CFWD(DEBUG, "ccnl_ccnb_forwarder: %dB from face=%p (id=%d.%d)\n",
              *datalen, (void*)from, relay->id, from ? from->faceid : -1);
 
     while (rc >= 0 && *datalen > 0) {
@@ -478,39 +472,18 @@ ccnl_ccnb_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             continue;
 #ifdef OBSOLETE_BY_2015_06
 #ifdef USE_FRAG
-        // FIXME: Propagate size_t through to frag functions
-        case CCNL_DTAG_FRAGMENT2012: {
-            int dlen;
-            if (datalen > INT_MAX) {
-                return -1;
-            }
-            dlen = (int) *datalen;
+        case CCNL_DTAG_FRAGMENT2012:
             rc = ccnl_frag_RX_frag2012(ccnl_ccnb_forwarder, relay,
-                                       from, data, &dlen);
-            if (dlen < 0) {
-                return -1;
-            }
-            *datalen = (size_t) dlen;
+                                       from, data, datalen);
             continue;
-        }
-        case CCNL_DTAG_FRAGMENT2013: {
-            int dlen;
-            if (datalen > INT_MAX) {
-                return -1;
-            }
-            dlen = (int) *datalen;
+        case CCNL_DTAG_FRAGMENT2013:
             rc = ccnl_frag_RX_CCNx2013(ccnl_ccnb_forwarder, relay,
-                                       from, data, &dlen);
-            if (dlen < 0) {
-                return -1;
-            }
-            *datalen = (size_t) dlen;
+                                       from, data, datalen);
             continue;
-            }
 #endif
 #endif // OBSOLETE
         default:
-            DEBUGMSG_CFWD(DEBUG, "  unknown datagram type %llu\n", (unsigned long long)num);
+            DEBUGMSG_CFWD(DEBUG, "  unknown datagram type %d\n", num);
             return -1;
         }
     }
@@ -524,21 +497,21 @@ ccnl_ccnb_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_SUITE_CCNTLV
 
 // process one CCNTLV packet, return <0 if no bytes consumed or error
-int8_t
+int
 ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                      uint8_t **data, size_t *datalen)
+                      unsigned char **data, int *datalen)
 {
-    int8_t rc = -1;
-    size_t payloadlen;
-    size_t hdrlen;
+    int payloadlen, rc = -1;
+    unsigned short hdrlen;
     struct ccnx_tlvhdr_ccnx2015_s *hp;
-    uint8_t *start = *data;
+    unsigned char *start = *data;
     struct ccnl_pkt_s *pkt;
 
-    DEBUGMSG_CFWD(DEBUG, "ccnl_ccntlv_forwarder: %zuB from face=%p (id=%d.%d)\n",
+    DEBUGMSG_CFWD(DEBUG, "ccnl_ccntlv_forwarder: %dB from face=%p (id=%d.%d)\n",
                   *datalen, (void*)from, relay->id, from ? from->faceid : -1);
 
-    if (*datalen < sizeof(struct ccnx_tlvhdr_ccnx2015_s) || **data != CCNX_TLV_V1) {
+    if ( (unsigned int) *datalen < sizeof(struct ccnx_tlvhdr_ccnx2015_s) ||
+                                                     **data != CCNX_TLV_V1) {
         DEBUGMSG_CFWD(DEBUG, "  short header or wrong version (%d)\n", **data);
         return -1;
     }
@@ -546,14 +519,15 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     hp = (struct ccnx_tlvhdr_ccnx2015_s*) *data;
     hdrlen = hp->hdrlen; // ntohs(hp->hdrlen);
     if (hdrlen > *datalen) { // not enough bytes for a full header
-        DEBUGMSG_CFWD(DEBUG, "  hdrlen too large (%zu > %zu)\n",
+        DEBUGMSG_CFWD(DEBUG, "  hdrlen too large (%d > %d)\n",
                       hdrlen, *datalen);
         return -1;
     }
 
     payloadlen = ntohs(hp->pktlen);
-    if (payloadlen < hdrlen || payloadlen > *datalen) { // not enough data to reconstruct message
-        DEBUGMSG_CFWD(DEBUG, "  pkt too small or too big (%zu < %zu < %zu)\n",
+    if (payloadlen < hdrlen ||
+             payloadlen > *datalen) { // not enough data to reconstruct message
+        DEBUGMSG_CFWD(DEBUG, "  pkt too small or too big (%d < %d < %d)\n",
                  hdrlen, payloadlen, *datalen);
         return -1;
     }
@@ -576,7 +550,7 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         }
     }
 
-    DEBUGMSG_CFWD(DEBUG, "ccnl_ccntlv_forwarder (%zu bytes left, hdrlen=%zu)\n",
+    DEBUGMSG_CFWD(DEBUG, "ccnl_ccntlv_forwarder (%d bytes left, hdrlen=%d)\n",
                   *datalen, hdrlen);
 
 #ifdef USE_FRAG
@@ -613,7 +587,7 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
 
     if (!from) {
-        DEBUGMSG_CFWD(TRACE, "  local data, datalen=%zu\n", *datalen);
+        DEBUGMSG_CFWD(TRACE, "  local data, datalen=%d\n", *datalen);
     }
 
     pkt = ccnl_ccntlv_bytes2pkt(start, data, datalen);
@@ -634,23 +608,23 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccntlv_cMatch))
                 goto Done;
         } else {
-            DEBUGMSG_CFWD(WARNING, "  ccntlv: interest pkt type mismatch %d %lld\n",
-                          hp->pkttype, (unsigned long long)pkt->type);
+            DEBUGMSG_CFWD(WARNING, "  ccntlv: interest pkt type mismatch %d %d\n",
+                          hp->pkttype, pkt->type);
         }
     } else if (hp->pkttype == CCNX_PT_Data) {
         if (pkt->type == CCNX_TLV_TL_Object) {
             pkt->flags |= CCNL_PKT_REPLY;
             ccnl_fwd_handleContent(relay, from, &pkt);
         } else {
-            DEBUGMSG_CFWD(WARNING, "  ccntlv: data pkt type mismatch %d %lld\n",
-                     hp->pkttype, (unsigned long long)pkt->type);
+            DEBUGMSG_CFWD(WARNING, "  ccntlv: data pkt type mismatch %d %d\n",
+                     hp->pkttype, pkt->type);
         }
     } // else ignore
     rc = 0;
 Done:
     ccnl_pkt_free(pkt);
 
-    DEBUGMSG_CFWD(TRACE, "  returning %zu bytes\n", *datalen);
+    DEBUGMSG_CFWD(TRACE, "  returning %d bytes\n", *datalen);
     return rc;
 }
 
@@ -661,19 +635,18 @@ Done:
 #ifdef USE_SUITE_NDNTLV
 
 
-int8_t
+int
 ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                      uint8_t **data, size_t *datalen)
+                      unsigned char **data, int *datalen)
 {
-    int8_t rc = -1;
-    size_t len;
-    uint64_t typ;
+    int rc = -1, len;
+    unsigned int typ;
     unsigned char *start = *data;
     struct ccnl_pkt_s *pkt;
 
-    DEBUGMSG_CFWD(DEBUG, "ccnl_ndntlv_forwarder (%zu bytes left)\n", *datalen);
+    DEBUGMSG_CFWD(DEBUG, "ccnl_ndntlv_forwarder (%d bytes left)\n", *datalen);
 
-    if (ccnl_ndntlv_dehead(data, datalen, &typ, &len) || len > *datalen) {
+    if (ccnl_ndntlv_dehead(data, datalen, (int*) &typ, &len) || (int) len > *datalen) {
         DEBUGMSG_CFWD(TRACE, "  invalid packet format\n");
         return -1;
     }
@@ -699,7 +672,7 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         break;
 #endif
     default:
-        DEBUGMSG_CFWD(INFO, "  unknown packet type %llu, dropped\n", (unsigned long long)typ);
+        DEBUGMSG_CFWD(INFO, "  unknown packet type %d, dropped\n", typ);
         break;
     }
     rc = 0;

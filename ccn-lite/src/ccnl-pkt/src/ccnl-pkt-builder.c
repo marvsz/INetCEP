@@ -21,23 +21,16 @@
 
 #include "ccnl-pkt-builder.h"
 
-#ifdef CCNL_RIOT
-#include "random.h"
-#endif
-
 #ifdef USE_SUITE_CCNB
 
-int8_t ccnb_isContent(unsigned char *buf, size_t len)
+int ccnb_isContent(unsigned char *buf, int len)
 {
-    uint64_t num;
-    uint8_t typ;
+    int num, typ;
 
-    if (ccnl_ccnb_dehead(&buf, &len, &num, &typ)) {
+    if (len < 0 || ccnl_ccnb_dehead(&buf, &len, &num, &typ))
+        return -1;
+    if (typ != CCN_TT_DTAG || num != CCN_DTAG_CONTENTOBJ)
         return 0;
-    }
-    if (typ != CCN_TT_DTAG || num != CCN_DTAG_CONTENTOBJ) {
-        return 0;
-    }
     return 1;
 }
 #endif // USE_SUITE_CCNB
@@ -47,11 +40,11 @@ int8_t ccnb_isContent(unsigned char *buf, size_t len)
 #ifdef USE_SUITE_CCNTLV
 
 struct ccnx_tlvhdr_ccnx2015_s*
-ccntlv_isHeader(uint8_t *buf, size_t len)
+ccntlv_isHeader(unsigned char *buf, int len)
 {
     struct ccnx_tlvhdr_ccnx2015_s *hp = (struct ccnx_tlvhdr_ccnx2015_s*)buf;
 
-    if (len < sizeof(struct ccnx_tlvhdr_ccnx2015_s)) {
+    if ((unsigned int)len < sizeof(struct ccnx_tlvhdr_ccnx2015_s)) {
         DEBUGMSG(ERROR, "ccntlv header not large enough\n");
         return NULL;
     }
@@ -60,21 +53,21 @@ ccntlv_isHeader(uint8_t *buf, size_t len)
         return NULL;
     }
     if (ntohs(hp->pktlen) < len) {
-        DEBUGMSG(ERROR, "ccntlv packet too small (%d instead of %zu bytes)\n",
+        DEBUGMSG(ERROR, "ccntlv packet too small (%d instead of %d bytes)\n",
                  ntohs(hp->pktlen), len);
         return NULL;
     }
     return hp;
 }
 
-int8_t ccntlv_isData(uint8_t *buf, size_t len)
+int ccntlv_isData(unsigned char *buf, int len)
 {
     struct ccnx_tlvhdr_ccnx2015_s *hp = ccntlv_isHeader(buf, len);
 
     return hp && hp->pkttype == CCNX_PT_Data;
 }
 
-int8_t ccntlv_isFragment(uint8_t *buf, size_t len)
+int ccntlv_isFragment(unsigned char *buf, int len)
 {
     struct ccnx_tlvhdr_ccnx2015_s *hp = ccntlv_isHeader(buf, len);
 
@@ -86,60 +79,58 @@ int8_t ccntlv_isFragment(uint8_t *buf, size_t len)
 // ----------------------------------------------------------------------
 
 #ifdef  USE_SUITE_NDNTLV
-int8_t ndntlv_isData(uint8_t *buf, size_t len) {
-    uint64_t typ;
-    size_t vallen;
+int ndntlv_isData(unsigned char *buf, int len) {
+    int typ;
+    int vallen;
 
-    if (ccnl_ndntlv_dehead(&buf, &len, &typ, &vallen)) {
+    if (len < 0 || ccnl_ndntlv_dehead(&buf, &len, (int *) &typ, &vallen))
         return -1;
-    }
-    if (typ != NDN_TLV_Data) {
+    if (typ != NDN_TLV_Data)
         return 0;
-    }
     return 1;
 }
 #endif //USE_SUITE_NDNTLV
 
 // ----------------------------------------------------------------------
 
-int8_t
-ccnl_isContent(uint8_t *buf, size_t len, int suite)
+int
+ccnl_isContent(unsigned char *buf, int len, int suite)
 {
     switch(suite) {
 #ifdef USE_SUITE_CCNB
-        case CCNL_SUITE_CCNB:
-            return ccnb_isContent(buf, len);
+    case CCNL_SUITE_CCNB:
+        return ccnb_isContent(buf, len);
 #endif
 #ifdef USE_SUITE_CCNTLV
-        case CCNL_SUITE_CCNTLV:
-            return ccntlv_isData(buf, len);
+    case CCNL_SUITE_CCNTLV:
+        return ccntlv_isData(buf, len);
 #endif
 #ifdef USE_SUITE_NDNTLV
-        case CCNL_SUITE_NDNTLV:
-            return ndntlv_isData(buf, len);
+    case CCNL_SUITE_NDNTLV:
+        return ndntlv_isData(buf, len);
 #endif
     }
 
     DEBUGMSG(WARNING, "unknown suite %d in %s:%d\n",
-             suite, __func__, __LINE__);
+                      suite, __func__, __LINE__);
     return -1;
 }
 
-int8_t
-ccnl_isFragment(uint8_t *buf, size_t len, int suite)
+int
+ccnl_isFragment(unsigned char *buf, int len, int suite)
 {
     (void) buf;
     (void) len;
 
     switch(suite) {
 #ifdef USE_SUITE_CCNTLV
-        case CCNL_SUITE_CCNTLV:
-            return ccntlv_isFragment(buf, len);
+    case CCNL_SUITE_CCNTLV:
+        return ccntlv_isFragment(buf, len);
 #endif
     }
 
     DEBUGMSG(DEBUG, "unknown suite %d in %s of %s:%d\n",
-             suite, __func__, __FILE__, __LINE__);
+                    suite, __func__, __FILE__, __LINE__);
     return -1;
 }
 
@@ -150,21 +141,10 @@ ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 {
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                                                        sizeof(struct ccnl_interest_s));
-    if (!i) {
-        return NULL;
-    }
     i->pkt = (struct ccnl_pkt_s *) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
-    if (!i->pkt) {
-        ccnl_free(i);
-        return NULL;
-    }
     i->pkt->buf = ccnl_mkSimpleInterest(name, opts);
-    if (!i->pkt->buf) {
-        ccnl_pkt_free(i->pkt);
-        ccnl_free(i);
-        return NULL;
-    }
     i->pkt->pfx = ccnl_prefix_dup(name);
+    i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = NULL;
     return i;
 }
@@ -173,102 +153,66 @@ struct ccnl_buf_s*
 ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 {
     struct ccnl_buf_s *buf = NULL;
-    uint8_t *tmp;
-    size_t len = 0, offs;
+    unsigned char *tmp;
+    int len = 0, offs;
     struct ccnl_prefix_s *prefix;
     (void)prefix;
 
-    tmp = (uint8_t*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
-    //
-    if (!tmp) {
-        return NULL;
-    }
+    tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
 
-    if (ccnl_mkInterest(name, opts, tmp, tmp + CCNL_MAX_PACKET_SIZE, &len, &offs)) {
-        ccnl_free(tmp);
-        return NULL;
-    }
+    ccnl_mkInterest(name, opts, tmp, &len, &offs);
 
-    if (len > 0) {
-        DEBUGMSG(DEBUG,"The temp value in mkSimpleInterest is %s\n",tmp);
+    if (len > 0)
         buf = ccnl_buf_new(tmp + offs, len);
-        DEBUGMSG(DEBUG,"The buffer created from mkSimpleInterest is %s\n",buf->data);
-    }
     ccnl_free(tmp);
 
     return buf;
 }
 
-int8_t
-ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
-                uint8_t *tmp, uint8_t *tmpend, size_t *len, size_t *offs) {
-    ccnl_interest_opts_u default_opts = {{ 0 }};;
+void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
+                     unsigned char *tmp, int *len, int *offs) {
+    ccnl_interest_opts_u default_opts;
 
     switch (name->suite) {
 #ifdef USE_SUITE_CCNB
         case CCNL_SUITE_CCNB:
-            ccnl_ccnb_fillInterest(name, NULL, tmp, tmpend, CCNL_MAX_PACKET_SIZE, len);
+            (*len) = ccnl_ccnb_fillInterest(name, NULL, tmp, CCNL_MAX_PACKET_SIZE);
             (*offs) = 0;
             break;
 #endif
 #ifdef USE_SUITE_CCNTLV
-        case CCNL_SUITE_CCNTLV: {
-            if (ccnl_ccntlv_prependInterestWithHdr(name, offs, tmp, len)) {
-                DEBUGMSG(ERROR, "Failed to create interest");
-                return -1;
-            };
+        case CCNL_SUITE_CCNTLV:
+            (*len) = ccnl_ccntlv_prependInterestWithHdr(name, offs, tmp);
             break;
-        }
 #endif
 #ifdef USE_SUITE_NDNTLV
         case CCNL_SUITE_NDNTLV:
-            (void) tmpend;
             if (!opts) {
                 opts = &default_opts;
             }
 
             if (!opts->ndntlv.nonce) {
-#ifndef CCNL_RIOT
                 opts->ndntlv.nonce = rand();
-#else
-                opts->ndntlv.nonce = random_uint32();
-#endif
             }
 
-            if (ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, len)) {
-                DEBUGMSG(ERROR, "Failed to create interest");
-                return -1;
-            }
-            //DEBUGMSG(TRACE, "Packet length: %zd\n", *len);
+            (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp);
             break;
 #endif
         default:
             break;
     }
-    return 0;
 }
 
 struct ccnl_content_s *
 ccnl_mkContentObject(struct ccnl_prefix_s *name,
-                     uint8_t *payload, size_t paylen,
+                     unsigned char *payload, int paylen,
                      ccnl_data_opts_u *opts)
 {
-    size_t dataoffset = 0;
+    int dataoffset = 0;
     struct ccnl_pkt_s *c_p = ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
-    if (!c_p) {
-        return NULL;
-    }
     c_p->buf = ccnl_mkSimpleContent(name, payload, paylen, &dataoffset, opts);
-    if (!c_p->buf) {
-        ccnl_pkt_free(c_p);
-        return NULL;
-    }
     c_p->pfx = ccnl_prefix_dup(name);
-    if (!c_p->pfx) {
-        ccnl_pkt_free(c_p);
-        return NULL;
-    }
     c_p->content = c_p->buf->data + dataoffset;
     c_p->contlen = paylen;
     return ccnl_content_new(&c_p);
@@ -277,75 +221,63 @@ ccnl_mkContentObject(struct ccnl_prefix_s *name,
 
 struct ccnl_buf_s*
 ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
-                     uint8_t *payload, size_t paylen, size_t *payoffset,
+                     unsigned char *payload, int paylen, int *payoffset,
                      ccnl_data_opts_u *opts)
 {
     struct ccnl_buf_s *buf = NULL;
-    uint8_t *tmp;
-    size_t len = 0, contentpos = 0, offs;
+    unsigned char *tmp;
+    int len = 0, contentpos = 0, offs;
     struct ccnl_prefix_s *prefix;
     (void)prefix;
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 
-    DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %zu bytes)\n",
+    DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
                   ccnl_prefix_to_str(name, s, CCNL_MAX_PREFIX_SIZE),
                   paylen);
 
-    tmp = (uint8_t*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
-    if (!tmp) {
-        return NULL;
-    }
+    tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
 
-    if (ccnl_mkContent(name, payload, paylen, tmp, &len, &contentpos, &offs, opts)) {
-        ccnl_free(tmp);
-        return NULL;
-    }
+    ccnl_mkContent(name, payload, paylen, tmp, &len, &contentpos, &offs, opts);
 
     if (len) {
         buf = ccnl_buf_new(tmp + offs, len);
-        if (payoffset) {
+        if (payoffset)
             *payoffset = contentpos;
-        }
     }
     ccnl_free(tmp);
 
     return buf;
 }
 
-int8_t
-ccnl_mkContent(struct ccnl_prefix_s *name, uint8_t *payload, size_t paylen, uint8_t *tmp,
-               size_t *len, size_t *contentpos, size_t *offs, ccnl_data_opts_u *opts) {
+void
+ccnl_mkContent(struct ccnl_prefix_s *name, unsigned char *payload, int paylen, unsigned char *tmp,
+               int *len, int *contentpos, int *offs, ccnl_data_opts_u *opts) {
     switch (name->suite) {
 #ifdef USE_SUITE_CCNB
         case CCNL_SUITE_CCNB:
-            ccnl_ccnb_fillContent(name, payload, paylen, contentpos, tmp, tmp + *len, len);
-            *offs = 0;
+            (*len) = ccnl_ccnb_fillContent(name, payload, paylen, contentpos, tmp);
+            (*offs) = 0;
             break;
 #endif
 #ifdef USE_SUITE_CCNTLV
         case CCNL_SUITE_CCNTLV: {
-            uint32_t lastchunknum = 0;
-            if (ccnl_ccntlv_prependContentWithHdr(name, payload, paylen, &lastchunknum,
-                                                  contentpos, offs, tmp, len)) {
-                return -1;
-            }
+            unsigned int lcn = 0; // lastchunknum
+            (*len) = ccnl_ccntlv_prependContentWithHdr(name, payload, paylen, &lcn,
+                                                       contentpos, offs, tmp);
             break;
         }
 #endif
 #ifdef USE_SUITE_NDNTLV
         case CCNL_SUITE_NDNTLV:
-            if (ccnl_ndntlv_prependContent(name, payload, paylen, contentpos,
-                                           &(opts->ndntlv), offs, tmp, len)) {
-                return -1;
-            }
+            (*len) = ccnl_ndntlv_prependContent(name, payload, paylen,
+                                                contentpos, &(opts->ndntlv), offs, tmp);
             break;
 #endif
         default:
-            break;
+        break;
     }
-    return 0;
 }
 
 #endif // NEEDS_PACKET_CRAFTING

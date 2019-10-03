@@ -22,12 +22,10 @@
 #ifndef CCNL_PKT_UTIL_H
 #define CCNL_PKT_UTIL_H
 
-#include <stdint.h>
 #include <stddef.h>
-#include <ccnl-pkt.h>
+#include <stdbool.h>
 
-
-uint8_t
+bool
 ccnl_isSuite(int suite);
 
 int
@@ -40,7 +38,7 @@ int
 ccnl_str2suite(char *cp);
 
 int
-ccnl_pkt2suite(uint8_t *data, size_t len, size_t *skip);
+ccnl_pkt2suite(unsigned char *data, int len, int *skip);
 
 /**
  * Returns the integer representation of a string
@@ -53,15 +51,5 @@ ccnl_pkt2suite(uint8_t *data, size_t len, size_t *skip);
  */
 int
 ccnl_cmp2int(unsigned char *cmp, size_t cmplen);
-
-/**
- * Returns the Interest lifetime in seconds
- *
- * @param[in] pkt Pointer to the Interest packet
- *
- * @return        The interest lifetime in seconds
- */
-uint64_t
-ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt);
 
 #endif

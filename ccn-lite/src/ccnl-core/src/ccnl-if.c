@@ -43,7 +43,7 @@
 void
 ccnl_interface_cleanup(struct ccnl_if_s *i)
 {
-    size_t j;
+    int j;
     DEBUGMSG_CORE(TRACE, "ccnl_interface_cleanup\n");
 
     ccnl_sched_destroy(i->sched);

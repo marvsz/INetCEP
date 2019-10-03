@@ -27,7 +27,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <inttypes.h>
-#include <limits.h>
 
 #ifdef USE_HTTP_STATUS
 #include "ccnl-http-status.h"
@@ -39,7 +38,9 @@
 #include "ccnl-dispatch.h"
 
 /*
+
 #define CCNL_UNIX
+
 #define USE_CCNxDIGEST
 // #define USE_DEBUG                      // must select this for USE_MGMT
 // #define USE_DEBUG_MALLOC
@@ -52,7 +53,7 @@
 #define USE_IPV4
 #define USE_IPV6
 #define USE_MGMT
- // #define USE_NACK
+// #define USE_NACK
 // #define USE_NFN
 #define USE_NFN_NSTRANS
 // #define USE_NFN_MONITOR
@@ -66,6 +67,7 @@
 #define USE_SUITE_LOCALRPC
 #define USE_UNIXSOCKET
 // #define USE_SIGNATURES
+
 #define NEEDS_PREFIX_MATCHING
 */
 
@@ -80,78 +82,78 @@ static int inter_pkt_interval = 0; // in usec
 const char compile_string[] PROGMEM = ""
 #else
 const char *compile_string = ""
-                             #endif
-
-                             #ifdef USE_CCNxDIGEST
-                             "CCNxDIGEST, "
-                             #endif
-                             #ifdef USE_DEBUG
-                             "DEBUG, "
-                             #endif
-                             #ifdef USE_DEBUG_MALLOC
-                             "DEBUG_MALLOC, "
-                             #endif
-                             #ifdef USE_ECHO
-                             "ECHO, "
-                             #endif
-                             #ifdef USE_LINKLAYER
-                             "ETHERNET, "
-                             #endif
-                             #ifdef USE_WPAN
-                             "WPAN, "
-                             #endif
-                             #ifdef USE_FRAG
-                             "FRAG, "
-                             #endif
-                             #ifdef USE_HMAC256
-                             "HMAC256, "
-                             #endif
-                             #ifdef USE_HTTP_STATUS
-                             "HTTP_STATUS, "
-                             #endif
-                             #ifdef USE_KITE
-                             "KITE, "
-                             #endif
-                             #ifdef USE_LOGGING
-                             "LOGGING, "
-                             #endif
-                             #ifdef USE_MGMT
-                             "MGMT, "
-                             #endif
-                             #ifdef USE_NACK
-                             "NACK, "
-                             #endif
-                             #ifdef USE_NFN
-                             "NFN, "
-                             #endif
-                             #ifdef USE_NFN_MONITOR
-                             "NFN_MONITOR, "
-                             #endif
-                             #ifdef USE_NFN_NSTRANS
-                             "NFN_NSTRANS, "
-                             #endif
-                             #ifdef USE_SCHEDULER
-                             "SCHEDULER, "
-                             #endif
-                             #ifdef USE_SIGNATURES
-                             "SIGNATURES, "
-                             #endif
-                             #ifdef USE_SUITE_CCNB
-                             "SUITE_CCNB, "
-                             #endif
-                             #ifdef USE_SUITE_CCNTLV
-                             "SUITE_CCNTLV, "
-                             #endif
-                             #ifdef USE_SUITE_LOCALRPC
-                             "SUITE_LOCALRPC, "
-                             #endif
-                             #ifdef USE_SUITE_NDNTLV
-                             "SUITE_NDNTLV, "
-                             #endif
-                             #ifdef USE_UNIXSOCKET
-                             "UNIXSOCKET, "
 #endif
-;
+
+#ifdef USE_CCNxDIGEST
+        "CCNxDIGEST, "
+#endif
+#ifdef USE_DEBUG
+        "DEBUG, "
+#endif
+#ifdef USE_DEBUG_MALLOC
+        "DEBUG_MALLOC, "
+#endif
+#ifdef USE_ECHO
+        "ECHO, "
+#endif
+#ifdef USE_LINKLAYER
+        "ETHERNET, "
+#endif
+#ifdef USE_WPAN
+        "WPAN, "
+#endif
+#ifdef USE_FRAG
+        "FRAG, "
+#endif
+#ifdef USE_HMAC256
+        "HMAC256, "
+#endif
+#ifdef USE_HTTP_STATUS
+        "HTTP_STATUS, "
+#endif
+#ifdef USE_KITE
+        "KITE, "
+#endif
+#ifdef USE_LOGGING
+        "LOGGING, "
+#endif
+#ifdef USE_MGMT
+        "MGMT, "
+#endif
+#ifdef USE_NACK
+        "NACK, "
+#endif
+#ifdef USE_NFN
+        "NFN, "
+#endif
+#ifdef USE_NFN_MONITOR
+        "NFN_MONITOR, "
+#endif
+#ifdef USE_NFN_NSTRANS
+        "NFN_NSTRANS, "
+#endif
+#ifdef USE_SCHEDULER
+        "SCHEDULER, "
+#endif
+#ifdef USE_SIGNATURES
+        "SIGNATURES, "
+#endif
+#ifdef USE_SUITE_CCNB
+        "SUITE_CCNB, "
+#endif
+#ifdef USE_SUITE_CCNTLV
+        "SUITE_CCNTLV, "
+#endif
+#ifdef USE_SUITE_LOCALRPC
+        "SUITE_LOCALRPC, "
+#endif
+#ifdef USE_SUITE_NDNTLV
+        "SUITE_NDNTLV, "
+#endif
+#ifdef USE_UNIXSOCKET
+        "UNIXSOCKET, "
+#endif
+        ;
 
 // ----------------------------------------------------------------------
 
@@ -166,7 +168,7 @@ main(int argc, char **argv)
     char *datadir = NULL, *ethdev = NULL, *crypto_sock_path = NULL;
     char *wpandev = NULL;
     int suite = CCNL_SUITE_DEFAULT;
-    struct ccnl_relay_s *theRelay = ccnl_calloc(1, sizeof(struct ccnl_relay_s));
+    struct ccnl_relay_s *theRelay = ccnl_malloc(sizeof(struct ccnl_relay_s));
 #ifdef USE_UNIXSOCKET
     char *uxpath = CCNL_DEFAULT_UNIXSOCKNAME;
 #else
@@ -186,167 +188,104 @@ main(int argc, char **argv)
 
     while ((opt = getopt(argc, argv, "hc:d:e:g:i:o:p:s:t:u:6:v:w:x:")) != -1) {
         switch (opt) {
-            case 'c': {
-                long max_cache_entries_l;
-                errno = 0;
-                max_cache_entries_l = strtol(optarg, (char **) NULL, 10);
-                if (errno || max_cache_entries_l < INT_MIN || max_cache_entries_l > INT_MAX) {
-                    goto usage;
-                }
-                max_cache_entries = (int) max_cache_entries_l;
-                break;
-            }
-            case 'd':
-                datadir = optarg;
-                break;
-            case 'e':
-                ethdev = optarg;
-                break;
-            case 'g': {
-                long inter_pkt_interval_l;
-                errno = 0;
-                inter_pkt_interval_l = strtol(optarg, (char **) NULL, 10);
-                if (errno || inter_pkt_interval_l < INT_MIN || inter_pkt_interval_l > INT_MAX) {
-                    goto usage;
-                }
-                inter_pkt_interval = (int) inter_pkt_interval_l;
-                break;
-            }
-            case 'i': {
-                long inter_ccn_interval_l;
-                errno = 0;
-                inter_ccn_interval_l = strtol(optarg, (char **) NULL, 10);
-                if (errno || inter_ccn_interval_l < INT_MIN || inter_ccn_interval_l > INT_MAX) {
-                    goto usage;
-                }
-                inter_ccn_interval = (int) inter_ccn_interval_l;
-                break;
-            }
+        case 'c':
+            max_cache_entries = atoi(optarg);
+            break;
+        case 'd':
+            datadir = optarg;
+            break;
+        case 'e':
+            ethdev = optarg;
+            break;
+        case 'g':
+            inter_pkt_interval = atoi(optarg);
+            break;
+        case 'i':
+            inter_ccn_interval = atoi(optarg);
+            break;
 #ifdef USE_ECHO
-            case 'o':
+        case 'o':
             echopfx = optarg;
             break;
 #endif
-            case 'p':
-                crypto_sock_path = optarg;
-                break;
-            case 's':
-                suite = ccnl_str2suite(optarg);
-                if (!ccnl_isSuite(suite))
-                    goto usage;
-                break;
-            case 't': {
-                long httpport_l;
-                errno = 0;
-                httpport_l = strtol(optarg, (char **) NULL, 10);
-                if (errno || httpport_l < INT_MIN || httpport_l > INT_MAX) {
-                    goto usage;
-                }
-                httpport = (int) httpport_l;
-                break;
-            }
-            case 'u':
-                if (udpport1 == -1) {
-                    long udpport1_l;
-                    errno = 0;
-                    udpport1_l = strtol(optarg, (char **) NULL, 10);
-                    if (errno || udpport1_l < INT_MIN || udpport1_l > INT_MAX) {
-                        goto usage;
-                    }
-                    udpport1 = (int) udpport1_l;
-                } else {
-                    long udpport2_l;
-                    errno = 0;
-                    udpport2_l = strtol(optarg, (char **) NULL, 10);
-                    if (errno || udpport2_l < INT_MIN || udpport2_l > INT_MAX) {
-                        goto usage;
-                    }
-                    udpport2 = (int) udpport2_l;
-                }
-                break;
-            case '6':
-                if (udp6port1 == -1) {
-                    long udp6port1_l;
-                    errno = 0;
-                    udp6port1_l = strtol(optarg, (char **) NULL, 10);
-                    if (errno || udp6port1_l < INT_MIN || udp6port1_l > INT_MAX) {
-                        goto usage;
-                    }
-                    udp6port1 = (int) udp6port1_l;
-                } else {
-                    long udp6port2_l;
-                    errno = 0;
-                    udp6port2_l = strtol(optarg, (char **) NULL, 10);
-                    if (errno || udp6port2_l < INT_MIN || udp6port2_l > INT_MAX) {
-                        goto usage;
-                    }
-                    udp6port2 = (int) udp6port2_l;
-                }
-                break;
-            case 'v':
+        case 'p':
+            crypto_sock_path = optarg;
+            break;
+        case 's':
+            suite = ccnl_str2suite(optarg);
+            if (!ccnl_isSuite(suite))
+                goto usage;
+            break;
+        case 't':
+            httpport = atoi(optarg);
+            break;
+        case 'u':
+            if (udpport1 == -1)
+                udpport1 = atoi(optarg);
+            else
+                udpport2 = atoi(optarg);
+            break;
+        case '6':
+            if (udp6port1 == -1)
+                udp6port1 = atoi(optarg);
+            else
+                udp6port2 = atoi(optarg);
+            break;
+        case 'v':
 #ifdef USE_LOGGING
-                if (isdigit(optarg[0])) {
-                    long debuglevel_l;
-                    errno = 0;
-                    debuglevel_l = strtol(optarg, (char **) NULL, 10);
-                    if (errno || debuglevel_l < INT_MIN || debuglevel_l > INT_MAX) {
-                        goto usage;
-                    }
-                    debug_level = (int) debuglevel_l;
-                } else {
-                    debug_level = ccnl_debug_str2level(optarg);
-                }
+            if (isdigit(optarg[0]))
+                debug_level = atoi(optarg);
+            else
+                debug_level = ccnl_debug_str2level(optarg);
 #endif
-                break;
+            break;
 #ifdef USE_WPAN
-            case 'w':
+        case 'w':
             wpandev = optarg;
             break;
 #endif
-            case 'x':
-                uxpath = optarg;
-                break;
-            case 'h':
-            default:
-            usage:
-                fprintf(stderr,
-                        "usage: %s [options]\n"
-                        "  -c MAX_CONTENT_ENTRIES\n"
-                        "  -d databasedir\n"
-                        "  -e ethdev\n"
-                        "  -g MIN_INTER_PACKET_INTERVAL\n"
-                        "  -h\n"
-                        "  -i MIN_INTER_CCNMSG_INTERVAL\n"
-                        #ifdef USE_ECHO
-                        "  -o echo_prefix\n"
-                        #endif
-                        "  -p crypto_face_ux_socket\n"
-                        "  -s SUITE (ccnb, ccnx2015, ndn2013)\n"
-                        "  -t tcpport (for HTML status page)\n"
-                        "  -u udpport (can be specified twice)\n"
-                        "  -6 udp6port (can be specified twice)\n"
-
-                        #ifdef USE_LOGGING
-                        "  -v DEBUG_LEVEL (fatal, error, warning, info, debug, verbose, trace)\n"
-                        #endif
-                        #ifdef USE_WPAN
-                        "  -w wpandev\n"
-                        #endif
-                        #ifdef USE_UNIXSOCKET
-                        "  -x unixpath\n"
+        case 'x':
+            uxpath = optarg;
+            break;
+        case 'h':
+        default:
+usage:
+            fprintf(stderr,
+                    "usage: %s [options]\n"
+                    "  -c MAX_CONTENT_ENTRIES\n"
+                    "  -d databasedir\n"
+                    "  -e ethdev\n"
+                    "  -g MIN_INTER_PACKET_INTERVAL\n"
+                    "  -h\n"
+                    "  -i MIN_INTER_CCNMSG_INTERVAL\n"
+#ifdef USE_ECHO
+                    "  -o echo_prefix\n"
 #endif
-                        , argv[0]);
-                exit(EXIT_FAILURE);
+                    "  -p crypto_face_ux_socket\n"
+                    "  -s SUITE (ccnb, ccnx2015, ndn2013)\n"
+                    "  -t tcpport (for HTML status page)\n"
+                    "  -u udpport (can be specified twice)\n"
+                    "  -6 udp6port (can be specified twice)\n"
+
+#ifdef USE_LOGGING
+                    "  -v DEBUG_LEVEL (fatal, error, warning, info, debug, verbose, trace)\n"
+#endif
+#ifdef USE_WPAN
+                    "  -w wpandev\n"
+#endif
+#ifdef USE_UNIXSOCKET
+                    "  -x unixpath\n"
+#endif
+                    , argv[0]);
+            exit(EXIT_FAILURE);
         }
     }
 
     opt = ccnl_suite2defaultPort(suite);
-    if (udpport1 < 0) {
+    if (udpport1 < 0)
         udpport1 = opt;
-    }
-    if (httpport < 0) {
+    if (httpport < 0)
         httpport = opt;
-    }
 
     ccnl_core_init();
 
@@ -359,11 +298,10 @@ main(int argc, char **argv)
 //    DEBUGMSG(INFO, "using suite %s\n", ccnl_suite2str(suite));
 
     ccnl_relay_config(theRelay, ethdev, wpandev, udpport1, udpport2,
-                      udp6port1, udp6port2, httpport,
+		      udp6port1, udp6port2, httpport,
                       uxpath, suite, max_cache_entries, crypto_sock_path);
-    if (datadir) {
+    if (datadir)
         ccnl_populate_cache(theRelay, datadir);
-    }
 
 #ifdef USE_ECHO
     if (echopfx) {
@@ -379,9 +317,8 @@ main(int argc, char **argv)
 
     ccnl_io_loop(theRelay);
 
-    while (eventqueue) {
+    while (eventqueue)
         ccnl_rem_timer(eventqueue);
-    }
 
     ccnl_core_cleanup(theRelay);
 #ifdef USE_HTTP_STATUS
@@ -394,9 +331,9 @@ main(int argc, char **argv)
     return 0;
 }
 
-int
+int 
 ccnl_static_fields1(){
     return lasthour + inter_ccn_interval + inter_pkt_interval;
 }
 
-//eof
+// eof

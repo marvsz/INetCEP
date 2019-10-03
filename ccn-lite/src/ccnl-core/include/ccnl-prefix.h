@@ -25,7 +25,6 @@
 #define CCNL_PREFIX_H
 
 #include <stddef.h>
-#include <stdint.h>
 #ifndef CCNL_LINUXKERNEL
 #include <unistd.h>
 #endif
@@ -33,16 +32,16 @@
 struct ccnl_content_s;
 
 struct ccnl_prefix_s {
-    uint8_t **comp; /**< name components of the prefix without '\0' at the end */
-    size_t *complen; /**< length of the name components */
-    uint32_t compcnt; /**< number of name components */
+    unsigned char **comp; /**< name components of the prefix without '\0' at the end */
+    int *complen; /**< length of the name components */
+    int compcnt; /**< number of name components */
     char suite; /**< type of the packet format */
-    uint8_t *nameptr; /**< binary name (for fast comparison) */
+    unsigned char *nameptr; /**< binary name (for fast comparison) */
     ssize_t namelen; /**<  valid length of name memory */
-    uint8_t *bytes;   /**< memory for name component copies */
-    uint32_t *chunknum;   /**< if defined, number of the chunk else -1 */
+    unsigned char *bytes;   /**< memory for name component copies */
+    int *chunknum;   /**< if defined, number of the chunk else -1 */
 #ifdef USE_NFN
-    uint32_t nfnflags; /**< if defined, flags for nfn */
+    unsigned int nfnflags; /**< if defined, flags for nfn */
 #  define CCNL_PREFIX_NFN   0x01
 #  define CCNL_PREFIX_COMPU 0x04
 // FIXME: these values need to be compiled conditionally
@@ -51,7 +50,7 @@ struct ccnl_prefix_s {
     struct nfn_request_s *request; /**< if nfn request, information about the nfn request (R2C) */
 #endif
 
-    uint8_t *nfnexpr; /**< if nfn request, contains nfn expression */
+    unsigned char *nfnexpr; /**< if nfn request, contains nfn expression */
 #endif
 };
 
@@ -63,8 +62,8 @@ struct ccnl_prefix_s {
  *
  * @return The created Prefix
 */
-struct ccnl_prefix_s*
-ccnl_prefix_new(char suite, uint32_t cnt);
+struct ccnl_prefix_s* 
+ccnl_prefix_new(int suite, int cnt);
 
 /**
  * @brief Frees CCNL_Prefix datastructure
@@ -81,7 +80,7 @@ ccnl_prefix_free(struct ccnl_prefix_s *prefix);
  *
  * @return The duplicated Prefix
 */
-struct ccnl_prefix_s*
+struct ccnl_prefix_s* 
 ccnl_prefix_dup(struct ccnl_prefix_s *prefix);
 
 /**
@@ -93,8 +92,8 @@ ccnl_prefix_dup(struct ccnl_prefix_s *prefix);
  *
  * @return      0 on success else < 0
 */
-int8_t
-ccnl_prefix_appendCmp(struct ccnl_prefix_s *prefix, uint8_t *cmp, size_t cmplen);
+int 
+ccnl_prefix_appendCmp(struct ccnl_prefix_s *prefix, unsigned char *cmp, int cmplen);
 
 /**
  * @brief Set a Cunknum to a Prefix
@@ -105,7 +104,7 @@ ccnl_prefix_appendCmp(struct ccnl_prefix_s *prefix, uint8_t *cmp, size_t cmplen)
  * @return      0 on success else < 0
 */
 int
-ccnl_prefix_addChunkNum(struct ccnl_prefix_s *prefix, uint32_t chunknum);
+ccnl_prefix_addChunkNum(struct ccnl_prefix_s *prefix, unsigned int chunknum);
 
 /**
  * @brief Compares two Prefix datastructures
@@ -137,9 +136,9 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
  * @return      0 if full match
  * @return      n>0 for matched components
 */
-int8_t
+int
 ccnl_i_prefixof_c(struct ccnl_prefix_s *prefix,
-                  uint64_t minsuffix, uint64_t maxsuffix, struct ccnl_content_s *c);
+                  int minsuffix, int maxsuffix, struct ccnl_content_s *c);
 
 /**
  * @brief checks if a prefixname is a prefix of a content name
@@ -148,7 +147,7 @@ ccnl_i_prefixof_c(struct ccnl_prefix_s *prefix,
  *
  * @return  length of the escaped component
 */
-size_t
+int
 unescape_component(char *comp);
 
 //int
@@ -166,7 +165,7 @@ unescape_component(char *comp);
  * @return The prefix datastruct that was created
 */
 struct ccnl_prefix_s *
-ccnl_URItoPrefix(char* uri, int suite, char *nfnexpr, uint32_t *chunknum);
+ccnl_URItoPrefix(char* uri, int suite, char *nfnexpr, unsigned int *chunknum);
 
 /**
  * @brief Transforms a URI to a list of strings 
@@ -177,8 +176,8 @@ ccnl_URItoPrefix(char* uri, int suite, char *nfnexpr, uint32_t *chunknum);
  *
  * @return number of components that where added to compVector
 */
-uint32_t
-ccnl_URItoComponents(char **compVector, size_t *compLens, char *uri);
+int
+ccnl_URItoComponents(char **compVector, unsigned int *compLens, char *uri);
 
 #ifndef CCNL_LINUXKERNEL
 /**

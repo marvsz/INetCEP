@@ -36,9 +36,9 @@
  *
  * @return      < 0 if no bytes consumed or error
  */
-int8_t
+int
 ccnl_localrpc_exec(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
-                   uint8_t **buf, size_t *buflen);
+                   unsigned char **buf, int *buflen);
 
 #endif
 

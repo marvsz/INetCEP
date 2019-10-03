@@ -164,9 +164,7 @@ ccnl_cmpfib(const void *a, const void *b)
 {
     struct ccnl_prefix_s *p1 = (*(struct ccnl_forward_s**)a)->prefix;
     struct ccnl_prefix_s *p2 = (*(struct ccnl_forward_s**)b)->prefix;
-    int r;
-    size_t len;
-    uint32_t i; //TODO: Is uint32_t correct here?
+    int i, len, r;
     for (i = 0; ; i++) {
         if (p1->compcnt <= i) {
             return p2->compcnt <= i ? 0 : -1;
@@ -196,8 +194,7 @@ ccnl_http_status(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http)
         "HTTP/1.1 200 OK\n\r"
         "Content-Type: text/html; charset=utf-8\n\r"
         "Connection: close\n\r\n\r", *cp;
-    size_t len = strlen(hdr);
-    int i, j, cnt;
+    int len = strlen(hdr), i, j, cnt;
     time_t t;
     //struct utsname uts;
     struct ccnl_face_s *f;
@@ -288,7 +285,7 @@ ccnl_http_status(struct ccnl_relay_s *ccnl, struct ccnl_http_s *http)
 #ifdef USE_STATS
         len += sprintf(txt+len, "<li><strong>i%d</strong>&nbsp;&nbsp;"
                        "addr=<font face=courier>%s</font>&nbsp;&nbsp;"
-                       "qlen=%zu/%d"
+                       "qlen=%d/%d"
                        "&nbsp;&nbsp;rx=%u&nbsp;&nbsp;tx=%u"
                        "\n",
                        i, ccnl_addr2ascii(&ccnl->ifs[i].addr),

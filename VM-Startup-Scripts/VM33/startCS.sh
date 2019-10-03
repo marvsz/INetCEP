@@ -1,6 +1,6 @@
 #!/bin/bash
 IP=$(hostname -I)
-NODE_F="$HOME/INetCEP/computeservers/nodes/nodeF"
+NODE_F="$HOME/MA-Ali/computeservers/nodes/nodeF"
 
 sleep 0.1
 echo "Compute Server Updated"
