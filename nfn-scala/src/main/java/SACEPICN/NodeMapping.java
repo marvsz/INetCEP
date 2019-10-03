@@ -21,8 +21,8 @@ public class NodeMapping {
     public HashMap<String, String> nodeMapNameIP = null;
 
     public NodeMapping() {
-        //String systemEnv = System.getenv("HOME") + "/MA-Ali";//"/manisha/gitlab/ws18_aoc2_lab"; // "/MA-Ali";
-        //String systemEnv = System.getenv("HOME") + "/manisha/gitlab/ws18_aoc2_lab"; // "/MA-Ali";
+        //String systemEnv = System.getenv("HOME") + "/INetCEP";//"/manisha/gitlab/ws18_aoc2_lab"; // "/INetCEP";
+        //String systemEnv = System.getenv("HOME") + "/manisha/gitlab/ws18_aoc2_lab"; // "/INetCEP";
 
         if (nodeMapPortName == null && nodeMapNamePort == null) {
             NodeInformationSingleton nis = NodeInformationSingleton.getInstance();

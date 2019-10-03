@@ -2,7 +2,7 @@
 work_dir="$(cd "$(dirname "$0")" ; pwd -P)/.."
 #assuming you are at the project root
 source "$work_dir/VMS.cfg"
-#CCNL_HOME="~/MA-Ali/ccn-lite"
+#CCNL_HOME="~/INetCEP/ccn-lite"
 
 buildAndUpload(){
 build
@@ -18,9 +18,9 @@ build()  {
 }
 
 uploadOnVMA() {
-	scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@${VMS[0]}:~/MA-Ali/computeservers/nodes/*/
-	scp "$work_dir"/VM-Startup-Scripts/VM28/28/queryService.sh $user@${VMS[0]}:~/MA-Ali/VM-Startup-Scripts/28/
-	scp -r "$work_dir"/sensors/* $user@${VMS[0]}:~/MA-Ali/sensors/
+	scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@${VMS[0]}:~/INetCEP/computeservers/nodes/*/
+	scp "$work_dir"/VM-Startup-Scripts/VM28/28/queryService.sh $user@${VMS[0]}:~/INetCEP/VM-Startup-Scripts/28/
+	scp -r "$work_dir"/sensors/* $user@${VMS[0]}:~/INetCEP/sensors/
 }
 
 
@@ -74,9 +74,9 @@ centralProcessingOnVMA() {
 
 	ssh $user@${VMS[0]} <<-ENDSSH
 	echo "logged in "${VMS[0]}		
-	screen -d -m $CCNL_HOME/bin/ccn-nfn-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock -d $CCNL_HOME/test/ndntlv > ~/MA-Ali/VM-Startup-Scripts/relay.log
-	nohup java -jar ~/MA-Ali/computeservers/nodes/nodeA/nfn-assembly-0.2.0.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA > ~/MA-Ali/VM-Startup-Scripts/CS.log &
-	nohup bash ~/MA-Ali/VM-Startup-Scripts/28/queryService.sh 127.0.0.1 9001 nodeA CentralizedPlacement 20 > ~/MA-Ali/VM-Startup-Scripts/startUp.log &
+	screen -d -m $CCNL_HOME/bin/ccn-nfn-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock -d $CCNL_HOME/test/ndntlv > ~/INetCEP/VM-Startup-Scripts/relay.log
+	nohup java -jar ~/INetCEP/computeservers/nodes/nodeA/nfn-assembly-0.2.0.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA > ~/INetCEP/VM-Startup-Scripts/CS.log &
+	nohup bash ~/INetCEP/VM-Startup-Scripts/28/queryService.sh 127.0.0.1 9001 nodeA CentralizedPlacement 20 > ~/INetCEP/VM-Startup-Scripts/startUp.log &
 	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 20 "" "call 9 /node/nodeA/nfn_service_CentralizedPlacement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,2,S),WINDOW(name,gps2,2,S)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	ENDSSH
 	sleep $1; shutdown
