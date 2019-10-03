@@ -212,6 +212,7 @@ ccnl_interface_enqueue(void (tx_done)(void*, int, int), struct ccnl_face_s *f,
         ccnl_interface_CTS(ccnl, ifc);
 #endif
 }
+}
 
 struct ccnl_buf_s*
 ccnl_face_dequeue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *f)
