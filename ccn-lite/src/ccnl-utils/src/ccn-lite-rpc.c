@@ -362,6 +362,12 @@ Usage:
         int n = random();
 
         nonce = calloc(1, sizeof(*nonce));
+        if(!nonce){
+            if(expr){
+                free(expr);
+            }
+            return -1;
+        }
         nonce->type = LRPC_NONCE;
         nonce->flatlen = -1;
         nonce->aux = malloc(sizeof(int));
@@ -370,6 +376,13 @@ Usage:
         nonce->nextinseq = expr;
 
         req = calloc(1, sizeof(*req));
+        if(!req){
+            if(expr){
+                free(expr);
+            }
+            free(nonce);
+            return -1;
+        }
         req->type = LRPC_PT_REQUEST;
         req->flatlen = -1;
         req->aux = nonce;
@@ -378,10 +391,17 @@ Usage:
 
     reqlen = sizeof(tmp);
     switchlen = ccnl_switch_prependCoding(CCNL_ENC_LOCALRPC, &reqlen, tmp);
-    if (switchlen > 0)
+    if (switchlen > 0){
         memcpy(request, tmp+reqlen, switchlen);
-    else // this should not happen
+    }
+    else{
         switchlen = 0;
+        if(expr){
+            free(expr);
+        }
+        return -1;
+    } // this should not happen
+
 
     reqlen = ccnl_rdr_serialize(expr, request + switchlen,
                                 sizeof(request) - switchlen);
