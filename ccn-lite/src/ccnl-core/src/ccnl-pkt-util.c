@@ -205,3 +205,23 @@ ccnl_cmp2int(unsigned char *cmp, int cmplen) {
 
     return 0;
 }
+
+uint32_t
+ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt)
+{
+    switch(pkt->suite) {
+#ifdef USE_SUITE_CCNTLV
+        case CCNL_SUITE_CCNTLV:
+            /* CCN-TLV parser does not support lifetime parsing, yet. */
+            return CCNL_INTEREST_TIMEOUT;
+#endif
+#ifdef USE_SUITE_NDNTLV
+        case CCNL_SUITE_NDNTLV:
+            return (pkt->s.ndntlv.interestlifetime / 1000);
+#endif
+        default:
+            break;
+    }
+
+    return CCNL_INTEREST_TIMEOUT;
+}

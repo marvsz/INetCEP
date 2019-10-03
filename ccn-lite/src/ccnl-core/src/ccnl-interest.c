@@ -58,7 +58,7 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         return NULL;
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
-    i->lifetime = (*pkt)->s.ndntlv.interestlifetime / 1000;
+    i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
