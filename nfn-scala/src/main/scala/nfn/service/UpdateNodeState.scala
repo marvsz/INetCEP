@@ -34,39 +34,39 @@ class UpdateNodeState() extends NFNService {
 
     //Very important to remember: Content stored here through NFN Calls is ONLY available to this node.
     def updateNodeState(nodeID: String, content: String, timeOfUpdate: String): String = {
-      //val mapping = new NodeMapping();
+      val mapping = new NodeMapping();
       val now = Calendar.getInstance()
       val name = s"/${nodeID}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
 
-      //val nodename = mapping.getName(nodeID)
-      //val nodeIP = mapping.getIPbyName(nodename)
-      //val nodePort = mapping.getPort(nodename);
+      val nodename = mapping.getName(nodeID)
+      val nodeIP = mapping.getIPbyName(nodename)
+      val nodePort = mapping.getPort(nodename);
 
       val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
       ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd, content.getBytes, MetaInfo.empty), prependLocalPrefix = false)
-      /*LogMessage(nodename, s"Put Nodestate on Network with address: ${name} and Content: ${nameOfContentWithoutPrefixToAdd}. The IP is ${nodeIP} and the Port is ${nodePort}.")
-      #LogMessage(nodename, s"Check if it really is put on the network")
-      #val nodeContent = Helpers.executeInterestQuery(name,nodename,ccnApi)
-      #LogMessage(nodename, s"Content: ${nodeContent}")
-      #LogMessage(nodename, s"Content found")*/
+      LogMessage(nodename, s"Put Nodestate on Network with address: ${name} and Content: ${nameOfContentWithoutPrefixToAdd}. The IP is ${nodeIP} and the Port is ${nodePort}.")
+      LogMessage(nodename, s"Check if it really is put on the network")
+      val nodeContent = Helpers.executeInterestQuery(name,nodename,ccnApi)
+      LogMessage(nodename, s"Content: ${nodeContent}")
+      LogMessage(nodename, s"Content found")
 
-      val name1 = s"/${nodeID}/" + now.get(Calendar.HOUR_OF_DAY) + (now.get(Calendar.MINUTE) + 1).toString();
+      val name1 = s"/${nodeID}/" + now.get(Calendar.HOUR_OF_DAY) + (now.get(Calendar.MINUTE)-1).toString();
       val nameOfContentWithoutPrefixToAdd1 = CCNName(new String(name1).split("/").tail: _*)
       ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd1, content.getBytes, MetaInfo.empty), prependLocalPrefix = false)
-      /*LogMessage(nodename, s"Put Nodestate on Network with address: ${name1} and Content: ${nameOfContentWithoutPrefixToAdd1}. The IP is ${nodeIP} and the Port is ${nodePort}.")
+      LogMessage(nodename, s"Put Nodestate on Network with address: ${name1} and Content: ${nameOfContentWithoutPrefixToAdd1}. The IP is ${nodeIP} and the Port is ${nodePort}.")
       LogMessage(nodename, s"Check if it really is put on the network")
       val nodeContent1 = Helpers.executeInterestQuery(name1,nodename,ccnApi)
       LogMessage(nodename, s"Content: ${nodeContent1}")
-      LogMessage(nodename, s"Content found")*/
+      LogMessage(nodename, s"Content found")
 
-      val name2 = s"/${nodeID}/" + now.get(Calendar.HOUR_OF_DAY) + (now.get(Calendar.MINUTE) + 2).toString()
+      val name2 = s"/${nodeID}/" + now.get(Calendar.HOUR_OF_DAY) + (now.get(Calendar.MINUTE)+1).toString()
       val nameOfContentWithoutPrefixToAdd2 = CCNName(new String(name2).split("/").tail: _*)
       ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd2, content.getBytes, MetaInfo.empty), prependLocalPrefix = false)
-      /*LogMessage(nodename, s"Put Nodestate on Network with address: ${name2} and Content: ${nameOfContentWithoutPrefixToAdd2}. The IP is ${nodeIP} and the Port is ${nodePort}.")
+      LogMessage(nodename, s"Put Nodestate on Network with address: ${name2} and Content: ${nameOfContentWithoutPrefixToAdd2}. The IP is ${nodeIP} and the Port is ${nodePort}.")
       LogMessage(nodename, s"Check if it really is put on the network")
       val nodeContent2 = Helpers.executeInterestQuery(name2,nodename,ccnApi)
       LogMessage(nodename, s"Content: ${nodeContent2}")
-      LogMessage(nodename, s"Content found")*/
+      LogMessage(nodename, s"Content found")
 
       name
     }

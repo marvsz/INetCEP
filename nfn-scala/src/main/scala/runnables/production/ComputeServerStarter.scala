@@ -117,31 +117,31 @@ object ComputeServerStarter extends Logging {
           * To make a new service available for computations - it is important to add it here. Once done, named-function interests containing these service names will be available for resolution.
           */
         //node.publishServiceLocalPrefix(new Concatenate())
-        //node.publishServiceLocalPrefix(new Window())
-        //node.publishServiceLocalPrefix(new Filter())
+        node.publishServiceLocalPrefix(new Window())
+        node.publishServiceLocalPrefix(new Filter())
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
-        //node.publishServiceLocalPrefix(new Prediction1())
-        //node.publishServiceLocalPrefix(new Prediction2())
-        //node.publishServiceLocalPrefix(new Heatmap())
+        node.publishServiceLocalPrefix(new Prediction1())
+        node.publishServiceLocalPrefix(new Prediction2())
+        node.publishServiceLocalPrefix(new Heatmap())
         node.publishServiceLocalPrefix(new WordCount())
-        //node.publishServiceLocalPrefix(new ExecuteQuery())
+        node.publishServiceLocalPrefix(new ExecuteQuery())
         //node.publishServiceLocalPrefix(new QueryCentralLocalNS()) //One node keeps content state for all network. Network nodes must update this node.
         //node.publishServiceLocalPrefix(new QueryCentralRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
 
         //node.publishServiceLocalPrefix(new QueryRandomLocalNS()) //One node keeps content state for all network. Network nodes must update this node.
         //node.publishServiceLocalPrefix(new QueryRandomRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
         //node.publishServiceLocalPrefix(new QueryRandom()) //New RandomQuery Placement scheme
-        //node.publishServiceLocalPrefix(new UpdateNodeState())
-        //node.publishServiceLocalPrefix(new GetContent())
-        //node.publishServiceLocalPrefix(new GetData())
-        //node.publishServiceLocalPrefix(new SetData())
+        node.publishServiceLocalPrefix(new UpdateNodeState())
+        node.publishServiceLocalPrefix(new GetContent())
+        node.publishServiceLocalPrefix(new GetData())
+        node.publishServiceLocalPrefix(new SetData())
         //node.publishServiceLocalPrefix(new QueryDecentral()) //Decentral query execution
         //node.publishServiceLocalPrefix(new QueryCentralFixed()) //Fixed Weights Central
         //node.publishServiceLocalPrefix(new QueryDecentralFixed()) //Fixed Weights Decentral
         //Query Service (Consisting of both Centralized and Decentralized Placement algorithms)
-        //node.publishServiceLocalPrefix(new Placement())
-      //node.publishServiceLocalPrefix(new CentralizedPlacement())
+        node.publishServiceLocalPrefix(new Placement())
+        //node.publishServiceLocalPrefix(new CentralizedPlacement())
 
         //node.publishServiceLocalPrefix(new DelayedWordCount())
         //node.publishServiceLocalPrefix(new IntermediateTest())

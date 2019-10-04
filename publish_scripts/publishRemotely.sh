@@ -31,23 +31,23 @@ if [[ -z $simRunTime ]]
 
 #Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
-#new Usage: bash publishRemotely.sh all "Placement" 3 20 1200
+#new Usage: bash publishRemotely.sh all "Placement" 1 20 1200
 all() {
 	
 	#deployCCN
-	buildNFN
-	sleep 2s
+	#buildNFN
+	#sleep 2s
 	#setup	
 	#sleep 2s
 	#copyNodeInfo
 	#sleep 2s
-	copyNFNFiles
-	sleep 2s
+	#copyNFNFiles
+	#sleep 2s
 	deleteOldLogs
 	createTopology
 	sleep 5s
 	execute
-	sleep 10s
+	sleep 40s
 	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
@@ -90,6 +90,30 @@ read -s -p "Enter Password for sudo: " sudoPW
 		echo "$sudoPW" | sudo -S ln -s libcrypto.so.1.1 libcrypto.so
 		echo "$sudoPW" | sudo -S ln -s libssl.so.1.1 libssl.so
 		echo "$sudoPW" | sudo -S ldconfig
+		ENDSSH
+	done
+}
+
+installGCC7(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i<<-ENDSSH
+		echo "$sudoPW" | sudo -S update-alternatives --remove-all gcc 
+		echo "$sudoPW" | sudo -S update-alternatives --remove-all g++
+		echo "$sudoPW" | sudo -S apt-get install -y software-properties-common
+		echo "$sudoPW" | sudo -S add-apt-repository ppa:ubuntu-toolchain-r/test
+		echo "$sudoPW" | sudo -S apt update
+		echo "$sudoPW" | sudo -S apt install g++-7 -y
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 20
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 20
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+		echo "$sudoPW" | sudo -S update-alternatives --set cc /usr/bin/gcc
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+		echo "$sudoPW" | sudo -S update-alternatives --set c++ /usr/bin/g++
 		ENDSSH
 	done
 }
@@ -188,6 +212,7 @@ for i in "${VMS[@]}"
 	ssh -t $user@$i <<-'ENDSSH'
 	cd ~/INetCEP/nodeData
 	find . -name "*_Log" -type f -delete
+	rm queryStore
 	ENDSSH
 	done
 
@@ -371,6 +396,7 @@ elif [ $1 == "create" ]; then createTopology
 elif [ $1 == "execute" ]; then execute
 elif [ $1 == "executeQuery" ]; then executeQueryinVMA
 elif [ $1 == "getOutput" ]; then getOutput
+elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "shutdown" ]; then shutdown
 else echo "$help"
 fi

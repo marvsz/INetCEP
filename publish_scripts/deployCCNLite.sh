@@ -18,8 +18,7 @@ for i in "${VMS[@]}"
 		rm -rf ccn-lite
 		mkdir ccn-lite
 		ENDSSH
-		scp -rp "$work_dir"/ccn-lite/src $user@$i:~/INetCEP/ccn-lite/
-		scp -rp "$work_dir"/ccn-lite/test $user@$i:~/INetCEP/ccn-lite/
+		scp -rp "$work_dir"/ccn-lite $user@$i:~/INetCEP
 	done
 }
 buildCCN(){
@@ -33,9 +32,8 @@ for i in "${VMS[@]}"
 		cd build
 		export USE_NFN=1
 		export USE_NACK=1
-		cmake ../src/
+		cmake ..
 		make clean all
-		cp -r bin/ ..
 		ENDSSH
 	done
 }
