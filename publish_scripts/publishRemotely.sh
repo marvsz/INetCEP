@@ -35,19 +35,24 @@ if [[ -z $simRunTime ]]
 all() {
 	
 	#deployCCN
+	#echo "building NFN"
 	#buildNFN
 	#sleep 2s
-	#setup	
-	#sleep 2s
-	#copyNodeInfo
-	#sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	#echo "copying NFN Files"
 	#copyNFNFiles
 	#sleep 2s
+	echo "Deleting old logs"
 	deleteOldLogs
+	echo "Creating Topology"
 	createTopology
-	sleep 5s
+	sleep 14s
+	echo "Starting UpdateNodestate Service"
 	execute
 	sleep 40s
+	echo "executing Query"
 	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
@@ -171,8 +176,8 @@ echo "copying NodeInformation"
 		ssh -t $user@$i <<-'ENDSSH'	
 		rm -rf ~/INetCEP/nodeData/
 		mkdir -p ~/INetCEP/nodeData/
-		rm -rf ~/INetCEP/sensors
-		mkdir -p ~/INetCEP/sensors
+		#rm -rf ~/INetCEP/sensors
+		#mkdir -p ~/INetCEP/sensors
 		rm -rf ~/INetCEP/evalData
 		mkdir -p ~/INetCEP/evalData
 		ENDSSH
@@ -181,7 +186,7 @@ echo "copying NodeInformation"
 		scp -rp "$work_dir"/nodeData $user@$i:~/INetCEP/
 
 		scp -rp "$work_dir/VMS.cfg" $user@$i:~/INetCEP/
-		scp -rp "$work_dir"/sensors/* $user@$i:~/INetCEP/sensors/
+		#scp -rp "$work_dir"/sensors/* $user@$i:~/INetCEP/sensors/
 	
 		#scp -rp "$work_dir"/evalData/* $USER@$i:~/INetCEP/evalData/
 

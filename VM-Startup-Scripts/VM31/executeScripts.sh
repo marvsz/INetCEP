@@ -7,7 +7,7 @@ initializetopology() {
 	nohup bash startNodes.sh > nodes.log &
 	sleep 2s
 	nohup bash startCS.sh > CS.log &
-	sleep 2s
+	sleep 10s
 }
 
 startexecution() {
