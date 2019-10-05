@@ -118,14 +118,14 @@ object ComputeServerStarter extends Logging {
           */
         //node.publishServiceLocalPrefix(new Concatenate())
         node.publishServiceLocalPrefix(new Window())
-        node.publishServiceLocalPrefix(new Filter())
+        //node.publishServiceLocalPrefix(new Filter())
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
-        node.publishServiceLocalPrefix(new Prediction1())
-        node.publishServiceLocalPrefix(new Prediction2())
-        node.publishServiceLocalPrefix(new Heatmap())
+        //node.publishServiceLocalPrefix(new Prediction1())
+        //node.publishServiceLocalPrefix(new Prediction2())
+        //node.publishServiceLocalPrefix(new Heatmap())
         node.publishServiceLocalPrefix(new WordCount())
-        node.publishServiceLocalPrefix(new ExecuteQuery())
+        //node.publishServiceLocalPrefix(new ExecuteQuery())
         //node.publishServiceLocalPrefix(new QueryCentralLocalNS()) //One node keeps content state for all network. Network nodes must update this node.
         //node.publishServiceLocalPrefix(new QueryCentralRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
 
