@@ -277,7 +277,7 @@ class Placement() extends NFNService {
               //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
               //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
               //var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
-              val intermediateResult = Helpers.executeNFNQuery(currentNode._query, remoteNodeName, ccnApi, 60)
+              val intermediateResult = Helpers.executeNFNQueryRepeatedly(currentNode._query, remoteNodeName, ccnApi, 60)
               currentNode._value = intermediateResult
               //currentNode._value = "TemporaryDeploymentValue";
 
@@ -498,7 +498,7 @@ class Placement() extends NFNService {
                 //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
                 //Determine the location (name) where this query will be executed:
                 var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1);
-                var intermediateResult = Helpers.executeNFNQuery(currentNode._query, remoteNodeName, ccnApi, 60)
+                var intermediateResult = Helpers.executeNFNQueryRepeatedly(currentNode._query, remoteNodeName, ccnApi, 60)
 
                 currentNode._value = intermediateResult
 
@@ -531,7 +531,7 @@ class Placement() extends NFNService {
           var _executionNodePort = optimalPath(1) //Once again, we send the query to the second hop from us. I.e. the next hop;
           var _executionNode = mapping.getName(_executionNodePort)
           LogMessage(nodeName, s"No feasible path found. Sending query to: ${_executionNode}/${_executionNodePort}")
-          var output = Helpers.executeNFNQuery(s"call 8 /node/${_executionNode}/nfn_service_QueryDecentral '$runID' 'DQ' '${_executionNodePort}' '$clientID' '$query' '$region' '$runTime'", _executionNode, ccnApi, 120)
+          var output = Helpers.executeNFNQueryRepeatedly(s"call 8 /node/${_executionNode}/nfn_service_QueryDecentral '$runID' 'DQ' '${_executionNodePort}' '$clientID' '$query' '$region' '$runTime'", _executionNode, ccnApi, 120)
 
           /*var output = createAndExecCCNQuery(
             _executionNode
@@ -590,12 +590,17 @@ class Placement() extends NFNService {
         for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList) {
           val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
           //Get content from network
-          val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
+          var intermediateResult = "No Result!"
+          while (intermediateResult == "No Result!"){
+            intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
+          }
           if (intermediateResult != "") {
             var ni = new NodeInfo(intermediateResult)
             LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
             allNodes += ni
           }
+          else
+            LogMessage(nodeName, s"IntermediateResult in getNodeStatus was empty, this should not happen, debug here")
         }
         /*
                 val bufferedSource = Source.fromFile(Helpers.getNodeInformationPath)
@@ -636,7 +641,7 @@ class Placement() extends NFNService {
           val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
           if (e._hops <= K) {
             //Get content from network
-            val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
+            val intermediateResult = Helpers.executeNFNQueryRepeatedly(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
             if (intermediateResult != "") {
               var ni = new NodeInfo(intermediateResult)
               LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")

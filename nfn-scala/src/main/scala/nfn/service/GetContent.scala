@@ -34,7 +34,7 @@ class GetContent() extends NFNService {
       val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
       var intermediateResult = ""
       try{
-        intermediateResult = new String(fetchContentRepeatedly(Interest(nameOfContentWithoutPrefixToAdd), ccnApi, 15 seconds).get.data)
+        intermediateResult = new String(fetchContent(Interest(nameOfContentWithoutPrefixToAdd), ccnApi, 15 seconds).get.data)
       }
       catch {
         case e : NoSuchElementException => intermediateResult = "Timeout"
