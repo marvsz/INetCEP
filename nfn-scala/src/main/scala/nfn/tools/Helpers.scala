@@ -252,7 +252,7 @@ object Helpers {
       //This means, filter contains RAW window query (named-function): first resolve the window query:
       val interest = stream.replace("[", "").replace("]", "").replace("{", "\'").replace("}", "\'").replace("(", "").replace(")", "")
       LogMessage(nodeName, s"Intermediate Named-Function is: ${interest}")
-      intermediateResult = Helpers.executeNFNQuery(interest, nodeName, ccnApi, 25)
+      intermediateResult = Helpers.executeNFNQueryRepeatedly(interest, nodeName, ccnApi, 25)
       LogMessage(nodeName, s"Intermediate Named-Function Result is: ${intermediateResult}")
 
       if (intermediateResult.contains("/") && intermediateResult.split("/").length > 1) {
@@ -308,7 +308,7 @@ object Helpers {
   def fetchFromRemoteNode(nodeName: String, address: String, ccnApi: ActorRef) = {
     val mapping = new NodeMapping()
     LogMessage(nodeName, s"Intermediate Named-Interest is: ${address}")
-    val intermediateResult = Helpers.executeNFNQuery(s"(call 2 /node/${mapping.getName(address.split("/")(1))}/nfn_service_GetContent '${address}')", mapping.getName(address.split("/")(1)), ccnApi, 20)
+    val intermediateResult = Helpers.executeNFNQueryRepeatedly(s"(call 2 /node/${mapping.getName(address.split("/")(1))}/nfn_service_GetContent '${address}')", mapping.getName(address.split("/")(1)), ccnApi, 20)
     LogMessage(nodeName, s"Result after fetching: ${intermediateResult}")
     intermediateResult
   }
@@ -320,9 +320,9 @@ object Helpers {
    * @param ccnApi   the actorRef
    * @return the result of the execution of the NFNQuery
    */
-  def executeNFNQuery(query: String, nodeName: String, ccnApi: ActorRef, timeoutAfter: Int): String = {
+  def executeNFNQueryRepeatedly(query: String, nodeName: String, ccnApi: ActorRef, timeoutAfter: Int): String = {
 
-    LogMessage(nodeName, s"execute NFN query ${query} called with ${nodeName}")
+    LogMessage(nodeName, s"execute NFN query ${query} repeatedly called with ${nodeName}")
     var result = new String(fetchContentRepeatedly(
       NFNInterest(query), ccnApi,
       timeoutAfter seconds).get.data)
@@ -331,6 +331,20 @@ object Helpers {
     if (result.contains("timeout") || result.contains("interest") || result == "")
       result = "No Result!"
     return result
+  }
+
+  def executeNFNQuery(query: String, nodeName: String, ccnApi: ActorRef, timeoutAfter: Int):String = {
+    LogMessage(nodeName, s"execute NFN query ${query} called with ${nodeName}")
+    val intermediate: Option[Content] = fetchContent(
+      NFNInterest(query), ccnApi,
+      timeoutAfter seconds)
+    var result = ""
+    if(intermediate != None)
+      result = new String(intermediate.get.data)
+    LogMessage(nodeName, s"Query Result from network node: ${result}");
+    if (result.contains("timeout") || result.contains("interest") || result == "")
+      result = "No Result!"
+    result
   }
 
   /**
