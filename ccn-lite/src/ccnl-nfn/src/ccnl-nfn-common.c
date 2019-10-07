@@ -643,6 +643,16 @@ ccnl_nfnprefix_isRequest(struct ccnl_prefix_s *p)
 }
 
 int
+ccnl_nfnprefix_isAddQueryInterest(struct ccnl_prefix_s *p){
+    return p->nfnflags & CCNL_PREFIX_AQI;
+}
+
+int
+ccnl_nfnprefix_isRemoveQueryInterest(struct ccnl_prefix_s *p){
+    return p->nfnflags & CCNL_PREFIX_RQI;
+}
+
+int
 ccnl_nfnprefix_isRequestType(struct ccnl_prefix_s *p,
                              enum nfn_request_type request_type)
 {
