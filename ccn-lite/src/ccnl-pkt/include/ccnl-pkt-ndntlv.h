@@ -43,6 +43,7 @@
 // Packet types:
 #define NDN_TLV_Interest                0x05
 #define NDN_TLV_Data                    0x06
+#define NDN_TLV_Datastream              0x1e
 #define NDN_TLV_NDNLP                   0x64
 #define NDN_TLV_Fragment                NDN_TLV_NDNLP
 
