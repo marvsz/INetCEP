@@ -47,14 +47,14 @@ class Window() extends NFNService {
       else if (deliveryFormat.str.toLowerCase == "name") {
         val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
-        LogMessage(nodeName, s"Window OP Completed\n")
+        LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
       }
       contentWindow
     }
 
     def processTimeBoundWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timePeriod: NFNStringValue, timeUnit: NFNStringValue): NFNValue = {
-      LogMessage(nodeName, s"Timed Window OP Started\n");
+      LogMessage(nodeName, s"Timed Window OP Started");
 
       val output = readRelativeTimedSensor(sensor.str, timePeriod.str.toLong, timeUnit.str, nodeName)
       var contentWindow = NFNStringValue("No Results!")
@@ -64,7 +64,7 @@ class Window() extends NFNService {
       else if (deliveryFormat.str.toLowerCase == "name") {
         val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
-        LogMessage(nodeName, s"Window OP Completed\n")
+        LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
       }
       contentWindow
@@ -81,7 +81,7 @@ class Window() extends NFNService {
       else if (deliveryFormat.str.toLowerCase == "name") {
         val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
-        LogMessage(nodeName, s"Window OP Completed\n")
+        LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
       }
       contentWindow
