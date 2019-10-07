@@ -98,7 +98,6 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
       }
       cancellable onComplete {
         case Success(content) => {
-          println("success")
           logger.info(s"Finished computation, result: $content")
           senderCopy ! content
         }
