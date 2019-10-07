@@ -189,6 +189,19 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
                 DEBUGMSG(DEBUG, "  is NFN interest\n");
             }
 
+            if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
+                !memcmp(p->comp[p->compcnt-1], "AQI", 3)) {
+                p->nfnflags |= CCNL_PREFIX_NFN;
+                p->compcnt--;
+                DEBUGMSG(DEBUG, "  is add Query interest\n");
+            }
+            if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
+                !memcmp(p->comp[p->compcnt-1], "RQI", 3)) {
+                p->nfnflags |= CCNL_PREFIX_NFN;
+                p->compcnt--;
+                DEBUGMSG(DEBUG, "  is remove Query interest\n");
+            }
+
 #ifdef USE_NFN_REQUESTS
             if (p->compcnt > 1 && p->complen[p->compcnt-2] == 3 &&
                 !memcmp(p->comp[p->compcnt-2], "R2C", 3)) {
@@ -481,6 +494,14 @@ ccnl_ndntlv_prependName(struct ccnl_prefix_s *name,
     if (name->nfnflags & CCNL_PREFIX_NFN) {
         if (ccnl_ndntlv_prependBlob(NDN_TLV_NameComponent,
                                 (unsigned char*) "NFN", 3, offset, buf) < 0)
+            return -1;
+    }
+    if (name->nfnflags & CCNL_PREFIX_AQI){
+        if(ccnl_ndntlv_prependBlob(NDN_TLV_NameComponent,(unsigned char*) "AQI", 3, offset, buf) < 0)
+            return -1;
+    }
+    if (name->nfnflags & CCNL_PREFIX_RQI){
+        if(ccnl_ndntlv_prependBlob(NDN_TLV_NameComponent,(unsigned char*) "RQI", 3, offset, buf) < 0)
             return -1;
     }
 // #ifdef USE_TIMEOUT_KEEPALIVE
