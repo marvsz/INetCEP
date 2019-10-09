@@ -662,7 +662,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
         //Hook for add content to cache by callback:
-        if(i && ! i->pending){
+        if(i && ! i->pending){ // If the interest exists but no pending faces (when is this the case? never!)
             DEBUGMSG_CORE(WARNING, "releasing interest 0x%p OK?\n", (void*)i);
             c->flags |= CCNL_CONTENT_FLAGS_STATIC;
             i = ccnl_interest_remove(ccnl, i);
@@ -731,7 +731,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
             c->served_cnt++;
             cnt++;
         }
-        i = ccnl_interest_remove(ccnl, i);
+        if(!ccnl_nfnprefix_isAddQueryInterest(i->pkt->pfx)) // if the interest was not an addqueryInterest
+            i = ccnl_interest_remove(ccnl, i);
     }
 
 #ifdef USE_NFN_REQUESTS
@@ -782,7 +783,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
         }
     }
     while (i) { // CONFORM: "Entries in the PIT MUST timeout rather
-                // than being held indefinitely."
+                // than being held indefinitely, except for Interests that were added with the addQueryInterest package"
         if ((i->lifetime != CCNL_QINTEREST_TIMEOUT) && ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT)) {
 #ifdef USE_NFN_REQUESTS
