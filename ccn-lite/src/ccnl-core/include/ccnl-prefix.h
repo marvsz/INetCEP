@@ -44,7 +44,7 @@ struct ccnl_prefix_s {
     unsigned int nfnflags; /**< if defined, flags for nfn */
 #  define CCNL_PREFIX_NFN   0x01
 #  define CCNL_PREFIX_AQI 0x02
-#  define CCNL_PREFIX_RQI 0x03
+#  define CCNL_PREFIX_RQI 0x08
 #  define CCNL_PREFIX_COMPU 0x04
 // FIXME: these values need to be compiled conditionally
 # define CCNL_PREFIX_REQUEST 0x20
