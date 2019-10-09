@@ -783,8 +783,8 @@ ccnl_do_ageing(void *ptr, void *dummy)
     }
     while (i) { // CONFORM: "Entries in the PIT MUST timeout rather
                 // than being held indefinitely."
-        if ((i->last_used + i->lifetime) <= (uint32_t) t ||
-                                i->retries >= CCNL_MAX_INTEREST_RETRANSMIT) {
+        if ((i->lifetime != CCNL_QINTEREST_TIMEOUT) && ((i->last_used + i->lifetime) <= (uint32_t) t ||
+                                i->retries >= CCNL_MAX_INTEREST_RETRANSMIT)) {
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
