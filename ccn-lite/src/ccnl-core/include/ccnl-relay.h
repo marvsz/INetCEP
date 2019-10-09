@@ -41,6 +41,7 @@ struct ccnl_relay_s {
     struct ccnl_forward_s *fib; /**< The Forwarding Information Base (FIB) */
 
     struct ccnl_interest_s *pit; /**< The Pending Interest Table (PIT) */
+    struct ccnl_connection_s *sensor;
     struct ccnl_content_s *contents; /**< contentsend; */
     struct ccnl_buf_s *nonces;  /**< The nonces that are currently in use */
     int contentcnt;             /**< number of cached items */
