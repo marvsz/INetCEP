@@ -375,7 +375,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef CCNL_APP_RX
             ccnl_app_RX(relay, c);
 #endif
-        }
+        } //TODO: Johannes: Don't we need to free the interest here since we just send the answer?
         return 0; // we are done
     }
 
