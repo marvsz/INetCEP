@@ -21,6 +21,12 @@ int
 ccnl_nfnprefix_isRequest(struct ccnl_prefix_s *p);
 
 int
+ccnl_nfnprefix_isAddQueryInterest(struct ccnl_prefix_s *p);
+
+int
+ccnl_nfnprefix_isRemoveQueryInterest(struct ccnl_prefix_s *p);
+
+int
 ccnl_nfnprefix_isRequestType(struct ccnl_prefix_s *p, enum nfn_request_type request_type);
 
 int
