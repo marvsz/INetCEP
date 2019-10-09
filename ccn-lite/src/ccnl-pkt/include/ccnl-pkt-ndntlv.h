@@ -129,7 +129,7 @@ struct ccnl_ndntlv_interest_opts_s {
     /* Selectors */
     bool mustbefresh;           /**< MustBeFresh Selector */
     /* Guiders */
-    uint32_t interestlifetime;  /**< Interest Lifetime Guider */
+    int64_t interestlifetime;  /**< Interest Lifetime Guider */
 };
 
 /**

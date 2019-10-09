@@ -102,6 +102,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     struct ccnl_pkt_s *pkt;
     int oldpos, len, i;
     unsigned int typ;
+    unsigned int isAQI = 0;
     struct ccnl_prefix_s *p = 0;
 #ifdef USE_HMAC256
     int validAlgoIsHmac256 = 0;
@@ -123,7 +124,9 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
         break;
     case NDN_TLV_Data:
         pkt->flags |= CCNL_PKT_REPLY;
-
+        break;
+    case NDN_TLV_Datastream:
+        pkt->flags |= CCNL_PKT_REPLY;
         break;
 #ifdef USE_FRAG
     case NDN_TLV_Fragment:
@@ -138,6 +141,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     pkt->suite = CCNL_SUITE_NDNTLV;
     pkt->s.ndntlv.scope = 3;
     pkt->s.ndntlv.maxsuffix = CCNL_MAX_NAME_COMP;
+
 
     /* set default lifetime, in case InterestLifetime guider is absent */
     pkt->s.ndntlv.interestlifetime = CCNL_INTEREST_TIMEOUT;
@@ -193,6 +197,8 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
                 !memcmp(p->comp[p->compcnt-1], "AQI", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
+                isAQI = 1;
+                pkt->s.ndntlv.interestlifetime = CCNL_QINTEREST_TIMEOUT;
                 DEBUGMSG(DEBUG, "  is add Query interest\n");
             }
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
@@ -274,7 +280,8 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
             }
             break;
         case NDN_TLV_InterestLifetime:
-            pkt->s.ndntlv.interestlifetime = ccnl_ndntlv_nonNegInt(*data, len);
+            if(!isAQI)
+                pkt->s.ndntlv.interestlifetime = ccnl_ndntlv_nonNegInt(*data, len);
             break;
         case NDN_TLV_Frag_BeginEndFields:
             pkt->val.seqno = ccnl_ndntlv_nonNegInt(*data, len);

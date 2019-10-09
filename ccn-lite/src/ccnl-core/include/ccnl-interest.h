@@ -59,9 +59,9 @@ struct ccnl_interest_s {
     struct ccnl_face_s *from;           /**< the face the interest was received from */
     struct ccnl_pendint_s *pending;     /**< linked list of faces wanting that content */
     unsigned short flags;
-    uint32_t lifetime;                  /**< interest lifetime */
+    int64_t lifetime;                  /**< interest lifetime */
 #define CCNL_PIT_COREPROPAGATES    0x01
-    uint32_t last_used;                 /**< last time the entry was used */
+    int64_t last_used;                 /**< last time the entry was used */
     int retries;                        /**< current number of executed retransmits. */
 #ifdef USE_NFN_REQUESTS
     struct ccnl_interest_s *keepalive; // the keepalive interest dispatched for this interest
