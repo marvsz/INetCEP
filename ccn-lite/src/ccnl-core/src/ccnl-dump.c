@@ -191,7 +191,7 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_INTEREST:
             while (itr) {
                 INDENT(lev);
-                CONSOLE("%p INTEREST next=%p prev=%p last=%" PRIu32 " retries=%d\n",
+                CONSOLE("%p INTEREST next=%p prev=%p last=%ld retries=%d\n",
                         (void *) itr, (void *) itr->next, (void *) itr->prev,
                         itr->last_used, itr->retries);
                 ccnl_dump(lev + 1, CCNL_PACKET, itr->pkt);
