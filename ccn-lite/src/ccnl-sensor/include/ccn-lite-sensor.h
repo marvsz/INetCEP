@@ -35,6 +35,7 @@ struct ccnl_sensor_setting_s {
 struct ccnl_sensor_setting_s*
 ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name);
 
+
 struct ccnl_sensor_tuple_s {
     struct ccnl_sensor_tuple_s* next; /** < a pointer to the next content tuple*/
     struct ccnl_sensor_tuple_s* prev; /** < a pointer to the previous content tuple*/
@@ -49,12 +50,10 @@ struct ccnl_sensor_tuple_s {
  * @param datalen the length of the event tuple
  * @return a sensor tuple struct
  */
-struct ccnl_sensor_tuple_s*
-ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen);
+/*struct ccnl_sensor_tuple_s*
+ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen);*/
 
 struct ccnl_sensor_s {
-    struct ccnl_sensor_s* next; /** < a pointer to the previous sensor*/
-    struct ccnl_sensor_s* prev; /** < a pointer to the next sensor*/
     struct ccnl_sensor_setting_s* settings; /** < the settings of this sensor */
     struct ccnl_sensor_tuple_s* sensorData; /** < a pointer to the first element of the sensor data list*/
     int64_t last_sampled; /** < the last time the sensor was sampled */
@@ -72,14 +71,14 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s* ssetings);
  * Destroys a sensor
  * @param sensor the sensor to destroy
  */
-void ccnl_sensor_free(struct ccnl_sensor_s* sensor);
+//void ccnl_sensor_free(struct ccnl_sensor_s* sensor);
 
 /**
  *
  * @param sensor the sensor for which we want to load event tuples from a file
  * @param path the path to the file of event tuples / a trace
  */
-void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
+//void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
 
 /**
  * @brief compares two sensors settings and returns if they are the same.
@@ -88,7 +87,15 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
  * @param sensor2 the second sensor setting
  * @return 1 if the sensors are the same, 0 if not
  */
-int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
+//int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
 
+void ccnl_sensor_sample(struct ccnl_sensor_s* sensor);
+
+/**
+ * @brief the sensor loop
+ *
+ * @param sensor the sensor which runs the loop
+ */
+int ccnl_sensor_loop(struct ccnl_sensor_s* sensor);
 
 #endif //CCN_LITE_CCN_LITE_SENSOR_H
