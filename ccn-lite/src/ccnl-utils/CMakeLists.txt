@@ -10,7 +10,7 @@ link_directories(
 )
 
 # set include directories
-include_directories(include ../ccnl-pkt/include ../ccnl-fwd/include ../ccnl-core/include ../ccnl-unix/include ../ccnl-nfn/include)
+include_directories(include ../ccnl-pkt/include ../ccnl-fwd/include ../ccnl-core/include ../ccnl-unix/include ../ccnl-nfn/include ../ccnl-sensor/include)
 
 add_library(common STATIC src/ccnl-common.c src/base64.c src/ccnl-socket.c)
 add_library(ccnl-crypto STATIC src/ccnl-crypto.c src/ccnl-ext-hmac.c src/lib-sha256.c)
@@ -36,7 +36,8 @@ add_executable(ccn-lite-pktdump src/ccn-lite-pktdump.c)
 add_executable(ccn-lite-produce src/ccn-lite-produce.c)
 
 add_executable(ccn-lite-simplenfn src/ccn-lite-simplenfn.c)
-
+add_executable(ccn-lite-mkS src/ccn-lite-mkS.c)
+#add_executable(ccn-lite-rmS src/ccn-lite-rmS.c)
 
 target_link_libraries(ccn-lite-peek ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
@@ -45,7 +46,7 @@ target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-n
 #target_link_libraries(ccn-lite-peekcomputation ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)
 
 target_link_libraries(ccn-lite-ctrl ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
-target_link_libraries(ccn-lite-ctrl ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn crypto)
+target_link_libraries(ccn-lite-ctrl ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn crypto ccnl-sensor)
 
 if(OpenSSL_FOUND)
     target_link_libraries(ccn-lite-ccnb2xml ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES})
@@ -87,3 +88,9 @@ target_link_libraries(ccn-lite-produce ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccn
 
 target_link_libraries(ccn-lite-simplenfn ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-simplenfn ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+
+target_link_libraries(ccn-lite-mkS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+target_link_libraries(ccn-lite-mkS ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-sensor)
+
+#target_link_libraries(ccn-lite-rmS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+#target_link_libraries(ccn-lite-rmS ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-sensor)
