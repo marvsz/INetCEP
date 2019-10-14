@@ -131,8 +131,8 @@ usage:
     setting = ccnl_sensor_settings_new(id,type,samplingRate,nameID);
     DEBUGMSG(TRACE,"Jetzt wird der sensor gemacht\n");
     sensor = ccnl_sensor_new(setting);
-    //if(datadir)
-        //populate_sensorData(sensor,datadir);
+    /*if(datadir)
+        populate_sensorData(sensor,datadir);*/
     DEBUGMSG(TRACE,"Sensor Loop wird angeschmissen\n");
     ccnl_sensor_loop(sensor);
 

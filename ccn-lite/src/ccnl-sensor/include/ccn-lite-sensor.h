@@ -7,6 +7,10 @@
 
 #include <ccnl-buf.h>
 #include <stdint-gcc.h>
+#include "../../ccnl-core/include/ccnl-pkt.h"
+#include "../../ccnl-core/include/ccnl-prefix.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-builder.h"
+#include "../../ccnl-utils/include/ccnl-socket.h"
 
 #define CCNL_SENSORTYPE_EMULATION 0x01
 #define CCNL_SENSORTYPE_SIMULATION 0x2
@@ -50,8 +54,8 @@ struct ccnl_sensor_tuple_s {
  * @param datalen the length of the event tuple
  * @return a sensor tuple struct
  */
-/*struct ccnl_sensor_tuple_s*
-ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen);*/
+struct ccnl_sensor_tuple_s*
+ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen);
 
 struct ccnl_sensor_s {
     int stopflag;
@@ -79,7 +83,7 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s* ssetings);
  * @param sensor the sensor for which we want to load event tuples from a file
  * @param path the path to the file of event tuples / a trace
  */
-//void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
+void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
 
 /**
  * @brief compares two sensors settings and returns if they are the same.
@@ -88,7 +92,7 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s* ssetings);
  * @param sensor2 the second sensor setting
  * @return 1 if the sensors are the same, 0 if not
  */
-//int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
+int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
 
 void ccnl_sensor_sample(struct ccnl_sensor_s* sensor);
 

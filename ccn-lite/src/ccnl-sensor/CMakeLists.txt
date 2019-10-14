@@ -3,11 +3,7 @@ project(ccnl-sensor)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib)
 
-include_directories(include ../ccnl-core/include ../ccnl-unix/include)
-
-if(DEFINED CCNL_RIOT)
-    include_directories(include ../ccnl-riot/include)
-endif()
+include_directories(include ../ccnl-core/include ../ccnl-unix/include ../ccnl-pkt/include ../ccnl-fwd/include ../ccnl-utils/include)
 
 file(GLOB SOURCES "src/*.c")
 file(GLOB HEADERS "include/*.h")

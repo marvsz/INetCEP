@@ -61,6 +61,9 @@ if(OpenSSL_FOUND)
     target_link_libraries(ccn-lite-mkC ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
     target_link_libraries(ccn-lite-mkC ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
 
+    target_link_libraries(ccn-lite-mkS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
+    target_link_libraries(ccn-lite-mkS ccnl-sensor ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
+
     target_link_libraries(ccn-lite-valid ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common ccnl-crypto)
     target_link_libraries(ccn-lite-valid ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ${OPENSSL_LIBRARIES})
 
@@ -89,8 +92,8 @@ target_link_libraries(ccn-lite-produce ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccn
 target_link_libraries(ccn-lite-simplenfn ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-simplenfn ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
-target_link_libraries(ccn-lite-mkS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
-target_link_libraries(ccn-lite-mkS ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-sensor)
+#target_link_libraries(ccn-lite-mkS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+#target_link_libraries(ccn-lite-mkS ccnl-sensor)
 
 #target_link_libraries(ccn-lite-rmS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 #target_link_libraries(ccn-lite-rmS ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-sensor)
