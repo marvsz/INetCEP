@@ -74,7 +74,6 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
 }*/
 
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
-    //ccnl_sensor_sample(sensor);
     struct timespec ts;
     DEBUGMSG(TRACE, "sensor loop started\n");
     ts.tv_sec = sensor->settings->samplingRate / 1000;
