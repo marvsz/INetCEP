@@ -94,8 +94,8 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
 void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
     char *ccnl_home = getenv("CCNL_HOME");
     char *ctrl = "ccn-lite-ctrl";
-    char *mkc = "ccn-lite-mkC";
-    char *sock = "/tmp/mgmt-nfn-relay-a.sock";
+    char *mkc = "ccn-lite-mkDSC";
+    char *sock = "/tmp/mgmt-nfn-relay-b.sock";
     char *tuplePath = "/tmp/tupleData";
     char *conPath = "/tmp/sensorData";
     int mkCStatus, execStatus;
@@ -106,12 +106,26 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
     gettimeofday(&tv, NULL);
     tm = localtime(&tv.tv_sec);
     char uri[100];
-    snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
-             sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+    char tupleData[1000];
+    FILE * fPtr;
+    fPtr = fopen(tuplePath,"w");
+    if(fPtr == NULL){
+        DEBUGMSG(DEBUG,"Unable to create file.\n");
+        exit(EXIT_FAILURE);
+    }
+    DEBUGMSG(DEBUG,"Enter contents into store.\n");
+    snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+    DEBUGMSG(DEBUG,"Enter Tuple Data into file.\n");
+    fputs(tupleData, fPtr);
+    fclose(fPtr);
+    //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
+             //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+    snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i", "B", getSensorName(sensor->settings->name),
+             sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, conPath);
     mkCStatus = system(exec);
     DEBUGMSG(DEBUG, "mkC returned %i\n", mkCStatus);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s", ccnl_home, ctrl, sock, conPath);
+    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, conPath);
     execStatus = system(exec);
     DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
 
