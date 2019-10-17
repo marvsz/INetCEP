@@ -16,6 +16,7 @@ add_library(common STATIC src/ccnl-common.c src/base64.c src/ccnl-socket.c)
 add_library(ccnl-crypto STATIC src/ccnl-crypto.c src/ccnl-ext-hmac.c src/lib-sha256.c)
 
 add_executable(ccn-lite-peek src/ccn-lite-peek.c)
+add_executable(ccn-lite-peekConstant src/ccn-lite-peekConstant.c)
 #add_executable(ccn-lite-peekcomputation ccn-lite-peekcomputation.c) #todo work to do
 add_executable(ccn-lite-ctrl src/ccn-lite-ctrl.c)
 add_executable(ccn-lite-fetch src/ccn-lite-fetch.c) 
@@ -24,6 +25,7 @@ if(OpenSSL_FOUND)
     add_executable(ccn-lite-cryptoserver src/ccn-lite-cryptoserver.c)
     #add_executable(ccn-lite-deF ccn-lite-deF.c)
     add_executable(ccn-lite-mkC src/ccn-lite-mkC.c)
+    add_executable(ccn-lite-mkDSC src/ccn-lite-mkDSC.c)
     add_executable(ccn-lite-valid src/ccn-lite-valid.c)
     add_executable(ccn-lite-rpc src/ccn-lite-rpc.c)
 endif()
@@ -41,6 +43,9 @@ add_executable(ccn-lite-mkS src/ccn-lite-mkS.c)
 
 target_link_libraries(ccn-lite-peek ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+
+target_link_libraries(ccn-lite-peekConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
 #target_link_libraries(ccn-lite-peekcomputation ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})#todo work to do
 #target_link_libraries(ccn-lite-peekcomputation ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)
@@ -60,6 +65,9 @@ if(OpenSSL_FOUND)
 
     target_link_libraries(ccn-lite-mkC ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
     target_link_libraries(ccn-lite-mkC ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
+
+    target_link_libraries(ccn-lite-mkDSC ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
+    target_link_libraries(ccn-lite-mkDSC ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
 
     target_link_libraries(ccn-lite-mkS ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
     target_link_libraries(ccn-lite-mkS ccnl-sensor ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
