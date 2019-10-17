@@ -53,7 +53,7 @@ ccnl_fetchContentForChunkName(struct ccnl_prefix_s *prefix,
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
 #endif
-    struct ccnl_buf_s * buf = ccnl_mkSimpleInterest(prefix, &int_opts);
+    struct ccnl_buf_s * buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_Interest);
 
     if(buf->datalen <= 0){
         fprintf(stderr, "Could not create interest message\n");
@@ -117,7 +117,7 @@ ccnl_extractDataAndChunkInfo(unsigned char **data, int *datalen,
             DEBUGMSG(WARNING, "could not dehead\n");
             return -1;
         }
-        if (typ != NDN_TLV_Data) {
+        if (typ != NDN_TLV_Data && typ != NDN_TLV_Datastream) {
             DEBUGMSG(WARNING, "received non-content-object packet with type %d\n", typ);
             return -1;
         }

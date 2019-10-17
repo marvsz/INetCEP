@@ -42,6 +42,7 @@
 
 // Packet types:
 #define NDN_TLV_Interest                0x05
+#define NDN_TLV_ConstInterest           0x1f
 #define NDN_TLV_Data                    0x06
 #define NDN_TLV_Datastream              0x1e
 #define NDN_TLV_NDNLP                   0x64
@@ -172,10 +173,31 @@ ccnl_ndntlv_cMatch(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
 
 int
 ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
-                            int *offset, unsigned char *buf);
+                            int *offset, unsigned char *buf, int type);
 
 int
+ccnl_ndntlv_prependConstantInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
+                            int *offset, unsigned char *buf);
+
+/**
+ * Composes the ndntlv content for the prefix
+ * @param name  the name of the data
+ * @param payload the payload
+ * @param paylen the length of the payload
+ * @param contentpos ?
+ * @param opts ndntlv data opts (freshnessperiod and final block id)
+ * @param offset the offset
+ * @param buf the buffer in which the prefix is gonna be written in
+ * @return -1 if it failed, some other value otherwise
+ */
+int
 ccnl_ndntlv_prependContent(struct ccnl_prefix_s *name,
+                           unsigned char *payload, int paylen,
+                           int *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
+                           int *offset, unsigned char *buf);
+
+int
+ccnl_ndntlv_prependDataStreamContent(struct ccnl_prefix_s *name,
                            unsigned char *payload, int paylen,
                            int *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
                            int *offset, unsigned char *buf);

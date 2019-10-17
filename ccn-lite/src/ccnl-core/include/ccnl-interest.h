@@ -59,7 +59,8 @@ struct ccnl_interest_s {
     struct ccnl_face_s *from;           /**< the face the interest was received from */
     struct ccnl_pendint_s *pending;     /**< linked list of faces wanting that content */
     unsigned short flags;
-    int64_t lifetime;                  /**< interest lifetime */
+    uint32_t lifetime;                  /**< interest lifetime */
+    bool isConst;
 #define CCNL_PIT_COREPROPAGATES    0x01
     int64_t last_used;                 /**< last time the entry was used */
     int retries;                        /**< current number of executed retransmits. */

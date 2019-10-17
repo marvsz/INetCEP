@@ -24,6 +24,7 @@
 
 #include "base64.h"
 #include "ccnl-common.h"
+#include "ccn-lite-pktdump.h"
 
 // ----------------------------------------------------------------------
 
@@ -845,6 +846,9 @@ ndn_type2name(unsigned type) {
         case NDN_TLV_Data:
             n = "Data";
             break;
+        case NDN_TLV_Datastream:
+            n = "Datastream";
+            break;
         case NDN_TLV_NDNLP:
             n = "NDNLP";
             break; // fragment
@@ -1041,6 +1045,7 @@ static void
 ndn_init() {
     ndntlv_recurse[NDN_TLV_Interest] = 1;
     ndntlv_recurse[NDN_TLV_Data] = 1;
+    ndntlv_recurse[NDN_TLV_Datastream] = 1;
     ndntlv_recurse[NDN_TLV_Fragment] = 1;
     ndntlv_recurse[NDN_TLV_Name] = 1;
     ndntlv_recurse[NDN_TLV_Selectors] = 1;

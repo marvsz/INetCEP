@@ -138,6 +138,14 @@ ccnl_ndntlv_prependSignedContent(struct ccnl_prefix_s *name,
                            unsigned char *keyval, 
                            unsigned char *keydigest, 
                            int *offset, unsigned char *buf);
+
+int
+ccnl_ndntlv_prependSignedDataStreamContent(struct ccnl_prefix_s *name,
+                                 unsigned char *payload, int paylen,
+                                 unsigned int *final_block_id, int *contentpos,
+                                 unsigned char *keyval,
+                                 unsigned char *keydigest,
+                                 int *offset, unsigned char *buf);
 #endif // USE_SUITE_NDNTLV
 #endif // NEEDS_PACKET_CRAFTING
 

@@ -112,7 +112,7 @@ ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
     default:
         break;
     }
-    pkt->buf = ccnl_mkSimpleInterest(*prefix, &int_opts);
+    pkt->buf = ccnl_mkSimpleInterest(*prefix, &int_opts, NDN_TLV_Interest);
     pkt->pfx = *prefix;
     *prefix = NULL;
     pkt->val.final_block_id = -1;
@@ -597,7 +597,7 @@ ccnl_nfn_mkKeepaliveInterest(struct ccnl_relay_s *ccnl,
         default:
             break;
         }
-        pkt->buf = ccnl_mkSimpleInterest(pfx, &int_opts);
+        pkt->buf = ccnl_mkSimpleInterest(pfx, &int_opts,NDN_TLV_Interest);
         pkt->pfx = pfx;
         //*prefix = NULL;
         pkt->val.final_block_id = -1;

@@ -562,7 +562,7 @@ ccnl_send_interest(struct ccnl_prefix_s *prefix, unsigned char *buf, int buf_len
 
     DEBUGMSG(DEBUG, "nonce: %" PRIi32 "\n", int_opts->ndntlv.nonce);
 
-    ccnl_mkInterest(prefix, int_opts, buf, &len, &buf_len);
+    ccnl_mkInterest(prefix, int_opts, buf, &len, &buf_len, NDN_TLV_Interest);
 
     buf += buf_len;
 

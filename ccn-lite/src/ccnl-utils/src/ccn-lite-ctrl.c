@@ -598,7 +598,7 @@ getPrefix(unsigned char *data, int datalen, int *suite) {
     *suite = ccnl_pkt2suite(data, datalen, &skip);
 
     if (*suite < 0 || *suite >= CCNL_SUITE_LAST) {
-        DEBUGMSG(ERROR, "?unknown packet?\n");
+        DEBUGMSG(ERROR, "?unknown packet? suite is %i, data is %s\n",*suite,data);
         return 0;
     }
     DEBUGMSG(TRACE, "  suite %s\n", ccnl_suite2str(*suite));
@@ -626,7 +626,7 @@ getPrefix(unsigned char *data, int datalen, int *suite) {
             break;
         }
         case CCNL_SUITE_NDNTLV: {
-            int typ;
+            int typ; // da das hier irgendwie in ccnl_ndntlv_dehead das richte flag in den typ geschriegeben wird ist wird hier dann das data flag gesetzt
             int len;
             unsigned char *start = data;
             if (!ccnl_ndntlv_dehead(&data, &datalen, &typ, &len))

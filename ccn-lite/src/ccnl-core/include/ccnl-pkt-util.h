@@ -63,4 +63,7 @@ ccnl_cmp2int(unsigned char *cmp, int cmplen);
 uint32_t
 ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt);
 
+bool
+ccnl_pkt_interest_isConstant(const struct ccnl_pkt_s *pkt);
+
 #endif

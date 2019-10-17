@@ -85,7 +85,7 @@ ccnl_ndntlv_dehead(unsigned char **buf, int *len,
                    int *typ, int *vallen)
 {
     size_t maxlen = *len;
-    if (ccnl_ndntlv_varlenint(buf, len, (int*) typ))
+    if (ccnl_ndntlv_varlenint(buf, len, (int*) typ)) // hier wird der typ ermittelt
         return -1;
     if (ccnl_ndntlv_varlenint(buf, len, (int*) vallen))
         return -1;
@@ -102,7 +102,6 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     struct ccnl_pkt_s *pkt;
     int oldpos, len, i;
     unsigned int typ;
-    unsigned int isAQI = 0;
     struct ccnl_prefix_s *p = 0;
 #ifdef USE_HMAC256
     int validAlgoIsHmac256 = 0;
@@ -121,6 +120,10 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     switch(pkttype) {
     case NDN_TLV_Interest:
         pkt->flags |= CCNL_PKT_REQUEST;
+        break;
+    case NDN_TLV_ConstInterest:
+        pkt->flags |= CCNL_PKT_REQUEST;
+            pkt->s.ndntlv.isConstant = 1;
         break;
     case NDN_TLV_Data:
         pkt->flags |= CCNL_PKT_REPLY;
@@ -192,13 +195,11 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
                 p->compcnt--;
                 DEBUGMSG(DEBUG, "  is NFN interest\n");
             }
-
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
                 !memcmp(p->comp[p->compcnt-1], "AQI", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
-                isAQI = 1;
-                pkt->s.ndntlv.interestlifetime = CCNL_QINTEREST_TIMEOUT;
+                pkt->s.ndntlv.isConstant = 1;
                 DEBUGMSG(DEBUG, "  is add Query interest\n");
             }
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
@@ -280,8 +281,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
             }
             break;
         case NDN_TLV_InterestLifetime:
-            if(!isAQI)
-                pkt->s.ndntlv.interestlifetime = ccnl_ndntlv_nonNegInt(*data, len);
+            pkt->s.ndntlv.interestlifetime = ccnl_ndntlv_nonNegInt(*data, len);
             break;
         case NDN_TLV_Frag_BeginEndFields:
             pkt->val.seqno = ccnl_ndntlv_nonNegInt(*data, len);
@@ -554,7 +554,7 @@ ccnl_ndntlv_prependName(struct ccnl_prefix_s *name,
 
 int
 ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
-                            int *offset, unsigned char *buf)
+                            int *offset, unsigned char *buf, int type)
 {
     int oldoffset = *offset;
 
@@ -589,10 +589,21 @@ ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_n
     if (ccnl_ndntlv_prependName(name, offset, buf))
         return -1;
 
-    if (ccnl_ndntlv_prependTL(NDN_TLV_Interest, oldoffset - *offset,
-                              offset, buf) < 0)
-        return -1;
-
+    switch(type){
+        case NDN_TLV_Interest:
+            if (ccnl_ndntlv_prependTL(NDN_TLV_Interest, oldoffset - *offset,
+                                      offset, buf) < 0)
+                return -1;
+            break;
+        case NDN_TLV_ConstInterest:
+            if (ccnl_ndntlv_prependTL(NDN_TLV_ConstInterest, oldoffset - *offset,
+                                      offset, buf) < 0)
+                return -1;
+            break;
+        default:
+            return -1;
+            break;
+    }
     return oldoffset - *offset;
 }
 
@@ -671,8 +682,92 @@ ccnl_ndntlv_prependContent(struct ccnl_prefix_s *name,
 
     // mandatory
     if (ccnl_ndntlv_prependTL(NDN_TLV_Data, oldoffset - *offset,
-                              offset, buf) < 0)
+                              offset, buf) < 0) // Hier die unterscheidung, ob ein datastream oder data objekt gemacht wird.
            return -1;
+
+    if (contentpos)
+        *contentpos -= *offset;
+
+    return oldoffset - *offset;
+}
+
+int
+ccnl_ndntlv_prependDataStreamContent(struct ccnl_prefix_s *name,
+                           unsigned char *payload, int paylen,
+                           int *contentpos, struct ccnl_ndntlv_data_opts_s *opts,
+                           int *offset, unsigned char *buf)
+{
+    int oldoffset = *offset, oldoffset2;
+    unsigned char signatureType = NDN_VAL_SIGTYPE_DIGESTSHA256;
+
+    if (contentpos)
+        *contentpos = *offset - paylen;
+
+    // fill in backwards
+
+    // mandatory (empty for now)
+    if (ccnl_ndntlv_prependTL(NDN_TLV_SignatureValue, 0, offset, buf) < 0)
+        return -1;
+
+    // to find length of SignatureInfo
+    oldoffset2 = *offset;
+
+    // KeyLocator is not required for DIGESTSHA256
+    if (signatureType != NDN_VAL_SIGTYPE_DIGESTSHA256) {
+        if (ccnl_ndntlv_prependTL(NDN_TLV_KeyLocator, 0, offset, buf) < 0)
+            return -1;
+    }
+
+    // use NDN_SigTypeVal_SignatureSha256WithRsa because this is default in ndn client libs
+    if (ccnl_ndntlv_prependBlob(NDN_TLV_SignatureType, &signatureType, 1,
+                                offset, buf) < 0)
+        return 1;
+
+    // Groups KeyLocator and Signature Type with stored len
+    if (ccnl_ndntlv_prependTL(NDN_TLV_SignatureInfo, oldoffset2 - *offset, offset, buf) < 0)
+        return -1;
+
+    // mandatory
+    if (ccnl_ndntlv_prependBlob(NDN_TLV_Content, payload, paylen,
+                                offset, buf) < 0)
+        return -1;
+
+    // to find length of optional (?) MetaInfo fields
+    oldoffset2 = *offset;
+    if(opts) {
+        if (opts->finalblockid != UINT32_MAX) {
+            if (ccnl_ndntlv_prependIncludedNonNegInt(NDN_TLV_NameComponent,
+                                                     opts->finalblockid,
+                                                     NDN_Marker_SegmentNumber,
+                                                     offset, buf) < 0)
+                return -1;
+
+            // optional
+            if (ccnl_ndntlv_prependTL(NDN_TLV_FinalBlockId, oldoffset2 - *offset,
+                                      offset, buf) < 0)
+                return -1;
+        }
+
+        if (opts->freshnessperiod) {
+            if (ccnl_ndntlv_prependNonNegInt(NDN_TLV_FreshnessPeriod,
+                                             opts->freshnessperiod, offset, buf) < 0)
+                return -1;
+        }
+    }
+
+    // mandatory (empty for now)
+    if (ccnl_ndntlv_prependTL(NDN_TLV_MetaInfo, oldoffset2 - *offset,
+                              offset, buf) < 0)
+        return -1;
+
+    // mandatory
+    if (ccnl_ndntlv_prependName(name, offset, buf))
+        return -1;
+
+    // mandatory
+    if (ccnl_ndntlv_prependTL(NDN_TLV_Datastream, oldoffset - *offset,
+                              offset, buf) < 0) // Hier die unterscheidung, ob ein datastream oder data objekt gemacht wird.
+        return -1;
 
     if (contentpos)
         *contentpos -= *offset;

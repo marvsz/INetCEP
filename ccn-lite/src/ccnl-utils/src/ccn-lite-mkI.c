@@ -150,7 +150,7 @@ Usage:
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
 #endif
-    struct ccnl_buf_s *buf = ccnl_mkSimpleInterest(prefix, &int_opts);
+    struct ccnl_buf_s *buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_Interest);
 
     if (buf->datalen <= 0) {
         DEBUGMSG(ERROR, "internal error: empty packet\n");

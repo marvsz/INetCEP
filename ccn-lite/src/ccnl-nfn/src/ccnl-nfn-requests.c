@@ -228,7 +228,7 @@ nfn_request_interest_pkt_new(struct ccnl_relay_s *ccnl, struct ccnl_prefix_s *pf
         break;
     }
     pkt->pfx = ccnl_prefix_dup(pfx);
-    pkt->buf = ccnl_mkSimpleInterest(pkt->pfx, &int_opts);
+    pkt->buf = ccnl_mkSimpleInterest(pkt->pfx, &int_opts,NDN_TLV_Interest);
     pkt->val.final_block_id = -1;
 
     return pkt;

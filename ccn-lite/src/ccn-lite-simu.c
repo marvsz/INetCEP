@@ -190,7 +190,7 @@ ccnl_client_TX(char node, char *name, int seqn, int nonce)
     }
 
     DEBUGMSG(TRACE, "  create interest for %s\n", ccnl_prefix_to_path(p));
-    buf = ccnl_mkSimpleInterest(p, &opts);
+    buf = ccnl_mkSimpleInterest(p, &opts, NDN_TLV_Interest);
     ccnl_prefix_free(p);
 
     // inject it into the relay:

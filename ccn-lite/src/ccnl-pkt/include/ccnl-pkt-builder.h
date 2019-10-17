@@ -74,11 +74,11 @@ struct ccnl_interest_s *
 ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
 
 struct ccnl_buf_s*
-ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
+ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, int type);
 
 void
 ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, unsigned char *tmp,
-                int *len, int *offs);
+                int *len, int *offs, int type);
 
 #endif
 

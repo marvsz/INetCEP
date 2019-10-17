@@ -85,7 +85,7 @@ int ndntlv_isData(unsigned char *buf, int len) {
 
     if (len < 0 || ccnl_ndntlv_dehead(&buf, &len, (int *) &typ, &vallen))
         return -1;
-    if (typ != NDN_TLV_Data)
+    if (typ != NDN_TLV_Data && typ != NDN_TLV_Datastream) // handle data and datastream the same way
         return 0;
     return 1;
 }
@@ -142,7 +142,7 @@ ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                                                        sizeof(struct ccnl_interest_s));
     i->pkt = (struct ccnl_pkt_s *) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
-    i->pkt->buf = ccnl_mkSimpleInterest(name, opts);
+    i->pkt->buf = ccnl_mkSimpleInterest(name, opts,NDN_TLV_Interest);
     i->pkt->pfx = ccnl_prefix_dup(name);
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = NULL;
@@ -150,7 +150,7 @@ ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 }
 
 struct ccnl_buf_s*
-ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
+ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, int type)
 {
     struct ccnl_buf_s *buf = NULL;
     unsigned char *tmp;
@@ -160,8 +160,18 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 
     tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
+    switch(type){
+        case NDN_TLV_Interest:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_Interest);
+            break;
+        case NDN_TLV_ConstInterest:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_ConstInterest);
+            break;
+        default:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_Interest);
+            break;
+    }
 
-    ccnl_mkInterest(name, opts, tmp, &len, &offs);
 
     if (len > 0)
         buf = ccnl_buf_new(tmp + offs, len);
@@ -171,7 +181,7 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts)
 }
 
 void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
-                     unsigned char *tmp, int *len, int *offs) {
+                     unsigned char *tmp, int *len, int *offs, int type) {
     ccnl_interest_opts_u default_opts;
 
     switch (name->suite) {
@@ -196,7 +206,17 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
                 opts->ndntlv.nonce = rand();
             }
 
-            (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp);
+            switch(type){
+                case NDN_TLV_Interest:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_Interest);
+                    break;
+                case NDN_TLV_ConstInterest:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_ConstInterest);
+                    break;
+                default:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_Interest);
+                    break;
+            }
             break;
 #endif
         default:

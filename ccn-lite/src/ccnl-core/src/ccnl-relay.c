@@ -531,7 +531,7 @@ ccnl_content_remove(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     }
     //    ccnl_prefix_free(c->name);
     ccnl_free(c);
-
+    DEBUGMSG_CORE(TRACE, "ccnl_content_removed\n");
     ccnl->contentcnt--;
 #ifdef CCNL_RIOT
     evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&c->evtmsg_cstimeout);
@@ -784,8 +784,9 @@ ccnl_do_ageing(void *ptr, void *dummy)
     }
     while (i) { // CONFORM: "Entries in the PIT MUST timeout rather
                 // than being held indefinitely, except for Interests that were added with the addQueryInterest package"
-        if ((i->lifetime != CCNL_QINTEREST_TIMEOUT) && ((i->last_used + i->lifetime) <= (uint32_t) t ||
+        if (!i->isConst && ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT)) {
+            DEBUGMSG(TRACE,"Interest Lifetime was %i\n",i->lifetime);
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);

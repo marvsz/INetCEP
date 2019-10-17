@@ -119,14 +119,28 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     // CONFORM: Step 1:
     for (c = relay->contents; c; c = c->next) {
-        if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
-            DEBUGMSG_CFWD(TRACE, "  content is duplicate, ignoring\n");
-            return 0; // content is dup, do nothing
+        if(!((*pkt)->type == NDN_TLV_Datastream)){
+            if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
+                DEBUGMSG_CFWD(TRACE, "  content is duplicate, ignoring\n");
+                return 0; // content is dup, do nothing
+            }
+        }
+        else{
+            if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
+                DEBUGMSG_CFWD(TRACE, "  content is duplicate, removing old one and storing new one\n");
+                c = ccnl_content_remove(relay, c);
+                DEBUGMSG_CFWD(TRACE,"  old content removed\n");
+                if(!c)
+                    break;
+            }
         }
     }
 
+
+
 #ifdef USE_NFN_REQUESTS
     // Find the original prefix for the intermediate result and use that prefix to cache the content.
+    DEBUGMSG_CFWD(DEBUG," Check if it is a nfnprefix Request\n");
     if (ccnl_nfnprefix_isRequest((*pkt)->pfx)) {
         if (!nfn_request_handle_content(relay, from, pkt)) {
             // content was handled completely,
@@ -137,6 +151,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #endif
 
+    DEBUGMSG_CFWD(DEBUG," trying to create new content\n");
     c = ccnl_content_new(pkt);
     DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
     if (!c)
@@ -661,7 +676,15 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;
+    case NDN_TLV_ConstInterest:
+        if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
+            goto Done;
+        break;
     case NDN_TLV_Data:
+        if (ccnl_fwd_handleContent(relay, from, &pkt))
+            goto Done;
+        break;
+    case NDN_TLV_Datastream:
         if (ccnl_fwd_handleContent(relay, from, &pkt))
             goto Done;
         break;
