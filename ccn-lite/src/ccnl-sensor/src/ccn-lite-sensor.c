@@ -12,6 +12,11 @@
 #include "ccnl-os-includes.h"
 #include "../../ccnl-utils/include/ccnl-common.h"
 #include "../../ccnl-utils/include/ccnl-crypto.h"
+#include "../include/randomGPS.h"
+#include "../include/randomVICTIMS.h"
+#include "../include/randomPLUG.h"
+#include "../include/randomSURVIVORS.h"
+
 
 
 #ifndef CCN_LITE_MKC_BODY_SIZE
