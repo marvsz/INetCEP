@@ -23,7 +23,8 @@
 
 #include "ccnl-common.h"
 #include <unistd.h>
-#include "../include/ccn-lite-pktdump.h"
+#include "../../ccnl-dump/include/ccn-lite-pktdump-util.h"
+
 #ifndef assert
 #define assert(...) do {} while(0)
 #endif
@@ -261,6 +262,7 @@ main(int argc, char *argv[])
             //write(1, out, len);
             if(rc==1){
                 dump_content(0,out,out,len,2,-1,stdout);
+                fflush(stdout);
             }
 
 

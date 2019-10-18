@@ -10,7 +10,7 @@ link_directories(
 )
 
 # set include directories
-include_directories(include ../ccnl-pkt/include ../ccnl-fwd/include ../ccnl-core/include ../ccnl-unix/include ../ccnl-nfn/include ../ccnl-sensor/include)
+include_directories(include ../ccnl-pkt/include ../ccnl-fwd/include ../ccnl-core/include ../ccnl-unix/include ../ccnl-nfn/include ../ccnl-sensor/include ../ccnl-dump/include)
 
 add_library(common STATIC src/ccnl-common.c src/base64.c src/ccnl-socket.c)
 add_library(ccnl-crypto STATIC src/ccnl-crypto.c src/ccnl-ext-hmac.c src/lib-sha256.c)
@@ -45,7 +45,7 @@ target_link_libraries(ccn-lite-peek ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
 target_link_libraries(ccn-lite-peekConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
-target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
 
 #target_link_libraries(ccn-lite-peekcomputation ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})#todo work to do
 #target_link_libraries(ccn-lite-peekcomputation ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)
@@ -78,6 +78,9 @@ if(OpenSSL_FOUND)
     target_link_libraries(ccn-lite-rpc ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
     target_link_libraries(ccn-lite-rpc ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn ${OPENSSL_LIBRARIES})
 
+    target_link_libraries(ccn-lite-pktdump ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS} ${OPENSSL_LIBRARIES} common)
+    target_link_libraries(ccn-lite-pktdump ccnl-dump ccnl-core ccnl-pkt ccnl-fwd  ccnl-unix ccnl-nfn ccnl-crypto ${OPENSSL_LIBRARIES})
+
 endif()
 
 target_link_libraries(ccn-lite-fetch ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
@@ -90,9 +93,6 @@ endif()
 
 target_link_libraries(ccn-lite-mkI ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-mkI ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
-
-target_link_libraries(ccn-lite-pktdump ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
-target_link_libraries(ccn-lite-pktdump ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
 target_link_libraries(ccn-lite-produce ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-produce ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-crypto)
