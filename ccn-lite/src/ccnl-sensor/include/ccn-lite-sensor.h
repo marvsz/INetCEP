@@ -43,9 +43,8 @@ ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamp
 struct ccnl_sensor_tuple_s {
     struct ccnl_sensor_tuple_s* next; /** < a pointer to the next content tuple*/
     struct ccnl_sensor_tuple_s* prev; /** < a pointer to the previous content tuple*/
-    struct ccnl_buf_s *buf; /** < the content*/
-    unsigned char *content; /** < a pointer to the content */
-    int contlen; /** < the length of the content */
+    ssize_t datalen;
+    unsigned char data[1];
 };
 
 /**
@@ -55,7 +54,7 @@ struct ccnl_sensor_tuple_s {
  * @return a sensor tuple struct
  */
 struct ccnl_sensor_tuple_s*
-ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen);
+ccnl_sensor_tuple_new(void *data, int datalen);
 
 struct ccnl_sensor_s {
     int stopflag;
