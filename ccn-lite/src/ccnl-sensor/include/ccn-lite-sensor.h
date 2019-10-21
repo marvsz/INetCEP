@@ -44,7 +44,7 @@ struct ccnl_sensor_tuple_s {
     struct ccnl_sensor_tuple_s* next; /** < a pointer to the next content tuple*/
     struct ccnl_sensor_tuple_s* prev; /** < a pointer to the previous content tuple*/
     ssize_t datalen;
-    unsigned char data[1];
+    unsigned char data[2];
 };
 
 /**

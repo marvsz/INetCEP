@@ -101,7 +101,7 @@ usage:
                                " -h For Help\n"
                                "Examples:\n"
                                "ccn-lite-mkS -n Victims -i 1 -t 2 -s 500 -v trace\n"
-                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -d gps1\n",
+                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -v trace -d /tmp/testdata\n",
                                argv[0]);
                 exit(EXIT_FAILURE);
         }
@@ -131,10 +131,13 @@ usage:
     setting = ccnl_sensor_settings_new(id,type,samplingRate,nameID);
     DEBUGMSG(TRACE,"Jetzt wird der sensor gemacht\n");
     sensor = ccnl_sensor_new(setting);
-    /*if(datadir)
-        populate_sensorData(sensor,datadir);*/
+    if(datadir){
+        DEBUGMSG(DEBUG,"found data directory\n");
+        populate_sensorData(sensor,datadir);
+    }
+
     DEBUGMSG(TRACE,"Sensor Loop wird angeschmissen\n");
-    ccnl_sensor_loop(sensor);
+    //ccnl_sensor_loop(sensor);
 
     //ccnl_sensor_free(sensor);
 

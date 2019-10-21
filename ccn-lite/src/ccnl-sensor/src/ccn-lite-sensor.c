@@ -69,18 +69,16 @@ int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp
                 return -1;
             }
         }
-
         // Copy the chunk to the end of the line buffer
         memcpy(*line + len_used, chunk, chunk_used);
         len_used += chunk_used;
         (*line)[len_used] = '\0';
 
         // CHekc if *line contains '\n', if yes return the *line length
-        if((*line)[len_used = -1] == '\n'){
+        if((*line)[len_used -1] == '\n'){
             return len_used;
         }
     }
-
     return -1;
 }
 
@@ -143,21 +141,30 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
 }*/
 
 void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
+    DEBUGMSG(DEBUG,"Test\n");
     FILE * fp;
     char * line = NULL;
+    //unsigned char testline;
     size_t len = 0;
+    int64_t res = 0;
     fp = fopen(path,"r");
     if(fp == NULL){
         DEBUGMSG(ERROR,"Unable to locate or open file.\n");
         exit(EXIT_FAILURE);
     }
-
-    while (my_getline(&line, &len, fp)!= -1){
-        struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,sizeof(line));
-        DBL_LINKED_LIST_ADD(st,sensor->sensorData);
+    DEBUGMSG(DEBUG,"Vor dem while\n");
+    while ((res =my_getline(&line, &len, fp))!= -1){
+        DEBUGMSG(DEBUG,"im while, line ist %s, size of line is %lu, size of the res is %ld\n",line,sizeof(line), res);
+        struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,res);
+        DEBUGMSG(DEBUG,"Neuen Tupel erstellt\n");
+        DBL_LINKED_LIST_ADD(sensor->sensorData,st);
+        DEBUGMSG(DEBUG,"Tupel der Liste hinzugefügt\n");
+        //memcpy(&testline,st->data, sizeof(st->data));
+        DEBUGMSG(DEBUG,"Try to get the sensor data, Content is %.*s\n",(int)st->datalen,st->data);
     }
-
+    DEBUGMSG(DEBUG,"nach dem while\n");
     fclose(fp);
+    DEBUGMSG(DEBUG,"file closed\n");
     free(line);
 }
 
