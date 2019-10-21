@@ -2,26 +2,88 @@
 // Created by johannes on 09.10.19.
 //
 #define _POSIX_C_SOURCE 199309L
-
 #include <ccnl-core.h>
+#include <stdio.h>
 #include <time.h>
 #include <bits/types/struct_timespec.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 #include "../include/ccn-lite-sensor.h"
 #include "ccnl-os-includes.h"
-#include "../../ccnl-utils/include/ccnl-common.h"
 #include "../../ccnl-utils/include/ccnl-crypto.h"
-#include "../include/randomGPS.h"
-#include "../include/randomVICTIMS.h"
-#include "../include/randomPLUG.h"
-#include "../include/randomSURVIVORS.h"
-
-
+//#include "../include/randomGPS.h"
+//#include "../include/randomVICTIMS.h"
+//#include "../include/randomPLUG.h"
+//#include "../include/randomSURVIVORS.h"
 
 #ifndef CCN_LITE_MKC_BODY_SIZE
 #define CCN_LITE_MKC_BODY_SIZE (64 * 1024)
 #endif
+
+/*
+ * POSIX getline replacement for non-POSIX systems (like Windows)
+ * Differences:
+ *  - the function returns int64_t instead of sszie_t
+ *  - does not accept NUL characters in the input file
+ * Warnings:
+ *  - the function sets EINVAL, ENOMEM, EOVERFLOW in case of errors. The above are no but are supporte by other C compilers like MSVC
+ *
+ *  This was created with the help of https://solarianprogrammer.com/2019/04/03/c-programming-read-file-lines-fgets-getline-implement-portable-getline/
+ */
+int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp){
+    if(line == NULL || len == NULL || fp == NULL){
+        errno = EINVAL;
+        return -1;
+    }
+    // Use a chunk array of 128 bytes as parameter for fgets
+    char chunk[128];
+
+    // Allocate a block of memory for *line if it is NULL or smaller than the cunk a
+    if(*line == NULL || *len < sizeof(chunk)){
+        *len = sizeof(chunk);
+        if((*line = malloc(*len)) == NULL){
+            errno = ENOMEM;
+            return -1;
+        }
+    }
+    // "EMPTY" the string
+    (*line)[0] = '\0';
+
+    while(fgets(chunk, sizeof(chunk), fp) != NULL){
+        // Resize the line buffer if necessary
+        size_t len_used = strlen(*line);
+        size_t chunk_used = strlen(chunk);
+
+        if(*len - len_used < chunk_used){
+            // CHeck for overflow
+            if(*len > SIZE_MAX / 2){
+                errno = EOVERFLOW;
+                return -1;
+            } else {
+                *len = 2;
+            }
+
+            if((*line = realloc(*line, *len)) == NULL){
+                errno = ENOMEM;
+                return -1;
+            }
+        }
+
+        // Copy the chunk to the end of the line buffer
+        memcpy(*line + len_used, chunk, chunk_used);
+        len_used += chunk_used;
+        (*line)[len_used] = '\0';
+
+        // CHekc if *line contains '\n', if yes return the *line length
+        if((*line)[len_used = -1] == '\n'){
+            return len_used;
+        }
+    }
+
+    return -1;
+}
+
 
 struct ccnl_sensor_setting_s *
 ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name) {
@@ -57,10 +119,16 @@ char *getSensorName(unsigned int i) {
     return retval;
 }
 
-/*struct ccnl_sensor_tuple_s*
-ccnl_sensor_tuple_new(struct ccnl_buf_s* data, int datalen){
-
-}*/
+struct ccnl_sensor_tuple_s*
+ccnl_sensor_tuple_new(void *data, int len){
+    struct ccnl_sensor_tuple_s *st = (struct ccnl_sensor_tuple_s *)ccnl_calloc(1,sizeof(struct ccnl_sensor_tuple_s));
+    if(!st)
+        return NULL;
+    st->datalen = len;
+    if(data)
+        memcpy(st->data,data,len);
+    return st;
+}
 
 struct ccnl_sensor_s *
 ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
@@ -74,12 +142,39 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
 
 }*/
 
-/*void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
+void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
+    FILE * fp;
+    char * line = NULL;
+    size_t len = 0;
+    fp = fopen(path,"r");
+    if(fp == NULL){
+        DEBUGMSG(ERROR,"Unable to locate or open file.\n");
+        exit(EXIT_FAILURE);
+    }
 
-}*/
+    while (my_getline(&line, &len, fp)!= -1){
+        struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,sizeof(line));
+        DBL_LINKED_LIST_ADD(st,sensor->sensorData);
+    }
+
+    fclose(fp);
+    free(line);
+}
+
+/*
+ * checks, if the sensor is set to be stopped. this is indicated by a file in the temp folder with the name of the sensor.
+ */
+void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
+    if(access(stoppath, F_OK) != -1){
+        sensor->stopflag = true;
+        DEBUGMSG(DEBUG,"Sensor stopped.\n");
+    }
+}
 
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     struct timespec ts;
+    char stopPath[100];
+    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%istop",getSensorName(sensor->settings->name),sensor->settings->id);
     DEBUGMSG(TRACE, "sensor loop started\n");
     ts.tv_sec = sensor->settings->samplingRate / 1000;
     ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
@@ -87,14 +182,11 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
         DEBUGMSG(TRACE, "Sensor id = %i\n", sensor->settings->id);
         ccnl_sensor_sample(sensor);
         nanosleep(&ts, &ts);
-
+        sensorStopped(sensor,stopPath);
     }
+    remove(stopPath);
     return 0;
 }
-
-/*ccnl_sensor_mkPrefix(char* name, int suite){
-    struct ccnl_prefix
-}*/
 
 void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
     char *ccnl_home = getenv("CCNL_HOME");
