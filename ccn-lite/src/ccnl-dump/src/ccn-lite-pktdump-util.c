@@ -1204,7 +1204,7 @@ dump_content(int lev, unsigned char *base, unsigned char *data,
         if (suite < 0)
             suite = ccnl_pkt2suite(olddata, oldlen, NULL);
     }
-    DEBUGMSG(DEBUG,"Suit is now %i\n",suite);
+    DEBUGMSG(DEBUG,"Suite is now %i\n",suite);
 
     if (format >= 2)
         return emit_content_only(data, len, suite, format);

@@ -137,7 +137,7 @@ usage:
     }
 
     DEBUGMSG(TRACE,"Sensor Loop wird angeschmissen\n");
-    //ccnl_sensor_loop(sensor);
+    ccnl_sensor_loop(sensor);
 
     //ccnl_sensor_free(sensor);
 

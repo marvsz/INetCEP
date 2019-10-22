@@ -336,7 +336,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
         if (p->nameptr)
             p->nameptr = pkt->buf->data + (p->nameptr - start);
     }
-
+    DEBUGMSG(DEBUG,"The content is %.*s\n",(int)pkt->contlen,pkt->content);
     return pkt;
 Bail:
     ccnl_pkt_free(pkt);

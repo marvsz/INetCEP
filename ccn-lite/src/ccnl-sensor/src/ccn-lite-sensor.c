@@ -244,5 +244,4 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
     snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, conPath);
     execStatus = system(exec);
     DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
-
 }
