@@ -305,11 +305,15 @@ The following services, classes were added to the system in order to build up SA
 
 
 
-## Additions to CCN-Lite for SACEPICN
-In CCN-Lite, the major change was to manage the control interests. This was done in the ccnl_fwd_handleInterest and ccnl_fwd_handleContent methods of ccnl-core-fwd.c code file.
-Here, instead of saving the interest data in the content store, we skipped this process to reduce content store overload from control messages.
+## Additions to CCN-Lite
+We patched ccn-lite from the last release that supported NFN (ccn-lite 2.1) and have the latest master commits of https://github.com/cn-uofbasel/ccn-lite with the exception on some commits that mainly changed the data types.
+Our goal was to extend ccn-lite in order to allow producer initiated communication therefore we added three new packet types:
 
-    /home/veno/INetCEP/ccn-lite/src/ccnl-core-fwd.c
+* Datastream Packet: A Packet that can initiate communication coming from a producer. The data is then send continuously to all consumers that have a pending interest in the data.
+* Add Constant Interest Packet: A Packet that signals, that the Interest should be always satisfied if possible, much like a subscribe message in pub-sub systems.
+* Remove Constant Interest Packet: A Packet that removes a constant interest packet much like an unsubscribe message in a pub-sub system.
+
+With these additions we also enable producer initiated complex event processing as in the consumers ad a query interest and the datastream packages initiate the computation of the complex event.
 
 ## Services and Plots
 The services that were created for the system are:
