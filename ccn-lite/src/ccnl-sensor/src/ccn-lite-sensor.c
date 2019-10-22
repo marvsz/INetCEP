@@ -26,6 +26,7 @@
  * Differences:
  *  - the function returns int64_t instead of sszie_t
  *  - does not accept NUL characters in the input file
+ *  - does remove the newline character at the end of a line
  * Warnings:
  *  - the function sets EINVAL, ENOMEM, EOVERFLOW in case of errors. The above are no but are supporte by other C compilers like MSVC
  *
@@ -74,9 +75,10 @@ int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp
         len_used += chunk_used;
         (*line)[len_used] = '\0';
 
-        // CHekc if *line contains '\n', if yes return the *line length
+        // Chekc if *line contains '\n', if yes return the *line length
         if((*line)[len_used -1] == '\n'){
-            return len_used;
+            (*line)[strcspn((*line),"\n")] = 0;
+            return len_used-1;
         }
     }
     return -1;
@@ -166,6 +168,11 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
     fclose(fp);
     DEBUGMSG(DEBUG,"file closed\n");
     free(line);
+    struct ccnl_sensor_tuple_s* head = sensor->sensorData;
+    while(head){
+        DEBUGMSG(DEBUG,"Printing all the sensor data, Content is %.*s\n",(int)head->datalen,head->data);
+        head = head->next;
+    }
 }
 
 /*
