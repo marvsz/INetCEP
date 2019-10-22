@@ -315,6 +315,18 @@ Our goal was to extend ccn-lite in order to allow producer initiated communicati
 
 With these additions we also enable producer initiated complex event processing as in the consumers ad a query interest and the datastream packages initiate the computation of the complex event.
 
+This was achieved by making several extensions to ccn-lite:
+
+* Adding a sensor struct: A seperate struct with an own loop that constantly creates sensor readings as event tuples and sends them to a specified relay
+
+* Adding a sensor setting struct: A struct that holds the sensor information
+
+* Adding a sensor tuple struct: A buffer that contains the event tuples which are sent to the node they are connected to
+
+* Creating a utility library for packet dumping to constantly format the output of the packet
+
+* Altering the ccn-lite-fwd mechanism in order to handle datastream packets, add constant interest packets and remove constant interest packets
+
 ## Services and Plots
 The services that were created for the system are:
 
