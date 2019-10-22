@@ -159,7 +159,7 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
         DEBUGMSG(DEBUG,"im while, line ist %s, size of line is %lu, size of the res is %ld\n",line,sizeof(line), res);
         struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,res);
         DEBUGMSG(DEBUG,"Neuen Tupel erstellt\n");
-        DBL_LINKED_LIST_ADD(sensor->sensorData,st);
+        DBL_LINKED_LIST_EMPLACE_BACK(sensor->sensorData,st);
         DEBUGMSG(DEBUG,"Tupel der Liste hinzugefügt\n");
         //memcpy(&testline,st->data, sizeof(st->data));
         DEBUGMSG(DEBUG,"Try to get the sensor data, Content is %.*s\n",(int)st->datalen,st->data);
@@ -173,6 +173,11 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
         DEBUGMSG(DEBUG,"Printing all the sensor data, Content is %.*s\n",(int)head->datalen,head->data);
         head = head->next;
     }
+    struct ccnl_sensor_tuple_s* test = sensor->sensorData;
+    if(test->prev == NULL)
+        DEBUGMSG(DEBUG,"The previous of head is null");
+    else
+        DEBUGMSG(DEBUG,"The previous of head is %.*s\n",(int)test->prev->datalen,test->prev->data);
 }
 
 /*

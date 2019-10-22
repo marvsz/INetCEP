@@ -237,6 +237,19 @@ ccnl_interface_CTS(void *aux1, void *aux2);
        (l) = (e); \
   } while(0)
 
+#define DBL_LINKED_LIST_EMPLACE_BACK(l,e) \
+    do{ if((l)){ \
+        (e)->prev = (l)->prev; \
+        (l)->prev->next = (e); \
+        (l)->prev = (e); \
+    }  \
+    else {\
+        (e)->prev = (e); \
+        (l) = (e); \
+    }\
+        (e)->next = NULL; \
+  } while (0)
+
 #define DBL_LINKED_LIST_REMOVE(l,e) \
   do { if ((l) == (e)) (l) = (e)->next; \
        if ((e)->prev) (e)->prev->next = (e)->next; \
