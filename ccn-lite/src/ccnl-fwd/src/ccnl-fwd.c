@@ -38,6 +38,8 @@
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include <inttypes.h>
+#include <ccnl-pkt.h>
+
 #else
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
@@ -355,6 +357,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
             // Step 1: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
+    DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.", (*pkt)->s.ndntlv.isConstant);
 
     for (c = relay->contents; c; c = c->next) {
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)
@@ -391,7 +394,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             ccnl_app_RX(relay, c);
 #endif
         } //TODO: Johannes: Don't we need to free the interest here since we just send the answer?
-        return 0; // we are done
+        if(!(*pkt)->s.ndntlv.isConstant) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
+            return 0; // we are done
     }
 
     // CONFORM: Step 2: check whether interest is already known
