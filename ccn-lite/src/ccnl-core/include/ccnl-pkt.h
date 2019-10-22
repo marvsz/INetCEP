@@ -25,7 +25,11 @@
 #define CCNL_PKT_H
 
 #include <stddef.h>
+#ifndef CCNL_LINUXKERNEL
 #include <stdint.h>
+#else
+#include <linux/types.h>
+#endif
 
 #include "ccnl-buf.h"
 #include "ccnl-prefix.h"

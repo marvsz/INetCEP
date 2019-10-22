@@ -24,7 +24,12 @@
 #define CCNL_PKT_NDNTLV_H
 
 //#include <stdint-gcc.h>
-//#include <stdint.h>
+#ifndef CCNL_LINUXKERNEL
+#include <stdint.h>
+#else
+#include <linux/types.h>
+#endif
+
 #include <stdbool.h>
 
 #include "../../ccnl-core/include/ccnl-content.h"

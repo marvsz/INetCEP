@@ -24,7 +24,12 @@
 #define CCNL_CONTENT_H
 
 #include <stdbool.h>
+#ifndef CCNL_LINUXKERNEL
 #include <stdint.h>
+#else
+#include <linux/types.h>
+#endif
+
 
 #ifdef CCNL_RIOT
 #include "evtimer_msg.h"
@@ -41,7 +46,12 @@ typedef enum ccnl_content_flags_e {
     CCNL_CONTENT_FLAGS_NOT_STALE = 0x0, /** < content is not stale*/
     CCNL_CONTENT_FLAGS_STATIC = 0x01,   /**< content is static */
     CCNL_CONTENT_FLAGS_STALE = 0x02,    /**< content is stale */
+#ifndef CCNL_LINUXKERNEL
     CCNL_CONTENT_DO_NOT_USE = UINT8_MAX /**< for internal use only, sets the width of the enum to sizeof(uint8_t) */
+#else
+    CCNL_CONTENT_DO_NOT_USE = UINT_MAX /**< for internal use only, sets the width of the enum to sizeof(uint8_t) */
+#endif
+
 } ccnl_content_flags;
 
 /**

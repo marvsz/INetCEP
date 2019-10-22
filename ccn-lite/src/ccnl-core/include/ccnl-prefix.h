@@ -220,6 +220,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
  *
  * @return the created URI
 */
+    char* ccnl_prefix_to_str(struct ccnl_prefix_s *pr, char* buf,size_t buflen);
    char* ccnl_prefix_to_path(struct ccnl_prefix_s *pr);
 #endif
 

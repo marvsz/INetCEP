@@ -416,12 +416,13 @@ ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
                     memcpy(&nonce, i->pkt->s.ndntlv.nonce->data, 4);
                 }
             }
-
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG(DEBUG,"  outgoing interest is constant interest=%i - 1 means yes 0 means no\n", i->pkt->s.ndntlv.isConstant);
             DEBUGMSG_CFWD(INFO, "  outgoing interest=<%s> nonce=%i to=%s\n",
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), nonce,
                           fwd->face ? ccnl_addr2ascii(&fwd->face->peer)
                                     : "<tap>");
+#endif
 #ifdef USE_NFN_MONITOR
             ccnl_nfn_monitor(ccnl, fwd->face, i->pkt->pfx, NULL, 0);
 #endif //USE_NFN_MONITOR
@@ -548,11 +549,11 @@ ccnl_content_add2cache(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     struct ccnl_content_s *cit;
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
-
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG_CORE(DEBUG, "ccnl_content_add2cache (%d/%d) --> %p = %s [%d]\n",
                   ccnl->contentcnt, ccnl->max_cache_entries,
                   (void*)c, ccnl_prefix_to_str(c->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), (c->pkt->pfx->chunknum)? *(c->pkt->pfx->chunknum) : -1);
-
+#endif
     for (cit = ccnl->contents; cit; cit = cit->next) {
         if (ccnl_prefix_cmp(c->pkt->pfx, NULL, cit->pkt->pfx, CMP_EXACT) == 0) {
             DEBUGMSG_CORE(DEBUG, "--- Already in cache ---\n");
@@ -703,12 +704,13 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%"PRIi32" to=%s\n",
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
-                          ccnl_addr2ascii(&pi->face->peer));
+/*                          ccnl_addr2ascii(&pi->face->peer));
 #else
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%d to=%s\n",
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                           ccnl_addr2ascii(&pi->face->peer));
+                          */
 #endif
                 DEBUGMSG_CORE(VERBOSE, "    Serve to face: %d (pkt=%p)\n",
                          pi->face->faceid, (void*) c->pkt);
@@ -734,11 +736,20 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
             c->served_cnt++;
             cnt++;
         }
+#ifndef USE_NFN_REQUESTS
+        if(i->pkt->s.ndntlv.isConstant){ // if the interest is constant or an add query Interest
+            DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed");
+            i = i->next;
+            //continue;
+        }
+#else
         if(ccnl_nfnprefix_isAddQueryInterest(i->pkt->pfx) || (i->pkt->s.ndntlv.isConstant)){ // if the interest is constant or an add query Interest
             DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed");
             i = i->next;
             //continue;
         }
+#endif
+
         else{
             i = ccnl_interest_remove(ccnl, i);
             DEBUGMSG(DEBUG,"Interest was a not constant interest and will be removed");

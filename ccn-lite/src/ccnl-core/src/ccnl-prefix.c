@@ -39,6 +39,10 @@
 #include "../include/ccnl-prefix.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
+#ifdef USE_NFN
+#include "../../ccnl-nfn/include/ccnl-nfn-requests.h"
+#include "../../ccnl-nfn/include/ccnl-nfn-common.h"
+#endif //USE_NFN
 #endif //CCNL_LINUXKERNEL
 
 
@@ -378,11 +382,12 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
     char s[CCNL_MAX_PREFIX_SIZE];
 
     DEBUGMSG(VERBOSE, "prefix_cmp(mode=%s) ", ccnl_matchMode2str(mode));
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
              ccnl_prefix_to_str(pfx, s, CCNL_MAX_PREFIX_SIZE), (void *) pfx);
     DEBUGMSG(VERBOSE, "name=<%s>(%p) digest=%p\n",
              ccnl_prefix_to_str(nam, s, CCNL_MAX_PREFIX_SIZE), (void *) nam, (void *) md);
-
+#endif
     if (mode == CMP_EXACT) {
         if (plen != nam->compcnt) {
             DEBUGMSG(VERBOSE, "comp count mismatch\n");
@@ -494,11 +499,13 @@ ccnl_i_prefixof_c(struct ccnl_prefix_s *prefix,
     struct ccnl_prefix_s *p = c->pkt->pfx;
 
     char s[CCNL_MAX_PREFIX_SIZE];
-
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG(VERBOSE, "ccnl_i_prefixof_c prefix=<%s> ",
              ccnl_prefix_to_str(prefix, s, CCNL_MAX_PREFIX_SIZE));
     DEBUGMSG(VERBOSE, "content=<%s> min=%d max=%d\n",
              ccnl_prefix_to_str(p, s, CCNL_MAX_PREFIX_SIZE), minsuffix, maxsuffix);
+#endif
+
     //
     // CONFORM: we do prefix match, honour min. and maxsuffix,
 
@@ -699,12 +706,12 @@ ccnl_prefix_to_path(struct ccnl_prefix_s *pr)
         return NULL;
     for (i = 0; i < pr->compcnt; i++) {
         if(!strncmp("call", (char*)pr->comp[i], 4) && strncmp((char*)pr->comp[pr->compcnt-1], "NFN", 3)){
-            result = snprintf(prefix_buf + len, buflen - len, "%.*s", pr->complen[i], pr->comp[i]);
+            result = snprintf(prefix_buf + len, CCNL_MAX_PREFIX_SIZE - len, "%.*s", pr->complen[i], pr->comp[i]);
         }
         else{
-            result = snprintf(prefix_buf + len, buflen - len, "/%.*s", pr->complen[i], pr->comp[i]);
+            result = snprintf(prefix_buf + len, CCNL_MAX_PREFIX_SIZE - len, "/%.*s", pr->complen[i], pr->comp[i]);
         }
-        if (!(result > -1 && result < (buflen - len))) {
+        if (!(result > -1 && result < (CCNL_MAX_PREFIX_SIZE - len))) {
             DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
             return NULL;
         }

@@ -221,14 +221,28 @@ ccnl_set_timer(int usec, void(*fct)(void*,void*), void *ptr, void *aux)
         if (!t)
             return NULL;
     }
+#if(LINUX_VERSION_CODE >= KERNEL_VERSION(4,15,0))
+    timer_setup(&t->tl.t,legacy_timer_emu_func,0);
+#else
     init_timer(&t->tl);
+#endif
+
     t->tl.function = ccnl_timer_callback;
     t->tl.data = (unsigned long) t;
     t->fct = fct;
     t->ptr = ptr;
     t->aux = aux;
+#if(LINUX_VERSION_CODE >= KERNEL_VERSION(4,15,0))
+    t->tl.t.expires = jiffies + usecs_to_jiffies(usec);
+#else
     t->tl.expires = jiffies + usecs_to_jiffies(usec);
+#endif
+#if(LINUX_VERSION_CODE >= KERNEL_VERSION(4,15,0))
+    add_timer(&t->tl.t);
+#else
     add_timer(&t->tl);
+#endif
+
     return t;
 }
 
@@ -239,7 +253,12 @@ ccnl_rem_timer(void *p)
 
     if (!p)
         return;
+    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0))
+    del_timer(&t->tl.t);
+    #else
     del_timer(&t->tl);
+    #endif
+
     if (!spare_timer)
         spare_timer = t;
     else

@@ -40,7 +40,12 @@ enum {
     CCNL_PENDINT,               /**< data type is pending interest */
     CCNL_PACKET,                /**< data type is packet */
     CCNL_CONTENT,               /**< data type is content */
+#ifndef CCNL_LINUXKERNEL
     CCNL_DO_NOT_USE = UINT8_MAX /**< for internal use only, sets the width of the enum to sizeof(uint8_t) */
+#else
+    CCNL_DO_NOT_USE = UINT_MAX /**< for internal use only, sets the width of the enum to sizeof(uint8_t) */
+#endif
+
 };
 
 char *frag_protocol(int e);

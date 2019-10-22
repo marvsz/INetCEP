@@ -32,6 +32,8 @@ SET( KBUILD_COMMAND
 	${CMAKE_MAKE_PROGRAM} -C ${KERNEL_DIR} M=${MODULE_OUTPUT_DIR} modules
 )
 
+SET(CMAKE_C_FLAGS -I /usr/lib/gcc/x86_64-linux-gnu/7/include)
+
 CONFIGURE_FILE(
         Kbuild.in
         ${MODULE_OUTPUT_DIR}/Kbuild

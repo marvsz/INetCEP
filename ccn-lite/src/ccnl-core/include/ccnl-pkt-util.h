@@ -24,7 +24,11 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#ifndef CCNL_LINUXKERNEL
 #include <ccnl-pkt.h>
+#else
+#include "../include/ccnl-pkt.h"
+#endif
 
 bool
 ccnl_isSuite(int suite);

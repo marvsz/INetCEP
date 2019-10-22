@@ -24,8 +24,12 @@
 #define CCNL_NFN_REQUESTS_H
 
 //typedef int (*cMatchFct)(struct ccnl_pkt_s *p, struct ccnl_content_s *c);
-
+#ifdef CCNL_LINUXKERNEL
 #include "ccnl-fwd.h"
+#else
+#include "../../ccnl-fwd/include/ccnl-fwd.h"
+#endnif
+
 
 #ifdef USE_NFN_REQUESTS
 
