@@ -256,6 +256,10 @@ ccnl_interface_CTS(void *aux1, void *aux2);
        if ((e)->next) (e)->next->prev = (e)->prev; \
   } while(0)
 
+#define DBL_LINKED_LIST_REMOVE_FIRST(l) \
+      do{ if((l)->next) (l)->next->prev = (l)->prev; \
+        (l) = (l)->next;\
+      }while(0)
 #ifdef CCNL_APP_RX
 int ccnl_app_RX(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c);
 #endif
