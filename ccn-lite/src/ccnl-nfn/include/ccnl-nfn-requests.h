@@ -28,7 +28,7 @@
 #include "ccnl-fwd.h"
 #else
 #include "../../ccnl-fwd/include/ccnl-fwd.h"
-#endnif
+#endif
 
 
 #ifdef USE_NFN_REQUESTS
