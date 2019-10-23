@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "../include/ccn-lite-sensor.h"
 #include "ccnl-os-includes.h"
 #include "../../ccnl-utils/include/ccnl-crypto.h"
@@ -84,16 +85,42 @@ int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp
     return -1;
 }
 
+/**
+ * Creates the directory that leads to a filename given in dir if it does not exist.
+ * @param dir A filename
+ * sources:
+ * https://stackoverflow.com/questions/2336242/recursive-mkdir-system-call-on-unix/11425692
+ * https://stackoverflow.com/questions/7430248/creating-a-new-directory-in-c
+ */
+static void _mkdir(const char *dir) {
+    char tmp[256];
+    char *p = NULL;
+    size_t len;
+    struct stat st = {0};
+
+    snprintf(tmp, sizeof(tmp),"%s",dir);
+    len = strlen(tmp);
+    if(tmp[len - 1] == '/')
+        tmp[len - 1] = 0;
+    for(p = tmp + 1; *p; p++)
+        if(*p == '/') {
+            *p = 0;
+            if(stat(tmp,&st)==-1)
+                mkdir(tmp, S_IRWXU);
+            *p = '/';
+        }
+}
+
 
 struct ccnl_sensor_setting_s *
-ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name) {
+ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name, char* socketPath) {
     struct ccnl_sensor_setting_s *s = (struct ccnl_sensor_setting_s *) ccnl_calloc(1,
                                                                                    sizeof(struct ccnl_sensor_setting_s));
     s->id = id;
     s->name = name;
     s->type = type;
     s->samplingRate = sasamplingRate;
-
+    s->socketPath = socketPath;
     return s;
 }
 
@@ -146,7 +173,6 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
     DEBUGMSG(DEBUG,"Test\n");
     FILE * fp;
     char * line = NULL;
-    //unsigned char testline;
     size_t len = 0;
     int64_t res = 0;
     fp = fopen(path,"r");
@@ -185,7 +211,7 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
  */
 void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
     if(access(stoppath, F_OK) != -1){
-        sensor->stopflag = true;
+        sensor->stopflag = 1;
         DEBUGMSG(DEBUG,"Sensor stopped.\n");
     }
 }
@@ -197,9 +223,14 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     DEBUGMSG(TRACE, "sensor loop started\n");
     ts.tv_sec = sensor->settings->samplingRate / 1000;
     ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
+    char sock[100];
+    snprintf(sock,sizeof(sock),"/tmp/%s",sensor->settings->socketPath);
+    char tuplePath[100];
+    snprintf(tuplePath,sizeof(tuplePath),"/tmp/%s%i/tupleData",getSensorName(sensor->settings->name),sensor->settings->id);
+    char binaryContentPath[100];
+    snprintf(binaryContentPath,sizeof(binaryContentPath),"/tmp/%s%i/tupleDataBinary",getSensorName(sensor->settings->name),sensor->settings->id);
     while (!sensor->stopflag) {
-        DEBUGMSG(TRACE, "Sensor id = %i\n", sensor->settings->id);
-        ccnl_sensor_sample(sensor);
+        ccnl_sensor_sample(sensor,sock,tuplePath,binaryContentPath);
         nanosleep(&ts, &ts);
         sensorStopped(sensor,stopPath);
     }
@@ -207,13 +238,10 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     return 0;
 }
 
-void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
+void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath, char* binaryContentPath) {
     char *ccnl_home = getenv("CCNL_HOME");
     char *ctrl = "ccn-lite-ctrl";
     char *mkc = "ccn-lite-mkDSC";
-    char *sock = "/tmp/mgmt-nfn-relay-b.sock";
-    char *tuplePath = "/tmp/tupleData";
-    char *conPath = "/tmp/sensorData";
     int mkCStatus, execStatus;
     char exec[200];
     DEBUGMSG(INFO, "Sample sensor with sampling rate of %i milliseconds\n", sensor->settings->samplingRate);
@@ -223,14 +251,29 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
     tm = localtime(&tv.tv_sec);
     char uri[100];
     char tupleData[1000];
+    _mkdir(tuplePath);
     FILE * fPtr;
     fPtr = fopen(tuplePath,"w");
     if(fPtr == NULL){
         DEBUGMSG(DEBUG,"Unable to create file.\n");
         exit(EXIT_FAILURE);
     }
-    DEBUGMSG(DEBUG,"Enter contents into store.\n");
-    snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+
+    if(sensor->settings->type==CCNL_SENSORTYPE_EMULATION){
+        DEBUGMSG(DEBUG,"Enter trace content into store.\n");
+        struct ccnl_sensor_tuple_s* currentData = sensor->sensorData;
+        snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
+        DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
+        free(currentData);
+        if(!sensor->sensorData)
+            sensor->stopflag=1;
+
+    }
+    else{
+        DEBUGMSG(DEBUG,"Enter random content into store.\n");
+        snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+
+    }
     DEBUGMSG(DEBUG,"Enter Tuple Data into file.\n");
     fputs(tupleData, fPtr);
     fclose(fPtr);
@@ -238,10 +281,10 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
              //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
     snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i", "B", getSensorName(sensor->settings->name),
              sensor->settings->id);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, conPath);
+    snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
     DEBUGMSG(DEBUG, "mkC returned %i\n", mkCStatus);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, conPath);
+    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
     execStatus = system(exec);
     DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
 }

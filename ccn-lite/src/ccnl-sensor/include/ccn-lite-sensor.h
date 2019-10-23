@@ -25,6 +25,7 @@ struct ccnl_sensor_setting_s {
     unsigned int type; /** < the type of the sensor, possible at the moment are emulation or simulation. */
     unsigned int samplingRate;/** < The rate in seconds at which the sensor emits its data/reading */
     unsigned int name;/** < the name of the sensor,  [Victims, Survivors, GPS, Plug]*/
+    char* socketPath; /**< the path of the socket we want to connect the sensor to. The sensor then sends it sensor data to this socket */
 };
 
 /**
@@ -34,17 +35,18 @@ struct ccnl_sensor_setting_s {
  * @param type the type of the sensor
  * @param sasamplingRate the sampling rate of the sensor
  * @param name the name of the sensor
+ * @param socketPath the path to the socket where the sensor connects itself to
  * @return a sensor setting struct
  */
 struct ccnl_sensor_setting_s*
-ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name);
+ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamplingRate, unsigned int name, char* socketPath);
 
 
 struct ccnl_sensor_tuple_s {
     struct ccnl_sensor_tuple_s* next; /** < a pointer to the next content tuple*/
     struct ccnl_sensor_tuple_s* prev; /** < a pointer to the previous content tuple*/
-    ssize_t datalen;
-    unsigned char data[2];
+    ssize_t datalen; /** < the length of the data object */
+    unsigned char data[1]; /** < a pointer into the data */
 };
 
 /**
@@ -57,7 +59,7 @@ struct ccnl_sensor_tuple_s*
 ccnl_sensor_tuple_new(void *data, int datalen);
 
 struct ccnl_sensor_s {
-    int stopflag;
+    int stopflag; /** < a flag that indicates if the sensor should be stopped. 1 for stopping, 0 for continuing*/
     struct ccnl_sensor_setting_s* settings; /** < the settings of this sensor */
     struct ccnl_sensor_tuple_s* sensorData; /** < a pointer to the first element of the sensor data list*/
     int64_t last_sampled; /** < the last time the sensor was sampled */
@@ -93,7 +95,7 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
  */
 int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
 
-void ccnl_sensor_sample(struct ccnl_sensor_s* sensor);
+void ccnl_sensor_sample(struct ccnl_sensor_s* sensor,char* sock, char* tuplePath, char* binaryContentPath);
 
 /**
  * @brief the sensor loop
