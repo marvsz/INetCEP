@@ -32,6 +32,13 @@ SET( KBUILD_COMMAND
 	${CMAKE_MAKE_PROGRAM} -C ${KERNEL_DIR} M=${MODULE_OUTPUT_DIR} modules
 )
 
+set(CCNL_NFN_FLAGS
+	-DUSE_NFN
+	-DUSE_NFNREQUESTS
+	CACHE PATH
+	"NFN flags for CCN-lite"
+)
+
 SET(CMAKE_C_FLAGS -I /usr/lib/gcc/x86_64-linux-gnu/7/include)
 
 CONFIGURE_FILE(
