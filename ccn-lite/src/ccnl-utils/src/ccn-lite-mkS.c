@@ -62,10 +62,11 @@ main(int argc, char **argv){
     int opt, id, type, samplingRate = -1;
     char *name = NULL;
     int nameID = -1;
+    char *socket = NULL;
     char *datadir = NULL;
     struct ccnl_sensor_setting_s* setting = NULL;
     struct ccnl_sensor_s* sensor = NULL;
-    while((opt = getopt(argc,argv, "hn:i:t:s:n:d:v:")) != -1){
+    while((opt = getopt(argc,argv, "hn:i:t:s:n:d:v:x:")) != -1){
         switch(opt){
             case 'i':
                 id = atoi(optarg);
@@ -81,6 +82,9 @@ main(int argc, char **argv){
                 break;
             case 'd':
                 datadir = optarg;
+                break;
+            case 'x':
+                socket = optarg;
                 break;
             case 'v':
                 if (isdigit(optarg[0]))
@@ -98,15 +102,17 @@ usage:
                                " -s The Sampling rate in milliseconds\n"
                                " -n The name of the sensor. 1 for Victims, 2 for Survivors, 3 for GPS and 4 for Data\n"
                                " -d The directory of the file used with emulation\n"
+                               " -v The level of debug Information (fatal, error, warning, info, debug, verbose, trace)\n"
+                               " -x The name of the socket to connect the sensor to\n"
                                " -h For Help\n"
                                "Examples:\n"
-                               "ccn-lite-mkS -n Victims -i 1 -t 2 -s 500 -v trace\n"
-                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -v trace -d /tmp/testdata\n",
+                               "ccn-lite-mkS -n Victims -i 1 -t 2 -s 500 -x mgmt-nfn-relay-b.sock -v trace\n"
+                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -x mgmt-nfn-relay-b.sock -v trace -d /home/johannes/INetCEP/sensors/plug1\n",
                                argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
-    if(id==-1||type==-1||samplingRate==-1||name==NULL)
+    if(id==-1||type==-1||samplingRate==-1||name==NULL||socket==NULL)
         goto usage;
     if(type==1 && datadir==NULL)
         goto usage;
@@ -128,7 +134,7 @@ usage:
                         goto usage;
 
     DEBUGMSG(TRACE,"Jetzt werden settings gemacht\n");
-    setting = ccnl_sensor_settings_new(id,type,samplingRate,nameID);
+    setting = ccnl_sensor_settings_new(id,type,samplingRate,nameID,socket);
     DEBUGMSG(TRACE,"Jetzt wird der sensor gemacht\n");
     sensor = ccnl_sensor_new(setting);
     if(datadir){
