@@ -43,6 +43,7 @@ void *debug_malloc(int s, const char *fn, int lno, char *tstamp)
         struct mhdr *h = (struct mhdr *) malloc(size);
         /** memory allocation failed */
         if (!h) {
+            DEBUGMSG(DEBUG,"debug_malloc: memory allocation failed\n");
             return NULL;
         }
 
@@ -51,7 +52,6 @@ void *debug_malloc(int s, const char *fn, int lno, char *tstamp)
         h->fname = (char *) fn;
         h->lineno = lno;
         h->size = s;
-
 #ifdef CCNL_ARDUINO
         h->tstamp = tstamp;
 #else
@@ -87,7 +87,7 @@ void *debug_malloc(int s, const char *fn, int lno, char *tstamp)
         return ((unsigned char *) h) + sizeof(struct mhdr);
 #ifndef BUILTIN_INT_ADD_OVERFLOW_DETECTION_UNAVAILABLE
     }
-
+    DEBUGMSG(DEBUG,"debug_malloc: could not create\n");
     return NULL;
 #endif // BUILTIN_INT_ADD_OVERFLOW_DETECTION_UNAVAILABLE
 }
