@@ -7,12 +7,14 @@
 #include <time.h>
 #include <bits/types/struct_timespec.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include <math.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include "../include/ccn-lite-sensor.h"
 #include "ccnl-os-includes.h"
 #include "../../ccnl-utils/include/ccnl-crypto.h"
+
 //#include "../include/randomGPS.h"
 //#include "../include/randomVICTIMS.h"
 //#include "../include/randomPLUG.h"
@@ -41,7 +43,7 @@ int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp
     // Use a chunk array of 128 bytes as parameter for fgets
     char chunk[128];
 
-    // Allocate a block of memory for *line if it is NULL or smaller than the cunk a
+    // Allocate a block of memory for *line if it is NULL or smaller than the chunk a
     if(*line == NULL || *len < sizeof(chunk)){
         *len = sizeof(chunk);
         if((*line = malloc(*len)) == NULL){
@@ -148,12 +150,17 @@ char *getSensorName(unsigned int i) {
 
 struct ccnl_sensor_tuple_s*
 ccnl_sensor_tuple_new(void *data, int len){
-    struct ccnl_sensor_tuple_s *st = (struct ccnl_sensor_tuple_s *)ccnl_calloc(1,sizeof(struct ccnl_sensor_tuple_s));
+    //DEBUGMSG(DEBUG,"sensor_new: started\n");
+    // hier muss unbedingt die laenge des char arrays das in dem Tupel gespeichert werden soll mit reingegeben werden.
+    struct ccnl_sensor_tuple_s *st = (struct ccnl_sensor_tuple_s *)ccnl_calloc(1,sizeof(struct ccnl_sensor_tuple_s)+len+1);
+    //DEBUGMSG(DEBUG,"sensor_new: allocate space\n");
     if(!st)
         return NULL;
+    //DEBUGMSG(DEBUG,"sensor_new: space allocated\n");
     st->datalen = len;
     if(data)
         memcpy(st->data,data,len);
+    //DEBUGMSG(DEBUG,"sensor_new: data copied into data\n");
     return st;
 }
 
@@ -165,16 +172,21 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
     return s;
 }
 
-/*void ccnl_sensor_free(struct ccnl_sensor_s* sensor){
-
-}*/
+void ccnl_sensor_free(struct ccnl_sensor_s* sensor){
+    free(sensor->settings);
+    while(sensor->sensorData){
+        struct ccnl_sensor_tuple_s* toDelete = sensor->sensorData;
+        DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
+        free(toDelete);
+    }
+}
 
 void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
-    DEBUGMSG(DEBUG,"Test\n");
     FILE * fp;
     char * line = NULL;
     size_t len = 0;
     int64_t res = 0;
+    int i = 0;
     fp = fopen(path,"r");
     if(fp == NULL){
         DEBUGMSG(ERROR,"Unable to locate or open file.\n");
@@ -182,28 +194,12 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
     }
     DEBUGMSG(DEBUG,"Vor dem while\n");
     while ((res =my_getline(&line, &len, fp))!= -1){
-        DEBUGMSG(DEBUG,"im while, line ist %s, size of line is %lu, size of the res is %ld\n",line,sizeof(line), res);
-        struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,res);
-        DEBUGMSG(DEBUG,"Neuen Tupel erstellt\n");
+        i = i + 1;
+        struct ccnl_sensor_tuple_s *st = ccnl_sensor_tuple_new(line,strlen(line)*sizeof(char));
         DBL_LINKED_LIST_EMPLACE_BACK(sensor->sensorData,st);
-        DEBUGMSG(DEBUG,"Tupel der Liste hinzugefügt\n");
-        //memcpy(&testline,st->data, sizeof(st->data));
-        DEBUGMSG(DEBUG,"Try to get the sensor data, Content is %.*s\n",(int)st->datalen,st->data);
     }
-    DEBUGMSG(DEBUG,"nach dem while\n");
     fclose(fp);
-    DEBUGMSG(DEBUG,"file closed\n");
     free(line);
-    struct ccnl_sensor_tuple_s* head = sensor->sensorData;
-    while(head){
-        DEBUGMSG(DEBUG,"Printing all the sensor data, Content is %.*s\n",(int)head->datalen,head->data);
-        head = head->next;
-    }
-    struct ccnl_sensor_tuple_s* test = sensor->sensorData;
-    if(test->prev == NULL)
-        DEBUGMSG(DEBUG,"The previous of head is null");
-    else
-        DEBUGMSG(DEBUG,"The previous of head is %.*s\n",(int)test->prev->datalen,test->prev->data);
 }
 
 /*
@@ -219,21 +215,23 @@ void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     struct timespec ts;
     char stopPath[100];
-    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%istop",getSensorName(sensor->settings->name),sensor->settings->id);
-    DEBUGMSG(TRACE, "sensor loop started\n");
-    ts.tv_sec = sensor->settings->samplingRate / 1000;
-    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
+    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
     char sock[100];
     snprintf(sock,sizeof(sock),"/tmp/%s",sensor->settings->socketPath);
     char tuplePath[100];
     snprintf(tuplePath,sizeof(tuplePath),"/tmp/%s%i/tupleData",getSensorName(sensor->settings->name),sensor->settings->id);
+    _mkdir(tuplePath);
     char binaryContentPath[100];
     snprintf(binaryContentPath,sizeof(binaryContentPath),"/tmp/%s%i/tupleDataBinary",getSensorName(sensor->settings->name),sensor->settings->id);
+    DEBUGMSG(TRACE, "sensor loop started\n");
+    ts.tv_sec = sensor->settings->samplingRate / 1000;
+    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
     while (!sensor->stopflag) {
         ccnl_sensor_sample(sensor,sock,tuplePath,binaryContentPath);
         nanosleep(&ts, &ts);
         sensorStopped(sensor,stopPath);
     }
+    ccnl_sensor_free(sensor);
     remove(stopPath);
     return 0;
 }
@@ -251,7 +249,6 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     tm = localtime(&tv.tv_sec);
     char uri[100];
     char tupleData[1000];
-    _mkdir(tuplePath);
     FILE * fPtr;
     fPtr = fopen(tuplePath,"w");
     if(fPtr == NULL){
