@@ -142,9 +142,7 @@ usage:
     }
 
     DEBUGMSG(TRACE,"Starting Sensor Loop\n");
-    //ccnl_sensor_loop(sensor);
-
-    //ccnl_sensor_free(sensor);
+    ccnl_sensor_loop(sensor);
 
     return 0;
 }

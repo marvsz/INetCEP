@@ -173,11 +173,11 @@ ccnl_sensor_new(struct ccnl_sensor_setting_s *ssetings) {
 }
 
 void ccnl_sensor_free(struct ccnl_sensor_s* sensor){
-    free(sensor->settings);
+    ccnl_free(sensor->settings);
     while(sensor->sensorData){
         struct ccnl_sensor_tuple_s* toDelete = sensor->sensorData;
         DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
-        free(toDelete);
+        ccnl_free(toDelete);
     }
 }
 
@@ -261,7 +261,7 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
         struct ccnl_sensor_tuple_s* currentData = sensor->sensorData;
         snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
         DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
-        free(currentData);
+        ccnl_free(currentData);
         if(!sensor->sensorData)
             sensor->stopflag=1;
 
