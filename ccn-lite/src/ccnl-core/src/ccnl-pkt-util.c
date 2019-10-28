@@ -109,10 +109,10 @@ ccnl_isSuite(int suite) {
     if (suite == CCNL_SUITE_CCNB)
         return true;
 #endif
-#ifdef USE_SUITE_CCNTLV
+//#ifdef USE_SUITE_CCNTLV
     if (suite == CCNL_SUITE_CCNTLV)
         return true;
-#endif
+//#endif
 #ifdef USE_SUITE_LOCALRPC
     if (suite == CCNL_SUITE_LOCALRPC)
         return true;
@@ -126,7 +126,7 @@ ccnl_isSuite(int suite) {
 
 int
 ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
-    int enc, suite = -1;
+    int enc=0, suite = -1;
     unsigned char *olddata = data;
 
     if (skip)

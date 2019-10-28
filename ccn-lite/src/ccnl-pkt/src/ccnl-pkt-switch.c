@@ -50,9 +50,9 @@ ccnl_enc2suite(int enc)
 #ifdef USE_SUITE_CCNB
     case CCNL_ENC_CCNB:      return CCNL_SUITE_CCNB;
 #endif
-#ifdef USE_SUITE_NDNTLV
+//#ifdef USE_SUITE_NDNTLV
     case CCNL_ENC_NDN2013:   return CCNL_SUITE_NDNTLV;
-#endif
+//#endif
 #ifdef USE_SUITE_CCNTLV
     case CCNL_ENC_CCNX2014:  return CCNL_SUITE_CCNTLV;
 #endif

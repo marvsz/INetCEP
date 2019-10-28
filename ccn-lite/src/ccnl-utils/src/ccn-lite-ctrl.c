@@ -851,6 +851,7 @@ udp_sendto2(int sock, char *address, int port,
     struct sockaddr_in si_other;
     si_other.sin_family = AF_INET;
     si_other.sin_port = htons(port);
+    DEBUGMSG(DEBUG,"Adress is %s and port is %i\n",address,port);
     if (inet_aton(address, &si_other.sin_addr) == 0) {
         DEBUGMSG(ERROR, "inet_aton() failed\n");
         exit(1);
@@ -1034,7 +1035,8 @@ main(int argc, char *argv[]) {
                 port = strtol(strtok(NULL, "/"), NULL, 0);
                 use_udp = 1;
                 printf("udp: <%s> <%d>\n", udp, port);
-                free(udp_temp);
+                //free(udp_temp);
+                printf("UDP is now %s\n",udp);
                 break;
             case 'x':
                 ux = optarg;
@@ -1176,6 +1178,7 @@ main(int argc, char *argv[]) {
         if (argc < 3)
             goto help;
         file_uri = argv[2];
+        DEBUGMSG(DEBUG,"File uri is %s\n",argv[2]);
         len = mkAddToRelayCacheRequest(out, file_uri, private_key_path, &suite);
     } else if (!strcmp(argv[1], "removeContentFromCache")) {
         if (argc < 3)
@@ -1186,7 +1189,7 @@ main(int argc, char *argv[]) {
         DEBUGMSG(ERROR, "unknown command %s\n", argv[1]);
         goto help;
     }
-
+    DEBUGMSG(ERROR,"len is %i\n",len);
     if (len > 0 && !msgOnly) {
         unsigned int slen = 0;
         int num = 1;

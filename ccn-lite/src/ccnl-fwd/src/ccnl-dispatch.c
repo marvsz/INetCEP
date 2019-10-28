@@ -49,7 +49,7 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
 {
     unsigned char *base = data;
     struct ccnl_face_s *from;
-    int enc, suite = -1, skip;
+    int enc = 0, suite = -1, skip=0;
     dispatchFct dispatch;
     (void) enc;
 
@@ -77,12 +77,13 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
         // work through explicit code switching
         while (!ccnl_switch_dehead(&data, &datalen, &enc))
             suite = ccnl_enc2suite(enc);
+        DEBUGMSG(DEBUG,"enc was %i, suite is now %i\n",enc,suite);
         if (suite == -1)
             suite = ccnl_pkt2suite(data, datalen, &skip);
 
         if (!ccnl_isSuite(suite)) {
-            DEBUGMSG_CORE(WARNING, "?unknown packet format? ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d\n",
-                     ifndx, datalen, *data, (int)(data - base));
+            DEBUGMSG_CORE(WARNING, "?unknown packet format? ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d, suit is %i\n",
+                     ifndx, datalen, *data, (int)(data - base),suite);
             return;
         }
 

@@ -41,6 +41,8 @@
 #include <ccnl-pkt.h>
 
 #else
+#include "../../ccnl-core/include/ccnl-producer.h"
+#include "../../ccnl-core/include/ccnl-callbacks.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
@@ -114,11 +116,12 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         }
 #endif /* USE_SUITE_CCNB && USE_SIGNATURES*/
 
-    if (ccnl_callback_rx_on_data(relay, from, *pkt)) {
+#ifndef CCNL_LINUXKERNEL
+        if (ccnl_callback_rx_on_data(relay, from, *pkt)) {
         *pkt = NULL;
         return 0;
     }
-
+#endif
     // CONFORM: Step 1:
     for (c = relay->contents; c; c = c->next) {
         if(!((*pkt)->type == NDN_TLV_Datastream)){
@@ -302,9 +305,11 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         return 0;
     }
 #endif
+#ifndef CCNL_LINUXKERNEL
     if (local_producer(relay, from, *pkt)) {
         return 0;
     }
+#endif
 #if defined(USE_SUITE_CCNB) && defined(USE_MGMT)
     if ((*pkt)->suite == CCNL_SUITE_CCNB && (*pkt)->pfx->compcnt == 4 &&
                                   !memcmp((*pkt)->pfx->comp[0], "ccnx", 4)) {
@@ -379,11 +384,11 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             ccnl_nfn_monitor(relay, from, c->pkt->pfx, c->pkt->content,
                                  c->pkt->contlen);
 #endif
-
+#ifndef CCNL_LINUXKERNEL
             if (ccnl_callback_tx_on_data(relay, from, *pkt)) {
                 continue;
             }
-
+#endif
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;

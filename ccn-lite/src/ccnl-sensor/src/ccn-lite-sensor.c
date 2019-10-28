@@ -280,8 +280,9 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
              sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
-    DEBUGMSG(DEBUG, "mkC returned %i\n", mkCStatus);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+    DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
+    snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
+    //snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
     execStatus = system(exec);
     DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
 }

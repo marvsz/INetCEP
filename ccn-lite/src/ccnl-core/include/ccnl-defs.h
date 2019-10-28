@@ -105,9 +105,9 @@ enum {
 #ifdef USE_SUITE_LOCALRPC
   CCNL_SUITE_LOCALRPC = 5,
 #endif
-#ifdef USE_SUITE_NDNTLV
+//#ifdef USE_SUITE_NDNTLV
   CCNL_SUITE_NDNTLV = 6,
-#endif
+//#endif
   CCNL_SUITE_LAST = 7
 };
 
