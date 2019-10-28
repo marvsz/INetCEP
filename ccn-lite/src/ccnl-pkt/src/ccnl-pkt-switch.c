@@ -31,9 +31,11 @@
 int
 ccnl_switch_dehead(unsigned char **buf, int *len, int *code)
 {
+    DEBUGMSG(DEBUG,"ccnl_switch_dehead: started\n");
     if (*len < 2 || **buf != 0x80)
         return -1;
     if ((*buf)[1] < 253) {
+        DEBUGMSG(DEBUG,"Code is %i\n",(*buf)[1]);
         *code = (*buf)[1];
         *buf += 2;
         *len -= 2;

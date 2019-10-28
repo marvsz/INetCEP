@@ -49,7 +49,7 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
 {
     unsigned char *base = data;
     struct ccnl_face_s *from;
-    int enc = 0, suite = -1, skip=0;
+    int enc = 1, suite = -1, skip=0;
     dispatchFct dispatch;
     (void) enc;
 
@@ -75,6 +75,7 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
     // loop through all packets in the received frame (UDP, Ethernet etc)
     while (datalen > 0) {
         // work through explicit code switching
+        DEBUGMSG(DEBUG,"Data content to dehead %.*s\n",(int)datalen,data);
         while (!ccnl_switch_dehead(&data, &datalen, &enc))
             suite = ccnl_enc2suite(enc);
         DEBUGMSG(DEBUG,"enc was %i, suite is now %i\n",enc,suite);

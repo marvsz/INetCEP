@@ -5,7 +5,8 @@ include_directories(include ../ccnl-core/include ../ccnl-pkt/include ../ccnl-fwd
 #file(GLOB CORESOURCE "../ccnl-core/src/*.c")
 #file(GLOB FWDSOURCE "../ccnl-fwd/src/*.c")
 #file(GLOB PKTSOURCE "../ccnl-pkt/src/*.c")
-#add_library(ccn-lite-kernel STATIC ${CORESOURCE} ${FWDSOURCE} ${PKTSOURCE})
+#file(GLOB DEFSOURCE "../ccnl-core/include/ccnl-defs.h")
+#add_library(ccn-lite-kernel STATIC ${CORESOURCE} ${FWDSOURCE} ${PKTSOURCE} ${DEFSOURCE})
 
 
 SET( MODULE_NAME

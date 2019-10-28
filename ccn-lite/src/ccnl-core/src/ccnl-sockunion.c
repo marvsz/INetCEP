@@ -61,6 +61,7 @@ ccnl_is_local_addr(sockunion *su)
 char*
 ccnl_addr2ascii(sockunion *su)
 {
+    DEBUGMSG(DEBUG,"adrr2ascii: start\n");
 #ifdef USE_UNIXSOCKET
     static char result[256];
 #else
@@ -70,8 +71,11 @@ ccnl_addr2ascii(sockunion *su)
 
     if (!su)
         return CONSTSTR("(local)");
-
+    else
+        DEBUGMSG(DEBUG,"adrr2ascii: !su was not the case\n");
+    DEBUGMSG(DEBUG,"1111111adrr2ascii: sa.sa_family is %us\n",su->sa.sa_family);
     switch (su->sa.sa_family) {
+        DEBUGMSG(DEBUG,"adrr2ascii: sa.sa_family is %us\n",su->sa.sa_family);
 #ifdef USE_LINKLAYER
 #if !(defined(__FreeBSD__) || defined(__APPLE__))
     case AF_PACKET: {
@@ -110,8 +114,8 @@ ccnl_addr2ascii(sockunion *su)
         inet_ntop(AF_INET, (const void *)&(su->ip4.sin_addr), str, INET_ADDRSTRLEN);
         sprintf(result, "%s/%u",  str,
             ntohs(su->ip4.sin_port));
-#elif !defined(CCNL_LINUXKERNEL)
-        sprintf(result, "%s/%u", inet_ntoa(su->ip4.sin_addr),
+#elif defined(CCNL_LINUXKERNEL)
+        sprintf(result, "%pI4/%u", su->ip4.sin_addr,
                 ntohs(su->ip4.sin_port));
 #endif
         return result;
