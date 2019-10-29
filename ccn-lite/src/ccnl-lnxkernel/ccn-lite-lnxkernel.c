@@ -417,7 +417,7 @@ ccnl_udp_data_ready(struct sock *sk)
         su.ip4.sin_port = udp_hdr(skb)->source;
         DEBUGMSG(DEBUG, "ccnl_udp_data_ready2: if=%d, %d bytes, src=%s\n",
                  i, skb->len, ccnl_addr2ascii(&su));
-        DEBUGMSG(DEBUG, "Data is at the moment %.*s",(int)skb->len,skb->data);
+        //DEBUGMSG(DEBUG, "Data is at the moment %.*s",(int)skb->len,skb->data);
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data/* + sizeof(struct udphdr)*/,
                                 skb->len/* - sizeof(struct udphdr)*/);
     } else

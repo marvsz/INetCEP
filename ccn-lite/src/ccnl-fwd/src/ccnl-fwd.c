@@ -19,7 +19,7 @@
  * File history:
  * 2017-06-16 created
  */
-
+#define _POSIX_C_SOURCE 199309L
 
 #include "../include/ccnl-fwd.h"
 
@@ -33,12 +33,15 @@
 #endif
 
 #ifndef CCNL_LINUXKERNEL
+
+#include<time.h>
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #include <inttypes.h>
 #include <ccnl-pkt.h>
+
 
 #else
 #include "../../ccnl-core/include/ccnl-mgmt.h"
@@ -48,6 +51,7 @@
 #include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
+#include <linux/time.h>
 #endif
 
 //#include "ccnl-logging.h"
@@ -269,6 +273,13 @@ int
 ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                         struct ccnl_pkt_s **pkt, cMatchFct cMatch)
 {
+#ifndef CCNL_LINUXKERNEL
+    struct timespec tstart={0,0}, tend={0,0};
+    clock_gettime(CLOCK_MONOTONIC,&tstart);
+#else
+    struct timespec tstart;
+    getrawmonotonic(&tstart);
+#endif
     struct ccnl_interest_s *i;
     struct ccnl_content_s *c;
     int propagate= 0;
@@ -313,7 +324,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     }
 #endif
 #if defined(USE_SUITE_CCNB) //&& defined(USE_MGMT)
-    DEBUGMSG(DEBUG,"USE_SUITE_CCNB and MGMG are activated\n");
+    //DEBUGMSG(DEBUG,"USE_SUITE_CCNB and MGMG are activated\n");
     if ((*pkt)->suite == CCNL_SUITE_CCNB && (*pkt)->pfx->compcnt == 4 &&
                                   !memcmp((*pkt)->pfx->comp[0], "ccnx", 4)) {
         DEBUGMSG_CFWD(INFO, "  found a mgmt message\n");
@@ -323,8 +334,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
 
 #ifdef USE_SUITE_NDNTLV
-    DEBUGMSG(DEBUG,"USE_SUITE_NDNTLV activated, looking fo mgmt message\n");
-    DEBUGMSG(DEBUG,"pkt suite is %i, pfx compcnt is %i\n",(*pkt)->suite,(*pkt)->pfx->compcnt);
+    //DEBUGMSG(DEBUG,"USE_SUITE_NDNTLV activated, looking fo mgmt message\n");
+    //DEBUGMSG(DEBUG,"pkt suite is %i, pfx compcnt is %i\n",(*pkt)->suite,(*pkt)->pfx->compcnt);
     if ((*pkt)->suite == CCNL_SUITE_NDNTLV && (*pkt)->pfx->compcnt == 4 &&
         !memcmp((*pkt)->pfx->comp[0], "ccnx", 4)) {
         DEBUGMSG_CFWD(INFO, "  found a mgmt message\n");
@@ -367,7 +378,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
             // Step 1: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
-    DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.", (*pkt)->s.ndntlv.isConstant);
+    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
 
     for (c = relay->contents; c; c = c->next) {
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)
@@ -394,6 +405,15 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                 continue;
             }
 #endif
+//HIER DAS HALT FLAG VON DER ZEITMESSUNG SETZEN
+#ifndef CCNL_LINUXKERNEL
+            clock_gettime(CLOCK_MONOTONIC,&tend);
+#else
+            struct timespec tend;
+            getrawmonotonic(&tend);
+#endif
+            uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+            DEBUGMSG(DEBUG,"Handling of Interest package took about %lu seconds\n",timeDifference);
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;
@@ -403,7 +423,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef CCNL_APP_RX
             ccnl_app_RX(relay, c);
 #endif
-        } //TODO: Johannes: Don't we need to free the interest here since we just send the answer?
+        } //TODO: Johannes: Don't we need to free the interest here since we just send the answer? NO! the interest free thing happens somewhere else, all goot
         if(!(*pkt)->s.ndntlv.isConstant) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
             return 0; // we are done
     }

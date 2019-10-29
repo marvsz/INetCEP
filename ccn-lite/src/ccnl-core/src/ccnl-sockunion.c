@@ -61,7 +61,7 @@ ccnl_is_local_addr(sockunion *su)
 char*
 ccnl_addr2ascii(sockunion *su)
 {
-    DEBUGMSG(DEBUG,"adrr2ascii: start\n");
+    //DEBUGMSG(DEBUG,"adrr2ascii: start\n");
 #ifdef USE_UNIXSOCKET
     static char result[256];
 #else
@@ -71,9 +71,9 @@ ccnl_addr2ascii(sockunion *su)
 
     if (!su)
         return CONSTSTR("(local)");
-    else
-        DEBUGMSG(DEBUG,"adrr2ascii: !su was not the case\n");
-    DEBUGMSG(DEBUG,"1111111adrr2ascii: sa.sa_family is %us\n",su->sa.sa_family);
+    //else
+        //DEBUGMSG(DEBUG,"adrr2ascii: !su was not the case\n");
+    //DEBUGMSG(DEBUG,"1111111adrr2ascii: sa.sa_family is %us\n",su->sa.sa_family);
     switch (su->sa.sa_family) {
         //DEBUGMSG(DEBUG,"adrr2ascii: sa.sa_family is %us\n",su->sa.sa_family);
 #ifdef USE_LINKLAYER

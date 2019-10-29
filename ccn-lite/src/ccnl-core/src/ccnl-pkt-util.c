@@ -145,7 +145,7 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
         return suite;
 
 #ifdef USE_SUITE_CCNB
-    DEBUGMSG(DEBUG,"CCNB activated\n");
+    //DEBUGMSG(DEBUG,"CCNB activated\n");
     if (*data == 0x04)
         return CCNL_SUITE_CCNB;
     if (*data == 0x01 && len > 1 && // check for CCNx2015 and Cisco collision:
@@ -157,7 +157,7 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
 #endif
 
 #ifdef USE_SUITE_CCNTLV
-    DEBUGMSG(DEBUG,"CCNTLV activated\n");
+    //DEBUGMSG(DEBUG,"CCNTLV activated\n");
     if (data[0] == CCNX_TLV_V1 && len > 1) {
         if (data[1] == CCNX_PT_Interest ||
             data[1] == CCNX_PT_Data ||
@@ -168,7 +168,7 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
 #endif
 
 #ifdef USE_SUITE_NDNTLV
-    DEBUGMSG(DEBUG,"NDNTLV activated. data is %s\n",data);
+    //DEBUGMSG(DEBUG,"NDNTLV activated. data is %s\n",data);
     if (*data == NDN_TLV_Interest || *data == NDN_TLV_Data || *data==NDN_TLV_Datastream || *data==NDN_TLV_ConstInterest ||
         *data == NDN_TLV_Fragment)
         return CCNL_SUITE_NDNTLV;
