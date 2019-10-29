@@ -79,7 +79,7 @@ ZAM_registerOp(char *name, BIF fct)
 
 // ----------------------------------------------------------------------
 // builtin operations
-
+/// ToDo: Johannes: Here you can add a personal ccnl Operator
 char*
 op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                int *restart, int *halt, char *prog, char *pending,
