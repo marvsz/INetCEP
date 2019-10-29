@@ -78,6 +78,7 @@
 #define inet_aton(s,p)  (p)->s_addr = in_aton(s)
 
 #define USE_LINKLAYER
+#define USE_MGMT
 
 #include "../../ccnl-core/include/ccnl-defs.h"
 //#include <ccnl-defs.h>
@@ -126,7 +127,12 @@
 #include "../../ccnl-core/src/ccnl-sockunion.c"
 #include "../../ccnl-fwd/src/ccnl-fwd.c"
 #include "../../ccnl-fwd/src/ccnl-dispatch.c"
-#include "../../ccnl-core/src/ccnl-mgmt.c"
+struct net_device*
+ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, int ethtype);
+struct socket*
+ccnl_open_udpdev(int port, struct sockaddr_in *sin);
+
+
 
 // ----------------------------------------------------------------------
 
@@ -144,7 +150,9 @@ static int ccnl_eth_RX(struct sk_buff *skb, struct net_device *indev,
                       struct packet_type *pt, struct net_device *outdev);
 
 void ccnl_udp_data_ready(struct sock *sk);
-
+#include "../../ccnl-core/src/ccnl-mgmt.c"
+#include "../../ccnl-core/src/ccnl-dump.c"
+#include "../../ccnl-pkt/src/ccnl-pkt-builder.c"
 // ----------------------------------------------------------------------
 
 /*
@@ -409,8 +417,9 @@ ccnl_udp_data_ready(struct sock *sk)
         su.ip4.sin_port = udp_hdr(skb)->source;
         DEBUGMSG(DEBUG, "ccnl_udp_data_ready2: if=%d, %d bytes, src=%s\n",
                  i, skb->len, ccnl_addr2ascii(&su));
-        ccnl_schedule_upcall_RX(i, &su, skb, skb->data + sizeof(struct udphdr),
-                                skb->len - sizeof(struct udphdr));
+        DEBUGMSG(DEBUG, "Data is at the moment %.*s",(int)skb->len,skb->data);
+        ccnl_schedule_upcall_RX(i, &su, skb, skb->data/* + sizeof(struct udphdr)*/,
+                                skb->len/* - sizeof(struct udphdr)*/);
     } else
         kfree_skb(skb);
     return;

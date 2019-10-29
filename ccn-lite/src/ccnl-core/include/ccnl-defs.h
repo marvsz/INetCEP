@@ -88,7 +88,7 @@
 # define CCNL_FACE_TIMEOUT       30 // sec
 #endif
 
-#define CCNL_DEFAULT_MAX_CACHE_ENTRIES  0   // means: no content caching
+#define CCNL_DEFAULT_MAX_CACHE_ENTRIES  0   // means: no content caching. For evaluation set this to at least 1 in order to get an instant response
 #ifdef CCNL_RIOT
 #define CCNL_MAX_NONCES                 -1 // -1 --> detect dups by PIT
 #else //!CCNL_RIOT

@@ -41,8 +41,9 @@
 #include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
 #endif
 
+//#define USE_MGMT
 
-#ifdef USE_MGMT
+//#ifdef USE_MGMT
 
 #ifndef CCNL_LINUXKERNEL
 #include "ccnl-unix.h"
@@ -1338,7 +1339,7 @@ ccnl_mgmt_newdev(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         {
             struct net_device *nd;
             int j;
-            nd = ccnl_open_ethdev((char*)devname, &i->addr.linklayer, portnum);
+            nd = ccnl_open_ethdev((char*) devname, &i->addr.linklayer, portnum);
             if (!nd) {
                 DEBUGMSG(TRACE, "  could not open device %s\n", devname);
                 goto Bail;
@@ -1873,7 +1874,7 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     }
     ++num_of_components;
 
-    printf("components: %s\n", components);
+    //printf("components: %s\n", components);
 
     prefix_new = ccnl_URItoPrefix((char *)components, CCNL_SUITE_CCNB, NULL, chunkflag ? &chunknum : NULL);
 
@@ -2139,6 +2140,6 @@ ccnl_mgmt(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     return 0;
 }
 
-#endif // USE_MGMT
+//#endif // USE_MGMT
 
 // eof

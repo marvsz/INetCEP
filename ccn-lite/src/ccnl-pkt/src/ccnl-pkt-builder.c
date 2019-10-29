@@ -19,7 +19,10 @@
  */
 
 
-#include "ccnl-pkt-builder.h"
+#include "../include/ccnl-pkt-builder.h"
+#ifdef CCNL_LINUX_KERNEL
+#include <linux/random.h>
+#endif
 
 #ifdef USE_SUITE_CCNB
 
@@ -203,7 +206,12 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
             }
 
             if (!opts->ndntlv.nonce) {
+#ifndef CCNL_LINUXKERNEL
                 opts->ndntlv.nonce = rand();
+#else
+                get_random_bytes(&opts->ndntlv.nonce, sizeof(int)-1);
+#endif
+
             }
 
             switch(type){

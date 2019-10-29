@@ -41,6 +41,7 @@
 #include <ccnl-pkt.h>
 
 #else
+#include "../../ccnl-core/include/ccnl-mgmt.h"
 #include "../../ccnl-core/include/ccnl-producer.h"
 #include "../../ccnl-core/include/ccnl-callbacks.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
@@ -196,6 +197,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             ccnl_content_add2cache(relay, c);
             DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
         } else {
+            DEBUGMSG_CFWD(DEBUG, "Max Cache entries are %i",relay->max_cache_entries);
             DEBUGMSG_CFWD(DEBUG, "  content not added to cache\n");
             ccnl_content_free(c);
         }
@@ -310,7 +312,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         return 0;
     }
 #endif
-#if defined(USE_SUITE_CCNB) && defined(USE_MGMT)
+#if defined(USE_SUITE_CCNB) //&& defined(USE_MGMT)
+    DEBUGMSG(DEBUG,"USE_SUITE_CCNB and MGMG are activated\n");
     if ((*pkt)->suite == CCNL_SUITE_CCNB && (*pkt)->pfx->compcnt == 4 &&
                                   !memcmp((*pkt)->pfx->comp[0], "ccnx", 4)) {
         DEBUGMSG_CFWD(INFO, "  found a mgmt message\n");
@@ -320,6 +323,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
 
 #ifdef USE_SUITE_NDNTLV
+    DEBUGMSG(DEBUG,"USE_SUITE_NDNTLV activated, looking fo mgmt message\n");
+    DEBUGMSG(DEBUG,"pkt suite is %i, pfx compcnt is %i\n",(*pkt)->suite,(*pkt)->pfx->compcnt);
     if ((*pkt)->suite == CCNL_SUITE_NDNTLV && (*pkt)->pfx->compcnt == 4 &&
         !memcmp((*pkt)->pfx->comp[0], "ccnx", 4)) {
         DEBUGMSG_CFWD(INFO, "  found a mgmt message\n");

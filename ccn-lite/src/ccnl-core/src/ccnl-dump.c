@@ -23,9 +23,11 @@
  */
 
 //#ifdef USE_DEBUG
-
+#ifndef CCNL_LINUXKERNEL
 #include <inttypes.h>
-
+#include <linux/types.h>
+#else
+#endif
 #include "../include/ccnl-logging.h"
 #include "../include/ccnl-prefix.h"
 #include "../include/ccnl-sockunion.h"
@@ -191,9 +193,15 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_INTEREST:
             while (itr) {
                 INDENT(lev);
-                CONSOLE("%p INTEREST next=%p prev=%p last=%ld retries=%d\n",
+#ifndef CCNL_LINUXKERNEL
+                CONSOLE("%p INTEREST next=%p prev=%p last=%" PRId64" retries=%d\n",
                         (void *) itr, (void *) itr->next, (void *) itr->prev,
                         itr->last_used, itr->retries);
+#else
+                CONSOLE("%p INTEREST next=%p prev=%p last=%lld retries=%d\n",
+                        (void *) itr, (void *) itr->next, (void *) itr->prev,
+                        itr->last_used, itr->retries);
+#endif
                 ccnl_dump(lev + 1, CCNL_PACKET, itr->pkt);
                 if (itr->pending) {
                     INDENT(lev + 1);
@@ -207,9 +215,16 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_PENDINT:
             while (pir) {
                 INDENT(lev);
+#ifndef CCNL_LINUXKERNEL
                 CONSOLE("%p PENDINT next=%p face=%p last=%" PRIu32 "\n",
                         (void *) pir, (void *) pir->next,
                         (void *) pir->face, pir->last_used);
+#else
+                CONSOLE("%p PENDINT next=%p face=%p last=%u \n",
+                        (void *) pir, (void *) pir->next,
+                        (void *) pir->face, pir->last_used);
+#endif
+
                 pir = pir->next;
             }
             break;
@@ -278,9 +293,16 @@ ccnl_dump(int lev, int typ, void *p)
         case CCNL_CONTENT:
             while (con) {
                 INDENT(lev);
+#ifndef CCNL_LINUXKERNEL
                 CONSOLE("%p CONTENT  next=%p prev=%p last_used=%" PRIu32 " served_cnt=%d\n",
                         (void *) con, (void *) con->next, (void *) con->prev,
                         con->last_used, con->served_cnt);
+#else
+                CONSOLE("%p CONTENT  next=%p prev=%p last_used=%u served_cnt=%d\n",
+                        (void *) con, (void *) con->next, (void *) con->prev,
+                        con->last_used, con->served_cnt);
+#endif
+
                 //            ccnl_dump(lev+1, CCNL_PREFIX, con->pkt->pfx);
                 ccnl_dump(lev + 1, CCNL_PACKET, con->pkt);
                 con = con->next;
