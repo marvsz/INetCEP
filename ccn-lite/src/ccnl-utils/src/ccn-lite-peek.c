@@ -168,6 +168,8 @@ usage:
         } else {
             socksize = sizeof(struct sockaddr_in);
         }
+        struct timespec tstart={0,0}, tend={0,0};
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
         rc = sendto(sock, buf->data, buf->datalen, 0, (struct sockaddr*)&sa, socksize);
         if (rc < 0) {
             perror("sendto");
@@ -183,7 +185,9 @@ usage:
             if (block_on_read(sock, wait) <= 0) // timeout
                 break;
             len = recv(sock, out, sizeof(out), 0);
-
+            clock_gettime(CLOCK_MONOTONIC,&tend);
+            DEBUGMSG(DEBUG,"took about %.5f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
+                                                       ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
             DEBUGMSG(DEBUG, "received %d bytes\n", len);
 /*
             {
