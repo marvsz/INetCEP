@@ -281,7 +281,8 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
     DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
+    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+    //snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
     DEBUGMSG(DEBUG, "command Messge is %s\n",exec);
     //snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
     execStatus = system(exec);
