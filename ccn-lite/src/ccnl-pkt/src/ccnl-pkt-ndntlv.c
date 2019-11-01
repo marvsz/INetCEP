@@ -31,6 +31,8 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <assert.h>
+#include <ccnl-pkt.h>
+
 #else
 #include "../include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-core/include/ccnl-core.h"
@@ -123,7 +125,11 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
         break;
     case NDN_TLV_ConstInterest:
         pkt->flags |= CCNL_PKT_REQUEST;
-            pkt->s.ndntlv.isConstant = 1;
+            pkt->s.ndntlv.isConstant = true;
+        break;
+    case NDN_TLV_RemoveConstInterest:
+        pkt->flags |= CCNL_PKT_REQUEST;
+            pkt->s.ndntlv.isRemoveI = true;
         break;
     case NDN_TLV_Data:
         pkt->flags |= CCNL_PKT_REPLY;
@@ -597,6 +603,11 @@ ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_n
             break;
         case NDN_TLV_ConstInterest:
             if (ccnl_ndntlv_prependTL(NDN_TLV_ConstInterest, oldoffset - *offset,
+                                      offset, buf) < 0)
+                return -1;
+            break;
+        case NDN_TLV_RemoveConstInterest:
+            if (ccnl_ndntlv_prependTL(NDN_TLV_RemoveConstInterest, oldoffset - *offset,
                                       offset, buf) < 0)
                 return -1;
             break;

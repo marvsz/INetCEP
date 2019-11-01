@@ -375,8 +375,18 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     }
 #endif
 
+    // Step 1: check if it is a remove (Query) Interest
+    if((*pkt)->s.ndntlv.isRemoveI){
+        for (i = relay->pit; i; i = i->next)
+            if (ccnl_interest_isSame(i, *pkt)){
+                ccnl_interest_remove_pending(i,from);
+                if(i->pending == NULL)
+                    ccnl_interest_remove(relay,i);
+            }
+        return 0;
+    }
 
-            // Step 1: search in content store
+    // Step 2: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
     //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
 
@@ -428,7 +438,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             return 0; // we are done
     }
 
-    // CONFORM: Step 2: check whether interest is already known
+    // CONFORM: Step 3: check whether interest is already known
     for (i = relay->pit; i; i = i->next)
         if (ccnl_interest_isSame(i, *pkt))
             break;
@@ -711,6 +721,10 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             goto Done;
         break;
     case NDN_TLV_ConstInterest:
+        if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
+            goto Done;
+        break;
+    case NDN_TLV_RemoveConstInterest:
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;

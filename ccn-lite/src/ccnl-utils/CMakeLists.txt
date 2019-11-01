@@ -17,6 +17,7 @@ add_library(ccnl-crypto STATIC src/ccnl-crypto.c src/ccnl-ext-hmac.c src/lib-sha
 
 add_executable(ccn-lite-peek src/ccn-lite-peek.c)
 add_executable(ccn-lite-peekConstant src/ccn-lite-peekConstant.c)
+add_executable(ccn-lite-rmI src/ccn-lite-rmI.c)
 #add_executable(ccn-lite-peekcomputation ccn-lite-peekcomputation.c) #todo work to do
 add_executable(ccn-lite-ctrl src/ccn-lite-ctrl.c)
 add_executable(ccn-lite-fetch src/ccn-lite-fetch.c) 
@@ -46,6 +47,9 @@ target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-n
 
 target_link_libraries(ccn-lite-peekConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
+
+target_link_libraries(ccn-lite-rmI ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+target_link_libraries(ccn-lite-rmI ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
 
 #target_link_libraries(ccn-lite-peekcomputation ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})#todo work to do
 #target_link_libraries(ccn-lite-peekcomputation ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn)

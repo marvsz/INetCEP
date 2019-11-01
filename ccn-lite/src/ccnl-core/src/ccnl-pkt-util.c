@@ -170,7 +170,7 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
 #ifdef USE_SUITE_NDNTLV
     //DEBUGMSG(DEBUG,"NDNTLV activated. data is %s\n",data);
     if (*data == NDN_TLV_Interest || *data == NDN_TLV_Data || *data==NDN_TLV_Datastream || *data==NDN_TLV_ConstInterest ||
-        *data == NDN_TLV_Fragment)
+            *data==NDN_TLV_RemoveConstInterest || *data == NDN_TLV_Fragment)
         return CCNL_SUITE_NDNTLV;
 #endif
 
@@ -247,3 +247,22 @@ ccnl_pkt_interest_isConstant(const struct ccnl_pkt_s *pkt){
 
     return false;
 }
+
+bool ccnl_pkt_interest_isRemoveI(const struct ccnl_pkt_s *pkt){
+    switch(pkt->suite){
+#ifdef USE_SUITE_CCNTLV
+        case CCNL_SUITE_CCNTLV:
+            /* CCN-TLV parser does not support constant Interests, yet. */
+            return false;
+#endif
+#ifdef USE_SUITE_NDNTLV
+        case CCNL_SUITE_NDNTLV:
+            return pkt->s.ndntlv.isRemoveI;
+#endif
+        default:
+            break;
+    }
+
+    return false;
+}
+

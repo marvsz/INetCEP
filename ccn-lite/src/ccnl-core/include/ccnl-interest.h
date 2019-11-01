@@ -61,6 +61,7 @@ struct ccnl_interest_s {
     unsigned short flags;
     uint32_t lifetime;                  /**< interest lifetime */
     bool isConst;
+    bool isRemoveI;
 #define CCNL_PIT_COREPROPAGATES    0x01
     int64_t last_used;                 /**< last time the entry was used */
     int retries;                        /**< current number of executed retransmits. */

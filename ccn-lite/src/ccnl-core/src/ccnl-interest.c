@@ -60,6 +60,7 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     /* currently, the aging function relies on seconds rather than on milli seconds */
     i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
     i->isConst = ccnl_pkt_interest_isConstant(*pkt);
+    i->isRemoveI = ccnl_pkt_interest_isRemoveI(*pkt);
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;

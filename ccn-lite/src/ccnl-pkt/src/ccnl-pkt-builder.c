@@ -170,6 +170,9 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, in
         case NDN_TLV_ConstInterest:
             ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_ConstInterest);
             break;
+        case NDN_TLV_RemoveConstInterest:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_RemoveConstInterest);
+            break;
         default:
             ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_Interest);
             break;
@@ -220,6 +223,9 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
                     break;
                 case NDN_TLV_ConstInterest:
                     (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_ConstInterest);
+                    break;
+                case NDN_TLV_RemoveConstInterest:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_RemoveConstInterest);
                     break;
                 default:
                     (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_Interest);
