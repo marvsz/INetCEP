@@ -1,23 +1,22 @@
 package bytecode
 
-import java.io.{File, ByteArrayOutputStream}
+import java.io.ByteArrayOutputStream
 import java.net.{URL, URLClassLoader}
 import java.util.jar.{JarEntry, JarFile, JarOutputStream}
 import java.util.zip.ZipEntry
 
-import com.typesafe.scalalogging.slf4j.Logging
-import myutil.IOHelper
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.bcel.Repository
 import org.apache.bcel.classfile._
 
-import scala.collection.convert.Wrappers.JEnumerationWrapper
+import scala.jdk.CollectionConverters.EnumerationHasAsScala
 import scala.util._
 
 
 /**
  * Both specified class from a jar and creates bytecode jarfile for a certain class.
  */
-object BytecodeLoader extends Logging {
+object BytecodeLoader extends LazyLogging {
 
   class DependencyEmitter(javaClass: JavaClass) extends EmptyVisitor {
     override def visitConstantClass(obj: ConstantClass) {
@@ -94,7 +93,7 @@ object BytecodeLoader extends Logging {
 
     val jar = new JarFile(jarFilename)
 
-    val entries: Iterator[JarEntry] = JEnumerationWrapper(jar.entries())
+    val entries: Iterator[JarEntry] = EnumerationHasAsScala(jar.entries()).asScala
 
     val urls: Array[URL] = Array( new URL(s"jar:file:$jarFilename!/") )
 

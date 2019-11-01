@@ -2,7 +2,7 @@ package nfn.tools
 
 import java.util.concurrent.TimeoutException
 
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
@@ -21,7 +21,7 @@ import scala.util.{Failure, Success}
 /**
   * Created by blacksheeep on 16/11/15.
   */
-object Networking extends Logging{
+object Networking extends LazyLogging{
 
 
   /**
@@ -57,7 +57,7 @@ object Networking extends Logging{
     */
   def fetchContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -75,7 +75,7 @@ object Networking extends Logging{
 
   def fetchContentRepeatedly(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -98,7 +98,7 @@ object Networking extends Logging{
   def fetchLocalContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     // try to fetch local data and return if successful
     try {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       val futMaybeContent = (ccnApi ? NFNApi.GetFromLocalCache(interest)).mapTo[Option[Content]]
       Await.result(futMaybeContent, time)
     } catch {
@@ -120,7 +120,7 @@ object Networking extends Logging{
                                handleIntermediate: Option[(Int, Content) => Unit] = None): Option[Content] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -220,7 +220,7 @@ object Networking extends Logging{
                                  timeoutDuration: FiniteDuration = 20 seconds): Future[Option[Content]] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -257,7 +257,7 @@ object Networking extends Logging{
                            handleIntermediates: (Content) => Unit): Unit = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 

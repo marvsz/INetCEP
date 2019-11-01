@@ -1,22 +1,12 @@
 package runnables.production
 
 
-import ccn.packet.{CCNName, Content}
-import com.typesafe.scalalogging.slf4j.Logging
+import ccn.packet.CCNName
+import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
-import nfn.service.GPS.GPX.GPXOriginFilter
-import nfn.service.GPS.GPX.GPXDistanceAggregator
-import nfn.service.GPS.GPX.GPXDistanceComputer
-import nfn.service.NBody
-import nfn.service.Temperature.{ReadSensorData, ReadSensorDataSimu, StoreSensorData}
 import nfn.service._
 import node.LocalNode
-import orgOpenmhealth.helperServices.SimpleToJSON
-import orgOpenmhealth.services.{DistanceTo, PointCount}
 import scopt.OptionParser
-
-import sys.process._
-import scala.io.Source
 
 
 object ComputeServerConfigDefaults {
@@ -38,7 +28,7 @@ case class ComputeServerConfig(prefix: CCNName = ComputeServerConfigDefaults.pre
                                suite: String = "")
 
 
-object ComputeServerStarter extends Logging {
+object ComputeServerStarter extends LazyLogging {
 
   val argsParser =  new OptionParser[ComputeServerConfig]("") {
     override def showUsageOnError = true

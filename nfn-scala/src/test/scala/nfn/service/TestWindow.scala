@@ -2,8 +2,8 @@ package nfn.service
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-import org.junit.Assert._
-import org.junit.Test
+import org.junit.jupiter.api.Assertions._
+import org.junit.jupiter.api.Test
 import config.StaticConfig
 import nfn.tools.{Helpers, SensorHelpers}
 

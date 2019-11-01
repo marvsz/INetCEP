@@ -2,11 +2,12 @@ package SACEPICN;
 
 import SACEPICN.Operators.*;
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /** for testing functions of abstract class Operator */
 class OperatorT extends OperatorA {
@@ -50,7 +51,7 @@ public class OperatorTest {
         { "JOIN([name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)],[NULL])", "[name]", "[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)]", "[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)]", "[NULL]" }
     };
 
-    @Before
+    @BeforeEach
     public void setUp() {
     }
 
@@ -82,11 +83,13 @@ public class OperatorTest {
         assertNotNull(root);
     }
 
-    @Test(expected = ParameterNamesNotFoundException.class)
+    @Test
     public void testParseQueryException() {
-        OperatorA operator = new OperatorJoin("JOIN(JOIN(WINDOW, WINDOW), JOIN(WINDOW, WINDOW))");
-        Node root = operator.parseQuery(null);
-        assertNotNull(root);
+        Assertions.assertThrows(ParameterNamesNotFoundException.class, () -> {
+            OperatorA operator = new OperatorJoin("JOIN(JOIN(WINDOW, WINDOW), JOIN(WINDOW, WINDOW))");
+            Node root = operator.parseQuery(null);
+            assertNotNull(root);
+        });
     }
 
 

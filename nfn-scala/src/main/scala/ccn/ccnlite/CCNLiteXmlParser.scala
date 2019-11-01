@@ -1,18 +1,16 @@
 package ccn.ccnlite
 
 import java.nio.ByteBuffer
-import javax.xml.bind.DatatypeConverter
 
 import ccn.packet._
-import com.typesafe.scalalogging.slf4j.Logging
-import org.xml.sax.SAXParseException
+import com.typesafe.scalalogging.LazyLogging
+import javax.xml.bind.DatatypeConverter
 
-import scala.collection.immutable
 import scala.util.{Failure, Success, Try}
 import scala.xml._
 
 
-object CCNLiteXmlParser extends Logging {
+object CCNLiteXmlParser extends LazyLogging {
 
   def decodeBase64(data: String): Array[Byte] = DatatypeConverter.parseBase64Binary(data)
   def encodeBase64(bytes: Array[Byte]): String = DatatypeConverter.printBase64Binary(bytes)

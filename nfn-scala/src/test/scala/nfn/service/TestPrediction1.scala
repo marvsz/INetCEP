@@ -4,8 +4,8 @@ import java.time.format.DateTimeFormatter
 
 import config.StaticConfig
 import nfn.tools.{Helpers, SensorHelpers}
-import org.junit.Assert._
-import org.junit.Test
+import org.junit.jupiter.api.Assertions._
+import org.junit.jupiter.api.Test
 import sun.management.Sensor
 
 import scala.io.Source

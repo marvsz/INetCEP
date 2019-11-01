@@ -2,7 +2,7 @@ package lambdacalculus.compiler
 
 import lambdacalculus.parser.ast._
 import lambdacalculus.machine._
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 
 case class CompileException(msg: String) extends Exception(msg)
 case class DecompileException(msg: String) extends Exception(msg)
@@ -13,7 +13,7 @@ case class DecompileException(msg: String) extends Exception(msg)
  * There are two implementations for call-by-name [[CBNCompiler]] and call-by-value [[CBVCompiler]].
  * Before compiling the AST the scopes of the variables are bound to their scope.
  */
-trait Compiler extends Logging{
+trait Compiler extends LazyLogging{
 
   def apply(ast: Expr): List[Instruction] = {
     logger.info(s"Compiling by name: $ast")

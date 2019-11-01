@@ -2,8 +2,8 @@ package nfn.service
 
 import config.StaticConfig
 import nfn.tools.{Helpers, SensorHelpers}
-import org.junit.Test
-import org.junit.Assert._
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions._
 class TestJoin {
   val sacepicnEnv = StaticConfig.systemPath
   val testData1 = "TestData1Join2"

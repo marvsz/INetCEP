@@ -5,14 +5,14 @@ import java.io.{File, FileOutputStream}
 import akka.actor.ActorRef
 import bytecode.BytecodeLoader
 import ccn.packet._
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 
 import scala.language.experimental.macros
 import scala.reflect.runtime.{universe => ru}
 
 
-object NFNServiceLibrary extends Logging {
+object NFNServiceLibrary extends LazyLogging {
   def nfnPublishService(serv: NFNService, prefix: Option[CCNName], ccnWorker: ActorRef) = {
     def pinnedData = "pinnedfunction".getBytes
 

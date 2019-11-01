@@ -1,24 +1,17 @@
 package node
 
-import java.util.concurrent.TimeUnit
-
-import ccn.ccnlite.CCNLiteInterfaceCli
-import com.typesafe.config.Config
-import com.typesafe.scalalogging.slf4j.Logging
-import nfn._
-import scala.concurrent.duration.FiniteDuration
-import akka.util.Timeout
 import akka.actor.{ActorRef, ActorSystem}
 import akka.pattern._
-import config.{ComputeNodeConfig, RouterConfig, StaticConfig, AkkaConfig}
+import ccn.CCNLiteProcess
 import ccn.packet._
-import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.duration._
-import nfn.service.{NFNService, NFNServiceLibrary}
-import scala.collection.immutable.{Iterable, IndexedSeq}
-import ccn.CCNLiteProcess
+import com.typesafe.config.Config
+import com.typesafe.scalalogging.LazyLogging
+import config.{AkkaConfig, ComputeNodeConfig, RouterConfig, StaticConfig}
 import monitor.Monitor
-import ccn.CCNLiteProcess
+import nfn._
+import nfn.service.{NFNService, NFNServiceLibrary}
+
+import scala.concurrent.{ExecutionContext, Future}
 
 object LocalNodeFactory {
 
@@ -143,7 +136,7 @@ object LocalNode {
   }
 }
 
-case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[ComputeNodeConfig]) extends Logging {
+case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[ComputeNodeConfig]) extends LazyLogging {
 
   implicit val timeout = StaticConfig.defaultTimeout
 

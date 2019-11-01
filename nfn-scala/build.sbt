@@ -1,2 +1,146 @@
-libraryDependencies +=  "org.scalaj" %% "scalaj-http" % "2.3.0"
-libraryDependencies += "com.novocode" % "junit-interface" % "0.8" % "test->default"
+import sbt.Keys._
+import sbt._
+
+// PROJECTS
+
+libraryDependencies ++= Seq(
+  dependencies.akkaActor,
+  dependencies.logback,
+  dependencies.logging,
+  dependencies.scalatest,
+  dependencies.slf4j,
+  dependencies.xml,
+  dependencies.akkaTest,
+  dependencies.scalactic,
+  dependencies.config,
+  dependencies.lift,
+  dependencies.bcel,
+  dependencies.scopt,
+  dependencies.shttp,
+  dependencies.jupiter,
+  dependencies.collectionCompat)
+
+lazy val lambdaCalculus = Project(
+  "lambdacalc",
+  file("lambdacalc")
+).settings(buildSettings ++ Seq(
+  libraryDependencies ++= commonDependencies)
+)
+
+lazy val nfn = Project(
+  "nfn",
+  file(".")).settings(buildSettings ++ Seq(
+  libraryDependencies ++= commonDependencies ++ Seq (
+    dependencies.akkaActor,
+    dependencies.akkaTest,
+    dependencies.scalactic,
+    dependencies.config,
+    dependencies.lift,
+    dependencies.bcel,
+    dependencies.scopt,
+    dependencies.shttp,
+    dependencies.jupiter,
+    dependencies.xml
+  ),
+  mainClass in assembly := Some("runnables.production.ComputeServerStarter")//,
+  //run in Compile := run in Compile dependsOn compileCCNLiteTask
+)).dependsOn(lambdaCalculus)
+
+/*lazy val testservice = project
+  .settings(
+    name := "testservice",
+    settings
+  )
+  .dependsOn(nfn)*/
+
+lazy val compilerOptions = Seq(
+  "-unchecked",
+  "-deprecation",
+  "-feature",
+  "-encoding",
+  "UTF-8",
+  "-language:implicitConversions"
+)
+
+lazy val commonSettings = Seq(
+  version       := "0.2.2",
+  scalaVersion  := "2.13.0",
+  scalacOptions ++= compilerOptions,
+  resolvers ++= Seq(
+    Resolver.sonatypeRepo("snapshots"),
+    Resolver.sonatypeRepo("releases"),
+    Resolver.sonatypeRepo("public"),
+    "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+  )
+)
+
+
+
+lazy val dependencies =
+  new {
+    val akkaActorV = "2.5.26"
+    val akkaTestkitV = "2.5.26"
+    val scalacticV = "3.0.8"
+    val scalatestV = "3.0.8"
+    val logbackClassicV = "1.2.3"
+    val scalaLoggingV = "3.9.2"
+    val configV = "1.4.0"
+    val slf4jV = "1.7.28"
+    val liftV = "3.4.0"
+    val bcelV = "6.4.1"
+    val scoptV = "3.7.1"
+    val shttpV = "2.4.2"
+    val jupiterV = "5.5.2"
+    //val xmlV = "1.2.0"
+    val xmlV = "2.0.0-M1"
+    val collectionCompatV = "2.1.2"
+    val parserV = "1.1.2"
+
+    val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaActorV
+    val akkaTest = "com.typesafe.akka" %% "akka-testkit" % akkaTestkitV
+    val scalactic = "org.scalactic" %% "scalactic" % scalacticV
+    val scalatest = "org.scalatest" %% "scalatest" % scalatestV % "test"
+    val logback = "ch.qos.logback" % "logback-classic" % logbackClassicV
+    val logging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingV
+    val config = "com.typesafe" % "config" % configV
+    val slf4j = "org.slf4j" % "slf4j-api" % slf4jV
+    val lift = "net.liftweb" %% "lift-json" % liftV
+    val bcel = "org.apache.bcel" % "bcel" % bcelV
+    val scopt = "com.github.scopt" %% "scopt" % scoptV
+    val shttp = "org.scalaj" %% "scalaj-http" % shttpV
+    val jupiter = "org.junit.jupiter" % "junit-jupiter-api" % jupiterV % "Test"
+    //val xml = "org.scala-lang.modules" %% "scala-xml" % xmlV
+    val xml = "org.scala-lang.modules" %% "scala-xml" % xmlV
+    val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatV
+    val parser = "org.scala-lang.modules" %% "scala-parser-combinators" % parserV
+  }
+
+lazy val commonDependencies = Seq(
+  dependencies.logback,
+  dependencies.logging,
+  dependencies.scalatest,
+  dependencies.slf4j,
+  dependencies.parser
+)
+
+lazy val buildSettings =
+  commonSettings /* ++
+  scalafmtSettings*/
+
+/*val compileCCNLiteTask = TaskKey[Unit]("compileCCNLite")
+
+compileCCNLite := {
+  compileCCNLitePerform()
+}
+
+run := {
+  compileCCNLite.value
+  (run in Compile).value
+}*/
+
+/*lazy val scalafmtSettings =
+  Seq(
+    scalafmtOnCompile := true,
+    scalafmtTestOnCompile := true,
+    scalafmtVersion := "1.2.0"
+  )*/

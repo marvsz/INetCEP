@@ -9,7 +9,7 @@ import akka.pattern._
 import akka.util.Timeout
 import bytecode.BytecodeLoader
 import ccn.packet._
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import config.StaticConfig
 import lambdacalculus.parser.ast._
 import nfn.NFNApi
@@ -20,7 +20,7 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.util.{Failure, Success, Try}
 
-object NFNService extends Logging {
+object NFNService extends LazyLogging {
 
   implicit val timeout = Timeout(StaticConfig.defaultTimeoutDuration)
 
@@ -36,7 +36,6 @@ object NFNService extends Logging {
         case Some(CCNName(cmps, _)) =>
           val interest = Interest(CCNName(cmps, None))
           val futServiceContent: Future[Content] = loadFromCacheOrNetwork(interest)
-          import myutil.Implicit.tryToFuture
           futServiceContent flatMap {
             serviceFromContent
           }
@@ -70,7 +69,7 @@ object NFNService extends Logging {
                     NFNContentObjectValue(content.name, content.data)
                   }
 
-                  foundContent.onFailure {
+                  foundContent.failed.foreach {
                     case error => logger.error(s"Could not find content for arg $arg", error) // send keepalive interest
                   }
 
@@ -109,7 +108,7 @@ object NFNService extends Logging {
                 callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args, ccnServer, serv.executionTimeEstimate)
               } yield callable
 
-            futCallableServ onSuccess {
+            futCallableServ onComplete {
               case callableServ => logger.info(s"Instantiated callable serv: '$name' -> $callableServ")
             }
             futCallableServ
@@ -129,7 +128,7 @@ object NFNService extends Logging {
     * @param content
     * @return
     */
-  def serviceFromContent(content: Content): Try[NFNService] = {
+  def serviceFromContent(content: Content): Future[NFNService] = {
     val serviceLibraryDir = "./temp-service-library"
     val serviceLibararyFile = new File(serviceLibraryDir)
 
@@ -165,7 +164,7 @@ object NFNService extends Logging {
       try {
         val loadedService: Try[NFNService] = BytecodeLoader.loadClass[NFNService](filePath, servName)
         logger.debug(s"Dynamically loaded class $servName from content from $filePath")
-        loadedService
+        Future.fromTry(loadedService)
       }
       catch {
         case _ : Throwable => {
@@ -173,7 +172,7 @@ object NFNService extends Logging {
           val filePath = f.getCanonicalPath
           val loadedService: Try[NFNService] = BytecodeLoader.loadClass[NFNService](filePath, servName)
           logger.debug(s"Loading PINNED service $servName from $filePath")
-          loadedService
+          Future.fromTry(loadedService)
         }
       }
     } finally {
@@ -214,7 +213,7 @@ trait NFNService {
 }
 
 //Added by Ali 6/2/18:
-case class LogMessage(node: String, msg: String) extends Logging {
+case class LogMessage(node: String, msg: String) extends LazyLogging {
   logger.debug(s"SA-CEP-ICN: $msg")
 
   val path = StaticConfig.systemPath
@@ -235,7 +234,8 @@ case class NFNServiceExecutionException(msg: String) extends ServiceException(ms
 
 case class NFNServiceArgumentException(msg: String) extends ServiceException(msg)
 
-case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], ActorRef) => NFNValue, executionTimeEstimate: Option[Int]) extends Logging {
+case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], ActorRef) => NFNValue, executionTimeEstimate: Option[Int]) extends LazyLogging
+{
 
   def exec: NFNValue = function(interestName, values, nfnMaster)
 }

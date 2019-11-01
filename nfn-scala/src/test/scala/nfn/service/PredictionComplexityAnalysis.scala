@@ -4,7 +4,7 @@ import java.io.FileNotFoundException
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import config.StaticConfig
 import nfn.tools.{Helpers, SensorHelpers}
 

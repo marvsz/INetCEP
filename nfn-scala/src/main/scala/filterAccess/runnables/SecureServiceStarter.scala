@@ -1,7 +1,7 @@
 package filterAccess.runnables
 
 import ccn.packet.CCNName
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
 import filterAccess.service.content.{ContentChannelFiltering, ProxyContentChannel, ContentChannelStorage}
 import filterAccess.service.key.{ProxyKeyChannel, KeyChannelStorage}
@@ -40,7 +40,7 @@ case class secureServiceConfig(prefix: CCNName = SecureServiceConfigDefaults.pre
                                suite: String = "",
                                secureServiceType: String = SecureServiceConfigDefaults.secureServiceType)
 
-object SecureServiceStarter extends Logging{
+object SecureServiceStarter extends LazyLogging{
   val argsParser =  new OptionParser[secureServiceConfig]("") {
     override def showUsageOnError = true
 

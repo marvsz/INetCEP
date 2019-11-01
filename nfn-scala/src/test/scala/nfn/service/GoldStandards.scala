@@ -2,7 +2,7 @@ package nfn.service
 
 import config.StaticConfig
 import nfn.tools.FilterHelpers
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class GoldStandards {
   val sacepicnEnv = StaticConfig.systemPath

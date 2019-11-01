@@ -1,6 +1,6 @@
 package nfn.service.NBody
 
-import akka.actor.ActorRef
+import akka.actor._
 import ccn.packet.CCNName
 import nfn.service.{NFNStringValue, _}
 import nfn.tools.Networking._

@@ -11,7 +11,7 @@ import org.scalatest.{BeforeAndAfterAll, SequentialNestedSuiteExecution}
 import nfn.LambdaNFNImplicits._
 import org.scalatest.time.{Millis, Seconds, Span}
 import scala.sys.process._
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import scala.concurrent.Future
 

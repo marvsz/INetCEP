@@ -2,9 +2,9 @@ package nfn.tools
 
 import java.util
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import nfn.service.{Prediction1, Window}
-import org.junit.Assert._
+import org.junit.jupiter.api.Assertions._
 
 class TestMathHelper {
   val path = "combindedPlugData"

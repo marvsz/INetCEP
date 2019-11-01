@@ -2,7 +2,7 @@ package nfn
 
 import ccn.packet.CCNName
 import akka.actor.{ActorContext, ActorRef}
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import scala.collection.mutable
 import scala.concurrent.duration._
 
@@ -15,7 +15,7 @@ import scala.concurrent.duration._
 //  override def compare(that: PendingInterest): Int = (this.timer - that.timer).toInt
 //}
 
-case class PIT(context: ActorContext) extends Logging {
+case class PIT(context: ActorContext) extends LazyLogging {
 
   private case class Timeout(name: CCNName, face: ActorRef)
 

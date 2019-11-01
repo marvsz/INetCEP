@@ -2,8 +2,8 @@ package nfn.service
 
 import config.StaticConfig
 import nfn.tools.Helpers
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions._
+import org.junit.jupiter.api.Test
 
 import scala.io.Source
 

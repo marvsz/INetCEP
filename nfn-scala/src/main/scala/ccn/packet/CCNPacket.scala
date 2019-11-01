@@ -1,6 +1,6 @@
 package ccn.packet
 
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 
 object CCNName {
   val thunkInterestKeyword = "THUNK"
@@ -25,7 +25,7 @@ object CCNName {
 
 
 
-case class CCNName(cmps: List[String], chunkNum: Option[Int])extends Logging {
+case class CCNName(cmps: List[String], chunkNum: Option[Int])extends LazyLogging {
 
   import CCNName.{thunkKeyword, nfnKeyword, keepaliveKeyword, computeKeyword, getIntermediateKeyword,requestKeyword}
 

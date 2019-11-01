@@ -5,8 +5,8 @@ import lambdacalculus.ParseException
 import scala.util.parsing.combinator.{Parsers, PackratParsers}
 import scala.util.parsing.combinator.syntactical.StdTokenParsers
 import scala.util.parsing.combinator.lexical.StdLexical
-import scala.collection.immutable.SortedSet
-import com.typesafe.scalalogging.slf4j.Logging
+import scala.collection.SortedSet
+import com.typesafe.scalalogging.LazyLogging
 
 import lambdacalculus.parser.ast._
 
@@ -16,7 +16,7 @@ trait LambdaParser extends Parsers {
   def parse(code: String):ParseResult[Expr]
 }
 
-class StandardLambdaParser extends LambdaParser with StdTokenParsers  with PackratParsers with Logging {
+class StandardLambdaParser extends LambdaParser with StdTokenParsers  with PackratParsers with LazyLogging {
   type Tokens = StdLexical
   val lexical: StdLexical =  new StdLexical {
     override def letter = elem("letter", isValidLetter)
@@ -25,8 +25,8 @@ class StandardLambdaParser extends LambdaParser with StdTokenParsers  with Packr
   def lambdaSymbol = 'λ'
 
   def isValidLetter(c: Char) = (c.isLetter || c == '/') && c != lambdaSymbol
-  def keywords = Set("let", "endlet", "if", "then", "else", "call")
-  def unaryLiterals = UnaryOp.values.map(_.toString)
+  def keywords: Set[String] = Set("let", "endlet", "if", "then", "else", "call")
+  def unaryLiterals: SortedSet[String] = UnaryOp.values.map(_.toString)
   def binaryLiterals: SortedSet[String] = BinaryOp.values.map(_.toString)
 
 
@@ -36,7 +36,9 @@ class StandardLambdaParser extends LambdaParser with StdTokenParsers  with Packr
   lexical.reserved ++= keywords ++ binaryLiterals ++ unaryLiterals
   type P[+T] = PackratParser[T]
 
-  val binaryLiteralsToParse = binaryLiterals.map(Parser[String](_)).reduce(_ | _ )
+  binaryLiterals.map()
+
+  val binaryLiteralsToParse = binaryLiterals.map(Parser[String](_)):SortedSet.reduce(_ | _ )
   val unaryLiteralsToParse = unaryLiterals.map(Parser[String](_)).reduce(_ | _ )
 
   lazy val expr:        P[Expr]       = let | application | notApp

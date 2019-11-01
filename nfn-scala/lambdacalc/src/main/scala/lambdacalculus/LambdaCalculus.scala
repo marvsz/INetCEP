@@ -8,7 +8,7 @@ import lambdacalculus.machine.CallByValue._
 import lambdacalculus.machine._
 import lambdacalculus.parser.ast.Expr
 import scala.util.{Failure, Success, Try}
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import lambdacalculus.ExecutionOrder.ExecutionOrder
 
 
@@ -70,7 +70,7 @@ case class LambdaCalculus(execOrder: ExecutionOrder.ExecutionOrder = ExecutionOr
                           debug: Boolean = false,
                           storeIntermediateSteps: Boolean = false,
                           maybeExecutor: Option[CallExecutor] = None,
-                          parser: LambdaParser = new StandardLambdaParser()) extends Logging {
+                          parser: LambdaParser = new StandardLambdaParser()) extends LazyLogging {
 
   val compiler = compilerForExecOrder(debug, execOrder)
   val machine = machineForExecOrder(storeIntermediateSteps, execOrder, maybeExecutor)
@@ -114,12 +114,10 @@ case class LambdaCalculus(execOrder: ExecutionOrder.ExecutionOrder = ExecutionOr
   def substituteLibrary(code: String): Try[String] = Try(CommandLibrary(compiler)(code))
 
   def parse(code: String):Try[Expr]  = {
-    import parser.{ Success, NoSuccess }
-
     parser(code) match {
-      case Success(res: Expr, _) => Try(res)
-      case NoSuccess(err, next) =>
-        val msg = s"\n$err:\n${next.pos.longString}\n"
+      case Success(res: Expr) => Try(res)
+      case Failure(err) =>
+        val msg = s"\n$err:\n${err.getMessage}\n"
         throw new ParseException(msg)
     }
   }
