@@ -41,7 +41,7 @@ object IntermediateTestApp extends App {
 
   implicit val useThunks: Boolean = false
 
-  val exprWc: Expr = wc call ()
+  val exprWc: Expr = wc
   val cancel = Interest(exprWc.name.withoutNFN.append("R2C", "CANCEL", "NFN"))
 
   sendAndPrintForName(exprWc)

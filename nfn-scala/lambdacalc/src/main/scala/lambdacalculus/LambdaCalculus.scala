@@ -113,11 +113,13 @@ case class LambdaCalculus(execOrder: ExecutionOrder.ExecutionOrder = ExecutionOr
 
   def substituteLibrary(code: String): Try[String] = Try(CommandLibrary(compiler)(code))
 
+  import parser.{Success,Failure}
+
   def parse(code: String):Try[Expr]  = {
     parser(code) match {
-      case Success(res: Expr) => Try(res)
-      case Failure(err) =>
-        val msg = s"\n$err:\n${err.getMessage}\n"
+      case Success(res: Expr,_) => Try(res)
+      case Failure(err,next) =>
+        val msg = s"\n$err:\n${next.pos.longString}\n"
         throw new ParseException(msg)
     }
   }

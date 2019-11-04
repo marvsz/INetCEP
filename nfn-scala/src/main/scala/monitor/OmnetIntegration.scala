@@ -122,7 +122,7 @@ case class OmnetIntegration(nodes: Set[NodeLog],
         s"$name: ${`type`};"
     }).toSeq
 
-    val connections: Seq[(Nothing, Nothing)] = edges.groupBy{ edge =>
+    val connections: Seq[String] = edges.groupBy{ edge =>
       prefixOrDefaultName(edge._1)
     }.flatMap({ case (_, edgesFromNode: Set[(NodeLog, NodeLog)]) =>
       edgesFromNode map { (edge: (NodeLog, NodeLog)) =>

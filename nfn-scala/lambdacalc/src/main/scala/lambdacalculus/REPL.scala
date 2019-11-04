@@ -1,6 +1,7 @@
 package lambdacalculus
 
 import lambdacalculus.machine._
+import scala.io.StdIn._
 import lambdacalculus.ExecutionOrder.ExecutionOrder
 import scala.util.{Failure, Success}
 

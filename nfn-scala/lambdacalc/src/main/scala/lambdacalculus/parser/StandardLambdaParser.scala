@@ -36,10 +36,8 @@ class StandardLambdaParser extends LambdaParser with StdTokenParsers  with Packr
   lexical.reserved ++= keywords ++ binaryLiterals ++ unaryLiterals
   type P[+T] = PackratParser[T]
 
-  binaryLiterals.map()
-
-  val binaryLiteralsToParse = binaryLiterals.map(Parser[String](_)):SortedSet.reduce(_ | _ )
-  val unaryLiteralsToParse = unaryLiterals.map(Parser[String](_)).reduce(_ | _ )
+  val binaryLiteralsToParse = binaryLiterals.unsorted.map(Parser[String](_)).reduce(_ | _ )
+  val unaryLiteralsToParse = unaryLiterals.unsorted.map(Parser[String](_)).reduce(_ | _ )
 
   lazy val expr:        P[Expr]       = let | application | notApp
   lazy val notApp:      P[Expr]       = ifthenelse | call | binary | unary | str | variable | number | lambda | parens

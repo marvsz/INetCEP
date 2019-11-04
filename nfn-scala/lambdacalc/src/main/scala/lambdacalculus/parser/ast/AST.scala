@@ -81,9 +81,10 @@ case class Variable(name: String, accessValue: Int = -1) extends Expr {
   def apply(args: List[Expr]): Call = call(args:_*)
 
   import LambdaDSL._
+  def call(): Call =  Symbol(this.name) -> List()
   def call(args: Expr*): Call =  (Symbol(this.name), args)
   def call(args: List[Expr]): Call =  (Symbol(this.name), args)
-  def call(): Call =  Symbol(this.name) -> List()
+
 }
 
 object Constant {

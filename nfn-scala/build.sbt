@@ -39,6 +39,7 @@ lazy val nfn = Project(
     dependencies.bcel,
     dependencies.scopt,
     dependencies.shttp,
+    dependencies.junitJupterEngine,
     dependencies.jupiter,
     dependencies.xml
   ),
@@ -90,7 +91,9 @@ lazy val dependencies =
     val bcelV = "6.4.1"
     val scoptV = "3.7.1"
     val shttpV = "2.4.2"
+    val junitPlattformLauncherV = "1.5.2"
     val jupiterV = "5.5.2"
+
     //val xmlV = "1.2.0"
     val xmlV = "2.0.0-M1"
     val collectionCompatV = "2.1.2"
@@ -108,7 +111,9 @@ lazy val dependencies =
     val bcel = "org.apache.bcel" % "bcel" % bcelV
     val scopt = "com.github.scopt" %% "scopt" % scoptV
     val shttp = "org.scalaj" %% "scalaj-http" % shttpV
-    val jupiter = "org.junit.jupiter" % "junit-jupiter-api" % jupiterV % "Test"
+    val junitPlattformLauncher = "org.junit.platform" %% "junit-platform-launcher"% junitPlattformLauncherV % "test"
+    val junitJupterEngine = "org.junit.jupiter" % "junit-jupiter-engine" % jupiterV % Test
+    val jupiter = "org.junit.jupiter" % "junit-jupiter-api" % jupiterV % Test
     //val xml = "org.scala-lang.modules" %% "scala-xml" % xmlV
     val xml = "org.scala-lang.modules" %% "scala-xml" % xmlV
     val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatV

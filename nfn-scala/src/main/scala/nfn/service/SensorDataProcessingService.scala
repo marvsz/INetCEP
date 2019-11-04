@@ -3,9 +3,9 @@ package nfn.service
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
-import scala.concurrent.duration._
 
-import scala.io.Source
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
 
 class SensorDataProcessingService() extends  NFNService {

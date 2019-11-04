@@ -1,10 +1,11 @@
 package nfn.service
 
+import java.util.concurrent.TimeUnit
+
 import akka.actor.ActorRef
-import ccn.packet.{CCNName, Content, Interest, NFNInterest}
+import ccn.packet.{CCNName, Content, Interest}
 import nfn.tools.Networking._
 
-import scala.concurrent.Await
 import scala.concurrent.duration._
 
 
@@ -29,7 +30,7 @@ class ChainIntermediates() extends NFNService {
       val c = new String(content.data)
       println(s"intermediate handler: $index, $c")
     }
-    fetchContentAndKeepAlive(ccnApi, simulationInterest, 20 seconds, Some(intermediateHandler))
+    fetchContentAndKeepAlive(ccnApi, simulationInterest,new FiniteDuration(20,TimeUnit.SECONDS), Some(intermediateHandler))
 
 //    val futureContent = requestContentAndKeepalive(ccnApi, simulationInterest)
 //    requestIntermediates(ccnApi, simulationInterest, handleIntermediates = { (c: Content) =>

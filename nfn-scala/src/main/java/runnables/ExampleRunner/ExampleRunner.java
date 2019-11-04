@@ -1,7 +1,6 @@
 package runnables.ExampleRunner;
 
-import runnables.javaservice.JavaWordCount;
-import scala.collection.JavaConverters;
+//import runnables.javaservice.JavaWordCount;
 import runnables.servicegenerator.ServiceGenerator;
 
 import java.io.BufferedOutputStream;
@@ -16,13 +15,13 @@ public class ExampleRunner {
 
     public static void main(String[] args) {
         Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-        logger.setLevel(Level.ALL);
+        /*logger.setLevel(Level.ALL);
 
         ServiceGenerator sg = new ServiceGenerator();
         JavaWordCount jvcService = new JavaWordCount();
         byte[] bc = sg.generateService(jvcService);
 
-        List<String> cmpsList = JavaConverters.asJavaListConverter(jvcService.ccnName().cmpsList()).asJava();
+        List<String> cmpsList = (List<String>) jvcService.ccnName().cmpsList();
         StringBuilder sb = new StringBuilder();
 
 
@@ -48,7 +47,7 @@ public class ExampleRunner {
             } catch (IOException e) {
                 logger.severe(e.toString());
             }
-        }
-        System.out.print("wrote bc size=" + bc.length + " to " + filename);
+        }*/
+        //System.out.print("wrote bc size=" + bc.length + " to " + filename);
     }
 }

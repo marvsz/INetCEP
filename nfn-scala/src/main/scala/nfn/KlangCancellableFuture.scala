@@ -92,6 +92,10 @@ class KlangCancellableFuture[T](work: => T)(implicit executor: ExecutionContext)
     this
 //    KlangCancellableFuture[T](Await.result(future, atMost))
   }
+
+  override def transform[S](f: Try[T] => Try[S])(implicit executor: ExecutionContext): Future[S] = ???
+
+  override def transformWith[S](f: Try[T] => Future[S])(implicit executor: ExecutionContext): Future[S] = ???
 }
 
 object KlangCancellableFutureTestApp extends App {

@@ -1,9 +1,7 @@
 package filterAccess.json
 
-import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
-
-import scala.collection.mutable
+import net.liftweb.json._
 
 
 /**
@@ -97,7 +95,7 @@ object PermissionChannelBuilder {
             )
         )
 
-    compact(render(json))
+    compactRender(json)
   }
 
 

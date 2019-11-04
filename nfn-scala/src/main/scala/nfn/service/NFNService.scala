@@ -36,8 +36,8 @@ object NFNService extends LazyLogging {
         case Some(CCNName(cmps, _)) =>
           val interest = Interest(CCNName(cmps, None))
           val futServiceContent: Future[Content] = loadFromCacheOrNetwork(interest)
-          futServiceContent flatMap {
-            serviceFromContent
+          futServiceContent flatMap{
+            futureServiceFromContent
           }
         case None => Future.failed(new Exception(s"Could not create name for service $fun"))
       }
@@ -121,6 +121,10 @@ object NFNService extends LazyLogging {
     }
   }
 
+  def futureServiceFromContent(content: Content):Future[NFNService]={
+    Future.fromTry(serviceFromContent(content))
+  }
+
   /**
     * Creates a [[NFNService]] from a content object containing the binary code of the service.
     * The data is written to a temporary file, which is passed to the [[BytecodeLoader]] which then instantiates the actual class.
@@ -128,7 +132,7 @@ object NFNService extends LazyLogging {
     * @param content
     * @return
     */
-  def serviceFromContent(content: Content): Future[NFNService] = {
+  def serviceFromContent(content: Content): Try[NFNService] = {
     val serviceLibraryDir = "./temp-service-library"
     val serviceLibararyFile = new File(serviceLibraryDir)
 
@@ -164,7 +168,7 @@ object NFNService extends LazyLogging {
       try {
         val loadedService: Try[NFNService] = BytecodeLoader.loadClass[NFNService](filePath, servName)
         logger.debug(s"Dynamically loaded class $servName from content from $filePath")
-        Future.fromTry(loadedService)
+        loadedService
       }
       catch {
         case _ : Throwable => {
@@ -172,7 +176,7 @@ object NFNService extends LazyLogging {
           val filePath = f.getCanonicalPath
           val loadedService: Try[NFNService] = BytecodeLoader.loadClass[NFNService](filePath, servName)
           logger.debug(s"Loading PINNED service $servName from $filePath")
-          Future.fromTry(loadedService)
+          loadedService
         }
       }
     } finally {

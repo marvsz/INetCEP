@@ -3,12 +3,11 @@ package runnables.evaluation.usecase.cdn
 import akka.actor.ActorRef
 import ccn.packet._
 import com.typesafe.config.ConfigFactory
-import config.{ComputeNodeConfig, RouterConfig, AkkaConfig}
+import config.{ComputeNodeConfig, RouterConfig}
 import lambdacalculus.parser.ast._
 import monitor.Monitor
-import nfn._
 import nfn.service._
-import node.{LocalNodeFactory, LocalNode}
+import node.{LocalNode, LocalNodeFactory}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util._
@@ -91,14 +90,13 @@ object CDN extends App {
   node1.publishServiceLocalPrefix(new RandomAd())
   node2.publishServiceLocalPrefix(new RandomAd())
 
-  import lambdacalculus.parser.ast.LambdaDSL._
   import nfn.LambdaNFNImplicits._
   implicit val useThunks = false
 
   val esiInclude = new ESIInclude()
   val randomAd = new RandomAd()
 
-  val exIncludeAd: Expr = esiInclude call (webpagename, esiTagname, randomAd call() )
+  val exIncludeAd: Expr = esiInclude call (webpagename, esiTagname, randomAd)
 
   val expr = exIncludeAd
 

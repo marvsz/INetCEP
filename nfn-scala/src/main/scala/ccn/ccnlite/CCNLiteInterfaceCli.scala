@@ -4,7 +4,7 @@ import java.io.File
 
 import ccn.{CCNWireFormat, CCNInterface}
 import ccn.packet._
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import config.CCNLiteSystemPath
 import myutil.IOHelper
 import myutil.systemcomandexecutor._
@@ -32,7 +32,7 @@ object CCNLiteInterfaceCli {
   def unescapeCmp(cmp: String): String = cmp.replace("%2f", "/")
 }
 
-case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface with Logging {
+case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface with LazyLogging {
 
   val ccnLiteEnv = CCNLiteSystemPath.ccnLiteHome
   val binFolderName = s"$ccnLiteEnv/bin/"

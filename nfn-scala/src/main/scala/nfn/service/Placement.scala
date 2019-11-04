@@ -5,47 +5,26 @@ package nfn.service
  * This is the centralized query placement while using the fetch based network discovery approach
  */
 
-import akka.actor.ActorRef
-import scala.collection.JavaConversions._
-import scala.io.Source
-import scala.util.control._
-import ccn.packet.CCNName
-import nfn.tools._
-import nfn.tools.Networking._
-
-import scala.concurrent.duration._
-import scala.language.postfixOps
-import java.util._
-import java.io._
-import java.lang.String
 import java.text.SimpleDateFormat
 
 import SACEPICN.{NodeMapping, _}
+import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.tools._
 
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.List
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.immutable.Vector
-import scala.collection.mutable.ListBuffer
-import scala.collection.mutable.Stack
-import scala.util.control.Exception._
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.io.Source
+import scala.jdk.CollectionConverters._
+import scala.language.postfixOps
 
 //Added for contentfetch
-import lambdacalculus.parser.ast.{Constant, Str}
-import nfn.service._
 import java.util.Calendar
-import java.time
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest, Interest}
-import nfn.NFNApi
-import config.StaticConfig
+
+import ccn.packet.CCNName
 
 //Added for CCN Command Execution:
-import sys.process._
-import filterAccess.tools.ConfigReader._
 
 class Placement() extends NFNService {
 
@@ -587,7 +566,8 @@ class Placement() extends NFNService {
       if (algorithmEnum == 1) {
 
         //Below file must be present in order to carry out proper placement:
-        for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList) {
+
+        for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList.asScala) {
           val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
           //Get content from network
           var intermediateResult = "No Result!"
@@ -636,7 +616,7 @@ class Placement() extends NFNService {
         LogMessage(nodeName, s"Performing Decentralized lookup with $K hops")
 
 
-        val decentralizedNodeInfo = DecentralizedNodeInformationSingleton.decentralizedNodeInformationHashMap.get(nodeName)
+        val decentralizedNodeInfo = DecentralizedNodeInformationSingleton.decentralizedNodeInformationHashMap.get(nodeName).asScala
         for ((k,e) <- decentralizedNodeInfo) {
           val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
           if (e._hops <= K) {

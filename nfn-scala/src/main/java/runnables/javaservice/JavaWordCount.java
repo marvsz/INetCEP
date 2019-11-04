@@ -9,7 +9,7 @@ import scala.collection.JavaConverters;
 /**
 * Created by basil on 07/11/14.
 */
-public class JavaWordCount extends JavaNFNService {
+/*public class JavaWordCount extends JavaNFNService {
     @Override
     public NFNValue function(CCNName interestName, Seq<NFNValue> args, ActorRef nfnApi) {
 
@@ -19,6 +19,6 @@ public class JavaWordCount extends JavaNFNService {
         }
         return new NFNIntValue(numberOfWords);
     }
-}
+}*/
 
 

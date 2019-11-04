@@ -4,6 +4,7 @@ import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class PubSubBroker() extends NFNService {
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {

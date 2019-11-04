@@ -4,8 +4,6 @@ import filterAccess.json.PermissionChannelParser._
 import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
 
-import scala.collection.breakOut
-
 
 /**
  * Created by Claudio Marxer <marxer@claudio.li>
@@ -40,7 +38,7 @@ object KeyChannelParser extends ChannelParser {
       val list = (m \ "keys").children.children
 
       // convert to map
-      val x:Map[Int,String] = (for(e <- list) yield ((e \ "level").extract[Int] -> (e \ "key").extract[String]))(breakOut)
+      val x:Map[Int,String] = (for(e <- list) yield ((e \ "level").extract[Int] -> (e \ "key").extract[String])).view.to(Map)
       x
 
     }
@@ -109,7 +107,7 @@ object KeyChannelBuilder {
             )
         )
 
-    compact(render(json))
+    compactRender(json)
   }
 
 }
