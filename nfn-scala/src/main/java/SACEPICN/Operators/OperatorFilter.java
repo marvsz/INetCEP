@@ -24,7 +24,7 @@ public class OperatorFilter extends OperatorA {
         index = 1;
         // "at least one has to be true"
         Boolean min = false;
-        min |= isParamFilterQueryOnIndex(index);
+        min = isParamFilterQueryOnIndex(index);
         min |= isParamWindowQueryOnIndex(index);
         min |= isParamJoinQueryOnIndex(index);
         min |= isParamPredict1QueryOnIndex(index);
@@ -62,7 +62,7 @@ public class OperatorFilter extends OperatorA {
 
 
     private String performExpressivenessHandling(String boolExp) {
-        HashMap<String, String> mapping = new HashMap();
+        HashMap<String, String> mapping = new HashMap<String, String>();
         mapping.put("time", "0");
         mapping.put("id", "1");
         mapping.put("food", "1");

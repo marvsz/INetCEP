@@ -1,15 +1,13 @@
 package runnables.evaluation
 
-import java.io.File
-
-import ccn.packet.{Content, Interest}
-import com.typesafe.config.{ConfigFactory, Config}
+import ccn.packet.Interest
+import com.typesafe.config.{Config, ConfigFactory}
 import lambdacalculus.parser.ast.Expr
 import monitor.Monitor
-import nfn.service.{WordCount, PandocTestDocuments, Pandoc}
+import nfn.service.{Pandoc, PandocTestDocuments, WordCount}
 import node.LocalNodeFactory
-import concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 object PandocApp extends App {
@@ -42,7 +40,7 @@ object PandocApp extends App {
   import nfn.LambdaNFNImplicits._
   implicit val useThunks: Boolean = false
 
-  val x = 'x @: 'x + 1 ! 2
+  val x = Symbol("x") @: Symbol("x") + 1 ! 2
   val exprTut: Expr = pandoc call(tutorialContent.name, "markdown_github", "html")
   val exprTiny: Expr = pandoc call(tinyContent.name, "markdown_github", "html")
   val exprWc: Expr = wc call (tinyContent.name)

@@ -1,6 +1,6 @@
 package nfn.service
 
-import java.io.{File, FilenameFilter}
+import java.io.File
 
 import akka.actor.ActorRef
 import ccn.packet.CCNName
@@ -21,7 +21,7 @@ class PDFLatex extends NFNService {
         SystemCommandExecutor(List(cmds), Some(doc)).executeWithTimeout() match {
           case ExecutionSuccess(_, translatedDoc) =>
             dir.list().find(_.endsWith(".pdf")) match {
-              case Some(pdfFile) => NFNDataValue(IOHelper.readByteArrayFromFile(new File(dir + "/" + pdfFile)))
+              case Some(pdfFile) => NFNDataValue(IOHelper.readByteArrayFromFile(new File(dir.toString + "/" + pdfFile)))
               case None => NFNStringValue(s"Error when executing pdflatex, " +
                 "the resulting pdf could not be created, but pdflatex executed without error")
             }

@@ -114,6 +114,7 @@ class Placement() extends NFNService {
         //2) For this size: Get the path matching the number of operators and the lowest BDP path:
         if (root._stackSize > maxPath)
           LogMessage(nodeName, s"Stack size of node is too big. Stacksize is ${opCount}, but we can only support ${maxPath} operators")
+        implicit val order = Ordering.Double.TotalOrdering
         var optimalPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost)
 
         selectedPath = optimalPath.pathNodes.mkString("-").toString
@@ -354,6 +355,7 @@ class Placement() extends NFNService {
           //This node has more network information (more neighboring paths it can explore)
           //We can use this node for placement
           //Select a path with min cumulative path cost with the required number of hops:
+          implicit val order = Ordering.Double.TotalOrdering
           var selectedPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost)
 
           selectedPathDecentral = selectedPath.pathNodes.mkString(" - ").toString
@@ -503,7 +505,7 @@ class Placement() extends NFNService {
         }
         else {
           //Issue a new query on the MOST OPTIMAL path and wait for the result:
-
+          implicit val order = Ordering.Double.TotalOrdering
           var path = paths.filter(x => x.pathNodes.length > 1).minBy(_.cumulativePathCost)
           LogMessage(nodeName, s"Path selected for Decentralized Query: ${path.pathNodes.mkString(" - ")}")
           var optimalPath = path.pathNodes.reverse.toBuffer[String]; //Reverse is needed in order to change 9003 -> 9002 -> 9001 to 9001 -> 9002 -> 9003 etc.

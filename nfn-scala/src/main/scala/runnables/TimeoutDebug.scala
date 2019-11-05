@@ -87,10 +87,10 @@ object TimeoutDebug extends App {
   }
 
   // prepare interests
-  val exp1 = 'x @: ('x call nameOnC)
+  val exp1 = Symbol("x") @: (Symbol("x") call nameOnC)
   val countC = Interest(exp1.name.prepend(wcName))
 
-  val exp2 = 'x @: (wcName call 'x)
+  val exp2 = Symbol("x") @: (wcName call Symbol("x"))
   val countA = Interest(exp2.name.prepend(nameOnA))
 
   // send

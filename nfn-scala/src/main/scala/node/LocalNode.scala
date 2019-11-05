@@ -159,7 +159,7 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
     Thread.sleep(5)
 
     // If there is also a compute server, setup the local face
-    maybeComputeNodeConfig map {computeNodeConfig =>
+    maybeComputeNodeConfig foreach { computeNodeConfig =>
       if(!routerConfig.isCCNOnly) {
         ccnLiteNFNNetworkProcess.addPrefix(CCNName("COMPUTE"), computeNodeConfig.host, computeNodeConfig.port)
         //          ccnLiteNFNNetworkProcess.addPrefix(computeNodeConfig.prefix, computeNodeConfig.host, computeNodeConfig.port)

@@ -19,7 +19,7 @@ import scala.util._
 object BytecodeLoader extends LazyLogging {
 
   class DependencyEmitter(javaClass: JavaClass) extends EmptyVisitor {
-    override def visitConstantClass(obj: ConstantClass) {
+    override def visitConstantClass(obj: ConstantClass): Unit = {
       val cp = javaClass.getConstantPool
       val bytes = obj.getBytes(cp)
       System.out.println(s"found: $bytes")
@@ -49,7 +49,7 @@ object BytecodeLoader extends LazyLogging {
     try {
       val javaClass = Repository.lookupClass(className)
       val visitor = new EmptyVisitor() {
-        override def visitConstantClass(obj: ConstantClass) {
+        override def visitConstantClass(obj: ConstantClass):Unit={
           val cp = javaClass.getConstantPool
           val dependentClassnameQualified = obj.getBytes(cp)
 

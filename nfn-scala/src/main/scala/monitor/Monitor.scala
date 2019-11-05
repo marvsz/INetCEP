@@ -88,7 +88,7 @@ case class Monitor() extends Actor {
     }
   }
 
-  override def preStart() {
+  override def preStart():Unit = {
     nfnSocket ! UDPConnection.Handler(self)
     logger.debug("started Monitor")
   }

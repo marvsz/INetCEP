@@ -1,4 +1,3 @@
-
 logLevel := util.Level.Warn
 addSbtPlugin("org.jetbrains" % "sbt-idea-plugin" % "3.3.2")
 

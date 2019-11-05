@@ -36,7 +36,7 @@ class KlangCancellableFuture[T](work: => T)(implicit executor: ExecutionContext)
   run()
 
   private def run(): Unit = {
-    p tryCompleteWith Future {
+    p completeWith  Future {
       throwCancellationExceptionIfCancelled {
         val thread = Thread.currentThread
         lock.synchronized {

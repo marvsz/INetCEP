@@ -29,7 +29,7 @@ object PermissionChannelParser extends ChannelParser{
    * @return                  Access level
    */
   def getAccessLevel(JSONObject: String, node: String): Option[Int] = {
-
+    implicit val order = Ordering.Double.TotalOrdering
     val extractor = (m:JValue) => {
       m.extract[Permissions].permissions
         .filter(userLevel => userLevel.name == node)

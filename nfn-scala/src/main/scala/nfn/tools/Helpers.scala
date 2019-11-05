@@ -1,21 +1,17 @@
 package nfn.tools
 
 import java.io.{File, FileOutputStream, PrintWriter}
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.{Base64, Calendar}
+import java.util.Calendar
 
-import SACEPICN.{NodeMapping, SchemaBrokerSingleton}
+import SACEPICN.NodeMapping
 import akka.actor.ActorRef
 import ccn.packet._
 import config.StaticConfig
-import myutil.FormattedOutput
 import nfn.NFNApi
 import nfn.service.LogMessage
-import nfn.tools.Networking.{fetchContent, fetchContentAndKeepAlive, fetchContentRepeatedly}
+import nfn.tools.Networking.{fetchContent, fetchContentRepeatedly}
 
 import scala.concurrent.duration._
-import scala.io.Source
 import scala.language.postfixOps
 import scala.sys.process._
 
@@ -286,7 +282,7 @@ object Helpers {
    * @return
    */
   def executeInterestQuery(query: String, nodeName: String, ccnApi: ActorRef): String = {
-    val nameOfContentWithoutPrefixToAdd = CCNName(new String(query).split("/").tail: _*)
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(query).split("/").tail.toIndexedSeq: _*)
     LogMessage(nodeName, s"execute Interest query ${query} called with ${nodeName}")
     var result = new String(fetchContentRepeatedly(
       Interest(nameOfContentWithoutPrefixToAdd),
@@ -366,7 +362,7 @@ object Helpers {
     //This will be something like /900X/operation/onWhat/....
     val name = s"/$prefixOfNode/${operation}/${onWhat}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE) + now.get(Calendar.SECOND)
 
-    val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail.toIndexedSeq: _*)
     ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty), prependLocalPrefix = false)
     LogMessage(nodeName, s"Inside ${operation} -> ${operation} name: ${name}, ${operation} content: ${input}")
     name

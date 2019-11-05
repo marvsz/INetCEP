@@ -16,7 +16,7 @@ object CCNName {
   def fromString(name: String):Option[CCNName] = {
     if(!name.startsWith("/")) None
     else {
-      Some(CCNName(name.split("/").tail:_*))
+      Some(CCNName(name.split("/").tail.toIndexedSeq:_*))
     }
   }
 

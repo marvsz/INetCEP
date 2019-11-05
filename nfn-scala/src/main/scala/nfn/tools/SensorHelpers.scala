@@ -243,14 +243,14 @@ object SensorHelpers {
   def getJoinedSchemaName(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) =
     "Join(".concat(leftSensorName).concat(",").concat(rightSensorName).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")")
 
-  def addSensor(filename:String, delimiter:String){
+  def addSensor(filename:String, delimiter:String) : Unit ={
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
     val broker = SchemaBrokerSingleton.getInstance()
     connectedSensors.addSensor(filename,new Sensor(delimiter.charAt(0),filename))
     val schemaInserted = broker.insertSchema(connectedSensors.getSensor(filename).getType,connectedSensors.getSensor(filename).getSchema)
   }
 
-  def removeSensor(sensorName:String){
+  def removeSensor(sensorName:String) : Unit = {
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
     connectedSensors.removeSensor(sensorName)
   }

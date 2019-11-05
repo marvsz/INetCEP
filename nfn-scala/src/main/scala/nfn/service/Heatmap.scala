@@ -130,7 +130,7 @@ class Heatmap extends NFNService {
     for(j <- 0 until height -1){
       for (i <- 0 until width -1){
         if(heatmap(j)(i)!=0){
-          sb.append(j+"|"+i+":"+heatmap(j)(i)+";")
+          sb.append(s"$j|$i:$heatmap(j)(i);")
         }
       }
     }
@@ -173,6 +173,6 @@ class Heatmap extends NFNService {
       output = output + "\n" + upperAndLowerLines + "\n"
     }
     output = output + "Heatmap End\n"
-    return output
+    output
   }
 }

@@ -11,23 +11,23 @@ class SimulationService extends NFNService {
   override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
     // /path/to/NBodySimulation [/path/to/config] ['-c' <configSize>] ['-d' <deltaTime>] ['-s' <stepCount>] ['-i' <intermediateInterval>]
 
-    var options = Map('configSize -> 100, 'deltaTime -> 10, 'stepCount -> 1000000, 'intermediateInterval -> 1000)
+    var options = Map(Symbol("configSize") -> 100, Symbol("deltaTime") -> 10, Symbol("stepCount") -> 1000000, Symbol("intermediateInterval") -> 1000)
     var configuration = Array[Byte]()
 
     var args = argSeq.toList
     while (args.nonEmpty) args match {
-      case NFNStringValue("-c") :: NFNIntValue(value) :: tail => options += ('configSize -> value); args = args drop 2
-      case NFNStringValue("-d") :: NFNIntValue(value) :: tail => options += ('deltaTime -> value); args = args drop 2
-      case NFNStringValue("-s") :: NFNIntValue(value) :: tail => options += ('stepCount -> value); args = args drop 2
-      case NFNStringValue("-i") :: NFNIntValue(value) :: tail => options += ('intermediateInterval -> value); args = args drop 2
+      case NFNStringValue("-c") :: NFNIntValue(value) :: tail => options += (Symbol("configSize") -> value); args = args drop 2
+      case NFNStringValue("-d") :: NFNIntValue(value) :: tail => options += (Symbol("deltaTime") -> value); args = args drop 2
+      case NFNStringValue("-s") :: NFNIntValue(value) :: tail => options += (Symbol("stepCount") -> value); args = args drop 2
+      case NFNStringValue("-i") :: NFNIntValue(value) :: tail => options += (Symbol("intermediateInterval") -> value); args = args drop 2
       case NFNContentObjectValue(name, data) :: tail => configuration = data; args = args drop 1
       case _ => args = List()
     }
 
-    val configSize = options('configSize)
-    val deltaTime = options('deltaTime)
-    val stepCount = options('stepCount)
-    val intermediateInterval = options('intermediateInterval)
+    val configSize = options(Symbol("configSize"))
+    val deltaTime = options(Symbol("deltaTime"))
+    val stepCount = options(Symbol("stepCount"))
+    val intermediateInterval = options(Symbol("intermediateInterval"))
 
     println("intermediateInterval: " + intermediateInterval)
 

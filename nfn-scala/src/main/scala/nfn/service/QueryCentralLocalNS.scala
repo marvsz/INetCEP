@@ -65,6 +65,7 @@ class QueryCentralLocalNS() extends NFNService {
       //1) Find the number of operators in the query:
       var opCount = root._stackSize;
       //2) For this size: Get the path matching the number of operators and the lowest BDP path:
+      implicit val order = Ordering.Double.TotalOrdering
       var optimalPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost);
 
       //Take this path and place the queries on it:

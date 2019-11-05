@@ -13,15 +13,15 @@ import nfn.tools.Networking.{fetchContentAndKeepAlive, intermediateResult}
 class SimulationRenderService extends NFNService {
   override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
-    var options = Map('xres -> 500, 'yres -> 500)
+    var options = Map(Symbol("xres") -> 500, Symbol("yres") -> 500)
 //    var configuration = Array[Byte]()
     var simulationName = "/node6/nfn_service_NBody_SimulationService/(@x call 1 x)/NFN"
 
     def parseArgs(): Unit ={
       var args = argSeq.toList
       while (args.nonEmpty) args match {
-        case NFNStringValue("-w") :: NFNIntValue(value) :: tail => options += ('xres -> value); args = args drop 2
-        case NFNStringValue("-h") :: NFNIntValue(value) :: tail => options += ('yres -> value); args = args drop 2
+        case NFNStringValue("-w") :: NFNIntValue(value) :: tail => options += (Symbol("xres") -> value); args = args drop 2
+        case NFNStringValue("-h") :: NFNIntValue(value) :: tail => options += (Symbol("yres") -> value); args = args drop 2
         case NFNStringValue(value) :: Nil => simulationName = value; args = args drop 1
         case _ => args = List()
       }
@@ -39,7 +39,7 @@ class SimulationRenderService extends NFNService {
       val simulation = new Simulation(config, deltaTime)
 
       //val resolution = Vector(options('xres), options('yres))
-      val canvas = new BufferedImage(options('xres), options('yres), BufferedImage.TYPE_INT_RGB)
+      val canvas = new BufferedImage(options(Symbol("xres")), options(Symbol("yres")), BufferedImage.TYPE_INT_RGB)
       simulation.render(renderArea, canvas)
 
       val baos = new ByteArrayOutputStream()

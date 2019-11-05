@@ -330,6 +330,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
     val face: Set[ActorRef] = maybeFace match {
       case Some(f) => f
+      case None => null
     }
     //val face: Set[ActorRef] = pit.get(contentChunk.name) match {case Some(f) => f}
 

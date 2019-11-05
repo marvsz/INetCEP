@@ -78,7 +78,7 @@ object Main {
     val tpe = getTypeTag(NFNServiceLibrary).tpe
 
     val methods: List[String] =
-      tpe.declarations.filter(decl =>
+      tpe.decls.filter(decl =>
         decl.isMethod && decl.name.toString != "<init>"
       ).map( methodDecl => {
         def parseTypeString(tpe: String): String = {

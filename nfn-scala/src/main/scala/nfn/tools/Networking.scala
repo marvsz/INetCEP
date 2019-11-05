@@ -299,7 +299,7 @@ object Networking extends LazyLogging{
     * @return              Content Object (on success)
     */
   def fetchContent(name: String, ccnApi: ActorRef, time: Duration): Option[Content] = {
-    val i = Interest(CCNName(name.split("/").tail: _*))
+    val i = Interest(CCNName(name.split("/").tail.toIndexedSeq: _*))
     fetchContent(i, ccnApi, time)
   }
   //
