@@ -3,6 +3,8 @@ import sbt._
 
 // PROJECTS
 
+scalacOptions ++= Seq("-unchecked", "-deprecation")
+
 libraryDependencies ++= Seq(
   dependencies.akkaActor,
   dependencies.logback,
@@ -85,7 +87,7 @@ lazy val dependencies =
     val scalatestV = "3.0.8"
     val logbackClassicV = "1.2.3"
     val scalaLoggingV = "3.9.2"
-    val configV = "1.4.0"
+    val configV = "1.3.3"
     val slf4jV = "1.7.28"
     val liftV = "3.4.0"
     val bcelV = "6.4.1"
@@ -94,8 +96,8 @@ lazy val dependencies =
     val junitPlattformLauncherV = "1.5.2"
     val jupiterV = "5.5.2"
 
-    //val xmlV = "1.2.0"
-    val xmlV = "2.0.0-M1"
+    val xmlV = "1.2.0"
+    //val xmlV = "2.0.0-M1"
     val collectionCompatV = "2.1.2"
     val parserV = "1.1.2"
 
