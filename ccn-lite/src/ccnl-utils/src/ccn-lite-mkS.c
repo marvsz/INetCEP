@@ -106,9 +106,9 @@ usage:
                                " -x The name of the socket to connect the sensor to\n"
                                " -h For Help\n"
                                "Examples:\n"
-                               "ccn-lite-mkS -n Victims -i 1 -t 2 -s 500 -x mgmt-nfn-relay-b.sock -v trace\n"
-                               "ccn-lite-mkS -n PLUG -i 1 -t 1 -s 1000 -x mgmt-nfn-relay-b.sock -v trace -d /home/johannes/INetCEP/sensors/plug1\n"
-                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -x mgmt-nfn-relay-b.sock -v trace -d /home/johannes/INetCEP/sensors/gps1\n",
+                               "ccn-lite-mkS -n Victims -i 1 -t 2 -s 500 -x mgmt-nfn-relay-a.sock -v trace\n"
+                               "ccn-lite-mkS -n PLUG -i 1 -t 1 -s 1000 -x mgmt-nfn-relay-a.sock -v trace -d /home/johannes/INetCEP/sensors/plug1\n"
+                               "ccn-lite-mkS -n GPS -i 1 -t 1 -s 1000 -x mgmt-nfn-relay-a.sock -v trace -d /home/johannes/INetCEP/sensors/gps1\n",
                                argv[0]);
                 exit(EXIT_FAILURE);
         }
@@ -133,7 +133,6 @@ usage:
                         nameID = 4;
                     else
                         goto usage;
-
     setting = ccnl_sensor_settings_new(id,type,samplingRate,nameID,socket);
     sensor = ccnl_sensor_new(setting);
     if(datadir){
