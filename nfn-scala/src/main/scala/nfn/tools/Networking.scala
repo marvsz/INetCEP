@@ -2,11 +2,11 @@ package nfn.tools
 
 import java.util.concurrent.TimeoutException
 
-import com.typesafe.scalalogging.LazyLogging
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
-import ccn.packet.{CCNName, Content, Interest}
+import ccn.packet.{CCNName, ConstantInterest, Content, Interest}
+import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 import nfn.service._
 
@@ -64,6 +64,32 @@ object Networking extends LazyLogging{
     // try to fetch data and return if successful
     try {
       val futServiceContent: Future[Content] = loadFromCacheOrNetwork(interest)
+      Await.result(futServiceContent, time) match {
+        case c: Content => Some(c)
+        case _ => None  // send keepalive interest
+      }
+    } catch {
+      case e: TimeoutException => logger.error("fetchContent timed out."); None
+    }
+  }
+
+  /**
+   * Try to fetch content object by given interest.
+   *
+   * @param    constantInterest   Interest to send out
+   * @param    ccnApi     Actor Reference
+   * @param    time       Timeout
+   * @return              Content Object (on success)
+   */
+  def fetchContent(constantInterest: ConstantInterest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
+    def loadFromCacheOrNetwork(constantInterest: ConstantInterest): Future[Content] = {
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
+      (ccnApi ? NFNApi.CCNSend(constantInterest, useThunks = false)).mapTo[Content]
+    }
+
+    // try to fetch data and return if successful
+    try {
+      val futServiceContent: Future[Content] = loadFromCacheOrNetwork(constantInterest)
       Await.result(futServiceContent, time) match {
         case c: Content => Some(c)
         case _ => None  // send keepalive interest

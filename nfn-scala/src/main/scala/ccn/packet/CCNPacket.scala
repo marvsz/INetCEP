@@ -195,11 +195,32 @@ object NFNInterest {
 object Interest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
+
+object ConstantInterest {
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
+}
+
+object RemoveConstantInterest {
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
+}
+
 case class Interest(name: CCNName) extends CCNPacket {
 
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
   def thunkify: Interest = Interest(name.thunkify)
+}
+
+case class ConstantInterest(name: CCNName) extends CCNPacket {
+  def this(cmps: String *) = this(CCNName(cmps:_*))
+
+  def thunkify: ConstantInterest = ConstantInterest(name.thunkify)
+}
+
+case class RemoveConstantInterest(name: CCNName) extends CCNPacket {
+  def this(cmps: String *) = this(CCNName(cmps:_*))
+
+  def thunkify: RemoveConstantInterest = RemoveConstantInterest(name.thunkify)
 }
 
 

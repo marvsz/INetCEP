@@ -38,6 +38,8 @@ object Monitor {
   }
   case class ContentInfoLog(`type`: String = "content", name: String, data: String) extends PacketInfoLog
   case class InterestInfoLog(`type`: String = "interest", name: String) extends PacketInfoLog
+  case class ConstantInterestInfoLog(`type`: String = "constantInterest", name: String) extends PacketInfoLog
+  case class RemoveConstantInterestInfoLog(`type`: String = "removeConstantInterest", name: String) extends PacketInfoLog
 
   case class PacketLogWithoutConfigs(fromHost: String, fromPort: Int, toHost: String, toPort: Int, isSent: Boolean, packet: PacketInfoLog ) extends MonitorLogEntry
 
@@ -123,7 +125,7 @@ case class Monitor() extends Actor {
 
   implicit val formats =
     DefaultFormats.withHints(
-      ShortTypeHints(List(classOf[InterestInfoLog], classOf[ContentInfoLog])) )
+      ShortTypeHints(List(classOf[InterestInfoLog], classOf[ConstantInterestInfoLog], classOf[RemoveConstantInterestInfoLog], classOf[ContentInfoLog])) )
 
   def handleConnectLogJson(json: JsonAST.JValue): Unit = {
     json.extractOpt[ConnectLog] match {
@@ -148,6 +150,12 @@ case class Monitor() extends Actor {
       (parsedPacket \\ "type").extract[String] match {
         case t @ "interest" => {
           InterestInfoLog(t, name)
+        }
+        case t @ "constantInterest" => {
+          ConstantInterestInfoLog(t, name)
+        }
+        case t @ "removeConstantInterest" => {
+          RemoveConstantInterestInfoLog(t, name)
         }
         case t @ "content" =>
           val data = (parsedPacket \\ "data").extract[String]

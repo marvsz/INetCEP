@@ -18,6 +18,8 @@ case class OmnetIntegration(nodes: Set[NodeLog],
 
   def loggedPacketToType(lp: PacketInfoLog): String = lp match {
     case i: InterestInfoLog => "interest"
+    case ci: ConstantInterestInfoLog => "constantInterest"
+    case rci: RemoveConstantInterestInfoLog => "removeConstantInterest"
     case c: ContentInfoLog => "content"
     case _ => "unkown"
   }
@@ -83,6 +85,10 @@ case class OmnetIntegration(nodes: Set[NodeLog],
       p match {
         case i: InterestInfoLog =>
         ("name" -> i.name) ~ ("type" -> "interest")
+        case ci: ConstantInterestInfoLog =>
+          ("name" -> ci.name) ~ ("type" -> "constantInterest")
+        case rci: RemoveConstantInterestInfoLog =>
+          ("name" -> rci.name) ~ ("type" -> "removeConstantInterest")
         case c: ContentInfoLog =>
         ("name" -> c.name) ~ ("data" -> c.data) ~ ("type" -> "content")
         case _ => throw new Exception("asdf")

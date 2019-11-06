@@ -39,18 +39,55 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
 
   override def mkBinaryInterest(interest: Interest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
     val mkI = "ccn-lite-mkI"
+    val interestType = List("-t" , "Interest")
 
     val chunkCmps = (interest.name.chunkNum match {
       case Some(chunkNum) => List("-n", s"$chunkNum")
       case None => Nil
     }) ++ List("-e", s"${Random.nextInt()}")
 
-    val cmds: List[String] = List(binFolderName + mkI, "-s", s"$wireFormat") ++ chunkCmps ++ ccnNameToRoutableCmpsAndNfnString(interest.name)
+    val cmds: List[String] = List(binFolderName + mkI, "-s", s"$wireFormat") ++ interestType ++ chunkCmps ++ ccnNameToRoutableCmpsAndNfnString(interest.name)
 
     SystemCommandExecutor(List(cmds)).futExecute() map {
       case ExecutionSuccess(_, data) => data
       case execErr: ExecutionError =>
         throw new Exception(s"Error when creating binary interest for $interest:\n$execErr")
+    }
+  }
+
+  override def mkBinaryConstantInterest(constInterest: ConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
+    val mkI = "ccn-lite-mkI"
+    val interestType = List("-t" , "ConstantInterest")
+
+    val chunkCmps = (constInterest.name.chunkNum match {
+      case Some(chunkNum) => List("-n", s"$chunkNum")
+      case None => Nil
+    }) ++ List("-e", s"${Random.nextInt()}")
+
+    val cmds: List[String] = List(binFolderName + mkI, "-s", s"$wireFormat") ++ interestType ++ chunkCmps ++ ccnNameToRoutableCmpsAndNfnString(constInterest.name)
+
+    SystemCommandExecutor(List(cmds)).futExecute() map {
+      case ExecutionSuccess(_, data) => data
+      case execErr: ExecutionError =>
+        throw new Exception(s"Error when creating binary interest for $constInterest:\n$execErr")
+    }
+  }
+
+  override def mkBinaryRemoveConstantInterest(rmvconstInterest: RemoveConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
+    val mkI = "ccn-lite-mkI"
+    val interestType = List("-t" , "removeConstantInterest")
+
+    val chunkCmps = (rmvconstInterest.name.chunkNum match {
+      case Some(chunkNum) => List("-n", s"$chunkNum")
+      case None => Nil
+    }) ++ List("-e", s"${Random.nextInt()}")
+
+    val cmds: List[String] = List(binFolderName + mkI, "-s", s"$wireFormat") ++ interestType  ++ chunkCmps ++ ccnNameToRoutableCmpsAndNfnString(rmvconstInterest.name)
+
+    SystemCommandExecutor(List(cmds)).futExecute() map {
+      case ExecutionSuccess(_, data) => data
+      case execErr: ExecutionError =>
+        throw new Exception(s"Error when creating binary interest for $rmvconstInterest:\n$execErr")
     }
   }
 

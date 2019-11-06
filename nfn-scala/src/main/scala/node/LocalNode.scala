@@ -284,6 +284,8 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
       case n: Nack => throw new Exception(":NACK")
       case c: Content =>  c
       case i: Interest => throw new Exception("An interest was returned, this should never happen")
+      case ci: ConstantInterest => throw new Exception("A constant interest was returned, this should never happen")
+      case rci: RemoveConstantInterest => throw new Exception("A remove constant interest was returned, this should never happen")
       case a: AddToCacheAck => ???
       case a: AddToCacheNack => throw new Exception("Add content to cache failed!")
     }

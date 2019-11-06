@@ -36,6 +36,8 @@ object NFNApi {
 
   case class CCNSendReceive(interest: Interest, useThunks: Boolean)
 
+  case class CCNSend(constantInterest: ConstantInterest, useThunks: Boolean)
+
   case class AddToCCNCache(content: Content)
 
   case class AddToCCNCacheAck(name: CCNName)
@@ -110,6 +112,8 @@ class UDPConnectionWireFormatEncoder(local: InetSocketAddress,
   def logPacket(packet: CCNPacket) = {
     val maybePacketLog = packet match {
       case i: Interest => Some(Monitor.InterestInfoLog("interest", i.name.toString))
+      case ci: ConstantInterest => Some(Monitor.ConstantInterestInfoLog("constantInterest",ci.name.toString))
+      case rci: RemoveConstantInterest => Some(Monitor.RemoveConstantInterestInfoLog("removeConstantInterest",rci.name.toString))
       case c: Content => Some(Monitor.ContentInfoLog("content", c.name.toString, c.possiblyShortenedDataString))
       case n: Nack => Some(Monitor.ContentInfoLog("content", n.name.toString, ":NACK"))
       case a: AddToCacheAck => None // Not Monitored for now
@@ -131,6 +135,22 @@ class UDPConnectionWireFormatEncoder(local: InetSocketAddress,
             logger.debug(s"Sending binary interest for $i to network")
             self.tell(UDPConnection.Send(binaryInterest), senderCopy)
           case Failure(e) => logger.error(e, s"could not create binary interest for $i")
+        }
+      case ci: ConstantInterest =>
+        logger.debug(s"handling constant interest: $packet")
+        ccnLite.mkBinaryConstantInterest(ci) onComplete{
+          case Success(binaryConstantInterest) =>
+            logger.debug(s"Sending binary constant interest for $ci to network")
+            self.tell(UDPConnection.Send(binaryConstantInterest), senderCopy)
+          case Failure(e) => logger.error(e,s"could not create binary constant interest for $ci")
+        }
+      case rci: RemoveConstantInterest =>
+        logger.debug(s"handling constant interest: $packet")
+        ccnLite.mkBinaryRemoveConstantInterest(rci) onComplete{
+          case Success(binaryRemoveConstantInterest) =>
+            logger.debug(s"Sending binary constant interest for $rci to network")
+            self.tell(UDPConnection.Send(binaryRemoveConstantInterest), senderCopy)
+          case Failure(e) => logger.error(e,s"could not create binary constant interest for $rci")
         }
       case c: Content =>
         ccnLite.mkBinaryContent(c) onComplete {
@@ -233,6 +253,23 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       handlePacket(maybeThunkInterest, senderCopy)
     }
 
+    /**
+     * [[NFNApi.CCNSend]] is a message of the external API which retrieves the content for the interest and sends it back to the sender actor.
+     * The sender actor can be initialized from an ask patter or form another actor.
+     * It tries to first serve the interest from the localAbstractMachine cs, otherwise it adds an entry to the pit
+     * and asks the network if it was the first entry in the pit.
+     * Thunk interests get converted to normal interests, thunks need to be enabled with the boolean flag in the message
+     */
+    case NFNApi.CCNSend(constantInterest, useThunks) => {
+      val senderCopy = sender
+
+      logger.debug(s"API: Sending interest $constantInterest (f=$senderCopy)")
+      val maybeThunkInterest =
+        if (constantInterest.name.isNFN && useThunks) constantInterest.thunkify
+        else constantInterest
+      handlePacket(maybeThunkInterest, senderCopy)
+    }
+
     case NFNApi.AddToCCNCache(content) => {
       val senderCopy = sender
       logger.info(s"creating add to cache messages for $content")
@@ -290,6 +327,14 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       case i: Interest => {
         logger.info(s"Received interest: $i (f=$senderCopy)")
         handleInterest(i, senderCopy)
+      }
+      case ci: ConstantInterest => {
+        logger.info(s"Received constantInterest: $ci (f=$senderCopy)")
+        handleConstantInterest(ci, senderCopy)
+      }
+      case rci: RemoveConstantInterest => {
+        logger.info(s"Received constantInterest: $rci (f=$senderCopy)")
+        handleRemoveConstantInterest(rci, senderCopy)
       }
       case c: Content => {
         logger.info(s"Received content: $c (f=$senderCopy)")
@@ -463,6 +508,236 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
   }
 
   private def handleInterest(i: Interest, senderCopy: ActorRef) = {
+
+    /*if (i.name.isKeepalive) {
+      logger.debug(s"Receive keepalive interest: " + i.name)
+      val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 2, Nil, 1)
+      val nfnName = i.name.copy(cmps = nfnCmps)
+      pit.get(nfnName) match {
+        case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+          senderCopy ! Content(i.name, " ".getBytes)
+        case None => logger.debug(s"Did not find in PIT.")
+      }
+    } else {*/
+    logger.debug(s"Handle interest.")
+    cs.get(i.name) match {
+      /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
+
+    *[ERROR] [07/22/2019 00:59:44.759] [Sys-node-nodeA-akka.actor.default-dispatcher-11] [akka://Sys-node-nodeA/user/NFNServer/ComputeServer/ComputeWorker-931157519] Added to futures: /COMPUTE/call 9 /node/nodeA/nfn_service_Placement 'Centralized' '1' '' 'QS' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200' '00:59:44.563'/NFN
+success
+
+    Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
+    */
+      case Some(contentFromLocalCS) => {
+        logger.debug(s"Served $contentFromLocalCS from local CS")
+        senderCopy ! contentFromLocalCS
+      }
+      case None => {
+        val senderFace = senderCopy
+        pit.get(i.name) match {
+          case Some(pendingFaces) => {
+            if (!i.name.isRequest) {
+              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              //                nfnGateway ! i
+            }
+          }
+          case None => {
+            if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
+              pit.add(i.name, senderFace, defaultTimeoutDuration)
+            }
+
+            // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
+            i.name.chunkNum foreach { _ => {
+              logger.info("Try to add content for a specific chunk to the senderFace")
+              pit.add(CCNName(i.name.cmps, None), senderFace, defaultTimeoutDuration)
+
+            }
+
+            }
+
+            //Updated by Ali
+            // /.../.../NFN
+            // nfn interests are either:
+            // - send to the compute server if they start with compute
+            // - send to a local AM if one exists
+            // - forwarded to nfn gateway
+            // not nfn interests are always forwarded to the nfn gateway
+            logger.info("The interest is NFN? " + i.name.isNFN)
+            logger.info("The interest is called :" + i.name)
+            if (i.name.isNFN) {
+              // /COMPUTE/call .../.../NFN
+              // A compute flag at the beginning means that the interest is a binary computation
+              // to be executed on the compute server
+              if (i.name.isCompute) {
+                logger.debug(s"Interest is a compute interest: ${i.name}")
+                if (i.name.isThunk) {
+                  logger.debug(s"Interest is a compute interest and with Thunks: ${i.name}")
+                  computeServer ! ComputeServer.Thunk(i.name)
+                } else if (i.name.isRequest) {
+                  i.name.requestType match {
+                    case "KEEPALIVE" => {
+                      logger.debug(s"Receive keepalive interest: " + i.name)
+                      val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 3, Nil, 2)
+                      val nfnName = i.name.copy(cmps = nfnCmps)
+                      pit.get(nfnName) match {
+                        case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+                          senderCopy ! Content(i.name, " ".getBytes)
+                        case None => logger.debug(s"Did not find in PIT.")
+                      }
+                    }
+                    case "CTRL" => {
+                      logger.debug(s"Receive control message: " + i.name + " Save to CS for later retrieval by computation.")
+                      val emptyContent = Content(i.name, Array[Byte]())
+                      cs.add(emptyContent)
+                      senderCopy ! Content(i.name, " ".getBytes)
+                    }
+                    case _ => {
+                      computeServer ! ComputeServer.RequestToComputation(i.name, senderCopy)
+                    }
+                  }
+                } else {
+                  computeServer ! ComputeServer.Compute(i.name)
+                }
+                // /.../.../NFN
+                // An NFN interest without compute flag means that it must be reduced by an abstract machine
+                // If no local machine is available, forward it to the nfn network
+              } else {
+                logger.debug(s"Interest is a simple NFN interest: ${i.name}")
+                maybeLocalAbstractMachine match {
+                  case Some(localAbstractMachine) => {
+                    localAbstractMachine ! i
+                  }
+                  case None => {
+                    nfnGateway ! i
+                  }
+                }
+              }
+            } else {
+              nfnGateway ! i
+            }
+          }
+        }
+      }
+    }
+    //}
+  }
+
+  private def handleConstantInterest(i: ConstantInterest, senderCopy: ActorRef) = {
+
+    /*if (i.name.isKeepalive) {
+      logger.debug(s"Receive keepalive interest: " + i.name)
+      val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 2, Nil, 1)
+      val nfnName = i.name.copy(cmps = nfnCmps)
+      pit.get(nfnName) match {
+        case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+          senderCopy ! Content(i.name, " ".getBytes)
+        case None => logger.debug(s"Did not find in PIT.")
+      }
+    } else {*/
+    logger.debug(s"Handle interest.")
+    cs.get(i.name) match {
+      /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
+
+    *[ERROR] [07/22/2019 00:59:44.759] [Sys-node-nodeA-akka.actor.default-dispatcher-11] [akka://Sys-node-nodeA/user/NFNServer/ComputeServer/ComputeWorker-931157519] Added to futures: /COMPUTE/call 9 /node/nodeA/nfn_service_Placement 'Centralized' '1' '' 'QS' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200' '00:59:44.563'/NFN
+success
+
+    Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
+    */
+      case Some(contentFromLocalCS) => {
+        logger.debug(s"Served $contentFromLocalCS from local CS")
+        senderCopy ! contentFromLocalCS
+      }
+      case None => {
+        val senderFace = senderCopy
+        pit.get(i.name) match {
+          case Some(pendingFaces) => {
+            if (!i.name.isRequest) {
+              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              //                nfnGateway ! i
+            }
+          }
+          case None => {
+            if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
+              pit.add(i.name, senderFace, defaultTimeoutDuration)
+            }
+
+            // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
+            i.name.chunkNum foreach { _ => {
+              logger.info("Try to add content for a specific chunk to the senderFace")
+              pit.add(CCNName(i.name.cmps, None), senderFace, defaultTimeoutDuration)
+
+            }
+
+            }
+
+            //Updated by Ali
+            // /.../.../NFN
+            // nfn interests are either:
+            // - send to the compute server if they start with compute
+            // - send to a local AM if one exists
+            // - forwarded to nfn gateway
+            // not nfn interests are always forwarded to the nfn gateway
+            logger.info("The interest is NFN? " + i.name.isNFN)
+            logger.info("The interest is called :" + i.name)
+            if (i.name.isNFN) {
+              // /COMPUTE/call .../.../NFN
+              // A compute flag at the beginning means that the interest is a binary computation
+              // to be executed on the compute server
+              if (i.name.isCompute) {
+                logger.debug(s"Interest is a compute interest: ${i.name}")
+                if (i.name.isThunk) {
+                  logger.debug(s"Interest is a compute interest and with Thunks: ${i.name}")
+                  computeServer ! ComputeServer.Thunk(i.name)
+                } else if (i.name.isRequest) {
+                  i.name.requestType match {
+                    case "KEEPALIVE" => {
+                      logger.debug(s"Receive keepalive interest: " + i.name)
+                      val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 3, Nil, 2)
+                      val nfnName = i.name.copy(cmps = nfnCmps)
+                      pit.get(nfnName) match {
+                        case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+                          senderCopy ! Content(i.name, " ".getBytes)
+                        case None => logger.debug(s"Did not find in PIT.")
+                      }
+                    }
+                    case "CTRL" => {
+                      logger.debug(s"Receive control message: " + i.name + " Save to CS for later retrieval by computation.")
+                      val emptyContent = Content(i.name, Array[Byte]())
+                      cs.add(emptyContent)
+                      senderCopy ! Content(i.name, " ".getBytes)
+                    }
+                    case _ => {
+                      computeServer ! ComputeServer.RequestToComputation(i.name, senderCopy)
+                    }
+                  }
+                } else {
+                  computeServer ! ComputeServer.Compute(i.name)
+                }
+                // /.../.../NFN
+                // An NFN interest without compute flag means that it must be reduced by an abstract machine
+                // If no local machine is available, forward it to the nfn network
+              } else {
+                logger.debug(s"Interest is a simple NFN interest: ${i.name}")
+                maybeLocalAbstractMachine match {
+                  case Some(localAbstractMachine) => {
+                    localAbstractMachine ! i
+                  }
+                  case None => {
+                    nfnGateway ! i
+                  }
+                }
+              }
+            } else {
+              nfnGateway ! i
+            }
+          }
+        }
+      }
+    }
+    //}
+  }
+
+  private def handleRemoveConstantInterest(i: RemoveConstantInterest, senderCopy: ActorRef) = {
 
     /*if (i.name.isKeepalive) {
       logger.debug(s"Receive keepalive interest: " + i.name)
