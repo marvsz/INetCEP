@@ -24,6 +24,48 @@
 
 // ----------------------------------------------------------------------
 
+static inline int strncmpci(const char * str1, const char * str2, size_t num)
+{
+    int ret_code = INT_MIN;
+
+    size_t chars_compared = 0;
+
+    // Check for NULL pointers
+    if (!str1 || !str2)
+    {
+        goto done;
+    }
+
+    // Continue doing case-insensitive comparisons, one-character-at-a-time, of str1 to str2,
+    // as long as at least one of the strings still has more characters in it, and we have
+    // not yet compared num chars.
+    while ((*str1 || *str2) && (chars_compared < num))
+    {
+        ret_code = tolower((int)(*str1)) - tolower((int)(*str2));
+        if (ret_code != 0)
+        {
+            // The 2 chars just compared don't match
+            break;
+        }
+        chars_compared++;
+        str1++;
+        str2++;
+    }
+
+    done:
+    return ret_code;
+}
+
+int typeToInt(char* type){
+    if(!strncmpci(type,"Interest",8))
+        return 1;
+    if(!strncmpci(type,"ConstantInterest",16))
+        return 2;
+    if(!strncmpci(type,"removeConstantInterest",22))
+        return 3;
+    return 0;
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -31,6 +73,7 @@ main(int argc, char *argv[])
     char *minSuffix = 0, *maxSuffix = 0, *scope = 0;
     char *digest = 0, *publisher = 0;
     char *fname = 0;
+    char *type = 0;
     int f, opt;
     int dlen = 0, plen = 0;
     int packettype = CCNL_SUITE_NDNTLV;
@@ -40,6 +83,7 @@ main(int argc, char *argv[])
     int isLambda = 0;
     unsigned int chunknum = UINT_MAX;
     ccnl_interest_opts_u int_opts;
+    struct ccnl_buf_s *buf = NULL;
 
     (void) minSuffix;
     (void) maxSuffix;
@@ -49,7 +93,7 @@ main(int argc, char *argv[])
     // Get current time in double to avoid dealing with time_t
     nonce = (uint32_t) difftime(curtime, 0);
 
-    while ((opt = getopt(argc, argv, "ha:c:d:e:i:ln:o:p:s:v:x:")) != -1) {
+    while ((opt = getopt(argc, argv, "ha:c:d:e:i:ln:o:t:p:s:v:x:")) != -1) {
         switch (opt) {
         case 'a':
             minSuffix = optarg;
@@ -68,6 +112,9 @@ main(int argc, char *argv[])
             break;
         case 'e':
             nonce = atoi(optarg);
+            break;
+        case 't':
+            type = optarg;
             break;
         case 'l':
             isLambda = 1 - isLambda;
@@ -111,7 +158,7 @@ Usage:
             fprintf(stderr, "usage: %s [options] URI [NFNexpr]\n"
             "  -a LEN     miN additional components\n"
             "  -c SCOPE\n"
-
+            "  -t TYPE the type of interest. Either Interest, ConstantInterest, or RemoveConstantInterest\n"
             "  -d DIGEST  content digest (sets -x to 0)\n"
             "  -e NONCE   random 4 bytes\n"
             "  -l         URI is a Lambda expression\n"
@@ -150,7 +197,22 @@ Usage:
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
 #endif
-    struct ccnl_buf_s *buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_Interest);
+    switch(typeToInt(type)){
+        case 1:
+            buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_Interest);
+            break;
+        case 2:
+            buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_ConstInterest);
+            break;
+        case 3:
+            buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_RemoveConstInterest);
+            break;
+        case 0:
+        default:
+            goto Usage;
+
+    }
+
 
     if (buf->datalen <= 0) {
         DEBUGMSG(ERROR, "internal error: empty packet\n");
