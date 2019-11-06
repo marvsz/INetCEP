@@ -17,7 +17,7 @@ class GetContent() extends NFNService {
 
     def getValue(name: String): String = {
       val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail.toIndexedSeq: _*)
-      val nameOfContentWithPrefix = CCNName(name)
+      val nameOfContentWithPrefix = CCNName(new String(name).split("/").toIndexedSeq: _*)
       var intermediateResult = ""
       try{
         intermediateResult = new String(fetchContent(Interest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
