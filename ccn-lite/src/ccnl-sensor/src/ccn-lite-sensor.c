@@ -236,6 +236,10 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     return 0;
 }
 
+char getNodeName(char* socket){
+    return toupper(socket[15]);
+}
+
 void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath, char* binaryContentPath) {
     char *ccnl_home = getenv("CCNL_HOME");
     char *ctrl = "ccn-lite-ctrl";
@@ -276,7 +280,7 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     fclose(fPtr);
     //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
              //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
-    snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i", "B", getSensorName(sensor->settings->name),
+    snprintf(uri, sizeof(uri), "/node%c/sensor/%s%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
              sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
