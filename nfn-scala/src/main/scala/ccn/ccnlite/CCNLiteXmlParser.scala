@@ -263,6 +263,26 @@ object CCNLiteXmlParser extends LazyLogging {
               Content(name, contentData, MetaInfo(lastChunkNum))
             }
           }
+          case content @ <Datastream>{_*}</Datastream> => {
+            val name = ndntlvParseName(content)
+            val contentData = parseContentDataNDNTLV(content)
+
+            // parse last chunk num
+            val lastChunkNum: Option[Int] = (content \ "MetaInfo" \ "FinalBlockId" \ "NameComponent").headOption flatMap { (lastChunkNumNode: Node) =>
+              val lastChunkNumData = parseDataNDNTLV(lastChunkNumNode)
+              if(lastChunkNumData.size == 0 || lastChunkNumData(0) != chunkMarker) {
+                None
+              } else {
+                // TODO: this probably breaks for large numbers because it does ignore the NDNTLV encoding of includedNonNegInt
+                Some(unsignedByteToInt(lastChunkNumData.tail))
+              }
+            }
+            if(contentData.startsWith(":NACK".getBytes)) {
+              Nack(name)
+            } else {
+              Content(name, contentData, MetaInfo(lastChunkNum))
+            }
+          }
           //IOTTLV Interest
           case interest @ <Request-toplevelCtx>{_*}</Request-toplevelCtx> => {
             val name = iottlvParseName(interest)
