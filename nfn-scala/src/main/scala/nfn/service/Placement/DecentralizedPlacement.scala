@@ -1,11 +1,12 @@
-package nfn.service
+package nfn.service.Placement
 
 import java.util.Calendar
 
-import SACEPICN.{Map, Node, NodeMapping, Operator, Paths}
+import SACEPICN.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
-import nfn.tools.{EvaluationHandler, Helpers}
+import nfn.service.LogMessage
+import nfn.tools.EvaluationHandler
 
 import scala.collection.mutable
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}

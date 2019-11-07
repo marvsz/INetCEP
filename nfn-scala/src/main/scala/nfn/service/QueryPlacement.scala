@@ -8,6 +8,7 @@ package nfn.service
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service.Placement.{NoSuchPlacementException, Placement}
 import nfn.tools._
 
 import scala.annotation.tailrec
@@ -23,7 +24,7 @@ import ccn.packet.CCNName
 
 //Added for CCN Command Execution:
 
-class PlacementTest() extends NFNService {
+class QueryPlacement() extends NFNService {
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 

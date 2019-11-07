@@ -1,8 +1,9 @@
-package nfn.service
+package nfn.service.Placement
 
 import SACEPICN.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service.LogMessage
 import nfn.tools.{EvaluationHandler, Helpers, IOHelpers}
 
 import scala.collection.mutable.ListBuffer
