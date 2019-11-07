@@ -73,9 +73,9 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
     val outputForPrecision = s"${evalHandler.runID.toString}"
     //Generate Output:
     //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
-    val output_for_Run = s"${evalHandler.runID.toString},${evalHandler.runTime.toString},${evalHandler.getTimeOffset().toString}," +
-      s"${evalHandler.getTimeOffset_OpTreeCreation().toString},${evalHandler.getTimeOffset_NodeDiscovery().toString}," +
-      s"${evalHandler.getTimeOffset_Placement_Deployment().toString},${evalHandler.selectedPath}," +
+    val output_for_Run = s"${evalHandler.runID.toString},${evalHandler.runTime.toString},${evalHandler.getTimeOffset.toString}," +
+      s"${evalHandler.getTimeOffset_OpTreeCreation.toString},${evalHandler.getTimeOffset_NodeDiscovery.toString}," +
+      s"${evalHandler.getTimeOffset_Placement_Deployment.toString},${evalHandler.selectedPath}," +
       s"${evalHandler.overallPlacementOverhead.toString},${evalHandler.selectedPathEnergy.toString}," +
       s"${evalHandler.selectedPathOverhead.toString}"
 
