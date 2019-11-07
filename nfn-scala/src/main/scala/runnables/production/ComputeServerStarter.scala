@@ -130,7 +130,7 @@ object ComputeServerStarter extends LazyLogging {
         //node.publishServiceLocalPrefix(new QueryCentralFixed()) //Fixed Weights Central
         //node.publishServiceLocalPrefix(new QueryDecentralFixed()) //Fixed Weights Decentral
         //Query Service (Consisting of both Centralized and Decentralized Placement algorithms)
-        node.publishServiceLocalPrefix(new Placement())
+        node.publishServiceLocalPrefix(new PlacementTest())
         //node.publishServiceLocalPrefix(new CentralizedPlacement())
 
         //node.publishServiceLocalPrefix(new DelayedWordCount())

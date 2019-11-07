@@ -275,7 +275,7 @@ object Helpers {
   }
 
   /**
-   *
+   * Hier müsste man mit einem Future ansetzen um nebenläufigkeit zu erhalten
    * @param query
    * @param nodeName
    * @param ccnApi
