@@ -89,7 +89,7 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
       case (key, value) => overheadWeightString += s"$key-$value "
     }
     overheadWeightString.trim()
-    val output_for_AdaptiveWeights = s"${evalHandler.runID.toString},${evalHandler.runTime.toString},${evalHandler.getTimeOffset().toString}," +
+    val output_for_AdaptiveWeights = s"${evalHandler.runID.toString},${evalHandler.runTime.toString},${evalHandler.getTimeOffset.toString}," +
       s"${evalHandler.selectedPath},$energyWeightString,$overheadWeightString"
 
     IOHelpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, outputForPrecision, output)
