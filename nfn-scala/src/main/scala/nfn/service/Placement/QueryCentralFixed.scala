@@ -1,54 +1,37 @@
-package nfn.service
+package nfn.service.Placement
+
 /**
   * Created by Ali on 06.02.18.
-  * This is the random adaptive approach
+  * This is used to make a fixed weight centralized query
   */
-import akka.actor.ActorRef
-
-import scala.io.Source
-import scala.util.control._
-import ccn.packet.CCNName
-import nfn.tools._
-import nfn.tools.Networking._
-
-import scala.concurrent.duration._
-import scala.language.postfixOps
-import java.util._
 import java.io._
-import java.lang.String
 import java.text.SimpleDateFormat
 
-import SACEPICN.NodeMapping
-import SACEPICN._
+import SACEPICN.{NodeMapping, _}
+import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service._
+import nfn.tools.Networking._
 
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.List
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.immutable.Vector
 import scala.collection.mutable.ListBuffer
-import scala.collection.mutable.Stack
-import scala.util.control.Exception._
+import scala.concurrent.duration._
+import scala.io.Source
+import scala.language.postfixOps
 
 //Added for contentfetch
-import lambdacalculus.parser.ast.{Constant, Str}
-import nfn.service._
 import java.util.Calendar
-import java.time
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest, Interest}
-import nfn.NFNApi
 
-//Added for CCN Command Execution:
-import sys.process._
-import filterAccess.tools.ConfigReader._
+import ccn.packet.{CCNName, Interest, NFNInterest}
 import config.StaticConfig
 
-class QueryRandom() extends NFNService {
+//Added for CCN Command Execution:
+import scala.sys.process._
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+class QueryCentralFixed() extends NFNService {
+
+    override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
     val sacepicnEnv = StaticConfig.systemPath
     //ClientID: Client who requested the query
@@ -66,20 +49,20 @@ class QueryRandom() extends NFNService {
       var selectedPathOverhead = 0.0
       var overallPlacementOverhead = 0.0
 
-      //      var selectedPathEnergyVariance = new mutable.HashMap[String, String]()
-      //      var selectedPathOverheadVariance = new mutable.HashMap[String, String]()
+//      var selectedPathEnergyVariance = new mutable.HashMap[String, String]()
+//      var selectedPathOverheadVariance = new mutable.HashMap[String, String]()
 
       //Get current node from interest:
       var nodeInfo = interestName.cmps.mkString(" ");
-      var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1);
+      var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6 , nodeInfo.indexOf("nfn_service") - 1);
       LogMessage(nodeName, s"Query Execution Started");
 
       //Set Mapping:
       var mapping = new NodeMapping();
       //Log Query for interval based trigger:
-      if (save_to_QueryStore(runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
+      if(save_to_QueryStore(runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)){
         LogMessage(nodeName, s"Query appended to Query Store - Source ${sourceOfQuery}");
-      } else
+      }else
         LogMessage(nodeName, s"Query NOT appended to Query Store - Source ${sourceOfQuery}");
 
       //Initialize ExpressionTree class:
@@ -109,204 +92,200 @@ class QueryRandom() extends NFNService {
       //1) Find the number of operators in the query:
       var opCount = root._stackSize;
       //2) For this size: Get the path matching the number of operators and the lowest BDP path:
-      var optimalPaths = paths.filter(x => x.hopCount == opCount);
+      implicit val order = Ordering.Double.TotalOrdering
+      var optimalPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost);
 
-      //Randomize the path selection. Take one of the paths that has a hop count equal to our operator count.
-      var optimalPath = new Paths()
-      if (optimalPaths.length > 0)
-        optimalPath = (scala.util.Random.shuffle(optimalPaths) take 1).head;
+      selectedPath = optimalPath.pathNodes.mkString("-").toString()
+      //Getting the cumulative path energy and bdp:
+      selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathEnergy.reduceLeft[Double](_+_) / optimalPath.cumulativePathEnergy.length).toString()), 2)
+      selectedPathOverhead = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathBDP.reduceLeft[Double](_+_) / optimalPath.cumulativePathBDP.length).toString()),2)
 
-      if (optimalPath.pathNodes != null && optimalPath.pathNodes.length > 0) {
-        //A random path has been found that can be used to carry out the placement.
+      overallPlacementOverhead = optimalPath.cumulativePathCost
 
-        selectedPath = optimalPath.pathNodes.mkString("-").toString()
-        //Getting the cumulative path energy and bdp:
-        selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathEnergy.reduceLeft[Double](_ + _) / optimalPath.cumulativePathEnergy.length).toString()), 2)
-        selectedPathOverhead = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathBDP.reduceLeft[Double](_ + _) / optimalPath.cumulativePathBDP.length).toString()), 2)
+      //Manage the adaptive path weights that changed over time
+      LogMessage(nodeName, s"Checking optimal path energy weights:");
+      for (weight <- optimalPath.hopWeights_Energy) {
+        LogMessage(nodeName, s"${weight}");
+      }
+      LogMessage(nodeName, s"Checking optimal path BDP weights:");
+      for (weight <- optimalPath.hopWeights_BDP) {
+        LogMessage(nodeName, s"${weight}");
+      }
 
-        overallPlacementOverhead = optimalPath.cumulativePathCost
+//      var weight_count = 0
+//        if(optimalPath.hopWeights_Energy.length == optimalPath.pathNodes) {
+//          selectedPathEnergyVariance += (s"${node}" -> s"${optimalPath.hopWeights_Energy(weight_count).toString()}")
+//        }
+//        if(optimalPath.hopWeights_BDP.length == optimalPath.pathNodes) {
+//          selectedPathOverheadVariance += (s"${node}" -> s"${optimalPath.hopWeights_BDP(weight_count).toString()}")
+//        }
+//      }
 
-        //Manage the adaptive path weights that changed over time
-        LogMessage(nodeName, s"Checking optimal path energy weights:");
-        for (weight <- optimalPath.hopWeights_Energy) {
-          LogMessage(nodeName, s"${weight}");
+      //Take this path and place the queries on it:
+      //1) For this we will need to process the tree:
+
+      var timeNow_Placement_Deployment = Calendar.getInstance().getTimeInMillis()
+
+      LogMessage(nodeName, s"Operator Placement Started");
+      @tailrec
+      def processPlacementTree(currentNode: Node, optimalPath: mutable.Buffer[String]): Node = {
+        if (currentNode._Cprocessed) {
+          LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Placement complete.")
+          return currentNode;
         }
-        LogMessage(nodeName, s"Checking optimal path BDP weights:");
-        for (weight <- optimalPath.hopWeights_BDP) {
-          LogMessage(nodeName, s"${weight}");
-        }
-
-        //Take this path and place the queries on it:
-        //1) For this we will need to process the tree:
-
-        var timeNow_Placement_Deployment = Calendar.getInstance().getTimeInMillis()
-
-        LogMessage(nodeName, s"Operator Placement Started");
-        @tailrec
-        def processPlacementTree(currentNode: Node, optimalPath: mutable.Buffer[String]): Node = {
-          if (currentNode._Cprocessed) {
-            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Placement complete.")
-            return currentNode;
+        else {
+          if (currentNode.right != null && !currentNode.right._Cprocessed) {
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Right Exists. Process Right")
+            processPlacementTree(currentNode.right, optimalPath);
+          }
+          else if (currentNode.left != null && !currentNode.left._Cprocessed) {
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Left Exists. Process Left")
+            processPlacementTree(currentNode.left, optimalPath);
           }
           else {
-            if (currentNode.right != null && !currentNode.right._Cprocessed) {
-              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Right Exists. Process Right")
-              processPlacementTree(currentNode.right, optimalPath);
-            }
-            else if (currentNode.left != null && !currentNode.left._Cprocessed) {
-              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Left Exists. Process Left")
-              processPlacementTree(currentNode.left, optimalPath);
-            }
-            else {
-              if (!optimalPath.isEmpty) {
-                LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Processing Placement")
+            if (!optimalPath.isEmpty) {
+              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Processing Placement")
 
-                currentNode._executionNodePort = optimalPath.last;
-                currentNode._executionNode = mapping.getName(currentNode._executionNodePort);
+              currentNode._executionNodePort = optimalPath.last;
+              currentNode._executionNode = mapping.getName(currentNode._executionNodePort);
 
-                var name = currentNode._query.replace("nodeQuery", currentNode._executionNode);
-                val query = currentNode._type match {
-                  case Operator.WINDOW => name
-                  case Operator.FILTER => name
-                  case Operator.JOIN => name
-                  case Operator.AGGREGATION => name
-                  case Operator.SEQUENCE => name
-                  case Operator.PREDICT1 => name
-                  case Operator.PREDICT2 => name
-                  case Operator.HEATMAP => name
-                  case _ => name
-                }
-                currentNode._query = query;
-                LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: ${query}")
-                LogMessage(nodeName, s"Current Optimal Path ${optimalPath.mkString(" ")}")
-                optimalPath -= optimalPath.last;
-
-                //This is the deployment part - we will do it in the next tree iteration:
-                //currentNode._value = new String(NFNDataValue(fetchContent(NFNInterest(s"${name}"), ccnApi, 30 seconds).get.data).toDataRepresentation);
-                //LogMessage(s"computed ${currentNode._value}\n")
-                //currentNode._value = "Temp"
-                currentNode._Cprocessed = true;
-                LogMessage(nodeName, s"CurrentNode: Doing recursion, back to Parent!")
-
-                if (currentNode.parent == null)
-                  return currentNode;
-                else
-                  processPlacementTree(currentNode.parent, optimalPath);
-              }
-              else {
-                return currentNode;
-              }
-            }
-          }
-        }
-
-        //Here we will get the tree with placement done
-        var placementRoot = processPlacementTree(root._root, optimalPath.pathNodes.reverse.toBuffer[String]);
-        LogMessage(nodeName, s"Operator Placement Completed");
-
-        LogMessage(nodeName, s"Query Deployement Started");
-        @tailrec
-        def processDeploymentTree(currentNode: Node): Node = {
-          if (currentNode._Vprocessed) {
-            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - is Deployed.")
-            return currentNode;
-          }
-          else {
-            if (currentNode.right != null && !currentNode.right._Vprocessed) {
-              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Right Exists. Process Right")
-              processDeploymentTree(currentNode.right);
-            }
-            else if (currentNode.left != null && !currentNode.left._Vprocessed) {
-              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Left Exists. Process Left")
-              processDeploymentTree(currentNode.left);
-            }
-            else {
-              LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Deploying Operator")
-
-              var name = currentNode._query;
+              var name = currentNode._query.replace("nodeQuery", currentNode._executionNode);
               val query = currentNode._type match {
                 case Operator.WINDOW => name
                 case Operator.FILTER => name
-                case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
+                case Operator.JOIN => name
                 case Operator.AGGREGATION => name
                 case Operator.SEQUENCE => name
-                case Operator.PREDICT1 => name.replace("[Q]",currentNode.left._value)
+                case Operator.PREDICT1 => name
                 case Operator.PREDICT2 => name
-                case Operator.HEATMAP => name.replace("[Q]",currentNode.left._value)
+                case Operator.HEATMAP => name
                 case _ => name
               }
               currentNode._query = query;
               LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: ${query}")
-              //currentNode._value = new String(fetchContentRepeatedly(NFNInterest(s"${currentNode._query}"), ccnApi, 30 seconds).get.data);
-              //currentNode._value = executeNFNQuery(currentNode._query)
+              LogMessage(nodeName, s"Current Optimal Path ${optimalPath.mkString(" ")}")
+              optimalPath -= optimalPath.last;
 
-              //Determine the location (name) where this query wwriteOutputFilesill be executed:
-              var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1);
-
-              //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
-              //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
-              // var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
-              //currentNode._value = intermediateResult;
-              currentNode._value = "TemporaryDeploymentValue";
-
-              LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
-              currentNode._Vprocessed = true;
-              LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
+              //This is the deployment part - we will do it in the next tree iteration:
+              //currentNode._value = new String(NFNDataValue(fetchContent(NFNInterest(s"${name}"), ccnApi, 30 seconds).get.data).toDataRepresentation);
+              //LogMessage(s"computed ${currentNode._value}\n")
+              //currentNode._value = "Temp"
+              currentNode._Cprocessed = true;
+              LogMessage(nodeName, s"CurrentNode: Doing recursion, back to Parent!")
 
               if (currentNode.parent == null)
                 return currentNode;
               else
-                processDeploymentTree(currentNode.parent);
+                processPlacementTree(currentNode.parent, optimalPath);
+            }
+            else {
+              return currentNode;
             }
           }
         }
-
-        //Here we will get the tree with deployment done
-        var deployedRoot = processDeploymentTree(placementRoot);
-
-        var timeOffset_Placement_Deployment = (Calendar.getInstance().getTimeInMillis() - timeNow_Placement_Deployment)
-
-        LogMessage(nodeName, s"Query Deployement Completed");
-
-        //Output is what we send back as the final result:
-        var output = "";
-        output = deployedRoot._value;
-
-        if (output != null && !output.isEmpty)
-          output = output.stripSuffix("\n").stripMargin('#');
-        else
-          output += "No Results!"
-
-        LogMessage(nodeName, s"Query Execution Completed");
-
-        //Generate Output:
-        var timeOffset = Calendar.getInstance().getTimeInMillis() - timeNow
-        //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
-        var output_for_Run = s"${runID.toString},${runTime.toString},${timeOffset.toString},${timeOffset_OpTreeCreation.toString},${timeOffset_NodeDiscovery.toString},${timeOffset_Placement_Deployment.toString},${selectedPath.toString},${overallPlacementOverhead.toString},${selectedPathEnergy.toString},${selectedPathOverhead.toString}";
-
-        var energyWeightString = ""
-        var overheadWeightString = ""
-        optimalPath.hopWeights_Energy.foreach {
-          case (key, value) => energyWeightString += s"$key-$value "
-        }
-        energyWeightString.trim();
-        optimalPath.hopWeights_BDP.foreach {
-          case (key, value) => overheadWeightString += s"$key-$value "
-        }
-        overheadWeightString.trim();
-        //Format: runID, Time, ResponseTime, Path, EnergyWeight, OverheadWeight
-        var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPath.toString},${energyWeightString.toString},${overheadWeightString.toString}";
-
-        writeOutputFiles(output_for_Run, output_for_AdaptiveWeights)
-        return output;
-      }
-      else{
-        var output_for_Run = "No suitable paths found for placement"
-        writeOutputFiles(output_for_Run, output_for_Run)
-        return output_for_Run
       }
 
-      return "No Result!"
+      //Here we will get the tree with placement done
+      var placementRoot = processPlacementTree(root._root, optimalPath.pathNodes.reverse.toBuffer[String]);
+      LogMessage(nodeName, s"Operator Placement Completed");
+
+      LogMessage(nodeName, s"Query Deployement Started");
+      @tailrec
+      def processDeploymentTree(currentNode: Node): Node = {
+        if (currentNode._Vprocessed) {
+          LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - is Deployed.")
+          return currentNode;
+        }
+        else {
+          if (currentNode.right != null && !currentNode.right._Vprocessed) {
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Right Exists. Process Right")
+            processDeploymentTree(currentNode.right);
+          }
+          else if (currentNode.left != null && !currentNode.left._Vprocessed) {
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Left Exists. Process Left")
+            processDeploymentTree(currentNode.left);
+          }
+          else {
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Deploying Operator")
+
+            var name = currentNode._query;
+            val query = currentNode._type match {
+              case Operator.WINDOW => name
+              case Operator.FILTER => name
+              case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
+              case Operator.AGGREGATION => name
+              case Operator.SEQUENCE => name
+              case Operator.PREDICT1 => name.replace("[Q]",currentNode.left._value)
+              case Operator.PREDICT2 => name
+              case Operator.HEATMAP => name.replace("[Q]",currentNode.left._value)
+              case _ => name
+            }
+            currentNode._query = query;
+            LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: ${query}")
+            //currentNode._value = new String(fetchContentRepeatedly(NFNInterest(s"${currentNode._query}"), ccnApi, 30 seconds).get.data);
+            //currentNode._value = executeNFNQuery(currentNode._query)
+
+            //Determine the location (name) where this query wwriteOutputFilesill be executed:
+            var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6 , currentNode._query.indexOf("nfn_service") - 1);
+
+            //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
+            //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
+            // var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
+            //currentNode._value = intermediateResult;
+            val intermediateResult = executeNFNQuery(currentNode._query, remoteNodeName)
+            currentNode._value = intermediateResult
+
+            LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
+            currentNode._Vprocessed = true;
+            LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
+
+            if (currentNode.parent == null)
+              return currentNode;
+            else
+              processDeploymentTree(currentNode.parent);
+          }
+        }
+      }
+
+      //Here we will get the tree with deployment done
+      var deployedRoot = processDeploymentTree(placementRoot);
+
+      var timeOffset_Placement_Deployment = (Calendar.getInstance().getTimeInMillis() - timeNow_Placement_Deployment)
+
+      LogMessage(nodeName, s"Query Deployement Completed");
+
+      //Output is what we send back as the final result:
+      var output = "";
+      output = deployedRoot._value;
+
+      if (output != null && !output.isEmpty)
+        output = output.stripSuffix("\n").stripMargin('#');
+      else
+        output += "No Results!"
+
+      LogMessage(nodeName, s"Query Execution Completed");
+
+      //Generate Output:
+      var timeOffset = Calendar.getInstance().getTimeInMillis() - timeNow
+      //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
+      var output_for_Run = s"${runID.toString},${runTime.toString},${timeOffset.toString},${timeOffset_OpTreeCreation.toString},${timeOffset_NodeDiscovery.toString},${timeOffset_Placement_Deployment.toString},${selectedPath.toString},${overallPlacementOverhead.toString},${selectedPathEnergy.toString},${selectedPathOverhead.toString}";
+
+      var energyWeightString = ""
+      var overheadWeightString = ""
+      optimalPath.hopWeights_Energy.foreach {
+        case (key, value) => energyWeightString += s"$key-$value "
+      }
+      energyWeightString.trim();
+      optimalPath.hopWeights_BDP.foreach {
+        case (key, value) => overheadWeightString += s"$key-$value "
+      }
+      overheadWeightString.trim();
+      //Format: runID, Time, ResponseTime, Path, EnergyWeight, OverheadWeight
+      var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPath.toString},${energyWeightString.toString},${overheadWeightString.toString}";
+
+      writeOutputFiles(output_for_Run, output_for_AdaptiveWeights)
+
+      return output;
     }
 
     def getNodeStatus(nodeName: String): ListBuffer[NodeInfo] = {
@@ -321,14 +300,15 @@ class QueryRandom() extends NFNService {
         .getLines
         .foreach {line: String =>
           var nodeSplit = line.split("-"); //Data is always in the form of: nodeX/90XX
-        var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE);
+          var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE);
           //Get content from network
           //Execute NFN Query to get the latest state from Compute Server cache on the remote node (this is slower)
           //var intermediateResult = new String(fetchContentRepeatedly(NFNInterest(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"), ccnApi, 10 seconds).get.data)
 
           //var intermediateResult = executeNFNQuery(s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')")
-          var mapping = new NodeMapping()
-          var intermediateResult = createAndExecCCNQuery(nodeSplit(0), s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')", mapping.getPort(nodeSplit(0)), mapping.getIPbyName(nodeSplit(0)))
+          var intermediateResult = executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",
+            nodeSplit(0))
+          LogMessage(nodeName, s"node: ${name}, intermediateResult: ${intermediateResult}")
 
           if (intermediateResult != "") {
             var ni = new NodeInfo(intermediateResult);
@@ -404,7 +384,7 @@ class QueryRandom() extends NFNService {
       @tailrec
       def checkPath(hops:ListBuffer[HopObject]): String = {
         if(hops.isEmpty)
-        {LogMessage(nodeName, s"Path Finished!")
+          {LogMessage(nodeName, s"Path Finished!")
           return "ok";}
         else {
           var current = hops.head
@@ -433,46 +413,54 @@ class QueryRandom() extends NFNService {
                 //Link cost = (Energy * Energy Weight) + (BDP * BDP Weight)
                 //Adaptive Hop Weight assignment. Vary the adaptive Weights for all hops based on each hop change in Energy and BDP values.
                 //Here, we initially start with 0.5,0.5 for both energy and bdp. We use Additive Increase, Additive Decrease to change the weights based on network conditions.
-                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
-                  //Use standard 0.5,0.5
-                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
-                  previousBDPWeight = bdpWeight
-                  previousEnergyWeight = energyWeight
+                //                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
+                //                  //Use standard 0.5,0.5
+                //                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
+                //                  previousBDPWeight = bdpWeight
+                //                  previousEnergyWeight = energyWeight
+                //
+                //                  lastHopBDP = current.hopLatency
+                //                  lastHopEnergy = nodePower.head.NI_Battery
+                //                  //By this time, we have the values of the weights and the hop metrics
+                //                }
+                //                else{
+                //                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
+                //                  //we will increase or decrease a weight metric:
+                //                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
+                //                    //Additive increase on energy and additive decrease on bdp:
+                //                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
+                //                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
+                //                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                //                    }
+                //                  }
+                //                  //else check the other way around - if bdp is more than the last hop and energy is less.
+                //                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
+                //                    //Additive increase on energy and additive decrease on bdp:
+                //                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
+                //                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                //                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
+                //                    }
+                //                  }
+                //
+                //                  //In all other cases, we will not vary these weights since they have to move up or down together.
+                //                  //Now we can assign the new hop BDP based on the new weights:
+                //                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
+                //
+                //                  //Set the metrics for this hop so that it can be used in the next hop:
+                //                  lastHopBDP = current.hopLatency
+                //                  lastHopEnergy = nodePower.head.NI_Battery
+                //                }
 
-                  lastHopBDP = current.hopLatency
-                  lastHopEnergy = nodePower.head.NI_Battery
-                  //By this time, we have the values of the weights and the hop metrics
-                }
-                else{
-                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
-                  //we will increase or decrease a weight metric:
-                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
-                    //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
-                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
-                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-                    }
-                  }
-                  //else check the other way around - if bdp is more than the last hop and energy is less.
-                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
-                    //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
-                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
-                    }
-                  }
+                hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
+                previousBDPWeight = bdpWeight
+                previousEnergyWeight = energyWeight
 
-                  //In all other cases, we will not vary these weights since they have to move up or down together.
-                  //Now we can assign the new hop BDP based on the new weights:
-                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
+                lastHopBDP = current.hopLatency
+                lastHopEnergy = nodePower.head.NI_Battery
 
-                  //Set the metrics for this hop so that it can be used in the next hop:
-                  lastHopBDP = current.hopLatency
-                  lastHopEnergy = nodePower.head.NI_Battery
-                }
                 //Adding hop link cost in the overall path cost:
                 hopWeights_Energy += s"${current.hopName}" -> s"${previousEnergyWeight.toString()}"
-                hopWeights_BDP+= s"${current.hopName}" -> s"${previousBDPWeight.toString()}"
+                hopWeights_BDP += s"${current.hopName}" -> s"${previousBDPWeight.toString()}"
 
                 cumulativePathEnergy += lastHopEnergy
                 cumulativePathBDP += lastHopBDP
@@ -516,8 +504,8 @@ class QueryRandom() extends NFNService {
       checkPath(hopInfo);
 
       //Store new metrics for upcoming runs:
-      //      if(previousEnergyWeight != 0.0 && previousBDPWeight != 0.0)
-      //        writeMetricsToStore(previousEnergyWeight.toString, previousBDPWeight.toString)
+//      if(previousEnergyWeight != 0.0 && previousBDPWeight != 0.0)
+//        writeMetricsToStore(previousEnergyWeight.toString, previousBDPWeight.toString)
 
       //Remove any duplicate paths that were created due to hop-linking:
       paths = paths.distinct;
@@ -589,32 +577,22 @@ class QueryRandom() extends NFNService {
         ccnApi,
         60 seconds).get.data)
     }
-    def executeNFNQuery(query: String): String = {
+      def executeNFNQuery(query: String, nodeName: String): String = {
 
-      return new String(fetchContentRepeatedly(
-        NFNInterest(query),
-        ccnApi,
-        60 seconds).get.data)
-    }
+        LogMessage(nodeName,s"execute NFN query called with ${nodeName}")
+        var result =  new String(fetchContentRepeatedly(
+          NFNInterest(query),
+          ccnApi,
+          60 seconds).get.data)
+        LogMessage(nodeName, s"Query Result from network node: ${result}");
 
-    def createAndExecCCNQuery(nodeName: String, query:String, port: String, IP: String): String = {
-      //var cmd:String = getValueOrDefault("CCN.NFNPeek", "echo No Result!")
+        if(result.contains("timeout") || result.contains("interest") || result == "")
+          result = "No Result!"
+        return result
+      }
 
-      var cmd = """$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u #IP#/#PORT# -w 10 "" "#QUERY#/NFN""""
-      var cmdPacketFormatter = "$CCNL_HOME/bin/ccn-lite-pktdump -f 2"
-      //Replace IP PORT and QUERY
-      //With this we can run the remote queries on the remote nodes:
-      cmd = cmd.replace("#IP#", s"${IP}").replace("#PORT#", s"${port}").replace("#QUERY#", query);
-      LogMessage(nodeName, s"Query sent to network node: ${cmd} | ${cmdPacketFormatter}");
-      var result = execcmd(cmd, cmdPacketFormatter)
-      LogMessage(nodeName, s"Query Result from network node: ${result}");
 
-      if(result.contains("timeout") || result.contains("interest") || result == "")
-        result = "No Result!"
-      return result.trim().stripLineEnd;
-    }
-
-    def execcmd(cmd1: String, cmd2:String): String = {
+      def execcmd(cmd1: String, cmd2:String): String = {
       val result = Seq("/bin/sh", "-c", s"${cmd1} | ${cmd2}").!!
       return result
     }

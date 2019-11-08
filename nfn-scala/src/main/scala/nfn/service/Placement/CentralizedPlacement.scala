@@ -1,41 +1,19 @@
-package nfn.service
-import akka.actor.ActorRef
+package nfn.service.Placement
 
-import scala.io.Source
-import scala.util.control._
-import ccn.packet.CCNName
-import nfn.tools._
-import nfn.tools.Networking._
-
-import scala.concurrent.duration._
-import scala.language.postfixOps
-import java.util._
-import java.io._
-import java.lang.String
 import java.text.SimpleDateFormat
 
 import SACEPICN._
-import myutil.FormattedOutput
+import akka.actor.ActorRef
+import nfn.tools._
 
 import scala.annotation.tailrec
-import scala.collection.mutable
-import scala.List
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.immutable.Vector
-import scala.collection.mutable.ListBuffer
-import scala.collection.mutable.Stack
-import scala.util.control.Exception._
+import scala.language.postfixOps
 
 //Added for contentfetch
-import lambdacalculus.parser.ast.{Constant, Str}
-import nfn.service._
 import java.util.Calendar
-import java.time
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest, Interest}
-import nfn.NFNApi
-import config.StaticConfig
+
+import ccn.packet.CCNName
+import nfn.service._
 
 //Place the query on a single node!
 class CentralizedPlacement() extends NFNService {

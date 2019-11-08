@@ -1,18 +1,20 @@
-package nfn.service
+package nfn.service.Placement
+
 /**
   * Created by Ali on 06.02.18.
-  * This is the random adaptive approach based on heartbeats
+  * This is used to make a centralized query while using heartbeat approach
   */
 import java.io._
-import java.util._
 
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service._
 import nfn.tools.Networking._
 
 import scala.annotation.tailrec
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 import scala.io.Source
 import scala.language.postfixOps
@@ -23,7 +25,7 @@ import java.util.Calendar
 import ccn.packet.{CCNName, Interest, NFNInterest}
 import config.StaticConfig
 
-class QueryRandomLocalNS() extends NFNService {
+class QueryCentralLocalNS() extends NFNService {
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
@@ -48,31 +50,32 @@ class QueryRandomLocalNS() extends NFNService {
       //Initialize ExpressionTree class:
       var et = new OperatorTree();
       //Create node stack or Node tree (current: Tree)
+      LogMessage(nodeName, s"Operator Tree creation Started");
       var root = et.createOperatorTree(query);
+      LogMessage(nodeName, s"Operator Tree creation Completed");
 
       //Get current Network Status and Path information:
       var allNodes = getNodeStatus(nodeName);
+      var paths = buildPaths(nodeName, thisNode, allNodes);
 
-      //Now that we have all the nodes we need to get the random nodes based on the number of operators:
+      LogMessage(nodeName, s"Checking paths:");
+      for (path <- paths) {
+        LogMessage(nodeName, s"${path.pathNodes.reverse.mkString(" ") + " - BDP: " + path.cumulativePathCost + " - Hops: " + path.hopCount}");
+      }
+
+      //Now that we have all the paths we need: Place the queries on these paths:
       //1) Find the number of operators in the query:
       var opCount = root._stackSize;
-      //2) For this size: Get the random number of nodes from all the nodes: Random nodes selection based on all Nodes:
-      LogMessage(nodeName, s"Selecting Random Nodes:");
-
-      //Random nodes selected
-      var selectedNodes = (scala.util.Random.shuffle(allNodes) take opCount).toArray;
-
-      var formatNodeType = new ArrayBuffer[String]
-      for(randomNode <- selectedNodes){
-        formatNodeType += randomNode.NI_NodeName
-        LogMessage(nodeName, s"Randomly selected node is: ${randomNode.NI_NodeName} with current status (BDP: ${randomNode.NI_Latency} - Energy: ${randomNode.NI_Battery})");
-      }
+      //2) For this size: Get the path matching the number of operators and the lowest BDP path:
+      implicit val order = Ordering.Double.TotalOrdering
+      var optimalPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost);
 
       //Take this path and place the queries on it:
       //1) For this we will need to process the tree:
+
       LogMessage(nodeName, s"Operator Placement Started");
       @tailrec
-      def processPlacementTree(currentNode: Node, optimalPath: ArrayBuffer[String]): Node = {
+      def processPlacementTree(currentNode: Node, optimalPath: mutable.Buffer[String]): Node = {
         if (currentNode._Cprocessed) {
           LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Placement complete.")
           return currentNode;
@@ -130,10 +133,10 @@ class QueryRandomLocalNS() extends NFNService {
       }
 
       //Here we will get the tree with placement done
-      var placementRoot = processPlacementTree(root._root, formatNodeType);
+      var placementRoot = processPlacementTree(root._root, optimalPath.pathNodes.reverse.toBuffer[String]);
       LogMessage(nodeName, s"Operator Placement Completed");
 
-      LogMessage(nodeName, s"Query Deployment Started");
+      LogMessage(nodeName, s"Query Deployement Started");
       @tailrec
       def processDeploymentTree(currentNode: Node): Node = {
         if (currentNode._Vprocessed) {
@@ -166,8 +169,10 @@ class QueryRandomLocalNS() extends NFNService {
             }
             currentNode._query = query;
             LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: ${query}")
+            //currentNode._value = new String(fetchContentRepeatedly(NFNInterest(s"${currentNode._query}"), ccnApi, 30 seconds).get.data);
             currentNode._value = executeNFNQuery(currentNode._query)
-            LogMessage(nodeName, s"Deployment result: ${currentNode._value}")
+
+            LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
             currentNode._Vprocessed = true;
             LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
 
@@ -181,7 +186,7 @@ class QueryRandomLocalNS() extends NFNService {
 
       //Here we will get the tree with deployment done
       var deployedRoot = processDeploymentTree(placementRoot);
-      LogMessage(nodeName, s"Query Deployment Completed");
+      LogMessage(nodeName, s"Query Deployement Completed");
 
       //Output is what we send back as the final result:
       var output = "";
@@ -196,8 +201,6 @@ class QueryRandomLocalNS() extends NFNService {
       return output;
     }
 
-    def getRandomElement(list: Seq[String], random: Random): String = list(random.nextInt(list.length))
-
     def getNodeStatus(nodeName: String): ListBuffer[NodeInfo] = {
       LogMessage(nodeName, s"Get Node Status Started");
       //Get all node information:
@@ -208,12 +211,11 @@ class QueryRandomLocalNS() extends NFNService {
       val bufferedSource = Source.fromFile(s"$sacepicnEnv/nodeData/nodeInformation");
       bufferedSource
         .getLines
-        .foreach { line: String =>
+        .foreach {line: String =>
           var nodeSplit = line.split("-"); //Data is always in the form of: nodeX/90XX
           var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE);
           //Get content from network
-          //Execute NFN Query to get the latest state from Compute Server cache on the remote node (this is slower)
-          //var intermediateResult = new String(fetchContentRepeatedly(NFNInterest(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"), ccnApi, 10 seconds).get.data)
+          //Run simple name query to get named data stored on local compute server cache. This is used when nodes in the network send heartbeats (this is faster)
           var intermediateResult = executeNFNQuery(s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')")
 
           if (intermediateResult != "") {
@@ -271,7 +273,6 @@ class QueryRandomLocalNS() extends NFNService {
         traversalNodes = traversalNodes.tail;
 
         traversedNodes += next;
-
       }
 
       //Remove duplicate paths - since we traverse ALL possible HOPS and add the path and it's head:
@@ -287,7 +288,7 @@ class QueryRandomLocalNS() extends NFNService {
       @tailrec
       def checkPath(hops:ListBuffer[HopObject]): String = {
         if(hops.isEmpty)
-          {LogMessage(nodeName, s"(Finish!)");
+          {LogMessage(nodeName, s"Path Finished!");
           return "ok";}
         else {
           var current = hops.head;
@@ -378,7 +379,7 @@ class QueryRandomLocalNS() extends NFNService {
           path.pathNodes = pathNodes.toArray;
           paths+=path;
 
-          LogMessage(nodeName, s"Path: ${pathString}");
+          LogMessage(nodeName, s"Path: ${pathString}\n");
 
           checkPath(hops.tail);
         }
@@ -423,7 +424,6 @@ class QueryRandomLocalNS() extends NFNService {
     }
 
     def getMultiObjectiveFunctionMetrics(): Array[Double] = {
-
       val bufferedSource = Source.fromFile(s"$sacepicnEnv/nodeData/placementUtilityFunction")
       var returnData = new Array[Double](2); //0.8|0.2 (ENERGY|BANDWIDTH.DELAY.PRODUCT)
       //To ensure that we always have utility function. Else, we get it from the file

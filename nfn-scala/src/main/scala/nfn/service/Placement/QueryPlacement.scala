@@ -1,4 +1,4 @@
-package nfn.service
+package nfn.service.Placement
 
 /**
  * Created by Ali on 06.02.18.
@@ -8,7 +8,7 @@ package nfn.service
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
-import nfn.service.Placement.{NoSuchPlacementException, Placement}
+import nfn.service._
 import nfn.tools._
 
 import scala.annotation.tailrec

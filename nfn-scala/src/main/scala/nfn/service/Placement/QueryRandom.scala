@@ -1,9 +1,11 @@
-package nfn.service
+package nfn.service.Placement
+
 /**
   * Created by Ali on 06.02.18.
-  * This is the decentralized fixed weights approach
+  * This is the random adaptive approach
   */
 import java.io._
+import java.text.SimpleDateFormat
 
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
@@ -12,7 +14,7 @@ import nfn.tools.Networking._
 
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 import scala.io.Source
 import scala.language.postfixOps
@@ -21,13 +23,14 @@ import scala.language.postfixOps
 import java.util.Calendar
 
 import ccn.packet.{CCNName, Interest, NFNInterest}
+import nfn.service._
 
 //Added for CCN Command Execution:
 import config.StaticConfig
 
 import scala.sys.process._
 
-class QueryDecentralFixed() extends NFNService {
+class QueryRandom() extends NFNService {
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
@@ -40,15 +43,15 @@ class QueryDecentralFixed() extends NFNService {
 
       //Run output creation:
       var run = runID
-      var runTime = timestamp //s"${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance.getTime)}"
+      var runTime = s"${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance.getTime)}"
       var timeNow = Calendar.getInstance().getTimeInMillis()
-      var selectedPathDecentral = ""
+      var selectedPath = ""
       var selectedPathEnergy = 0.0
       var selectedPathOverhead = 0.0
       var overallPlacementOverhead = 0.0
 
-      var selectedPathEnergyVariance = new mutable.HashMap[String, String]()
-      var selectedPathOverheadVariance = new mutable.HashMap[String, String]()
+      //      var selectedPathEnergyVariance = new mutable.HashMap[String, String]()
+      //      var selectedPathOverheadVariance = new mutable.HashMap[String, String]()
 
       //Get current node from interest:
       var nodeInfo = interestName.cmps.mkString(" ");
@@ -57,15 +60,14 @@ class QueryDecentralFixed() extends NFNService {
 
       //Set Mapping:
       var mapping = new NodeMapping();
-
       //Log Query for interval based trigger:
-      if(save_to_QueryStore(runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)){
+      if (save_to_QueryStore(runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
         LogMessage(nodeName, s"Query appended to Query Store - Source ${sourceOfQuery}");
-      }else
+      } else
         LogMessage(nodeName, s"Query NOT appended to Query Store - Source ${sourceOfQuery}");
 
-
       //Initialize ExpressionTree class:
+
       var et = new OperatorTree();
       //Create node stack or Node tree (current: Tree)
       LogMessage(nodeName, s"Operator Tree creation Started");
@@ -77,7 +79,7 @@ class QueryDecentralFixed() extends NFNService {
       //Get current Network Status and Path information:
       var timeNow_NodeDiscovery = Calendar.getInstance().getTimeInMillis()
 
-      var allNodes = getNodeStatus(thisNode, nodeName);
+      var allNodes = getNodeStatus(nodeName);
       var paths = buildPaths(nodeName, thisNode, allNodes);
 
       var timeOffset_NodeDiscovery = Calendar.getInstance().getTimeInMillis() - timeNow_NodeDiscovery
@@ -87,57 +89,41 @@ class QueryDecentralFixed() extends NFNService {
         LogMessage(nodeName, s"${path.pathNodes.reverse.mkString(" ") + " - BDP: " + path.cumulativePathCost + " - Hops: " + path.hopCount}");
       }
 
-      var output = "";
-
       //Now that we have all the paths we need: Place the queries on these paths:
       //1) Find the number of operators in the query:
       var opCount = root._stackSize;
-      //2) For this size: Get the path with atleast OpCount - 1 hops and the lowest BDP path:
-      //In this case we will try to place an OP on each node directly next to the root.
-      //E.g. If node 1 is only connected to node 2. And node 2 has 4 other neighbours, then we will send the query to node 2.
-      //So, for all paths, look at the second hop. E.g. Sample paths: 9001-9002, 9001-9002-9003, 9001-9002-9005. Here the second hop is always 9002. Therefore we will send the query to 9002.
-      //Else in the case of 9001-9002, 9001-9003-9004, 9001-9005-9006. It means that we have more than 1 node connected to this node. So we could have done the placement on this one.
-      //Getting the distinct second hops
-      var secondHopNodes = new ArrayBuffer[String];
-      for(path <- paths){
-        if(path.pathNodes.length > 1){
-          secondHopNodes += path.pathNodes.reverse(1)
-          //The reason why we do not sanitize this and access the array element directly is because we cannot have a Path with 1 node. Hence PathNodes(1) will always contain a node.
-          // If this is not the case then this requires a rework of the entire path discovery process. Currently, this is not the case and we are forming proper paths.
-        }
-      }
-      //Get the distinct of the second hops:
-      secondHopNodes = secondHopNodes.distinct
-      //Remove root from list:
-      secondHopNodes -= thisNode
-      LogMessage(nodeName, s"Distinct 2nd hop nodes: ${secondHopNodes .mkString(" ")}")
+      //2) For this size: Get the path matching the number of operators and the lowest BDP path:
+      var optimalPaths = paths.filter(x => x.hopCount == opCount);
 
-      //Now check if the number of these distinct nodes is equal to or greater than the operator count
-      var timeNow_Placement_Deployment = Calendar.getInstance().getTimeInMillis()
+      //Randomize the path selection. Take one of the paths that has a hop count equal to our operator count.
+      var optimalPath = new Paths()
+      if (optimalPaths.length > 0)
+        optimalPath = (scala.util.Random.shuffle(optimalPaths) take 1).head;
 
-      if(secondHopNodes.length >= opCount) {
-        LogMessage(nodeName, s"Second hop nodes are more than the OP Count. We can explore this node and its neighbors")
-        //This node has more network information (more neighboring paths it can explore)
-        //We can use this node for placement
-        //Select a path with min cumulative path cost with the required number of hops:
-        implicit val order = Ordering.Double.TotalOrdering
-        var selectedPath = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost)
+      if (optimalPath.pathNodes != null && optimalPath.pathNodes.length > 0) {
+        //A random path has been found that can be used to carry out the placement.
 
-        selectedPathDecentral = selectedPath.pathNodes.mkString(" - ").toString()
+        selectedPath = optimalPath.pathNodes.mkString("-").toString()
         //Getting the cumulative path energy and bdp:
-        selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((selectedPath.cumulativePathEnergy.reduceLeft[Double](_+_) / selectedPath.cumulativePathEnergy.length).toString()), 2)
-        selectedPathOverhead = FormattedOutput.round(FormattedOutput.parseDouble((selectedPath.cumulativePathBDP.reduceLeft[Double](_+_) / selectedPath.cumulativePathBDP.length).toString()),2)
+        selectedPathEnergy = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathEnergy.reduceLeft[Double](_ + _) / optimalPath.cumulativePathEnergy.length).toString()), 2)
+        selectedPathOverhead = FormattedOutput.round(FormattedOutput.parseDouble((optimalPath.cumulativePathBDP.reduceLeft[Double](_ + _) / optimalPath.cumulativePathBDP.length).toString()), 2)
+
+        overallPlacementOverhead = optimalPath.cumulativePathCost
 
         //Manage the adaptive path weights that changed over time
-        selectedPathEnergyVariance = selectedPath.hopWeights_Energy
-        selectedPathOverheadVariance = selectedPath.hopWeights_BDP
-
-        overallPlacementOverhead = selectedPath.cumulativePathCost
+        LogMessage(nodeName, s"Checking optimal path energy weights:");
+        for (weight <- optimalPath.hopWeights_Energy) {
+          LogMessage(nodeName, s"${weight}");
+        }
+        LogMessage(nodeName, s"Checking optimal path BDP weights:");
+        for (weight <- optimalPath.hopWeights_BDP) {
+          LogMessage(nodeName, s"${weight}");
+        }
 
         //Take this path and place the queries on it:
         //1) For this we will need to process the tree:
 
-        LogMessage(nodeName, s"The selected path is: ${selectedPathDecentral}")
+        var timeNow_Placement_Deployment = Calendar.getInstance().getTimeInMillis()
 
         LogMessage(nodeName, s"Operator Placement Started");
         @tailrec
@@ -199,7 +185,7 @@ class QueryDecentralFixed() extends NFNService {
         }
 
         //Here we will get the tree with placement done
-        var placementRoot = processPlacementTree(root._root, selectedPath.pathNodes.reverse.toBuffer[String]);
+        var placementRoot = processPlacementTree(root._root, optimalPath.pathNodes.reverse.toBuffer[String]);
         LogMessage(nodeName, s"Operator Placement Completed");
 
         LogMessage(nodeName, s"Query Deployement Started");
@@ -238,16 +224,16 @@ class QueryDecentralFixed() extends NFNService {
               //currentNode._value = new String(fetchContentRepeatedly(NFNInterest(s"${currentNode._query}"), ccnApi, 30 seconds).get.data);
               //currentNode._value = executeNFNQuery(currentNode._query)
 
+              //Determine the location (name) where this query wwriteOutputFilesill be executed:
+              var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1);
+
               //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
               //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
-              //Determine the location (name) where this query will be executed:
-              var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1);
-              //var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
+              // var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
               //currentNode._value = intermediateResult;
-
               currentNode._value = "TemporaryDeploymentValue";
 
-              LogMessage(nodeName, s"Deployment result: ${currentNode._value}")
+              LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
               currentNode._Vprocessed = true;
               LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
 
@@ -262,161 +248,134 @@ class QueryDecentralFixed() extends NFNService {
         //Here we will get the tree with deployment done
         var deployedRoot = processDeploymentTree(placementRoot);
 
+        var timeOffset_Placement_Deployment = (Calendar.getInstance().getTimeInMillis() - timeNow_Placement_Deployment)
+
         LogMessage(nodeName, s"Query Deployement Completed");
 
         //Output is what we send back as the final result:
+        var output = "";
         output = deployedRoot._value;
+
+        if (output != null && !output.isEmpty)
+          output = output.stripSuffix("\n").stripMargin('#');
+        else
+          output += "No Results!"
+
+        LogMessage(nodeName, s"Query Execution Completed");
+
+        //Generate Output:
+        var timeOffset = Calendar.getInstance().getTimeInMillis() - timeNow
+        //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
+        var output_for_Run = s"${runID.toString},${runTime.toString},${timeOffset.toString},${timeOffset_OpTreeCreation.toString},${timeOffset_NodeDiscovery.toString},${timeOffset_Placement_Deployment.toString},${selectedPath.toString},${overallPlacementOverhead.toString},${selectedPathEnergy.toString},${selectedPathOverhead.toString}";
+
+        var energyWeightString = ""
+        var overheadWeightString = ""
+        optimalPath.hopWeights_Energy.foreach {
+          case (key, value) => energyWeightString += s"$key-$value "
+        }
+        energyWeightString.trim();
+        optimalPath.hopWeights_BDP.foreach {
+          case (key, value) => overheadWeightString += s"$key-$value "
+        }
+        overheadWeightString.trim();
+        //Format: runID, Time, ResponseTime, Path, EnergyWeight, OverheadWeight
+        var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPath.toString},${energyWeightString.toString},${overheadWeightString.toString}";
+
+        writeOutputFiles(output_for_Run, output_for_AdaptiveWeights)
+        return output;
       }
-      else {
-        //Issue a new query on the MOST OPTIMAL path and wait for the result:
-
-        implicit val order = Ordering.Double.TotalOrdering
-        var path = paths.filter(x => x.pathNodes.length > 1).minBy(_.cumulativePathCost);
-        LogMessage(nodeName, s"Path selected for Decentralized Query: ${path.pathNodes.mkString(" - ")}")
-        var optimalPath = path.pathNodes.reverse.toBuffer[String]; //Reverse is needed in order to change 9003 -> 9002 -> 9001 to 9001 -> 9002 -> 9003 etc.
-        var _executionNodePort = optimalPath(1) //Once again, we send the query to the second hop from us. I.e. the next hop;
-        var _executionNode = mapping.getName(_executionNodePort);
-        LogMessage(nodeName, s"No feasible path found. Sending query to: ${_executionNode}/${_executionNodePort}")
-        var output = createAndExecCCNQuery(
-          _executionNode
-          , s"call 8 /node/${_executionNode}/nfn_service_QueryDecentral '${runID}' 'DQ' '${_executionNodePort}' '${clientID}' '${query}' '${region}' '${runTime}'"
-          , _executionNodePort
-          , mapping.getIPbyName(_executionNode))
-
+      else{
+        var output_for_Run = "No suitable paths found for placement"
+        writeOutputFiles(output_for_Run, output_for_Run)
+        return output_for_Run
       }
 
-      var timeOffset_Placement_Deployment = Calendar.getInstance().getTimeInMillis() - timeNow_Placement_Deployment
-
-      if (output != null && !output.isEmpty)
-        output = output.stripSuffix("\n").stripMargin('#');
-      else
-        output += "No Results!"
-
-      LogMessage(nodeName, s"Query Execution Completed");
-
-      //Generate Output:
-      var timeOffset = Calendar.getInstance().getTime().getTime() - timeNow
-      //Format: runID, Time, ResponseTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
-      var output_for_Run = s"${runID.toString},${runTime.toString},${timeOffset.toString},${timeOffset_OpTreeCreation.toString},${timeOffset_NodeDiscovery.toString},${timeOffset_Placement_Deployment.toString},${selectedPathDecentral.toString},${overallPlacementOverhead.toString},${selectedPathEnergy.toString},${selectedPathOverhead.toString}";
-
-      var energyWeightString = ""
-      var overheadWeightString = ""
-      selectedPathEnergyVariance.foreach {
-        case (key, value) => energyWeightString += s"$key-$value "
-      }
-      energyWeightString.trim();
-      selectedPathOverheadVariance.foreach {
-        case (key, value) => overheadWeightString += s"$key-$value "
-      }
-      overheadWeightString.trim();
-      var output_for_AdaptiveWeights = s"${runID.toString},${runTime.toString},${timeOffset.toString},${selectedPathDecentral.toString},${energyWeightString.toString},${overheadWeightString.toString}";
-
-      writeOutputFiles(output_for_Run, output_for_AdaptiveWeights)
-
-      return output;
+      return "No Result!"
     }
 
-    def getNodeStatus(interestOrigin: String, nodeName: String): ListBuffer[NodeInfo] = {
-      //Interest Origin is the node from where the interest was received.
-      //nodeName is the current processing node
-
-      val kHops = Source.fromFile(s"$sacepicnEnv/nodeData/Decentralized_KHop");
-      var K = 0;
-      kHops.getLines().foreach {
-        line: String =>
-          K = FormattedOutput.toInt(line)
-      }
-      LogMessage(nodeName, s"Get Node Status Started - with ${K} hops");
+    def getNodeStatus(nodeName: String): ListBuffer[NodeInfo] = {
+      LogMessage(nodeName, s"Get Node Status Started");
       //Get all node information:
       val now = Calendar.getInstance()
 
       var allNodes = new ListBuffer[NodeInfo]();
       //Below file must be present in order to carry out proper placement:
-      val bufferedSource = Source.fromFile(s"$sacepicnEnv/nodeData/${nodeName}");
+      val bufferedSource = Source.fromFile(s"$sacepicnEnv/nodeData/nodeInformation");
       bufferedSource
         .getLines
-        .foreach { line: String =>
-          var nodeSplit = line.split("-"); //Data is always in the form of: nodeX-90XX-K-IP
-          var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE);
+        .foreach {line: String =>
+          var nodeSplit = line.split("-"); //Data is always in the form of: nodeX/90XX
+        var name = s"/${nodeSplit(1)}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE);
+          //Get content from network
+          //Execute NFN Query to get the latest state from Compute Server cache on the remote node (this is slower)
+          //var intermediateResult = new String(fetchContentRepeatedly(NFNInterest(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"), ccnApi, 10 seconds).get.data)
 
-          //Only get information for K hops
-          // MIGHT CHANGE: while ensuring that we do not look at the node from where the interest came:
-          if (FormattedOutput.toInt(nodeSplit(2)) <= K ) { //&& nodeSplit(1) != interestOrigin --> Try to add this node as well.
-            //Get content from network
-            //Execute NFN Query to get the latest state from Compute Server cache on the remote node
-            //var intermediateResult = new String(fetchContentRepeatedly(NFNInterest(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"), ccnApi, 10 seconds).get.data)
+          //var intermediateResult = executeNFNQuery(s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')")
+          var mapping = new NodeMapping()
+          var intermediateResult = createAndExecCCNQuery(nodeSplit(0), s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')", mapping.getPort(nodeSplit(0)), mapping.getIPbyName(nodeSplit(0)))
 
-            //var intermediateResult = executeNFNQuery(s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')")
-            var mapping = new NodeMapping();
-            var intermediateResult = createAndExecCCNQuery(
-              nodeSplit(0)
-              , s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"
-              , mapping.getPort(nodeSplit(0))
-              , mapping.getIPbyName(nodeSplit(0)))
-
-            if (intermediateResult != "") {
-              var ni = new NodeInfo(intermediateResult);
-              LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
-              allNodes += ni;
-            }
+          if (intermediateResult != "") {
+            var ni = new NodeInfo(intermediateResult);
+            LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
+            allNodes += ni
           }
         }
       bufferedSource.close
 
-      LogMessage(nodeName, s"Get Node Status Completed");
-      return allNodes;
+      LogMessage(nodeName, s"Get Node Status Completed")
+      return allNodes
     }
 
     def buildPaths(nodeName: String, rootNode: String, nodes: ListBuffer[NodeInfo]): ListBuffer[Paths] = {
-      LogMessage(nodeName, s"Building Paths Started");
-      var paths = new ListBuffer[Paths];
-      var root = nodes.filter(x => x.NI_NodeName == rootNode).head;
-      nodes -= root;
-      nodes.insert(0, root);
+      LogMessage(nodeName, s"Building Paths Started")
+      var paths = new ListBuffer[Paths]
+      var root = nodes.filter(x => x.NI_NodeName == rootNode).head
+      nodes -= root
+      nodes.insert(0, root)
 
-      var endOfPath = false;
+      var endOfPath = false
 
-      var currentRoot = root.NI_NodeName;
+      var currentRoot = root.NI_NodeName
 
-      var traversedNodes = new ListBuffer[NodeInfo];
-      traversedNodes += root;
+      var traversedNodes = new ListBuffer[NodeInfo]
+      traversedNodes += root
 
-      var traversalNodes:ListBuffer[NodeInfo] = getTraversalNodes(nodeName, root, nodes, new ListBuffer[NodeInfo], traversedNodes);
-      LogMessage(nodeName, s"getTraversalNodes -> on Root");
+      var traversalNodes:ListBuffer[NodeInfo] = getTraversalNodes(nodeName, root, nodes, new ListBuffer[NodeInfo], traversedNodes)
+      LogMessage(nodeName, s"getTraversalNodes -> on Root")
 
-      var firstHopList = new ListBuffer[HopObject];
-      var firstpath = new HopObject();
-      firstpath.hopName = root.NI_NodeName;
-      firstpath.hopLatency += 0.0;
-      firstpath.previousHop = null;
-      LogMessage(nodeName, s"oneStepTraverse ROOT added -> NULL -> ${firstpath.hopName}");
-      firstHopList += firstpath;
+      var firstHopList = new ListBuffer[HopObject]
+      var firstpath = new HopObject()
+      firstpath.hopName = root.NI_NodeName
+      firstpath.hopLatency += 0.0
+      firstpath.previousHop = null
+      LogMessage(nodeName, s"oneStepTraverse ROOT added -> NULL -> ${firstpath.hopName}")
+      firstHopList += firstpath
 
       //All new paths will now be in hopInfo:
-      LogMessage(nodeName, s"oneStepTraverse -> on Root");
-      var hopInfo = oneStepTraverse(nodeName, root, root, firstHopList);
+      LogMessage(nodeName, s"oneStepTraverse -> on Root")
+      var hopInfo = oneStepTraverse(nodeName, root, root, firstHopList)
 
       while(!traversalNodes.isEmpty){
-        var next = traversalNodes.head;
-        LogMessage(nodeName, s"While -> Next -> ${next.NI_NodeName}");
+        var next = traversalNodes.head
+        LogMessage(nodeName, s"While -> Next -> ${next.NI_NodeName}")
 
-        LogMessage(nodeName, s"While -> Retrieve HopInfo");
-        hopInfo.appendAll(oneStepTraverse(nodeName, root, next, hopInfo));
+        LogMessage(nodeName, s"While -> Retrieve HopInfo\n")
+        hopInfo.appendAll(oneStepTraverse(nodeName, root, next, hopInfo))
 
-        LogMessage(nodeName, s"While -> Retrieve other traversal nodes");
-        traversalNodes.appendAll(getTraversalNodes(nodeName, next, nodes, traversalNodes, traversedNodes));
+        LogMessage(nodeName, s"While -> Retrieve other traversal nodes")
+        traversalNodes.appendAll(getTraversalNodes(nodeName, next, nodes, traversalNodes, traversedNodes))
 
-        LogMessage(nodeName, s"While -> remove current node from traversal");
-        traversalNodes = traversalNodes.tail;
+        LogMessage(nodeName, s"While -> remove current node from traversal")
+        traversalNodes = traversalNodes.tail
 
-        traversedNodes += next;
+        traversedNodes += next
       }
 
       //Remove duplicate paths - since we traverse ALL possible HOPS and add the path and it's head:
-      hopInfo = hopInfo.distinct;
+      hopInfo = hopInfo.distinct
 
       //Get the utility function data:
-      var multiObjFunction = getMultiObjectiveFunctionMetrics();
+      var multiObjFunction = getMultiObjectiveFunctionMetrics()
 
       var energyWeight = multiObjFunction(0)
       var bdpWeight = multiObjFunction(1)
@@ -428,17 +387,15 @@ class QueryDecentralFixed() extends NFNService {
       //Recursively print the paths AND store in a path list:
       @tailrec
       def checkPath(hops:ListBuffer[HopObject]): String = {
-        if(hops.isEmpty) {
-          LogMessage(nodeName, s"Path Finished!");
-          return "ok";
-        }
+        if(hops.isEmpty)
+        {LogMessage(nodeName, s"Path Finished!")
+          return "ok";}
         else {
-          var current = hops.head;
-          LogMessage(nodeName, s"checkPath - Current => ${current.hopName}");
-          var pathCost:Double = 0.0;
-          var pathString = "";
-          var hopCount:Int = 0;
-          var pathNodes = new ListBuffer[String];
+          var current = hops.head
+          var pathCost:Double = 0.0
+          var pathString = ""
+          var hopCount:Int = 0
+          var pathNodes = new ListBuffer[String]
 
           var cumulativePathEnergy = new ListBuffer[Double]
           var cumulativePathBDP = new ListBuffer[Double]
@@ -450,67 +407,53 @@ class QueryDecentralFixed() extends NFNService {
           var lastHopBDP = 0.0
 
           while(current.previousHop != null) {
-            LogMessage(nodeName, s"Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = ${current.previousHop.hopName} -> ${current.hopName}");
             if (current.previousHop.previousHop == null
               || (current.previousHop.previousHop != null && (current.hopName != current.previousHop.previousHop.hopName))
             ) {
-              var hopBDP: Double = 0.0;
-              //nodes[] will ONLY contain nodes that are K hops away from placement root.
-              var nodePower = nodes.filter(x => x.NI_NodeName == current.hopName);
-              LogMessage(nodeName, s"Matching nodes found in list of nodes for => ${current.hopName} -> Matches (${nodePower.length})");
-              if (nodePower != null && nodePower.length > 0) {
-                //LogMessage(nodeName, s"Since we have a match - we will apply adaptive weightage");
+              var hopBDP: Double = 0.0
+              var nodePower = nodes.filter(x => x.NI_NodeName == current.hopName)
+              if (nodePower != null) {
                 //Calculating the utility function for each hop:
                 //Link cost = (Energy * Energy Weight) + (BDP * BDP Weight)
                 //Adaptive Hop Weight assignment. Vary the adaptive Weights for all hops based on each hop change in Energy and BDP values.
-                //Here, we initially start with 0.5,0.5 for both energy and bdp. We use Additive Increase, Additive (NOTE: 2nd March 2018 - also using Multiplicative decrease) Decrease to change the weights based on network conditions.
-//                LogMessage(nodeName, s"Previous Weight values were: Energy=${previousBDPWeight.toString} and BDP=${previousEnergyWeight.toString} ");
-//                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
-//                  LogMessage(nodeName, s"This is the first hop for adaptive weight application")
-//                  //Use standard 0.5,0.5
-//                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
-//                  previousBDPWeight = bdpWeight
-//                  previousEnergyWeight = energyWeight
-//
-//                  lastHopBDP = current.hopLatency
-//                  lastHopEnergy = nodePower.head.NI_Battery
-//                  //By this time, we have the values of the weights and the hop metrics
-//                }
-//                else{
-//                  LogMessage(nodeName, s"This is a subsequent hop/s for adaptive weight application")
-//                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
-//                  //we will increase or decrease a weight metric:
-//                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
-//                    //Additive increase on energy and additive decrease on bdp:
-//                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
-//                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
-//                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-//                    }
-//                  }
-//                  //else check the other way around - if bdp is more than the last hop and energy is less.
-//                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
-//                    //Additive increase on energy and additive decrease on bdp:
-//                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
-//                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-//                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
-//                    }
-//                  }
-//
-//                  //In all other cases, we will not vary these weights since they have to move up or down together.
-//                  //Now we can assign the new hop BDP based on the new weights:
-//                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
-//
-//                  //Set the metrics for this hop so that it can be used in the next hop:
-//                  lastHopBDP = current.hopLatency
-//                  lastHopEnergy = nodePower.head.NI_Battery
-//                }
-                hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
-                previousBDPWeight = bdpWeight
-                previousEnergyWeight = energyWeight
+                //Here, we initially start with 0.5,0.5 for both energy and bdp. We use Additive Increase, Additive Decrease to change the weights based on network conditions.
+                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
+                  //Use standard 0.5,0.5
+                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
+                  previousBDPWeight = bdpWeight
+                  previousEnergyWeight = energyWeight
 
-                lastHopBDP = current.hopLatency
-                lastHopEnergy = nodePower.head.NI_Battery
+                  lastHopBDP = current.hopLatency
+                  lastHopEnergy = nodePower.head.NI_Battery
+                  //By this time, we have the values of the weights and the hop metrics
+                }
+                else{
+                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
+                  //we will increase or decrease a weight metric:
+                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
+                    //Additive increase on energy and additive decrease on bdp:
+                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
+                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
+                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                    }
+                  }
+                  //else check the other way around - if bdp is more than the last hop and energy is less.
+                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
+                    //Additive increase on energy and additive decrease on bdp:
+                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
+                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
+                    }
+                  }
 
+                  //In all other cases, we will not vary these weights since they have to move up or down together.
+                  //Now we can assign the new hop BDP based on the new weights:
+                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
+
+                  //Set the metrics for this hop so that it can be used in the next hop:
+                  lastHopBDP = current.hopLatency
+                  lastHopEnergy = nodePower.head.NI_Battery
+                }
                 //Adding hop link cost in the overall path cost:
                 hopWeights_Energy += s"${current.hopName}" -> s"${previousEnergyWeight.toString()}"
                 hopWeights_BDP+= s"${current.hopName}" -> s"${previousBDPWeight.toString()}"
@@ -519,11 +462,8 @@ class QueryDecentralFixed() extends NFNService {
                 cumulativePathBDP += lastHopBDP
 
                 pathCost += hopBDP;
-              }
-              else{
-                LogMessage(nodeName, s"Hop ${current.hopName} information not found in list of nodes")
-              }
 
+              }
               pathString = s" --(BDP: ${hopBDP})--> " + current.hopName + " " + pathString;
               //Adding a hop
               hopCount = hopCount + 1;
@@ -560,8 +500,8 @@ class QueryDecentralFixed() extends NFNService {
       checkPath(hopInfo);
 
       //Store new metrics for upcoming runs:
-//      if(previousEnergyWeight != 0.0 && previousBDPWeight != 0.0)
-//        writeMetricsToStore(previousEnergyWeight.toString, previousBDPWeight.toString)
+      //      if(previousEnergyWeight != 0.0 && previousBDPWeight != 0.0)
+      //        writeMetricsToStore(previousEnergyWeight.toString, previousBDPWeight.toString)
 
       //Remove any duplicate paths that were created due to hop-linking:
       paths = paths.distinct;
@@ -573,16 +513,11 @@ class QueryDecentralFixed() extends NFNService {
     def getTraversalNodes(nodeName: String, cNode: NodeInfo, nodes:ListBuffer[NodeInfo], traversalNodes: ListBuffer[NodeInfo], traversedNodes: ListBuffer[NodeInfo]): ListBuffer[NodeInfo] = {
       var retNodes = new ListBuffer[NodeInfo]();
       for (latency <- cNode.NI_Latency) {
-        var node = nodes.filter(x => (x.NI_NodeName == latency.Lat_Node));
-
-        if (node != null && node.length > 0) {
-          var _node = nodes.filter(x => (x.NI_NodeName == latency.Lat_Node)).head;
-          if (!traversalNodes.contains(_node) && !traversedNodes.contains(_node)) {
-            LogMessage(nodeName, s"add new Node in traversal List -> ${_node.NI_NodeName}");
-            retNodes += _node;
-          }
+        var node = nodes.filter(x => (x.NI_NodeName == latency.Lat_Node)).head;
+        if (!traversalNodes.contains(node) && !traversedNodes.contains(node)) {
+          LogMessage(nodeName, s"add new Node in traversal List -> ${node.NI_NodeName}");
+          retNodes += node;
         }
-
       }
       return retNodes;
     }

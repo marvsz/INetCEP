@@ -1,4 +1,5 @@
-package nfn.service
+package nfn.service.Placement
+
 /**
   * Created by Ali on 06.02.18.
   * This is the decentralized adaptive approach
@@ -8,6 +9,7 @@ import java.io._
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service._
 import nfn.tools.Networking._
 
 import scala.annotation.tailrec

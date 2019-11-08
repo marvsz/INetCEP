@@ -1,7 +1,8 @@
-package nfn.service
+package nfn.service.Placement
+
 /**
   * Created by Ali on 06.02.18.
-  * This is the random adaptive approach based on fetch based nds
+  * This is the random adaptive approach based on heartbeats
   */
 import java.io._
 import java.util._
@@ -9,6 +10,7 @@ import java.util._
 import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
+import nfn.service._
 import nfn.tools.Networking._
 
 import scala.annotation.tailrec
@@ -23,7 +25,7 @@ import java.util.Calendar
 import ccn.packet.{CCNName, Interest, NFNInterest}
 import config.StaticConfig
 
-class QueryRandomRemNS() extends NFNService {
+class QueryRandomLocalNS() extends NFNService {
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
@@ -451,14 +453,14 @@ class QueryRandomRemNS() extends NFNService {
     //Use this if overhead is not an issue. ExecuteQuery normalizes the use of fetchContent to one function:
     def executeInterestQuery(query: CCNName): String = {
 
-      return new String(fetchContent(
+      return new String(fetchContentRepeatedly(
         Interest(query),
         ccnApi,
         60 seconds).get.data)
     }
     def executeNFNQuery(query: String): String = {
 
-      return new String(fetchContent(
+      return new String(fetchContentRepeatedly(
         NFNInterest(query),
         ccnApi,
         60 seconds).get.data)
