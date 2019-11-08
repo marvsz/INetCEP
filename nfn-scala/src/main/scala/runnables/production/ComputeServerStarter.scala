@@ -4,6 +4,7 @@ package runnables.production
 import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
+import nfn.service.Placement.QueryPlacement
 import nfn.service._
 import node.LocalNode
 import scopt.OptionParser
