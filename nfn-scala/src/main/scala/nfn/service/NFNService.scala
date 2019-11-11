@@ -242,6 +242,9 @@ case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[
 {
 
   def exec: NFNValue = function(interestName, values, nfnMaster)
+
+  // Added by Johannes
+  def execWithArgs(additionalArgs: Seq[NFNValue]): NFNValue = function(interestName, values, nfnMaster, additionalArgs)
 }
 
 abstract class NFNDynamicService() extends NFNService {
