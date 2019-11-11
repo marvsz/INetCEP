@@ -83,6 +83,35 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
     }
   }
 
+  def executeCallable(futCallable: Future[CallableNFNService], name: CCNName, senderCopy: ActorRef, additionalArgs: Seq[NFNValue]):Unit={
+    futCallable foreach { callable =>
+      val cancellable = KlangCancellableFuture {
+        try {
+          val resultValue: NFNValue = callable.execWithArgs(additionalArgs)
+          val futResultData = resultDataOrRedirect(resultValue.toDataRepresentation, name, ccnServer)
+          val resultData = Await.result(futResultData, 1 seconds)
+          Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)
+        } catch {
+          case e: Exception =>
+            println(s"Catched exception: $e")
+        }
+      }
+      cancellable onComplete {
+        case Success(content) => {
+          logger.info(s"Finished computation, result: $content")
+          senderCopy ! content
+        }
+        case Failure(ex) => {
+          println("failure")
+          logger.error(ex, s"Error when executing the service $name. Cause: ${ex.getCause} Message: ${ex.getMessage}")
+        }
+      }
+
+      futures += name -> cancellable
+      logger.info(s"Added to futures: $name")
+    }
+  }
+
   def executeCallable(futCallable: Future[CallableNFNService], name: CCNName, senderCopy: ActorRef): Unit = {
     futCallable foreach { callable =>
       val cancellable = KlangCancellableFuture {
@@ -147,6 +176,25 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
       maybeFutCallable match {
         case Some(futCallable) => {
           executeCallable(futCallable, name, senderCopy)
+        }
+        case None =>
+          // Compute request was sent directly without a Thunk message
+          // This means we can prepare the callable by directly invoking receivedComputeRequest
+          prepareCallable(name, useThunks = false, senderCopy) match {
+            case Some(futCallable) => {
+              executeCallable(futCallable, name, senderCopy)
+            }
+            case None => logger.warning(s"Could not prepare a callable for name $name")
+          }
+      }
+    }
+
+      //Added by Johannes
+    case msg @ ComputeServer.ComputeDataStream(name,additionalArguments)=>{
+      val senderCopy = sender
+      maybeFutCallable match {
+        case Some(futCallable) => {
+          executeCallable(futCallable, name, senderCopy,additionalArguments)
         }
         case None =>
           // Compute request was sent directly without a Thunk message

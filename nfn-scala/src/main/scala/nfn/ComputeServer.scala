@@ -4,6 +4,7 @@ import akka.actor.SupervisorStrategy.Stop
 import akka.actor.{Actor, ActorRef, OneForOneStrategy, Props}
 import akka.event.Logging
 import ccn.packet.{CCNName, Content}
+import nfn.service.NFNValue
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -11,6 +12,8 @@ import scala.language.postfixOps
 object ComputeServer {
 
   case class Compute(name: CCNName)
+
+  case class ComputeDataStream(name: CCNName, additionalArguments: Seq[NFNValue])
 
   case class Thunk(name: CCNName)
 
@@ -75,6 +78,28 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
 
             // forward the compute message to the newly created compute worker
             computeWorker.tell(computeMsg, sender)
+          }
+        }
+      }
+      else {
+        logger.error(s"Compute message must contain the name of the final interest and not a thunk interest: $name")
+      }
+    }
+
+    case cds @ ComputeServer.ComputeDataStream(name: CCNName, additionalArguments: Seq[NFNValue]) =>{
+      if(!name.isThunk) {
+        computeWorkers.get(name) match {
+          case Some(worker) => {
+            logger.error(s"Received Compute for $name, forwarding it to running compute worker")
+            worker.tell(cds, sender)
+          }
+          case None => {
+            logger.info(s"Started new computation without thunks for $name")
+            val computeWorker = createComputeWorker(name, sender, nodePrefix)
+            computeWorkers += name -> computeWorker
+
+            // forward the compute message to the newly created compute worker
+            computeWorker.tell(cds, sender)
           }
         }
       }
