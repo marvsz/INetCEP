@@ -216,6 +216,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       ccnIf
     )
   var pit: PIT = PIT(context)
+  var pqt: PQT = PQT(context)
 
   override def preStart() = {
     nfnGateway ! UDPConnection.Handler(self)
