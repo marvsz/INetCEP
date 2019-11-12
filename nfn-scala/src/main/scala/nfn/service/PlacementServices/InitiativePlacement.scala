@@ -1,4 +1,4 @@
-package nfn.service.Placement
+package nfn.service.PlacementServices
 
 import SACEPICN.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef

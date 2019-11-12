@@ -2,7 +2,9 @@ package nfn.service.NBody
 
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import javax.imageio.ImageIO
@@ -10,7 +12,7 @@ import nfn.service.{NFNStringValue, _}
 
 
 class RenderService extends NFNService {
-  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
 
     var options = Map(Symbol("xres") -> 500, Symbol("yres") -> 500)

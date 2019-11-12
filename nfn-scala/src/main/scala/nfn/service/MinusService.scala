@@ -2,19 +2,21 @@ package nfn.service
 
 import akka.actor.ActorRef
 import ccn.packet.CCNName
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 
 class MinusService() extends  NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] =Future {
     args match {
       case Seq(l: NFNIntValue, r: NFNIntValue) => {
         val res = NFNIntValue(l.i - r.i)
-        return res
+        res
       }
       case Seq(l: NFNFloatValue, r: NFNFloatValue) => {
         val res = NFNFloatValue(l.f - r.f)
-        return res
+        res
       }
       case _ =>
         throw new NFNServiceArgumentException(s"$ccnName requires to arguments of type NFNIntValue and not $args")

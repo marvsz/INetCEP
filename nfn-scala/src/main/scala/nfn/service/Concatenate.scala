@@ -6,6 +6,9 @@ package nfn.service
 
 import akka.actor.ActorRef
 import nfn.tools.{Helpers, SensorHelpers}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 
 //Added for contentfetch
 import ccn.packet.CCNName
@@ -31,7 +34,7 @@ class Concatenate() extends NFNService {
     output
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 

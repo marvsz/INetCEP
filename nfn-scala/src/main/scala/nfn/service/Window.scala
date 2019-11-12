@@ -1,14 +1,15 @@
 package nfn.service
 
 /**
-  * Created by Ali on 06.02.18.
-  */
+ * Created by Ali on 06.02.18.
+ */
 
 import java.io.FileNotFoundException
 
 import akka.actor.ActorRef
 import nfn.tools.{Helpers, SensorHelpers}
 
+import scala.concurrent.Future
 import scala.io.{BufferedSource, Source}
 //Added for contentfetch
 import java.time.LocalTime
@@ -17,7 +18,8 @@ import java.time.format.DateTimeFormatter
 import ccn.packet._
 import config.StaticConfig
 import myutil.FormattedOutput
-
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.language.postfixOps
 
 class Window() extends NFNService {
@@ -26,7 +28,7 @@ class Window() extends NFNService {
   val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
   var relativeTime: LocalTime = null
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
 
 
     //Interest will always be in the form of: call X /node/nodeX/nfn_service_X
@@ -53,13 +55,13 @@ class Window() extends NFNService {
       contentWindow
     }
 
-    def processTimeBoundWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timePeriod: NFNStringValue, timeUnit: NFNStringValue): NFNValue = {
+    def processTimeBoundWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timePeriod: NFNStringValue, timeUnit: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName, s"Timed Window OP Started");
 
       val output = readRelativeTimedSensor(sensor.str, timePeriod.str.toLong, timeUnit.str, nodeName)
       var contentWindow = NFNStringValue("No Results!")
       if (deliveryFormat.str.toLowerCase == "data") {
-        return NFNStringValue(output)
+        NFNStringValue(output)
       }
       else if (deliveryFormat.str.toLowerCase == "name") {
         val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
@@ -70,13 +72,13 @@ class Window() extends NFNService {
       contentWindow
     }
 
-    def processEventBoundWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue): NFNValue = {
+    def processEventBoundWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName, s"Event limited Window OP Started\n");
 
       val output = readEventCountSensor(deliveryFormat.str, sensor.str, numberOfEvents.str.toInt, nodeName)
       var contentWindow = NFNStringValue("No Results!")
       if (deliveryFormat.str.toLowerCase == "data") {
-        return NFNStringValue(output)
+        NFNStringValue(output)
       }
       else if (deliveryFormat.str.toLowerCase == "name") {
         val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
@@ -95,16 +97,29 @@ class Window() extends NFNService {
 
       //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 5 /node/nodeA/nfn_service_Window 'data' 'victims' '5' 'M'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
       //02.02.2018: Commenting this window because it conflicts with the bound window
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) => processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
+      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
+        processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
 
+      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNIntValue, timeUnit: NFNStringValue, dataStream: NFNStringValue, state: NFNStringValue) =>
+        processSlidingWindow(deliveryFormat, sensor, timerPeriod, timeUnit, dataStream, state).recover {
+          case e: NoSuchElementException => throw e
+        }
       //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 4 /node/nodeA/nfn_service_Window 'data' 'victims' '3' /NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) => processEventBoundWindow(deliveryFormat, sensor, numberOfEvents)
-
+      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
+        processEventBoundWindow(deliveryFormat, sensor, numberOfEvents)
 
       case _ =>
         throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
     }
     //)
+  }
+
+
+  def processSlidingWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNIntValue, timeUnit: NFNStringValue, dataStream: NFNStringValue, state: NFNStringValue): Future[NFNValue] = Future {
+
+    //var state =
+
+    NFNStringValue("Test")
   }
 
   //Return number of specified events from the top of the event stream
@@ -116,7 +131,7 @@ class Window() extends NFNService {
     bufferedSource.getLines().zipWithIndex.foreach {
       case (line, index) => {
         if (index < numberOfEvents) //Index is the zero'th index, so we only do <, not <=. This will get the top x events from the sensor where x is the number passed to the op.
-          sb.append( line + "\n")
+          sb.append(line + "\n")
       }
     }
 
@@ -193,12 +208,12 @@ class Window() extends NFNService {
 
       //For TS
       /*
-      Added by Johannes
-      */
+    Added by Johannes
+    */
       val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition), delimiter)
       /*
-      End Edit
-       */
+    End Edit
+     */
       if ((lbdate.isBefore(timeStamp) || lbdate.equals(timeStamp)) && (ubdate.isAfter(timeStamp) || ubdate.equals(timeStamp))) {
         //output = output + valuePart.toString + ","
         sb.append(line.toString() + "\n")
@@ -258,5 +273,6 @@ class Window() extends NFNService {
   def handleFileNotFoundException(fileNotFoundException: FileNotFoundException, nodeName: String): Unit = {
     LogMessage(nodeName, fileNotFoundException.toString)
   }
+
 }
 

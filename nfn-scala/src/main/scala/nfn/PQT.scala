@@ -3,6 +3,7 @@ package nfn
 import akka.actor.{ActorContext, ActorRef}
 import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
+import scala.collection.mutable.Set
 
 import scala.collection.mutable
 import scala.concurrent.duration.FiniteDuration

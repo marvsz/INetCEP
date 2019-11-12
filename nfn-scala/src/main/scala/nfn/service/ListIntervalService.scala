@@ -3,7 +3,9 @@ package nfn.service
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import scala.io.Source
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 
 class ListIntervalService() extends  NFNService {
 
@@ -11,7 +13,7 @@ class ListIntervalService() extends  NFNService {
 
   override def pinned = true
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     args match {
      case Seq(start: NFNIntValue, end: NFNIntValue) => {
 
@@ -25,7 +27,7 @@ class ListIntervalService() extends  NFNService {
         //return NFNStringValue(point.head.toString)
 
         val string : String = point.foldLeft("_") (_ + "\n" + _.toString)
-        return NFNStringValue(string)
+        NFNStringValue(string)
       }
     }
   }

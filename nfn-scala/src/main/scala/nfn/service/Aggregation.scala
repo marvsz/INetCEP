@@ -6,7 +6,9 @@ package nfn.service
 
 import akka.actor.ActorRef
 import nfn.tools.Helpers
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import scala.io.Source
 
 //Added for contentfetch
@@ -88,7 +90,7 @@ class Aggregation() extends NFNService {
     }
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
 
 

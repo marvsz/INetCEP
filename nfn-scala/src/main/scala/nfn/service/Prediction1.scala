@@ -5,7 +5,9 @@ package nfn.service
   */
 
 import java.time.format.DateTimeFormatter
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import nfn.tools.{Helpers, SensorHelpers}
 
 //Added for contentfetch
@@ -25,7 +27,7 @@ class Prediction1() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
     LogMessage(nodeName, "started Function")

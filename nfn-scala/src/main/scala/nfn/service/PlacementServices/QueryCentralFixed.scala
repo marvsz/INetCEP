@@ -1,8 +1,8 @@
-package nfn.service.Placement
+package nfn.service.PlacementServices
 
 /**
   * Created by Ali on 06.02.18.
-  * This is the centralized query placement while using the fetch based network discovery approach
+  * This is used to make a fixed weight centralized query
   */
 import java.io._
 import java.text.SimpleDateFormat
@@ -29,9 +29,9 @@ import config.StaticConfig
 //Added for CCN Command Execution:
 import scala.sys.process._
 
-class QueryCentralRemNS() extends NFNService {
+class QueryCentralFixed() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+    override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
 
     val sacepicnEnv = StaticConfig.systemPath
     //ClientID: Client who requested the query
@@ -220,20 +220,20 @@ class QueryCentralRemNS() extends NFNService {
               case Operator.HEATMAP => name.replace("[Q]",currentNode.left._value)
               case _ => name
             }
-            currentNode._query = query
-
-            val mapping = new NodeMapping();
+            currentNode._query = query;
             LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: ${query}")
             //currentNode._value = new String(fetchContentRepeatedly(NFNInterest(s"${currentNode._query}"), ccnApi, 30 seconds).get.data);
             //currentNode._value = executeNFNQuery(currentNode._query)
 
             //Determine the location (name) where this query wwriteOutputFilesill be executed:
             var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6 , currentNode._query.indexOf("nfn_service") - 1);
-            var intermediateResult = executeNFNQuery(currentNode._query, remoteNodeName)
 
-
+            //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
+            //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
+            // var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
+            //currentNode._value = intermediateResult;
+            val intermediateResult = executeNFNQuery(currentNode._query, remoteNodeName)
             currentNode._value = intermediateResult
-            //currentNode._value = "TemporaryDeploymentValue";
 
             LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
             currentNode._Vprocessed = true;
@@ -264,13 +264,7 @@ class QueryCentralRemNS() extends NFNService {
         output += "No Results!"
 
       LogMessage(nodeName, s"Query Execution Completed");
-      LogMessage(nodeName, s"Getting Result");
-      val nodeAddress = output.split("/")(1)
-      val nodeName1 = mapping.getName(nodeAddress)
-      var result = executeNFNQuery(s"call 2 /node/${nodeName1}/nfn_service_GetContent '${output}')",
-        nodeName1)
-      LogMessage(nodeName, s"Result Fetched")
-      LogMessage(s"QueryResult",result)
+
       //Generate Output:
       var timeOffset = Calendar.getInstance().getTimeInMillis() - timeNow
       //Format: runID, Time, ResponseTime, OpTreeTime, NodeDiscoveryTime, Placement_DeploymentTime, Path, CumulativePathEnergy, CumulativePathOverhead (BDP):
@@ -312,11 +306,10 @@ class QueryCentralRemNS() extends NFNService {
           //var intermediateResult = new String(fetchContentRepeatedly(NFNInterest(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')"), ccnApi, 10 seconds).get.data)
 
           //var intermediateResult = executeNFNQuery(s"call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')")
-          var mapping = new NodeMapping()
-          var intermediateResult = executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",nodeSplit(0))
+          var intermediateResult = executeNFNQuery(s"(call 2 /node/${nodeSplit(0)}/nfn_service_GetContent '${name}')",
+            nodeSplit(0))
+          LogMessage(nodeName, s"node: ${name}, intermediateResult: ${intermediateResult}")
 
-          //var intermediateResult = executeInterestQuery(CCNName(new String(name).split("/").tail: _*))
-          LogMessage(nodeName, s"Node Staus intermediateResult: "+intermediateResult)
           if (intermediateResult != "") {
             var ni = new NodeInfo(intermediateResult);
             LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
@@ -326,7 +319,6 @@ class QueryCentralRemNS() extends NFNService {
       bufferedSource.close
 
       LogMessage(nodeName, s"Get Node Status Completed")
-
       return allNodes
     }
 
@@ -421,46 +413,54 @@ class QueryCentralRemNS() extends NFNService {
                 //Link cost = (Energy * Energy Weight) + (BDP * BDP Weight)
                 //Adaptive Hop Weight assignment. Vary the adaptive Weights for all hops based on each hop change in Energy and BDP values.
                 //Here, we initially start with 0.5,0.5 for both energy and bdp. We use Additive Increase, Additive Decrease to change the weights based on network conditions.
-                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
-                  //Use standard 0.5,0.5
-                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
-                  previousBDPWeight = bdpWeight
-                  previousEnergyWeight = energyWeight
+                //                if(previousBDPWeight == 0.0 && previousEnergyWeight == 0.0) {
+                //                  //Use standard 0.5,0.5
+                //                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
+                //                  previousBDPWeight = bdpWeight
+                //                  previousEnergyWeight = energyWeight
+                //
+                //                  lastHopBDP = current.hopLatency
+                //                  lastHopEnergy = nodePower.head.NI_Battery
+                //                  //By this time, we have the values of the weights and the hop metrics
+                //                }
+                //                else{
+                //                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
+                //                  //we will increase or decrease a weight metric:
+                //                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
+                //                    //Additive increase on energy and additive decrease on bdp:
+                //                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
+                //                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
+                //                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                //                    }
+                //                  }
+                //                  //else check the other way around - if bdp is more than the last hop and energy is less.
+                //                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
+                //                    //Additive increase on energy and additive decrease on bdp:
+                //                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
+                //                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
+                //                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
+                //                    }
+                //                  }
+                //
+                //                  //In all other cases, we will not vary these weights since they have to move up or down together.
+                //                  //Now we can assign the new hop BDP based on the new weights:
+                //                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
+                //
+                //                  //Set the metrics for this hop so that it can be used in the next hop:
+                //                  lastHopBDP = current.hopLatency
+                //                  lastHopEnergy = nodePower.head.NI_Battery
+                //                }
 
-                  lastHopBDP = current.hopLatency
-                  lastHopEnergy = nodePower.head.NI_Battery
-                  //By this time, we have the values of the weights and the hop metrics
-                }
-                else{
-                  //This signifies that this is not the first hop in the path and now we should look at the previous hop values to determine whether
-                  //we will increase or decrease a weight metric:
-                  if(nodePower.head.NI_Battery >= lastHopEnergy && current.hopLatency <= lastHopBDP){
-                    //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight < 1.00 && previousBDPWeight > 0.00) {
-                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight + 0.1, 2)
-                      previousBDPWeight = FormattedOutput.round(previousBDPWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-                    }
-                  }
-                  //else check the other way around - if bdp is more than the last hop and energy is less.
-                  else  if(nodePower.head.NI_Battery <= lastHopEnergy && current.hopLatency >= lastHopBDP){
-                    //Additive increase on energy and additive decrease on bdp:
-                    if(previousEnergyWeight > 0.00 && previousBDPWeight < 1.00) {
-                      previousEnergyWeight = FormattedOutput.round(previousEnergyWeight - 0.1, 2) //Multiplicative Decrease: /2 | Additive Decrease: - 0.1
-                      previousBDPWeight = FormattedOutput.round(previousBDPWeight + 0.1, 2)
-                    }
-                  }
+                hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * energyWeight) + (current.hopLatency * bdpWeight)), 2)
+                previousBDPWeight = bdpWeight
+                previousEnergyWeight = energyWeight
 
-                  //In all other cases, we will not vary these weights since they have to move up or down together.
-                  //Now we can assign the new hop BDP based on the new weights:
-                  hopBDP = FormattedOutput.round(((nodePower.head.NI_Battery * previousEnergyWeight) + (current.hopLatency * previousBDPWeight)), 2)
+                lastHopBDP = current.hopLatency
+                lastHopEnergy = nodePower.head.NI_Battery
 
-                  //Set the metrics for this hop so that it can be used in the next hop:
-                  lastHopBDP = current.hopLatency
-                  lastHopEnergy = nodePower.head.NI_Battery
-                }
                 //Adding hop link cost in the overall path cost:
                 hopWeights_Energy += s"${current.hopName}" -> s"${previousEnergyWeight.toString()}"
-                hopWeights_BDP+= s"${current.hopName}" -> s"${previousBDPWeight.toString()}"
+                hopWeights_BDP += s"${current.hopName}" -> s"${previousBDPWeight.toString()}"
 
                 cumulativePathEnergy += lastHopEnergy
                 cumulativePathBDP += lastHopBDP
@@ -577,27 +577,28 @@ class QueryCentralRemNS() extends NFNService {
         ccnApi,
         60 seconds).get.data)
     }
-    def executeNFNQuery(query: String, nodeName: String): String = {
+      def executeNFNQuery(query: String, nodeName: String): String = {
 
-      LogMessage(nodeName,s"execute NFN query ${query} called with ${nodeName}")
-      var result =  new String(fetchContentRepeatedly(
-        NFNInterest(query),
-        ccnApi,
-        60 seconds).get.data)
-      LogMessage(nodeName, s"Query Result from network node: ${result}");
+        LogMessage(nodeName,s"execute NFN query called with ${nodeName}")
+        var result =  new String(fetchContentRepeatedly(
+          NFNInterest(query),
+          ccnApi,
+          60 seconds).get.data)
+        LogMessage(nodeName, s"Query Result from network node: ${result}");
 
-      if(result.contains("timeout") || result.contains("interest") || result == "")
-        result = "No Result!"
-      return result
-    }
+        if(result.contains("timeout") || result.contains("interest") || result == "")
+          result = "No Result!"
+        return result
+      }
 
-    def execcmd(cmd1: String, cmd2:String): String = {
+
+      def execcmd(cmd1: String, cmd2:String): String = {
       val result = Seq("/bin/sh", "-c", s"${cmd1} | ${cmd2}").!!
       return result
     }
 
     def save_to_QueryStore(runID: String, sourceOfQuery:String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
-      //Source is not QueryStore and Decentral
+      //Source is not QueryStore and DecentralizeQuery
       if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
         var filename = s"$sacepicnEnv/nodeData/queryStore";
         val file = new File(filename)
@@ -624,7 +625,6 @@ class QueryCentralRemNS() extends NFNService {
     }
 
     def writeOutputFiles(runAnalysis: String, weightVariance: String) = {
-
       var queryOutput = s"$sacepicnEnv/nodeData/queryOutput";
       var queryWeightVariance = s"$sacepicnEnv/nodeData/queryWeightVariance";
       val file1 = new File(queryOutput)

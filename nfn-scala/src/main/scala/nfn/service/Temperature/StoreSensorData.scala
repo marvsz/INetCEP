@@ -1,19 +1,18 @@
 package nfn.service.Temperature
 
-import java.io.{FileWriter, File}
+import java.io.FileWriter
 
 import akka.actor.ActorRef
-import akka.util.Timeout
-import ccn.packet.{NFNInterest, Interest, Content, CCNName}
+import ccn.packet.{CCNName, Content, NFNInterest}
 import lambdacalculus.parser.ast.{Call, Constant, Str}
-import nfn.NFNApi
 import nfn.service._
 import nfn.tools.Networking.fetchContent
-import scala.concurrent.duration._
-import nfn.tools.Helpers._
-import scala.language.postfixOps
 
-import scala.reflect.io.Path
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.duration._
+import scala.language.postfixOps
 
 /**
  * Created by blacksheeep on 16/11/15.
@@ -22,7 +21,6 @@ class StoreSensorData extends NFNService   {
 
 
 
-  import lambdacalculus.parser.ast.LambdaDSL._
   import nfn.LambdaNFNImplicits._
   implicit val useThunks: Boolean = false
 
@@ -51,7 +49,7 @@ class StoreSensorData extends NFNService   {
     try pw.append(s) finally pw.close()
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     (args.head, args.tail.head, args.tail.tail.head) match {
       case (sensorname: NFNStringValue, sensortyp: NFNStringValue, datapoint: NFNIntValue) => {

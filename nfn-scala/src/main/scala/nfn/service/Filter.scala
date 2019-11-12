@@ -8,18 +8,20 @@ import akka.actor.ActorRef
 import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
 
 import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
 
 //Added for contentfetch
 import ccn.packet._
 import config.StaticConfig
 
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.language.postfixOps
 
 class Filter() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     var nodeInfo = interestName.cmps.mkString(" ")
     var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 

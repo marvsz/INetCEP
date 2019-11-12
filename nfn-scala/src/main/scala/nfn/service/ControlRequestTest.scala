@@ -4,10 +4,12 @@ import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
 
-import scala.concurrent.duration._
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ControlRequestTest() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     if (args.length != 1) {
       throw NFNServiceArgumentException(s"$ccnName takes a single string argument.")

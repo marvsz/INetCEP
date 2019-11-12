@@ -1,4 +1,4 @@
-package nfn.service.Placement
+package nfn.service.PlacementServices
 
 import java.text.SimpleDateFormat
 

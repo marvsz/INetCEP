@@ -1,15 +1,10 @@
-package nfn.service.Placement
-
-import java.util.Calendar
+package nfn.service.PlacementServices
 
 import SACEPICN.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
-import myutil.FormattedOutput
-import nfn.service.LogMessage
 import nfn.tools.EvaluationHandler
 
-import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ListBuffer
 
 class DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends Placement{
   override val nodeName: String = _nodeName
@@ -20,7 +15,7 @@ class DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: A
   override val maxPath: Int = _maxPath
   override val evalHandler: EvaluationHandler = _evalHandler
   override val opCount:Int = _opCount
-
+/*
   var selectedPathDecentral = ""
   var selectedPathEnergyVariance = new mutable.HashMap[String, String]()
   var selectedPathOverheadVariance = new mutable.HashMap[String, String]()
@@ -78,6 +73,7 @@ class DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: A
   var placementRoot = processPlacementTree(root._root, selectedPath.pathNodes.reverse.toBuffer[String])
   LogMessage(nodeName, s"Operator Placement Completed")
 
-  LogMessage(nodeName, s"Query Deployement Started")
+  LogMessage(nodeName, s"Query Deployement Started")*/
 
+  override def process(): String = ???
 }

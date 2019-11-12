@@ -3,34 +3,24 @@ package nfn.service
 /**
   * Created by Ali on 06.02.18.
   */
-import nfn.NFNApi
-import nfn.service._
-import nfn.tools.Networking._
-
 import akka.actor.ActorRef
+
 import scala.io.Source
-import scala.util.control._
-import scala.collection.mutable
-import scala.List
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.immutable.Vector
-import scala.util.control.Exception._
 
 //Added for contentfetch
-import lambdacalculus.parser.ast.{Constant, Str}
-import scala.concurrent.duration._
-import scala.language.postfixOps
-import java.util.Calendar
-import java.time
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest, Interest}
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
+
+import ccn.packet.CCNName
 import config.StaticConfig
+
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.language.postfixOps
 
 class GetData() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue= {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue]= Future{
 
     val sacepicnEnv = StaticConfig.systemPath
 

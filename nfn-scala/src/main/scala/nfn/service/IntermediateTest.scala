@@ -1,14 +1,16 @@
 package nfn.service
 
 import akka.actor.ActorRef
-import ccn.packet.{CCNName, NFNInterest}
+import ccn.packet.CCNName
 import nfn.tools.Networking._
 
-import scala.concurrent.duration._
+import scala.collection.mutable.Seq
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.language.postfixOps
 
 class IntermediateTest() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     for ( i <- 0 to 10) {
       if (!Thread.currentThread().isInterrupted) {

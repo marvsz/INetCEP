@@ -3,14 +3,16 @@ package nfn.service
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
 
 class SensorDataProcessingService() extends  NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
     //return NFNStringValue(args.tail.head.getClass.toString)
     args match {
 

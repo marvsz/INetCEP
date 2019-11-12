@@ -1,4 +1,4 @@
-package nfn.service.Placement
+package nfn.service.PlacementServices
 
 /**
   * Created by Ali on 06.02.18.

@@ -8,12 +8,14 @@ import nfn.tools.Networking._
 
 //Added for contentfetch
 import ccn.packet.{CCNName, ConstantInterest}
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class GetContent() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     def getValue(name: String): String = {
       val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail.toIndexedSeq: _*)

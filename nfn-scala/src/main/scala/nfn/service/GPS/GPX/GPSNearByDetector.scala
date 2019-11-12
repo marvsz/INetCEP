@@ -5,7 +5,9 @@ import ccn.packet.{CCNName, Interest}
 import nfn.service.GPS.GPX.helpers._
 import nfn.service._
 import nfn.tools.Networking._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
 /**
@@ -14,7 +16,7 @@ import scala.language.postfixOps
 class GPSNearByDetector extends  NFNService {
 
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
     args match {
       case Seq(s1: NFNStringValue, s2: NFNStringValue, refpoint : NFNIntValue, dist: NFNIntValue, maxval : NFNIntValue, firstStreamTimeOffset: NFNIntValue ,secondStreamTimeOffset: NFNIntValue) => {
         val s1name = s1.str.split('/').toList

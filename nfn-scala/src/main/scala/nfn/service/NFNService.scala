@@ -13,10 +13,9 @@ import com.typesafe.scalalogging.LazyLogging
 import config.StaticConfig
 import lambdacalculus.parser.ast._
 import nfn.NFNApi
-import nfn.tools.Networking._
+import scala.collection.mutable.Seq
 
 import scala.concurrent._
-import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.util.{Failure, Success, Try}
 
@@ -105,7 +104,7 @@ object NFNService extends LazyLogging {
               for {
                 args <- futArgs
                 serv <- futServ
-                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args, ccnServer, serv.executionTimeEstimate)
+                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args.to(scala.collection.mutable.Seq), ccnServer, serv.executionTimeEstimate)
               } yield callable
 
             futCallableServ onComplete {
@@ -189,22 +188,23 @@ trait NFNService {
 
   def executionTimeEstimate: Option[Int] = None
 
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue
+  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue]
 
   // Edited by Johannes in order to automatically resolve a Redirect
-  def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
+  /*def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
     assert(name == ccnName, s"Service $ccnName is created with wrong name $name")
     Try(CallableNFNService(interestName, name, values, ccnServer, (interestName, args, ccnApi) => function(interestName, args.map(s => s match {
       case c: NFNContentObjectValue => NFNContentObjectValue(c.name, resolveRedirect(c.data, ccnApi, 30 seconds).get)
       case v: NFNValue => v
     }), ccnApi), executionTimeEstimate = executionTimeEstimate))
-  }
+  }*/
 
-  /*
+
   def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
     assert(name == ccnName, s"Service $ccnName is created with wrong name $name")
     Try(CallableNFNService(interestName, name, values, ccnServer, (interestName, args, ccnApi) => function(interestName, args, ccnApi), executionTimeEstimate = executionTimeEstimate))
-  }*/
+  }
+
   // End Edit
   //  def instantiateCallable(name: NFNName, futValues: Seq[Future[NFNServiceValue]], ccnWorker: ActorRef): Future[CallableNFNService]
 
@@ -238,13 +238,13 @@ case class NFNServiceExecutionException(msg: String) extends ServiceException(ms
 
 case class NFNServiceArgumentException(msg: String) extends ServiceException(msg)
 
-case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], ActorRef) => NFNValue, executionTimeEstimate: Option[Int]) extends LazyLogging
+case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], ActorRef) => Future[NFNValue], executionTimeEstimate: Option[Int]) extends LazyLogging
 {
 
-  def exec: NFNValue = function(interestName, values, nfnMaster)
+  def exec: Future[NFNValue] = function(interestName, values, nfnMaster)
 
   // Added by Johannes
-  def execWithArgs(additionalArgs: Seq[NFNValue]): NFNValue = function(interestName, values, nfnMaster, additionalArgs)
+  def execWithArgs(additionalArgs: Seq[NFNValue]): Future[NFNValue] = function(interestName, values++additionalArgs, nfnMaster)
 }
 
 abstract class NFNDynamicService() extends NFNService {

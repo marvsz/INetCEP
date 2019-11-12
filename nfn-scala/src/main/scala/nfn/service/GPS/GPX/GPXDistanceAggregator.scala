@@ -3,7 +3,9 @@ package nfn.service.GPS.GPX
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 import nfn.service.GPS.GPX.helpers.GPXInterestHandler.fetchGPXDistanceComputer
 
 
@@ -24,7 +26,7 @@ class GPXDistanceAggregator extends NFNService {
 
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
     args match{
       case Seq(NFNStringValue(name), NFNIntValue(n)) => {
 

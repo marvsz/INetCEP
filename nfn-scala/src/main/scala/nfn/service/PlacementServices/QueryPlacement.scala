@@ -1,4 +1,4 @@
-package nfn.service.Placement
+package nfn.service.PlacementServices
 
 /**
  * Created by Ali on 06.02.18.
@@ -11,8 +11,10 @@ import myutil.FormattedOutput
 import nfn.service._
 import nfn.tools._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.annotation.tailrec
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ListBuffer, Seq}
+import scala.concurrent.Future
 import scala.io.Source
 import scala.jdk.CollectionConverters._
 import scala.language.postfixOps
@@ -26,7 +28,7 @@ import ccn.packet.CCNName
 
 class QueryPlacement() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
 
     //Algorithm: Centralized or Decentralized

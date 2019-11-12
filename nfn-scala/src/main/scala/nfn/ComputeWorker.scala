@@ -6,12 +6,16 @@ import akka.pattern.ask
 import ccn.ccnlite.CCNLiteInterfaceCli
 import ccn.packet.{CCNName, Content, MetaInfo}
 import config.StaticConfig
-import nfn.service._
-import scala.language.postfixOps
 
-import scala.concurrent.duration._
+import scala.collection.mutable.{Map, Seq}
+import nfn.service._
+
+import scala.collection.mutable
 import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
+import scala.concurrent.duration._
 import scala.util.{Failure, Success}
+
 
 object ComputeWorker {
   case class Callable(callable: CallableNFNService)
@@ -87,10 +91,17 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
     futCallable foreach { callable =>
       val cancellable = KlangCancellableFuture {
         try {
-          val resultValue: NFNValue = callable.execWithArgs(additionalArgs)
+          val resultValue: NFNValue = Await.result(callable.execWithArgs(additionalArgs),1 seconds)
           val futResultData = resultDataOrRedirect(resultValue.toDataRepresentation, name, ccnServer)
           val resultData = Await.result(futResultData, 1 seconds)
           Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)
+          /*callable.execWithArgs(additionalArgs).onComplete{
+            case Success(resVal) =>
+              resultDataOrRedirect(resVal.toDataRepresentation, name, ccnServer).onComplete{
+                case Success(resultData) =>
+                  Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)
+              }
+          }*/
         } catch {
           case e: Exception =>
             println(s"Catched exception: $e")
@@ -116,10 +127,17 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
     futCallable foreach { callable =>
       val cancellable = KlangCancellableFuture {
         try {
-          val resultValue: NFNValue = callable.exec
+          val resultValue: NFNValue = Await.result(callable.exec,1 seconds)
           val futResultData = resultDataOrRedirect(resultValue.toDataRepresentation, name, ccnServer)
           val resultData = Await.result(futResultData, 1 seconds)
           Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)
+          /*callable.exec.onComplete{
+            case Success(resVal) =>
+              resultDataOrRedirect(resVal.toDataRepresentation, name, ccnServer).onComplete{
+              case Success(resultData) =>
+                Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)
+              }
+          }*/
         } catch {
           case e: Exception =>
             println(s"Catched exception: $e")
@@ -190,7 +208,7 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
     }
 
       //Added by Johannes
-    case msg @ ComputeServer.ComputeDataStream(name,additionalArguments)=>{
+    case msg @ ComputeServer.ComputeDataStream(name,additionalArguments:mutable.Seq[NFNValue])=>{
       val senderCopy = sender
       maybeFutCallable match {
         case Some(futCallable) => {

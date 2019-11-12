@@ -4,7 +4,9 @@ package nfn.service
   */
 import akka.actor.ActorRef
 import nfn.NFNApi
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 //Added for contentfetch
 import java.util.Calendar
 
@@ -14,7 +16,7 @@ import scala.language.postfixOps
 
 
 class UpdateNodeState() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     //Very important to remember: Content stored here through NFN Calls is ONLY available to this node.
     def updateNodeState(nodeID: String, content: String, timeOfUpdate: String): String = {

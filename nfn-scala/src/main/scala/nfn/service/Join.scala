@@ -8,7 +8,9 @@ import akka.actor.ActorRef
 import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
 
 import scala.collection.mutable.ArrayBuffer
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.mutable.Seq
+import scala.concurrent.Future
 //Added for contentfetch
 import ccn.packet.CCNName
 
@@ -20,7 +22,7 @@ import config.StaticConfig
 class Join() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
