@@ -2,7 +2,6 @@ package nfn.service
 
 import nfn.tools.{Helpers, SensorHelpers}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 //Added for contentfetch
 import akka.actor.ActorRef

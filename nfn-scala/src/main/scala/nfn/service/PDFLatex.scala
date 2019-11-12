@@ -7,7 +7,6 @@ import ccn.packet.CCNName
 import myutil.IOHelper
 import myutil.systemcomandexecutor._
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

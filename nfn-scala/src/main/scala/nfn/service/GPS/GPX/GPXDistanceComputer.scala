@@ -7,7 +7,6 @@ import nfn.service.GPS.GPX.helpers.GPXPointHandler.parseGPXPoint
 import nfn.service.GPS.GPX.helpers.GPXInterestHandler.fetchRawGPXPoint
 import helpers.GPXPointHandler
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 /**
  * Created by Claudio Marxer <marxer@claudio.li>

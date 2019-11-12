@@ -8,7 +8,6 @@ import lambdacalculus.parser.ast.{Call, Constant, Str}
 import nfn.service._
 import nfn.tools.Networking.fetchContent
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration._

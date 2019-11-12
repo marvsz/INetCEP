@@ -8,7 +8,8 @@ import nfn.tools._
 
 import scala.annotation.tailrec
 import scala.language.postfixOps
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 //Added for contentfetch
 import java.util.Calendar
 
@@ -18,7 +19,7 @@ import nfn.service._
 //Place the query on a single node!
 class CentralizedPlacement() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     def processQuery(algorithm: String, processing: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String): String = {
       //Run output creation:
       var runTime = s"${new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(Calendar.getInstance.getTime)}"

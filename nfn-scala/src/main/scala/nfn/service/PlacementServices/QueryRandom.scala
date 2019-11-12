@@ -11,7 +11,8 @@ import SACEPICN.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
 import nfn.tools.Networking._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -32,7 +33,7 @@ import scala.sys.process._
 
 class QueryRandom() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     val sacepicnEnv = StaticConfig.systemPath
     //ClientID: Client who requested the query

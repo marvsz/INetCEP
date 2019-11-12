@@ -6,7 +6,6 @@ import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
 import nfn.service.GPS.GPX.helpers.GPXPointHandler._
 import nfn.service.GPS.GPX.helpers.GPXInterestHandler.fetchRawGPXPoint
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 /**
  * Created by blacksheeep on 22/10/15.

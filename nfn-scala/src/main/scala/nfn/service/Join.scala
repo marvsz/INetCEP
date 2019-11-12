@@ -9,7 +9,6 @@ import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 //Added for contentfetch
 import ccn.packet.CCNName

@@ -3,7 +3,6 @@ package nfn.service.NBody
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 import akka.actor.ActorRef
 import ccn.packet.CCNName

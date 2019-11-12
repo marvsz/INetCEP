@@ -4,7 +4,8 @@ import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
 import orgOpenmhealth.helpers.Helpers._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 /**
   * Created by Claudio Marxer <claudio.marxer@unibas.ch> on 3/21/16.
   */
@@ -18,7 +19,7 @@ class SimpleToJSON extends NFNService {
     s"""{"lat":${lat},"lng":${lng}"""
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     /*
      *

@@ -14,7 +14,6 @@ import nfn.service._
 import config.StaticConfig
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 
 class SetData() extends NFNService {

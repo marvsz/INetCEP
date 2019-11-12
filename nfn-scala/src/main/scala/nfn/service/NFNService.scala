@@ -13,7 +13,6 @@ import com.typesafe.scalalogging.LazyLogging
 import config.StaticConfig
 import lambdacalculus.parser.ast._
 import nfn.NFNApi
-import scala.collection.mutable.Seq
 
 import scala.concurrent._
 import scala.language.postfixOps
@@ -104,7 +103,7 @@ object NFNService extends LazyLogging {
               for {
                 args <- futArgs
                 serv <- futServ
-                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args.to(scala.collection.mutable.Seq), ccnServer, serv.executionTimeEstimate)
+                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args, ccnServer, serv.executionTimeEstimate)
               } yield callable
 
             futCallableServ onComplete {

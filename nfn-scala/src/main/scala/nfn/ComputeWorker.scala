@@ -7,7 +7,7 @@ import ccn.ccnlite.CCNLiteInterfaceCli
 import ccn.packet.{CCNName, Content, MetaInfo}
 import config.StaticConfig
 
-import scala.collection.mutable.{Map, Seq}
+import scala.collection.mutable.{Map}
 import nfn.service._
 
 import scala.collection.mutable

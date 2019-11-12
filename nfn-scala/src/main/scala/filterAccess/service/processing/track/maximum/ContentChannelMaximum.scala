@@ -9,6 +9,8 @@ import scala.concurrent.duration._
 import filterAccess.tools.Exceptions.noReturnException
 import filterAccess.crypto.Encryption._
 import filterAccess.crypto.Helpers.{computeHash, symKeyGenerator}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * Created by Claudio Marxer <marxer@claudio.li>
@@ -74,7 +76,7 @@ class ContentChannelMaximum extends Maximum {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(extRDN1), NFNStringValue(extRDN2)) => {

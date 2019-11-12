@@ -6,7 +6,6 @@ package nfn.service
 
 import java.time.format.DateTimeFormatter
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 import nfn.tools.{Helpers, SensorHelpers}
 

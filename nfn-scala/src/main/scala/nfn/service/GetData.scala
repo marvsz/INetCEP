@@ -13,7 +13,6 @@ import java.nio.file.{Files, Paths}
 import ccn.packet.CCNName
 import config.StaticConfig
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps

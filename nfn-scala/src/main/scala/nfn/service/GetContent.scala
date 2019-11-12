@@ -9,7 +9,6 @@ import nfn.tools.Networking._
 //Added for contentfetch
 import ccn.packet.{CCNName, ConstantInterest}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps

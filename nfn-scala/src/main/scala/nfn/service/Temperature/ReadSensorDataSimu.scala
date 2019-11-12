@@ -4,7 +4,6 @@ import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

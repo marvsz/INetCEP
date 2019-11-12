@@ -4,7 +4,6 @@ import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.tools.Networking._
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps

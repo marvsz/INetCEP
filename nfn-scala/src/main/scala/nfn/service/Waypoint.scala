@@ -4,7 +4,6 @@ import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking.{fetchRequestsToComputation, intermediateResult}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 class Waypoint() extends NFNService {
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {

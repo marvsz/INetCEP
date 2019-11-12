@@ -18,7 +18,6 @@ import java.time.format.DateTimeFormatter
 import ccn.packet._
 import config.StaticConfig
 import myutil.FormattedOutput
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.language.postfixOps
 

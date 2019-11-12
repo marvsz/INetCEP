@@ -5,7 +5,6 @@ package nfn.service
 import akka.actor.ActorRef
 import nfn.NFNApi
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 //Added for contentfetch
 import java.util.Calendar

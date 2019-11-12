@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, MetaInfo}
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
@@ -24,7 +23,7 @@ class MapService() extends NFNService {
         val values = arguments.map({ arg =>
           Await.result(service.instantiateCallable(interestName, service.ccnName, Seq(arg), ccnApi, None).get.exec, 1 seconds)
         })
-        NFNStringValue(MapReduceService.seqToString(values.to(collection.mutable.Seq)))
+        NFNStringValue(MapReduceService.seqToString(values))
       }
       case _ =>
         throw new NFNServiceArgumentException(s"A Map service must match Seq(NFNServiceValue, NFNValue*), but it was: $args ")

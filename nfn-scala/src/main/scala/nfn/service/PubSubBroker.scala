@@ -6,7 +6,6 @@ import nfn.tools.Networking._
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 
 class PubSubBroker() extends NFNService {

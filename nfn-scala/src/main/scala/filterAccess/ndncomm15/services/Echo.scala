@@ -9,7 +9,8 @@ import ccn.packet.{CCNName, Content, Interest}
 import nfn.NFNApi
 import nfn.service._
 import nfn.tools.IOHelpers._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.concurrent.{Await, Future}
 import scala.io.Source
 
@@ -17,7 +18,7 @@ class Echo extends NFNService{
 
   val access_control_file = "ac.txt"
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val data = args.head
     val id = args.tail.head
 

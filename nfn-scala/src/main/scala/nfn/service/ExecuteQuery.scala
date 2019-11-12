@@ -6,7 +6,6 @@ package nfn.service
 import akka.actor.ActorRef
 import nfn.tools.Networking._
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

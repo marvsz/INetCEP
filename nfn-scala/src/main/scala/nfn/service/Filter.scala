@@ -13,7 +13,6 @@ import scala.collection.mutable.ArrayBuffer
 import ccn.packet._
 import config.StaticConfig
 
-import scala.collection.mutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps

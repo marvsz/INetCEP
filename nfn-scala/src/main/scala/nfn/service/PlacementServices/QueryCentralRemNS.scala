@@ -19,7 +19,8 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 import scala.io.Source
 import scala.language.postfixOps
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 //Added for contentfetch
 import java.util.Calendar
 
@@ -31,7 +32,7 @@ import scala.sys.process._
 
 class QueryCentralRemNS() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     val sacepicnEnv = StaticConfig.systemPath
     //ClientID: Client who requested the query

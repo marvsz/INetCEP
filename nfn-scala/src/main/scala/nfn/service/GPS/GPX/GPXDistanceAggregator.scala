@@ -4,7 +4,6 @@ import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 import nfn.service.GPS.GPX.helpers.GPXInterestHandler.fetchGPXDistanceComputer
 

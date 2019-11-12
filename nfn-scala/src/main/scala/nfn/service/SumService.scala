@@ -3,7 +3,6 @@ package nfn.service
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 /**
  * Simple service which takes a sequence of [[NFNIntValue]] and sums them to a single [[NFNIntValue]]

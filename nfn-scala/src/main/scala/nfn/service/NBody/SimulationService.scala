@@ -5,7 +5,6 @@ import ccn.packet.CCNName
 import nfn.service.{NFNStringValue, _}
 import nfn.tools.Networking._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 
 class SimulationService extends NFNService {

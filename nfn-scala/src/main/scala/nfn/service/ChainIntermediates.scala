@@ -6,7 +6,6 @@ import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.tools.Networking._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 import scala.concurrent.duration._
 

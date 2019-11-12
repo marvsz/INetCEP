@@ -4,7 +4,6 @@ import akka.actor.ActorRef
 import ccn.packet.CCNName
 import scala.io.Source
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.collection.mutable.Seq
 import scala.concurrent.Future
 
 class ListIntervalService() extends  NFNService {

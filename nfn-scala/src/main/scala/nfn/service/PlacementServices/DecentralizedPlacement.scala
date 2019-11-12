@@ -3,7 +3,8 @@ package nfn.service.PlacementServices
 import SACEPICN.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
 import nfn.tools.EvaluationHandler
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.collection.mutable.ListBuffer
 
 class DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends Placement{
