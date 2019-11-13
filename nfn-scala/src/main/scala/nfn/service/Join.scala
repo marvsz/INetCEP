@@ -36,7 +36,7 @@ class Join() extends NFNService {
         output = joinStreamsOn(intermediateResultLeft, left, intermediateResultRight, right, joinOn, conditions, joinType)
       }
       if (outputFormat == "name") {
-        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "JOIN", "onOperators", ccnApi)
       }
       else {
         LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")

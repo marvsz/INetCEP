@@ -7,7 +7,8 @@ import akka.actor.ActorRef
 import nfn.tools.Networking._
 
 //Added for contentfetch
-import ccn.packet.{CCNName, ConstantInterest}
+import ccn.packet.{CCNName, Interest}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -21,8 +22,8 @@ class GetContent() extends NFNService {
       val nameOfContentWithPrefix = CCNName(new String(name).split("/").toIndexedSeq: _*)
       var intermediateResult = ""
       try{
-        //intermediateResult = new String(fetchContent(Interest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
-        intermediateResult = new String(fetchContent(ConstantInterest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
+        intermediateResult = new String(fetchContent(Interest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
+        //intermediateResult = new String(fetchContent(ConstantInterest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
       }
       catch {
         case e : NoSuchElementException => intermediateResult = "Timeout"

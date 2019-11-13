@@ -47,7 +47,7 @@ class Aggregation() extends NFNService {
     //If return type = data -> send the actual data back.
     //If return type = name -> send the named interest back. Which can be used by other operators to get the cached content.
     if (deliveryFormat.toLowerCase == "name") {
-      output = Helpers.storeOutput(nodeName, output, "AGGREGATION", "onSensor", ccnApi)
+      output = Helpers.storeOutputLocally(nodeName, output, "AGGREGATION", "onSensor", ccnApi)
     }
     else {
       LogMessage(nodeName, s"Inside Aggregation -> Aggregation name: NONE, Aggregation content: $output")

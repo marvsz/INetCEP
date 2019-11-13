@@ -7,14 +7,15 @@ package nfn.service
 import java.io.FileNotFoundException
 
 import akka.actor.ActorRef
-import nfn.tools.{Helpers, SensorHelpers}
+import nfn.tools.{Helpers, Networking, SensorHelpers}
 
 import scala.concurrent.Future
 import scala.io.{BufferedSource, Source}
 //Added for contentfetch
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-
+import scala.concurrent.duration._
+import scala.language.postfixOps
 import ccn.packet._
 import config.StaticConfig
 import myutil.FormattedOutput
@@ -46,7 +47,7 @@ class Window() extends NFNService {
         return NFNStringValue(output)
       }
       else if (deliveryFormat.str.toLowerCase == "name") {
-        val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
+        val name = Helpers.storeOutputLocally(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
         LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
@@ -63,7 +64,7 @@ class Window() extends NFNService {
         NFNStringValue(output)
       }
       else if (deliveryFormat.str.toLowerCase == "name") {
-        val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
+        val name = Helpers.storeOutputLocally(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
         LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
@@ -80,15 +81,35 @@ class Window() extends NFNService {
         NFNStringValue(output)
       }
       else if (deliveryFormat.str.toLowerCase == "name") {
-        val name = Helpers.storeOutput(nodeName, output, "Window", sensor.str, ccnApi)
+        val name = Helpers.storeOutputLocally(nodeName, output, "Window", sensor.str, ccnApi)
         LogMessage(nodeName, s"Inside Window -> WINDOW name: ${name}, WINDOW content: ${output}")
         LogMessage(nodeName, s"Window OP Completed")
         contentWindow = NFNStringValue(name.toString)
       }
       contentWindow
     }
+
+    def processSlidingWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNIntValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
+      LogMessage(nodeName,s"Started Sliding Window Computation, dataStream is $dataStream")
+      var stateContent = ""
+      val setting = sensor.str.split("/")(3).concat("/").concat(timerPeriod.i.toString).concat(timeUnit.str)
+      val nameOfState = s"/state/Window/$setting"
+      val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
+      if(stateOptional.isDefined) {
+        LogMessage(nodeName, "Found State Content")
+        stateContent = new String(stateOptional.get.data)
+      }
+      else
+        LogMessage(nodeName,"State Content was empty")
+      val returnValue = slideWindow(stateContent,dataStream.str,timerPeriod.i.toString.toLong,timeUnit.str)
+      LogMessage(nodeName,s"Window Content is $returnValue")
+      val storage = Helpers.storeState(nodeName,returnValue,"Window",setting,ccnApi)
+      NFNStringValue(returnValue)
+    }
+
     //NFNValue(
     args match {
+
       //Sample Queries with signatures:
       //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 5 /node/nodeA/nfn_service_Window 'data' 'victims' '22:18:38.841' '22:18:41.841'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
       //04.11.2018: Commenting this window (bounded window) because this conflicts with the filter handler which always passes string based parameters in window sub-queries. Possibly, this can be removed later on when the new handler is implemented. (TODO Manisha)
@@ -99,8 +120,8 @@ class Window() extends NFNService {
       case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
         processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
 
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNIntValue, timeUnit: NFNStringValue, dataStream: NFNStringValue, state: NFNStringValue) =>
-        processSlidingWindow(deliveryFormat, sensor, timerPeriod, timeUnit, dataStream, state).recover {
+      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
+        processSlidingWindow(deliveryFormat, sensor, NFNIntValue(timerPeriod.str.toInt), timeUnit, dataStream).recover {
           case e: NoSuchElementException => throw e
         }
       //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 4 /node/nodeA/nfn_service_Window 'data' 'victims' '3' /NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
@@ -110,39 +131,38 @@ class Window() extends NFNService {
       case _ =>
         throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
     }
+
+
     //)
   }
 
 
-  def processSlidingWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNIntValue, timeUnit: NFNStringValue, dataStream: NFNStringValue, state: NFNStringValue): Future[NFNValue] = Future {
+  def slideWindow(windowContent: String, newTuple: String,timerPeriod: Long, timeUnit: String ):String ={
+    val delimiter = SensorHelpers.getDelimiterFromLine(newTuple)
+    LogMessage("nodeA",s"delimiter is: $delimiter")
+    val datePosition = SensorHelpers.getDatePosition(delimiter)
+    LogMessage("nodeA",s"date position is: $datePosition")
+    LogMessage("nodeA",s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
+    val relativeTime: LocalTime = SensorHelpers.parseTime(newTuple.split(delimiter)(datePosition), delimiter)
+    (windowContent.split("\n").filter(purgeOldData(_,relativeTime,timerPeriod,timeUnit)):+newTuple).mkString("\n")
 
-    //var state =
-
-    NFNStringValue("Test")
   }
 
-  //Return number of specified events from the top of the event stream
-  def readEventCountSensor(outputFormat: String, path: String, numberOfEvents: Int, nodeName: String): String = {
-    val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
-
-    val sb = new StringBuilder
-
-    bufferedSource.getLines().zipWithIndex.foreach {
-      case (line, index) => {
-        if (index < numberOfEvents) //Index is the zero'th index, so we only do <, not <=. This will get the top x events from the sensor where x is the number passed to the op.
-          sb.append(line + "\n")
-      }
+  def purgeOldData(tuple: String, timeStamp: LocalTime, timerPeriod: Long, timeUnit: String): Boolean = {
+    LogMessage("nodeA","purgeOldData started")
+    if(tuple != ""){
+      val pastTime = FormattedOutput.getPastTime(timeStamp,timerPeriod,timeUnit)
+      val delimiter = SensorHelpers.getDelimiterFromLine(tuple)
+      val datePosition = SensorHelpers.getDatePosition(tuple)
+      val tupleTime = SensorHelpers.parseTime(tuple.split(delimiter)(datePosition),delimiter)
+      if((tupleTime.isAfter(pastTime) || tupleTime.equals(pastTime)) && (tupleTime.isBefore(timeStamp) || tupleTime.equals(timeStamp)))
+        true
+      else
+        false
     }
-
-    bufferedSource.close
-
-    var output = sb.toString()
-    if (output != "")
-      output = output.stripSuffix("\n").stripMargin('#')
     else
-      output += "No Results!"
+      false
 
-    output
   }
 
   def readRelativeTimedSensor(path: String, timePeriod: Long, timeUnit: String, nodeName: String): String = {
@@ -182,6 +202,32 @@ class Window() extends NFNService {
       output += "No Results!"
     output
   }
+
+  //Return number of specified events from the top of the event stream
+  def readEventCountSensor(outputFormat: String, path: String, numberOfEvents: Int, nodeName: String): String = {
+    val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
+
+    val sb = new StringBuilder
+
+    bufferedSource.getLines().zipWithIndex.foreach {
+      case (line, index) => {
+        if (index < numberOfEvents) //Index is the zero'th index, so we only do <, not <=. This will get the top x events from the sensor where x is the number passed to the op.
+          sb.append(line + "\n")
+      }
+    }
+
+    bufferedSource.close
+
+    var output = sb.toString()
+    if (output != "")
+      output = output.stripSuffix("\n").stripMargin('#')
+    else
+      output += "No Results!"
+
+    output
+  }
+
+
 
   //For actual TimeStamp:
   def readBoundSensor(path: String, lbdate: LocalTime, ubdate: LocalTime, nodeName: String): String = {

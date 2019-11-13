@@ -86,7 +86,7 @@ class Sequence() extends NFNService {
       }
       else if (deliveryFormat.toLowerCase == "name") {
         LogMessage(nodeName, s"SEQUENCE OP Completed\n")
-        return NFNStringValue(Helpers.storeOutput(nodeName, output.toString, "SEQUENCE", "onOperator", ccnApi))
+        return NFNStringValue(Helpers.storeOutputLocally(nodeName, output.toString, "SEQUENCE", "onOperator", ccnApi))
       }
       LogMessage(nodeName, s"SEQUENCE OP Completed\n")
       //Default return = false

@@ -11,11 +11,13 @@ import ccn.ccnlite.CCNLiteInterfaceCli
 import ccn.packet._
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
+import lambdacalculus.parser.ast._
 import monitor.Monitor
 import monitor.Monitor.PacketLogWithoutConfigs
 import network._
 import nfn.NFNServer._
 import nfn.localAbstractMachine.LocalAbstractMachineWorker
+import nfn.service.{NFNIntValue, NFNStringValue, NFNValue}
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -445,7 +447,8 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
           nfnGateway ! interest
           pit.remove(content.name)
         }
-        case None => logger.error(s"Discarding thunk content $content because there is no entry in pit")
+        case None =>
+          logger.error(s"Discarding thunk content $content because there is no entry in pit")
       }
     }
 
@@ -503,7 +506,17 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
 
         }
         case None =>
-          logger.warning(s"Discarding content $content because there is no entry in pit " + pit.toString())
+          logger.debug(s"Checking if a pending query interest is present")
+          pqt.get(content.name) match {
+            case Some(queryIntersts) => {
+              logger.debug(s"Found at least one pending query interest")
+              queryIntersts foreach {
+                qi => computeServer ! ComputeServer.ComputeDataStream(qi,Seq(NFNStringValue(new String(content.data))))
+              }
+            }
+            case None =>
+              logger.warning(s"Discarding content $content because there is no entry in pit " + pit.toString())
+          }
       }
     }
   }
@@ -597,7 +610,11 @@ success
                     }
                   }
                 } else {
-                  computeServer ! ComputeServer.Compute(i.name)
+                  val constantInterest = CCNName("nodeA/sensor/gps1/".split("/").toIndexedSeq: _*)//findConstantInterestStream(i.name)
+                  pqt.add(constantInterest,i.name, defaultTimeoutDuration)
+                  val constI = ConstantInterest(constantInterest)
+                  //computeServer ! ComputeServer.Compute(i.name)
+                  nfnGateway ! constI
                 }
                 // /.../.../NFN
                 // An NFN interest without compute flag means that it must be reduced by an abstract machine
@@ -712,6 +729,7 @@ success
                     }
                   }
                 } else {
+                  pqt.add(findConstantInterestStream(i.name),i.name, defaultTimeoutDuration)
                   computeServer ! ComputeServer.Compute(i.name)
                 }
                 // /.../.../NFN
@@ -736,6 +754,48 @@ success
       }
     }
     //}
+  }
+
+  private def findConstantInterestStream(interest: CCNName) : CCNName = {
+
+    val lc = lambdacalculus.LambdaCalculus()
+    lc.parse(interest.toString) match{
+      case Success(parsedExpr) => parsedExpr match {
+        case Call(funName, argExprs) => {
+          val args: List[NFNValue] = findArgs(argExprs)
+          CCNName(new String(args(2).toString).split("/").toIndexedSeq: _*)
+        }
+      }
+    }
+
+  }
+
+  private def findArgs(args: List[Expr]): List[NFNValue] = {
+    logger.debug(s"Looging for args ${args.mkString("[",",","]")}")
+    args map {
+      case Constant(i) => NFNIntValue(i)
+      case Str(s) => NFNStringValue(s)
+      case otherExpr@_ => {
+        import nfn.LambdaNFNImplicits._
+        val maybeInterest = otherExpr match {
+          case Variable(varName, _) => {
+            CCNName.fromString(varName) map {
+              Interest(_)
+            }
+          }
+          case _ => Some(NFNInterest(otherExpr))
+        }
+
+        maybeInterest match {
+          case Some(interest) => {
+            NFNStringValue("")
+          }
+          case None => {
+            NFNStringValue("")
+          }
+        }
+      }
+    }
   }
 
   private def handleRemoveConstantInterest(i: RemoveConstantInterest, senderCopy: ActorRef) = {

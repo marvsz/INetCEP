@@ -6,14 +6,12 @@ import akka.pattern.ask
 import ccn.ccnlite.CCNLiteInterfaceCli
 import ccn.packet.{CCNName, Content, MetaInfo}
 import config.StaticConfig
-
-import scala.collection.mutable.{Map}
 import nfn.service._
 
-import scala.collection.mutable
+import scala.collection.mutable.Map
+import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
-import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 
@@ -190,6 +188,7 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
       prepareCallable(name, useThunks = true, sender)
     }
     case msg @ ComputeServer.Compute(name) => {
+      logger.debug(s"started normal computation")
       val senderCopy = sender
       maybeFutCallable match {
         case Some(futCallable) => {
@@ -208,7 +207,8 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
     }
 
       //Added by Johannes
-    case msg @ ComputeServer.ComputeDataStream(name,additionalArguments:mutable.Seq[NFNValue])=>{
+    case msg @ ComputeServer.ComputeDataStream(name: CCNName,additionalArguments: Seq[NFNValue])=>{
+      logger.debug(s"started computation with datastream")
       val senderCopy = sender
       maybeFutCallable match {
         case Some(futCallable) => {
@@ -219,7 +219,7 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
           // This means we can prepare the callable by directly invoking receivedComputeRequest
           prepareCallable(name, useThunks = false, senderCopy) match {
             case Some(futCallable) => {
-              executeCallable(futCallable, name, senderCopy)
+              executeCallable(futCallable, name, senderCopy, additionalArguments)
             }
             case None => logger.warning(s"Could not prepare a callable for name $name")
           }
@@ -234,6 +234,10 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
       logger.info("Received End message")
       context.stop(self)
 //      self ! PoisonPill
+    }
+
+    case _ => {
+      logger.info("Could not resolve the Compute Message sent to the Comppute Worker")
     }
   }
 }

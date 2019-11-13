@@ -353,7 +353,7 @@ object Helpers {
    * @param onWhat    On what the opeartion was performed on
    * @return An named address that indicates where to find the content
    */
-  def storeOutput(nodeName: String, input: String, operation: String, onWhat: String, ccnApi: ActorRef) = {
+  def storeOutputLocally(nodeName: String, input: String, operation: String, onWhat: String, ccnApi: ActorRef) = {
     //Return a name that contains the window data. This is a cached content.
     val now = Calendar.getInstance()
     //Get the correct mapped port for this node so that we can publish content through this..
@@ -366,6 +366,13 @@ object Helpers {
     ccnApi ! NFNApi.AddToLocalCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty), prependLocalPrefix = false)
     LogMessage(nodeName, s"Inside ${operation} -> ${operation} name: ${name}, ${operation} content: ${input}")
     name
+  }
+
+  def storeState(nodeName: String, input: String, operator: String, settings:String, ccnApi: ActorRef)={
+    val name = s"state/$operator/$settings"
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").toIndexedSeq: _*)
+    LogMessage(nodeName, s"State for $name saved to Network")
+    ccnApi ! NFNApi.AddToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
   }
 
 

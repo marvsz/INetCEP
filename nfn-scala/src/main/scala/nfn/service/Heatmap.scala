@@ -54,7 +54,7 @@ class Heatmap extends NFNService {
       var output = ""
       if (outputFormat.toLowerCase == "name" && heatmap != null) {
         output = generateIntermediateHeatmap(heatmap)
-        output = Helpers.storeOutput(nodeName, output, "HEATMAP", "onOperator", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "HEATMAP", "onOperator", ccnApi)
       }
       else if(heatmap != null){
         output = heatmapPrinter(heatmap)

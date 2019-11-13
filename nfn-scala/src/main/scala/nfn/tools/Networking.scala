@@ -73,6 +73,15 @@ object Networking extends LazyLogging{
     }
   }
 
+  /*def fetchState(interest: Interest, ccnApi: ActorRef, time:Duration): Future[Option[Content]] ={
+    def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+    }
+
+
+  }*/
+
   /**
    * Try to fetch content object by given interest.
    *

@@ -59,7 +59,7 @@ class Filter() extends NFNService {
       //If outputFormat = name => we will return a named interest
       //If outputFormat = data => we will return the data
       if (outputFormat.toLowerCase == "name") {
-        output = Helpers.storeOutput(nodeName, output, "FILTER", "onWindow", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "FILTER", "onWindow", ccnApi)
       }
       else {
         LogMessage(nodeName, s"Inside Filter -> FILTER name: NONE, FILTER content: ${output}")

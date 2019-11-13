@@ -90,11 +90,11 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
       if(!name.isThunk) {
         computeWorkers.get(name) match {
           case Some(worker) => {
-            logger.error(s"Received Compute for $name, forwarding it to running compute worker")
+            logger.error(s"Received Compute for $name with additionalArguments ${additionalArguments.toString()}, forwarding it to running compute worker")
             worker.tell(cds, sender)
           }
           case None => {
-            logger.info(s"Started new computation without thunks for $name")
+            logger.info(s"Started new computation without thunks for $name with additionalArguments ${additionalArguments.toString()}")
             val computeWorker = createComputeWorker(name, sender, nodePrefix)
             computeWorkers += name -> computeWorker
 

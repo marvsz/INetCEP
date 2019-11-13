@@ -49,7 +49,7 @@ class Prediction2 extends NFNService {
         output += "No Results!"
 
       if (outputFormat.toLowerCase == "name") {
-        output = Helpers.storeOutput(nodeName, output, "PREDICT2", "onWindow", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "PREDICT2", "onWindow", ccnApi)
       }
       else {
         LogMessage(nodeName, s"Inside Predict -> Predict name: NONE, Predict content: $output")
