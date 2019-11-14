@@ -744,7 +744,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 #else
         if(ccnl_nfnprefix_isAddQueryInterest(i->pkt->pfx) || (i->pkt->s.ndntlv.isConstant)){ // if the interest is constant or an add query Interest
-            DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed");
+            DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed\n");
             i = i->next;
             //continue;
         }
@@ -752,7 +752,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 
         else{
             i = ccnl_interest_remove(ccnl, i);
-            DEBUGMSG(DEBUG,"Interest was a not constant interest and will be removed");
+            DEBUGMSG(DEBUG,"Interest was a not constant interest and will be removed\n");
         }
 
     }
