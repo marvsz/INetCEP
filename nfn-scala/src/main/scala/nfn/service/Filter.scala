@@ -34,8 +34,8 @@ class Filter() extends NFNService {
 
     def filterInitialStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, interestedComputationName: CCNName): String = {
       LogMessage(nodeName, s"Initial Filteroperation started")
-      val setting = s"/state/Filter/".concat(filter.str).concat("/").concat(stream)
-      Networking.makeConstantInterest(stream,interestedComputationName,ccnApi) // remove the first backslash from stream
+      val setting = s"/state/Filter/".concat(filter.str).concat(stream)
+      Networking.makeConstantInterest(stream.substring(1),interestedComputationName,ccnApi) // remove the first backslash from stream
       setting
     }
 
