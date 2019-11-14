@@ -47,6 +47,26 @@ object Networking extends LazyLogging{
     }
     return Some(data)
   }
+
+  /**
+   *
+   * @param constantInterest the constant interest
+   * @param interestedComputation the computation that is interested in the data
+   * @param ccnApi the actor ref
+   */
+  def makeConstantInterest(constantInterest: String, interestedComputation: CCNName, ccnApi: ActorRef): Unit ={
+
+    makeConstantInterest(CCNName(new String(constantInterest).split("/").toIndexedSeq: _*), interestedComputation, ccnApi)
+  }
+
+  def makeConstantInterest(constantInterest: CCNName, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    makeConstantInterest(ConstantInterest(constantInterest), interestedComputation, ccnApi)
+  }
+
+  def makeConstantInterest(constantInterest: ConstantInterest, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    ccnApi ! NFNApi.CCNSendConstantInterest(constantInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
+  }
+
   /**
     * Try to fetch content object by given interest.
     *
@@ -90,10 +110,10 @@ object Networking extends LazyLogging{
    * @param    time       Timeout
    * @return              Content Object (on success)
    */
-  def fetchContent(constantInterest: ConstantInterest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
+  /*def fetchContent(constantInterest: ConstantInterest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
     def loadFromCacheOrNetwork(constantInterest: ConstantInterest): Future[Content] = {
       implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSend(constantInterest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendConstantInterest(constantInterest, useThunks = false)).mapTo[Content]
     }
 
     // try to fetch data and return if successful
@@ -106,7 +126,7 @@ object Networking extends LazyLogging{
     } catch {
       case e: TimeoutException => logger.error("fetchContent timed out."); None
     }
-  }
+  }*/
 
   def fetchContentRepeatedly(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {

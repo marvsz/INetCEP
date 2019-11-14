@@ -11,13 +11,12 @@ import ccn.ccnlite.CCNLiteInterfaceCli
 import ccn.packet._
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
-import lambdacalculus.parser.ast._
 import monitor.Monitor
 import monitor.Monitor.PacketLogWithoutConfigs
 import network._
 import nfn.NFNServer._
 import nfn.localAbstractMachine.LocalAbstractMachineWorker
-import nfn.service.{NFNIntValue, NFNStringValue, NFNValue}
+import nfn.service.NFNStringValue
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -38,7 +37,7 @@ object NFNApi {
 
   case class CCNSendReceive(interest: Interest, useThunks: Boolean)
 
-  case class CCNSend(constantInterest: ConstantInterest, useThunks: Boolean)
+  case class CCNSendConstantInterest(constantInterest: ConstantInterest, interestedComputation: CCNName, useThunks: Boolean)
 
   case class AddToCCNCache(content: Content)
 
@@ -259,15 +258,16 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
 
     /**
-     * [[NFNApi.CCNSend]] is a message of the external API which retrieves the content for the interest and sends it back to the sender actor.
+     * [[NFNApi.CCNSendConstantInterest]] is a message of the external API which retrieves the content for the interest and sends it back to the sender actor.
      * The sender actor can be initialized from an ask patter or form another actor.
      * It tries to first serve the interest from the localAbstractMachine cs, otherwise it adds an entry to the pit
      * and asks the network if it was the first entry in the pit.
      * Thunk interests get converted to normal interests, thunks need to be enabled with the boolean flag in the message
      */
-    case NFNApi.CCNSend(constantInterest, useThunks) => {
+    case NFNApi.CCNSendConstantInterest(constantInterest, interestedComputation, useThunks) => {
       val senderCopy = sender
-
+      logger.debug(s"the name of the interested Computation we actually store is ${interestedComputation}")
+      pqt.add(constantInterest.name,interestedComputation, defaultTimeoutDuration)
       logger.debug(s"API: Sending interest $constantInterest (f=$senderCopy)")
       val maybeThunkInterest =
         if (constantInterest.name.isNFN && useThunks) constantInterest.thunkify
@@ -619,11 +619,8 @@ success
                     }
                   }
                 } else {
-                  val constantInterest = CCNName("nodeA/sensor/gps1/".split("/").toIndexedSeq: _*)//findConstantInterestStream(i.name)
-                  pqt.add(constantInterest,i.name, defaultTimeoutDuration)
-                  val constI = ConstantInterest(constantInterest)
-                  //computeServer ! ComputeServer.Compute(i.name)
-                  nfnGateway ! constI
+                  logger.debug(s"the name of the compute interest we have to store is ${i.name}")
+                  computeServer ! ComputeServer.Compute(i.name)
                 }
                 // /.../.../NFN
                 // An NFN interest without compute flag means that it must be reduced by an abstract machine
@@ -738,7 +735,6 @@ success
                     }
                   }
                 } else {
-                  pqt.add(findConstantInterestStream(i.name),i.name, defaultTimeoutDuration)
                   computeServer ! ComputeServer.Compute(i.name)
                 }
                 // /.../.../NFN
@@ -763,48 +759,6 @@ success
       }
     }
     //}
-  }
-
-  private def findConstantInterestStream(interest: CCNName) : CCNName = {
-
-    val lc = lambdacalculus.LambdaCalculus()
-    lc.parse(interest.toString) match{
-      case Success(parsedExpr) => parsedExpr match {
-        case Call(funName, argExprs) => {
-          val args: List[NFNValue] = findArgs(argExprs)
-          CCNName(new String(args(2).toString).split("/").toIndexedSeq: _*)
-        }
-      }
-    }
-
-  }
-
-  private def findArgs(args: List[Expr]): List[NFNValue] = {
-    logger.debug(s"Looging for args ${args.mkString("[",",","]")}")
-    args map {
-      case Constant(i) => NFNIntValue(i)
-      case Str(s) => NFNStringValue(s)
-      case otherExpr@_ => {
-        import nfn.LambdaNFNImplicits._
-        val maybeInterest = otherExpr match {
-          case Variable(varName, _) => {
-            CCNName.fromString(varName) map {
-              Interest(_)
-            }
-          }
-          case _ => Some(NFNInterest(otherExpr))
-        }
-
-        maybeInterest match {
-          case Some(interest) => {
-            NFNStringValue("")
-          }
-          case None => {
-            NFNStringValue("")
-          }
-        }
-      }
-    }
   }
 
   private def handleRemoveConstantInterest(i: RemoveConstantInterest, senderCopy: ActorRef) = {
