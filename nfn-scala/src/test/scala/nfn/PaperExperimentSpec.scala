@@ -6,6 +6,8 @@ import com.typesafe.config.{Config, ConfigFactory}
 import nfn.service._
 import node.LocalNodeFactory
 import org.scalatest._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 
 /**
@@ -125,7 +127,7 @@ class PaperExperimentSpec extends ExpressionTester with SequentialNestedSuiteExe
     }
 
     val dynServ = new NFNDynamicService {
-      override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+      override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
         println("yay")
         NFNIntValue(42)
       }

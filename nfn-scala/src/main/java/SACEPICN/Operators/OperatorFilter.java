@@ -8,7 +8,7 @@ public class OperatorFilter extends OperatorA {
     String query;
     public OperatorFilter(String query) {
         super(query);
-        this.isOperatorCreatingNode = false;
+        this.isOperatorCreatingNode = true;
         this.query = query;
     }
 

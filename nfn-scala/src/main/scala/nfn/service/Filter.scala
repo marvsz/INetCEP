@@ -5,7 +5,7 @@ package nfn.service
  */
 
 import akka.actor.ActorRef
-import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
+import nfn.tools.{FilterHelpers, Helpers, Networking, SensorHelpers}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -31,29 +31,35 @@ class Filter() extends NFNService {
     //Victim Data: 22:18:38.841/1001/M/50 <- Schema: 1/2/3/4
     //Sample Query: 'Victims' '2=1001&&3=M||4>46'
     //First break OR and then get AND
-    def filterStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue): String = {
+
+    def filterInitialStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, interestedComputationName: CCNName): String = {
+      LogMessage(nodeName, s"Initial Filteroperation started")
+      val setting = s"/state/Filter/".concat(filter.str).concat("/").concat(stream)
+      Networking.makeConstantInterest(stream,interestedComputationName,ccnApi) // remove the first backslash from stream
+      setting
+    }
+
+
+    def filterStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue): String = {
 
       //Interest will always be in the form of: call X /node/nodeX/nfn_service_X
       //Using this we can extract the node for this operation.
-
-      LogMessage(nodeName, s"\nFilter OP Started")
-      val filterParams = FilterHelpers.parseFilterArguments(filter.str)
-
-      //By this time, we will have two stacks of filters - OR and AND. We will pass this to the handler.
-      //return "=" + allANDs.mkString(",") + " - " + allORs.mkString(",");
-      filterHandler(source, stream, filterParams(0), filterParams(1), outputFormat.str, nodeName)
+        LogMessage(nodeName, s"\nFilter OP Started")
+        val filterParams = FilterHelpers.parseFilterArguments(filter.str)
+        //By this time, we will have two stacks of filters - OR and AND. We will pass this to the handler.
+        //return "=" + allANDs.mkString(",") + " - " + allORs.mkString(",");
+        filterHandler(source, stream, filterParams(0), filterParams(1), outputFormat.str, nodeName, dataStream.str)
     }
 
-    def filterHandler(sensorName: String, stream: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String): String = {
+    def filterHandler(sensorName: String, stream: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
       var output = ""
 
       LogMessage(nodeName, "Handle Filter Stream")
-      val intermediateResult = Helpers.handleNamedInputSource(nodeName, stream, ccnApi)
       //At this point, we will definitely have the intermediate window result.
-      LogMessage(nodeName, s"Inside Filter -> Child Operator Result: $intermediateResult")
-      val delimiter = SensorHelpers.getDelimiterFromLine(intermediateResult)
+      LogMessage(nodeName, s"Inside Filter -> Stream to filter: $datastream")
+      val delimiter = SensorHelpers.getDelimiterFromLine(datastream)
       LogMessage(nodeName, s"Delimiter is $delimiter")
-      output = filter(sensorName, intermediateResult, aNDS, oRS, delimiter)
+      output = filter(sensorName, datastream, aNDS, oRS, delimiter)
 
 
       //If outputFormat = name => we will return a named interest
@@ -72,11 +78,12 @@ class Filter() extends NFNService {
       args match {
         //Output format: Either name (/node/Filter/Sensor/Time) or data (data value directly)
         //[data/sensor][string of data][filter][outputFormat]
-        case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream(source.str, stream.str, filter, outputFormat)
+        case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterInitialStream(source.str, stream.str, filter, outputFormat, interestName)
+        case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, outputFormat, dataStream)
         //[content][contentobject][filter][outputFormat]
-        case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNContentObjectValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream(source.str, new String(stream.data), filter, outputFormat)
+        //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNContentObjectValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream(source.str, new String(stream.data), filter, outputFormat)
         //[sensor][string of data][filter]
-        case Seq(timestamp: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream("sensor", stream.str, filter, outputFormat)
+        //case Seq(timestamp: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream("sensor", stream.str, filter, outputFormat)
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }

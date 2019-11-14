@@ -4,6 +4,7 @@ package runnables.production
 import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
+import nfn.service.PlacementServices.QueryPlacement
 import nfn.service._
 import node.LocalNode
 import scopt.OptionParser
@@ -108,7 +109,8 @@ object ComputeServerStarter extends LazyLogging {
           */
         //node.publishServiceLocalPrefix(new Concatenate())
         node.publishServiceLocalPrefix(new Window())
-        //node.publishServiceLocalPrefix(new Filter())
+        node.publishServiceLocalPrefix(new QueryPlacement())
+        node.publishServiceLocalPrefix(new Filter())
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
         //node.publishServiceLocalPrefix(new Prediction1())

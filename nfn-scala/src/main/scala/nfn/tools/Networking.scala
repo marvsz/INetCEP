@@ -93,41 +93,6 @@ object Networking extends LazyLogging{
     }
   }
 
-  /*def fetchState(interest: Interest, ccnApi: ActorRef, time:Duration): Future[Option[Content]] ={
-    def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
-    }
-
-
-  }*/
-
-  /**
-   * Try to fetch content object by given interest.
-   *
-   * @param    constantInterest   Interest to send out
-   * @param    ccnApi     Actor Reference
-   * @param    time       Timeout
-   * @return              Content Object (on success)
-   */
-  /*def fetchContent(constantInterest: ConstantInterest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
-    def loadFromCacheOrNetwork(constantInterest: ConstantInterest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendConstantInterest(constantInterest, useThunks = false)).mapTo[Content]
-    }
-
-    // try to fetch data and return if successful
-    try {
-      val futServiceContent: Future[Content] = loadFromCacheOrNetwork(constantInterest)
-      Await.result(futServiceContent, time) match {
-        case c: Content => Some(c)
-        case _ => None  // send keepalive interest
-      }
-    } catch {
-      case e: TimeoutException => logger.error("fetchContent timed out."); None
-    }
-  }*/
-
   def fetchContentRepeatedly(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(time.toMillis,MILLISECONDS)

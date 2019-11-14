@@ -141,6 +141,7 @@ object Placement {
       s match {
         case "centralized" =>  new InitiativePlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
         case "decentraliized" => new DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
+        case "local" => new TestPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
         case _ => throw NoSuchPlacementException(s"The Placement Strategy $s does not exist\n")
       }
   }

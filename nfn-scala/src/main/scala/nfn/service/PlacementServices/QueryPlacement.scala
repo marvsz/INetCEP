@@ -51,10 +51,10 @@ class QueryPlacement() extends NFNService {
       //Get thisNodePort:
       val thisNode = mapping.getPort(nodeName)
       //Log Query for interval based trigger:
-      if (Helpers.save_to_QueryStore(algorithm, processing, runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
+      /*if (Helpers.save_to_QueryStore(algorithm, processing, runID, sourceOfQuery, thisNode, clientID, query, region, timestamp)) {
         LogMessage(nodeName, s"Query appended to Query Store - Source $sourceOfQuery")
       } else
-        LogMessage(nodeName, s"Query NOT appended to Query Store - Source $sourceOfQuery")
+        LogMessage(nodeName, s"Query NOT appended to Query Store - Source $sourceOfQuery")*/
 
       //Initialize ExpressionTree class:
 
@@ -66,26 +66,33 @@ class QueryPlacement() extends NFNService {
 
       evalHandler.setStartTime_OpTreeCreation()
 
+      LogMessage(nodeName,s"Query is $query")
       val root: Map = et.createOperatorTree(query)
       val opCount = root._stackSize
+      LogMessage(nodeName,s"Stacksize is $opCount")
       evalHandler.setEndTimeNow_OpTreeCreation()
 
       LogMessage(nodeName, s"Operator Tree creation Completed")
 
       //Get current Network Status and Path information:
 
-      evalHandler.setStartTime_NodeDiscovery()
-      val allNodes = getNodeStatus(algorithm.toLowerCase, thisNode, nodeName)
-      if (allNodes.length < root._stackSize) {
-        return "Query processing stopped."
-      }
-      val paths = buildPaths(nodeName, thisNode, allNodes)
-      evalHandler.setEndTime_NodeDiscovery()
-      LogMessage(nodeName, s"Checking paths:")
-      for (path <- paths) {
-        LogMessage(nodeName, s"${path.pathNodes.reverse.mkString(" ") + " - BDP: " + path.cumulativePathCost + " - Hops: " + path.hopCount}")
-        if (maxPath < path.hopCount) {
-          maxPath = path.hopCount
+
+      var allNodes:ListBuffer[NodeInfo] = null
+      var paths: ListBuffer[Paths] = null
+      if(!algorithm.toLowerCase.equals("local")) {
+        evalHandler.setStartTime_NodeDiscovery()
+        allNodes = getNodeStatus(algorithm.toLowerCase, thisNode, nodeName)
+        if (allNodes.length < root._stackSize) {
+          return "Query processing stopped."
+        }
+        paths = buildPaths(nodeName, thisNode, allNodes)
+        evalHandler.setEndTime_NodeDiscovery()
+        LogMessage(nodeName, s"Checking paths:")
+        for (path <- paths) {
+          LogMessage(nodeName, s"${path.pathNodes.reverse.mkString(" ") + " - BDP: " + path.cumulativePathCost + " - Hops: " + path.hopCount}")
+          if (maxPath < path.hopCount) {
+            maxPath = path.hopCount
+          }
         }
       }
 
