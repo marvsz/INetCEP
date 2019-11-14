@@ -42,6 +42,8 @@ object NFNApi {
 
   case class AddToCCNCache(content: Content)
 
+  case class AddDataStreamToCCNCache(content: Content)
+
   case class AddToCCNCacheAck(name: CCNName)
 
   case class AddToLocalCache(content: Content, prependLocalPrefix: Boolean = false)
@@ -284,6 +286,13 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
           senderCopy ! NFNApi.AddToCCNCacheAck(content.name)
         case Failure(ex) => logger.error(ex, s"Could not add to CCN cache for $content")
       }
+    }
+
+    case NFNApi.AddDataStreamToCCNCache(content) => {
+      val senderCopy = sender
+      logger.info(s"creating add to cahce messages for $content")
+      cs.add(content)
+
     }
 
     case NFNApi.AddToLocalCache(content, prependLocalPrefix) => {

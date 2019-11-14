@@ -10,6 +10,8 @@ trait CCNInterface {
   def mkBinaryConstantInterest(constInterest: ConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]]
   def mkBinaryRemoveConstantInterest(rmvconstInterest: RemoveConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]]
   def mkBinaryContent(content: Content)(implicit ec: ExecutionContext): Future[List[Array[Byte]]]
+  def mkBinaryDatastreamContent(content: Content)(implicit ec: ExecutionContext): Future[List[Array[Byte]]]
   def wireFormatDataToXmlPacket(binaryPacket: Array[Byte])(implicit ec: ExecutionContext): Future[CCNPacket]
   def addToCache(content: Content, mgmtSock: String)(implicit ec: ExecutionContext): Future[Int]
+  def addDataStreamToCache(content: Content, mgmtSock: String) (implicit ec: ExecutionContext): Future[Int]
 }

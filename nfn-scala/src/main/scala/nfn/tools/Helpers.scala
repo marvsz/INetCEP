@@ -372,7 +372,7 @@ object Helpers {
     val name = s"state/$operator/$settings"
     val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").toIndexedSeq: _*)
     LogMessage(nodeName, s"State for $name saved to Network")
-    ccnApi ! NFNApi.AddToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
+    ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
   }
 
 
