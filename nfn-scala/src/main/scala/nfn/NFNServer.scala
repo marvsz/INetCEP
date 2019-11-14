@@ -292,6 +292,13 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       val senderCopy = sender
       logger.info(s"creating add to cahce messages for $content")
       cs.add(content)
+      ccnIf.addDataStreamToCache(content, routerConfig.mgmntSocket) onComplete {
+        case Success(n) =>
+          logger.debug(s"Send $n AddToCache requests for content $content to router ")
+          //          logger.debug(s"Name: ${content.name}")
+          senderCopy ! NFNApi.AddToCCNCacheAck(content.name)
+        case Failure(ex) => logger.error(ex, s"Could not add to CCN cache for $content")
+      }
 
     }
 
@@ -667,11 +674,11 @@ success
 
     Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
     */
-      case Some(contentFromLocalCS) => {
+      /*case Some(contentFromLocalCS) => {
         logger.debug(s"Served $contentFromLocalCS from local CS")
         senderCopy ! contentFromLocalCS
-      }
-      case None => {
+      }*/
+      case _ => {
         val senderFace = senderCopy
         pit.get(i.name) match {
           case Some(pendingFaces) => {
