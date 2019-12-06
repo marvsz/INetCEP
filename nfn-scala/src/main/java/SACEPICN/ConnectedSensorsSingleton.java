@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class ConnectedSensorsSingleton {
     private static ConnectedSensorsSingleton instance;
-    private HashMap<String, Sensor> sensors;
+    private HashMap<String, Sensor> sensors = new HashMap<String, Sensor>();
 
     ConnectedSensorsSingleton() {
 
