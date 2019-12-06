@@ -243,8 +243,6 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
     }
   }
 
-
-
   def mkBinaryDatastreamContent(content: Content, chunkSize: Int)(implicit ec: ExecutionContext): Future[List[Array[Byte]]] = {
     val mkC = "ccn-lite-mkDSC"
     val baseCmds = List(binFolderName + mkC, "-s", s"$wireFormat")
@@ -294,5 +292,39 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
     List(escapedRoutableCmps.mkString("/", "/", "")) ++ nfnString
   }
 
+  override def addSensor(sensorSettings: SensorSettings)(implicit ec: ExecutionContext): Future[Int] = {
+    val mkS = "ccn-lite-mkS"
+    val sensorID = List("-i", sensorSettings.id.toString)
+    val typ = List("-t", sensorSettings.typ)
+    val samplingRate = List("-s", sensorSettings.samplingRate.toString)
+    val name = List("-n", sensorSettings.name)
+    val fileDir = List("-d", sensorSettings.fileDir)
+    val logLevel = List("-v", sensorSettings.logLevel)
+    val node = List("-x", sensorSettings.node)
 
+    var cmds: List[String] = List(binFolderName+mkS)
+    if(sensorSettings.typ != 1)
+      cmds =  cmds ++ sensorID ++ typ ++ samplingRate ++ name ++ logLevel ++ node
+    else
+      cmds = cmds ++ sensorID ++ typ ++ samplingRate ++ name ++ fileDir ++ logLevel ++ node
+
+    SystemCommandExecutor(List(cmds)).futExecute() map {
+      case ExecutionSuccess(_, data) => 1
+      case execErr: ExecutionError =>
+        throw new Exception(s"Error when creating new Sensor: $execErr")
+    }
+  }
+
+  override def removeSensor(name: String, id: Int)(implicit ec: ExecutionContext): Future[Int] = {
+    val rmS = "ccn-lite-rmS"
+    val sensorID = List("-i", id.toString)
+    val sensorName = List("-n", name)
+    val cmds: List[String] = List(binFolderName + rmS) ++ sensorID ++ sensorName
+
+    SystemCommandExecutor(List(cmds)).futExecute() map {
+      case ExecutionSuccess(_, data) => 1
+      case execErr: ExecutionError =>
+        throw new Exception(s"Error when creating new Sensor: $execErr")
+    }
+  }
 }

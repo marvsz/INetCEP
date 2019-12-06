@@ -1,6 +1,7 @@
 package ccn
 
 import ccn.packet.{CCNPacket, Content, Interest, ConstantInterest, RemoveConstantInterest}
+import ccnlite.SensorSettings
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -14,4 +15,6 @@ trait CCNInterface {
   def wireFormatDataToXmlPacket(binaryPacket: Array[Byte])(implicit ec: ExecutionContext): Future[CCNPacket]
   def addToCache(content: Content, mgmtSock: String)(implicit ec: ExecutionContext): Future[Int]
   def addDataStreamToCache(content: Content, mgmtSock: String) (implicit ec: ExecutionContext): Future[Int]
+  def addSensor(sensorSettings: SensorSettings)(implicit ec: ExecutionContext) : Future[Int]
+  def removeSensor(name: String, id: Int)(implicit ec: ExecutionContext): Future[Int]
 }
