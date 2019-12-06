@@ -1,29 +1,10 @@
 package nfn
 
-import ccn.packet.Content
-import com.typesafe.config.{Config, ConfigFactory}
 import org.scalatest.{BeforeAndAfterEach, SequentialNestedSuiteExecution}
-import nfn.service._
-import node.LocalNodeFactory
-import org.scalatest._
-import akka.actor._
-import ccn.packet._
-import config.StaticConfig
-import lambdacalculus.parser.ast.Call
-import lambdacalculus.parser.ast.LambdaDSL.{stringToExpr, _}
-import nfn.LambdaNFNImplicits._
-import org.scalatest.time.{Millis, Seconds, Span}
-
-import scala.sys.process._
-import org.junit.jupiter.api.Test
-import lambdacalculus.parser.ast.Expr
-import node.LocalNode
-
-import scala.concurrent.Future
 
 class EnvironmentTest extends ExpressionTester with SequentialNestedSuiteExecution with BeforeAndAfterEach{
 
-  implicit val conf: Config = ConfigFactory.load()
+/*  implicit val conf: Config = ConfigFactory.load()
 
   (1 to 6) map { expTest }
 
@@ -210,5 +191,5 @@ class EnvironmentTest extends ExpressionTester with SequentialNestedSuiteExecuti
     implicit val patienceConfig = PatienceConfig(Span(StaticConfig.defaultTimeoutDuration.toMillis,Millis),Span(2000,Millis))
     whenReady(f){content => new String(content.data) + "DSFSDF"
     }
-  }
+  }*/
 }

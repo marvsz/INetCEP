@@ -1,24 +1,11 @@
 package nfn
 
-import ccn.packet.Content
-import com.typesafe.config.{Config, ConfigFactory}
-import config.StaticConfig
-import lambdacalculus.parser.ast.Call
-import lambdacalculus.parser.ast.LambdaDSL.{stringToExpr, _}
-import nfn.service._
-import node.LocalNodeFactory
 import org.scalatest.{BeforeAndAfterAll, SequentialNestedSuiteExecution}
-import nfn.LambdaNFNImplicits._
-import org.scalatest.time.{Millis, Seconds, Span}
-import scala.sys.process._
-import org.junit.jupiter.api.Test
-
-import scala.concurrent.Future
 
 class SingleNodeWindowTest extends ExpressionTester
   with SequentialNestedSuiteExecution
   with BeforeAndAfterAll {
-
+/*
   def createAndExecCCNQuery(nodeName: String, query: String, port: String, IP: String): String = {
     //var cmd:String = getValueOrDefault("CCN.NFNPeek", "echo No Result!")
 
@@ -79,6 +66,6 @@ class SingleNodeWindowTest extends ExpressionTester
 
     node1.shutdown()
   }
-
+*/
 
 }
