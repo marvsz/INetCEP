@@ -261,7 +261,10 @@ object SensorHelpers {
    */
   def removeSensor(sensorName:String) : Unit = {
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
+    val broker = SchemaBrokerSingleton.getInstance()
     connectedSensors.removeSensor(sensorName)
+    broker.removeSchema(sensorName)
+
   }
 
   /**
