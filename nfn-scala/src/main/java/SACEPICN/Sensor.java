@@ -16,7 +16,6 @@ public class Sensor {
     Character delimiter;
     String id;
     Set<String> schema;
-    ArrayList<String> data;
     String sacepicnEnv = StaticConfig.systemPath();
     int tupleToRead = -1;
 
@@ -36,22 +35,10 @@ public class Sensor {
         try(BufferedReader br = new BufferedReader(new FileReader(sacepicnEnv+"/sensors/" + fileName))){
             String line;
             this.schema = new HashSet<String>(Arrays.asList(br.readLine().split(delimiter.toString()))); // Ignore the first line which is the schema
-            while ((line = br.readLine()) != null){
-                this.data.add(line);
-            }
         }
         catch (IOException e){
             System.err.println(e.getMessage());
         }
-    }
-
-    /**
-     * Reads a tuple from the sensor
-     * @return a tuple as a string
-     */
-    public String read(){
-        tupleToRead++;
-        return data.get(tupleToRead);
     }
 
     public Set<String> getSchema(){
