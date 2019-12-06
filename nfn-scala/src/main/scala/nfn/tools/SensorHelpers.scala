@@ -243,6 +243,11 @@ object SensorHelpers {
   def getJoinedSchemaName(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) =
     "Join(".concat(leftSensorName).concat(",").concat(rightSensorName).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")")
 
+  /**
+   * Adds a sensor to the Schema broker and to the List of connected Sensors for this node..
+   * @param filename
+   * @param delimiter
+   */
   def addSensor(filename:String, delimiter:String) : Unit ={
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
     val broker = SchemaBrokerSingleton.getInstance()
@@ -250,8 +255,29 @@ object SensorHelpers {
     val schemaInserted = broker.insertSchema(connectedSensors.getSensor(filename).getType,connectedSensors.getSensor(filename).getSchema)
   }
 
+  /**
+   * Removes a sensor from the connected Sensor List. Maybe deprecated?
+   * @param sensorName
+   */
   def removeSensor(sensorName:String) : Unit = {
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
     connectedSensors.removeSensor(sensorName)
+  }
+
+  /**
+   * Prints the contents of the Schema List. just for debugging purposes
+   *
+   * @return The List of the Schemas in the form of "SchemaName: Tuple1,Tuple2,Tuple3,..."
+   */
+
+  def printSchemaList(): String={
+    val broker = SchemaBrokerSingleton.getInstance()
+    val sb = new StringBuilder()
+    val map = broker.schemes
+    var it = map.entrySet().iterator()
+    map.entrySet().forEach{
+      pair => sb.append(pair.getKey + ":" + pair.getValue.toString + "\n")
+    }
+    sb.toString()
   }
 }
