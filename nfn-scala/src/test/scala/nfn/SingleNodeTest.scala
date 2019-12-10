@@ -1,11 +1,19 @@
 package nfn
-
+import ccn.packet.Content
+import com.typesafe.config.{Config, ConfigFactory}
+import config.StaticConfig
+import nfn.LambdaNFNImplicits._
+import nfn.service.WordCount
+import node.LocalNodeFactory
+import org.scalatest.time.{Millis, Span}
 import org.scalatest.{BeforeAndAfterAll, SequentialNestedSuiteExecution}
+
+import scala.concurrent.Future
 
 class SingleNodeTest extends ExpressionTester
   with SequentialNestedSuiteExecution
   with BeforeAndAfterAll {
-/*
+
   implicit val conf: Config = ConfigFactory.load()
   val node1 = LocalNodeFactory.forId(1001)
 
@@ -34,6 +42,6 @@ class SingleNodeTest extends ExpressionTester
   }
 
   node1.shutdown()
-  */
+
 
 }
