@@ -5,7 +5,7 @@ import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
 import nfn.service.PlacementServices.QueryPlacement
-import nfn.service._
+import nfn.service.ServiceStarter
 import node.LocalNode
 import scopt.OptionParser
 
@@ -108,9 +108,11 @@ object ComputeServerStarter extends LazyLogging {
           * To make a new service available for computations - it is important to add it here. Once done, named-function interests containing these service names will be available for resolution.
           */
         //node.publishServiceLocalPrefix(new Concatenate())
-        node.publishServiceLocalPrefix(new Window())
+        //node.publishServiceLocalPrefix(new Window())
         node.publishServiceLocalPrefix(new QueryPlacement())
-        node.publishServiceLocalPrefix(new Filter())
+        node.publishServiceLocalPrefix(new ServiceStarter(node))
+        //node.publishServiceLocalPrefix(new Filter())
+
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
         //node.publishServiceLocalPrefix(new Prediction1())
@@ -125,7 +127,7 @@ object ComputeServerStarter extends LazyLogging {
         //node.publishServiceLocalPrefix(new QueryRandomRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
         //node.publishServiceLocalPrefix(new QueryRandom()) //New RandomQuery Placement scheme
         //node.publishServiceLocalPrefix(new UpdateNodeState())
-        node.publishServiceLocalPrefix(new GetContent())
+        //node.publishServiceLocalPrefix(new GetContent())
         //node.publishServiceLocalPrefix(new GetData())
         //node.publishServiceLocalPrefix(new SetData())
         //node.publishServiceLocalPrefix(new QueryDecentral()) //Decentral query execution
