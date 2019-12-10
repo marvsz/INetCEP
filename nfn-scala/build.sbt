@@ -49,12 +49,9 @@ lazy val nfn = Project(
   //run in Compile := run in Compile dependsOn compileCCNLiteTask
 )).dependsOn(lambdaCalculus)
 
-/*lazy val testservice = project
-  .settings(
-    name := "testservice",
-    settings
-  )
-  .dependsOn(nfn)*/
+lazy val testservice : Project = Project(
+  "testservice",
+  file("testservice")).settings(buildSettings).dependsOn(nfn)
 
 lazy val compilerOptions = Seq(
   "-unchecked",
@@ -74,7 +71,9 @@ lazy val commonSettings = Seq(
     Resolver.sonatypeRepo("releases"),
     Resolver.sonatypeRepo("public"),
     "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
-  )
+  ),
+  test in assembly := {},
+  compileCCNLite
 )
 
 
@@ -134,6 +133,42 @@ lazy val buildSettings =
   commonSettings /* ++
   scalafmtSettings*/
 
+lazy val compileCCNLiteTask = taskKey[Unit]("Compiles CCN Lite")
+val compileCCNLite = compileCCNLiteTask := {
+  val ccnlPath = {
+    if(new File("./ccn-lite-nfn/bin").exists()){
+      new File("./ccn-lite-nfn").getCanonicalPath
+    }
+    else {
+      val p = System.getenv("CCNL_HOME")
+      if(p == null || p == ""){
+        throw new Exception("nfn scala ccn-lite submodule was not initialized")
+      }
+    }
+  }
+  val processBuilder = {
+    val cmds = List("make", "clean", "all")
+    new java.lang.ProcessBuilder(cmds:_*)
+  }
+
+  val ccnlPathFile = new File(s"§ccnlPath/src/build")
+  println(s"Building CCN-Lite in directory $ccnlPathFile")
+  processBuilder.directory(ccnlPathFile)
+  val e = processBuilder.environment()
+  e.put("USE_NFN", "1")
+  e.put("USE_NACK", "1")
+  val process = processBuilder.start()
+  val processOutputReaderPrinter = new InputStreamToStdOut(process.getInputStream)
+  val t = new Thread(processOutputReaderPrinter).start()
+  process.waitFor()
+  val resValue = process.exitValue()
+  if(resValue == 0)
+    println(s"Compiled ccn-lite with return value ${process.exitValue()}")
+  else{
+    throw new Exception("Error during compilation fo ccn-lite")
+  }
+  process.destroy()
+}
 /*val compileCCNLiteTask = TaskKey[Unit]("compileCCNLite")
 
 compileCCNLite := {
