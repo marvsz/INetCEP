@@ -15,7 +15,7 @@ case class PQT(context: ActorContext) extends LazyLogging{
   val pqt = mutable.Map[CCNName, Set[CCNName]]()
 
   def add(name: CCNName, queryName:CCNName, timeout: FiniteDuration)={
-    pqt += name ->(pqt.getOrElse(name,Set()) + queryName)
+    pqt += name ->(pqt.getOrElse(name,Set()).union(Set(queryName)))
   }
 
   def get(name: CCNName): Option[Set[CCNName]] = pqt.get(name)

@@ -97,7 +97,7 @@ object MapReduceService {
   def stringToSeq(s: String): Seq[NFNValue] = {
     val listRegex = """(?s)^\[(.*)\]$""".r
     s.trim match {
-      case listRegex(args) => args.split(',').map(stringToNfnValue)
+      case listRegex(args) => args.split(',').toIndexedSeq.map(stringToNfnValue)
       case _ =>
         throw new NFNServiceArgumentException(s"String must match '[arg, ..., arg]' but was '$s'")
     }
