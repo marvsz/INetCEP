@@ -38,7 +38,8 @@ public class OperatorWindow extends OperatorA {
         for (int i = 0; i < this.parameters.length; i++)
         {
             if (isParamNestedQuery(i)) {
-                nfn.parameters.add("[Q" + counter++ + "]");
+                //nfn.parameters.add("[Q" + counter++ + "]");
+                nfn.parameters.add(this.parameters[i]);
             } else {
                 nfn.parameters.add(this.parameters[i]);
             }

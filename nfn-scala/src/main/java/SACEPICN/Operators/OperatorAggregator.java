@@ -27,6 +27,7 @@ public class OperatorAggregator extends OperatorA {
         for (int i = 0; i < this.parameters.length; i++)
         {
             if (isParamNestedQuery(i)) {
+                nfn.parameters.add(this.parameters[i]);
                 nfn.parameters.add("[Q" + counter++ + "]");
             } else {
                 nfn.parameters.add(this.parameters[i]);

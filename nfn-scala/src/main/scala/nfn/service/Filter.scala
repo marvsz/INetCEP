@@ -32,13 +32,25 @@ class Filter() extends NFNService {
     //Sample Query: 'Victims' '2=1001&&3=M||4>46'
     //First break OR and then get AND
 
+    def placeFilterInterests(interestNodeName: String, stream: String, interestedComputation: CCNName): String = {
+      LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
+      Networking.makeConstantInterest(stream,interestedComputation,ccnApi)
+      "Placed Interests"
+    }
+
+    def filterStream1(dataStreamName: String, filter: String, dataStream: String):String = {
+      LogMessage(nodeName, s"\nFilter OP Started")
+      val filterParams = FilterHelpers.parseFilterArguments(filter)
+      filterHandler(dataStreamName,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
+      "filtered Stream"
+    }
+
     def filterInitialStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, interestedComputationName: CCNName): String = {
       LogMessage(nodeName, s"Initial Filteroperation started")
       val setting = s"/state/Filter/".concat(filter.str).concat(stream)
       Networking.makeConstantInterest(stream.substring(1),interestedComputationName,ccnApi) // remove the first backslash from stream
       setting
     }
-
 
     def filterStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue): String = {
 
@@ -48,10 +60,10 @@ class Filter() extends NFNService {
         val filterParams = FilterHelpers.parseFilterArguments(filter.str)
         //By this time, we will have two stacks of filters - OR and AND. We will pass this to the handler.
         //return "=" + allANDs.mkString(",") + " - " + allORs.mkString(",");
-        filterHandler(source, stream, filterParams(0), filterParams(1), outputFormat.str, nodeName, dataStream.str)
+        filterHandler(source, filterParams(0), filterParams(1), outputFormat.str, nodeName, dataStream.str)
     }
 
-    def filterHandler(sensorName: String, stream: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
+    def filterHandler(sensorName: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
       var output = ""
 
       LogMessage(nodeName, "Handle Filter Stream")
@@ -78,6 +90,8 @@ class Filter() extends NFNService {
       args match {
         //Output format: Either name (/node/Filter/Sensor/Time) or data (data value directly)
         //[data/sensor][string of data][filter][outputFormat]
+        case Seq(interestNodeName: NFNStringValue, queryInterest: NFNStringValue,filter:NFNStringValue) => placeFilterInterests(interestNodeName.str, queryInterest.str, interestName)
+        case Seq(interestNodeName: NFNStringValue, queryInterest: NFNStringValue,filter:NFNStringValue ,dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
         case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterInitialStream(source.str, stream.str, filter, outputFormat, interestName)
         case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, outputFormat, dataStream)
         //[content][contentobject][filter][outputFormat]

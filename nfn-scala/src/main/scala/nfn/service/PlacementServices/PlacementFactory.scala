@@ -131,9 +131,9 @@ trait Placement {
     }
   }
   def process():String
-  def deployOperators(currentNode: Node, optimalPath: mutable.Buffer[String]):Node = {
+  /*def deployOperators(currentNode: Node, optimalPath: mutable.Buffer[String]):Node = {
     currentNode
-  }
+  }*/
 }
 
 final case class NoSuchPlacementException(private val message: String = "", private val cause: Throwable = None.orNull) extends Exception(message, cause)

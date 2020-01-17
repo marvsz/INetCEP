@@ -32,11 +32,11 @@ public class OperatorTreeTest {
 
         result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)])");
         assertNotNull(result);
-        assertEquals(3, result._stackSize);
+        assertEquals(5, result._stackSize);
 
         result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),gender=M&age>30&id=9&food=z&basichygiene<eff,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),gender=F&4>20,name)])");
         assertNotNull(result);
-        assertEquals(3, result._stackSize);
+        assertEquals(5, result._stackSize);
 
         //Hinzugefügt von Johannes
         result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name)],[FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name)])");

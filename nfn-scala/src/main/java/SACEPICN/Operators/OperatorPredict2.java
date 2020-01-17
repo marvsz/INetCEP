@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class OperatorPredict2 extends OperatorA {
     public OperatorPredict2(String query) {
         super(query);
-        this.isOperatorCreatingNode = false;
+        this.isOperatorCreatingNode = true;
     }
 
     public Boolean checkParameters() {
@@ -23,7 +23,8 @@ public class OperatorPredict2 extends OperatorA {
         for (int i = 0; i < this.parameters.length; i++)
         {
             if (isParamNestedQuery(i)) {
-                nfn.parameters.add("[Q" + counter++ + "]");
+                //nfn.parameters.add("[Q" + counter++ + "]");
+                nfn.parameters.add(this.parameters[i]);
             } else {
                 nfn.parameters.add(this.parameters[i]);
             }
