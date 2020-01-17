@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel
+CMAKE_SOURCE_DIR = /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel
+CMAKE_BINARY_DIR = /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel
 
 #=============================================================================
 # Target rules for target CMakeFiles/ccnl-lxkernel.dir
@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel
 CMakeFiles/ccnl-lxkernel.dir/all:
 	$(MAKE) -f CMakeFiles/ccnl-lxkernel.dir/build.make CMakeFiles/ccnl-lxkernel.dir/depend
 	$(MAKE) -f CMakeFiles/ccnl-lxkernel.dir/build.make CMakeFiles/ccnl-lxkernel.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles --progress-num=1 "Built target ccnl-lxkernel"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles --progress-num=1 "Built target ccnl-lxkernel"
 .PHONY : CMakeFiles/ccnl-lxkernel.dir/all
 
 # Include target in all.
@@ -76,9 +76,9 @@ all: CMakeFiles/ccnl-lxkernel.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ccnl-lxkernel.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ccnl-lxkernel.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles 0
 .PHONY : CMakeFiles/ccnl-lxkernel.dir/rule
 
 # Convenience name for target.

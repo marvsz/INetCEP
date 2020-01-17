@@ -477,6 +477,11 @@ if(relay->pit != NULL){
     if (!i) {// this is a new/unknown I request: create and propagate
 #ifdef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG, "this is a new/unknown I request: create and propagate");
+        DEBUGMSG_CFWD(DEBUG, "Check Again, if relay is not noll");
+        if(relay == NULL)
+            DEBUGMSG_CFWD(DEBUG, "Relay was null");
+        else
+            DEBUGMSG_CFWD(DEBUG, "Relay was not null");
 #endif
 #ifdef USE_NFN
         if (ccnl_nfn_RX_request(relay, from, pkt)){
