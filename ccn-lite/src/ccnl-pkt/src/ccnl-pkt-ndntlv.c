@@ -36,6 +36,7 @@
 #else
 #include "../include/ccnl-pkt-ndntlv.h"
 #include "../../ccnl-core/include/ccnl-core.h"
+#include "../../ccnl-nfn/include/ccnl-nfn-requests.h"
 #endif
 
 

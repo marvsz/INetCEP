@@ -22,16 +22,24 @@
 
 #ifdef USE_NFN
 
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn-ops.h"
+#include "../include/ccnl-nfn-common.h"
+#include "../include/ccnl-nfn-krivine.h"
+#include "../../ccnl-core/include/ccnl-os-time.h"
+#include "../../ccnl-core/include/ccnl-malloc.h"
+#include "../../ccnl-core/include/ccnl-logging.h"
+#else
 #include "ccnl-nfn-ops.h"
-
 #include <stdio.h>
-
 #include "ccnl-nfn-common.h"
 #include "ccnl-nfn-krivine.h"
-
 #include "ccnl-os-time.h"
 #include "ccnl-malloc.h"
 #include "ccnl-logging.h"
+#endif
+
+
 
 
 // binds the name to the given fct in ZAM's list of known operations
