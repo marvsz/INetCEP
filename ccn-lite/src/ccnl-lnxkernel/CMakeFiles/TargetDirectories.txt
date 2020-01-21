@@ -1,3 +1,0 @@
-/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles/rebuild_cache.dir
-/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles/ccnl-lxkernel.dir
-/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles/edit_cache.dir

@@ -5,12 +5,11 @@
 #ifndef CCNL_NFN_COMMON_H
 #define CCNL_NFN_COMMON_H
 
-#ifndef CCNL_LINUXKERNEL
 #include "ccnl-core.h"
 
 #include "ccnl-nfn.h"
 #include "ccnl-nfn-requests.h"
-#endif
+
 
 int
 ccnl_nfnprefix_isNFN(struct ccnl_prefix_s *p);

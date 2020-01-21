@@ -22,14 +22,6 @@
 
 #ifdef USE_NFN
 
-
-
-#ifdef CCNL_LINUXKERNEL
-#include "../include/ccnl-nfn.h"
-#include "../include/ccnl-nfn-parse.h"
-#include "../include/ccnl-nfn-krivine.h"
-#include "../include/ccnl-nfn-ops.h"
-#else
 #include "ccnl-nfn.h"
 
 #include <stddef.h>
@@ -41,7 +33,6 @@
 #include "ccnl-nfn-parse.h"
 #include "ccnl-nfn-krivine.h"
 #include "ccnl-nfn-ops.h"
-#endif
 
 
 void
