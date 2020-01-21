@@ -22,21 +22,24 @@
  */
 
 #ifdef USE_NFN
-
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn-krivine.h"
+#include "../include/ccnl-nfn-common.h"
+#include "../include/ccnl-nfn-parse.h"
+#include "../include/ccnl-nfn-ops.h"
+#include "../../ccnl-core/include/ccnl-os-time.h"
+#include "../../ccnl-core/include/ccnl-malloc.h"
+#include "../../ccnl-core/include/ccnl-logging.h"
+#else
 #include "ccnl-nfn-krivine.h"
-
 #include "ccnl-nfn-common.h"
 #include "ccnl-nfn-parse.h"
 #include "ccnl-nfn-ops.h"
-
 #include "ccnl-os-time.h"
 #include "ccnl-malloc.h"
 #include "ccnl-logging.h"
-
-
-#ifndef CCNL_LINUXKERNEL
-
 #include "ccnl-os-includes.h"
+#endif
 
 enum { // abstract machine instruction set
     ZAM_UNKNOWN,
@@ -126,11 +129,20 @@ void
 print_environment(struct environment_s *env)
 {
    int num = 0;
-
-   printf("  env addr %p (refcount=%d)\n",
-          (void*) env, env ? env->refcount : -1);
+#ifdef CCNL_LINUXKERNEL
+    printk("  env addr %p (refcount=%d)\n",
+           (void*) env, env ? env->refcount : -1);
+#else
+    printf("  env addr %p (refcount=%d)\n",
+           (void*) env, env ? env->refcount : -1);
+#endif
    while (env) {
+#ifdef CCNL_LINUXKERNEL
+       printk("  #%d %s %p\n", num++, env->name, (void*) env->closure);
+#else
        printf("  #%d %s %p\n", num++, env->name, (void*) env->closure);
+#endif
+
        env = env->next;
    }
 }
@@ -141,7 +153,12 @@ print_result_stack(struct stack_s *stack)
    int num = 0;
 
    while (stack) {
+#ifdef CCNL_LINUXKERNEL
+       printk("Res element #%d: type=%d\n", num++, stack->type);
+#else
        printf("Res element #%d: type=%d\n", num++, stack->type);
+#endif
+
        stack = stack -> next;
    }
 }
@@ -153,7 +170,12 @@ print_argument_stack(struct stack_s *stack)
 
    while (stack){
         struct closure_s *c = stack->content;
-        printf("Arg element #%d: %s\n", num++, c ? c->term : "<mark>");
+#ifdef CCNL_LINUXKERNEL
+       printk("Arg element #%d: %s\n", num++, c ? c->term : "<mark>");
+#else
+       printf("Arg element #%d: %s\n", num++, c ? c->term : "<mark>");
+#endif
+
         if (c)
             print_environment(c->env);
         stack = stack->next;
@@ -942,8 +964,6 @@ Krivine_reduction(struct ccnl_relay_s *ccnl, char *expression,
 
     return Krivine_exportResultStack(ccnl, *config);
 }
-
-#endif // !CCNL_LINUXKERNEL
 
 #endif // USE_NFN
 // eof

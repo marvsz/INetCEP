@@ -24,18 +24,25 @@
 
 #ifdef USE_NFN
 
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn-common.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-builder.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-ccntlv.h"
+#include "../../ccnl-pkt/include/ccnl-pkt-switch.h"
+#include "../../ccnl-core/include/ccnl-malloc.h"
+#include "../../ccnl-core/include/ccnl-logging.h"
+#include "../../ccnl-core/include/ccnl-os-time.h"
+#else
 #include "ccnl-nfn-common.h"
-
 #include <stdio.h>
-
-
 #include "ccnl-pkt-builder.h"
 #include "ccnl-pkt-ccntlv.h"
 #include "ccnl-pkt-switch.h"
-
 #include "ccnl-malloc.h"
 #include "ccnl-logging.h"
 #include "ccnl-os-time.h"
+#endif
+
 
 
 struct const_s *
@@ -75,7 +82,12 @@ ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
                         struct ccnl_prefix_s **prefix,
                         struct configuration_s *config)
 {
+#ifdef CCNL_LINUXKERNEL
+    int nonce = random();
+#else
     int nonce = rand();
+#endif
+
     ccnl_interest_opts_u int_opts;
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
@@ -539,7 +551,7 @@ struct ccnl_interest_s *
 ccnl_nfn_mkKeepaliveInterest(struct ccnl_relay_s *ccnl,
                              struct ccnl_interest_s *interest)
 {
-#ifndef __linux__
+#ifdef CCNL_LINUXKERNEL
     int nonce = random();
 #else
     int nonce = rand();

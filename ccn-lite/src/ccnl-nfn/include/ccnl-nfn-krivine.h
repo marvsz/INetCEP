@@ -5,11 +5,12 @@
 #ifndef CCNL_NFN_KRIVINE_H
 #define CCNL_NFN_KRIVINE_H
 
+#ifndef CCNL_LINUXKERNEL
 #include "ccnl-buf.h"
 #include "ccnl-relay.h"
 #include "ccnl-nfn.h"
 #include "ccnl-prefix.h"
-
+#endif
 struct ccnl_buf_s*
 Krivine_reduction(struct ccnl_relay_s *ccnl, char *expression,
                   int start_locally,

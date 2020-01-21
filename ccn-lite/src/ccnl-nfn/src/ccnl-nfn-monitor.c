@@ -20,13 +20,17 @@
  * 2014-04-27 created
  */
 
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn-monitor.h"
+#else
 #include "ccnl-nfn-monitor.h"
-
- #include <stdlib.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 //#include <stdint.h>
 #include <time.h>
+#endif
+
 
 #ifdef USE_NFN_MONITOR
 
