@@ -26,7 +26,7 @@
 #include "../../ccnl-core/include/ccnl-core.h"
 #include "../../ccnl-core/include/ccnl-producer.h"
 #include "../../ccnl-core/include/ccnl-callbacks.h"
-
+#include "../../ccnl-core/include/ccnl-content-store.h"
 #include "../../ccnl-core/include/ccnl-pkt-util.h"
 #ifdef USE_NFN
 #include "../../ccnl-nfn/include/ccnl-nfn-common.h"
@@ -389,6 +389,10 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     // Step 2: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
     //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+
+    if(ccnl_tree_node_find(relay->contentStore,(*pkt)->pfx)){
+        DEBUGMSG(DEBUG, "found matching content in contentStore\n");
+    }
 
     for (c = relay->contents; c; c = c->next) {
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)

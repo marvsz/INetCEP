@@ -33,6 +33,7 @@
 #include <stdbool.h>
 
 #include "../../ccnl-core/include/ccnl-content.h"
+#include "../../ccnl-core/include/ccnl-content-store.h"
 
 /**
  * Default interest lifetime in milliseconds. If the element is omitted by a user, a default
