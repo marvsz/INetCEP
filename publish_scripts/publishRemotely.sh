@@ -80,9 +80,9 @@ read -s -p "Enter Password for sudo: " sudoPW
 		echo "$sudoPW" | sudo -S apt install doxygen -y
 		cd ~/Download
 		echo "Getting openssl1.1.0f"
-		wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz
-		tar xzvf openssl-1.1.1d.tar.gz
-		cd openssl-1.1.1d
+		wget https://www.openssl.org/source/openssl-1.1.0f.tar.gz
+		tar xzvf openssl-1.1.0f.tar.gz
+		cd openssl-1.1.0f
 		./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
 		make
 		echo "$sudoPW" | sudo -S make install

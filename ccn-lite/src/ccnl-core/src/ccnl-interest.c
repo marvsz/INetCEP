@@ -48,12 +48,8 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
 {
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
-    DEBUGMSG_CORE(TRACE,"Trying to allocate buffer for interest with the size of %lu",sizeof(struct ccnl_interest_s));
-    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,sizeof(struct ccnl_interest_s));
-
-    if(i == NULL){
-        DEBUGMSG(TRACE, "Was not able to allocate memory for new interest");
-    }
+    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
+                                                                       sizeof(struct ccnl_interest_s));
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
@@ -69,8 +65,6 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
-#ifndef CCNL_LINUXKERNEL
-#endif
     if(ccnl->max_pit_entries != -1){
         if (ccnl->pitcnt >= ccnl->max_pit_entries) {
             ccnl_pkt_free(i->pkt);

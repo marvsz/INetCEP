@@ -21,19 +21,15 @@
  */
 
 #ifdef USE_NFN
-#ifdef CCNL_LINUXKERNEL
-#include "../include/ccnl-nfn-parse.h"
-#include "../../ccnl-core/include/ccnl-prefix.h"
-#include "../../ccnl-core/include/ccnl-malloc.h"
-#else
+
 #include "ccnl-nfn-parse.h"
+
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
+
 #include "ccnl-prefix.h"
 #include "ccnl-malloc.h"
-#endif
-
 
 
 char*

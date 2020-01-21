@@ -20,14 +20,7 @@
  * 2016-02-10 created
  */
 
-#ifdef CCNL_LINUXKERNEL
-#include "../include/ccnl-nfn-requests.h"
-#include "../../ccnl-core/include/ccnl-core.h"
-#include "../include/ccnl-nfn-common.h"
-#include "../include/ccnl-nfn.h"
-#include "../../ccnl-fwd/include/ccnl-fwd.h"
-#include "../../ccnl-pkt/include/ccnl-pkt-builder.h"
-#else
+
 #include "ccnl-nfn-requests.h"
 
 #include "ccnl-core.h"
@@ -35,8 +28,6 @@
 #include "ccnl-nfn.h"
 #include "ccnl-fwd.h"
 #include "ccnl-pkt-builder.h"
-#endif
-
 
 #ifdef USE_NFN_REQUESTS
 
@@ -202,7 +193,7 @@ int nfn_request_intermediate_num(struct ccnl_relay_s *relay, struct ccnl_prefix_
 struct ccnl_pkt_s*
 nfn_request_interest_pkt_new(struct ccnl_relay_s *ccnl, struct ccnl_prefix_s *pfx)
 {
-#ifdef CCNL_LINUXKERNEL
+#ifndef __linux__
     int nonce = random();
 #else
     int nonce = rand();
@@ -268,7 +259,7 @@ nfn_request_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_prefix_s *pfx)
 struct ccnl_pkt_s*
 nfn_request_content_pkt_new(struct ccnl_prefix_s *pfx, unsigned char* payload, int paylen)
 {
-#ifdef CCNL_LINUXKERNEL
+#ifndef __linux__
     int nonce = random();
 #else
     int nonce = rand();

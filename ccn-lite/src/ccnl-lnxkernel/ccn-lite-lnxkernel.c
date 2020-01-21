@@ -40,8 +40,7 @@
 #define USE_SUITE_CCNTLV
 #define USE_SUITE_NDNTLV
 #define USE_UNIXSOCKET
-#define USE_NFN
-#define USE_NFN_REQUESTS
+
 #define NEEDS_PREFIX_MATCHING
 #define NEEDS_PACKET_CRAFTING
 
@@ -114,15 +113,6 @@
 #ifdef USE_SUITE_CCNB
 #include "../../ccnl-pkt/src/ccnl-pkt-ccnb.c"
 #endif
-#ifdef USE_NFN
-#include "../../ccnl-nfn/include/ccnl-nfn.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-requests.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-krivine.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-ops.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-parse.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-common.h"
-#include "../../ccnl-nfn/include/ccnl-nfn-monitor.h"
-#endif
 #include "../../ccnl-core/src/ccnl-pkt.c"
 #include "../../ccnl-core/src/ccnl-logging.c"
 #include "../../ccnl-core/src/ccnl-os-time.c"
@@ -137,7 +127,6 @@
 #include "../../ccnl-core/src/ccnl-sockunion.c"
 #include "../../ccnl-fwd/src/ccnl-fwd.c"
 #include "../../ccnl-fwd/src/ccnl-dispatch.c"
-
 struct net_device*
 ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, int ethtype);
 struct socket*
@@ -166,7 +155,7 @@ void ccnl_udp_data_ready(struct sock *sk);
 #include "../../ccnl-pkt/src/ccnl-pkt-builder.c"
 // ----------------------------------------------------------------------
 
-
+/*
 static int
 random(void)
 {
@@ -174,7 +163,7 @@ random(void)
     get_random_bytes(&rand, sizeof(rand));
     return rand;
 }
-
+*/
 
 #ifdef USE_MGMT
 static char*
@@ -202,33 +191,11 @@ ccnl_calloc(int n, int s)
     return kcalloc(n, s, GFP_ATOMIC);
 }
 
-static inline void*
-ccnl_realloc(void *ptr, int s)
-{
-    return krealloc(ptr,s,GFP_ATOMIC);
-}
-
 static inline void
 ccnl_free(void *ptr)
 {
     kfree(ptr);
 }
-
-static inline void*
-ccnl_strdup(char *s)
-{
-    return kstrdup(s, GFP_ATOMIC);
-}
-
-#ifdef USE_NFN
-#include "../../ccnl-nfn/src/ccnl-nfn.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-requests.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-krivine.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-ops.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-parse.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-common.c"
-#include "../../ccnl-nfn/src/ccnl-nfn-monitor.c"
-#endif
 
 static void ccnl_lnxkernel_cleanup(void);
 char* ccnl_addr2ascii(sockunion *su);

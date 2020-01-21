@@ -1,7 +1,0 @@
-obj-m := ccnl-lxkernel.o
-
-ccnl-lxkernel-objs += ccn-lite-lnxkernel.o
-
-EXTRA_CFLAGS := -I/home/johannes/ccn-lite/src/ccnl-core/include/ -I/home/johannes/ccn-lite/src/ccnl-fwd/include/ -I/home/johannes/ccn-lite/src/ccnl-pkt/include/
-CFLAGS_ccn-lite-lnxkernel.o := -fno-common
-EXTRA_CFLAGS += -DDEBUG
