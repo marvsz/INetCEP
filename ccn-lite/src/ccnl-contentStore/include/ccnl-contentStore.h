@@ -27,9 +27,9 @@ typedef struct ccnl_content_store_node_s {
     char* nodePrefix;
     int nodePrefixLength;
     int depth;
-    struct ccnl_tree_node_s *next;
-    struct ccnl_tree_node_s *prev;
-    struct ccnl_tree_node_s *children;
+    struct ccnl_content_store_node_s *next;
+    struct ccnl_content_store_node_s *prev;
+    struct ccnl_content_store_node_s *children;
     struct ccnl_pkt_s *pkt;
     ccnl_content_flags flags;
     uint32_t last_used;
