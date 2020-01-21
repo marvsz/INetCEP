@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel
+CMAKE_SOURCE_DIR = /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel
+CMAKE_BINARY_DIR = /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel
 
 # Utility rule file for ccnl-lxkernel.
 
@@ -58,8 +58,8 @@ CMakeFiles/ccnl-lxkernel: ccnl-lxkernel/ccnl-lxkernel.ko
 
 ccnl-lxkernel/ccnl-lxkernel.ko: ccn-lite-lnxkernel.c
 ccnl-lxkernel/ccnl-lxkernel.ko: Kbuild.in
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating ccnl-lxkernel/ccnl-lxkernel.ko"
-	cd /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/ccnl-lxkernel && /usr/bin/make -C /lib/modules/5.3.0-26-generic/build M=/media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/ccnl-lxkernel modules
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating ccnl-lxkernel/ccnl-lxkernel.ko"
+	cd /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/ccnl-lxkernel && /usr/bin/make -C /lib/modules/5.3.0-26-generic/build M=/home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/ccnl-lxkernel modules
 
 ccnl-lxkernel: CMakeFiles/ccnl-lxkernel
 ccnl-lxkernel: ccnl-lxkernel/ccnl-lxkernel.ko
@@ -77,6 +77,6 @@ CMakeFiles/ccnl-lxkernel.dir/clean:
 .PHONY : CMakeFiles/ccnl-lxkernel.dir/clean
 
 CMakeFiles/ccnl-lxkernel.dir/depend:
-	cd /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel /media/sf_INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles/ccnl-lxkernel.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel /home/johannes/INetCEP/ccn-lite/src/ccnl-lnxkernel/CMakeFiles/ccnl-lxkernel.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ccnl-lxkernel.dir/depend
 

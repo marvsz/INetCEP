@@ -1281,7 +1281,7 @@ ccnl_mgmt_newdev(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     int len = 0, len3;
 //    unsigned char contentobj[2000];
 //    unsigned char faceinst[2000];
-    struct ccnl_if_s *i = NULL;
+    struct ccnl_if_s *i;
 
 
     DEBUGMSG(TRACE, "ccnl_mgmt_newdev\n");
