@@ -1,8 +1,8 @@
 /*
- * @f ccnl-core.h
- * @b Core Lib Header file
+ * @f ccnl-content-store.c
+ * @b CCN lite, core CCNx protocol logic
  *
- * Copyright (C) 2015, Christian Tschudin, University of Basel
+ * Copyright (C) 2011-18 University of Basel
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,33 +17,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *
  * File history:
- * 2015-04-25 created
+ * 2017-06-16 created
  */
 
-#ifndef CCNL_CORE_H
-#define CCNL_CORE_H
 
-#include "ccnl-array.h"
-#include "ccnl-content-store.h"
-#include "ccnl-content.h"
-#include "ccnl-defs.h"
-#include "ccnl-face.h"
-#include "ccnl-frag.h"
-#include "ccnl-interest.h"
-#include "ccnl-malloc.h"
-#include "ccnl-os-time.h"
-#include "ccnl-pkt.h"
-#include "ccnl-relay.h"
-#include "ccnl-sockunion.h"
-#include "ccnl-buf.h"
-#include "ccnl-crypto.h"
-#include "ccnl-dump.h"
-#include "ccnl-forward.h"
-#include "ccnl-if.h"
-#include "ccnl-logging.h"
-#include "ccnl-mgmt.h"
-#include "ccnl-pkt-util.h"
-#include "ccnl-prefix.h"
-#include "ccnl-sched.h"
-
-#endif // CCNL_CORE_H
