@@ -280,14 +280,8 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
 
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)
         || ccnl->km->numOfRunningComputations >= NFN_MAX_RUNNING_COMPUTATIONS) {
-#ifdef CCNL_LINUXKERNEL
-        DEBUGMSG_CFWD(DEBUG, "checkted the prefix, will return null");
-#endif
         return NULL;
     }
-#ifdef CCNL_LINUXKERNEL
-    DEBUGMSG_CFWD(DEBUG, "checkted the prefix, did not return null");
-#endif
 
 #ifdef USE_NFN_REQUESTS
     if (ccnl_nfnprefix_isKeepalive((*pkt)->pfx)
