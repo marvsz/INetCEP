@@ -215,7 +215,7 @@ ccnl_free(void *ptr)
 }
 
 static inline void*
-ccnl_strdup(int s)
+ccnl_strdup(char *s)
 {
     return kstrdup(s, GFP_ATOMIC);
 }

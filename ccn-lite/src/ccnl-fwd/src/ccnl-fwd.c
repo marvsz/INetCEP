@@ -280,8 +280,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     struct timespec tstart;
     getrawmonotonic(&tstart);
 #endif
-    struct ccnl_interest_s *i;
-    struct ccnl_content_s *c;
+    struct ccnl_interest_s *i = NULL;
+    struct ccnl_content_s *c = NULL;
     int propagate= 0;
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
@@ -388,8 +388,21 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     // Step 2: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
-    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+    if(relay!=NULL){
+        DEBUGMSG_CFWD(DEBUG, "Relay is not Null");
+    }
+    if(relay->contents != NULL){
+        DEBUGMSG_CFWD(DEBUG, "contents is not Null");
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "contents is Null");
+    }
 
+    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+#ifdef CCNL_LINUXKERNEL
+    if(relay != NULL && relay->contents != NULL){
+        DEBUGMSG_CFWD(DEBUG, "Appearently both now were not null, going into the loop");
+#endif
     for (c = relay->contents; c; c = c->next) {
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)
             continue;
@@ -423,7 +436,11 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             getrawmonotonic(&tend);
 #endif
             uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG(DEBUG,"Handling of Interest package took about %lu seconds\n",timeDifference);
+#else
+            DEBUGMSG(DEBUG,"Handling of Interest package took about %llu seconds\n",timeDifference);
+#endif
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;
@@ -437,22 +454,52 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if(!(*pkt)->s.ndntlv.isConstant) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
             return 0; // we are done
     }
-
+#ifdef CCNL_LINUXKERNEL
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "Both now were null, did not go into the loop");
+    }
+#endif
     // CONFORM: Step 3: check whether interest is already known
+#ifdef CCNL_LINUXKERNEL
+if(relay->pit != NULL){
+        DEBUGMSG_CFWD(DEBUG, "pit was not null, did not go into the loop to search the PIT");
+#endif
     for (i = relay->pit; i; i = i->next)
         if (ccnl_interest_isSame(i, *pkt))
             break;
-
-    if (!i) { // this is a new/unknown I request: create and propagate
+#ifdef CCNL_LINUXKERNEL
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "pit was null, did not go into the loop");
+    }
+#endif
+    if (!i) {// this is a new/unknown I request: create and propagate
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "this is a new/unknown I request: create and propagate");
+#endif
 #ifdef USE_NFN
-        if (ccnl_nfn_RX_request(relay, from, pkt))
+        if (ccnl_nfn_RX_request(relay, from, pkt)){
+#ifdef CCNL_LINUXKERNEL
+            DEBUGMSG_CFWD(DEBUG, "this means: everything is ok and pkt was consumed");
+#endif
             return -1; // this means: everything is ok and pkt was consumed
+        }
+
 #endif
         propagate = 1;
     }
-    if (!ccnl_pkt_fwdOK(*pkt))
+    if (!ccnl_pkt_fwdOK(*pkt)){
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "pktfwd returned -1");
+#endif
         return -1;
+    }
+
     if (!i) {
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "create new interest");
+#endif
         i = ccnl_interest_new(relay, from, pkt);
 
 #ifdef USE_NFN

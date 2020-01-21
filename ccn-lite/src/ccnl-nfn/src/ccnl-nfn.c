@@ -263,6 +263,21 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     struct ccnl_interest_s *i;
     struct ccnl_pkt_s **packet = pkt;
 
+#ifdef CCNL_LINUXKERNEL
+    if(ccnl==NULL)
+        DEBUGMSG_CFWD(DEBUG, "relay was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "relay was null");
+    if(from==NULL)
+        DEBUGMSG_CFWD(DEBUG, "face was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "face was not null");
+    if((*pkt)==NULL)
+        DEBUGMSG_CFWD(DEBUG, "pkt was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "pkt was not null");
+#endif
+
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)
         || ccnl->km->numOfRunningComputations >= NFN_MAX_RUNNING_COMPUTATIONS) {
         return NULL;
