@@ -111,7 +111,7 @@ int ccnl_pfxt_remove_content_rec(struct ccnl_content_store_node_s *parent, struc
     unsigned char *comp = currentNode->depth < pfx->compcnt ? pfx->comp[currentNode->depth] : 0;
     int clen = currentNode->depth < pfx->compcnt ? pfx->complen[currentNode->depth] : 32;
     while(currentNode){
-        if(clen == currentNode->nodePrefixLength && memcmp(comp,currentNode->nodePrefix,currentNode->nodePrefixLength)){
+        if(clen == currentNode->nodePrefixLength && memcmp(comp,currentNode->nodePrefix,currentNode->nodePrefixLength) != 0){
             if(pfx->compcnt == currentNode->depth){ // passenden Knoten gefunden
                 if(!currentNode->children){ // wenn der CurrentNode keine Kinder mehr hat
                     if (!currentNode->next){ // wenn der zu löschende Knoten keine nächsten Elemente mehr hat --> man kann den Elternknoten löschen

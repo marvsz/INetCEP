@@ -18,7 +18,7 @@ int ccnl_dbl_node_free(struct ccnl_content_store_node_s *node);
 
 struct ccnl_content_store_node_s* ccnl_dbl_node_get(struct ccnl_content_store_node_s *node, struct ccnl_prefix_s *pfx, int mode);
 
-int ccnl_dbl_insert_content(struct ccnl_content_store_node_s *node, struct ccnl_pkt_s *pkt);
+int ccnl_dbl_insert_content(struct ccnl_content_store_node_s **node, struct ccnl_pkt_s *pkt);
 
 int ccnl_dbl_contains_content(struct ccnl_content_store_node_s *node, struct ccnl_prefix_s *pfx, int mode);
 
