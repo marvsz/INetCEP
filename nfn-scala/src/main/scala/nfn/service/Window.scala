@@ -14,12 +14,13 @@ import scala.io.{BufferedSource, Source}
 //Added for contentfetch
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import scala.concurrent.duration._
-import scala.language.postfixOps
+
 import ccn.packet._
 import config.StaticConfig
 import myutil.FormattedOutput
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class Window() extends NFNService {
@@ -74,6 +75,13 @@ class Window() extends NFNService {
       contentWindow
     }
 
+    def placeWindowInterest(stream: String, interestedComputation: CCNName) : Future[NFNValue] = Future {
+      LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream}")
+      Networking.makeConstantInterest(stream,interestedComputation,ccnApi)
+      LogMessage(nodeName, s"Paced Window Interest")
+      NFNStringValue("Placed Interests")
+    }
+
     def processInitialSlidingEventWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue, interestedComputationName: CCNName): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Initial Sliding Event Window Computation, without dataStream")
       val setting = sensor.str.split("/")(2).concat("/").concat(numberOfEvents.str)
@@ -112,7 +120,7 @@ class Window() extends NFNService {
       LogMessage(nodeName,s"Started Sliding Event Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val setting = sensor.str.split("/")(2).concat("/").concat(numberOfEvents.str)
-      val nameOfState = s"/state/SlidingEventWindow/$setting"
+      val nameOfState = s"/state/${interestName.toString}"
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -123,20 +131,21 @@ class Window() extends NFNService {
       val returnValue = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
       Helpers.storeState(nodeName,returnValue,"SlidingEventWindow",setting,ccnApi)
       LogMessage(nodeName,s"Sliding Event Window Content is $returnValue")
-      if(deliveryFormat.str.toLowerCase == "data")
+      NFNStringValue(returnValue)
+      /*if(deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
       else if(deliveryFormat.str.toLowerCase == "name"){
         NFNStringValue(nameOfState)
       }
       else
-        NFNStringValue("Not a matching Return Format, Allowed are data and name")
+        NFNStringValue("Not a matching Return Format, Allowed are data and name")*/
     }
 
     def processSlidingTimeWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Sliding Time Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val setting = sensor.str.split("/")(2).concat("/").concat(timerPeriod.str).concat(timeUnit.str)
-      val nameOfState = s"/state/SlidingTimeWindow/$setting"
+      val nameOfState = s"/state/${interestName.toString}"
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -147,13 +156,16 @@ class Window() extends NFNService {
       val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str)
       LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
       Helpers.storeState(nodeName,returnValue,"SlidingTimeWindow",setting,ccnApi)
-      if(deliveryFormat.str.toLowerCase == "data")
+      NFNStringValue(returnValue)
+      /*if(deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
       else if(deliveryFormat.str.toLowerCase == "name"){
         NFNStringValue(nameOfState)
       }
       else
         NFNStringValue("Not a matching Return Format, Allowed are data and name")
+        */
+
     }
 
     //NFNValue(
@@ -169,7 +181,17 @@ class Window() extends NFNService {
       //case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
       //  processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
 
+      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
+        placeWindowInterest(sensor.str, interestName).recover {
+          case e => throw e
+        }
+
       case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
+        placeWindowInterest(sensor.str, interestName).recover {
+          case e => throw e
+        }
+
+      /*case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
         processInitialSlidingTimeWindow(deliveryFormat, sensor, timerPeriod, timeUnit, interestName).recover {
           case e => throw e
         }
@@ -177,8 +199,7 @@ class Window() extends NFNService {
       case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
         processInitialSlidingEventWindow(deliveryFormat, sensor, numberOfEvents, interestName).recover {
           case e => throw e
-        }
-
+        }*/
 
        // ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 6 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5' 's'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
       case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>

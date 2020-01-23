@@ -160,6 +160,7 @@ class QueryPlacement() extends NFNService {
       algorithm match {
         case "centralized" => getCentralizedNodeStatus
         case "decentralized" => getDecentralizedNodeStatus
+        case "local" => ""
         case _ => throw NoSuchPlacementException(s"The Placement Strategy $algorithm does not exist\n")
       }
       allNodes

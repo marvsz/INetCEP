@@ -4,7 +4,6 @@ import java.io.{File, FileOutputStream, PrintWriter}
 import java.util.Calendar
 
 import SACEPICN.NodeMapping
-import SACEPICN.Operators.OperatorA
 import akka.actor.ActorRef
 import ccn.packet._
 import config.StaticConfig
@@ -344,10 +343,10 @@ object Helpers {
     result
   }
 
-  def createNFNQuery(query: String, nodeName: String): String = {
+  /*def createNFNQuery(query: String, nodeName: String): String = {
     retVal = OperatorA.getParameters
     retVal = "(call " + (this.parameters.length + 2) + " /node/nodeQuery/nfn_service_Aggregator"
-  }
+  }*/
 
   /**
    * Stores content in the cache of a node

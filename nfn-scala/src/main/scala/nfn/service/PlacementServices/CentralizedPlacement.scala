@@ -99,13 +99,13 @@ class CentralizedPlacement() extends NFNService {
               //var name = currentNode._query
               val query = currentNode._type match {
                 case Operator.WINDOW => name
-                case Operator.FILTER => name.replace("[Q1]",currentNode.left._value)
-                case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
-                case Operator.AGGREGATION => name
-                case Operator.SEQUENCE => name
-                case Operator.PREDICT1 => name.replace("[Q1]",currentNode.left._value)
-                case Operator.PREDICT2 => name.replace("[Q1]",currentNode.left._value)
-                case Operator.HEATMAP => name.replace("[Q1]",currentNode.left._value)
+                case Operator.FILTER => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+                case Operator.JOIN => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode)).replace("[Q2]",currentNode.right._query.replace("nodeQuery",currentNode.right._executionNode))//.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
+                case Operator.AGGREGATION => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+                case Operator.SEQUENCE => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+                case Operator.PREDICT1 => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
+                case Operator.PREDICT2 => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
+                case Operator.HEATMAP => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
                 case _ => name
               }
               currentNode._query = query

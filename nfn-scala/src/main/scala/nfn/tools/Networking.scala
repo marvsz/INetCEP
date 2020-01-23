@@ -67,6 +67,10 @@ object Networking extends LazyLogging{
     ccnApi ! NFNApi.CCNSendConstantInterest(constantInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
   }
 
+  def subscribeToQuery(query: String, interestedComputation:CCNName, ccnApi:ActorRef): Unit = {
+    NFNApi.CCNSendConstantInterest(ConstantInterest(CCNName(new String(query).split("/").toIndexedSeq ++ Seq("NFN") : _* )), (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
+  }
+
   /**
     * Try to fetch content object by given interest.
     *
