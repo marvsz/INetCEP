@@ -24,7 +24,6 @@
 #define CCNL_CORE_H
 
 #include "ccnl-array.h"
-#include "ccnl-content-store.h"
 #include "ccnl-content.h"
 #include "ccnl-defs.h"
 #include "ccnl-face.h"
