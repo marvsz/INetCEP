@@ -21,4 +21,4 @@ nohup bash startCS.sh a 9998 9002 > CSA.log &
 sleep 0.1
 nohup bash startCS.sh a 9999 9003 > CSB.log &
 sleep 6s
-~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500 -x mgmt-nfn-relay-b.sock -v trace -d /home/johannes/INetCEP/sensors/gps1
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500 -x mgmt-nfn-relay-a.sock -v trace -d /home/johannes/INetCEP/sensors/gps1
