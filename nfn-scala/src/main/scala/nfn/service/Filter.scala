@@ -34,7 +34,7 @@ class Filter() extends NFNService {
 
     def placeFilterInterests(interestNodeName: String, stream: String, interestedComputation: CCNName): String = {
       LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
-      Networking.subscribeToQuery(stream,interestedComputation,ccnApi)
+      Networking.subscribeToQuery(stream,interestedComputation.toString,ccnApi)
       "Placed Interests"
     }
 
