@@ -43,7 +43,10 @@ lazy val nfn = Project(
     dependencies.shttp,
     dependencies.junitJupterEngine,
     dependencies.jupiter,
-    dependencies.xml
+    dependencies.xml,
+    dependencies.japi,
+    dependencies.jcore,
+    dependencies.jimpl
   ),
   mainClass in assembly := Some("runnables.production.ComputeServerStarter")//,
   //run in Compile := run in Compile dependsOn compileCCNLiteTask
@@ -64,7 +67,7 @@ lazy val compilerOptions = Seq(
 
 lazy val commonSettings = Seq(
   version       := "0.2.2",
-  scalaVersion  := "2.13.0",
+  scalaVersion  := "2.13.1",
   scalacOptions ++= compilerOptions,
   resolvers ++= Seq(
     Resolver.sonatypeRepo("snapshots"),
@@ -99,6 +102,9 @@ lazy val dependencies =
     //val xmlV = "2.0.0-M1"
     val collectionCompatV = "2.1.2"
     val parserV = "1.1.2"
+    val japiV = "2.3.0"
+    val jcoreV = "2.3.0"
+    val jimplV = "2.3.0"
 
     val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaActorV
     val akkaTest = "com.typesafe.akka" %% "akka-testkit" % akkaTestkitV
@@ -119,6 +125,9 @@ lazy val dependencies =
     val xml = "org.scala-lang.modules" %% "scala-xml" % xmlV
     val collectionCompat = "org.scala-lang.modules" %% "scala-collection-compat" % collectionCompatV
     val parser = "org.scala-lang.modules" %% "scala-parser-combinators" % parserV
+    val japi = "javax.xml.bind" % "jaxb-api" % japiV
+    val jcore = "com.sun.xml.bind" % "jaxb-core" % jcoreV
+    val jimpl = "com.sun.xml.bind" % "jaxb-impl" % jimplV
   }
 
 lazy val commonDependencies = Seq(
