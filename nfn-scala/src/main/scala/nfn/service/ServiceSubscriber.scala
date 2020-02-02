@@ -8,7 +8,7 @@ import scala.concurrent.Future
 class ServiceSubscriber extends NFNService {
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
     def subscribeToComputation(queryToExecute: String, queryInterestedIn: String) : Future[NFNValue] = Future{
-      //nfn.tools.Networking.subscribeToQuery(queryToExecute.replaceAll("[|]","'"),queryInterestedIn.replaceAll("[|]","'"), ccnApi)
+      nfn.tools.Networking.subscribeToQuery(queryToExecute.replaceAll("[|]","'"),queryInterestedIn.replaceAll("[|]","'"), ccnApi)
       NFNStringValue("Placed Subscriptions")
     }
     args match {

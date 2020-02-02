@@ -55,12 +55,12 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
         //Determine the location (name) where this query writeOutputFiles will be executed:
         val remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
         //val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
-        var callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber '[Q1]' '[Q2]' "/*.replace("[Q1]",currentNode._query.replaceAll("'","|").replaceAll("[(]","").replaceAll("[)]",""))*/.replace("nodeQuery", currentNode._executionNode)
+        var callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber 'Q1' 'Q2'".replace("Q1",currentNode._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/).replace("nodeQuery", currentNode._executionNode)
         val result = currentNode._type match {
           case Operator.FILTER => {
-            Helpers.executeNFNQuery(callerQuery/*.replace("[Q2]",currentNode.left._query.replaceAll("'","|").replaceAll("[(]","").replaceAll("[)]",""))*/,remoteNodeName,ccnApi,60)
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
           }
-          case _ => "WindowOperator"
+          case _ => Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
         }
         currentNode._value = result
 
