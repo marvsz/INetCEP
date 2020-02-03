@@ -68,9 +68,13 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
         currentNode._Vprocessed = true
         LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
 
-        if (currentNode.parent == null)
+        if (currentNode.parent == null) {
+          val callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber '(call 1 /node/nodeQuery/nfn_service_QueryResultPrinter)' 'Q2'".replace("nodeQuery",remoteNodeName).replace("Q2",currentNode._query.replaceAll("'","|"))
+          val deploymentResult = Helpers.executeNFNQuery(callerQuery,remoteNodeName,ccnApi,60)
+          LogMessage(nodeName,deploymentResult)
           currentNode
-        else
+          // Here is the last one, call the printer of the result.
+        } else
           processDeploymentTree(currentNode.parent)
       }
     }
