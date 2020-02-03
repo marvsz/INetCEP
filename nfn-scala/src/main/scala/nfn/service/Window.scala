@@ -120,7 +120,7 @@ class Window() extends NFNService {
       LogMessage(nodeName,s"Started Sliding Event Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val setting = sensor.str.split("/")(2).concat("/").concat(numberOfEvents.str)
-      val nameOfState = s"/state/${interestName.toString}"
+      val nameOfState = s"/state${interestName.toString}"
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -129,7 +129,7 @@ class Window() extends NFNService {
       else
         LogMessage(nodeName,"State Content was empty")
       val returnValue = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
-      Helpers.storeState(nodeName,returnValue,"SlidingEventWindow",setting,ccnApi)
+      Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
       LogMessage(nodeName,s"Sliding Event Window Content is $returnValue")
       NFNStringValue(returnValue)
       /*if(deliveryFormat.str.toLowerCase == "data")
@@ -145,7 +145,7 @@ class Window() extends NFNService {
       LogMessage(nodeName,s"Started Sliding Time Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val setting = sensor.str.split("/")(2).concat("/").concat(timerPeriod.str).concat(timeUnit.str)
-      val nameOfState = s"/state/${interestName.toString}"
+      val nameOfState = s"/state${interestName.toString}"
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -155,7 +155,7 @@ class Window() extends NFNService {
         LogMessage(nodeName,"State Content was empty")
       val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str)
       LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
-      Helpers.storeState(nodeName,returnValue,"SlidingTimeWindow",setting,ccnApi)
+      Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
       NFNStringValue(returnValue)
       /*if(deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
