@@ -68,13 +68,13 @@ object Networking extends LazyLogging{
   }
 
   def subscribeToQuery(interestName: String, interestedComputation: String, ccnApi:ActorRef): Unit = {
-    val interestedComputationName = NFNInterest(interestedComputation).name
+    val interestedComputationName = NFNInterest(interestedComputation).name.prepend("COMPUTE")
       //CCNName(new String(interestedComputation).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
     if(!interestName.contains("call")){
       ccnApi ! makeConstantInterest(interestName,interestedComputationName,ccnApi)
     }
     else{
-      val interestComputationName = NFNInterest(interestName).name
+      val interestComputationName = NFNInterest(interestName).name.prepend("COMPUTE")
         //CCNName(new String(interestName).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
       ccnApi ! NFNApi.CCNSendConstantInterest(ConstantInterest(interestComputationName), interestedComputationName, useThunks = false)
     }
