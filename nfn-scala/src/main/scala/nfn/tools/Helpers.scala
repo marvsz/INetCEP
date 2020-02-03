@@ -380,5 +380,11 @@ object Helpers {
     ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
   }
 
+  def storeState(nodeName: String, input: String, stateName: String, ccnApi: ActorRef)={
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(stateName.substring(1)).split("/").toIndexedSeq: _*)
+    LogMessage(nodeName, s"State for $stateName saved to Network")
+    ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
+  }
+
 
 }
