@@ -267,6 +267,8 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     case NFNApi.CCNSendConstantInterest(constantInterest, interestedComputation, useThunks) => {
       val senderCopy = sender
       logger.debug(s"the name of the interested Computation we actually store is ${interestedComputation}")
+      logger.debug(s"The Comps of the constant Interest are ${constantInterest.name.cmps.toString()}")
+      logger.debug(s"The Comps of the interested Computation are ${interestedComputation.cmps.toString()}")
       pqt.add(constantInterest.name,interestedComputation, defaultTimeoutDuration)
       logger.debug(s"API: Sending interest $constantInterest (f=$senderCopy)")
       val maybeThunkInterest =
@@ -530,8 +532,11 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
                 qi => computeServer ! ComputeServer.ComputeDataStream(qi,Seq(NFNStringValue(new String(content.data))))
               }
             }
-            case None =>
+            case None =>{
               logger.warning(s"Discarding content $content because there is no entry in pit " + pit.toString())
+              logger.debug(s"Content of the PQT is "+ pqt.toString())
+            }
+
           }
       }
     }
