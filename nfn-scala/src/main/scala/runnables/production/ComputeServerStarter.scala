@@ -5,7 +5,7 @@ import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
 import nfn.service.PlacementServices.QueryPlacement
-import nfn.service.{Filter, ServiceSubscriber, Window}
+import nfn.service.{Filter, ServiceSubscriber, Window, QueryResultPrinter}
 import node.LocalNode
 import scopt.OptionParser
 
@@ -112,6 +112,7 @@ object ComputeServerStarter extends LazyLogging {
         node.publishServiceLocalPrefix(new QueryPlacement())
         node.publishServiceLocalPrefix(new ServiceSubscriber())
         node.publishServiceLocalPrefix(new Filter())
+        node.publishServiceLocalPrefix(new QueryResultPrinter())
 
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
