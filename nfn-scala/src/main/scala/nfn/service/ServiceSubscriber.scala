@@ -7,12 +7,22 @@ import scala.concurrent.Future
 
 class ServiceSubscriber extends NFNService {
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
+    var nodeInfo = interestName.cmps.mkString(" ")
+    var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
     def subscribeToComputation(queryToExecute: String, queryInterestedIn: String) : Future[NFNValue] = Future{
-      nfn.tools.Networking.subscribeToQuery(queryToExecute.replaceAll("[|]","'"),queryInterestedIn.replaceAll("[|]","'"), ccnApi)
+      var qte= queryToExecute.replaceAll("[|]","'")
+      var qii = queryInterestedIn.replaceAll("[|]","'")
+      qte = qte.substring(1,qte.length-1)
+      qii = qii.substring(1,qii.length-1)
+      /*qte = "COMPUTE/".concat(qte)
+      qii = "COMPUTE/".concat(qii)*/
+      LogMessage(nodeName,"The query to Execute is: "+qte)
+      LogMessage(nodeName,"The query interested in  is: "+qii)
+      nfn.tools.Networking.subscribeToQuery(qte, qii, ccnApi)
       NFNStringValue("Placed Subscriptions")
     }
     args match {
-      case Seq(queryToExecute: NFNStringValue, queryInterestedIn: NFNStringValue) =>
+      case Seq(queryInterestedIn: NFNStringValue, queryToExecute: NFNStringValue) =>
         subscribeToComputation(queryToExecute.str, queryInterestedIn.str).recover {
           case e => throw e
         }
