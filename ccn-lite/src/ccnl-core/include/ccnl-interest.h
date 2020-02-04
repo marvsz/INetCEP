@@ -49,6 +49,12 @@ struct ccnl_pendint_s {
     uint32_t last_used;          /** */
 };
 
+struct ccnl_pendQ_s {
+    struct ccnl_pendQ_s *next;
+    struct ccnl_interest_s *query;
+    uint32_t last_used;
+};
+
 /**
  * @brief A interest linked list element
  */
@@ -58,6 +64,7 @@ struct ccnl_interest_s {
     struct ccnl_pkt_s *pkt;             /**< the packet the interests originates from (?) */
     struct ccnl_face_s *from;           /**< the face the interest was received from */
     struct ccnl_pendint_s *pending;     /**< linked list of faces wanting that content */
+    struct ccnl_pendQ_s *pendingQueries; /**< linked list of queries that are to be executed when the interested Data is satisfied*/
     unsigned short flags;
     uint32_t lifetime;                  /**< interest lifetime */
     bool isConst;
