@@ -1,0 +1,67 @@
+### Produce Content
+mkC konvertiert einen Eingabestring von stdin, also das Ausführen, irgendwas tippen und dann Enter drücken
+~/INetCEP/ccn-lite/bin/ccn-lite-mkC -s ndn2013 "/ndn/test/mycontent" > ~/INetCEP/ccn-lite/test/ndntlv/mycontent.ndntlv
+
+### ccn-lite-relay für nodeA starten
+~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9998 -x /tmp/mgmt-relay-a.sock
+
+### ccn-lite-relay für nodeB starten
+~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9999 -x /tmp/mgmt-relay-b.sock -d ~/INetCEP/ccn-lite/test/ndntlv/
+
+### Weiterleitungsregel von nodeA nach nodeB erstellen. 
+FACEID=`~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-relay-a.sock newUDPface any 127.0.0.1 9999 \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml | grep FACEID | sed -e 's/^[^0-9]*\([0-9]\+\).*/\1/'`
+
+### Relay A ist durch das UDP face mit B verbunden, logisch hat A aber noch nicht den nötigen forwarding state um B zu erreichen. Also muss eine Forwarding Regel (/ndn --> B) erstellt werden
+~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-relay-a.sock prefixreg /ndn $FACEID ndn2013 \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+ *Über http://127.0.0.1:6363/ kann man sich die Konfiguration auch auf einer Webseite anschauen.
+
+###Interest für /ndn/test/mycontent nach A schicken
+ ~/INetCEP/ccn-lite/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9998 "/ndn/test/mycontent" \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump
+
+### Um nur den content zu sehen muss man das -f 2 output format nutzen
+  ~/INetCEP/ccn-lite/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9998 "/ndn/test/mycontent" \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+
+### Shutdown of realy B
+  ~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-relay-b.sock debug halt | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+  ### Remove face to B
+  ~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-relay-a.sock debug dump | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+  ### Shutdown realy A
+  ~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-relay-a.sock debug halt | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+
+### NFN relay starten
+
+~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -u 9001 -x /tmp/mgmt-nfn-relay-a.sock -d ~/INetCEP/ccn-lite/test/ndntlv
+
+### Scala compute server starten
+java -jar ~/INetCEP/nfn-scala/target/scala-2.13/nfn-assembly-0.2.2.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock \
+  --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA
+
+### Simple NFN function call
+
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 "add 1 2" \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 3
+
+### NFN function call
+
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 10 -v trace \
+  "call 2 /node/nodeA/nfn_service_WordCount 'foo bar'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+
+### More complex NFN function call
+
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 10   "call 6 /node/nodeA/nfn_service_Window 'nodata' 'name' 'victims' '4' 'S'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+
+### The result is the name of the data and where to find it. replace it at NAMEOFDATA
+
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 10   "call 2 /node/nodeA/nfn_service_GetContent 'NAMEOFDATA'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+
+### Adding Content from a file to the cache
+
+~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock addContentToCache ~/INetCEP/ccn-lite/test/ndntlv/mycontent2.ndntlv
