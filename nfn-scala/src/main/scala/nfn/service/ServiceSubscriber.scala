@@ -19,7 +19,7 @@ class ServiceSubscriber extends NFNService {
       LogMessage(nodeName,"The query to Execute is: "+qte)
       LogMessage(nodeName,"The query interested in  is: "+qii)
       nfn.tools.Networking.subscribeToQuery(qte, qii, ccnApi)
-      NFNStringValue("Placed Subscriptions")
+      NFNStringValue(s"Placed Subscriptions for ${qii} to be interested in ${qte}")
     }
     args match {
       case Seq(queryInterestedIn: NFNStringValue, queryToExecute: NFNStringValue) =>
