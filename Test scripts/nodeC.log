@@ -1,1 +1,243 @@
-startNode.sh: line 4: /home/johannes/INetCEP/ccn-lite/bin/ccn-lite-relay: No such file or directory
+[I] 0.0002: This is ccn-lite-relay, starting at Feb  4 11:46:22 2020
+[I] 0.0005:   ccnl-core: 2015-07-07
+[I] 0.0005:   compile time: Feb  3 2020 09:00:29
+[I] 0.0006:   compile options: CCNxDIGEST, DEBUG, DEBUG_MALLOC, ETHERNET, HMAC256, HTTP_STATUS, LOGGING, MGMT, NFN, SUITE_CCNB, SUITE_CCNTLV, SUITE_LOCALRPC, SUITE_NDNTLV, UNIXSOCKET, 
+[I] 0.0006:   seed: 2761111062
+[I] 0.0007: configuring relay
+[I] 0.0007: configuring relay2
+[I] 0.0008: UDP interface (0.0.0.0/9998) configured
+[I] 0.0008: configuring relay3
+[I] 0.0009: HTTP status server listening at TCP port 6363
+[I] 0.0010: UNIX interface (/tmp/mgmt-nfn-relay-a.sock) configured
+[I] 0.0011: starting main event and IO loop
+[I] 1.0020: local time is Tue Feb  4 11:46:23 2020
+[V] 1.0020: ageing t=1
+[V] 2.0040: ageing t=2
+[V] 3.0060: ageing t=3
+[V] 4.0070: ageing t=4
+[V] 5.0080: ageing t=5
+[V] 6.0090: ageing t=6
+[V] 7.0100: ageing t=7
+[V] 8.0120: ageing t=8
+[V] 9.0130: ageing t=9
+[V] 10.0100: ageing t=10
+[V] 11.0200: ageing t=11
+[V] 12.0200: ageing t=12
+[D] 12.3700: ccnl_core_RX ifndx=0, 24 bytes
+[T] 12.3700: ccnl_get_face_or_create src=127.0.0.1/43025
+[V] 12.3700:   found suitable interface 0 for 127.0.0.1/43025
+[<] 12.3700: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[D] 12.3700:   face 1, peer=127.0.0.1/43025
+[D] 12.3700: Data content to dehead add 1 2NFN
+•ä@
+[D] 12.3700: ccnl_switch_dehead: started
+[D] 12.3700: enc was 1, suite is now -1
+[T] 12.3700: pkt2suite 5 22
+[D] 12.3700: ccnl_switch_dehead: started
+[W] 12.3700: kown packet format ccnl_core_RX ifndx=0, 24 bytes starting with 0x05 at offset 0, suit is 6
+[D] 12.3700: ccnl_ndntlv_forwarder (24 bytes left)
+[D] 12.3700: ccnl_ndntlv_bytes2pkt len=22
+[D] 12.3700:   check interest type
+[D] 12.3700:   is NFN interest
+[D] 12.3700: The content is 
+[I] 12.3700:   incoming interest=<nfn[/add 1 2]>ndn2013 nonce=1088722194 from=127.0.0.1/43025
+[T] 12.3700: ccnl_nonce_find_or_append
+[D] 12.3700:   searching in CS
+[T] 12.3700: ccnl_new_interest(prefix=nfn[/add 1 2], suite=ndn2013)
+[T] 12.3700: ccnl_append_pending
+[D] 12.3700:   appending a new pendint entry 0x557a8528ceb8 <nfn[/add 1 2]>(0x557a8528ca98)
+[T] 12.3700: ccnl_nfn(0x557a85276288, nfn[/add 1 2], 0x557a8528c8e8, config=(nil))
+[D] 12.3700: Namecomps: nfn[/add 1 2] 
+[D] 12.3700: expr is <add 1 2>
+[T] 12.3700: Krivine_reduction()
+[D] 12.3700: PREFIX nfn[/add 1 2]
+[I] 12.3700: Prog: CLOSURE(HALT);RESOLVENAME(add 1 2)
+[D] 12.3700: Step 1 (0/0): CLOSURE(HALT);RESOLVENAME(add 1 2)
+[D] 12.3700: ---to do: closure <HALT> (contd=RESOLVENAME(add 1 2))
+[T] 12.3700: push_to_stack: 0x557a852910f8
+[D] 12.3700: Step 2 (1/0): RESOLVENAME(add 1 2)
+[D] 12.3700: ---to do: resolveNAME <add 1 2>
+[D] 12.3700: Step 3 (1/0): CLOSURE(RESOLVENAME(2));RESOLVENAME(add 1)
+[D] 12.3700: ---to do: closure <RESOLVENAME(2)> (contd=RESOLVENAME(add 1))
+[T] 12.3700: push_to_stack: 0x557a85291648
+[D] 12.3700: Step 4 (2/0): RESOLVENAME(add 1)
+[D] 12.3700: ---to do: resolveNAME <add 1>
+[D] 12.3700: Step 5 (2/0): CLOSURE(RESOLVENAME(1));RESOLVENAME(add)
+[D] 12.3700: ---to do: closure <RESOLVENAME(1)> (contd=RESOLVENAME(add))
+[T] 12.3700: push_to_stack: 0x557a85291978
+[D] 12.3700: Step 6 (3/0): RESOLVENAME(add)
+[D] 12.3700: ---to do: resolveNAME <add>
+[D] 12.3700: Step 7 (3/0): ACCESS(add);TAILAPPLY
+[D] 12.3700: ---to do: access <add>
+[T] 12.3700: push_to_stack: 0x557a85291c28
+[D] 12.3700: Step 8 (4/0): TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 9 (3/0): CLOSURE(OP_ADD);RESOLVENAME(@op(@x(@y x y op)));TAILAPPLY
+[D] 12.3700: ---to do: closure <OP_ADD> (contd=RESOLVENAME(@op(@x(@y x y op)));TAILAPPLY)
+[T] 12.3700: push_to_stack: 0x557a85291dc8
+[D] 12.3700: Step 10 (4/0): RESOLVENAME(@op(@x(@y x y op)));TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <@op(@x(@y x y op))>
+[D] 12.3700: Step 11 (4/0): GRAB(op);RESOLVENAME((@x(@y x y op)));TAILAPPLY
+[D] 12.3700: ---to do: grab <op>
+[D] 12.3700: Step 12 (3/0): RESOLVENAME((@x(@y x y op)));TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <(@x(@y x y op))>
+[D] 12.3700: Step 13 (3/0): GRAB(x);RESOLVENAME((@y x y op));TAILAPPLY
+[D] 12.3700: ---to do: grab <x>
+[D] 12.3700: Step 14 (2/0): RESOLVENAME((@y x y op));TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <(@y x y op)>
+[D] 12.3700: Step 15 (2/0): GRAB(y);RESOLVENAME(x y op);TAILAPPLY
+[D] 12.3700: ---to do: grab <y>
+[D] 12.3700: Step 16 (1/0): RESOLVENAME(x y op);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <x y op>
+[D] 12.3700: Step 17 (1/0): CLOSURE(RESOLVENAME(op));RESOLVENAME(x y);TAILAPPLY
+[D] 12.3700: ---to do: closure <RESOLVENAME(op)> (contd=RESOLVENAME(x y);TAILAPPLY)
+[T] 12.3700: push_to_stack: 0x557a852932b8
+[D] 12.3700: Step 18 (2/0): RESOLVENAME(x y);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <x y>
+[D] 12.3700: Step 19 (2/0): CLOSURE(RESOLVENAME(y));RESOLVENAME(x);TAILAPPLY
+[D] 12.3700: ---to do: closure <RESOLVENAME(y)> (contd=RESOLVENAME(x);TAILAPPLY)
+[T] 12.3700: push_to_stack: 0x557a852935f8
+[D] 12.3700: Step 20 (3/0): RESOLVENAME(x);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <x>
+[D] 12.3700: Step 21 (3/0): ACCESS(x);TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: access <x>
+[T] 12.3700: push_to_stack: 0x557a85293878
+[D] 12.3700: Step 22 (4/0): TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 23 (3/0): RESOLVENAME(1);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <1>
+[T] 12.3700: push_to_stack: 0x557a85293a78
+[D] 12.3700: Step 24 (3/1): TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 25 (2/1): RESOLVENAME(y);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <y>
+[D] 12.3700: Step 26 (2/1): ACCESS(y);TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: access <y>
+[T] 12.3700: push_to_stack: 0x557a85293d48
+[D] 12.3700: Step 27 (3/1): TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 28 (2/1): RESOLVENAME(2);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <2>
+[T] 12.3700: push_to_stack: 0x557a85293f48
+[D] 12.3700: Step 29 (2/2): TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 30 (1/2): RESOLVENAME(op);TAILAPPLY
+[D] 12.3700: ---to do: resolveNAME <op>
+[D] 12.3700: Step 31 (1/2): ACCESS(op);TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: access <op>
+[T] 12.3700: push_to_stack: 0x557a85294218
+[D] 12.3700: Step 32 (2/2): TAILAPPLY;TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 33 (1/2): OP_ADD;TAILAPPLY
+[D] 12.3700: builtin: OP_ADD (OP_ADD;TAILAPPLY/TAILAPPLY)
+[D] 12.3700: ---to do: OP_ADD <TAILAPPLY> pending: TAILAPPLY
+[T] 12.3700: pop_or_resolve_from_RS: conf=0x557a85290f08, elm=0x557a85293f48, type=1
+[T] 12.3700: pop_or_resolve_from_RS: conf=0x557a85290f08, elm=0x557a85293a78, type=1
+[T] 12.3700: push_to_stack: 0x557a85294348
+[D] 12.3700: Step 34 (1/1): TAILAPPLY
+[D] 12.3700: ---to do: tailapply
+[D] 12.3700: Step 35 (0/1): HALT
+[I] 12.3700: end-of-computation (0/1)
+[T] 12.3700: pop_or_resolve_from_RS: conf=0x557a85290f08, elm=0x557a85294348, type=1
+[I] 12.3700: Computation finished: res: 3 size: 1 bytes. Running computations: 1
+[T] 12.3700: ccnl_nfn_result2content(prefix=nfn[/add 1 2], suite=ndn2013, contlen=1)
+[D] 12.3700: mkSimpleContent (nfn[/add 1 2], 1 bytes)
+[T] 12.3700: ccnl_content_new 0x557a85294de8 <nfn[/add 1 2] [-1]>
+[V] 12.3700: prefix_cmp(mode=CMP_EXACT) [V] 12.3700: prefix=<nfn[/add 1 2]>(0x557a8528ca98) of? [V] 12.3700: name=<nfn[/add 1 2]>(0x557a85294468) digest=(nil)
+[T] 12.3700:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
+[T] 12.3700: ccnl_content_serve_pending
+[V] 12.3700: ccnl_i_prefixof_c prefix=<nfn[/add 1 2]> [V] 12.3700: content=<nfn[/add 1 2]> min=0 max=64
+[V] 12.3700: prefix_cmp(mode=CMP_MATCH) [V] 12.3700: prefix=<nfn[/add 1 2]>(0x557a85294468) of? [V] 12.3700: name=<nfn[/add 1 2]>(0x557a8528ca98) digest=(nil)
+[T] 12.3700:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=1
+[I] 12.3700:   outgoing data=<nfn[/add 1 2]>ndn2013 nonce=1088722194 to=127.0.0.1/43025
+[V] 12.3700:     Serve to face: 1 (pkt=0x557a85294de8)
+[T] 12.3700: enqueue face=0x557a8528c8e8 (id=0.1) buf=0x557a85296f38 len=30
+[T] 12.3700: CTS face=0x557a8528c8e8 sched=(nil)
+[T] 12.3700: dequeue face=0x557a8528c8e8 (id=0.1)
+[T] 12.3700: enqueue interface=0x557a852762e0 buf=0x557a85296f38 len=30 (qlen=0)
+[T] 12.3700: interface_CTS interface=0x557a852762e0, qlen=1, sched=(nil)
+[D] 12.3700: udp sendto 127.0.0.1/43025 returned 30
+[T] 12.3700: ccnl_interest_remove 0x557a8528ce08
+[D] 12.3700: Interest was a not constant interest and will be removed
+[D] 12.3700: ccnl_content_add2cache (0/-1) --> 0x557a85296ed8 = nfn[/add 1 2] [-1]
+[T] 12.3700: ccnl_nfn_freeConfiguration(0x557a85290f08)
+[V] 12.3700: nfn_freeMachineState 0x557a85290fc8
+[<] 12.3700: ccnl_nfn_freeMachineState() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-common.c:282
+[<] 12.3700: ccnl_nfn() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:246
+[<] 12.3700: ccnl_nfn_RX_request() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:298
+[V] 13.0200: ageing t=13
+[V] 14.0200: ageing t=14
+[V] 15.0200: ageing t=15
+[V] 16.0200: ageing t=16
+[V] 17.0300: ageing t=17
+[V] 18.0300: ageing t=18
+[V] 19.0300: ageing t=19
+[V] 20.0300: ageing t=20
+[V] 21.0300: ageing t=21
+[V] 22.0300: ageing t=22
+[V] 23.0300: ageing t=23
+[V] 24.0400: ageing t=24
+[V] 25.0400: ageing t=25
+[V] 26.0400: ageing t=26
+[D] 26.8800: ccnl_core_RX ifndx=1, 57 bytes
+[T] 26.8800: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-22092.sock
+[V] 26.8800:   found suitable interface 1 for /tmp/.ccn-light-ctrl-22092.sock
+[<] 26.8800: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[D] 26.8800:   face 2, peer=/tmp/.ccn-light-ctrl-22092.sock
+[D] 26.8800: Data content to dehead Òòú¥ccnx
+[D] 26.8800: ccnl_switch_dehead: started
+[D] 26.8800: enc was 1, suite is now -1
+[T] 26.8800: pkt2suite 1 210
+[D] 26.8800: ccnl_switch_dehead: started
+[W] 26.8800: kown packet format ccnl_core_RX ifndx=1, 57 bytes starting with 0x01 at offset 0, suit is 1
+[D] 26.8800: ccnl_ccnb_forwarder: 57B from face=0x557a852975c8 (id=0.2)
+[D] 26.8800: ccnb fwd (55 bytes left)
+[T] 26.8800: ccnl_ccnb_extract
+[I] 26.8800:   incoming interest=</ccnx//debug/%04%ffffff82%01%ffffff9a%01%ffffffb501%ffffffe2%04%ffffffca%ffffffaddebug%0001%ffffffea%ffffffa5halt%00%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-22092.sock
+[I] 26.8800:   found a mgmt message
+[T] 26.8800: ccnl_mgmt request "debug"
+[T] 26.8800: ccnl_mgmt_handle "debug"
+[T] 26.8800: ccnl_mgmt_debug from=/tmp/.ccn-light-ctrl-22092.sock
+[T] 26.8800:   debugaction is halt
+[D] 26.8800: ccnl_mgmt_send_return_split 60 bytes, 1 packet(s)
+[T] 26.8800:   enqueue 76 79 bytes
+[T] 26.8800: enqueue face=0x557a852975c8 (id=0.2) buf=0x557a8529d138 len=79
+[T] 26.8800: CTS face=0x557a852975c8 sched=(nil)
+[T] 26.8800: dequeue face=0x557a852975c8 (id=0.2)
+[T] 26.8800: enqueue interface=0x557a85278578 buf=0x557a8529d138 len=79 (qlen=0)
+[T] 26.8800: interface_CTS interface=0x557a85278578, qlen=1, sched=(nil)
+[D] 26.8800: unix sendto /tmp/.ccn-light-ctrl-22092.sock returned 79
+[T] 26.8800: ccnl_core_cleanup 0x557a85276288
+[D] 26.8800: face_remove relay=0x557a85276288 face=0x557a852975c8
+[T] 26.8800: ccnl_sched_destroy (nil)
+[T] 26.8800: face_remove: cleaning PIT
+[T] 26.8800: face_remove: cleaning fwd table
+[T] 26.8800: face_remove: cleaning pkt queue
+[T] 26.8800: face_remove: unlinking1 0x557a8528c8e8 (nil)
+[T] 26.8800: face_remove: unlinking2
+[T] 26.8800: face_remove: unlinking3
+[<] 26.8800: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:181
+[D] 26.8800: face_remove relay=0x557a85276288 face=0x557a8528c8e8
+[T] 26.8800: ccnl_sched_destroy (nil)
+[T] 26.8800: face_remove: cleaning PIT
+[T] 26.8800: face_remove: cleaning fwd table
+[T] 26.8800: face_remove: cleaning pkt queue
+[T] 26.8800: face_remove: unlinking1 (nil) (nil)
+[T] 26.8800: face_remove: unlinking2
+[T] 26.8800: face_remove: unlinking3
+[<] 26.8800: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:181
+[T] 26.8800: ccnl_content_remove
+[T] 26.8800: ccnl_content_removed
+[T] 26.8800: ccnl_interface_cleanup
+[T] 26.8800: ccnl_sched_destroy (nil)
+[T] 26.8800: ccnl_interface_cleanup
+[T] 26.8800: ccnl_sched_destroy (nil)
+[T] 26.8800: ccnl_nfn_freeKrivine(0x557a8528c298)
+[D] 26.8800:   configuration_list (nil)
+[M] 26.8800: @@@ memory dump starts
+addr 0x557a85294bc0 2049 Bytes, ccnl-prefix.c:560 @12.3700
+addr 0x557a85290cc0 2049 Bytes, ccnl-prefix.c:560 @12.3700
+addr 0x557a8528e570 2049 Bytes, ccnl-prefix.c:560 @12.3700
+addr 0x557a8528dd10 2049 Bytes, ccnl-prefix.c:560 @12.3700
+addr 0x557a852768a0 88696 Bytes, ccn-lite-relay.c:171 @0.0000
+[M] 26.8800: @@@ memory dump ends
