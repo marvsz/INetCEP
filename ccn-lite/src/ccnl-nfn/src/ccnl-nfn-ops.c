@@ -96,7 +96,7 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     return pending ? ccnl_strdup(pending) : NULL;
 }
 
-char*
+/*char*
 op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                   int *restart, int *halt, char *prog, char *pending,
                   struct stack_s **stack)
@@ -112,7 +112,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
 
 
     return cp;
-}
+}*/
 
 char*
 op_builtin_find(struct ccnl_relay_s *ccnl, struct configuration_s *config,
