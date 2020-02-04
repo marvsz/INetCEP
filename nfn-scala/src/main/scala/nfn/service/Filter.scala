@@ -33,9 +33,9 @@ class Filter() extends NFNService {
     //First break OR and then get AND
 
     def placeFilterInterests(interestNodeName: String, stream: String, interestedComputation: CCNName): String = {
-      LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
-      Networking.subscribeToQuery(stream,interestedComputation.toString,ccnApi)
-      "Placed Interests"
+      /*LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
+      Networking.subscribeToQuery(stream,interestedComputation.toString,ccnApi)*/
+      "Initial Filter Operation started --> can I get rid of this in general? Maybe have a Non-returning thing here..."
     }
 
     def filterStream1(dataStreamName: String, filter: String, dataStream: String):String = {
