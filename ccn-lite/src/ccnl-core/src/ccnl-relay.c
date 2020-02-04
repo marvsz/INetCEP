@@ -25,6 +25,7 @@
 #include "../../ccnl-nfn/include/ccnl-nfn-common.h"
 #endif
 #include "../include/ccnl-core.h"
+#include "../../ccnl-fwd/include/ccnl-fwd.h"
 #include <stdio.h>
 #include <inttypes.h>
 #include <assert.h>
@@ -616,8 +617,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     }
     for (i = ccnl->pit; i;) {
         struct ccnl_pendint_s *pi;
-        struct ccnl_pendQ_s *pq;
-        struct ccnl_interest_s *qi;
+        /*struct ccnl_pendQ_s *pq;
+        struct ccnl_interest_s *qi;*/
 
         if (!i->pkt->pfx)
             continue;
@@ -669,7 +670,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
         //Hook for add content to cache by callback:
-        if(i && ! i->pending) { // If the interest exists but no pending faces (when is this the case? never!)
+        if(i && ! i->pending) { // If the interest exists but no pending faces (This is the case when there are queries interested in the data)
             if (!i->pendingQueries) {
                 DEBUGMSG_CORE(WARNING, "releasing interest 0x%p OK?\n", (void *) i);
                 c->flags |= CCNL_CONTENT_FLAGS_STATIC;
@@ -678,18 +679,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                 c->served_cnt++;
                 cnt++;
                 //return 1;
-            } else {
-                // Here we have to check the pending queries.
-                for (pq = i->pendingQueries; pq; pq = pq->next) {
-                    for (qi = pq->query; qi; qi = qi->next) {
-                        for (pi = qi->pending; pi; pi = pi->next) {
-                            if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
-                                continue;
-                            pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
-                            ccnl_fwd_handleInterest(ccnl, pi->face, &(qi->pkt), ccnl_ndntlv_cMatch);
-                        }
-                    }
-                }
             }
             continue;
         }
@@ -751,16 +740,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
             }
             c->served_cnt++;
             cnt++;
-        }
-        for (pq = i->pendingQueries; pq; pq = pq->next) {
-            for (qi = pq->query; qi; qi = qi->next) {
-                for (pi = qi->pending; pi; pi = pi->next) {
-                    if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
-                        continue;
-                    pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
-                    ccnl_fwd_handleInterest(ccnl, pi->face, &(qi->pkt), ccnl_ndntlv_cMatch);
-                }
-            }
         }
 #ifndef USE_NFN_REQUESTS
         if(i->pkt->s.ndntlv.isConstant){ // if the interest is constant or an add query Interest
