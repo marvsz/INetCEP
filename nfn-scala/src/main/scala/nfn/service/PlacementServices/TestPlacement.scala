@@ -87,8 +87,8 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
     val deployedRoot = processDeploymentTree(root._root)
     LogMessage(nodeName, s"Query Deployement Completed")
 
-    output = deployedRoot._value
-    output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
+    output = "Built Operator Tree."//deployedRoot._value
+    //output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
     LogMessage(nodeName, s"Query Execution Completed")
     output
   }
