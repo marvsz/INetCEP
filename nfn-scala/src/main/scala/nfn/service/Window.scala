@@ -240,7 +240,6 @@ class Window() extends NFNService {
   }
 
   def purgeOldData(tuple: String, timeStamp: LocalTime, timerPeriod: Long, timeUnit: String): Boolean = {
-    LogMessage("nodeA","purgeOldData started")
     if(tuple != ""){
       val pastTime = FormattedOutput.getPastTime(timeStamp,timerPeriod,timeUnit)
       val delimiter = SensorHelpers.getDelimiterFromLine(tuple)
@@ -253,7 +252,6 @@ class Window() extends NFNService {
     }
     else
       false
-
   }
 
   def readRelativeTimedSensor(path: String, timePeriod: Long, timeUnit: String, nodeName: String): String = {
