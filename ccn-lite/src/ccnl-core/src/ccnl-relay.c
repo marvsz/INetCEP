@@ -616,6 +616,9 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     }
     for (i = ccnl->pit; i;) {
         struct ccnl_pendint_s *pi;
+        struct ccnl_pendQ_s *pq;
+        struct ccnl_interest_s *qi;
+
         if (!i->pkt->pfx)
             continue;
 
@@ -666,24 +669,37 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
         //Hook for add content to cache by callback:
-        if(i && ! i->pending){ // If the interest exists but no pending faces (when is this the case? never!)
-            DEBUGMSG_CORE(WARNING, "releasing interest 0x%p OK?\n", (void*)i);
-            c->flags |= CCNL_CONTENT_FLAGS_STATIC;
-            i = ccnl_interest_remove(ccnl, i);
+        if(i && ! i->pending) { // If the interest exists but no pending faces (when is this the case? never!)
+            if (!i->pendingQueries) {
+                DEBUGMSG_CORE(WARNING, "releasing interest 0x%p OK?\n", (void *) i);
+                c->flags |= CCNL_CONTENT_FLAGS_STATIC;
+                i = ccnl_interest_remove(ccnl, i);
 
-            c->served_cnt++;
-            cnt++;
+                c->served_cnt++;
+                cnt++;
+                //return 1;
+            } else {
+                // Here we have to check the pending queries.
+                for (pq = i->pendingQueries; pq; pq = pq->next) {
+                    for (qi = pq->query; qi; qi = qi->next) {
+                        for (pi = qi->pending; pi; pi = pi->next) {
+                            if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
+                                continue;
+                            pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
+                            ccnl_fwd_handleInterest(ccnl, pi->face, &(qi->pkt), ccnl_ndntlv_cMatch);
+                        }
+                    }
+                }
+            }
             continue;
-            //return 1;
-
         }
 
         // CONFORM: "Data MUST only be transmitted in response to
         // an Interest that matches the Data."
         for (pi = i->pending; pi; pi = pi->next) {
-            if (pi->face->flags & CCNL_FACE_FLAGS_SERVED)
+            if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
                 continue;
-            pi->face->flags |= CCNL_FACE_FLAGS_SERVED;
+            pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
             if (pi->face->ifndx >= 0) {
                 int32_t nonce = 0;
                 if (i->pkt != NULL && i->pkt->s.ndntlv.nonce != NULL) {
@@ -735,6 +751,16 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
             }
             c->served_cnt++;
             cnt++;
+        }
+        for (pq = i->pendingQueries; pq; pq = pq->next) {
+            for (qi = pq->query; qi; qi = qi->next) {
+                for (pi = qi->pending; pi; pi = pi->next) {
+                    if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
+                        continue;
+                    pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
+                    ccnl_fwd_handleInterest(ccnl, pi->face, &(qi->pkt), ccnl_ndntlv_cMatch);
+                }
+            }
         }
 #ifndef USE_NFN_REQUESTS
         if(i->pkt->s.ndntlv.isConstant){ // if the interest is constant or an add query Interest
