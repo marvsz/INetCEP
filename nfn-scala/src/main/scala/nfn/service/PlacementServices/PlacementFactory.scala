@@ -95,12 +95,12 @@ trait Placement {
         val query = currentNode._type match {
           case Operator.WINDOW => name
           case Operator.FILTER => name //.replace("[Q1]",currentNode.left._value)
-          case Operator.JOIN => name.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
+          case Operator.JOIN => name//.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
           case Operator.AGGREGATION => name
           case Operator.SEQUENCE => name
-          case Operator.PREDICT1 => name.replace("[Q1]", currentNode.left._value)
+          case Operator.PREDICT1 => name//.replace("[Q1]", currentNode.left._value)
           case Operator.PREDICT2 => name //.replace("[Q1]",currentNode.left._value)
-          case Operator.HEATMAP => name.replace("[Q1]", currentNode.left._value)
+          case Operator.HEATMAP => name//.replace("[Q1]", currentNode.left._value)
           case _ => name
         }
 
@@ -112,20 +112,33 @@ trait Placement {
         //Determine the location (name) where this query wwriteOutputFilesill be executed:
         val remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
 
+
         //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
         //This delay is based on the average delay noted during the last 50 runs. Log information is present in NodeA_Log.
         //var intermediateResult = createAndExecCCNQuery(remoteNodeName, currentNode._query, mapping.getPort(remoteNodeName), mapping.getIPbyName(remoteNodeName))
-        val intermediateResult = Helpers.executeNFNQueryRepeatedly(currentNode._query, remoteNodeName, ccnApi, 60)
-        currentNode._value = intermediateResult
+        //val intermediateResult = Helpers.executeNFNQueryRepeatedly(currentNode._query, remoteNodeName, ccnApi, 60)
+        val callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber 'Q1' 'Q2'".replace("Q1",currentNode._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/).replace("nodeQuery", currentNode._executionNode)
+        val result = currentNode._type match {
+          case Operator.FILTER => {
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+          }
+          case _ => Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+        }
+
+        currentNode._value = result
         //currentNode._value = "TemporaryDeploymentValue";
 
         LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
         currentNode._Vprocessed = true
         LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
 
-        if (currentNode.parent == null)
+        if (currentNode.parent == null) {
+          val callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber '(call 1 /node/nodeQuery/nfn_service_QueryResultPrinter)' 'Q2'".replace("nodeQuery",remoteNodeName).replace("Q2",currentNode._query.replaceAll("'","|"))
+          val deploymentResult = Helpers.executeNFNQuery(callerQuery,remoteNodeName,ccnApi,60)
+          LogMessage(nodeName,deploymentResult)
           currentNode
-        else
+          // Here is the last one, call the printer of the result.
+        } else
           processDeploymentTree(currentNode.parent)
       }
     }
