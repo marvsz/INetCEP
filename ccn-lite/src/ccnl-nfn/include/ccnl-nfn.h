@@ -161,6 +161,7 @@ A_BIF(op_builtin_find)
 A_BIF(op_builtin_mult)
 A_BIF(op_builtin_raw)
 A_BIF(op_builtin_sub)
+A_BIF(op_builtin_window)
 
 struct builtin_s {
     char *name;

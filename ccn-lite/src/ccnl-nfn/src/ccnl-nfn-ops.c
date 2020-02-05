@@ -19,13 +19,17 @@
  * File history:
  * 2014-11-01: created
  */
-
+#define _POSIX_C_SOURCE 199309L
 #ifdef USE_NFN
 
 #include "ccnl-nfn-ops.h"
 
 #include <stdio.h>
-
+#include <bits/types/struct_timespec.h>
+#include <time.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ccnl-nfn-common.h"
 #include "ccnl-nfn-krivine.h"
 
@@ -33,6 +37,53 @@
 #include "ccnl-malloc.h"
 #include "ccnl-logging.h"
 
+char** str_split(char* a_str, const char a_delim)
+{
+    char** result    = 0;
+    size_t count     = 0;
+    char* tmp        = a_str;
+    char* last_comma = 0;
+    char delim[2];
+    delim[0] = a_delim;
+    delim[1] = 0;
+
+    /* Count how many elements will be extracted. */
+    while (*tmp)
+    {
+        if (a_delim == *tmp)
+        {
+            count++;
+            last_comma = tmp;
+        }
+        tmp++;
+    }
+
+    /* Add space for trailing token. */
+    count += last_comma < (a_str + strlen(a_str) - 1);
+
+    /* Add space for terminating null string so caller
+       knows where the list of returned strings ends. */
+    count++;
+
+    result = ccnl_malloc(sizeof(char*) * count);
+
+    if (result)
+    {
+        size_t idx  = 0;
+        char* token = strtok(a_str, delim);
+
+        while (token)
+        {
+            assert(idx < count);
+            *(result + idx++) = ccnl_strdup(token);
+            token = strtok(0, delim);
+        }
+        assert(idx == count - 1);
+        *(result + idx) = 0;
+    }
+
+    return result;
+}
 
 // binds the name to the given fct in ZAM's list of known operations
 void
@@ -85,6 +136,8 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                int *restart, int *halt, char *prog, char *pending,
                struct stack_s **stack)
 {
+            struct timespec tstart ={0,0}, tend={0,0};
+            clock_gettime(CLOCK_MONOTONIC, &tstart);
     int i1=0, i2=0, *h;
     (void) restart;
     DEBUGMSG(DEBUG, "---to do: OP_ADD <%s> pending: %s\n", prog+7, pending);
@@ -92,27 +145,156 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     h = ccnl_malloc(sizeof(int));
     *h = i1 + i2;
     push_to_stack(stack, h, STACK_TYPE_INT);
-
+    clock_gettime(CLOCK_MONOTONIC,&tend);
+    DEBUGMSG(DEBUG,"buildin add took about %.9f seconds",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
+                                                         ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
     return pending ? ccnl_strdup(pending) : NULL;
 }
 
-/*char*
+char*
 op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                   int *restart, int *halt, char *prog, char *pending,
                   struct stack_s **stack)
 {
-    int local_search = 0;
-    struct stack_s *h;
+    int local_search = 1;
+    struct stack_s *streamStack;
     char *cp = NULL;
-    struct ccnl_prefix_s *stateprefix;
+    //struct ccnl_prefix_s *stateprefix;
     struct ccnl_prefix_s *tupleprefix;
     struct ccnl_content_s *state = NULL;
     struct ccnl_content_s *tuple = NULL;
+    char **intermediateArray = NULL;
+    int i1=0, i2=0;
+    int quantity=0;
+    int unit=0;
     (void)stack;
 
+    if (*restart) {
+        DEBUGMSG(DEBUG, "---to do: OP_WINDOW restart\n");
+        *restart = 0;
+        local_search = 1;
+    } else {
 
+        DEBUGMSG(DEBUG, "---to do: OP_WINDOW <%s> <%s>\n", prog + 7, pending);
+        pop2int();
+        streamStack = pop_from_stack(&config->result_stack);
+        if(streamStack==NULL){
+            *halt = -1;
+            return prog;
+        }
+        config->fox_state->num_of_params = 1;
+        config->fox_state->params = ccnl_malloc(sizeof(struct ccnl_stack_s *));
+        config->fox_state->params[0] = streamStack;
+        config->fox_state->it_routable_param = 0;
+    }
+    tupleprefix = config->fox_state->params[0]->content;
+    quantity = i2;
+    unit = i1;
+
+    DEBUGMSG(DEBUG, "WINDOW: Checking if result was received\n");
+    DEBUGMSG(DEBUG, "WINDOW: Found parameters %s, %i, %i",ccnl_prefix_to_path(tupleprefix),quantity,unit);
+
+    tuple = ccnl_nfn_local_content_search(ccnl, config, tupleprefix);
+    char tupleContent[tuple->pkt->contlen];
+    memcpy(tupleContent,tuple->pkt->content,tuple->pkt->contlen);
+    DEBUGMSG(DEBUG, "WINDOW: Found Tuple Content %s\n",tupleContent);
+
+    state = ccnl_nfn_local_content_search(ccnl, config, tupleprefix);
+    char stateContent[tuple->pkt->contlen];
+    memcpy(stateContent,state->pkt->content,state->pkt->contlen);
+    DEBUGMSG(DEBUG, "WINDOW: Found State Content %s\n",stateContent);
+
+    char endResult[tuple->pkt->contlen+1+state->pkt->contlen];
+    intermediateArray = str_split(stateContent, '\n');
+
+    strcpy(endResult,stateContent);
+    strcat(endResult,"\n");
+
+    DEBUGMSG(DEBUG, "WINDOW: Copied new tuple as the first Element of the result\n");
+    DEBUGMSG(DEBUG, "WINDOW: TEEEEST1\n");
+    if(intermediateArray){
+        DEBUGMSG(DEBUG, "WINDOW: IntermediateArray was not null\n");
+        int i = 0;
+        for(i=0; *(intermediateArray + i + 1); i++){
+            DEBUGMSG(DEBUG, "WINDOW: TEEEEST\n");
+            DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            strcat(endResult,*(intermediateArray+i));
+            strcat(endResult,"\n");
+            DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i regularly: %s\n",i,*(intermediateArray+i));
+            ccnl_free(*(intermediateArray+i));
+        }
+        if(i< quantity-1 && intermediateArray){
+            DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            strcat(endResult,*(intermediateArray+i));
+            strcat(endResult,"\n");
+            DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i because there was still space left: %s\n",i,*(intermediateArray+i));
+            ccnl_free(*(intermediateArray+i));
+        }
+        DEBUGMSG(DEBUG, "WINDOW: Freeing Intermediate Result\n");
+        ccnl_free(intermediateArray);
+    }
+    //ccnl_free(tupleContent);
+    //ccnl_free(stateContent);
+
+    /** Use this function in order to purge the old data.
+     * while(p){
+        if(Here check for timestamp){
+            intermediateArray = (char**)ccnl_realloc(intermediateArray, sizeof(char*)*(count+1));
+            intermediateArray[count] = (char*)ccnl_malloc(strlen(p)+1);
+            strcpy(intermediateArray[count],p);
+            count++;
+        }
+        p = strtok(stateContent,"\n");
+    }
+    */
+
+    DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
+    // Reallocate Memory for the tuple content
+    DEBUGMSG(DEBUG, "Buffer Size was %lu, contentlen was %i\n",tuple->pkt->buf->datalen,tuple->pkt->contlen);
+
+    DEBUGMSG(DEBUG, "The new size of the char to safe is %lu\n",sizeof(char)*strlen(endResult)+1);
+
+    /**
+     * TODO: DO THIS!
+     */
+
+    char *test = endResult;
+    int len = *(&endResult)-test;
+    tuple->pkt->buf = ccnl_buf_new(test,len);
+
+    DEBUGMSG(DEBUG,"Trying to reallocate Memory in content which before had the size of %lu to %lu\n",tuple->pkt->buf->datalen,sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
+    tuple->pkt->buf = ccnl_realloc(tuple->pkt->buf, sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
+    tuple->pkt->buf->datalen = sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1;
+    DEBUGMSG(DEBUG, "WINDOW: Reallocated space\n");
+    // copy the new content into the tuple
+    memcpy(tuple->pkt->content,endResult, strlen(endResult)* sizeof(char)+1);
+    DEBUGMSG(DEBUG, "WINDOW: Copied content\n");
+    // set the new contentlength
+    tuple->pkt->contlen = strlen(endResult)* sizeof(char)+1;
+    DEBUGMSG(DEBUG, "WINDOW: Set new ContentLen to %i\n", tuple->pkt->contlen);
+    //ccnl_free(endResult);
+
+    //unsigned char *test = "testValue";
+    //tuple->pkt->content=test;
+    if (!tuple) {
+        if(local_search){
+            DEBUGMSG(INFO, "WINDOW: no content\n");
+            return NULL;
+        }
+    }
+
+    DEBUGMSG(INFO, "WINDOW: result was found ---> handle it (%s), prog=%s, pending=%s\n", ccnl_prefix_to_path(tupleprefix), prog, pending);
+
+    tupleprefix = ccnl_prefix_dup(tupleprefix);
+    push_to_stack(&config->result_stack, tupleprefix, STACK_TYPE_PREFIX);
+
+    if (pending) {
+        DEBUGMSG(DEBUG, "Pending: %s\n", pending);
+
+        cp = ccnl_strdup(pending);
+    }
     return cp;
-}*/
+}
 
 char*
 op_builtin_find(struct ccnl_relay_s *ccnl, struct configuration_s *config,
@@ -499,6 +681,11 @@ struct builtin_s bifs[] = {
     {"OP_CMPEQ",         op_builtin_cmpeq, NULL},
     {"OP_CMPLEQ",        op_builtin_cmpleq, NULL},
     {"OP_IFELSE",        op_builtin_ifelse, NULL},
+
+    /**
+     * Added By Johannes
+     */
+    {"OP_WINDOW", op_builtin_window,NULL},
 
 #ifdef USE_NFN_NSTRANS
     {"OP_NSTRANS",       op_builtin_nstrans, NULL},
