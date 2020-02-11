@@ -124,6 +124,17 @@ int
 ccnl_interest_append_pending(struct ccnl_interest_s *i, struct ccnl_face_s *from);
 
 /**
+ * Adds a pending query interest
+ * @param i data stream interested in
+ * @param q the query that is to be executed, when a new datatuple arrives
+ * @return 0
+ * @return 1
+ * @return -1 if \ref i was NULL
+ * @return -2 if \ref q was NULL
+ */
+int
+ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q);
+/**
  * Removes a pending interest
  *
  * @param[in] i
