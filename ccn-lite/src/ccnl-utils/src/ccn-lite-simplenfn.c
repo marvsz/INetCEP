@@ -194,7 +194,7 @@ usage:
 #endif
 
         buf = ccnl_mkSimpleInterest(prefix,
-                         &int_opts,NDN_TLV_Interest);
+                         &int_opts,NDN_TLV_ConstInterest);
 
         DEBUGMSG(TRACE,
                  "sending interest(prefix=%s, suite=%s)\n",
