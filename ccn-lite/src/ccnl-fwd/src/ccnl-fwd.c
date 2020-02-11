@@ -113,7 +113,14 @@ ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_conten
                 i = i->next;
                 continue;
         }
+        char s[CCNL_MAX_PREFIX_SIZE];
+        if(!i->pendingQueries)
+            DEBUGMSG(DEBUG,"No pending Queries found.\n");
         for (pq = i->pendingQueries; pq; pq = pq->next) {
+
+            DEBUGMSG(DEBUG,"found pending Query for interest %s\n",ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
+            if(!pq->query)
+                DEBUGMSG(DEBUG,"No query for PQ found.\n");
             for (qi = pq->query; qi; qi = qi->next) {
                 for (pi = qi->pending; pi; pi = pi->next) {
                     if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
@@ -127,6 +134,7 @@ ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_conten
         i = i->next;
 
     }
+    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pendingQueries done\n");
 
     return cnt;
 }
@@ -463,7 +471,10 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             continue;
         if (cMatch(*pkt, c))
             continue;
-
+#ifdef USE_NFN
+        if(ccnl_nfnprefix_isNFN((*pkt)->pfx))
+            continue;
+#endif
         DEBUGMSG_CFWD(DEBUG, "  found matching content %p\n", (void *) c);
         if (from->ifndx >= 0) {
 #ifdef USE_NFN_REQUESTS
