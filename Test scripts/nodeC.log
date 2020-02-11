@@ -1,1161 +1,1127 @@
-[I] 0.0001: This is ccn-lite-relay, starting at Feb  7 17:47:34 2020
-[I] 0.0002:   ccnl-core: 2015-07-07
-[I] 0.0002:   compile time: Feb  7 2020 17:47:29
-[I] 0.0003:   compile options: CCNxDIGEST, DEBUG, DEBUG_MALLOC, ETHERNET, HMAC256, HTTP_STATUS, LOGGING, MGMT, NFN, SUITE_CCNB, SUITE_CCNTLV, SUITE_LOCALRPC, SUITE_NDNTLV, UNIXSOCKET, 
-[I] 0.0003:   seed: 693489872
-[I] 0.0003: configuring relay
-[I] 0.0003: configuring relay2
-[I] 0.0003: UDP interface (0.0.0.0/9998) configured
-[I] 0.0004: configuring relay3
-[I] 0.0004: HTTP status server listening at TCP port 6363
-[I] 0.0005: UNIX interface (/tmp/mgmt-nfn-relay-a.sock) configured
-[I] 0.0005: starting main event and IO loop
-[I] 1.0020: local time is Fri Feb  7 17:47:35 2020
+[I] 0.0002: This is ccn-lite-relay, starting at Feb 11 16:58:28 2020
+[I] 0.0004:   ccnl-core: 2015-07-07
+[I] 0.0005:   compile time: Feb 11 2020 16:58:14
+[I] 0.0005:   compile options: CCNxDIGEST, DEBUG, DEBUG_MALLOC, ETHERNET, HMAC256, HTTP_STATUS, LOGGING, MGMT, NFN, SUITE_CCNB, SUITE_CCNTLV, SUITE_LOCALRPC, SUITE_NDNTLV, UNIXSOCKET, 
+[I] 0.0006:   seed: 3719765904
+[I] 0.0006: configuring relay
+[I] 0.0006: configuring relay2
+[I] 0.0007: UDP interface (0.0.0.0/9998) configured
+[I] 0.0008: configuring relay3
+[I] 0.0008: HTTP status server listening at TCP port 6363
+[I] 0.0010: UNIX interface (/tmp/mgmt-nfn-relay-a.sock) configured
+[I] 0.0011: starting main event and IO loop
+[I] 1.0020: local time is Tue Feb 11 16:58:29 2020
 [V] 1.0020: ageing t=1
-[D] 1.9080: ccnl_core_RX ifndx=1, 83 bytes
-[T] 1.9080: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30973.sock
-[V] 1.9080:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30973.sock
-[<] 1.9080: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 1.9080:   face 1, peer=/tmp/.ccn-light-ctrl-30973.sock
-[D] 1.9080: Data content to dehead Òòú¥ccnx
-[D] 1.9080: ccnl_switch_dehead: started
-[D] 1.9080: enc was 1, suite is now -1
-[T] 1.9080: pkt2suite 1 210
-[D] 1.9080: ccnl_switch_dehead: started
-[W] 1.9080: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 1.9080: ccnl_ccnb_forwarder: 83B from face=0x55ccea353418 (id=0.1)
-[D] 1.9080: ccnb fwd (81 bytes left)
-[T] 1.9080: ccnl_ccnb_extract
-[T] 1.9080: Setting new buffer with the length of 83
-[T] 1.9080: The Data itself was Òòú¥ccnx
-[I] 1.9080:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30973.sock
-[I] 1.9080:   found a mgmt message
-[T] 1.9080: ccnl_mgmt request "addcacheobject"
-[T] 1.9080: ccnl_mgmt_handle "addcacheobject"
-[T] 1.9080: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 1.9080:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 1.9080: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 1.9080:   enqueue 130 133 bytes
-[T] 1.9080: Setting new buffer with the length of 133
-[T] 1.9080: The Data itself was ‚0+êê¥last
-[T] 1.9080: enqueue face=0x55ccea353418 (id=0.1) buf=0x55ccea357588 len=133
-[T] 1.9080: CTS face=0x55ccea353418 sched=(nil)
-[T] 1.9080: dequeue face=0x55ccea353418 (id=0.1)
-[T] 1.9080: enqueue interface=0x55ccea33f578 buf=0x55ccea357588 len=133 (qlen=0)
-[T] 1.9080: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 1.9080: unix sendto /tmp/.ccn-light-ctrl-30973.sock returned 133
-[T] 1.9080: Setting new buffer with the length of 41
-[T] 1.9080: The Data itself was 'nodeAsensorgps1	
-[T] 1.9080: Setting new buffer with the length of 41
-[T] 1.9080: The Data itself was 'nodeAsensorgps1	
-[T] 1.9080: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 1.9080: enqueue face=0x55ccea353418 (id=0.1) buf=0x55ccea3596d8 len=41
-[T] 1.9080: CTS face=0x55ccea353418 sched=(nil)
-[T] 1.9080: dequeue face=0x55ccea353418 (id=0.1)
-[T] 1.9080: enqueue interface=0x55ccea33f578 buf=0x55ccea3596d8 len=41 (qlen=0)
-[T] 1.9080: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 1.9090: unix sendto /tmp/.ccn-light-ctrl-30973.sock returned 41
-[D] 1.9090: ccnl_core_RX ifndx=1, 114 bytes
-[T] 1.9090: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30973.sock
-[D] 1.9090:   face 1, peer=/tmp/.ccn-light-ctrl-30973.sock
-[D] 1.9090: Data content to dehead pnodeAsensorgps1
-[D] 1.9090: ccnl_switch_dehead: started
-[D] 1.9090: enc was 1, suite is now -1
-[T] 1.9090: pkt2suite 30 112
-[D] 1.9090: ccnl_switch_dehead: started
-[W] 1.9090: kown packet format ccnl_core_RX ifndx=1, 114 bytes starting with 0x1e at offset 0, suit is 6
-[D] 1.9090: ccnl_ndntlv_forwarder (114 bytes left)
-[D] 1.9090: ccnl_ndntlv_bytes2pkt len=112
-[D] 1.9090:   check interest type
-[T] 1.9090: Setting new buffer with the length of 114
-[T] 1.9090: The Data itself was pnodeAsensorgps1
-[D] 1.9090: The content is 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
-[I] 1.9090:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30973.sock
-[I] 1.9090:   data 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
-[D] 1.9090:  Check if it is a nfnprefix Request
-[D] 1.9090:  trying to create new content
-[T] 1.9090: ccnl_content_new 0x55ccea3597e8 </nodeA/sensor/gps1 [-1]>
-[I] 1.9090: data after creating packet 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
-[T] 1.9090: ccnl_content_serve_pendingQueries
-[V] 1.9090: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 1.9090: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 1.9090: prefix_cmp(mode=CMP_MATCH) [V] 1.9090: prefix=</nodeA/sensor/gps1>(0x55ccea359898) of? [V] 1.9090: name=</nodeA/sensor/gps1>(0x55ccea353a08) digest=(nil)
-[T] 1.9090:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[T] 1.9090: ccnl_content_serve_pending
-[V] 1.9090: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 1.9090: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 1.9090: prefix_cmp(mode=CMP_MATCH) [V] 1.9090: prefix=</nodeA/sensor/gps1>(0x55ccea359898) of? [V] 1.9090: name=</nodeA/sensor/gps1>(0x55ccea353a08) digest=(nil)
-[T] 1.9090:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 1.9090: releasing interest 0x0x55ccea359758 OK?
-[T] 1.9090: ccnl_interest_remove 0x55ccea359758
-[D] 1.9090:   adding content to cache
-[D] 1.9090: ccnl_content_add2cache (0/-1) --> 0x55ccea359d38 = /nodeA/sensor/gps1 [-1]
-[I] 1.9090: data after creating packet 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
+[D] 1.9150: ccnl_core_RX ifndx=1, 83 bytes
+[T] 1.9150: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4809.sock
+[V] 1.9150:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4809.sock
+[<] 1.9150: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 1.9150:   face 1, peer=/tmp/.ccn-light-ctrl-4809.sock
+[D] 1.9150: Data content to dehead Òòú¥ccnx
+[D] 1.9150: ccnl_switch_dehead: started
+[D] 1.9150: enc was 1, suite is now -1
+[T] 1.9150: pkt2suite 1 210
+[D] 1.9150: ccnl_switch_dehead: started
+[W] 1.9150: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 1.9150: ccnl_ccnb_forwarder: 83B from face=0x559b42d61418 (id=0.1)
+[D] 1.9160: ccnb fwd (81 bytes left)
+[T] 1.9160: ccnl_ccnb_extract
+[T] 1.9160: Setting new buffer with the length of 83
+[T] 1.9160: The Data itself was Òòú¥ccnx
+[I] 1.9160:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4809.sock
+[I] 1.9160:   found a mgmt message
+[T] 1.9160: ccnl_mgmt request "addcacheobject"
+[T] 1.9160: ccnl_mgmt_handle "addcacheobject"
+[T] 1.9160: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 1.9160:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 1.9160: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 1.9160:   enqueue 130 133 bytes
+[T] 1.9160: Setting new buffer with the length of 133
+[T] 1.9160: The Data itself was ‚0+êê¥last
+[T] 1.9160: enqueue face=0x559b42d61418 (id=0.1) buf=0x559b42d65588 len=133
+[T] 1.9160: CTS face=0x559b42d61418 sched=(nil)
+[T] 1.9160: dequeue face=0x559b42d61418 (id=0.1)
+[T] 1.9160: enqueue interface=0x559b42d4d578 buf=0x559b42d65588 len=133 (qlen=0)
+[T] 1.9160: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 1.9160: unix sendto /tmp/.ccn-light-ctrl-4809.sock returned 133
+[T] 1.9160: Setting new buffer with the length of 41
+[T] 1.9160: The Data itself was 'nodeAsensorgps1	
+[T] 1.9160: Setting new buffer with the length of 41
+[T] 1.9160: The Data itself was 'nodeAsensorgps1	
+[T] 1.9160: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 1.9160: enqueue face=0x559b42d61418 (id=0.1) buf=0x559b42d676d8 len=41
+[T] 1.9160: CTS face=0x559b42d61418 sched=(nil)
+[T] 1.9160: dequeue face=0x559b42d61418 (id=0.1)
+[T] 1.9160: enqueue interface=0x559b42d4d578 buf=0x559b42d676d8 len=41 (qlen=0)
+[T] 1.9160: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 1.9160: unix sendto /tmp/.ccn-light-ctrl-4809.sock returned 41
+[D] 1.9160: ccnl_core_RX ifndx=1, 114 bytes
+[T] 1.9160: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4809.sock
+[D] 1.9160:   face 1, peer=/tmp/.ccn-light-ctrl-4809.sock
+[D] 1.9160: Data content to dehead pnodeAsensorgps1
+[D] 1.9160: ccnl_switch_dehead: started
+[D] 1.9160: enc was 1, suite is now -1
+[T] 1.9160: pkt2suite 30 112
+[D] 1.9160: ccnl_switch_dehead: started
+[W] 1.9160: kown packet format ccnl_core_RX ifndx=1, 114 bytes starting with 0x1e at offset 0, suit is 6
+[D] 1.9160: ccnl_ndntlv_forwarder (114 bytes left)
+[D] 1.9160: ccnl_ndntlv_bytes2pkt len=112
+[D] 1.9160:   check interest type
+[T] 1.9160: Setting new buffer with the length of 114
+[T] 1.9170: The Data itself was pnodeAsensorgps1
+[D] 1.9170: The content is 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
+[I] 1.9170:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4809.sock
+[I] 1.9170:   data 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
+[D] 1.9170:  Check if it is a nfnprefix Request
+[D] 1.9170:  trying to create new content
+[T] 1.9170: ccnl_content_new 0x559b42d677e8 </nodeA/sensor/gps1 [-1]>
+[I] 1.9170: data after creating packet 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
+[T] 1.9170: ccnl_content_serve_pendingQueries
+[V] 1.9170: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 1.9170: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 1.9170: prefix_cmp(mode=CMP_MATCH) [V] 1.9170: prefix=</nodeA/sensor/gps1>(0x559b42d67898) of? [V] 1.9170: name=</nodeA/sensor/gps1>(0x559b42d61a08) digest=(nil)
+[T] 1.9170:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 1.9170: No pending Queries found.
+[T] 1.9170: ccnl_content_serve_pendingQueries done
+[T] 1.9170: ccnl_content_serve_pending
+[V] 1.9170: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 1.9170: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 1.9170: prefix_cmp(mode=CMP_MATCH) [V] 1.9170: prefix=</nodeA/sensor/gps1>(0x559b42d67898) of? [V] 1.9170: name=</nodeA/sensor/gps1>(0x559b42d61a08) digest=(nil)
+[T] 1.9170:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 1.9170: releasing interest 0x0x559b42d67758 OK?
+[T] 1.9170: ccnl_interest_remove 0x559b42d67758
+[D] 1.9170:   adding content to cache
+[D] 1.9170: ccnl_content_add2cache (0/-1) --> 0x559b42d67d38 = /nodeA/sensor/gps1 [-1]
+[I] 1.9170: data after creating packet 2017-09-02 15:23:22;0;51.81841278076172;8.727283477783203;162.0;8.0;None;None;
 [V] 2.0020: ageing t=2
-[D] 2.4150: ccnl_core_RX ifndx=1, 83 bytes
-[T] 2.4150: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30977.sock
-[V] 2.4150:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30977.sock
-[<] 2.4150: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 2.4150:   face 2, peer=/tmp/.ccn-light-ctrl-30977.sock
-[D] 2.4150: Data content to dehead Òòú¥ccnx
-[D] 2.4150: ccnl_switch_dehead: started
-[D] 2.4150: enc was 1, suite is now -1
-[T] 2.4150: pkt2suite 1 210
-[D] 2.4150: ccnl_switch_dehead: started
-[W] 2.4150: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 2.4150: ccnl_ccnb_forwarder: 83B from face=0x55ccea359e08 (id=0.2)
-[D] 2.4150: ccnb fwd (81 bytes left)
-[T] 2.4150: ccnl_ccnb_extract
-[T] 2.4150: Setting new buffer with the length of 83
-[T] 2.4150: The Data itself was Òòú¥ccnx
-[I] 2.4150:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30977.sock
-[I] 2.4150:   found a mgmt message
-[T] 2.4150: ccnl_mgmt request "addcacheobject"
-[T] 2.4150: ccnl_mgmt_handle "addcacheobject"
-[T] 2.4160: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 2.4160:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 2.4160: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 2.4160:   enqueue 130 133 bytes
-[T] 2.4160: Setting new buffer with the length of 133
-[T] 2.4160: The Data itself was ‚0+êê¥last
-[T] 2.4160: enqueue face=0x55ccea359e08 (id=0.2) buf=0x55ccea35da38 len=133
-[T] 2.4160: CTS face=0x55ccea359e08 sched=(nil)
-[T] 2.4160: dequeue face=0x55ccea359e08 (id=0.2)
-[T] 2.4160: enqueue interface=0x55ccea33f578 buf=0x55ccea35da38 len=133 (qlen=0)
-[T] 2.4160: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 2.4160: unix sendto /tmp/.ccn-light-ctrl-30977.sock returned 133
-[T] 2.4160: Setting new buffer with the length of 41
-[T] 2.4160: The Data itself was 'nodeAsensorgps1	
-[T] 2.4160: Setting new buffer with the length of 41
-[T] 2.4160: The Data itself was 'nodeAsensorgps1	
-[T] 2.4160: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 2.4160: enqueue face=0x55ccea359e08 (id=0.2) buf=0x55ccea35fc28 len=41
-[T] 2.4160: CTS face=0x55ccea359e08 sched=(nil)
-[T] 2.4160: dequeue face=0x55ccea359e08 (id=0.2)
-[T] 2.4160: enqueue interface=0x55ccea33f578 buf=0x55ccea35fc28 len=41 (qlen=0)
-[T] 2.4160: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 2.4160: unix sendto /tmp/.ccn-light-ctrl-30977.sock returned 41
-[D] 2.4160: ccnl_core_RX ifndx=1, 144 bytes
-[T] 2.4160: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30977.sock
-[D] 2.4160:   face 2, peer=/tmp/.ccn-light-ctrl-30977.sock
-[D] 2.4160: Data content to dehead ŽnodeAsensorgps1
-[D] 2.4160: ccnl_switch_dehead: started
-[D] 2.4160: enc was 1, suite is now -1
-[T] 2.4160: pkt2suite 30 142
-[D] 2.4160: ccnl_switch_dehead: started
-[W] 2.4160: kown packet format ccnl_core_RX ifndx=1, 144 bytes starting with 0x1e at offset 0, suit is 6
-[D] 2.4160: ccnl_ndntlv_forwarder (144 bytes left)
-[D] 2.4160: ccnl_ndntlv_bytes2pkt len=142
-[D] 2.4160:   check interest type
-[T] 2.4160: Setting new buffer with the length of 144
-[T] 2.4160: The Data itself was ŽnodeAsensorgps1
-[D] 2.4160: The content is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
-[I] 2.4160:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30977.sock
-[I] 2.4160:   data 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
-[V] 2.4160: prefix_cmp(mode=CMP_EXACT) [V] 2.4160: prefix=</nodeA/sensor/gps1>(0x55ccea359898) of? [V] 2.4160: name=</nodeA/sensor/gps1>(0x55ccea35fde8) digest=(nil)
-[T] 2.4160:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 2.4160:   content is duplicate, removing old one and storing new one
-[T] 2.4160: ccnl_content_remove
-[T] 2.4160: ccnl_content_removed
-[T] 2.4160:   old content removed
-[D] 2.4160:  Check if it is a nfnprefix Request
-[D] 2.4160:  trying to create new content
-[T] 2.4160: ccnl_content_new 0x55ccea35fd38 </nodeA/sensor/gps1 [-1]>
-[I] 2.4160: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
-[T] 2.4160: ccnl_content_serve_pendingQueries
-[V] 2.4160: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.4160: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 2.4160: prefix_cmp(mode=CMP_MATCH) [V] 2.4160: prefix=</nodeA/sensor/gps1>(0x55ccea35fde8) of? [V] 2.4160: name=</nodeA/sensor/gps1>(0x55ccea35a568) digest=(nil)
-[T] 2.4160:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[T] 2.4160: ccnl_content_serve_pending
-[V] 2.4160: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.4160: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 2.4160: prefix_cmp(mode=CMP_MATCH) [V] 2.4170: prefix=</nodeA/sensor/gps1>(0x55ccea35fde8) of? [V] 2.4170: name=</nodeA/sensor/gps1>(0x55ccea35a568) digest=(nil)
-[T] 2.4170:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 2.4170: releasing interest 0x0x55ccea35fca8 OK?
-[T] 2.4170: ccnl_interest_remove 0x55ccea35fca8
-[D] 2.4170:   adding content to cache
-[D] 2.4170: ccnl_content_add2cache (0/-1) --> 0x55ccea3602a8 = /nodeA/sensor/gps1 [-1]
-[I] 2.4170: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
-[D] 2.9230: ccnl_core_RX ifndx=1, 83 bytes
-[T] 2.9230: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30982.sock
-[V] 2.9230:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30982.sock
-[<] 2.9230: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 2.9230:   face 3, peer=/tmp/.ccn-light-ctrl-30982.sock
-[D] 2.9230: Data content to dehead Òòú¥ccnx
-[D] 2.9230: ccnl_switch_dehead: started
-[D] 2.9230: enc was 1, suite is now -1
-[T] 2.9230: pkt2suite 1 210
-[D] 2.9230: ccnl_switch_dehead: started
-[W] 2.9230: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 2.9230: ccnl_ccnb_forwarder: 83B from face=0x55ccea360308 (id=0.3)
-[D] 2.9230: ccnb fwd (81 bytes left)
-[T] 2.9230: ccnl_ccnb_extract
-[T] 2.9230: Setting new buffer with the length of 83
-[T] 2.9230: The Data itself was Òòú¥ccnx
-[I] 2.9230:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30982.sock
-[I] 2.9230:   found a mgmt message
-[T] 2.9230: ccnl_mgmt request "addcacheobject"
-[T] 2.9230: ccnl_mgmt_handle "addcacheobject"
-[T] 2.9230: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 2.9230:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 2.9230: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 2.9230:   enqueue 130 133 bytes
-[T] 2.9230: Setting new buffer with the length of 133
-[T] 2.9230: The Data itself was ‚0+êê¥last
-[T] 2.9230: enqueue face=0x55ccea360308 (id=0.3) buf=0x55ccea363e78 len=133
-[T] 2.9230: CTS face=0x55ccea360308 sched=(nil)
-[T] 2.9230: dequeue face=0x55ccea360308 (id=0.3)
-[T] 2.9230: enqueue interface=0x55ccea33f578 buf=0x55ccea363e78 len=133 (qlen=0)
-[T] 2.9230: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 2.9230: unix sendto /tmp/.ccn-light-ctrl-30982.sock returned 133
-[T] 2.9230: Setting new buffer with the length of 41
-[T] 2.9230: The Data itself was 'nodeAsensorgps1	
-[T] 2.9230: Setting new buffer with the length of 41
-[T] 2.9230: The Data itself was 'nodeAsensorgps1	
-[T] 2.9230: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 2.9230: enqueue face=0x55ccea360308 (id=0.3) buf=0x55ccea366068 len=41
-[T] 2.9230: CTS face=0x55ccea360308 sched=(nil)
-[T] 2.9230: dequeue face=0x55ccea360308 (id=0.3)
-[T] 2.9230: enqueue interface=0x55ccea33f578 buf=0x55ccea366068 len=41 (qlen=0)
-[T] 2.9230: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 2.9230: unix sendto /tmp/.ccn-light-ctrl-30982.sock returned 41
-[D] 2.9230: ccnl_core_RX ifndx=1, 113 bytes
-[T] 2.9240: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30982.sock
-[D] 2.9240:   face 3, peer=/tmp/.ccn-light-ctrl-30982.sock
-[D] 2.9240: Data content to dehead onodeAsensorgps1
-[D] 2.9240: ccnl_switch_dehead: started
-[D] 2.9240: enc was 1, suite is now -1
-[T] 2.9240: pkt2suite 30 111
-[D] 2.9240: ccnl_switch_dehead: started
-[W] 2.9240: kown packet format ccnl_core_RX ifndx=1, 113 bytes starting with 0x1e at offset 0, suit is 6
-[D] 2.9240: ccnl_ndntlv_forwarder (113 bytes left)
-[D] 2.9240: ccnl_ndntlv_bytes2pkt len=111
-[D] 2.9240:   check interest type
-[T] 2.9240: Setting new buffer with the length of 113
-[T] 2.9240: The Data itself was onodeAsensorgps1
-[D] 2.9240: The content is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[I] 2.9240:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30982.sock
-[I] 2.9240:   data 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[V] 2.9240: prefix_cmp(mode=CMP_EXACT) [V] 2.9240: prefix=</nodeA/sensor/gps1>(0x55ccea35fde8) of? [V] 2.9240: name=</nodeA/sensor/gps1>(0x55ccea366228) digest=(nil)
-[T] 2.9240:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 2.9240:   content is duplicate, removing old one and storing new one
-[T] 2.9240: ccnl_content_remove
-[T] 2.9240: ccnl_content_removed
-[T] 2.9240:   old content removed
-[D] 2.9240:  Check if it is a nfnprefix Request
-[D] 2.9240:  trying to create new content
-[T] 2.9240: ccnl_content_new 0x55ccea366178 </nodeA/sensor/gps1 [-1]>
-[I] 2.9240: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[T] 2.9240: ccnl_content_serve_pendingQueries
-[V] 2.9240: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.9240: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 2.9240: prefix_cmp(mode=CMP_MATCH) [V] 2.9240: prefix=</nodeA/sensor/gps1>(0x55ccea366228) of? [V] 2.9240: name=</nodeA/sensor/gps1>(0x55ccea360a28) digest=(nil)
-[T] 2.9240:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[T] 2.9240: ccnl_content_serve_pending
-[V] 2.9240: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.9240: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 2.9240: prefix_cmp(mode=CMP_MATCH) [V] 2.9240: prefix=</nodeA/sensor/gps1>(0x55ccea366228) of? [V] 2.9240: name=</nodeA/sensor/gps1>(0x55ccea360a28) digest=(nil)
-[T] 2.9240:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 2.9240: releasing interest 0x0x55ccea3660e8 OK?
-[T] 2.9240: ccnl_interest_remove 0x55ccea3660e8
-[D] 2.9240:   adding content to cache
-[D] 2.9240: ccnl_content_add2cache (0/-1) --> 0x55ccea3666c8 = /nodeA/sensor/gps1 [-1]
-[I] 2.9240: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[D] 2.9670: ccnl_core_RX ifndx=0, 46 bytes
-[T] 2.9670: ccnl_get_face_or_create src=127.0.0.1/50979
-[V] 2.9670:   found suitable interface 0 for 127.0.0.1/50979
-[<] 2.9670: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 2.9670:   face 4, peer=127.0.0.1/50979
-[D] 2.9670: Data content to dehead ,$window /nodeA/sensor/gps1 4 1NFN
-Ú Ò7
-[D] 2.9670: ccnl_switch_dehead: started
-[D] 2.9670: enc was 1, suite is now -1
-[T] 2.9670: pkt2suite 5 44
-[D] 2.9670: ccnl_switch_dehead: started
-[W] 2.9670: kown packet format ccnl_core_RX ifndx=0, 46 bytes starting with 0x05 at offset 0, suit is 6
-[D] 2.9670: ccnl_ndntlv_forwarder (46 bytes left)
-[D] 2.9670: ccnl_ndntlv_bytes2pkt len=44
-[D] 2.9670:   check interest type
-[D] 2.9670:   is NFN interest
-[T] 2.9670: Setting new buffer with the length of 4
-[T] 2.9670: The Data itself was Ú Ò723;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[T] 2.9670: Setting new buffer with the length of 46
-[T] 2.9670: The Data itself was ,$window /nodeA/sensor/gps1 4 1NFN
-Ú Ò723;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
-[D] 2.9670: The content is 
-[I] 2.9670:   incoming interest=<nfn[/window /nodeA/sensor/gps1 4 1]>ndn2013 nonce=936550618 from=127.0.0.1/50979
-[T] 2.9670: ccnl_nonce_find_or_append
-[T] 2.9670: Setting new buffer with the length of 4
-[T] 2.9670: The Data itself was Ú Ò7
-[D] 2.9670:   searching in CS
-[V] 2.9670: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 2.9670: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 2.9670: prefix_cmp(mode=CMP_MATCH) [V] 2.9670: prefix=</nodeA/sensor/gps1>(0x55ccea366228) of? [V] 2.9670: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 2.9670: component mismatch: 0
-[T] 2.9670:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 2.9670: ccnl_new_interest(prefix=nfn[/window /nodeA/sensor/gps1 4 1], suite=ndn2013)
-[T] 2.9670: ccnl_append_pending
-[D] 2.9670:   appending a new pendint entry 0x55ccea366e48 <nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8)
-[T] 2.9670: ccnl_nfn(0x55ccea33d288, nfn[/window /nodeA/sensor/gps1 4 1], 0x55ccea366728, config=(nil))
-[D] 2.9670: Namecomps: nfn[/window /nodeA/sensor/gps1 4 1] 
-[D] 2.9670: expr is <window /nodeA/sensor/gps1 4 1>
-[T] 2.9670: Krivine_reduction()
-[D] 2.9670: PREFIX nfn[/window /nodeA/sensor/gps1 4 1]
-[I] 2.9670: Prog: CLOSURE(HALT);RESOLVENAME(window /nodeA/sensor/gps1 4 1)
-[D] 2.9670: Step 1 (0/0): CLOSURE(HALT);RESOLVENAME(window /nodeA/sensor/gps1 4 1)
-[D] 2.9670: ---to do: closure <HALT> (contd=RESOLVENAME(window /nodeA/sensor/gps1 4 1))
-[T] 2.9670: push_to_stack: 0x55ccea36ada8
-[D] 2.9670: Step 2 (1/0): RESOLVENAME(window /nodeA/sensor/gps1 4 1)
-[D] 2.9670: ---to do: resolveNAME <window /nodeA/sensor/gps1 4 1>
-[D] 2.9670: Step 3 (1/0): CLOSURE(RESOLVENAME(1));RESOLVENAME(window /nodeA/sensor/gps1 4)
-[D] 2.9670: ---to do: closure <RESOLVENAME(1)> (contd=RESOLVENAME(window /nodeA/sensor/gps1 4))
-[T] 2.9670: push_to_stack: 0x55ccea36b488
-[D] 2.9670: Step 4 (2/0): RESOLVENAME(window /nodeA/sensor/gps1 4)
-[D] 2.9670: ---to do: resolveNAME <window /nodeA/sensor/gps1 4>
-[D] 2.9670: Step 5 (2/0): CLOSURE(RESOLVENAME(4));RESOLVENAME(window /nodeA/sensor/gps1)
-[D] 2.9670: ---to do: closure <RESOLVENAME(4)> (contd=RESOLVENAME(window /nodeA/sensor/gps1))
-[T] 2.9670: push_to_stack: 0x55ccea36b8d8
-[D] 2.9670: Step 6 (3/0): RESOLVENAME(window /nodeA/sensor/gps1)
-[D] 2.9670: ---to do: resolveNAME <window /nodeA/sensor/gps1>
-[D] 2.9670: Step 7 (3/0): CLOSURE(RESOLVENAME(/nodeA/sensor/gps1));RESOLVENAME(window)
-[D] 2.9670: ---to do: closure <RESOLVENAME(/nodeA/sensor/gps1)> (contd=RESOLVENAME(window))
-[T] 2.9670: push_to_stack: 0x55ccea36bc58
-[D] 2.9680: Step 8 (4/0): RESOLVENAME(window)
-[D] 2.9680: ---to do: resolveNAME <window>
-[D] 2.9680: Step 9 (4/0): ACCESS(window);TAILAPPLY
-[D] 2.9680: ---to do: access <window>
-[T] 2.9680: push_to_stack: 0x55ccea36bf18
-[D] 2.9680: Step 10 (5/0): TAILAPPLY
-[D] 2.9680: ---to do: tailapply
-[D] 2.9680: Step 11 (4/0): CLOSURE(OP_WINDOW);RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY
-[D] 2.9680: ---to do: closure <OP_WINDOW> (contd=RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY)
-[T] 2.9680: push_to_stack: 0x55ccea36c0c8
-[D] 2.9680: Step 12 (5/0): RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <@op(@x(@y(@z x y z op)))>
-[D] 2.9680: Step 13 (5/0): GRAB(op);RESOLVENAME((@x(@y(@z x y z op))));TAILAPPLY
-[D] 2.9680: ---to do: grab <op>
-[D] 2.9680: Step 14 (4/0): RESOLVENAME((@x(@y(@z x y z op))));TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <(@x(@y(@z x y z op)))>
-[D] 2.9680: Step 15 (4/0): GRAB(x);RESOLVENAME((@y(@z x y z op)));TAILAPPLY
-[D] 2.9680: ---to do: grab <x>
-[D] 2.9680: Step 16 (3/0): RESOLVENAME((@y(@z x y z op)));TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <(@y(@z x y z op))>
-[D] 2.9680: Step 17 (3/0): GRAB(y);RESOLVENAME((@z x y z op));TAILAPPLY
-[D] 2.9680: ---to do: grab <y>
-[D] 2.9680: Step 18 (2/0): RESOLVENAME((@z x y z op));TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <(@z x y z op)>
-[D] 2.9680: Step 19 (2/0): GRAB(z);RESOLVENAME(x y z op);TAILAPPLY
-[D] 2.9680: ---to do: grab <z>
-[D] 2.9680: Step 20 (1/0): RESOLVENAME(x y z op);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <x y z op>
-[D] 2.9680: Step 21 (1/0): CLOSURE(RESOLVENAME(op));RESOLVENAME(x y z);TAILAPPLY
-[D] 2.9680: ---to do: closure <RESOLVENAME(op)> (contd=RESOLVENAME(x y z);TAILAPPLY)
-[T] 2.9680: push_to_stack: 0x55ccea36e118
-[D] 2.9680: Step 22 (2/0): RESOLVENAME(x y z);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <x y z>
-[D] 2.9680: Step 23 (2/0): CLOSURE(RESOLVENAME(z));RESOLVENAME(x y);TAILAPPLY
-[D] 2.9680: ---to do: closure <RESOLVENAME(z)> (contd=RESOLVENAME(x y);TAILAPPLY)
-[T] 2.9680: push_to_stack: 0x55ccea36e538
-[D] 2.9680: Step 24 (3/0): RESOLVENAME(x y);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <x y>
-[D] 2.9680: Step 25 (3/0): CLOSURE(RESOLVENAME(y));RESOLVENAME(x);TAILAPPLY
-[D] 2.9680: ---to do: closure <RESOLVENAME(y)> (contd=RESOLVENAME(x);TAILAPPLY)
-[T] 2.9680: push_to_stack: 0x55ccea36e878
-[D] 2.9680: Step 26 (4/0): RESOLVENAME(x);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <x>
-[D] 2.9680: Step 27 (4/0): ACCESS(x);TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: access <x>
-[T] 2.9680: push_to_stack: 0x55ccea36eb08
-[D] 2.9680: Step 28 (5/0): TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: tailapply
-[D] 2.9680: Step 29 (4/0): RESOLVENAME(/nodeA/sensor/gps1);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME </nodeA/sensor/gps1>
-[T] 2.9680: ccnl_URItoPrefix(suite=ndn2013, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 2.9680: push_to_stack: 0x55ccea36ee48
-[D] 2.9680: Step 30 (4/1): TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: tailapply
-[D] 2.9680: Step 31 (3/1): RESOLVENAME(y);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <y>
-[D] 2.9680: Step 32 (3/1): ACCESS(y);TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: access <y>
-[T] 2.9680: push_to_stack: 0x55ccea36f118
-[D] 2.9680: Step 33 (4/1): TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: tailapply
-[D] 2.9680: Step 34 (3/1): RESOLVENAME(4);TAILAPPLY
-[D] 2.9680: ---to do: resolveNAME <4>
-[T] 2.9680: push_to_stack: 0x55ccea36f318
-[D] 2.9680: Step 35 (3/2): TAILAPPLY;TAILAPPLY
-[D] 2.9680: ---to do: tailapply
-[D] 2.9690: Step 36 (2/2): RESOLVENAME(z);TAILAPPLY
-[D] 2.9690: ---to do: resolveNAME <z>
-[D] 2.9690: Step 37 (2/2): ACCESS(z);TAILAPPLY;TAILAPPLY
-[D] 2.9690: ---to do: access <z>
-[T] 2.9690: push_to_stack: 0x55ccea36f5e8
-[D] 2.9690: Step 38 (3/2): TAILAPPLY;TAILAPPLY
-[D] 2.9690: ---to do: tailapply
-[D] 2.9690: Step 39 (2/2): RESOLVENAME(1);TAILAPPLY
-[D] 2.9690: ---to do: resolveNAME <1>
-[T] 2.9690: push_to_stack: 0x55ccea36f7e8
-[D] 2.9690: Step 40 (2/3): TAILAPPLY;TAILAPPLY
-[D] 2.9690: ---to do: tailapply
-[D] 2.9690: Step 41 (1/3): RESOLVENAME(op);TAILAPPLY
-[D] 2.9690: ---to do: resolveNAME <op>
-[D] 2.9690: Step 42 (1/3): ACCESS(op);TAILAPPLY;TAILAPPLY
-[D] 2.9690: ---to do: access <op>
-[T] 2.9690: push_to_stack: 0x55ccea36fab8
-[D] 2.9690: Step 43 (2/3): TAILAPPLY;TAILAPPLY
-[D] 2.9690: ---to do: tailapply
-[D] 2.9690: Step 44 (1/3): OP_WINDOW;TAILAPPLY
-[D] 2.9690: builtin: OP_WINDOW (OP_WINDOW;TAILAPPLY/TAILAPPLY)
-[D] 2.9690: ---to do: OP_WINDOW <OW;TAILAPPLY> <TAILAPPLY>
-[T] 2.9690: pop_or_resolve_from_RS: conf=0x55ccea36abb8, elm=0x55ccea36f7e8, type=1
-[T] 2.9690: pop_or_resolve_from_RS: conf=0x55ccea36abb8, elm=0x55ccea36f318, type=1
-[D] 2.9690: WINDOW: Checking if result was received
-[D] 2.9690: WINDOW: Found parameters /nodeA/sensor/gps1, 4, 1[T] 2.9690: ccnl_nfn_local_content_search(/nodeA/sensor/gps1, suite=ndn2013)
-[D] 2.9690: Searching local for content /nodeA/sensor/gps1
-[V] 2.9690: prefix_cmp(mode=CMP_EXACT) [V] 2.9690: prefix=</nodeA/sensor/gps1>(0x55ccea36ecf8) of? [V] 2.9690: name=</nodeA/sensor/gps1>(0x55ccea366228) digest=(nil)
-[T] 2.9690:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[D] 2.9690: WINDOW: Found Tuple Content 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-[T] 2.9690: ccnl_nfn_local_content_search(/nodeA/sensor/gps1, suite=ndn2013)
-[D] 2.9690: Searching local for content /nodeA/sensor/gps1
-[V] 2.9690: prefix_cmp(mode=CMP_EXACT) [V] 2.9690: prefix=</nodeA/sensor/gps1>(0x55ccea36ecf8) of? [V] 2.9690: name=</nodeA/sensor/gps1>(0x55ccea366228) digest=(nil)
-[T] 2.9690:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[D] 2.9690: WINDOW: Found State Content 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-[D] 2.9690: WINDOW: Copied new tuple as the first Element of the result
-[D] 2.9690: WINDOW: TEEEEST1
-[D] 2.9690: WINDOW: IntermediateArray was not null
-[D] 2.9690: WINDOW: Start copying Datatuple 0 with content 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-[D] 2.9690: WINDOW: Added the Datatuple 0 because there was still space left: 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-[D] 2.9690: WINDOW: Freeing Intermediate Result
-[D] 2.9690: The name of the Packet is still /nodeA/sensor/gps1
-[D] 2.9690: The content of the Packet Buffer is: onodeAsensorgps1
-[D] 2.9690: WINDOW: EndResult is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+[D] 2.4290: ccnl_core_RX ifndx=1, 83 bytes
+[T] 2.4300: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4813.sock
+[V] 2.4300:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4813.sock
+[<] 2.4300: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 2.4300:   face 2, peer=/tmp/.ccn-light-ctrl-4813.sock
+[D] 2.4300: Data content to dehead Òòú¥ccnx
+[D] 2.4300: ccnl_switch_dehead: started
+[D] 2.4300: enc was 1, suite is now -1
+[T] 2.4300: pkt2suite 1 210
+[D] 2.4300: ccnl_switch_dehead: started
+[W] 2.4300: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 2.4300: ccnl_ccnb_forwarder: 83B from face=0x559b42d67e08 (id=0.2)
+[D] 2.4300: ccnb fwd (81 bytes left)
+[T] 2.4300: ccnl_ccnb_extract
+[T] 2.4300: Setting new buffer with the length of 83
+[T] 2.4300: The Data itself was Òòú¥ccnx
+[I] 2.4300:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4813.sock
+[I] 2.4300:   found a mgmt message
+[T] 2.4310: ccnl_mgmt request "addcacheobject"
+[T] 2.4310: ccnl_mgmt_handle "addcacheobject"
+[T] 2.4310: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 2.4310:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 2.4310: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 2.4310:   enqueue 130 133 bytes
+[T] 2.4310: Setting new buffer with the length of 133
+[T] 2.4310: The Data itself was ‚0+êê¥last
+[T] 2.4310: enqueue face=0x559b42d67e08 (id=0.2) buf=0x559b42d6ba38 len=133
+[T] 2.4310: CTS face=0x559b42d67e08 sched=(nil)
+[T] 2.4310: dequeue face=0x559b42d67e08 (id=0.2)
+[T] 2.4310: enqueue interface=0x559b42d4d578 buf=0x559b42d6ba38 len=133 (qlen=0)
+[T] 2.4310: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 2.4310: unix sendto /tmp/.ccn-light-ctrl-4813.sock returned 133
+[T] 2.4320: Setting new buffer with the length of 41
+[T] 2.4320: The Data itself was 'nodeAsensorgps1	
+[T] 2.4320: Setting new buffer with the length of 41
+[T] 2.4320: The Data itself was 'nodeAsensorgps1	
+[T] 2.4320: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 2.4320: enqueue face=0x559b42d67e08 (id=0.2) buf=0x559b42d6dc28 len=41
+[T] 2.4320: CTS face=0x559b42d67e08 sched=(nil)
+[T] 2.4320: dequeue face=0x559b42d67e08 (id=0.2)
+[T] 2.4320: enqueue interface=0x559b42d4d578 buf=0x559b42d6dc28 len=41 (qlen=0)
+[T] 2.4320: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 2.4320: unix sendto /tmp/.ccn-light-ctrl-4813.sock returned 41
+[D] 2.4320: ccnl_core_RX ifndx=1, 144 bytes
+[T] 2.4320: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4813.sock
+[D] 2.4320:   face 2, peer=/tmp/.ccn-light-ctrl-4813.sock
+[D] 2.4320: Data content to dehead ŽnodeAsensorgps1
+[D] 2.4320: ccnl_switch_dehead: started
+[D] 2.4320: enc was 1, suite is now -1
+[T] 2.4330: pkt2suite 30 142
+[D] 2.4330: ccnl_switch_dehead: started
+[W] 2.4330: kown packet format ccnl_core_RX ifndx=1, 144 bytes starting with 0x1e at offset 0, suit is 6
+[D] 2.4330: ccnl_ndntlv_forwarder (144 bytes left)
+[D] 2.4330: ccnl_ndntlv_bytes2pkt len=142
+[D] 2.4330:   check interest type
+[T] 2.4330: Setting new buffer with the length of 144
+[T] 2.4330: The Data itself was ŽnodeAsensorgps1
+[D] 2.4330: The content is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
+[I] 2.4330:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4813.sock
+[I] 2.4330:   data 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
+[V] 2.4330: prefix_cmp(mode=CMP_EXACT) [V] 2.4330: prefix=</nodeA/sensor/gps1>(0x559b42d67898) of? [V] 2.4330: name=</nodeA/sensor/gps1>(0x559b42d6dde8) digest=(nil)
+[T] 2.4330:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 2.4330:   content is duplicate, removing old one and storing new one
+[T] 2.4330: ccnl_content_remove
+[T] 2.4330: ccnl_content_removed
+[T] 2.4330:   old content removed
+[D] 2.4330:  Check if it is a nfnprefix Request
+[D] 2.4340:  trying to create new content
+[T] 2.4340: ccnl_content_new 0x559b42d6dd38 </nodeA/sensor/gps1 [-1]>
+[I] 2.4340: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
+[T] 2.4340: ccnl_content_serve_pendingQueries
+[V] 2.4340: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.4340: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 2.4340: prefix_cmp(mode=CMP_MATCH) [V] 2.4340: prefix=</nodeA/sensor/gps1>(0x559b42d6dde8) of? [V] 2.4340: name=</nodeA/sensor/gps1>(0x559b42d68568) digest=(nil)
+[T] 2.4340:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 2.4340: No pending Queries found.
+[T] 2.4340: ccnl_content_serve_pendingQueries done
+[T] 2.4340: ccnl_content_serve_pending
+[V] 2.4340: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.4340: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 2.4340: prefix_cmp(mode=CMP_MATCH) [V] 2.4340: prefix=</nodeA/sensor/gps1>(0x559b42d6dde8) of? [V] 2.4340: name=</nodeA/sensor/gps1>(0x559b42d68568) digest=(nil)
+[T] 2.4340:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 2.4340: releasing interest 0x0x559b42d6dca8 OK?
+[T] 2.4340: ccnl_interest_remove 0x559b42d6dca8
+[D] 2.4340:   adding content to cache
+[D] 2.4340: ccnl_content_add2cache (0/-1) --> 0x559b42d6e2a8 = /nodeA/sensor/gps1 [-1]
+[I] 2.4340: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.06576102893365486;0.06576102893365486;
+[D] 2.9460: ccnl_core_RX ifndx=1, 83 bytes
+[T] 2.9460: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4817.sock
+[V] 2.9460:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4817.sock
+[<] 2.9460: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 2.9460:   face 3, peer=/tmp/.ccn-light-ctrl-4817.sock
+[D] 2.9460: Data content to dehead Òòú¥ccnx
+[D] 2.9460: ccnl_switch_dehead: started
+[D] 2.9460: enc was 1, suite is now -1
+[T] 2.9460: pkt2suite 1 210
+[D] 2.9460: ccnl_switch_dehead: started
+[W] 2.9460: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 2.9460: ccnl_ccnb_forwarder: 83B from face=0x559b42d6e308 (id=0.3)
+[D] 2.9460: ccnb fwd (81 bytes left)
+[T] 2.9460: ccnl_ccnb_extract
+[T] 2.9460: Setting new buffer with the length of 83
+[T] 2.9460: The Data itself was Òòú¥ccnx
+[I] 2.9460:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4817.sock
+[I] 2.9460:   found a mgmt message
+[T] 2.9460: ccnl_mgmt request "addcacheobject"
+[T] 2.9460: ccnl_mgmt_handle "addcacheobject"
+[T] 2.9460: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 2.9460:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 2.9470: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 2.9470:   enqueue 130 133 bytes
+[T] 2.9470: Setting new buffer with the length of 133
+[T] 2.9470: The Data itself was ‚0+êê¥last
+[T] 2.9470: enqueue face=0x559b42d6e308 (id=0.3) buf=0x559b42d71e78 len=133
+[T] 2.9470: CTS face=0x559b42d6e308 sched=(nil)
+[T] 2.9470: dequeue face=0x559b42d6e308 (id=0.3)
+[T] 2.9470: enqueue interface=0x559b42d4d578 buf=0x559b42d71e78 len=133 (qlen=0)
+[T] 2.9470: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 2.9470: unix sendto /tmp/.ccn-light-ctrl-4817.sock returned 133
+[T] 2.9470: Setting new buffer with the length of 41
+[T] 2.9470: The Data itself was 'nodeAsensorgps1	
+[T] 2.9470: Setting new buffer with the length of 41
+[T] 2.9470: The Data itself was 'nodeAsensorgps1	
+[T] 2.9470: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 2.9470: enqueue face=0x559b42d6e308 (id=0.3) buf=0x559b42d74068 len=41
+[T] 2.9470: CTS face=0x559b42d6e308 sched=(nil)
+[T] 2.9470: dequeue face=0x559b42d6e308 (id=0.3)
+[T] 2.9470: enqueue interface=0x559b42d4d578 buf=0x559b42d74068 len=41 (qlen=0)
+[T] 2.9470: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 2.9470: unix sendto /tmp/.ccn-light-ctrl-4817.sock returned 41
+[D] 2.9470: ccnl_core_RX ifndx=1, 113 bytes
+[T] 2.9470: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4817.sock
+[D] 2.9470:   face 3, peer=/tmp/.ccn-light-ctrl-4817.sock
+[D] 2.9470: Data content to dehead onodeAsensorgps1
+[D] 2.9470: ccnl_switch_dehead: started
+[D] 2.9470: enc was 1, suite is now -1
+[T] 2.9470: pkt2suite 30 111
+[D] 2.9470: ccnl_switch_dehead: started
+[W] 2.9470: kown packet format ccnl_core_RX ifndx=1, 113 bytes starting with 0x1e at offset 0, suit is 6
+[D] 2.9470: ccnl_ndntlv_forwarder (113 bytes left)
+[D] 2.9470: ccnl_ndntlv_bytes2pkt len=111
+[D] 2.9470:   check interest type
+[T] 2.9470: Setting new buffer with the length of 113
+[T] 2.9470: The Data itself was onodeAsensorgps1
+[D] 2.9480: The content is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[I] 2.9480:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4817.sock
+[I] 2.9480:   data 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[V] 2.9480: prefix_cmp(mode=CMP_EXACT) [V] 2.9480: prefix=</nodeA/sensor/gps1>(0x559b42d6dde8) of? [V] 2.9480: name=</nodeA/sensor/gps1>(0x559b42d74228) digest=(nil)
+[T] 2.9480:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 2.9480:   content is duplicate, removing old one and storing new one
+[T] 2.9480: ccnl_content_remove
+[T] 2.9480: ccnl_content_removed
+[T] 2.9480:   old content removed
+[D] 2.9480:  Check if it is a nfnprefix Request
+[D] 2.9480:  trying to create new content
+[T] 2.9480: ccnl_content_new 0x559b42d74178 </nodeA/sensor/gps1 [-1]>
+[I] 2.9480: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[T] 2.9480: ccnl_content_serve_pendingQueries
+[V] 2.9480: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.9480: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 2.9480: prefix_cmp(mode=CMP_MATCH) [V] 2.9480: prefix=</nodeA/sensor/gps1>(0x559b42d74228) of? [V] 2.9480: name=</nodeA/sensor/gps1>(0x559b42d6ea28) digest=(nil)
+[T] 2.9480:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 2.9480: No pending Queries found.
+[T] 2.9480: ccnl_content_serve_pendingQueries done
+[T] 2.9480: ccnl_content_serve_pending
+[V] 2.9480: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 2.9480: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 2.9480: prefix_cmp(mode=CMP_MATCH) [V] 2.9480: prefix=</nodeA/sensor/gps1>(0x559b42d74228) of? [V] 2.9480: name=</nodeA/sensor/gps1>(0x559b42d6ea28) digest=(nil)
+[T] 2.9480:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 2.9480: releasing interest 0x0x559b42d740e8 OK?
+[T] 2.9480: ccnl_interest_remove 0x559b42d740e8
+[D] 2.9480:   adding content to cache
+[D] 2.9480: ccnl_content_add2cache (0/-1) --> 0x559b42d746c8 = /nodeA/sensor/gps1 [-1]
+[I] 2.9480: data after creating packet 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[V] 3.0030: ageing t=3
+[D] 3.3150: ccnl_core_RX ifndx=0, 46 bytes
+[T] 3.3150: ccnl_get_face_or_create src=127.0.0.1/50678
+[V] 3.3150:   found suitable interface 0 for 127.0.0.1/50678
+[<] 3.3150: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 3.3150:   face 4, peer=127.0.0.1/50678
+[D] 3.3150: Data content to dehead ,$window /nodeA/sensor/gps1 4 1NFN
+Y©é4
+[D] 3.3150: ccnl_switch_dehead: started
+[D] 3.3150: enc was 1, suite is now -1
+[T] 3.3150: pkt2suite 31 44
+[D] 3.3150: ccnl_switch_dehead: started
+[W] 3.3150: kown packet format ccnl_core_RX ifndx=0, 46 bytes starting with 0x1f at offset 0, suit is 6
+[D] 3.3150: ccnl_ndntlv_forwarder (46 bytes left)
+[D] 3.3150: ccnl_ndntlv_bytes2pkt len=44
+[D] 3.3150:   check interest type
+[D] 3.3150:   is NFN interest
+[T] 3.3150: Setting new buffer with the length of 4
+[T] 3.3150: The Data itself was Y©é423;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[T] 3.3150: Setting new buffer with the length of 46
+[T] 3.3150: The Data itself was ,$window /nodeA/sensor/gps1 4 1NFN
+Y©é423;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;
+[D] 3.3150: The content is 
+[I] 3.3150:   incoming interest=<nfn[/window /nodeA/sensor/gps1 4 1]>ndn2013 nonce=887728473 from=127.0.0.1/50678
+[T] 3.3150: ccnl_nonce_find_or_append
+[T] 3.3150: Setting new buffer with the length of 4
+[T] 3.3150: The Data itself was Y©é4
+[D] 3.3150:   searching in CS
+[V] 3.3150: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.3160: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.3160: prefix_cmp(mode=CMP_MATCH) [V] 3.3160: prefix=</nodeA/sensor/gps1>(0x559b42d74228) of? [V] 3.3160: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 3.3160: component mismatch: 0
+[T] 3.3160:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[T] 3.3160: ccnl-nfn: ccnl_nfn_RX_request is calling interest new
+[T] 3.3160: ccnl_new_interest(prefix=nfn[/window /nodeA/sensor/gps1 4 1], suite=ndn2013)
+[T] 3.3160: ccnl-nfn: not a start_request
+[T] 3.3160: ccnl_URItoPrefix(suite=ndn2013, uri=/nodeA/sensor/gps1, nfn=none)
+[D] 3.3160: Created new prefix with the name /nodeA/sensor/gps1
+[T] 3.3160: Setting new buffer with the length of 38
+[T] 3.3160: The Data itself was $nodeAsensorgps1	
+[D] 3.3160:   appending a new pendQ entry 0x559b42d773b8 <nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d75008 </nodeA/sensor/gps1>)
+[D] 3.3160: Check if this worked:
+[T] 3.3160: ccnl_append_pending
+[D] 3.3160:   appending a new pendint entry 0x559b42d77428 <nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928)
+[T] 3.3160: ccnl_nfn(0x559b42d4b288, nfn[/window /nodeA/sensor/gps1 4 1], 0x559b42d74798, config=(nil))
+[D] 3.3160: Namecomps: nfn[/window /nodeA/sensor/gps1 4 1] 
+[D] 3.3160: expr is <window /nodeA/sensor/gps1 4 1>
+[T] 3.3160: Krivine_reduction()
+[D] 3.3160: PREFIX nfn[/window /nodeA/sensor/gps1 4 1]
+[I] 3.3160: Prog: CLOSURE(HALT);RESOLVENAME(window /nodeA/sensor/gps1 4 1)
+[D] 3.3160: Step 1 (0/0): CLOSURE(HALT);RESOLVENAME(window /nodeA/sensor/gps1 4 1)
+[D] 3.3160: ---to do: closure <HALT> (contd=RESOLVENAME(window /nodeA/sensor/gps1 4 1))
+[T] 3.3170: push_to_stack: 0x559b42d7b408
+[D] 3.3170: Step 2 (1/0): RESOLVENAME(window /nodeA/sensor/gps1 4 1)
+[D] 3.3170: ---to do: resolveNAME <window /nodeA/sensor/gps1 4 1>
+[D] 3.3170: Step 3 (1/0): CLOSURE(RESOLVENAME(1));RESOLVENAME(window /nodeA/sensor/gps1 4)
+[D] 3.3170: ---to do: closure <RESOLVENAME(1)> (contd=RESOLVENAME(window /nodeA/sensor/gps1 4))
+[T] 3.3170: push_to_stack: 0x559b42d7bae8
+[D] 3.3170: Step 4 (2/0): RESOLVENAME(window /nodeA/sensor/gps1 4)
+[D] 3.3170: ---to do: resolveNAME <window /nodeA/sensor/gps1 4>
+[D] 3.3170: Step 5 (2/0): CLOSURE(RESOLVENAME(4));RESOLVENAME(window /nodeA/sensor/gps1)
+[D] 3.3170: ---to do: closure <RESOLVENAME(4)> (contd=RESOLVENAME(window /nodeA/sensor/gps1))
+[T] 3.3170: push_to_stack: 0x559b42d7bf38
+[D] 3.3170: Step 6 (3/0): RESOLVENAME(window /nodeA/sensor/gps1)
+[D] 3.3170: ---to do: resolveNAME <window /nodeA/sensor/gps1>
+[D] 3.3170: Step 7 (3/0): CLOSURE(RESOLVENAME(/nodeA/sensor/gps1));RESOLVENAME(window)
+[D] 3.3170: ---to do: closure <RESOLVENAME(/nodeA/sensor/gps1)> (contd=RESOLVENAME(window))
+[T] 3.3170: push_to_stack: 0x559b42d7c2b8
+[D] 3.3170: Step 8 (4/0): RESOLVENAME(window)
+[D] 3.3170: ---to do: resolveNAME <window>
+[D] 3.3170: Step 9 (4/0): ACCESS(window);TAILAPPLY
+[D] 3.3170: ---to do: access <window>
+[T] 3.3170: push_to_stack: 0x559b42d7c578
+[D] 3.3170: Step 10 (5/0): TAILAPPLY
+[D] 3.3170: ---to do: tailapply
+[D] 3.3170: Step 11 (4/0): CLOSURE(OP_WINDOW);RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY
+[D] 3.3170: ---to do: closure <OP_WINDOW> (contd=RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY)
+[T] 3.3170: push_to_stack: 0x559b42d7c728
+[D] 3.3170: Step 12 (5/0): RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY
+[D] 3.3170: ---to do: resolveNAME <@op(@x(@y(@z x y z op)))>
+[D] 3.3170: Step 13 (5/0): GRAB(op);RESOLVENAME((@x(@y(@z x y z op))));TAILAPPLY
+[D] 3.3170: ---to do: grab <op>
+[D] 3.3180: Step 14 (4/0): RESOLVENAME((@x(@y(@z x y z op))));TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <(@x(@y(@z x y z op)))>
+[D] 3.3180: Step 15 (4/0): GRAB(x);RESOLVENAME((@y(@z x y z op)));TAILAPPLY
+[D] 3.3180: ---to do: grab <x>
+[D] 3.3180: Step 16 (3/0): RESOLVENAME((@y(@z x y z op)));TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <(@y(@z x y z op))>
+[D] 3.3180: Step 17 (3/0): GRAB(y);RESOLVENAME((@z x y z op));TAILAPPLY
+[D] 3.3180: ---to do: grab <y>
+[D] 3.3180: Step 18 (2/0): RESOLVENAME((@z x y z op));TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <(@z x y z op)>
+[D] 3.3180: Step 19 (2/0): GRAB(z);RESOLVENAME(x y z op);TAILAPPLY
+[D] 3.3180: ---to do: grab <z>
+[D] 3.3180: Step 20 (1/0): RESOLVENAME(x y z op);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <x y z op>
+[D] 3.3180: Step 21 (1/0): CLOSURE(RESOLVENAME(op));RESOLVENAME(x y z);TAILAPPLY
+[D] 3.3180: ---to do: closure <RESOLVENAME(op)> (contd=RESOLVENAME(x y z);TAILAPPLY)
+[T] 3.3180: push_to_stack: 0x559b42d7e778
+[D] 3.3180: Step 22 (2/0): RESOLVENAME(x y z);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <x y z>
+[D] 3.3180: Step 23 (2/0): CLOSURE(RESOLVENAME(z));RESOLVENAME(x y);TAILAPPLY
+[D] 3.3180: ---to do: closure <RESOLVENAME(z)> (contd=RESOLVENAME(x y);TAILAPPLY)
+[T] 3.3180: push_to_stack: 0x559b42d7eb98
+[D] 3.3180: Step 24 (3/0): RESOLVENAME(x y);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <x y>
+[D] 3.3180: Step 25 (3/0): CLOSURE(RESOLVENAME(y));RESOLVENAME(x);TAILAPPLY
+[D] 3.3180: ---to do: closure <RESOLVENAME(y)> (contd=RESOLVENAME(x);TAILAPPLY)
+[T] 3.3180: push_to_stack: 0x559b42d7eed8
+[D] 3.3180: Step 26 (4/0): RESOLVENAME(x);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <x>
+[D] 3.3180: Step 27 (4/0): ACCESS(x);TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: access <x>
+[T] 3.3180: push_to_stack: 0x559b42d7f168
+[D] 3.3180: Step 28 (5/0): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 29 (4/0): RESOLVENAME(/nodeA/sensor/gps1);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME </nodeA/sensor/gps1>
+[T] 3.3180: ccnl_URItoPrefix(suite=ndn2013, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 3.3180: push_to_stack: 0x559b42d7f4a8
+[D] 3.3180: Step 30 (4/1): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 31 (3/1): RESOLVENAME(y);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <y>
+[D] 3.3180: Step 32 (3/1): ACCESS(y);TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: access <y>
+[T] 3.3180: push_to_stack: 0x559b42d7f778
+[D] 3.3180: Step 33 (4/1): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 34 (3/1): RESOLVENAME(4);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <4>
+[T] 3.3180: push_to_stack: 0x559b42d7f978
+[D] 3.3180: Step 35 (3/2): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 36 (2/2): RESOLVENAME(z);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <z>
+[D] 3.3180: Step 37 (2/2): ACCESS(z);TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: access <z>
+[T] 3.3180: push_to_stack: 0x559b42d7fc48
+[D] 3.3180: Step 38 (3/2): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 39 (2/2): RESOLVENAME(1);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <1>
+[T] 3.3180: push_to_stack: 0x559b42d7fe48
+[D] 3.3180: Step 40 (2/3): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 41 (1/3): RESOLVENAME(op);TAILAPPLY
+[D] 3.3180: ---to do: resolveNAME <op>
+[D] 3.3180: Step 42 (1/3): ACCESS(op);TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: access <op>
+[T] 3.3180: push_to_stack: 0x559b42d80118
+[D] 3.3180: Step 43 (2/3): TAILAPPLY;TAILAPPLY
+[D] 3.3180: ---to do: tailapply
+[D] 3.3180: Step 44 (1/3): OP_WINDOW;TAILAPPLY
+[D] 3.3180: builtin: OP_WINDOW (OP_WINDOW;TAILAPPLY/TAILAPPLY)
+[D] 3.3180: ---to do: OP_WINDOW <OW;TAILAPPLY> <TAILAPPLY>
+[T] 3.3180: pop_or_resolve_from_RS: conf=0x559b42d7b218, elm=0x559b42d7fe48, type=1
+[T] 3.3180: pop_or_resolve_from_RS: conf=0x559b42d7b218, elm=0x559b42d7f978, type=1
+[D] 3.3180: WINDOW: Checking if result was received
+[D] 3.3180: WINDOW: Found parameters /nodeA/sensor/gps1, 4, 1[T] 3.3190: ccnl_nfn_local_content_search(/nodeA/sensor/gps1, suite=ndn2013)
+[D] 3.3190: Searching local for content /nodeA/sensor/gps1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=</nodeA/sensor/gps1>(0x559b42d7f358) of? [V] 3.3190: name=</nodeA/sensor/gps1>(0x559b42d74228) digest=(nil)
+[T] 3.3190:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[D] 3.3190: WINDOW: Found Tuple Content 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+[D] 3.3190: Derived State Name is state/nodeA/sensor/gps1/4/1
+[T] 3.3190: ccnl_URItoPrefix(suite=ndn2013, uri=state/nodeA/sensor/gps1/4/1, nfn=none)
+[T] 3.3190: ccnl_nfn_local_content_search(/state/nodeA/sensor/gps1/4/1, suite=ndn2013)
+[D] 3.3190: Searching local for content /state/nodeA/sensor/gps1/4/1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d82b88) of? [V] 3.3190: name=</nodeA/sensor/gps1>(0x559b42d74228) digest=(nil)
+[V] 3.3190: comp count mismatch
+[T] 3.3190:   cmp result: pfxlen=6 cmplen=6 namlen=3 matchlen=-1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=</state/nodeA/sensor/gps1/4/1/%00%00>(0x559b42d83d88) of? [V] 3.3190: name=</nodeA/sensor/gps1>(0x559b42d74228) digest=(nil)
+[V] 3.3190: comp count mismatch
+[T] 3.3190:   cmp result: pfxlen=7 cmplen=7 namlen=3 matchlen=-1
+[D] 3.3190: WINDOW: Did not find state content 
+[D] 3.3190: WINDOW: Copied new tuple as the first Element of the result
+[D] 3.3190: WINDOW: TEEEEST1
+[D] 3.3190: WINDOW: EndResult is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
 
-[D] 2.9690: Datalen of the Buffer was 113, contentlen of the pkt was 77
-[D] 2.9690: The new size of the char to safe is 159
-[D] 2.9690: The new calculated len of the Buffer is 195
-[T] 2.9690: Setting new buffer with the length of 195
-[T] 2.9690: The Data itself was 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+[D] 3.3190: The new size of the char to safe is 80
+[D] 3.3190: The content of the new Packet should be: 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
 
-[D] 2.9690: The new buffer length is 195
-[D] 2.9690: pointing into the Buffer
-[D] 2.9690: Setting the buffer length
-[D] 2.9690: The new Data of the packet is 2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
-2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+[D] 3.3190: mkSimpleContent (/state/nodeA/sensor/gps1/4/1, 174 bytes)
+[T] 3.3190: Setting new buffer with the length of 223
+[T] 3.3190: The Data itself was Ý"statenodeAsensorgps141
+[T] 3.3190: ccnl_content_new 0x559b42d871a8 </state/nodeA/sensor/gps1/4/1 [-1]>
+[D] 3.3190: The new Data of the packet is ý2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
 
-[D] 2.9690: The name of the Packet is still /%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f
-[I] 2.9690: WINDOW: result was found ---> handle it (/nodeA/sensor/gps1), prog=OP_WINDOW;TAILAPPLY, pending=TAILAPPLY
-[T] 2.9690: push_to_stack: 0x55ccea373088
-[D] 2.9690: Pending: TAILAPPLY
-[D] 2.9690: Step 45 (1/1): TAILAPPLY
-[D] 2.9690: ---to do: tailapply
-[D] 2.9690: Step 46 (0/1): HALT
-[I] 2.9690: end-of-computation (0/1)
-[T] 2.9700: pop_or_resolve_from_RS: conf=0x55ccea36abb8, elm=0x55ccea373088, type=3
-[T] 2.9700: ccnl_nfn_local_content_search(/nodeA/sensor/gps1, suite=ndn2013)
-[D] 2.9700: Searching local for content /nodeA/sensor/gps1
-[V] 2.9700: prefix_cmp(mode=CMP_EXACT) [V] 2.9700: prefix=</nodeA/sensor/gps1>(0x55ccea372f38) of? [V] 2.9700: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 2.9700: component mismatch: 0
-[T] 2.9700:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[V] 2.9700: prefix_cmp(mode=CMP_EXACT) [V] 2.9700: prefix=</nodeA/sensor/gps1/%00%00>(0x55ccea3741d8) of? [V] 2.9700: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 2.9700: comp count mismatch
-[T] 2.9700:   cmp result: pfxlen=4 cmplen=4 namlen=3 matchlen=-1
-[T] 2.9700: Setting new buffer with the length of 0
-[T] 2.9700: The Data itself was 
-[<] 2.9700: ccnl_nfn() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:246
-[<] 2.9700: ccnl_nfn_RX_request() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:298
-[V] 3.0020: ageing t=3
-[T] 3.0020: Interest Lifetime was 0
-[T] 3.0020: ccnl_nfn_already_computing()
-[T] 3.0020: ccnl_nfn_find_running_computation()
-[D] 3.0020: Searching for computation: nfn[/window /nodeA/sensor/gps1 4 1]
-[V] 3.0020: prefix_cmp(mode=CMP_EXACT) [V] 3.0020: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea366e98) of? [V] 3.0020: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea374498) digest=(nil)
-[T] 3.0020:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
-[T] 3.0020: AGING: KEEP ALIVE INTEREST 0x55ccea366db8
-[D] 3.0020:  timeout: already computing 0x0x55ccea366db8 <nfn[/window /nodeA/sensor/gps1 4 1]>
-[D] 3.4300: ccnl_core_RX ifndx=1, 83 bytes
-[T] 3.4300: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30988.sock
-[V] 3.4300:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30988.sock
-[<] 3.4300: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 3.4300:   face 5, peer=/tmp/.ccn-light-ctrl-30988.sock
-[D] 3.4300: Data content to dehead Òòú¥ccnx
-[D] 3.4300: ccnl_switch_dehead: started
-[D] 3.4300: enc was 1, suite is now -1
-[T] 3.4300: pkt2suite 1 210
-[D] 3.4300: ccnl_switch_dehead: started
-[W] 3.4300: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 3.4300: ccnl_ccnb_forwarder: 83B from face=0x55ccea374e98 (id=0.5)
-[D] 3.4300: ccnb fwd (81 bytes left)
-[T] 3.4300: ccnl_ccnb_extract
-[T] 3.4300: Setting new buffer with the length of 83
-[T] 3.4300: The Data itself was Òòú¥ccnx
-[I] 3.4310:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30988.sock
-[I] 3.4310:   found a mgmt message
-[T] 3.4310: ccnl_mgmt request "addcacheobject"
-[T] 3.4310: ccnl_mgmt_handle "addcacheobject"
-[T] 3.4310: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 3.4310:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 3.4310: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 3.4310:   enqueue 130 133 bytes
-[T] 3.4310: Setting new buffer with the length of 133
-[T] 3.4310: The Data itself was ‚0+êê¥last
-[T] 3.4310: enqueue face=0x55ccea374e98 (id=0.5) buf=0x55ccea378988 len=133
-[T] 3.4310: CTS face=0x55ccea374e98 sched=(nil)
-[T] 3.4310: dequeue face=0x55ccea374e98 (id=0.5)
-[T] 3.4310: enqueue interface=0x55ccea33f578 buf=0x55ccea378988 len=133 (qlen=0)
-[T] 3.4310: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 3.4310: unix sendto /tmp/.ccn-light-ctrl-30988.sock returned 133
-[T] 3.4310: Setting new buffer with the length of 41
-[T] 3.4310: The Data itself was 'nodeAsensorgps1	
-[T] 3.4310: Setting new buffer with the length of 41
-[T] 3.4310: The Data itself was 'nodeAsensorgps1	
-[T] 3.4310: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 3.4310: enqueue face=0x55ccea374e98 (id=0.5) buf=0x55ccea37ab58 len=41
-[T] 3.4310: CTS face=0x55ccea374e98 sched=(nil)
-[T] 3.4310: dequeue face=0x55ccea374e98 (id=0.5)
-[T] 3.4310: enqueue interface=0x55ccea33f578 buf=0x55ccea37ab58 len=41 (qlen=0)
-[T] 3.4310: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 3.4310: unix sendto /tmp/.ccn-light-ctrl-30988.sock returned 41
-[D] 3.4310: ccnl_core_RX ifndx=1, 139 bytes
-[T] 3.4310: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30988.sock
-[D] 3.4310:   face 5, peer=/tmp/.ccn-light-ctrl-30988.sock
-[D] 3.4310: Data content to dehead ‰nodeAsensorgps1
-[D] 3.4310: ccnl_switch_dehead: started
-[D] 3.4310: enc was 1, suite is now -1
-[T] 3.4310: pkt2suite 30 137
-[D] 3.4310: ccnl_switch_dehead: started
-[W] 3.4310: kown packet format ccnl_core_RX ifndx=1, 139 bytes starting with 0x1e at offset 0, suit is 6
-[D] 3.4310: ccnl_ndntlv_forwarder (139 bytes left)
-[D] 3.4310: ccnl_ndntlv_bytes2pkt len=137
-[D] 3.4310:   check interest type
-[T] 3.4310: Setting new buffer with the length of 139
-[T] 3.4310: The Data itself was ‰nodeAsensorgps1
-[D] 3.4310: The content is 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
-[I] 3.4310:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30988.sock
-[I] 3.4310:   data 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
-[V] 3.4310: prefix_cmp(mode=CMP_EXACT) [V] 3.4310: prefix=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) of? [V] 3.4310: name=</nodeA/sensor/gps1>(0x55ccea37ad18) digest=(nil)
-[V] 3.4310: component mismatch: 0
-[T] 3.4310:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[D] 3.4310:  Check if it is a nfnprefix Request
-[D] 3.4310:  trying to create new content
-[T] 3.4310: ccnl_content_new 0x55ccea37ac68 </nodeA/sensor/gps1 [-1]>
-[I] 3.4310: data after creating packet 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
-[T] 3.4310: ccnl_content_serve_pendingQueries
-[V] 3.4310: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4310: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.4310: prefix_cmp(mode=CMP_MATCH) [V] 3.4310: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.4320: name=</nodeA/sensor/gps1>(0x55ccea3755b8) digest=(nil)
-[T] 3.4320:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[V] 3.4320: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.4320: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.4320: prefix_cmp(mode=CMP_MATCH) [V] 3.4320: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.4320: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 3.4320: component mismatch: 0
-[T] 3.4320:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 3.4320: ccnl_content_serve_pending
-[V] 3.4320: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4320: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.4320: prefix_cmp(mode=CMP_MATCH) [V] 3.4320: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.4320: name=</nodeA/sensor/gps1>(0x55ccea3755b8) digest=(nil)
-[T] 3.4320:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 3.4320: releasing interest 0x0x55ccea37abd8 OK?
-[T] 3.4320: ccnl_interest_remove 0x55ccea37abd8
-[V] 3.4320: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.4320: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.4320: prefix_cmp(mode=CMP_MATCH) [V] 3.4320: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.4320: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 3.4320: component mismatch: 0
-[T] 3.4320:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[D] 3.4320:   adding content to cache
-[D] 3.4320: ccnl_content_add2cache (1/-1) --> 0x55ccea37b1d8 = /nodeA/sensor/gps1 [-1]
-[V] 3.4320: prefix_cmp(mode=CMP_EXACT) [V] 3.4320: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.4320: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 3.4320: component mismatch: 0
-[T] 3.4320:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[I] 3.4320: data after creating packet 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
-[D] 3.9380: ccnl_core_RX ifndx=1, 83 bytes
-[T] 3.9380: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30992.sock
-[V] 3.9380:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30992.sock
-[<] 3.9380: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 3.9380:   face 6, peer=/tmp/.ccn-light-ctrl-30992.sock
-[D] 3.9380: Data content to dehead Òòú¥ccnx
-[D] 3.9380: ccnl_switch_dehead: started
-[D] 3.9380: enc was 1, suite is now -1
-[T] 3.9380: pkt2suite 1 210
-[D] 3.9380: ccnl_switch_dehead: started
-[W] 3.9380: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 3.9380: ccnl_ccnb_forwarder: 83B from face=0x55ccea37b238 (id=0.6)
-[D] 3.9380: ccnb fwd (81 bytes left)
-[T] 3.9380: ccnl_ccnb_extract
-[T] 3.9380: Setting new buffer with the length of 83
-[T] 3.9380: The Data itself was Òòú¥ccnx
-[I] 3.9380:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30992.sock
-[I] 3.9380:   found a mgmt message
-[T] 3.9380: ccnl_mgmt request "addcacheobject"
-[T] 3.9380: ccnl_mgmt_handle "addcacheobject"
-[T] 3.9380: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 3.9380:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 3.9380: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 3.9380:   enqueue 130 133 bytes
-[T] 3.9380: Setting new buffer with the length of 133
-[T] 3.9380: The Data itself was ‚0+êê¥last
-[T] 3.9380: enqueue face=0x55ccea37b238 (id=0.6) buf=0x55ccea37ee48 len=133
-[T] 3.9380: CTS face=0x55ccea37b238 sched=(nil)
-[T] 3.9380: dequeue face=0x55ccea37b238 (id=0.6)
-[T] 3.9380: enqueue interface=0x55ccea33f578 buf=0x55ccea37ee48 len=133 (qlen=0)
-[T] 3.9380: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 3.9380: unix sendto /tmp/.ccn-light-ctrl-30992.sock returned 133
-[T] 3.9380: Setting new buffer with the length of 41
-[T] 3.9380: The Data itself was 'nodeAsensorgps1	
-[T] 3.9380: Setting new buffer with the length of 41
-[T] 3.9380: The Data itself was 'nodeAsensorgps1	
-[T] 3.9380: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 3.9380: enqueue face=0x55ccea37b238 (id=0.6) buf=0x55ccea381038 len=41
-[T] 3.9380: CTS face=0x55ccea37b238 sched=(nil)
-[T] 3.9380: dequeue face=0x55ccea37b238 (id=0.6)
-[T] 3.9380: enqueue interface=0x55ccea33f578 buf=0x55ccea381038 len=41 (qlen=0)
-[T] 3.9380: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 3.9380: unix sendto /tmp/.ccn-light-ctrl-30992.sock returned 41
-[D] 3.9380: ccnl_core_RX ifndx=1, 142 bytes
-[T] 3.9390: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30992.sock
-[D] 3.9390:   face 6, peer=/tmp/.ccn-light-ctrl-30992.sock
-[D] 3.9390: Data content to dehead ŒnodeAsensorgps1
-[D] 3.9390: ccnl_switch_dehead: started
-[D] 3.9390: enc was 1, suite is now -1
-[T] 3.9390: pkt2suite 30 140
-[D] 3.9390: ccnl_switch_dehead: started
-[W] 3.9390: kown packet format ccnl_core_RX ifndx=1, 142 bytes starting with 0x1e at offset 0, suit is 6
-[D] 3.9390: ccnl_ndntlv_forwarder (142 bytes left)
-[D] 3.9390: ccnl_ndntlv_bytes2pkt len=140
-[D] 3.9390:   check interest type
-[T] 3.9390: Setting new buffer with the length of 142
-[T] 3.9390: The Data itself was ŒnodeAsensorgps1
-[D] 3.9390: The content is 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
-[I] 3.9390:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30992.sock
-[I] 3.9390:   data 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
-[V] 3.9390: prefix_cmp(mode=CMP_EXACT) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea37ad18) of? [V] 3.9390: name=</nodeA/sensor/gps1>(0x55ccea3811f8) digest=(nil)
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 3.9390:   content is duplicate, removing old one and storing new one
-[T] 3.9390: ccnl_content_remove
-[T] 3.9390: ccnl_content_removed
-[T] 3.9390:   old content removed
-[D] 3.9390:  Check if it is a nfnprefix Request
-[D] 3.9390:  trying to create new content
-[T] 3.9390: ccnl_content_new 0x55ccea381148 </nodeA/sensor/gps1 [-1]>
-[I] 3.9390: data after creating packet 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
-[T] 3.9390: ccnl_content_serve_pendingQueries
-[V] 3.9390: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9390: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.9390: prefix_cmp(mode=CMP_MATCH) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 3.9390: name=</nodeA/sensor/gps1>(0x55ccea37b978) digest=(nil)
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[V] 3.9390: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.9390: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.9390: prefix_cmp(mode=CMP_MATCH) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 3.9390: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 3.9390: component mismatch: 0
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 3.9390: ccnl_content_serve_pending
-[V] 3.9390: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9390: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.9390: prefix_cmp(mode=CMP_MATCH) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 3.9390: name=</nodeA/sensor/gps1>(0x55ccea37b978) digest=(nil)
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 3.9390: releasing interest 0x0x55ccea3810b8 OK?
-[T] 3.9390: ccnl_interest_remove 0x55ccea3810b8
-[V] 3.9390: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.9390: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 3.9390: prefix_cmp(mode=CMP_MATCH) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 3.9390: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 3.9390: component mismatch: 0
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[D] 3.9390:   adding content to cache
-[D] 3.9390: ccnl_content_add2cache (1/-1) --> 0x55ccea3816b8 = /nodeA/sensor/gps1 [-1]
-[V] 3.9390: prefix_cmp(mode=CMP_EXACT) [V] 3.9390: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 3.9390: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 3.9390: component mismatch: 0
-[T] 3.9390:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[I] 3.9390: data after creating packet 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
-[V] 4.0020: ageing t=4
-[T] 4.0020: Interest Lifetime was 0
-[T] 4.0020: ccnl_nfn_already_computing()
-[T] 4.0020: ccnl_nfn_find_running_computation()
-[D] 4.0020: Searching for computation: nfn[/window /nodeA/sensor/gps1 4 1]
-[V] 4.0020: prefix_cmp(mode=CMP_EXACT) [V] 4.0020: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea366e98) of? [V] 4.0020: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea381718) digest=(nil)
-[T] 4.0020:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
-[T] 4.0020: AGING: KEEP ALIVE INTEREST 0x55ccea366db8
-[D] 4.0020:  timeout: already computing 0x0x55ccea366db8 <nfn[/window /nodeA/sensor/gps1 4 1]>
-[D] 4.4450: ccnl_core_RX ifndx=1, 83 bytes
-[T] 4.4450: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30996.sock
-[V] 4.4450:   found suitable interface 1 for /tmp/.ccn-light-ctrl-30996.sock
-[<] 4.4450: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 4.4450:   face 7, peer=/tmp/.ccn-light-ctrl-30996.sock
-[D] 4.4450: Data content to dehead Òòú¥ccnx
-[D] 4.4450: ccnl_switch_dehead: started
-[D] 4.4450: enc was 1, suite is now -1
-[T] 4.4450: pkt2suite 1 210
-[D] 4.4450: ccnl_switch_dehead: started
-[W] 4.4450: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 4.4450: ccnl_ccnb_forwarder: 83B from face=0x55ccea382118 (id=0.7)
-[D] 4.4450: ccnb fwd (81 bytes left)
-[T] 4.4450: ccnl_ccnb_extract
-[T] 4.4450: Setting new buffer with the length of 83
-[T] 4.4450: The Data itself was Òòú¥ccnx
-[I] 4.4450:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-30996.sock
-[I] 4.4450:   found a mgmt message
-[T] 4.4450: ccnl_mgmt request "addcacheobject"
-[T] 4.4450: ccnl_mgmt_handle "addcacheobject"
-[T] 4.4450: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 4.4450:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 4.4460: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 4.4460:   enqueue 130 133 bytes
-[T] 4.4460: Setting new buffer with the length of 133
-[T] 4.4460: The Data itself was ‚0+êê¥last
-[T] 4.4460: enqueue face=0x55ccea382118 (id=0.7) buf=0x55ccea385c88 len=133
-[T] 4.4460: CTS face=0x55ccea382118 sched=(nil)
-[T] 4.4460: dequeue face=0x55ccea382118 (id=0.7)
-[T] 4.4460: enqueue interface=0x55ccea33f578 buf=0x55ccea385c88 len=133 (qlen=0)
-[T] 4.4460: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 4.4460: unix sendto /tmp/.ccn-light-ctrl-30996.sock returned 133
-[T] 4.4460: Setting new buffer with the length of 41
-[T] 4.4460: The Data itself was 'nodeAsensorgps1	
-[T] 4.4460: Setting new buffer with the length of 41
-[T] 4.4460: The Data itself was 'nodeAsensorgps1	
-[T] 4.4460: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 4.4460: enqueue face=0x55ccea382118 (id=0.7) buf=0x55ccea387e78 len=41
-[T] 4.4460: CTS face=0x55ccea382118 sched=(nil)
-[T] 4.4460: dequeue face=0x55ccea382118 (id=0.7)
-[T] 4.4460: enqueue interface=0x55ccea33f578 buf=0x55ccea387e78 len=41 (qlen=0)
-[T] 4.4460: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 4.4460: unix sendto /tmp/.ccn-light-ctrl-30996.sock returned 41
-[D] 4.4460: ccnl_core_RX ifndx=1, 141 bytes
-[T] 4.4460: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-30996.sock
-[D] 4.4460:   face 7, peer=/tmp/.ccn-light-ctrl-30996.sock
-[D] 4.4460: Data content to dehead ‹nodeAsensorgps1
-[D] 4.4460: ccnl_switch_dehead: started
-[D] 4.4460: enc was 1, suite is now -1
-[T] 4.4460: pkt2suite 30 139
-[D] 4.4460: ccnl_switch_dehead: started
-[W] 4.4460: kown packet format ccnl_core_RX ifndx=1, 141 bytes starting with 0x1e at offset 0, suit is 6
-[D] 4.4460: ccnl_ndntlv_forwarder (141 bytes left)
-[D] 4.4460: ccnl_ndntlv_bytes2pkt len=139
-[D] 4.4460:   check interest type
-[T] 4.4460: Setting new buffer with the length of 141
-[T] 4.4460: The Data itself was ‹nodeAsensorgps1
-[D] 4.4460: The content is 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
-[I] 4.4460:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-30996.sock
-[I] 4.4460:   data 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
-[V] 4.4460: prefix_cmp(mode=CMP_EXACT) [V] 4.4460: prefix=</nodeA/sensor/gps1>(0x55ccea3811f8) of? [V] 4.4460: name=</nodeA/sensor/gps1>(0x55ccea388038) digest=(nil)
-[T] 4.4460:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 4.4460:   content is duplicate, removing old one and storing new one
-[T] 4.4460: ccnl_content_remove
-[T] 4.4460: ccnl_content_removed
-[T] 4.4460:   old content removed
-[D] 4.4460:  Check if it is a nfnprefix Request
-[D] 4.4460:  trying to create new content
-[T] 4.4460: ccnl_content_new 0x55ccea387f88 </nodeA/sensor/gps1 [-1]>
-[I] 4.4460: data after creating packet 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
-[T] 4.4460: ccnl_content_serve_pendingQueries
-[V] 4.4460: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.4460: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.4460: prefix_cmp(mode=CMP_MATCH) [V] 4.4460: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.4460: name=</nodeA/sensor/gps1>(0x55ccea382838) digest=(nil)
-[T] 4.4460:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[V] 4.4460: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.4460: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.4460: prefix_cmp(mode=CMP_MATCH) [V] 4.4470: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.4470: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 4.4470: component mismatch: 0
-[T] 4.4470:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 4.4470: ccnl_content_serve_pending
-[V] 4.4470: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.4470: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.4470: prefix_cmp(mode=CMP_MATCH) [V] 4.4470: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.4470: name=</nodeA/sensor/gps1>(0x55ccea382838) digest=(nil)
-[T] 4.4470:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 4.4470: releasing interest 0x0x55ccea387ef8 OK?
-[T] 4.4470: ccnl_interest_remove 0x55ccea387ef8
-[V] 4.4470: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.4470: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.4470: prefix_cmp(mode=CMP_MATCH) [V] 4.4470: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.4470: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 4.4470: component mismatch: 0
-[T] 4.4470:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[D] 4.4470:   adding content to cache
-[D] 4.4470: ccnl_content_add2cache (1/-1) --> 0x55ccea3884f8 = /nodeA/sensor/gps1 [-1]
-[V] 4.4470: prefix_cmp(mode=CMP_EXACT) [V] 4.4470: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.4470: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 4.4470: component mismatch: 0
-[T] 4.4470:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[I] 4.4470: data after creating packet 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
-[D] 4.9520: ccnl_core_RX ifndx=1, 83 bytes
-[T] 4.9520: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-31006.sock
-[V] 4.9520:   found suitable interface 1 for /tmp/.ccn-light-ctrl-31006.sock
-[<] 4.9520: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 4.9520:   face 8, peer=/tmp/.ccn-light-ctrl-31006.sock
-[D] 4.9520: Data content to dehead Òòú¥ccnx
-[D] 4.9520: ccnl_switch_dehead: started
-[D] 4.9520: enc was 1, suite is now -1
-[T] 4.9520: pkt2suite 1 210
-[D] 4.9520: ccnl_switch_dehead: started
-[W] 4.9520: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 4.9520: ccnl_ccnb_forwarder: 83B from face=0x55ccea388558 (id=0.8)
-[D] 4.9520: ccnb fwd (81 bytes left)
-[T] 4.9520: ccnl_ccnb_extract
-[T] 4.9520: Setting new buffer with the length of 83
-[T] 4.9520: The Data itself was Òòú¥ccnx
-[I] 4.9520:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-31006.sock
-[I] 4.9520:   found a mgmt message
-[T] 4.9520: ccnl_mgmt request "addcacheobject"
-[T] 4.9520: ccnl_mgmt_handle "addcacheobject"
-[T] 4.9520: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 4.9520:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 4.9520: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 4.9520:   enqueue 130 133 bytes
-[T] 4.9520: Setting new buffer with the length of 133
-[T] 4.9520: The Data itself was ‚0+êê¥last
-[T] 4.9520: enqueue face=0x55ccea388558 (id=0.8) buf=0x55ccea38c0c8 len=133
-[T] 4.9520: CTS face=0x55ccea388558 sched=(nil)
-[T] 4.9530: dequeue face=0x55ccea388558 (id=0.8)
-[T] 4.9530: enqueue interface=0x55ccea33f578 buf=0x55ccea38c0c8 len=133 (qlen=0)
-[T] 4.9530: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 4.9530: unix sendto /tmp/.ccn-light-ctrl-31006.sock returned 133
-[T] 4.9530: Setting new buffer with the length of 41
-[T] 4.9530: The Data itself was 'nodeAsensorgps1	
-[T] 4.9530: Setting new buffer with the length of 41
-[T] 4.9530: The Data itself was 'nodeAsensorgps1	
-[T] 4.9530: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 4.9530: enqueue face=0x55ccea388558 (id=0.8) buf=0x55ccea38e2b8 len=41
-[T] 4.9530: CTS face=0x55ccea388558 sched=(nil)
-[T] 4.9530: dequeue face=0x55ccea388558 (id=0.8)
-[T] 4.9530: enqueue interface=0x55ccea33f578 buf=0x55ccea38e2b8 len=41 (qlen=0)
-[T] 4.9530: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 4.9530: unix sendto /tmp/.ccn-light-ctrl-31006.sock returned 41
-[D] 4.9530: ccnl_core_RX ifndx=1, 142 bytes
-[T] 4.9530: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-31006.sock
-[D] 4.9530:   face 8, peer=/tmp/.ccn-light-ctrl-31006.sock
-[D] 4.9530: Data content to dehead ŒnodeAsensorgps1
-[D] 4.9530: ccnl_switch_dehead: started
-[D] 4.9530: enc was 1, suite is now -1
-[T] 4.9530: pkt2suite 30 140
-[D] 4.9530: ccnl_switch_dehead: started
-[W] 4.9530: kown packet format ccnl_core_RX ifndx=1, 142 bytes starting with 0x1e at offset 0, suit is 6
-[D] 4.9530: ccnl_ndntlv_forwarder (142 bytes left)
-[D] 4.9530: ccnl_ndntlv_bytes2pkt len=140
-[D] 4.9530:   check interest type
-[T] 4.9530: Setting new buffer with the length of 142
-[T] 4.9530: The Data itself was ŒnodeAsensorgps1
-[D] 4.9530: The content is 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
-[I] 4.9530:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-31006.sock
-[I] 4.9530:   data 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
-[V] 4.9530: prefix_cmp(mode=CMP_EXACT) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea388038) of? [V] 4.9530: name=</nodeA/sensor/gps1>(0x55ccea38e478) digest=(nil)
-[T] 4.9530:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 4.9530:   content is duplicate, removing old one and storing new one
-[T] 4.9530: ccnl_content_remove
-[T] 4.9530: ccnl_content_removed
-[T] 4.9530:   old content removed
-[D] 4.9530:  Check if it is a nfnprefix Request
-[D] 4.9530:  trying to create new content
-[T] 4.9530: ccnl_content_new 0x55ccea38e3c8 </nodeA/sensor/gps1 [-1]>
-[I] 4.9530: data after creating packet 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
-[T] 4.9530: ccnl_content_serve_pendingQueries
-[V] 4.9530: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.9530: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.9530: prefix_cmp(mode=CMP_MATCH) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 4.9530: name=</nodeA/sensor/gps1>(0x55ccea388c78) digest=(nil)
-[T] 4.9530:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[V] 4.9530: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.9530: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.9530: prefix_cmp(mode=CMP_MATCH) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 4.9530: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 4.9530: component mismatch: 0
-[T] 4.9530:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 4.9530: ccnl_content_serve_pending
-[V] 4.9530: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.9530: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.9530: prefix_cmp(mode=CMP_MATCH) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 4.9530: name=</nodeA/sensor/gps1>(0x55ccea388c78) digest=(nil)
-[T] 4.9530:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 4.9530: releasing interest 0x0x55ccea38e338 OK?
-[T] 4.9530: ccnl_interest_remove 0x55ccea38e338
-[V] 4.9530: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.9530: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 4.9530: prefix_cmp(mode=CMP_MATCH) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 4.9530: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 4.9530: component mismatch: 0
-[T] 4.9530:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[D] 4.9530:   adding content to cache
-[D] 4.9530: ccnl_content_add2cache (1/-1) --> 0x55ccea38e938 = /nodeA/sensor/gps1 [-1]
-[V] 4.9530: prefix_cmp(mode=CMP_EXACT) [V] 4.9530: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 4.9530: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 4.9530: component mismatch: 0
-[T] 4.9540:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[I] 4.9540: data after creating packet 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
-[V] 5.0030: ageing t=5
-[T] 5.0030: Interest Lifetime was 0
-[T] 5.0030: ccnl_nfn_already_computing()
-[T] 5.0030: ccnl_nfn_find_running_computation()
-[D] 5.0030: Searching for computation: nfn[/window /nodeA/sensor/gps1 4 1]
-[V] 5.0030: prefix_cmp(mode=CMP_EXACT) [V] 5.0030: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea366e98) of? [V] 5.0030: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea38e998) digest=(nil)
-[T] 5.0030:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
-[T] 5.0030: AGING: KEEP ALIVE INTEREST 0x55ccea366db8
-[D] 5.0030:  timeout: already computing 0x0x55ccea366db8 <nfn[/window /nodeA/sensor/gps1 4 1]>
-[D] 5.4560: ccnl_core_RX ifndx=1, 83 bytes
-[T] 5.4560: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-31010.sock
-[V] 5.4560:   found suitable interface 1 for /tmp/.ccn-light-ctrl-31010.sock
-[<] 5.4560: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 5.4560:   face 9, peer=/tmp/.ccn-light-ctrl-31010.sock
-[D] 5.4560: Data content to dehead Òòú¥ccnx
-[D] 5.4560: ccnl_switch_dehead: started
-[D] 5.4560: enc was 1, suite is now -1
-[T] 5.4560: pkt2suite 1 210
-[D] 5.4560: ccnl_switch_dehead: started
-[W] 5.4560: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
-[D] 5.4560: ccnl_ccnb_forwarder: 83B from face=0x55ccea38f398 (id=0.9)
-[D] 5.4560: ccnb fwd (81 bytes left)
-[T] 5.4560: ccnl_ccnb_extract
-[T] 5.4560: Setting new buffer with the length of 83
-[T] 5.4560: The Data itself was Òòú¥ccnx
-[I] 5.4560:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-31010.sock
-[I] 5.4560:   found a mgmt message
-[T] 5.4560: ccnl_mgmt request "addcacheobject"
-[T] 5.4560: ccnl_mgmt_handle "addcacheobject"
-[T] 5.4560: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
-[T] 5.4560:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
-[D] 5.4560: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
-[T] 5.4560:   enqueue 130 133 bytes
-[T] 5.4560: Setting new buffer with the length of 133
-[T] 5.4560: The Data itself was ‚0+êê¥last
-[T] 5.4560: enqueue face=0x55ccea38f398 (id=0.9) buf=0x55ccea392f08 len=133
-[T] 5.4560: CTS face=0x55ccea38f398 sched=(nil)
-[T] 5.4560: dequeue face=0x55ccea38f398 (id=0.9)
-[T] 5.4560: enqueue interface=0x55ccea33f578 buf=0x55ccea392f08 len=133 (qlen=0)
-[T] 5.4560: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 5.4560: unix sendto /tmp/.ccn-light-ctrl-31010.sock returned 133
-[T] 5.4560: Setting new buffer with the length of 41
-[T] 5.4560: The Data itself was 'nodeAsensorgps1	
-[T] 5.4560: Setting new buffer with the length of 41
-[T] 5.4560: The Data itself was 'nodeAsensorgps1	
-[T] 5.4560: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
-[T] 5.4560: enqueue face=0x55ccea38f398 (id=0.9) buf=0x55ccea3950f8 len=41
-[T] 5.4560: CTS face=0x55ccea38f398 sched=(nil)
-[T] 5.4560: dequeue face=0x55ccea38f398 (id=0.9)
-[T] 5.4560: enqueue interface=0x55ccea33f578 buf=0x55ccea3950f8 len=41 (qlen=0)
-[T] 5.4560: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 5.4560: unix sendto /tmp/.ccn-light-ctrl-31010.sock returned 41
-[D] 5.4560: ccnl_core_RX ifndx=1, 142 bytes
-[T] 5.4560: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-31010.sock
-[D] 5.4560:   face 9, peer=/tmp/.ccn-light-ctrl-31010.sock
-[D] 5.4560: Data content to dehead ŒnodeAsensorgps1
-[D] 5.4560: ccnl_switch_dehead: started
-[D] 5.4570: enc was 1, suite is now -1
-[T] 5.4570: pkt2suite 30 140
-[D] 5.4570: ccnl_switch_dehead: started
-[W] 5.4570: kown packet format ccnl_core_RX ifndx=1, 142 bytes starting with 0x1e at offset 0, suit is 6
-[D] 5.4570: ccnl_ndntlv_forwarder (142 bytes left)
-[D] 5.4570: ccnl_ndntlv_bytes2pkt len=140
-[D] 5.4570:   check interest type
-[T] 5.4570: Setting new buffer with the length of 142
-[T] 5.4570: The Data itself was ŒnodeAsensorgps1
-[D] 5.4570: The content is 2017-09-02 15:23:28;0;51.81839370727539;8.727304458618164;180.0;3.0;1.1590173764991651;1.1590173764991651;
-[I] 5.4570:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-31010.sock
-[I] 5.4570:   data 2017-09-02 15:23:28;0;51.81839370727539;8.727304458618164;180.0;3.0;1.1590173764991651;1.1590173764991651;
-[V] 5.4570: prefix_cmp(mode=CMP_EXACT) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea38e478) of? [V] 5.4570: name=</nodeA/sensor/gps1>(0x55ccea3952b8) digest=(nil)
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
-[T] 5.4570:   content is duplicate, removing old one and storing new one
-[T] 5.4570: ccnl_content_remove
-[T] 5.4570: ccnl_content_removed
-[T] 5.4570:   old content removed
-[D] 5.4570:  Check if it is a nfnprefix Request
-[D] 5.4570:  trying to create new content
-[T] 5.4570: ccnl_content_new 0x55ccea395208 </nodeA/sensor/gps1 [-1]>
-[I] 5.4570: data after creating packet 2017-09-02 15:23:28;0;51.81839370727539;8.727304458618164;180.0;3.0;1.1590173764991651;1.1590173764991651;
-[T] 5.4570: ccnl_content_serve_pendingQueries
-[V] 5.4570: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 5.4570: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 5.4570: prefix_cmp(mode=CMP_MATCH) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea3952b8) of? [V] 5.4570: name=</nodeA/sensor/gps1>(0x55ccea38fab8) digest=(nil)
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[V] 5.4570: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 5.4570: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 5.4570: prefix_cmp(mode=CMP_MATCH) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea3952b8) of? [V] 5.4570: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 5.4570: component mismatch: 0
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[T] 5.4570: ccnl_content_serve_pending
-[V] 5.4570: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 5.4570: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 5.4570: prefix_cmp(mode=CMP_MATCH) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea3952b8) of? [V] 5.4570: name=</nodeA/sensor/gps1>(0x55ccea38fab8) digest=(nil)
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
-[W] 5.4570: releasing interest 0x0x55ccea395178 OK?
-[T] 5.4570: ccnl_interest_remove 0x55ccea395178
-[V] 5.4570: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 5.4570: content=</nodeA/sensor/gps1> min=0 max=64
-[V] 5.4570: prefix_cmp(mode=CMP_MATCH) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea3952b8) of? [V] 5.4570: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3668b8) digest=(nil)
-[V] 5.4570: component mismatch: 0
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
-[D] 5.4570:   adding content to cache
-[D] 5.4570: ccnl_content_add2cache (1/-1) --> 0x55ccea395778 = /nodeA/sensor/gps1 [-1]
-[V] 5.4570: prefix_cmp(mode=CMP_EXACT) [V] 5.4570: prefix=</nodeA/sensor/gps1>(0x55ccea3952b8) of? [V] 5.4570: name=</%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f%ffffff8f/%ffffff8f%ffffff8f%ffffff8f%ffffff8f>(0x55ccea366228) digest=(nil)
-[V] 5.4570: component mismatch: 0
-[T] 5.4570:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=-1
-[I] 5.4570: data after creating packet 2017-09-02 15:23:28;0;51.81839370727539;8.727304458618164;180.0;3.0;1.1590173764991651;1.1590173764991651;
-[V] 6.0030: ageing t=6
-[T] 6.0030: Interest Lifetime was 0
-[T] 6.0030: ccnl_nfn_already_computing()
-[T] 6.0030: ccnl_nfn_find_running_computation()
-[D] 6.0040: Searching for computation: nfn[/window /nodeA/sensor/gps1 4 1]
-[V] 6.0040: prefix_cmp(mode=CMP_EXACT) [V] 6.0040: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea366e98) of? [V] 6.0040: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3957d8) digest=(nil)
-[T] 6.0040:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
-[T] 6.0040: AGING: KEEP ALIVE INTEREST 0x55ccea366db8
-[D] 6.0040:  timeout: already computing 0x0x55ccea366db8 <nfn[/window /nodeA/sensor/gps1 4 1]>
-[V] 7.0040: ageing t=7
-[T] 7.0040: Interest Lifetime was 0
-[T] 7.0040: ccnl_nfn_already_computing()
-[T] 7.0040: ccnl_nfn_find_running_computation()
-[D] 7.0040: Searching for computation: nfn[/window /nodeA/sensor/gps1 4 1]
-[V] 7.0040: prefix_cmp(mode=CMP_EXACT) [V] 7.0040: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea366e98) of? [V] 7.0040: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x55ccea3961d8) digest=(nil)
-[T] 7.0040:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
-[T] 7.0040: AGING: KEEP ALIVE INTEREST 0x55ccea366db8
-[D] 7.0040:  timeout: already computing 0x0x55ccea366db8 <nfn[/window /nodeA/sensor/gps1 4 1]>
-[D] 7.7700: ccnl_core_RX ifndx=1, 57 bytes
-[T] 7.7700: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-31029.sock
-[V] 7.7700:   found suitable interface 1 for /tmp/.ccn-light-ctrl-31029.sock
-[<] 7.7700: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
-[D] 7.7700:   face 10, peer=/tmp/.ccn-light-ctrl-31029.sock
-[D] 7.7700: Data content to dehead Òòú¥ccnx
-[D] 7.7700: ccnl_switch_dehead: started
-[D] 7.7700: enc was 1, suite is now -1
-[T] 7.7700: pkt2suite 1 210
-[D] 7.7700: ccnl_switch_dehead: started
-[W] 7.7700: kown packet format ccnl_core_RX ifndx=1, 57 bytes starting with 0x01 at offset 0, suit is 1
-[D] 7.7700: ccnl_ccnb_forwarder: 57B from face=0x55ccea396bd8 (id=0.10)
-[D] 7.7700: ccnb fwd (55 bytes left)
-[T] 7.7700: ccnl_ccnb_extract
-[T] 7.7700: Setting new buffer with the length of 57
-[T] 7.7700: The Data itself was Òòú¥ccnx
-[I] 7.7700:   incoming interest=</ccnx//debug/%04%ffffff82%01%ffffff9a%01%ffffffb501%ffffffe2%04%ffffffca%ffffffaddebug%0001%ffffffea%ffffffa5halt%00%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-31029.sock
-[I] 7.7700:   found a mgmt message
-[T] 7.7700: ccnl_mgmt request "debug"
-[T] 7.7700: ccnl_mgmt_handle "debug"
-[T] 7.7700: ccnl_mgmt_debug from=/tmp/.ccn-light-ctrl-31029.sock
-[T] 7.7700:   debugaction is halt
-[D] 7.7700: ccnl_mgmt_send_return_split 60 bytes, 1 packet(s)
-[T] 7.7700:   enqueue 76 79 bytes
-[T] 7.7700: Setting new buffer with the length of 79
-[T] 7.7700: The Data itself was ‚0+êê¥last
-[T] 7.7700: enqueue face=0x55ccea396bd8 (id=0.10) buf=0x55ccea39f308 len=79
-[T] 7.7700: CTS face=0x55ccea396bd8 sched=(nil)
-[T] 7.7700: dequeue face=0x55ccea396bd8 (id=0.10)
-[T] 7.7700: enqueue interface=0x55ccea33f578 buf=0x55ccea39f308 len=79 (qlen=0)
-[T] 7.7700: interface_CTS interface=0x55ccea33f578, qlen=1, sched=(nil)
-[D] 7.7700: unix sendto /tmp/.ccn-light-ctrl-31029.sock returned 79
-[T] 7.7700: ccnl_core_cleanup 0x55ccea33d288
-[T] 7.7700: ccnl_interest_remove 0x55ccea366db8
-[D] 7.7700: face_remove relay=0x55ccea33d288 face=0x55ccea396bd8
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea38f398 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea38f398
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea388558 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea388558
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea382118 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea382118
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea37b238 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea37b238
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea374e98 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea374e98
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea366728 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea366728
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea360308 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea360308
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea359e08 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea359e08
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 0x55ccea353418 (nil)
-[T] 7.7710: face_remove: unlinking2
-[T] 7.7710: face_remove: unlinking3
-[<] 7.7710: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[D] 7.7710: face_remove relay=0x55ccea33d288 face=0x55ccea353418
-[T] 7.7710: ccnl_sched_destroy (nil)
-[T] 7.7710: face_remove: cleaning PIT
-[T] 7.7710: face_remove: cleaning fwd table
-[T] 7.7710: face_remove: cleaning pkt queue
-[T] 7.7710: face_remove: unlinking1 (nil) (nil)
-[T] 7.7720: face_remove: unlinking2
-[T] 7.7720: face_remove: unlinking3
-[<] 7.7720: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
-[T] 7.7720: ccnl_content_remove
-[T] 7.7720: ccnl_content_removed
-[T] 7.7720: ccnl_content_remove
-[T] 7.7720: ccnl_content_removed
-[T] 7.7720: ccnl_interface_cleanup
-[T] 7.7720: ccnl_sched_destroy (nil)
-[T] 7.7720: ccnl_interface_cleanup
-[T] 7.7720: ccnl_sched_destroy (nil)
-[T] 7.7720: ccnl_nfn_freeKrivine(0x55ccea353298)
-[D] 7.7720:   configuration_list 0x55ccea36abb8
-[T] 7.7720: ccnl_nfn_freeConfiguration(0x55ccea36abb8)
-[V] 7.7720: nfn_freeMachineState 0x55ccea36ac78
-[<] 7.7720: ccnl_nfn_freeMachineState() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-common.c:282
-[M] 7.7720: @@@ memory dump starts
-addr 0x55ccea390330 15 Bytes, ccnl-prefix.c:103 @5.4560
-addr 0x55ccea3902f0 12 Bytes, ccnl-prefix.c:59 @5.4560
-addr 0x55ccea3902a0 24 Bytes, ccnl-prefix.c:58 @5.4560
-addr 0x55ccea390220 80 Bytes, ccnl-prefix.c:54 @5.4560
-addr 0x55ccea3894f0 15 Bytes, ccnl-prefix.c:103 @4.9520
-addr 0x55ccea3894b0 12 Bytes, ccnl-prefix.c:59 @4.9520
-addr 0x55ccea389460 24 Bytes, ccnl-prefix.c:58 @4.9520
-addr 0x55ccea3893e0 80 Bytes, ccnl-prefix.c:54 @4.9520
-addr 0x55ccea3830b0 15 Bytes, ccnl-prefix.c:103 @4.4450
-addr 0x55ccea383070 12 Bytes, ccnl-prefix.c:59 @4.4450
-addr 0x55ccea383020 24 Bytes, ccnl-prefix.c:58 @4.4450
-addr 0x55ccea382fa0 80 Bytes, ccnl-prefix.c:54 @4.4450
-addr 0x55ccea37c270 15 Bytes, ccnl-prefix.c:103 @3.9380
-addr 0x55ccea37c210 12 Bytes, ccnl-prefix.c:59 @3.9380
-addr 0x55ccea37c1a0 24 Bytes, ccnl-prefix.c:58 @3.9380
-addr 0x55ccea37c120 80 Bytes, ccnl-prefix.c:54 @3.9380
-addr 0x55ccea375e30 15 Bytes, ccnl-prefix.c:103 @3.4310
-addr 0x55ccea375df0 12 Bytes, ccnl-prefix.c:59 @3.4310
-addr 0x55ccea375da0 24 Bytes, ccnl-prefix.c:58 @3.4310
-addr 0x55ccea375d20 80 Bytes, ccnl-prefix.c:54 @3.4310
-addr 0x55ccea374a60 24 Bytes, ccnl-buf.c:50 @2.9700
-addr 0x55ccea373fb0 2049 Bytes, ccnl-prefix.c:560 @2.9700
-addr 0x55ccea373770 2049 Bytes, ccnl-prefix.c:560 @2.9700
-addr 0x55ccea373660 15 Bytes, ccnl-prefix.c:103 @2.9690
-addr 0x55ccea373620 12 Bytes, ccnl-prefix.c:59 @2.9690
-addr 0x55ccea3735d0 24 Bytes, ccnl-prefix.c:58 @2.9690
-addr 0x55ccea372d10 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea372300 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea371ac0 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea371280 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea370a40 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea370200 2049 Bytes, ccnl-prefix.c:560 @2.9690
-addr 0x55ccea36a970 2049 Bytes, ccnl-prefix.c:560 @2.9670
-addr 0x55ccea367e80 2049 Bytes, ccnl-prefix.c:560 @2.9670
-addr 0x55ccea367620 2049 Bytes, ccnl-prefix.c:560 @2.9670
-addr 0x55ccea3612a0 15 Bytes, ccnl-prefix.c:103 @2.9230
-addr 0x55ccea361260 12 Bytes, ccnl-prefix.c:59 @2.9230
-addr 0x55ccea361210 24 Bytes, ccnl-prefix.c:58 @2.9230
-addr 0x55ccea361190 80 Bytes, ccnl-prefix.c:54 @2.9230
-addr 0x55ccea35ae60 15 Bytes, ccnl-prefix.c:103 @2.4160
-addr 0x55ccea35ae00 12 Bytes, ccnl-prefix.c:59 @2.4160
-addr 0x55ccea35ad90 24 Bytes, ccnl-prefix.c:58 @2.4160
-addr 0x55ccea35ad10 80 Bytes, ccnl-prefix.c:54 @2.4160
-addr 0x55ccea354300 15 Bytes, ccnl-prefix.c:103 @1.9080
-addr 0x55ccea3542a0 12 Bytes, ccnl-prefix.c:59 @1.9080
-addr 0x55ccea354230 24 Bytes, ccnl-prefix.c:58 @1.9080
-addr 0x55ccea3541b0 80 Bytes, ccnl-prefix.c:54 @1.9080
-addr 0x55ccea33d8a0 88696 Bytes, ccn-lite-relay.c:171 @0.0000
-[M] 7.7720: @@@ memory dump ends
+[D] 3.3190: The name of the new Packet is still /state/nodeA/sensor/gps1/4/1
+[D] 3.3190: The content of the new Packet Buffer is: Ý"statenodeAsensorgps141
+[D] 3.3190: Datalen of the Buffer was 223, contentlen of the new Packet was 174
+[I] 3.3190: WINDOW: result was found ---> handle it (/state/nodeA/sensor/gps1/4/1), prog=OP_WINDOW;TAILAPPLY, pending=TAILAPPLY
+[T] 3.3190: push_to_stack: 0x559b42d89d78
+[D] 3.3190: Pending: TAILAPPLY
+[D] 3.3190: Step 45 (1/1): TAILAPPLY
+[D] 3.3190: ---to do: tailapply
+[D] 3.3190: Step 46 (0/1): HALT
+[I] 3.3190: end-of-computation (0/1)
+[T] 3.3190: pop_or_resolve_from_RS: conf=0x559b42d7b218, elm=0x559b42d89d78, type=3
+[T] 3.3190: ccnl_nfn_local_content_search(/state/nodeA/sensor/gps1/4/1, suite=ndn2013)
+[D] 3.3190: Searching local for content /state/nodeA/sensor/gps1/4/1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d89bf8) of? [V] 3.3190: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[T] 3.3190:   cmp result: pfxlen=6 cmplen=6 namlen=6 matchlen=0
+[T] 3.3190: Setting new buffer with the length of 174
+[T] 3.3190: The Data itself was ý2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+
+[I] 3.3190: Computation finished: res: ý2017-09-02 15:23:23;0;51.81841278076172;8.727282524108887;162.0;8.0;0.0;None;U
+ size: 174 bytes. Running computations: 1
+[T] 3.3190: ccnl_nfn_result2content(prefix=nfn[/window /nodeA/sensor/gps1 4 1], suite=ndn2013, contlen=174)
+[D] 3.3190: mkSimpleContent (nfn[/window /nodeA/sensor/gps1 4 1], 174 bytes)
+[T] 3.3190: Setting new buffer with the length of 225
+[T] 3.3190: The Data itself was ß$window /nodeA/sensor/gps1 4 1NFN
+[T] 3.3190: ccnl_content_new 0x559b42d8b958 <nfn[/window /nodeA/sensor/gps1 4 1] [-1]>
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=</nodeA/sensor/gps1>(0x559b42d77208) of? [V] 3.3190: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[V] 3.3190: comp count mismatch
+[T] 3.3190:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=-1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) of? [V] 3.3190: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[T] 3.3190:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=0
+[T] 3.3190: ccnl_content_serve_pending
+[V] 3.3190: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.3190: content=<nfn[/window /nodeA/sensor/gps1 4 1]> min=0 max=0
+[T] 3.3190:   mismatch in # of components
+[V] 3.3190: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.3190: content=<nfn[/window /nodeA/sensor/gps1 4 1]> min=0 max=64
+[V] 3.3190: prefix_cmp(mode=CMP_MATCH) [V] 3.3190: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) of? [V] 3.3190: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[T] 3.3190:   cmp result: pfxlen=1 cmplen=1 namlen=1 matchlen=1
+[I] 3.3190:   outgoing data=<nfn[/window /nodeA/sensor/gps1 4 1]>ndn2013 nonce=887728473 to=127.0.0.1/50678
+[V] 3.3190:     Serve to face: 4 (pkt=0x559b42d8b958)
+[T] 3.3190: Setting new buffer with the length of 225
+[T] 3.3190: The Data itself was ß$window /nodeA/sensor/gps1 4 1NFN
+[T] 3.3190: enqueue face=0x559b42d74798 (id=0.4) buf=0x559b42d8db88 len=225
+[T] 3.3190: CTS face=0x559b42d74798 sched=(nil)
+[T] 3.3190: dequeue face=0x559b42d74798 (id=0.4)
+[T] 3.3190: enqueue interface=0x559b42d4b2e0 buf=0x559b42d8db88 len=225 (qlen=0)
+[T] 3.3190: interface_CTS interface=0x559b42d4b2e0, qlen=1, sched=(nil)
+[D] 3.3190: udp sendto 127.0.0.1/50678 returned 225
+[D] 3.3190: Interest was a constant interest and will not be removed
+[D] 3.3190: ccnl_content_add2cache (1/-1) --> 0x559b42d8db28 = nfn[/window /nodeA/sensor/gps1 4 1] [-1]
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) of? [V] 3.3190: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[V] 3.3190: comp count mismatch
+[T] 3.3190:   cmp result: pfxlen=1 cmplen=1 namlen=6 matchlen=-1
+[V] 3.3190: prefix_cmp(mode=CMP_EXACT) [V] 3.3190: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) of? [V] 3.3190: name=</nodeA/sensor/gps1>(0x559b42d74228) digest=(nil)
+[V] 3.3190: comp count mismatch
+[T] 3.3190:   cmp result: pfxlen=1 cmplen=1 namlen=3 matchlen=-1
+[T] 3.3190: ccnl_nfn_freeConfiguration(0x559b42d7b218)
+[V] 3.3190: nfn_freeMachineState 0x559b42d7b2d8
+[<] 3.3190: ccnl_nfn_freeMachineState() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-common.c:282
+[<] 3.3190: ccnl_nfn() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:246
+[T] 3.3190: ccnl-nfn: The return value was not null 
+[<] 3.3190: ccnl_nfn_RX_request() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn.c:325
+[D] 3.4600: ccnl_core_RX ifndx=1, 83 bytes
+[T] 3.4600: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4823.sock
+[V] 3.4600:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4823.sock
+[<] 3.4600: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 3.4600:   face 5, peer=/tmp/.ccn-light-ctrl-4823.sock
+[D] 3.4600: Data content to dehead Òòú¥ccnx
+[D] 3.4600: ccnl_switch_dehead: started
+[D] 3.4600: enc was 1, suite is now -1
+[T] 3.4600: pkt2suite 1 210
+[D] 3.4600: ccnl_switch_dehead: started
+[W] 3.4600: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 3.4610: ccnl_ccnb_forwarder: 83B from face=0x559b42d8dcd8 (id=0.5)
+[D] 3.4610: ccnb fwd (81 bytes left)
+[T] 3.4610: ccnl_ccnb_extract
+[T] 3.4610: Setting new buffer with the length of 83
+[T] 3.4610: The Data itself was Òòú¥ccnx
+[I] 3.4610:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4823.sock
+[I] 3.4610:   found a mgmt message
+[T] 3.4610: ccnl_mgmt request "addcacheobject"
+[T] 3.4610: ccnl_mgmt_handle "addcacheobject"
+[T] 3.4610: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 3.4610:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 3.4610: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 3.4610:   enqueue 130 133 bytes
+[T] 3.4610: Setting new buffer with the length of 133
+[T] 3.4610: The Data itself was ‚0+êê¥last
+[T] 3.4610: enqueue face=0x559b42d8dcd8 (id=0.5) buf=0x559b42d917c8 len=133
+[T] 3.4610: CTS face=0x559b42d8dcd8 sched=(nil)
+[T] 3.4610: dequeue face=0x559b42d8dcd8 (id=0.5)
+[T] 3.4610: enqueue interface=0x559b42d4d578 buf=0x559b42d917c8 len=133 (qlen=0)
+[T] 3.4610: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 3.4610: unix sendto /tmp/.ccn-light-ctrl-4823.sock returned 133
+[T] 3.4610: Setting new buffer with the length of 41
+[T] 3.4610: The Data itself was 'nodeAsensorgps1	
+[T] 3.4610: Setting new buffer with the length of 41
+[T] 3.4610: The Data itself was 'nodeAsensorgps1	
+[T] 3.4610: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 3.4610: enqueue face=0x559b42d8dcd8 (id=0.5) buf=0x559b42d93998 len=41
+[T] 3.4610: CTS face=0x559b42d8dcd8 sched=(nil)
+[T] 3.4610: dequeue face=0x559b42d8dcd8 (id=0.5)
+[T] 3.4620: enqueue interface=0x559b42d4d578 buf=0x559b42d93998 len=41 (qlen=0)
+[T] 3.4620: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 3.4620: unix sendto /tmp/.ccn-light-ctrl-4823.sock returned 41
+[D] 3.4620: ccnl_core_RX ifndx=1, 139 bytes
+[T] 3.4620: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4823.sock
+[D] 3.4620:   face 5, peer=/tmp/.ccn-light-ctrl-4823.sock
+[D] 3.4620: Data content to dehead ‰nodeAsensorgps1
+[D] 3.4620: ccnl_switch_dehead: started
+[D] 3.4620: enc was 1, suite is now -1
+[T] 3.4620: pkt2suite 30 137
+[D] 3.4620: ccnl_switch_dehead: started
+[W] 3.4620: kown packet format ccnl_core_RX ifndx=1, 139 bytes starting with 0x1e at offset 0, suit is 6
+[D] 3.4620: ccnl_ndntlv_forwarder (139 bytes left)
+[D] 3.4620: ccnl_ndntlv_bytes2pkt len=137
+[D] 3.4620:   check interest type
+[T] 3.4620: Setting new buffer with the length of 139
+[T] 3.4620: The Data itself was ‰nodeAsensorgps1
+[D] 3.4620: The content is 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
+[I] 3.4620:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4823.sock
+[I] 3.4620:   data 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
+[V] 3.4620: prefix_cmp(mode=CMP_EXACT) [V] 3.4620: prefix=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) of? [V] 3.4620: name=</nodeA/sensor/gps1>(0x559b42d93b58) digest=(nil)
+[V] 3.4620: comp count mismatch
+[T] 3.4620:   cmp result: pfxlen=1 cmplen=1 namlen=3 matchlen=-1
+[V] 3.4630: prefix_cmp(mode=CMP_EXACT) [V] 3.4630: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) of? [V] 3.4630: name=</nodeA/sensor/gps1>(0x559b42d93b58) digest=(nil)
+[V] 3.4630: comp count mismatch
+[T] 3.4630:   cmp result: pfxlen=6 cmplen=6 namlen=3 matchlen=-1
+[V] 3.4630: prefix_cmp(mode=CMP_EXACT) [V] 3.4630: prefix=</nodeA/sensor/gps1>(0x559b42d74228) of? [V] 3.4630: name=</nodeA/sensor/gps1>(0x559b42d93b58) digest=(nil)
+[T] 3.4630:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 3.4630:   content is duplicate, removing old one and storing new one
+[T] 3.4630: ccnl_content_remove
+[T] 3.4630: ccnl_content_removed
+[T] 3.4630:   old content removed
+[D] 3.4630:  Check if it is a nfnprefix Request
+[D] 3.4630:  trying to create new content
+[T] 3.4630: ccnl_content_new 0x559b42d93aa8 </nodeA/sensor/gps1 [-1]>
+[I] 3.4630: data after creating packet 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
+[T] 3.4630: ccnl_content_serve_pendingQueries
+[V] 3.4630: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4630: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.4630: prefix_cmp(mode=CMP_MATCH) [V] 3.4630: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4630: name=</nodeA/sensor/gps1>(0x559b42d8e3f8) digest=(nil)
+[T] 3.4630:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 3.4630: No pending Queries found.
+[V] 3.4630: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4630: content=</nodeA/sensor/gps1> min=0 max=0
+[T] 3.4630:   mismatch in # of components
+[V] 3.4630: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.4640: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.4640: prefix_cmp(mode=CMP_MATCH) [V] 3.4640: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4640: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 3.4640: component mismatch: 0
+[T] 3.4640:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[T] 3.4640: ccnl_content_serve_pendingQueries done
+[T] 3.4640: ccnl_content_serve_pending
+[V] 3.4640: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4640: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.4640: prefix_cmp(mode=CMP_MATCH) [V] 3.4640: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4640: name=</nodeA/sensor/gps1>(0x559b42d8e3f8) digest=(nil)
+[T] 3.4640:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 3.4640: releasing interest 0x0x559b42d93a18 OK?
+[T] 3.4640: ccnl_interest_remove 0x559b42d93a18
+[V] 3.4640: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.4640: content=</nodeA/sensor/gps1> min=0 max=0
+[T] 3.4640:   mismatch in # of components
+[V] 3.4640: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.4640: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.4640: prefix_cmp(mode=CMP_MATCH) [V] 3.4640: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4640: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 3.4640: component mismatch: 0
+[T] 3.4640:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[D] 3.4640:   adding content to cache
+[D] 3.4640: ccnl_content_add2cache (1/-1) --> 0x559b42d94018 = /nodeA/sensor/gps1 [-1]
+[V] 3.4640: prefix_cmp(mode=CMP_EXACT) [V] 3.4640: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4640: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[V] 3.4640: comp count mismatch
+[T] 3.4640:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=-1
+[V] 3.4640: prefix_cmp(mode=CMP_EXACT) [V] 3.4640: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.4640: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[V] 3.4640: comp count mismatch
+[T] 3.4650:   cmp result: pfxlen=3 cmplen=3 namlen=6 matchlen=-1
+[I] 3.4650: data after creating packet 2017-09-02 15:23:24;0;51.8183708190918;8.727314949035645;188.0;5.0;5.176583130692166;5.176583130692166;
+[D] 3.9740: ccnl_core_RX ifndx=1, 83 bytes
+[T] 3.9740: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4827.sock
+[V] 3.9740:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4827.sock
+[<] 3.9740: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 3.9740:   face 6, peer=/tmp/.ccn-light-ctrl-4827.sock
+[D] 3.9750: Data content to dehead Òòú¥ccnx
+[D] 3.9750: ccnl_switch_dehead: started
+[D] 3.9750: enc was 1, suite is now -1
+[T] 3.9750: pkt2suite 1 210
+[D] 3.9750: ccnl_switch_dehead: started
+[W] 3.9750: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 3.9750: ccnl_ccnb_forwarder: 83B from face=0x559b42d94078 (id=0.6)
+[D] 3.9750: ccnb fwd (81 bytes left)
+[T] 3.9750: ccnl_ccnb_extract
+[T] 3.9750: Setting new buffer with the length of 83
+[T] 3.9750: The Data itself was Òòú¥ccnx
+[I] 3.9750:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4827.sock
+[I] 3.9750:   found a mgmt message
+[T] 3.9750: ccnl_mgmt request "addcacheobject"
+[T] 3.9750: ccnl_mgmt_handle "addcacheobject"
+[T] 3.9750: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 3.9750:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 3.9750: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 3.9750:   enqueue 130 133 bytes
+[T] 3.9750: Setting new buffer with the length of 133
+[T] 3.9750: The Data itself was ‚0+êê¥last
+[T] 3.9750: enqueue face=0x559b42d94078 (id=0.6) buf=0x559b42d97b68 len=133
+[T] 3.9750: CTS face=0x559b42d94078 sched=(nil)
+[T] 3.9750: dequeue face=0x559b42d94078 (id=0.6)
+[T] 3.9750: enqueue interface=0x559b42d4d578 buf=0x559b42d97b68 len=133 (qlen=0)
+[T] 3.9750: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 3.9750: unix sendto /tmp/.ccn-light-ctrl-4827.sock returned 133
+[T] 3.9750: Setting new buffer with the length of 41
+[T] 3.9750: The Data itself was 'nodeAsensorgps1	
+[T] 3.9750: Setting new buffer with the length of 41
+[T] 3.9750: The Data itself was 'nodeAsensorgps1	
+[T] 3.9750: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 3.9750: enqueue face=0x559b42d94078 (id=0.6) buf=0x559b42d99d38 len=41
+[T] 3.9750: CTS face=0x559b42d94078 sched=(nil)
+[T] 3.9750: dequeue face=0x559b42d94078 (id=0.6)
+[T] 3.9750: enqueue interface=0x559b42d4d578 buf=0x559b42d99d38 len=41 (qlen=0)
+[T] 3.9750: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 3.9750: unix sendto /tmp/.ccn-light-ctrl-4827.sock returned 41
+[D] 3.9750: ccnl_core_RX ifndx=1, 142 bytes
+[T] 3.9750: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4827.sock
+[D] 3.9750:   face 6, peer=/tmp/.ccn-light-ctrl-4827.sock
+[D] 3.9750: Data content to dehead ŒnodeAsensorgps1
+[D] 3.9750: ccnl_switch_dehead: started
+[D] 3.9750: enc was 1, suite is now -1
+[T] 3.9750: pkt2suite 30 140
+[D] 3.9750: ccnl_switch_dehead: started
+[W] 3.9750: kown packet format ccnl_core_RX ifndx=1, 142 bytes starting with 0x1e at offset 0, suit is 6
+[D] 3.9750: ccnl_ndntlv_forwarder (142 bytes left)
+[D] 3.9750: ccnl_ndntlv_bytes2pkt len=140
+[D] 3.9750:   check interest type
+[T] 3.9750: Setting new buffer with the length of 142
+[T] 3.9750: The Data itself was ŒnodeAsensorgps1
+[D] 3.9750: The content is 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
+[I] 3.9750:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4827.sock
+[I] 3.9750:   data 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
+[V] 3.9750: prefix_cmp(mode=CMP_EXACT) [V] 3.9750: prefix=</nodeA/sensor/gps1>(0x559b42d93b58) of? [V] 3.9750: name=</nodeA/sensor/gps1>(0x559b42d99ef8) digest=(nil)
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 3.9760:   content is duplicate, removing old one and storing new one
+[T] 3.9760: ccnl_content_remove
+[T] 3.9760: ccnl_content_removed
+[T] 3.9760:   old content removed
+[V] 3.9760: prefix_cmp(mode=CMP_EXACT) [V] 3.9760: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) of? [V] 3.9760: name=</nodeA/sensor/gps1>(0x559b42d99ef8) digest=(nil)
+[V] 3.9760: comp count mismatch
+[T] 3.9760:   cmp result: pfxlen=6 cmplen=6 namlen=3 matchlen=-1
+[D] 3.9760:  Check if it is a nfnprefix Request
+[D] 3.9760:  trying to create new content
+[T] 3.9760: ccnl_content_new 0x559b42d99e48 </nodeA/sensor/gps1 [-1]>
+[I] 3.9760: data after creating packet 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
+[T] 3.9760: ccnl_content_serve_pendingQueries
+[V] 3.9760: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.9760: prefix_cmp(mode=CMP_MATCH) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=</nodeA/sensor/gps1>(0x559b42d94798) digest=(nil)
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 3.9760: No pending Queries found.
+[V] 3.9760: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=0
+[T] 3.9760:   mismatch in # of components
+[V] 3.9760: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.9760: prefix_cmp(mode=CMP_MATCH) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 3.9760: component mismatch: 0
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[T] 3.9760: ccnl_content_serve_pendingQueries done
+[T] 3.9760: ccnl_content_serve_pending
+[V] 3.9760: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.9760: prefix_cmp(mode=CMP_MATCH) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=</nodeA/sensor/gps1>(0x559b42d94798) digest=(nil)
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 3.9760: releasing interest 0x0x559b42d99db8 OK?
+[T] 3.9760: ccnl_interest_remove 0x559b42d99db8
+[V] 3.9760: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=0
+[T] 3.9760:   mismatch in # of components
+[V] 3.9760: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 3.9760: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 3.9760: prefix_cmp(mode=CMP_MATCH) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 3.9760: component mismatch: 0
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[D] 3.9760:   adding content to cache
+[D] 3.9760: ccnl_content_add2cache (1/-1) --> 0x559b42d9a3b8 = /nodeA/sensor/gps1 [-1]
+[V] 3.9760: prefix_cmp(mode=CMP_EXACT) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[V] 3.9760: comp count mismatch
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=-1
+[V] 3.9760: prefix_cmp(mode=CMP_EXACT) [V] 3.9760: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 3.9760: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[V] 3.9760: comp count mismatch
+[T] 3.9760:   cmp result: pfxlen=3 cmplen=3 namlen=6 matchlen=-1
+[I] 3.9760: data after creating packet 2017-09-02 15:23:25;0;51.81837844848633;8.727311134338379;188.0;4.0;0.8886974211968836;0.8886974211968836;
+[V] 4.0030: ageing t=4
+[T] 4.0030: Interest Lifetime was 0
+[T] 4.0030: AGING: REMOVE CCN INTEREST 0x559b42d75008
+[D] 4.0030:  timeout: remove interest 0x0x559b42d75008 </nodeA/sensor/gps1>
+[D] 4.0030: ccnl_nfn_interest_remove 0
+[T] 4.0030: ccnl_interest_remove 0x559b42d75008
+[<] 4.0030: ccnl_nfn_interest_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-common.c:514
+[D] 4.0030:  retransmit 0 <nfn[/window /nodeA/sensor/gps1 4 1]>
+[T] 4.0030: AGING: PROPAGATING INTEREST 0x559b42d74e28
+[D] 4.0030: ccnl_interest_propagate
+[D] 4.4890: ccnl_core_RX ifndx=1, 83 bytes
+[T] 4.4890: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4832.sock
+[V] 4.4890:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4832.sock
+[<] 4.4890: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 4.4890:   face 7, peer=/tmp/.ccn-light-ctrl-4832.sock
+[D] 4.4890: Data content to dehead Òòú¥ccnx
+[D] 4.4890: ccnl_switch_dehead: started
+[D] 4.4890: enc was 1, suite is now -1
+[T] 4.4890: pkt2suite 1 210
+[D] 4.4890: ccnl_switch_dehead: started
+[W] 4.4890: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 4.4890: ccnl_ccnb_forwarder: 83B from face=0x559b42d9a488 (id=0.7)
+[D] 4.4890: ccnb fwd (81 bytes left)
+[T] 4.4890: ccnl_ccnb_extract
+[T] 4.4890: Setting new buffer with the length of 83
+[T] 4.4890: The Data itself was Òòú¥ccnx
+[I] 4.4890:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4832.sock
+[I] 4.4890:   found a mgmt message
+[T] 4.4890: ccnl_mgmt request "addcacheobject"
+[T] 4.4890: ccnl_mgmt_handle "addcacheobject"
+[T] 4.4890: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 4.4890:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 4.4890: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 4.4890:   enqueue 130 133 bytes
+[T] 4.4890: Setting new buffer with the length of 133
+[T] 4.4890: The Data itself was ‚0+êê¥last
+[T] 4.4890: enqueue face=0x559b42d9a488 (id=0.7) buf=0x559b42d9df78 len=133
+[T] 4.4890: CTS face=0x559b42d9a488 sched=(nil)
+[T] 4.4890: dequeue face=0x559b42d9a488 (id=0.7)
+[T] 4.4890: enqueue interface=0x559b42d4d578 buf=0x559b42d9df78 len=133 (qlen=0)
+[T] 4.4900: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 4.4900: unix sendto /tmp/.ccn-light-ctrl-4832.sock returned 133
+[T] 4.4900: Setting new buffer with the length of 41
+[T] 4.4900: The Data itself was 'nodeAsensorgps1	
+[T] 4.4900: Setting new buffer with the length of 41
+[T] 4.4900: The Data itself was 'nodeAsensorgps1	
+[T] 4.4900: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 4.4900: enqueue face=0x559b42d9a488 (id=0.7) buf=0x559b42da0148 len=41
+[T] 4.4900: CTS face=0x559b42d9a488 sched=(nil)
+[T] 4.4900: dequeue face=0x559b42d9a488 (id=0.7)
+[T] 4.4900: enqueue interface=0x559b42d4d578 buf=0x559b42da0148 len=41 (qlen=0)
+[T] 4.4900: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 4.4900: unix sendto /tmp/.ccn-light-ctrl-4832.sock returned 41
+[D] 4.4900: ccnl_core_RX ifndx=1, 141 bytes
+[T] 4.4900: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4832.sock
+[D] 4.4900:   face 7, peer=/tmp/.ccn-light-ctrl-4832.sock
+[D] 4.4900: Data content to dehead ‹nodeAsensorgps1
+[D] 4.4900: ccnl_switch_dehead: started
+[D] 4.4900: enc was 1, suite is now -1
+[T] 4.4900: pkt2suite 30 139
+[D] 4.4900: ccnl_switch_dehead: started
+[W] 4.4900: kown packet format ccnl_core_RX ifndx=1, 141 bytes starting with 0x1e at offset 0, suit is 6
+[D] 4.4900: ccnl_ndntlv_forwarder (141 bytes left)
+[D] 4.4900: ccnl_ndntlv_bytes2pkt len=139
+[D] 4.4900:   check interest type
+[T] 4.4900: Setting new buffer with the length of 141
+[T] 4.4900: The Data itself was ‹nodeAsensorgps1
+[D] 4.4900: The content is 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
+[I] 4.4900:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4832.sock
+[I] 4.4900:   data 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
+[V] 4.4900: prefix_cmp(mode=CMP_EXACT) [V] 4.4900: prefix=</nodeA/sensor/gps1>(0x559b42d99ef8) of? [V] 4.4900: name=</nodeA/sensor/gps1>(0x559b42da0308) digest=(nil)
+[T] 4.4900:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 4.4900:   content is duplicate, removing old one and storing new one
+[T] 4.4900: ccnl_content_remove
+[T] 4.4900: ccnl_content_removed
+[T] 4.4900:   old content removed
+[V] 4.4900: prefix_cmp(mode=CMP_EXACT) [V] 4.4900: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) of? [V] 4.4900: name=</nodeA/sensor/gps1>(0x559b42da0308) digest=(nil)
+[V] 4.4900: comp count mismatch
+[T] 4.4900:   cmp result: pfxlen=6 cmplen=6 namlen=3 matchlen=-1
+[D] 4.4900:  Check if it is a nfnprefix Request
+[D] 4.4900:  trying to create new content
+[T] 4.4900: ccnl_content_new 0x559b42da0258 </nodeA/sensor/gps1 [-1]>
+[I] 4.4910: data after creating packet 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
+[T] 4.4910: ccnl_content_serve_pendingQueries
+[V] 4.4910: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.4910: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 4.4910: prefix_cmp(mode=CMP_MATCH) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=</nodeA/sensor/gps1>(0x559b42d9aba8) digest=(nil)
+[T] 4.4910:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 4.4910: No pending Queries found.
+[V] 4.4910: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.4910: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 4.4910: prefix_cmp(mode=CMP_MATCH) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 4.4910: component mismatch: 0
+[T] 4.4910:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[T] 4.4910: ccnl_content_serve_pendingQueries done
+[T] 4.4910: ccnl_content_serve_pending
+[V] 4.4910: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 4.4910: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 4.4910: prefix_cmp(mode=CMP_MATCH) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=</nodeA/sensor/gps1>(0x559b42d9aba8) digest=(nil)
+[T] 4.4910:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 4.4910: releasing interest 0x0x559b42da01c8 OK?
+[T] 4.4910: ccnl_interest_remove 0x559b42da01c8
+[V] 4.4910: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 4.4910: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 4.4910: prefix_cmp(mode=CMP_MATCH) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 4.4910: component mismatch: 0
+[T] 4.4910:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[D] 4.4910:   adding content to cache
+[D] 4.4910: ccnl_content_add2cache (1/-1) --> 0x559b42da07c8 = /nodeA/sensor/gps1 [-1]
+[V] 4.4910: prefix_cmp(mode=CMP_EXACT) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[V] 4.4910: comp count mismatch
+[T] 4.4910:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=-1
+[V] 4.4910: prefix_cmp(mode=CMP_EXACT) [V] 4.4910: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 4.4910: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[V] 4.4910: comp count mismatch
+[T] 4.4920:   cmp result: pfxlen=3 cmplen=3 namlen=6 matchlen=-1
+[I] 4.4920: data after creating packet 2017-09-02 15:23:26;0;51.8183708190918;8.727293968200684;184.0;4.0;1.4566177743764235;1.4566177743764235;
+[D] 5.0010: ccnl_core_RX ifndx=1, 83 bytes
+[T] 5.0020: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4836.sock
+[V] 5.0020:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4836.sock
+[<] 5.0020: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 5.0020:   face 8, peer=/tmp/.ccn-light-ctrl-4836.sock
+[D] 5.0020: Data content to dehead Òòú¥ccnx
+[D] 5.0020: ccnl_switch_dehead: started
+[D] 5.0020: enc was 1, suite is now -1
+[T] 5.0020: pkt2suite 1 210
+[D] 5.0020: ccnl_switch_dehead: started
+[W] 5.0020: kown packet format ccnl_core_RX ifndx=1, 83 bytes starting with 0x01 at offset 0, suit is 1
+[D] 5.0020: ccnl_ccnb_forwarder: 83B from face=0x559b42da0828 (id=0.8)
+[D] 5.0020: ccnb fwd (81 bytes left)
+[T] 5.0020: ccnl_ccnb_extract
+[T] 5.0020: Setting new buffer with the length of 83
+[T] 5.0020: The Data itself was Òòú¥ccnx
+[I] 5.0020:   incoming interest=</ccnx//addcacheobject/%04%ffffff820>%ffffffa2%ffffff8d6%000>%ffffffb2%ffffff8d0%000>%ffffffba%ffffff8d0%00%fffffff2%01%ffffffb5%fffffffa%01%ffffff95/nodeA/sensor/gps1%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4836.sock
+[I] 5.0020:   found a mgmt message
+[T] 5.0020: ccnl_mgmt request "addcacheobject"
+[T] 5.0020: ccnl_mgmt_handle "addcacheobject"
+[T] 5.0020: ccnl_URItoPrefix(suite=ccnb, uri=/nodeA/sensor/gps1, nfn=none)
+[T] 5.0020:   mgmt: adding object /nodeA/sensor/gps1 to cache (suite=ndn2013)
+[D] 5.0020: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 5.0020:   enqueue 130 133 bytes
+[T] 5.0020: Setting new buffer with the length of 133
+[T] 5.0020: The Data itself was ‚0+êê¥last
+[T] 5.0020: enqueue face=0x559b42da0828 (id=0.8) buf=0x559b42da4318 len=133
+[T] 5.0020: CTS face=0x559b42da0828 sched=(nil)
+[T] 5.0020: dequeue face=0x559b42da0828 (id=0.8)
+[T] 5.0020: enqueue interface=0x559b42d4d578 buf=0x559b42da4318 len=133 (qlen=0)
+[T] 5.0020: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 5.0020: unix sendto /tmp/.ccn-light-ctrl-4836.sock returned 133
+[T] 5.0020: Setting new buffer with the length of 41
+[T] 5.0020: The Data itself was 'nodeAsensorgps1	
+[T] 5.0020: Setting new buffer with the length of 41
+[T] 5.0020: The Data itself was 'nodeAsensorgps1	
+[T] 5.0020: ccnl_new_interest(prefix=/nodeA/sensor/gps1, suite=ndn2013)
+[T] 5.0020: enqueue face=0x559b42da0828 (id=0.8) buf=0x559b42da64e8 len=41
+[T] 5.0020: CTS face=0x559b42da0828 sched=(nil)
+[T] 5.0030: dequeue face=0x559b42da0828 (id=0.8)
+[T] 5.0030: enqueue interface=0x559b42d4d578 buf=0x559b42da64e8 len=41 (qlen=0)
+[T] 5.0030: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 5.0030: unix sendto /tmp/.ccn-light-ctrl-4836.sock returned 41
+[D] 5.0030: ccnl_core_RX ifndx=1, 142 bytes
+[T] 5.0030: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4836.sock
+[D] 5.0030:   face 8, peer=/tmp/.ccn-light-ctrl-4836.sock
+[D] 5.0030: Data content to dehead ŒnodeAsensorgps1
+[D] 5.0030: ccnl_switch_dehead: started
+[D] 5.0030: enc was 1, suite is now -1
+[T] 5.0030: pkt2suite 30 140
+[D] 5.0030: ccnl_switch_dehead: started
+[W] 5.0030: kown packet format ccnl_core_RX ifndx=1, 142 bytes starting with 0x1e at offset 0, suit is 6
+[D] 5.0030: ccnl_ndntlv_forwarder (142 bytes left)
+[D] 5.0030: ccnl_ndntlv_bytes2pkt len=140
+[D] 5.0030:   check interest type
+[T] 5.0030: Setting new buffer with the length of 142
+[T] 5.0030: The Data itself was ŒnodeAsensorgps1
+[D] 5.0030: The content is 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
+[I] 5.0030:   incoming data=</nodeA/sensor/gps1>ndn2013 (nfnflags=0) nonce=0 from=/tmp/.ccn-light-ctrl-4836.sock
+[I] 5.0030:   data 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
+[V] 5.0030: prefix_cmp(mode=CMP_EXACT) [V] 5.0030: prefix=</nodeA/sensor/gps1>(0x559b42da0308) of? [V] 5.0030: name=</nodeA/sensor/gps1>(0x559b42da66a8) digest=(nil)
+[T] 5.0030:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=0
+[T] 5.0030:   content is duplicate, removing old one and storing new one
+[T] 5.0030: ccnl_content_remove
+[T] 5.0030: ccnl_content_removed
+[T] 5.0030:   old content removed
+[V] 5.0030: prefix_cmp(mode=CMP_EXACT) [V] 5.0030: prefix=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) of? [V] 5.0030: name=</nodeA/sensor/gps1>(0x559b42da66a8) digest=(nil)
+[V] 5.0030: comp count mismatch
+[T] 5.0030:   cmp result: pfxlen=6 cmplen=6 namlen=3 matchlen=-1
+[D] 5.0030:  Check if it is a nfnprefix Request
+[D] 5.0030:  trying to create new content
+[T] 5.0030: ccnl_content_new 0x559b42da65f8 </nodeA/sensor/gps1 [-1]>
+[I] 5.0030: data after creating packet 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
+[T] 5.0030: ccnl_content_serve_pendingQueries
+[V] 5.0030: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 5.0030: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 5.0030: prefix_cmp(mode=CMP_MATCH) [V] 5.0030: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0030: name=</nodeA/sensor/gps1>(0x559b42da0f48) digest=(nil)
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[D] 5.0040: No pending Queries found.
+[V] 5.0040: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 5.0040: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 5.0040: prefix_cmp(mode=CMP_MATCH) [V] 5.0040: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0040: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 5.0040: component mismatch: 0
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[T] 5.0040: ccnl_content_serve_pendingQueries done
+[T] 5.0040: ccnl_content_serve_pending
+[V] 5.0040: ccnl_i_prefixof_c prefix=</nodeA/sensor/gps1> [V] 5.0040: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 5.0040: prefix_cmp(mode=CMP_MATCH) [V] 5.0040: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0040: name=</nodeA/sensor/gps1>(0x559b42da0f48) digest=(nil)
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=3 matchlen=3
+[W] 5.0040: releasing interest 0x0x559b42da6568 OK?
+[T] 5.0040: ccnl_interest_remove 0x559b42da6568
+[V] 5.0040: ccnl_i_prefixof_c prefix=<nfn[/window /nodeA/sensor/gps1 4 1]> [V] 5.0040: content=</nodeA/sensor/gps1> min=0 max=64
+[V] 5.0040: prefix_cmp(mode=CMP_MATCH) [V] 5.0040: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0040: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d74928) digest=(nil)
+[V] 5.0040: component mismatch: 0
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=0
+[D] 5.0040:   adding content to cache
+[D] 5.0040: ccnl_content_add2cache (1/-1) --> 0x559b42da6b68 = /nodeA/sensor/gps1 [-1]
+[V] 5.0040: prefix_cmp(mode=CMP_EXACT) [V] 5.0040: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0040: name=<nfn[/window /nodeA/sensor/gps1 4 1]>(0x559b42d8afc8) digest=(nil)
+[V] 5.0040: comp count mismatch
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=1 matchlen=-1
+[V] 5.0040: prefix_cmp(mode=CMP_EXACT) [V] 5.0040: prefix=</nodeA/sensor/gps1>(0x559b42da66a8) of? [V] 5.0040: name=</state/nodeA/sensor/gps1/4/1>(0x559b42d84058) digest=(nil)
+[V] 5.0040: comp count mismatch
+[T] 5.0040:   cmp result: pfxlen=3 cmplen=3 namlen=6 matchlen=-1
+[I] 5.0040: data after creating packet 2017-09-02 15:23:27;0;51.81838607788086;8.727293014526367;182.0;4.0;1.6990255013879534;1.6990255013879534;
+[V] 5.0050: ageing t=5
+[D] 5.0050:  retransmit 1 <nfn[/window /nodeA/sensor/gps1 4 1]>
+[T] 5.0050: AGING: PROPAGATING INTEREST 0x559b42d74e28
+[D] 5.0050: ccnl_interest_propagate
+[D] 5.9170: ccnl_core_RX ifndx=1, 57 bytes
+[T] 5.9170: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-4839.sock
+[V] 5.9170:   found suitable interface 1 for /tmp/.ccn-light-ctrl-4839.sock
+[<] 5.9170: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:110
+[D] 5.9170:   face 9, peer=/tmp/.ccn-light-ctrl-4839.sock
+[D] 5.9170: Data content to dehead Òòú¥ccnx
+[D] 5.9170: ccnl_switch_dehead: started
+[D] 5.9170: enc was 1, suite is now -1
+[T] 5.9170: pkt2suite 1 210
+[D] 5.9170: ccnl_switch_dehead: started
+[W] 5.9170: kown packet format ccnl_core_RX ifndx=1, 57 bytes starting with 0x01 at offset 0, suit is 1
+[D] 5.9170: ccnl_ccnb_forwarder: 57B from face=0x559b42da6c38 (id=0.9)
+[D] 5.9170: ccnb fwd (55 bytes left)
+[T] 5.9170: ccnl_ccnb_extract
+[T] 5.9170: Setting new buffer with the length of 57
+[T] 5.9180: The Data itself was Òòú¥ccnx
+[I] 5.9180:   incoming interest=</ccnx//debug/%04%ffffff82%01%ffffff9a%01%ffffffb501%ffffffe2%04%ffffffca%ffffffaddebug%0001%ffffffea%ffffffa5halt%00%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-4839.sock
+[I] 5.9180:   found a mgmt message
+[T] 5.9180: ccnl_mgmt request "debug"
+[T] 5.9180: ccnl_mgmt_handle "debug"
+[T] 5.9180: ccnl_mgmt_debug from=/tmp/.ccn-light-ctrl-4839.sock
+[T] 5.9180:   debugaction is halt
+[D] 5.9180: ccnl_mgmt_send_return_split 60 bytes, 1 packet(s)
+[T] 5.9180:   enqueue 76 79 bytes
+[T] 5.9180: Setting new buffer with the length of 79
+[T] 5.9180: The Data itself was ‚0+êê¥last
+[T] 5.9180: enqueue face=0x559b42da6c38 (id=0.9) buf=0x559b42daee78 len=79
+[T] 5.9180: CTS face=0x559b42da6c38 sched=(nil)
+[T] 5.9180: dequeue face=0x559b42da6c38 (id=0.9)
+[T] 5.9180: enqueue interface=0x559b42d4d578 buf=0x559b42daee78 len=79 (qlen=0)
+[T] 5.9180: interface_CTS interface=0x559b42d4d578, qlen=1, sched=(nil)
+[D] 5.9190: unix sendto /tmp/.ccn-light-ctrl-4839.sock returned 79
+[T] 5.9190: ccnl_core_cleanup 0x559b42d4b288
+[T] 5.9190: ccnl_interest_remove 0x559b42d74e28
+[D] 5.9190: face_remove relay=0x559b42d4b288 face=0x559b42da6c38
+[T] 5.9190: ccnl_sched_destroy (nil)
+[T] 5.9190: face_remove: cleaning PIT
+[T] 5.9190: face_remove: cleaning fwd table
+[T] 5.9190: face_remove: cleaning pkt queue
+[T] 5.9190: face_remove: unlinking1 0x559b42da0828 (nil)
+[T] 5.9190: face_remove: unlinking2
+[T] 5.9190: face_remove: unlinking3
+[<] 5.9190: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9190: face_remove relay=0x559b42d4b288 face=0x559b42da0828
+[T] 5.9190: ccnl_sched_destroy (nil)
+[T] 5.9190: face_remove: cleaning PIT
+[T] 5.9190: face_remove: cleaning fwd table
+[T] 5.9190: face_remove: cleaning pkt queue
+[T] 5.9190: face_remove: unlinking1 0x559b42d9a488 (nil)
+[T] 5.9190: face_remove: unlinking2
+[T] 5.9190: face_remove: unlinking3
+[<] 5.9190: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9190: face_remove relay=0x559b42d4b288 face=0x559b42d9a488
+[T] 5.9190: ccnl_sched_destroy (nil)
+[T] 5.9190: face_remove: cleaning PIT
+[T] 5.9190: face_remove: cleaning fwd table
+[T] 5.9190: face_remove: cleaning pkt queue
+[T] 5.9190: face_remove: unlinking1 0x559b42d94078 (nil)
+[T] 5.9190: face_remove: unlinking2
+[T] 5.9190: face_remove: unlinking3
+[<] 5.9190: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9190: face_remove relay=0x559b42d4b288 face=0x559b42d94078
+[T] 5.9190: ccnl_sched_destroy (nil)
+[T] 5.9190: face_remove: cleaning PIT
+[T] 5.9190: face_remove: cleaning fwd table
+[T] 5.9190: face_remove: cleaning pkt queue
+[T] 5.9190: face_remove: unlinking1 0x559b42d8dcd8 (nil)
+[T] 5.9190: face_remove: unlinking2
+[T] 5.9190: face_remove: unlinking3
+[<] 5.9190: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9190: face_remove relay=0x559b42d4b288 face=0x559b42d8dcd8
+[T] 5.9200: ccnl_sched_destroy (nil)
+[T] 5.9200: face_remove: cleaning PIT
+[T] 5.9200: face_remove: cleaning fwd table
+[T] 5.9200: face_remove: cleaning pkt queue
+[T] 5.9200: face_remove: unlinking1 0x559b42d74798 (nil)
+[T] 5.9200: face_remove: unlinking2
+[T] 5.9200: face_remove: unlinking3
+[<] 5.9200: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9200: face_remove relay=0x559b42d4b288 face=0x559b42d74798
+[T] 5.9200: ccnl_sched_destroy (nil)
+[T] 5.9200: face_remove: cleaning PIT
+[T] 5.9200: face_remove: cleaning fwd table
+[T] 5.9200: face_remove: cleaning pkt queue
+[T] 5.9200: face_remove: unlinking1 0x559b42d6e308 (nil)
+[T] 5.9200: face_remove: unlinking2
+[T] 5.9200: face_remove: unlinking3
+[<] 5.9200: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9200: face_remove relay=0x559b42d4b288 face=0x559b42d6e308
+[T] 5.9200: ccnl_sched_destroy (nil)
+[T] 5.9200: face_remove: cleaning PIT
+[T] 5.9200: face_remove: cleaning fwd table
+[T] 5.9200: face_remove: cleaning pkt queue
+[T] 5.9200: face_remove: unlinking1 0x559b42d67e08 (nil)
+[T] 5.9200: face_remove: unlinking2
+[T] 5.9200: face_remove: unlinking3
+[<] 5.9200: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9200: face_remove relay=0x559b42d4b288 face=0x559b42d67e08
+[T] 5.9200: ccnl_sched_destroy (nil)
+[T] 5.9200: face_remove: cleaning PIT
+[T] 5.9200: face_remove: cleaning fwd table
+[T] 5.9200: face_remove: cleaning pkt queue
+[T] 5.9200: face_remove: unlinking1 0x559b42d61418 (nil)
+[T] 5.9200: face_remove: unlinking2
+[T] 5.9200: face_remove: unlinking3
+[<] 5.9200: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[D] 5.9200: face_remove relay=0x559b42d4b288 face=0x559b42d61418
+[T] 5.9200: ccnl_sched_destroy (nil)
+[T] 5.9200: face_remove: cleaning PIT
+[T] 5.9200: face_remove: cleaning fwd table
+[T] 5.9200: face_remove: cleaning pkt queue
+[T] 5.9200: face_remove: unlinking1 (nil) (nil)
+[T] 5.9200: face_remove: unlinking2
+[T] 5.9200: face_remove: unlinking3
+[<] 5.9200: ccnl_face_remove() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:182
+[T] 5.9200: ccnl_content_remove
+[T] 5.9210: ccnl_content_removed
+[T] 5.9210: ccnl_content_remove
+[T] 5.9210: ccnl_content_removed
+[T] 5.9210: ccnl_content_remove
+[T] 5.9210: ccnl_content_removed
+[T] 5.9210: ccnl_interface_cleanup
+[T] 5.9210: ccnl_sched_destroy (nil)
+[T] 5.9210: ccnl_interface_cleanup
+[T] 5.9210: ccnl_sched_destroy (nil)
+[T] 5.9210: ccnl_nfn_freeKrivine(0x559b42d61298)
+[D] 5.9210:   configuration_list (nil)
+[M] 5.9210: @@@ memory dump starts
+addr 0x559b42da17c0 15 Bytes, ccnl-prefix.c:103 @5.0020
+addr 0x559b42da1780 12 Bytes, ccnl-prefix.c:59 @5.0020
+addr 0x559b42da1730 24 Bytes, ccnl-prefix.c:58 @5.0020
+addr 0x559b42da16b0 80 Bytes, ccnl-prefix.c:54 @5.0020
+addr 0x559b42d9b420 15 Bytes, ccnl-prefix.c:103 @4.4890
+addr 0x559b42d9b3e0 12 Bytes, ccnl-prefix.c:59 @4.4890
+addr 0x559b42d9b390 24 Bytes, ccnl-prefix.c:58 @4.4890
+addr 0x559b42d9b310 80 Bytes, ccnl-prefix.c:54 @4.4890
+addr 0x559b42d95010 15 Bytes, ccnl-prefix.c:103 @3.9750
+addr 0x559b42d94fd0 12 Bytes, ccnl-prefix.c:59 @3.9750
+addr 0x559b42d94f80 24 Bytes, ccnl-prefix.c:58 @3.9750
+addr 0x559b42d94f00 80 Bytes, ccnl-prefix.c:54 @3.9750
+addr 0x559b42d8ec70 15 Bytes, ccnl-prefix.c:103 @3.4610
+addr 0x559b42d8ec30 12 Bytes, ccnl-prefix.c:59 @3.4610
+addr 0x559b42d8ebe0 24 Bytes, ccnl-prefix.c:58 @3.4610
+addr 0x559b42d8eb60 80 Bytes, ccnl-prefix.c:54 @3.4610
+addr 0x559b42d8b730 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d8aca0 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d8a460 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d8a340 22 Bytes, ccnl-prefix.c:103 @3.3190
+addr 0x559b42d8a2f0 24 Bytes, ccnl-prefix.c:59 @3.3190
+addr 0x559b42d8a290 48 Bytes, ccnl-prefix.c:58 @3.3190
+addr 0x559b42d899d0 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d83b60 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d83320 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d832d0 22 Bytes, ccnl-prefix.c:314 @3.3190
+addr 0x559b42d83280 24 Bytes, ccnl-prefix.c:59 @3.3190
+addr 0x559b42d83220 48 Bytes, ccnl-prefix.c:58 @3.3190
+addr 0x559b42d82960 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d82120 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d818e0 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d810a0 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d80860 2049 Bytes, ccnl-prefix.c:560 @3.3190
+addr 0x559b42d7afd0 2049 Bytes, ccnl-prefix.c:560 @3.3160
+addr 0x559b42d784e0 2049 Bytes, ccnl-prefix.c:560 @3.3160
+addr 0x559b42d77c80 2049 Bytes, ccnl-prefix.c:560 @3.3160
+addr 0x559b42d779d0 24 Bytes, ccnl-interest.c:139 @3.3160
+addr 0x559b42d755e0 15 Bytes, ccnl-prefix.c:314 @3.3160
+addr 0x559b42d755a0 12 Bytes, ccnl-prefix.c:59 @3.3160
+addr 0x559b42d75550 24 Bytes, ccnl-prefix.c:58 @3.3160
+addr 0x559b42d754d0 80 Bytes, ccnl-prefix.c:54 @3.3160
+addr 0x559b42d6f2a0 15 Bytes, ccnl-prefix.c:103 @2.9470
+addr 0x559b42d6f260 12 Bytes, ccnl-prefix.c:59 @2.9470
+addr 0x559b42d6f210 24 Bytes, ccnl-prefix.c:58 @2.9470
+addr 0x559b42d6f190 80 Bytes, ccnl-prefix.c:54 @2.9460
+addr 0x559b42d68e60 15 Bytes, ccnl-prefix.c:103 @2.4310
+addr 0x559b42d68e00 12 Bytes, ccnl-prefix.c:59 @2.4310
+addr 0x559b42d68d90 24 Bytes, ccnl-prefix.c:58 @2.4310
+addr 0x559b42d68d10 80 Bytes, ccnl-prefix.c:54 @2.4310
+addr 0x559b42d62300 15 Bytes, ccnl-prefix.c:103 @1.9160
+addr 0x559b42d622a0 12 Bytes, ccnl-prefix.c:59 @1.9160
+addr 0x559b42d62230 24 Bytes, ccnl-prefix.c:58 @1.9160
+addr 0x559b42d621b0 80 Bytes, ccnl-prefix.c:54 @1.9160
+addr 0x559b42d4b8a0 88696 Bytes, ccn-lite-relay.c:171 @0.0000
+[M] 5.9210: @@@ memory dump ends
