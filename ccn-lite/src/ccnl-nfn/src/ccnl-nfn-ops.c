@@ -247,31 +247,46 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
         p = strtok(stateContent,"\n");
     }
     */
-
-    DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
+    char s[CCNL_MAX_PREFIX_SIZE];
+    DEBUGMSG(DEBUG, "The name of the Packet is still %s\n",ccnl_prefix_to_str(tuple->pkt->pfx, s, CCNL_MAX_PREFIX_SIZE));
+    DEBUGMSG(DEBUG, "The content of the Packet Buffer is: %.*s\n",(int)tuple->pkt->buf->datalen+tuple->pkt->contlen,tuple->pkt->buf->data);
+    /**/DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
     // Reallocate Memory for the tuple content
-    DEBUGMSG(DEBUG, "Buffer Size was %lu, contentlen was %i\n",tuple->pkt->buf->datalen,tuple->pkt->contlen);
+    DEBUGMSG(DEBUG, "Datalen of the Buffer was %lu, contentlen of the pkt was %i\n",tuple->pkt->buf->datalen,tuple->pkt->contlen);
 
     DEBUGMSG(DEBUG, "The new size of the char to safe is %lu\n",sizeof(char)*strlen(endResult)+1);
-
+    char *test = endResult;
+    int len = sizeof(char)*strlen(endResult)+1+36;
+    DEBUGMSG(DEBUG,"The new calculated len of the Buffer is %i\n",len);
+    ccnl_free(tuple->pkt->buf);
+    tuple->pkt->buf = ccnl_buf_new(test,len);
+    DEBUGMSG(DEBUG, "The new buffer length is %lu\n",tuple->pkt->buf->datalen);
+    DEBUGMSG(DEBUG, "pointing into the Buffer\n");
+    tuple->pkt->content = tuple->pkt->buf->data;
+    DEBUGMSG(DEBUG, "Setting the buffer length\n");
+    tuple->pkt->contlen = strlen(endResult)* sizeof(char)+1;
+    DEBUGMSG(DEBUG, "The new Data of the packet is %.*s\n",tuple->pkt->contlen,tuple->pkt->content);
+    char a[CCNL_MAX_PREFIX_SIZE];
+    DEBUGMSG(DEBUG, "The name of the Packet is still %s\n",ccnl_prefix_to_str(tuple->pkt->pfx, a, CCNL_MAX_PREFIX_SIZE));
     /**
      * TODO: DO THIS!
      */
 
-    char *test = endResult;
-    int len = *(&endResult)-test;
-    tuple->pkt->buf = ccnl_buf_new(test,len);
 
-    DEBUGMSG(DEBUG,"Trying to reallocate Memory in content which before had the size of %lu to %lu\n",tuple->pkt->buf->datalen,sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
-    tuple->pkt->buf = ccnl_realloc(tuple->pkt->buf, sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
-    tuple->pkt->buf->datalen = sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1;
-    DEBUGMSG(DEBUG, "WINDOW: Reallocated space\n");
+
+
+
+
+    //DEBUGMSG(DEBUG,"Trying to reallocate Memory in content which before had the size of %lu to %lu\n",tuple->pkt->buf->datalen,sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
+    //tuple->pkt->buf = ccnl_realloc(tuple->pkt->buf, sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1);
+    //tuple->pkt->buf->datalen = sizeof(struct ccnl_buf_s)+sizeof(char)*strlen(endResult)+1;
+    //DEBUGMSG(DEBUG, "WINDOW: Reallocated space\n");
     // copy the new content into the tuple
-    memcpy(tuple->pkt->content,endResult, strlen(endResult)* sizeof(char)+1);
-    DEBUGMSG(DEBUG, "WINDOW: Copied content\n");
+    //memcpy(tuple->pkt->content,endResult, strlen(endResult)* sizeof(char)+1);
+    //DEBUGMSG(DEBUG, "WINDOW: Copied content\n");
     // set the new contentlength
-    tuple->pkt->contlen = strlen(endResult)* sizeof(char)+1;
-    DEBUGMSG(DEBUG, "WINDOW: Set new ContentLen to %i\n", tuple->pkt->contlen);
+
+    //DEBUGMSG(DEBUG, "WINDOW: Set new ContentLen to %i\n", tuple->pkt->contlen);
     //ccnl_free(endResult);
 
     //unsigned char *test = "testValue";
