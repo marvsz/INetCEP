@@ -23,9 +23,9 @@
 #ifdef USE_NFN
 
 #include "ccnl-nfn.h"
-
 #include <stddef.h>
 #include <stdio.h>
+#include <ccnl-pkt-builder.h>
 
 #include "ccnl-core.h"
 
@@ -247,6 +247,26 @@ restart:
     return 0;
 }
 
+void ccnl_subscribeTest(struct ccnl_interest_s* intr, struct ccnl_face_s *from, struct ccnl_relay_s *ccnl){
+    //char* intName = "/nodeA/sensor/gps1";
+    char s[CCNL_MAX_PREFIX_SIZE];
+    int nonce = rand();
+    ccnl_interest_opts_u int_opts;
+#ifdef USE_SUITE_NDNTLV
+    int_opts.ndntlv.nonce = nonce;
+#endif
+    char interestName[strlen("/nodeA/sensor/gps1")+1];
+    memcpy(interestName,"/nodeA/sensor/gps1",strlen("/nodeA/sensor/gps1")+1);
+    struct ccnl_prefix_s *pfx = ccnl_URItoPrefix(interestName, intr->pkt->suite, NULL, NULL);
+    DEBUGMSG(DEBUG,"Created new prefix with the name %s\n",ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE));
+    struct ccnl_interest_s *interest = ccnl_mkInterestObject(pfx,&int_opts);
+    intr->from = from;
+    ccnl_query_append_pending(interest,intr);
+    DEBUGMSG(DEBUG,"Check if this worked:\n");
+    DBL_LINKED_LIST_ADD(ccnl->pit, interest);
+    ccnl->pitcnt++;
+}
+
 struct ccnl_interest_s*
 ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                     struct ccnl_pkt_s **pkt)
@@ -275,26 +295,33 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     }
 #endif
 
+    DEBUGMSG(TRACE,"ccnl-nfn: ccnl_nfn_RX_request is calling interest new\n");
     i = ccnl_interest_new(ccnl, from, packet);
+
     if (!i)
         return NULL;
     i->flags &= ~CCNL_PIT_COREPROPAGATES; // do not forward interests for running computations
 
 #ifdef USE_NFN_REQUESTS
     if (is_start_request) {
+        DEBUGMSG(TRACE,"ccnl-nfn: start_request\n");
         struct ccnl_interest_s *i_start = ccnl_interest_new(ccnl, from, &pkt_start);
         i_start->flags &= ~CCNL_PIT_COREPROPAGATES;
         ccnl_interest_append_pending(i_start, from);
-    } else {
+    } else {// hier kommen wir anscheinend immer rein
+        DEBUGMSG(TRACE,"ccnl-nfn: not a start_request\n");
+        ccnl_subscribeTest(i, from,ccnl);
         ccnl_interest_append_pending(i, from);
     }
 #else
+    DEBUGMSG(TRACE,"ccnl-nfn: USE_NFN_REQUESTS is not used.\n");
     ccnl_interest_append_pending(i, from);
 #endif
 
 //    if (!(i->flags & CCNL_PIT_COREPROPAGATES))
     ccnl_nfn(ccnl, ccnl_prefix_dup(i->pkt->pfx), from, NULL, i, i->pkt->suite, 0);
-
+    if(i)
+        DEBUGMSG(TRACE,"ccnl-nfn: The return value was not null \n");
     TRACEOUT();
     return i;
 }
