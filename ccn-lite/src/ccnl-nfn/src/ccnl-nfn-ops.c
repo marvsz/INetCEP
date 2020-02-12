@@ -164,12 +164,27 @@ void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s 
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
 #endif
-    struct ccnl_interest_s *interest = ccnl_mkPersistentInterestObject(pfx,&int_opts);
-    interest->pkt->s = intr->pkt->s;
+    /*
+     * TODO: Search the pit beforehand to maybe already find an entry --> do not create too many!
+     */
+
+    struct ccnl_interest_s *i = NULL;
+    for(i = ccnl->pit; i; i=i->next){
+        if(!ccnl_prefix_cmp(i->pkt->pfx,NULL,pfx,CMP_EXACT))
+            continue;
+        else
+            if(!i->isConst)
+                continue;
+        break;
+    }
+    if(!i){
+        i= ccnl_mkPersistentInterestObject(pfx,&int_opts);
+        i->pkt->s = intr->pkt->s;
+    }
     struct ccnl_pkt_s *nfnPacket = ccnl_pkt_dup(intr->pkt);
     struct ccnl_interest_s *nfnInterestPacket = ccnl_interest_dup(intr->from,&nfnPacket);
-    ccnl_query_append_pending(interest,nfnInterestPacket);
-    DBL_LINKED_LIST_ADD(ccnl->pit, interest);
+    ccnl_query_append_pending(i,nfnInterestPacket);
+    DBL_LINKED_LIST_ADD(ccnl->pit, i);
     ccnl->pitcnt++;
 }
 
@@ -359,7 +374,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     char d[CCNL_MAX_PREFIX_SIZE];
     DEBUGMSG(DEBUG, "The name of the config Prefix is %s\n",ccnl_prefix_to_str(config->prefix,d,CCNL_MAX_PREFIX_SIZE));
      */
-    struct ccnl_interest_s* nfnInterest = ccnl_nfn_local_interest_search(ccnl,config,config->prefix);
+
     /*if(nfnInterest)
         DEBUGMSG(DEBUG, "Managed to find the desired nfn Interest. Nice\n");
     else
@@ -368,6 +383,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
      */
     if(!state){
+        struct ccnl_interest_s* nfnInterest = ccnl_nfn_local_interest_search(ccnl,config,config->prefix);
         ccnl_makeQueryPersistent(nfnInterest, ccnl, ccnl_prefix_dup(tupleprefix));
     }
     /*else
