@@ -127,7 +127,8 @@ ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_conten
                         continue;
                     pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
                     cnt = cnt + 1;
-                    ccnl_fwd_handleInterest(relay, pi->face, &(qi->pkt), ccnl_ndntlv_cMatch);
+                    struct ccnl_pkt_s* duplicateNFNInterest=ccnl_pkt_dup(qi->pkt);
+                    ccnl_fwd_handleInterest(relay, pi->face, &duplicateNFNInterest, ccnl_ndntlv_cMatch);
                 }
             }
         }
@@ -260,15 +261,6 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 //#endif // USE_NFN_REQUESTS
     }
 #endif
-
-    if(!ccnl_content_serve_pendingQueries(relay,c)){
-        if (!ccnl_content_serve_pending(relay, c)) { // unsolicited content
-            // CONFORM: "A node MUST NOT forward unsolicited data [...]"
-            DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
-            ccnl_content_free(c);
-            return 0;
-        }
-    }
 #ifdef USE_NFN_REQUESTS
     if (!ccnl_nfnprefix_isRequest(c->pkt->pfx)) {
 #endif
@@ -284,6 +276,14 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_NFN_REQUESTS
     } else {
         DEBUGMSG_CFWD(DEBUG, "  not caching nfn request\n");
+    }
+    if(!ccnl_content_serve_pendingQueries(relay,c)){
+        if (!ccnl_content_serve_pending(relay, c)) { // unsolicited content
+            // CONFORM: "A node MUST NOT forward unsolicited data [...]"
+            DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
+            ccnl_content_free(c);
+            return 0;
+        }
     }
 #endif
 
@@ -385,14 +385,14 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #ifdef USE_DUP_CHECK
 
-    if (ccnl_nonce_isDup(relay, *pkt)) {
+    /*if (ccnl_nonce_isDup(relay, *pkt)) {
     #ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %"PRIi32"\n", nonce);
     #else
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %d\n", nonce);
     #endif
         return 0;
-    }
+    }*/
 #endif
 #ifndef CCNL_LINUXKERNEL
     if (local_producer(relay, from, *pkt)) {
