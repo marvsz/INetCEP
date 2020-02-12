@@ -247,26 +247,6 @@ restart:
     return 0;
 }
 
-void ccnl_subscribeTest(struct ccnl_interest_s* intr, struct ccnl_face_s *from, struct ccnl_relay_s *ccnl){
-    //char* intName = "/nodeA/sensor/gps1";
-    char s[CCNL_MAX_PREFIX_SIZE];
-    int nonce = rand();
-    ccnl_interest_opts_u int_opts;
-#ifdef USE_SUITE_NDNTLV
-    int_opts.ndntlv.nonce = nonce;
-#endif
-    char interestName[strlen("/nodeA/sensor/gps1")+1];
-    memcpy(interestName,"/nodeA/sensor/gps1",strlen("/nodeA/sensor/gps1")+1);
-    struct ccnl_prefix_s *pfx = ccnl_URItoPrefix(interestName, intr->pkt->suite, NULL, NULL);
-    DEBUGMSG(DEBUG,"Created new prefix with the name %s\n",ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE));
-    struct ccnl_interest_s *interest = ccnl_mkInterestObject(pfx,&int_opts);
-    intr->from = from;
-    ccnl_query_append_pending(interest,intr);
-    DEBUGMSG(DEBUG,"Check if this worked:\n");
-    DBL_LINKED_LIST_ADD(ccnl->pit, interest);
-    ccnl->pitcnt++;
-}
-
 struct ccnl_interest_s*
 ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                     struct ccnl_pkt_s **pkt)
@@ -310,7 +290,6 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         ccnl_interest_append_pending(i_start, from);
     } else {// hier kommen wir anscheinend immer rein
         DEBUGMSG(TRACE,"ccnl-nfn: not a start_request\n");
-        ccnl_subscribeTest(i, from,ccnl);
         ccnl_interest_append_pending(i, from);
     }
 #else

@@ -208,7 +208,24 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     return pending ? ccnl_strdup(pending) : NULL;
 }
 
-
+void ccnl_subscribeTest(struct ccnl_interest_s* intr, struct ccnl_relay_s *ccnl, struct ccnl_prefix_s* pfx){
+    //char* intName = "/nodeA/sensor/gps1";
+    char s[CCNL_MAX_PREFIX_SIZE];
+    int nonce = rand();
+    ccnl_interest_opts_u int_opts;
+#ifdef USE_SUITE_NDNTLV
+    int_opts.ndntlv.nonce = nonce;
+#endif
+    DEBUGMSG(DEBUG,"Created new prefix with the name %s\n",ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE));
+    struct ccnl_interest_s *interest = ccnl_mkPersistentInterestObject(pfx,&int_opts);
+    interest->pkt->s = intr->pkt->s;
+    struct ccnl_pkt_s *nfnPacket = ccnl_pkt_dup(intr->pkt);
+    struct ccnl_interest_s *nfnInterestPacket = ccnl_interest_dup(intr->from,&nfnPacket);
+    ccnl_query_append_pending(interest,nfnInterestPacket);
+    DEBUGMSG(DEBUG,"Check if this worked:\n");
+    DBL_LINKED_LIST_ADD(ccnl->pit, interest);
+    ccnl->pitcnt++;
+}
 
 char*
 op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
@@ -221,7 +238,6 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     struct ccnl_prefix_s *stateprefix;
     struct ccnl_prefix_s *tupleprefix;
     struct ccnl_content_s *state = NULL;
-    //struct ccnl_content_s *newState = NULL;
     struct ccnl_content_s *tuple = NULL;
     char **intermediateArray = NULL;
     int i1=0, i2=0;
@@ -318,11 +334,20 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
         DEBUGMSG(DEBUG, "The name of the Packet is %s\n",ccnl_prefix_to_str(state->pkt->pfx, s, CCNL_MAX_PREFIX_SIZE));
         DEBUGMSG(DEBUG, "The content of the Packet Buffer is: %.*s\n",(int)state->pkt->buf->datalen+state->pkt->contlen,state->pkt->buf->data);
     }
+    char d[CCNL_MAX_PREFIX_SIZE];
+    DEBUGMSG(DEBUG, "The name of the config Prefix is %s\n",ccnl_prefix_to_str(config->prefix,d,CCNL_MAX_PREFIX_SIZE));
+    struct ccnl_interest_s* nfnInterest = ccnl_nfn_local_interest_search(ccnl,config,config->prefix);
+    if(nfnInterest)
+        DEBUGMSG(DEBUG, "Managed to find the desired nfn Interest. Nice\n");
+    else
+        DEBUGMSG(DEBUG, "Grind on...\n");
 
     DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
     if(state){
         DEBUGMSG(DEBUG, "Datalen of the Buffer was %lu, contentlen of the pkt was %i\n",state->pkt->buf->datalen,state->pkt->contlen);
     }
+    else
+        ccnl_subscribeTest(nfnInterest,ccnl,ccnl_prefix_dup(tupleprefix));
     DEBUGMSG(DEBUG, "The new size of the char to safe is %lu\n",sizeof(char)*strlen(endResult)+1);
     int len = sizeof(char)*strlen(endResult);
     struct ccnl_pkt_s* pkt = NULL;
