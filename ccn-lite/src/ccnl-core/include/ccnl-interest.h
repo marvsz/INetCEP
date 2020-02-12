@@ -94,7 +94,16 @@ struct ccnl_interest_s {
 struct ccnl_interest_s*
 ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   struct ccnl_pkt_s **pkt);
+/**
+ * Creates a new interest of type \ref ccnl_interest_s but does not append it to the PIT
+ * @param from
+ * @param pkt
+ * @return  Upon success a new interest of type \ref ccnl_interest_s, otherwise NULL
+ */
 
+struct ccnl_interest_s*
+ccnl_interest_dup(struct ccnl_face_s *from,
+                  struct ccnl_pkt_s **pkt);
 /**
  * Checks if two interests are the same
  *
