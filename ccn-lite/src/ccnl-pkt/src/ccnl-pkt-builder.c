@@ -159,6 +159,7 @@ ccnl_mkPersistentInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u
                                                                        sizeof(struct ccnl_interest_s));
     i->pkt = (struct ccnl_pkt_s *) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
     i->pkt->buf = ccnl_mkSimpleInterest(name, opts,NDN_TLV_ConstInterest);
+    i->isConst = true;
     i->pkt->pfx = ccnl_prefix_dup(name);
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = NULL;
