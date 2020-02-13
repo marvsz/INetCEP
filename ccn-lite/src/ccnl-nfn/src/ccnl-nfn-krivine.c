@@ -485,7 +485,13 @@ ZAM_resolvename(struct configuration_s *config, char *dummybuf,
                 char *arg, char *contd)
 {
     struct ccnl_lambdaTerm_s *t;
-    char res[1000], *cp = arg;
+#ifndef CCNL_LINUXKERNEL
+    char res[1000];
+#else
+    char *res = ccnl_malloc(1000);
+#endif
+    char *cp = arg;
+
     int len;
 
     DEBUGMSG(DEBUG, "---to do: resolveNAME <%s>\n", arg);
@@ -596,6 +602,9 @@ ZAM_resolvename(struct configuration_s *config, char *dummybuf,
         ccnl_lambdaFreeTerm(t);
         return ccnl_strdup(res);
     }
+#ifdef CCNL_LINUXKERNEL
+    ccnl_free(res);
+#endif
     return NULL;
 }
 

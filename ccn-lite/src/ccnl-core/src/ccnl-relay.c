@@ -603,7 +603,9 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     struct ccnl_face_s *f;
     int cnt = 0;
     DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pending\n");
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
+#endif
 
  #ifdef USE_TIMEOUT_KEEPALIVE // TODO: shouldn't this be USE_NFN_REQUESTS?
      if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
@@ -706,11 +708,12 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                          ccnl_addr2ascii(&pi->face->peer));
 #else
+                char *s = NULL;
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%d to=%s\n",
-                          ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
+                          (s = ccnl_prefix_to_path(i->pkt->pfx)),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                           ccnl_addr2ascii(&pi->face->peer));
-
+                ccnl_free(s);
 #endif
                 DEBUGMSG_CORE(VERBOSE, "    Serve to face: %d (pkt=%p)\n",
                          pi->face->faceid, (void*) c->pkt);
@@ -935,11 +938,19 @@ ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                    struct ccnl_face_s *face)
 {
     struct ccnl_forward_s *fwd, **fwd2;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 
     DEBUGMSG_CUTL(INFO, "adding FIB for <%s>, suite %s\n",
-             ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
+                  ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
+#else
+    char *s = NULL;
+    DEBUGMSG_CUTL(INFO, "adding FIB for <%s>, suite %s\n",
+                  (s = ccnl_prefix_to_path(pfx), ccnl_suite2str(pfx->suite));
+    ccnl_free(s);
+#endif
+
 
     for (fwd = relay->fib; fwd; fwd = fwd->next) {
         if (fwd->suite == pfx->suite &&

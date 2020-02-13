@@ -200,6 +200,9 @@ void *debug_strdup(const char *s, const char *fn, int lno, char *tstamp)
 
             if (cp) {
                 strcpy(cp, s);
+#ifdef CCNL_LINUXKERNEL
+                ccnl_free((void*)s);
+#endif
             }
         }
 #ifndef BUILTIN_INT_ADD_OVERFLOW_DETECTION_UNAVAILABLE

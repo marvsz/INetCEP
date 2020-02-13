@@ -814,12 +814,21 @@ ccnl_set_tap(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
              tapCallback callback)
 {
     struct ccnl_forward_s *fwd, **fwd2;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 
     DEBUGMSG_CFWD(INFO, "setting tap for <%s>, suite %s\n",
-             ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE),
-             ccnl_suite2str(pfx->suite));
+                  ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE),
+                  ccnl_suite2str(pfx->suite));
+#else
+    char *s = NULL;
+    DEBUGMSG_CFWD(INFO, "setting tap for <%s>, suite %s\n",
+                  (s = ccnl_prefix_to_path(pfx)),
+                  ccnl_suite2str(pfx->suite));
+    ccnl_free(s);
+#endif
+
 
     for (fwd = relay->fib; fwd; fwd = fwd->next) {
         if (fwd->suite == pfx->suite &&

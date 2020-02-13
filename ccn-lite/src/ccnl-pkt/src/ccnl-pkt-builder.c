@@ -263,12 +263,21 @@ ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
     int len = 0, contentpos = 0, offs;
     struct ccnl_prefix_s *prefix;
     (void)prefix;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 
     DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
                   ccnl_prefix_to_str(name, s, CCNL_MAX_PREFIX_SIZE),
                   paylen);
+#else
+    char *s = NULL;
+    DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
+                  (s = ccnl_prefix_to_path(name)),
+                  paylen);
+    ccnl_free(s);
+#endif
+
 
     tmp = (unsigned char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     offs = CCNL_MAX_PACKET_SIZE;
