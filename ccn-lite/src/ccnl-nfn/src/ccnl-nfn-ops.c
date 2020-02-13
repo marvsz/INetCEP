@@ -170,22 +170,29 @@ void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s 
 
     struct ccnl_interest_s *i = NULL;
     for(i = ccnl->pit; i; i=i->next){
-        if(!ccnl_prefix_cmp(i->pkt->pfx,NULL,pfx,CMP_EXACT))
-            continue;
-        else
-            if(!i->isConst)
+        DEBUGMSG(DEBUG,"\n");
+        if(!ccnl_prefix_cmp(i->pkt->pfx,NULL,pfx,CMP_EXACT)){
+            if(!i->isConst){
+                DEBUGMSG(DEBUG,"Found already pending Interest, but not a persistent one\n");
                 continue;
-        break;
+            }
+            DEBUGMSG(DEBUG,"Found already pending constant Interest\n");
+            break;
+        }
+        else{
+            DEBUGMSG(DEBUG,"Not the right Interest\n");
+            continue;
+        }
     }
     if(!i){
         i= ccnl_mkPersistentInterestObject(pfx,&int_opts);
         i->pkt->s = intr->pkt->s;
+        DBL_LINKED_LIST_ADD(ccnl->pit, i);
+        ccnl->pitcnt++;
     }
     struct ccnl_pkt_s *nfnPacket = ccnl_pkt_dup(intr->pkt);
     struct ccnl_interest_s *nfnInterestPacket = ccnl_interest_dup(intr->from,&nfnPacket);
     ccnl_query_append_pending(i,nfnInterestPacket);
-    DBL_LINKED_LIST_ADD(ccnl->pit, i);
-    ccnl->pitcnt++;
 }
 
 // binds the name to the given fct in ZAM's list of known operations
@@ -335,14 +342,24 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     //DEBUGMSG(DEBUG, "WINDOW: Checking if result was received\n");
     //DEBUGMSG(DEBUG, "WINDOW: Found parameters %s, %i, %i",ccnl_prefix_to_path(tupleprefix),quantity,unit);
     tuple = ccnl_nfn_local_content_search(ccnl, config, tupleprefix);
-    if (!tuple) {
+    int tupleContLen = 0;
+    /*if (!tuple) {
         if(local_search){
             DEBUGMSG(INFO, "WINDOW: no content\n");
             return NULL;
         }
+    }*/
+    if(tuple){
+        tupleContLen = tuple->pkt->contlen;
     }
-    char tupleContent[tuple->pkt->contlen];
-    memcpy(tupleContent,tuple->pkt->content,tuple->pkt->contlen);
+    char tupleContent[tupleContLen];
+    if(tuple){
+        memcpy(tupleContent,tuple->pkt->content,tuple->pkt->contlen);
+    }
+    else{
+        DEBUGMSG(DEBUG, "WINDOW: Tuple was not present at the given time, wait for the next one\n");
+    }
+
     //DEBUGMSG(DEBUG, "WINDOW: Found Tuple Content %s\n",tupleContent);
     int prefixLength = strlen(ccnl_prefix_to_path(tupleprefix))+strlen("state")+ get_int_len(quantity)+get_int_len(unit)+2;
     char statePrefix[prefixLength];
@@ -363,8 +380,8 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     else{
         DEBUGMSG(DEBUG, "WINDOW: Did not find state content \n");
     }
-    char endResult[tuple->pkt->contlen+stateContLen];
-    window_purge_old_data(endResult, stateContent, tupleContent,stateContLen, quantity, unit);
+    char endResult[tupleContLen+stateContLen];
+    window_purge_old_data(endResult, stateContent, tupleContent, stateContLen, quantity, unit);
     /*char s[CCNL_MAX_PREFIX_SIZE];
     if(state){
         DEBUGMSG(DEBUG, "The name of the Packet is %s\n",ccnl_prefix_to_str(state->pkt->pfx, s, CCNL_MAX_PREFIX_SIZE));
