@@ -91,7 +91,7 @@ struct ccnl_interest_s*
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                                                        sizeof(struct ccnl_interest_s));
     DEBUGMSG_CORE(TRACE,
-                  "ccnl_new_interest(prefix=%s, suite=%s)\n",
+                  "ccnl_interest_dup(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
     if (!i)
