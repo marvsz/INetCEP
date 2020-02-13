@@ -1799,7 +1799,14 @@ Bail:
     // prepare FWDENTRY
     len3 = ccnl_ccnb_mkHeader(fwdentry_buf, CCNL_DTAG_PREFIX, CCN_TT_DTAG);
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_ACTION, CCN_TT_DTAG, cp);
+#ifndef CCNL_LINUXKERNEL
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG, ccnl_prefix_to_str(p,s,CCNL_MAX_PREFIX_SIZE)); // prefix
+#else
+    char *s = NULL;
+    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG,(s = ccnl_prefix_to_path(p))); // prefix
+    ccnl_free(s);
+#endif
+
 
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_FACEID, CCN_TT_DTAG, (char*) faceid);
     memset(h,0,sizeof(h));
