@@ -57,7 +57,6 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         DEBUGMSG(TRACE, "Was not able to allocate memory for new interest");
     }
 #ifndef CCNL_LINUXKERNEL
-
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
@@ -66,7 +65,7 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     char *s = NULL;
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
-                  (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                  (s = ccnl_prefix_to_path((*pkt)->pfx)),
                   ccnl_suite2str((*pkt)->pfx->suite));
     ccnl_free(s);
 #endif

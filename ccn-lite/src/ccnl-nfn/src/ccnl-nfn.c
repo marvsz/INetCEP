@@ -276,7 +276,7 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     if(ccnl==NULL)
         DEBUGMSG_CFWD(DEBUG, "relay was null");
     else
-        DEBUGMSG_CFWD(DEBUG, "relay was null");
+        DEBUGMSG_CFWD(DEBUG, "relay was not null");
     if(from==NULL)
         DEBUGMSG_CFWD(DEBUG, "face was null");
     else
