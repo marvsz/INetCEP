@@ -1923,7 +1923,6 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     sprintf((char *)h, "received add to cache request, inizializing callback for %s",
             ccnl_prefix_to_str(prefix_new,s,CCNL_MAX_PREFIX_SIZE));
 #else
-    char *s = NULL;
     sprintf((char *)h, "received add to cache request, inizializing callback for %s",
             (s = ccnl_prefix_to_path(prefix_new)));
     ccnl_free(s);
