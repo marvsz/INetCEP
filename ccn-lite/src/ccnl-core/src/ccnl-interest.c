@@ -46,18 +46,32 @@ struct ccnl_interest_s*
 ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   struct ccnl_pkt_s **pkt)
 {
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
     DEBUGMSG_CORE(TRACE,"Trying to allocate buffer for interest with the size of %lu",sizeof(struct ccnl_interest_s));
+#else
+    char *s;
+#endif
+
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,sizeof(struct ccnl_interest_s));
 
     if(i == NULL){
         DEBUGMSG(TRACE, "Was not able to allocate memory for new interest");
     }
+#ifndef CCNL_LINUXKERNEL
+
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
+#else
+    DEBUGMSG_CORE(TRACE,
+                  "ccnl_new_interest(prefix=%s, suite=%s)\n",
+                  (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                  ccnl_suite2str((*pkt)->pfx->suite));
+    ccnl_free(s);
+#endif
     if (!i)
         return NULL;
     i->pkt = *pkt;
