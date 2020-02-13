@@ -265,6 +265,7 @@ void
 window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int stateContLen, int quantity, int unit){
     char **intermediateArray = NULL;
     (void) unit;
+    DEBUGMSG(DEBUG,"Statr content length was %i\n",stateContLen);
     if(stateContLen){
         intermediateArray = str_split(stateContent, '\n');
     }
@@ -343,6 +344,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     //DEBUGMSG(DEBUG, "WINDOW: Found parameters %s, %i, %i",ccnl_prefix_to_path(tupleprefix),quantity,unit);
     tuple = ccnl_nfn_local_content_search(ccnl, config, tupleprefix);
     int tupleContLen = 0;
+    (void) local_search;
     /*if (!tuple) {
         if(local_search){
             DEBUGMSG(INFO, "WINDOW: no content\n");
@@ -409,6 +411,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     int len = sizeof(char)*strlen(endResult);
     struct ccnl_pkt_s* pkt = NULL;
     struct ccnl_content_s* oldState = NULL;
+    if(tuple){
     if(state){
         pkt = createNewPacket(ccnl_prefix_dup(state->pkt->pfx),endResult,len);
         oldState = state;
@@ -433,6 +436,11 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
         else{
             ccnl->contents = state;
         }
+    }
+    }
+    else{
+        DEBUGMSG(INFO, "WINDOW: no content\n");
+        return NULL;
     }
     /*DEBUGMSG(DEBUG, "The new Data of the packet is %.*s\n",state->pkt->contlen,state->pkt->content);
     char a[CCNL_MAX_PREFIX_SIZE];
