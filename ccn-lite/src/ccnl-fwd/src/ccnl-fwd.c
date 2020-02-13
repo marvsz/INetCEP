@@ -537,11 +537,22 @@ if(relay->pit != NULL){
         i = ccnl_interest_new(relay, from, pkt);
 
 #ifdef USE_NFN
+#ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
                       (void *) i,
                       ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                       i->pkt->pfx->nfnflags);
+#else
+        char *s = NULL;
+        DEBUGMSG_CFWD(DEBUG,
+                      "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
+                      (void *) i,
+                      (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                      i->pkt->pfx->nfnflags);
+        ccnl_free(s);
+#endif
+
 #else
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s)\n",
