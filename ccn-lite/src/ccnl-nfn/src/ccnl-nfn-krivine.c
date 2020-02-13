@@ -875,7 +875,12 @@ struct ccnl_buf_s*
 Krivine_exportResultStack(struct ccnl_relay_s *ccnl,
                           struct configuration_s *config)
 {
+#ifndef CCNL_LINUXKERNEL
     char res[64000]; //TODO longer???
+#else
+    char *res = ccnl_malloc(64000);
+#endif
+
     int pos = 0;
     struct stack_s *stack;
     struct ccnl_content_s *cont;

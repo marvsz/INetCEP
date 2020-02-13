@@ -785,8 +785,13 @@ ccnl_do_ageing(void *ptr, void *dummy)
     time_t t = CCNL_NOW();
     DEBUGMSG_CORE(VERBOSE, "ageing t=%d\n", (int)t);
     (void) dummy;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
+#else
+    char *s = ccnl_malloc(CCNL_MAX_PREFIX_SIZE);
+#endif
+
 
     while (c) {
         if ((c->last_used + CCNL_CONTENT_TIMEOUT) <= (uint32_t) t &&
@@ -815,26 +820,44 @@ ccnl_do_ageing(void *ptr, void *dummy)
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                    ccnl_free(s);
+#endif
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (ccnl_nfnprefix_isIntermediate(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE INTERMEDIATE INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                    ccnl_free(s);
+#endif
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (!(ccnl_nfnprefix_isKeepalive(i->pkt->pfx))) {
                     if (i->keepalive == NULL) {
                         if (ccnl_nfn_already_computing(relay, i->pkt->pfx)) {
                             DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: already computing", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                            ccnl_free(s);
+#endif
                             i->last_used = CCNL_NOW();
                             i->retries = 0;
                         } else {
                             DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: request status info", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                            ccnl_free(s);
+#endif
                             ccnl_nfn_interest_keepalive(relay, i);
                         }
                     } else {
                         DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: wait for status info", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                        ccnl_free(s);
+#endif
                     }
                     i = i->next;
                 } else {
                     DEBUGMSG_AGEING("AGING: REMOVE KEEP ALIVE INTEREST", "timeout: remove keep alive interest", s, CCNL_MAX_PREFIX_SIZE);
+#ifdef CCNL_LINUXKERNEL
+                    ccnl_free(s);
+#endif
                     struct ccnl_interest_s *origin = i->keepalive_origin;
                     ccnl_nfn_interest_remove(relay, origin);
                     i = ccnl_nfn_interest_remove(relay, i);
@@ -850,8 +873,17 @@ ccnl_do_ageing(void *ptr, void *dummy)
         } else {
             // CONFORM: "A node MUST retransmit Interest Messages
             // periodically for pending PIT entries."
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
-                     ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
+                          ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
+#else
+            ccnl_free(s);
+            DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
+                          (s = ccnl_prefix_to_path(i->pkt->pfx)));
+
+            ccnl_free(s);
+#endif
+
 #ifdef USE_NFN
             if (i->flags & CCNL_PIT_COREPROPAGATES){
 #endif

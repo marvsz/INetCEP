@@ -145,7 +145,12 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
          int suite, int start_locally)
 {
     struct ccnl_buf_s *res = NULL;
+#ifndef CCNL_LINUXKERNEL
     char str[CCNL_MAX_PACKET_SIZE];
+#else
+    char *str = ccnl_malloc(CCNL_MAX_PACKET_SIZE);
+#endif
+
     int i, len = 0;
 
     DEBUGMSG(TRACE, "ccnl_nfn(%p, %s, %p, config=%p)\n",
@@ -220,6 +225,10 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
     ++ccnl->km->numOfRunningComputations;
 restart:
     res = Krivine_reduction(ccnl, str, start_locally, &config, prefix, suite);
+
+#ifdef CCNL_LINUXKERNEL
+    ccnl_free(str);
+#endif
 
     //stores result if computed
     if (res && res->datalen > 0) {
