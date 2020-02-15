@@ -73,6 +73,9 @@ ccnl_mkContent(struct ccnl_prefix_s *name, unsigned char *payload, int paylen, u
 struct ccnl_interest_s *
 ccnl_mkInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
 
+struct ccnl_interest_s *
+ccnl_mkPersistentInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts);
+
 struct ccnl_buf_s*
 ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, int type);
 

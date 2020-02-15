@@ -81,6 +81,31 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
 #endif
 
     return i;
+
+}
+
+struct ccnl_interest_s*
+        ccnl_interest_dup(struct ccnl_face_s *from,
+                          struct ccnl_pkt_s **pkt){
+    char s[CCNL_MAX_PREFIX_SIZE];
+    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
+                                                                       sizeof(struct ccnl_interest_s));
+    DEBUGMSG_CORE(TRACE,
+                  "ccnl_interest_dup(prefix=%s, suite=%s)\n",
+                  ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
+                  ccnl_suite2str((*pkt)->pfx->suite));
+    if (!i)
+        return NULL;
+    i->pkt = *pkt;
+    /* currently, the aging function relies on seconds rather than on milli seconds */
+    i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
+    i->isConst = ccnl_pkt_interest_isConstant(*pkt);
+    i->isRemoveI = ccnl_pkt_interest_isRemoveI(*pkt);
+    *pkt = NULL;
+    i->flags |= CCNL_PIT_COREPROPAGATES;
+    i->from = from;
+    i->last_used = CCNL_NOW();
+    return i;
 }
 
 int
@@ -120,6 +145,44 @@ ccnl_interest_isSame(struct ccnl_interest_s *i, struct ccnl_pkt_s *pkt)
     return -1;
 }
 
+int
+ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q){
+    if(i){
+        if(q){
+            struct ccnl_pendQ_s *pq, *last = NULL;
+
+            char s[CCNL_MAX_PREFIX_SIZE];
+            char t[CCNL_MAX_PREFIX_SIZE];
+            for(pq = i->pendingQueries; pq; pq = pq->next){
+                if(ccnl_interest_isSame(pq->query,q->pkt)){
+                    ccnl_interest_append_pending(pq->query,q->from);
+                    DEBUGMSG_CORE(DEBUG, "  Pending Query already exists, do nothing (we should not be here I think)\n");
+                    pq->last_used = CCNL_NOW();
+                    return 0;
+                }
+                last = pq;
+            }
+            pq = (struct ccnl_pendQ_s *) ccnl_calloc(1,sizeof(struct ccnl_pendQ_s));
+            if(!pq){
+                DEBUGMSG_CORE(DEBUG, "  no mem\n");
+            }
+            DEBUGMSG_CORE(DEBUG, "  appending a new pendQ entry %p <%s>(%p <%s>)\n",
+                          (void *) pq, ccnl_prefix_to_str(q->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
+                          (void *) i, ccnl_prefix_to_str(i->pkt->pfx,t,CCNL_MAX_PREFIX_SIZE));
+            pq->query=q;
+            ccnl_interest_append_pending(pq->query,pq->query->from);
+            pq->last_used = CCNL_NOW();
+            ccnl_interest_append_pending(pq->query,pq->query->from);
+            if(last)
+                last->next = pq;
+            else
+                i->pendingQueries = pq;
+            return 0;
+        }
+        return -2;
+    }
+    return -1;
+}
 
 int
 ccnl_interest_append_pending(struct ccnl_interest_s *i,  struct ccnl_face_s *from)
@@ -150,6 +213,7 @@ ccnl_interest_append_pending(struct ccnl_interest_s *i,  struct ccnl_face_s *fro
                           (void *) i->pkt->pfx);
             pi->face = from;
             pi->last_used = CCNL_NOW();
+
             if (last)
                 last->next = pi;
             else

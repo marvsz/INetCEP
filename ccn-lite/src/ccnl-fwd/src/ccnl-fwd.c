@@ -63,6 +63,82 @@ int ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                        struct ccnl_face_s *face);
 #endif
 
+int
+ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_content_s *c){
+    struct ccnl_interest_s *i;
+    struct ccnl_face_s *f;
+    int cnt = 0;
+    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pendingQueries\n");
+    for (f = relay->faces; f; f = f->next){
+        f->flags &= ~CCNL_FACE_FLAGS_SERVED; // reply on a face only once
+    }
+    for (i = relay->pit;i;){
+        struct ccnl_pendint_s *pi;
+        struct ccnl_pendQ_s *pq;
+        struct ccnl_interest_s *qi;
+
+        if(!i->pkt->pfx)
+            continue;
+        switch (i->pkt->pfx->suite) {
+#ifdef USE_SUITE_CCNB
+            case CCNL_SUITE_CCNB:
+                if (!ccnl_i_prefixof_c(i->pkt->pfx, i->pkt->s.ccnb.minsuffix,
+                                       i->pkt->s.ccnb.maxsuffix, c)) {
+                    // XX must also check i->ppkd
+                    i = i->next;
+                    continue;
+                }
+                break;
+#endif
+#ifdef USE_SUITE_CCNTLV
+            case CCNL_SUITE_CCNTLV:
+                if (ccnl_prefix_cmp(c->pkt->pfx, NULL, i->pkt->pfx, CMP_EXACT)) {
+                    // XX must also check keyid
+                    i = i->next;
+                    continue;
+                }
+                break;
+#endif
+#ifdef USE_SUITE_NDNTLV
+            case CCNL_SUITE_NDNTLV:
+                if (!ccnl_i_prefixof_c(i->pkt->pfx, i->pkt->s.ndntlv.minsuffix,
+                                       i->pkt->s.ndntlv.maxsuffix, c)) {
+                    // XX must also check i->ppkl,
+                    i = i->next;
+                    continue;
+                }
+                break;
+#endif
+            default:
+                i = i->next;
+                continue;
+        }
+        char s[CCNL_MAX_PREFIX_SIZE];
+        if(!i->pendingQueries)
+            DEBUGMSG(DEBUG,"No pending Queries found.\n");
+        for (pq = i->pendingQueries; pq; pq = pq->next) {
+
+            DEBUGMSG(DEBUG,"found pending Query for interest %s\n",ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
+            if(!pq->query)
+                DEBUGMSG(DEBUG,"No query for PQ found.\n");
+            for (qi = pq->query; qi; qi = qi->next) {
+                for (pi = qi->pending; pi; pi = pi->next) {
+                    if (pi->face->flags & CCNL_FACE_FLAGS_SERVED) // face already served? continue
+                        continue;
+                    pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
+                    cnt = cnt + 1;
+                    struct ccnl_pkt_s* duplicateNFNInterest=ccnl_pkt_dup(qi->pkt);
+                    ccnl_fwd_handleInterest(relay, pi->face, &duplicateNFNInterest, ccnl_ndntlv_cMatch);
+                }
+            }
+        }
+        i = i->next;
+
+    }
+    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pendingQueries done\n");
+
+    return cnt;
+}
 // returning 0 if packet was
 int
 ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
@@ -185,14 +261,6 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 //#endif // USE_NFN_REQUESTS
     }
 #endif
-
-    if (!ccnl_content_serve_pending(relay, c)) { // unsolicited content
-        // CONFORM: "A node MUST NOT forward unsolicited data [...]"
-        DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
-        ccnl_content_free(c);
-        return 0;
-    }
-
 #ifdef USE_NFN_REQUESTS
     if (!ccnl_nfnprefix_isRequest(c->pkt->pfx)) {
 #endif
@@ -208,6 +276,14 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_NFN_REQUESTS
     } else {
         DEBUGMSG_CFWD(DEBUG, "  not caching nfn request\n");
+    }
+    if(!ccnl_content_serve_pendingQueries(relay,c)){
+        if (!ccnl_content_serve_pending(relay, c)) { // unsolicited content
+            // CONFORM: "A node MUST NOT forward unsolicited data [...]"
+            DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
+            ccnl_content_free(c);
+            return 0;
+        }
     }
 #endif
 
@@ -309,14 +385,14 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #ifdef USE_DUP_CHECK
 
-    if (ccnl_nonce_isDup(relay, *pkt)) {
+    /*if (ccnl_nonce_isDup(relay, *pkt)) {
     #ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %"PRIi32"\n", nonce);
     #else
         DEBUGMSG_CFWD(DEBUG, "  dropped because of duplicate nonce %d\n", nonce);
     #endif
         return 0;
-    }
+    }*/
 #endif
 #ifndef CCNL_LINUXKERNEL
     if (local_producer(relay, from, *pkt)) {
@@ -395,7 +471,10 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             continue;
         if (cMatch(*pkt, c))
             continue;
-
+#ifdef USE_NFN
+        if(ccnl_nfnprefix_isNFN((*pkt)->pfx))
+            continue;
+#endif
         DEBUGMSG_CFWD(DEBUG, "  found matching content %p\n", (void *) c);
         if (from->ifndx >= 0) {
 #ifdef USE_NFN_REQUESTS
