@@ -193,32 +193,25 @@ inet_ntoa(struct in_addr in)
 static inline void*
 ccnl_malloc(int s)
 {
-    DEBUGMSG(DEBUG,"kmalloc of size %i\n",s);
     return kmalloc(s, GFP_ATOMIC);
 }
 
 static inline void*
 ccnl_calloc(int n, int s)
 {
-    DEBUGMSG(DEBUG,"kcalloc\n");
     return kcalloc(n, s, GFP_ATOMIC);
 }
 
 static inline void*
 ccnl_realloc(void *ptr, int s)
 {
-    DEBUGMSG(DEBUG,"krealloc\n");
     return krealloc(ptr,s,GFP_ATOMIC);
 }
 
 static inline void
 ccnl_free(void *ptr)
 {
-    DEBUGMSG(DEBUG,"entered kernel ccnl_free\n");
-    if(!ptr)
-        return;
     kfree(ptr);
-    DEBUGMSG(DEBUG,"Kernel free end\n");
 }
 
 static inline void*
