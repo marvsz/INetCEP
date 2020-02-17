@@ -285,6 +285,10 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         DEBUGMSG_CFWD(DEBUG, "pkt was null");
     else
         DEBUGMSG_CFWD(DEBUG, "pkt was not null");
+    if((*pkt)->pfx == NULL)
+        DEBUGMSG_CFWD(DEBUG, "pkt pfx was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "pkt pfx was not null");
 #endif
 
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)

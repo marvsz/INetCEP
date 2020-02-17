@@ -498,7 +498,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     // CONFORM: Step 3: check whether interest is already known
 #ifdef CCNL_LINUXKERNEL
 if(relay->pit != NULL){
-        DEBUGMSG_CFWD(DEBUG, "pit was not null, did not go into the loop to search the PIT");
+        DEBUGMSG_CFWD(DEBUG, "pit was not null, did go into the loop to search the PIT");
 #endif
     for (i = relay->pit; i; i = i->next)
         if (ccnl_interest_isSame(i, *pkt))
