@@ -87,7 +87,7 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
                      ifndx, datalen, *data, (int)(data - base),suite);
             return;
         }
-        DEBUGMSG_CORE(WARNING, "kown packet format ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d, suit is %i\n",
+        DEBUGMSG_CORE(WARNING, "known packet format ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d, suit is %i\n",
                       ifndx, datalen, *data, (int)(data - base),suite);
         dispatch = ccnl_core_suites[suite].RX;
         if (!dispatch) {

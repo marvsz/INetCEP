@@ -906,6 +906,9 @@ ccnl_do_ageing(void *ptr, void *dummy)
             i = i->next;
         }
     }
+#ifdef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
     while (f) {
         if (!(f->flags & CCNL_FACE_FLAGS_STATIC) &&
                 (f->last_used + CCNL_FACE_TIMEOUT) <= t){

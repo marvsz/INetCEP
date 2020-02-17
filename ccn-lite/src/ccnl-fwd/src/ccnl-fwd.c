@@ -327,6 +327,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
              ccnl_suite2str((*pkt)->suite), nonce,
              from_as_str ? from_as_str : "");
 #else
+        DEBUGMSG_CFWD(DEBUG, "Before the allocation\n");
         char *s = NULL;
         DEBUGMSG_CFWD(INFO, "  incoming interest=<%s>%s nonce=%d from=%s\n",
                 (s = ccnl_prefix_to_path((*pkt)->pfx)),
