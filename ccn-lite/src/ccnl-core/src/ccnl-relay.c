@@ -602,7 +602,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     struct ccnl_interest_s *i;
     struct ccnl_face_s *f;
     int cnt = 0;
-    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pending\n");
 #ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
 #else
@@ -610,7 +609,9 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 #endif
 #ifdef USE_NFN_REQUESTS
     struct ccnl_pkt_s *pkt = NULL;
+    int matches_start_request;
 #endif
+    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pending\n");
 
  #ifdef USE_TIMEOUT_KEEPALIVE // TODO: shouldn't this be USE_NFN_REQUESTS?
      if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
@@ -701,11 +702,13 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 
 #ifdef USE_NFN_REQUESTS
                 pkt = c->pkt;
-                int matches_start_request = ccnl_nfnprefix_isRequest(i->pkt->pfx)
+
+                matches_start_request = ccnl_nfnprefix_isRequest(i->pkt->pfx)
                                             && i->pkt->pfx->request->type == NFN_REQUEST_TYPE_START;
                 if (matches_start_request) {
                     nfn_request_content_set_prefix(c, i->pkt->pfx);
                 }
+
 #endif
 #ifndef CCNL_LINUXKERNEL
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%"PRIi32" to=%s\n",
@@ -1024,12 +1027,24 @@ ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     struct ccnl_forward_s *fwd;
     int res = -1;
     struct ccnl_forward_s *last = NULL;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
+#else
+    char *s = NULL;
+#endif
+
+
 
     if (pfx != NULL) {
+#ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CUTL(INFO, "removing FIB for <%s>, suite %s\n",
                       ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
+#else
+        DEBUGMSG_CUTL(INFO, "removing FIB for <%s>, suite %s\n",
+                      (s = ccnl_prefix_to_path(pfx)), ccnl_suite2str(pfx->suite));
+        ccnl_free(s);
+#endif
     }
 
     for (fwd = relay->fib; fwd; last = fwd, fwd = fwd->next) {

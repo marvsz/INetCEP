@@ -849,6 +849,9 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     int result;
     int flagcount = 6;
     char *buf = (char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
+#ifdef USE_NFN
+    char *flagnames[6]  = {"NFN", "?", "COMPUTE", "KEEPALIVE", "INTERMEDIATE", "REQUEST"};
+#endif
     if (buf == NULL) {
         DEBUGMSG_CUTL(ERROR, "ccnl_prefix_debug_info: malloc failed, exiting\n");
         return NULL;
@@ -878,7 +881,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     }
     len += result;
 
-    char *flagnames[6]  = {"NFN", "?", "COMPUTE", "KEEPALIVE", "INTERMEDIATE", "REQUEST"};
+
     int needscomma = 0;
     for (i = 0; i < flagcount; i++) {
         if ((p->nfnflags & (1<<i)) != 0) {
