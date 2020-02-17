@@ -211,6 +211,9 @@ ccnl_realloc(void *ptr, int s)
 static inline void
 ccnl_free(void *ptr)
 {
+    DEBUGMSG(DEBUG,"entered kernel ccnl_free\n");
+    if(!p)
+        return;
     kfree(ptr);
 }
 

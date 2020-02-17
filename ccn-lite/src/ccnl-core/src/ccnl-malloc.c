@@ -214,6 +214,7 @@ void *debug_strdup(const char *s, const char *fn, int lno, char *tstamp)
 
 void
 debug_free(void *p, const char *fn, int lno) {
+    DEBUGMSG(DEBUG,"in the not Kernel ccnl_free\n");
     struct mhdr *h = (struct mhdr *) (((unsigned char *) p) - sizeof(struct mhdr));
 
     if (!p) {
