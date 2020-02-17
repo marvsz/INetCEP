@@ -56,7 +56,7 @@ ccnl_buf_new(void *data, int len)
         memcpy(b->data, data, len);
 #else
         memcpy(b->data, data, len);
-        ccnl_free(data);
+        //ccnl_free(data);
 #endif
 
     }
