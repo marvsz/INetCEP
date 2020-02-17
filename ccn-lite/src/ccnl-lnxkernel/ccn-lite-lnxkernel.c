@@ -218,6 +218,7 @@ ccnl_free(void *ptr)
     if(!ptr)
         return;
     kfree(ptr);
+    DEBUGMSG(DEBUG,"Kernel free end\n");
 }
 
 static inline void*
