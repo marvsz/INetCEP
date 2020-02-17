@@ -674,6 +674,16 @@ ccnl_init(void)
     theRelay.defaultFaceScheduler = ccnl_lnx_defaultFaceScheduler;
 #endif
 
+#ifdef USE_NFN
+    theRelay.km = ccnl_calloc(1, sizeof(struct ccnl_krivine_s));
+    if(theRelay.km){
+        DEBUGMSG(DEBUG, "Adding a KM did work\n");
+        theRelay.km->configid = -1;
+    }
+    else
+        DEBUGMSG(DEBUG, "Adding a KM did not work\n");
+#endif
+
     ageing_handler = ccnl_set_timer(1000000, ccnl_ageing, &theRelay, 0);
 
 #ifdef USE_UNIXSOCKET
