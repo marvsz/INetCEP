@@ -275,7 +275,7 @@ ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
     DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
                   (s = ccnl_prefix_to_path(name)),
                   paylen);
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 

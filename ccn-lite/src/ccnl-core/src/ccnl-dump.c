@@ -96,7 +96,7 @@ char s[CCNL_MAX_PREFIX_SIZE];
         char *s = NULL;
         CONSOLE("%p PREFIX len=%d val=%s\n",
                     (void *) pre, pre->compcnt, (s = ccnl_prefix_to_path(pre)));
-        ccnl_free(s);
+        //ccnl_free(s);
 
 #endif
 
@@ -365,7 +365,7 @@ int get_prefix_dump(int lev, void *p, int *len, char** val)
 #else
         char *s = NULL;
         sprintf(*val, "%s", (s = ccnl_prefix_to_path(pre)));
-        ccnl_free(s);
+        //ccnl_free(s);
 
 #endif
 

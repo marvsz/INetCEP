@@ -1647,7 +1647,7 @@ Bail:
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_ACTION, CCN_TT_DTAG, cp);
     char *s = NULL;
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG,(s = ccnl_prefix_to_path(p))); // prefix
-    ccnl_free(s);
+    //ccnl_free(s);
 
     //    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_FACEID, CCN_TT_DTAG, (char*) faceid);
     memset(h,0,sizeof(h));
@@ -1758,7 +1758,7 @@ ccnl_mgmt_prefixreg(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         char *s = NULL;
         DEBUGMSG(TRACE, "mgmt: adding prefix %s to faceid=%s, suite=%s\n",
                 (s = ccnl_prefix_to_path(p)), faceid, ccnl_suite2str(suite[0]));
-        ccnl_free(s);
+        //ccnl_free(s);
 #endif
 
 
@@ -1804,7 +1804,7 @@ Bail:
 #else
     char *s = NULL;
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG,(s = ccnl_prefix_to_path(p))); // prefix
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 
@@ -1911,7 +1911,7 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     DEBUGMSG(TRACE, "  mgmt: adding object %s to cache (suite=%s)\n",
              (s = ccnl_prefix_to_path(ccnl_prefix_dup(prefix_new))),
              ccnl_suite2str(suite));
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 
@@ -1925,7 +1925,7 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
 #else
     sprintf((char *)h, "received add to cache request, inizializing callback for %s",
             (s = ccnl_prefix_to_path(prefix_new)));
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
     ccnl_mgmt_return_ccn_msg(ccnl, orig, prefix, from,

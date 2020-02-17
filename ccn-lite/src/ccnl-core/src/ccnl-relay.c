@@ -720,7 +720,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                           (s = ccnl_prefix_to_path(i->pkt->pfx)),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                           ccnl_addr2ascii(&pi->face->peer));
-                ccnl_free(s);
+                //ccnl_free(s);
 #endif
                 DEBUGMSG_CORE(VERBOSE, "    Serve to face: %d (pkt=%p)\n",
                          pi->face->faceid, (void*) c->pkt);
@@ -886,11 +886,11 @@ ccnl_do_ageing(void *ptr, void *dummy)
             DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
 #else
-            ccnl_free(s);
+            //ccnl_free(s);
             DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
                           (s = ccnl_prefix_to_path(i->pkt->pfx)));
 
-            ccnl_free(s);
+            //ccnl_free(s);
 #endif
 
 #ifdef USE_NFN
@@ -992,7 +992,7 @@ ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     char *s = NULL;
     DEBUGMSG_CUTL(INFO, "adding FIB for <%s>, suite %s\n",
                   (s = ccnl_prefix_to_path(pfx)), ccnl_suite2str(pfx->suite));
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 
@@ -1046,7 +1046,7 @@ ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
 #else
         DEBUGMSG_CUTL(INFO, "removing FIB for <%s>, suite %s\n",
                       (s = ccnl_prefix_to_path(pfx)), ccnl_suite2str(pfx->suite));
-        ccnl_free(s);
+        //ccnl_free(s);
 #endif
     }
 

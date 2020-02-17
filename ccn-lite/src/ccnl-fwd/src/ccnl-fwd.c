@@ -97,7 +97,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                           (s = ccnl_prefix_to_path((*pkt)->pfx)), ccnl_suite2str((*pkt)->suite),
                           (*pkt)->pfx->nfnflags, nonce, from_as_str ? from_as_str : "");
 
-            ccnl_free(s);
+            //ccnl_free(s);
 #endif
 
         } 
@@ -112,7 +112,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                       (s = ccnl_prefix_to_path((*pkt)->pfx)), ccnl_suite2str((*pkt)->suite),
                       (*pkt)->pfx->nfnflags, nonce, "");
 
-        ccnl_free(s);
+        //ccnl_free(s);
 #endif
 
 
@@ -334,7 +334,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                 ccnl_suite2str((*pkt)->suite), nonce,
                 from_as_str ? from_as_str : "");
         DEBUGMSG_CFWD(DEBUG, "Before the free\n");
-        ccnl_free(s);
+        //ccnl_free(s);
         DEBUGMSG_CFWD(DEBUG, "After the free\n");
 #endif
     }
@@ -556,7 +556,7 @@ if(relay->pit != NULL){
                       (void *) i,
                       (s = ccnl_prefix_to_path(i->pkt->pfx)),
                       i->pkt->pfx->nfnflags);
-        ccnl_free(s);
+        //ccnl_free(s);
 #endif
 
 #else
@@ -872,7 +872,7 @@ ccnl_set_tap(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     DEBUGMSG_CFWD(INFO, "setting tap for <%s>, suite %s\n",
                   (s = ccnl_prefix_to_path(pfx)),
                   ccnl_suite2str(pfx->suite));
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 

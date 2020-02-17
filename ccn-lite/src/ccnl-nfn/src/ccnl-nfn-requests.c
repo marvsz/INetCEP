@@ -352,8 +352,9 @@ nfn_request_forward_to_computation(struct ccnl_relay_s *relay, struct ccnl_pkt_s
 
     char *s = NULL;
     DEBUGMSG_CFWD(INFO, "  new request=<%s>\n", (s = ccnl_prefix_to_path(pfx)));
+#ifndef CCNL_LINUXKERNEL
     ccnl_free(s);
-
+#endif
     i = nfn_request_interest_new(relay, pfx);
     // ccnl_interest_append_pending(i, from);
     ccnl_interest_propagate(relay, i);
@@ -387,7 +388,10 @@ nfn_request_cancel_local_computation(struct ccnl_relay_s *relay, struct ccnl_pkt
 
     DEBUGMSG_CFWD(INFO, "  removing interests related to computation <%s>\n", 
         (s = ccnl_prefix_to_path(pfx)));
+#ifndef CCNL_LINUXKERNEL
     ccnl_free(s);
+#endif
+
 
     i = relay->pit;
     while (i) {
@@ -397,7 +401,9 @@ nfn_request_cancel_local_computation(struct ccnl_relay_s *relay, struct ccnl_pkt
             if (!ccnl_nfnprefix_isRequestType(i->pkt->pfx, NFN_REQUEST_TYPE_CANCEL)) {
                 DEBUGMSG_CFWD(INFO, "  removing interest <%s>\n",
                     (s = ccnl_prefix_to_path(i->pkt->pfx)));
+#ifndef CCNL_LINUXKERNEL
                 ccnl_free(s);
+#endif
                 i = ccnl_interest_remove(relay, i);
             }
         }
@@ -409,8 +415,9 @@ nfn_request_cancel_local_computation(struct ccnl_relay_s *relay, struct ccnl_pkt
 
     DEBUGMSG_CFWD(INFO, "  removing config %d <%s>\n", 
         config->configid, (s = ccnl_prefix_to_path(config->prefix)));
+#ifndef CCNL_LINUXKERNEL
     ccnl_free(s);
-
+#endif
     --relay->km->numOfRunningComputations;
     DBL_LINKED_LIST_REMOVE(relay->km->configuration_list, config);
     ccnl_nfn_freeConfiguration(config);

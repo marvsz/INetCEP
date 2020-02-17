@@ -59,7 +59,7 @@ ccnl_content_new(struct ccnl_pkt_s **pkt)
     DEBUGMSG_CORE(TRACE, "ccnl_content_new %p <%s [%d]>\n",
                   (void*) *pkt, (s = ccnl_prefix_to_path((*pkt)->pfx)),
                   ((*pkt)->pfx->chunknum)? *((*pkt)->pfx->chunknum) : -1);
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
 
 

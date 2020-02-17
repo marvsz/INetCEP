@@ -69,7 +69,7 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   (s = ccnl_prefix_to_path((*pkt)->pfx)),
                   ccnl_suite2str((*pkt)->pfx->suite));
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
     if (!i)
         return NULL;
@@ -175,7 +175,7 @@ ccnl_interest_append_pending(struct ccnl_interest_s *i,  struct ccnl_face_s *fro
             DEBUGMSG_CORE(DEBUG, "  appending a new pendint entry %p <%s>(%p)\n",
                           (void *) pi, (s = ccnl_prefix_to_path(i->pkt->pfx)),
                           (void *) i->pkt->pfx);
-            ccnl_free(s);
+            //ccnl_free(s);
 #endif
 
             pi->face = from;
@@ -222,7 +222,7 @@ ccnl_interest_remove_pending(struct ccnl_interest_s *interest, struct ccnl_face_
                     DEBUGMSG_CFWD(INFO, "  removed face (%s) for interest %s\n",
                                   ccnl_addr2ascii(&pend->face->peer),
                                   (s = ccnl_prefix_to_path(interest->pkt->pfx)));
-                    ccnl_free(s);
+                    //ccnl_free(s);
 #endif
 
 
