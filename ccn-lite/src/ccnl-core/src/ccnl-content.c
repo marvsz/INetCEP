@@ -41,11 +41,12 @@
 struct ccnl_content_s*
 ccnl_content_new(struct ccnl_pkt_s **pkt)
 {
+    struct ccnl_content_s *c;
     if (!pkt) {
         return NULL;
     }
 
-    struct ccnl_content_s *c;
+
 #ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;

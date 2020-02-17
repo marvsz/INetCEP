@@ -301,6 +301,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     clock_gettime(CLOCK_MONOTONIC,&tstart);
 #else
     struct timespec tstart;
+    struct timespec tend;
     getrawmonotonic(&tstart);
 #endif
     struct ccnl_interest_s *i = NULL;
@@ -461,15 +462,18 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifndef CCNL_LINUXKERNEL
             clock_gettime(CLOCK_MONOTONIC,&tend);
 #else
-            struct timespec tend;
             getrawmonotonic(&tend);
 #endif
+            {
             uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+
 #ifndef CCNL_LINUXKERNEL
             DEBUGMSG(DEBUG,"Handling of Interest package took about %lu seconds\n",timeDifference);
+
 #else
             DEBUGMSG(DEBUG,"Handling of Interest package took about %llu seconds\n",timeDifference);
 #endif
+            }
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;

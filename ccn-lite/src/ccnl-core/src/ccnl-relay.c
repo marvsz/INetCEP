@@ -605,6 +605,11 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pending\n");
 #ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
+#else
+    char *s = NULL;
+#endif
+#ifdef USE_NFN_REQUESTS
+    struct ccnl_pkt_s *pkt = NULL;
 #endif
 
  #ifdef USE_TIMEOUT_KEEPALIVE // TODO: shouldn't this be USE_NFN_REQUESTS?
@@ -695,7 +700,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                 }
 
 #ifdef USE_NFN_REQUESTS
-                struct ccnl_pkt_s *pkt = c->pkt;
+                pkt = c->pkt;
                 int matches_start_request = ccnl_nfnprefix_isRequest(i->pkt->pfx)
                                             && i->pkt->pfx->request->type == NFN_REQUEST_TYPE_START;
                 if (matches_start_request) {
@@ -708,7 +713,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
                          ccnl_addr2ascii(&pi->face->peer));
 #else
-                char *s = NULL;
                 DEBUGMSG_CFWD(INFO, "  outgoing data=<%s>%s nonce=%d to=%s\n",
                           (s = ccnl_prefix_to_path(i->pkt->pfx)),
                           ccnl_suite2str(i->pkt->pfx->suite), nonce,
@@ -782,15 +786,17 @@ ccnl_do_ageing(void *ptr, void *dummy)
     struct ccnl_content_s *c = relay->contents;
     struct ccnl_interest_s *i = relay->pit;
     struct ccnl_face_s *f = relay->faces;
-    time_t t = CCNL_NOW();
-    DEBUGMSG_CORE(VERBOSE, "ageing t=%d\n", (int)t);
-    (void) dummy;
+    struct ccnl_interest_s *origin = NULL;
 #ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 #else
     char *s = ccnl_malloc(CCNL_MAX_PREFIX_SIZE);
 #endif
+    time_t t = CCNL_NOW();
+    DEBUGMSG_CORE(VERBOSE, "ageing t=%d\n", (int)t);
+    (void) dummy;
+
 
 
     while (c) {
@@ -858,7 +864,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
 #ifdef CCNL_LINUXKERNEL
                     ccnl_free(s);
 #endif
-                    struct ccnl_interest_s *origin = i->keepalive_origin;
+                    origin = i->keepalive_origin;
                     ccnl_nfn_interest_remove(relay, origin);
                     i = ccnl_nfn_interest_remove(relay, i);
                 }
@@ -1022,7 +1028,6 @@ ccnl_fib_rem_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
     (void) s;
 
     if (pfx != NULL) {
-        char *s = NULL;
         DEBUGMSG_CUTL(INFO, "removing FIB for <%s>, suite %s\n",
                       ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str(pfx->suite));
     }

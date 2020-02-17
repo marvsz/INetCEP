@@ -571,6 +571,7 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
                             char *buf, size_t buflen) {
     size_t len = 0, i, j;
     int result;
+    int skip = 0;
     (void)i;
     (void)j;
     (void)len;
@@ -608,9 +609,6 @@ ccnl_prefix_to_str_detailed(struct ccnl_prefix_s *pr, int ccntlv_skip, int escap
         len += result;
     }
 #endif // USE_NFN
-
-
-    int skip = 0;
 
 #if defined(USE_SUITE_CCNTLV) // && defined(USE_NFN)
     // In the future it is possibly helpful to see the type information
@@ -727,6 +725,7 @@ char*
 ccnl_prefix_to_str(struct ccnl_prefix_s *pr, char *buf, size_t buflen) {
     size_t len = 0, i, j;
     int result;
+    int skip = 0;
     (void)i;
     (void)j;
     (void)len;
@@ -762,9 +761,6 @@ ccnl_prefix_to_str(struct ccnl_prefix_s *pr, char *buf, size_t buflen) {
         len += result;
     }
 #endif // USE_NFN
-
-
-    int skip = 0;
 
 #if defined(USE_SUITE_CCNTLV) // && defined(USE_NFN)
     // In the future it is possibly helpful to see the type information
@@ -851,6 +847,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     int len = 0;
     int i = 0;
     int result;
+    int flagcount = 6;
     char *buf = (char*) ccnl_malloc(CCNL_MAX_PACKET_SIZE);
     if (buf == NULL) {
         DEBUGMSG_CUTL(ERROR, "ccnl_prefix_debug_info: malloc failed, exiting\n");
@@ -860,6 +857,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "<");
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -867,6 +865,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "suite:%i, ", p->suite);
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -878,7 +877,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
         return NULL;
     }
     len += result;
-    int flagcount = 6;
+
     char *flagnames[6]  = {"NFN", "?", "COMPUTE", "KEEPALIVE", "INTERMEDIATE", "REQUEST"};
     int needscomma = 0;
     for (i = 0; i < flagcount; i++) {
@@ -912,6 +911,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "compcnt:%i ", p->compcnt);
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -919,6 +919,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "complen:(");
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -926,6 +927,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
         result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "%i", p->complen[i]);
         if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
             DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+            ccnl_free(buf);
             return NULL;
         }
         len += result;
@@ -933,6 +935,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
             result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, ",");
             if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
                 DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+                ccnl_free(buf);
                 return NULL;
             }
             len += result;
@@ -941,6 +944,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "), ");
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -948,6 +952,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "comp:(");
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -955,6 +960,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
         result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, "%.*s", p->complen[i], p->comp[i]);
         if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
             DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+            ccnl_free(buf);
             return NULL;
         }
         len += result;
@@ -962,6 +968,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
             result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, ",");
             if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
                 DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+                ccnl_free(buf);
                 return NULL;
             }
             len += result;
@@ -970,6 +977,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, ")");
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     len += result;
@@ -977,6 +985,7 @@ ccnl_prefix_debug_info(struct ccnl_prefix_s *p) {
     result = snprintf(buf + len, CCNL_MAX_PACKET_SIZE - len, ">%c", '\0');
     if (!(result > -1 && result < (CCNL_MAX_PACKET_SIZE - len))) {
         DEBUGMSG(ERROR, "Could not print prefix, since out of allocated memory");
+        ccnl_free(buf);
         return NULL;
     }
     return buf;
