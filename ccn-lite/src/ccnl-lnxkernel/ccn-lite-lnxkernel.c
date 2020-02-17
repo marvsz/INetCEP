@@ -215,7 +215,7 @@ static inline void
 ccnl_free(void *ptr)
 {
     DEBUGMSG(DEBUG,"entered kernel ccnl_free\n");
-    if(!p)
+    if(!ptr)
         return;
     kfree(ptr);
 }
