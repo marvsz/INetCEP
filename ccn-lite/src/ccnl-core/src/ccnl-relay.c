@@ -830,13 +830,13 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                    ccnl_free(s);
+                    //ccnl_free(s);
 #endif
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (ccnl_nfnprefix_isIntermediate(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE INTERMEDIATE INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                    ccnl_free(s);
+                    //ccnl_free(s);
 #endif
                     i = ccnl_nfn_interest_remove(relay, i);
                 } else if (!(ccnl_nfnprefix_isKeepalive(i->pkt->pfx))) {
@@ -844,28 +844,28 @@ ccnl_do_ageing(void *ptr, void *dummy)
                         if (ccnl_nfn_already_computing(relay, i->pkt->pfx)) {
                             DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: already computing", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                            ccnl_free(s);
+                            //ccnl_free(s);
 #endif
                             i->last_used = CCNL_NOW();
                             i->retries = 0;
                         } else {
                             DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: request status info", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                            ccnl_free(s);
+                            //ccnl_free(s);
 #endif
                             ccnl_nfn_interest_keepalive(relay, i);
                         }
                     } else {
                         DEBUGMSG_AGEING("AGING: KEEP ALIVE INTEREST", "timeout: wait for status info", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                        ccnl_free(s);
+                        //ccnl_free(s);
 #endif
                     }
                     i = i->next;
                 } else {
                     DEBUGMSG_AGEING("AGING: REMOVE KEEP ALIVE INTEREST", "timeout: remove keep alive interest", s, CCNL_MAX_PREFIX_SIZE);
 #ifdef CCNL_LINUXKERNEL
-                    ccnl_free(s);
+                    //ccnl_free(s);
 #endif
                     origin = i->keepalive_origin;
                     ccnl_nfn_interest_remove(relay, origin);
@@ -907,7 +907,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
         }
     }
 #ifdef CCNL_LINUXKERNEL
-    ccnl_free(s);
+    //ccnl_free(s);
 #endif
     while (f) {
         if (!(f->flags & CCNL_FACE_FLAGS_STATIC) &&
