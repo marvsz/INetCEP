@@ -332,8 +332,9 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                 (s = ccnl_prefix_to_path((*pkt)->pfx)),
                 ccnl_suite2str((*pkt)->suite), nonce,
                 from_as_str ? from_as_str : "");
+        DEBUGMSG_FWD(DEBUG, "Before the free\n");
         ccnl_free(s);
-
+        DEBUGMSG_FWD(DEBUG, "After the free\n");
 #endif
     }
 
