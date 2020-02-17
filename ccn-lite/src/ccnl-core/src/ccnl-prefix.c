@@ -699,12 +699,13 @@ char*
 ccnl_prefix_to_path(struct ccnl_prefix_s *pr)
 {
     static char prefix_buf[4096];
-    int len= 0, i;
-    int result;
+    /*int len= 0, i;
+    int result;*/
 
     if (!pr)
         return NULL;
-    for (i = 0; i < pr->compcnt; i++) {
+    return ccnl_prefix_to_str(pr, prefix_buf,4096);
+    /*for (i = 0; i < pr->compcnt; i++) {
         if(!strncmp("call", (char*)pr->comp[i], 4) && strncmp((char*)pr->comp[pr->compcnt-1], "NFN", 3)){
             result = snprintf(prefix_buf + len, CCNL_MAX_PREFIX_SIZE - len, "%.*s", pr->complen[i], pr->comp[i]);
         }
@@ -718,7 +719,7 @@ ccnl_prefix_to_path(struct ccnl_prefix_s *pr)
         len += result;
     }
     prefix_buf[len] = '\0';
-    return prefix_buf;
+    return prefix_buf;*/
 }
 
 char*
