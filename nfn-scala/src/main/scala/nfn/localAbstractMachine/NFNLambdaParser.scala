@@ -1,11 +1,11 @@
 package nfn.localAbstractMachine
 
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import lambdacalculus.parser._
 import lambdacalculus.parser.ast._
 
 
-class NFNLambdaParser extends StandardLambdaParser with Logging {
+class NFNLambdaParser extends StandardLambdaParser with LazyLogging {
 
   // remove "."
   override def delimiters = super.delimiters.filter(_ != ".")

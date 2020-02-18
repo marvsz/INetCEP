@@ -5,20 +5,23 @@ import java.nio.charset.StandardCharsets
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, MetaInfo}
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
 import scala.util.{Failure, Success, Try}
-
 /**
  * The map service is a generic service which transforms n [[NFNValue]] into a [[NFNListValue]] where each value was applied by a given other service of type [[NFNServiceValue]].
  * The first element of the arguments must be a [[NFNServiceValue]] and remaining n arguments must be a [[NFNListValue]].
  * The result of service invocation is a [[NFNListValue]].
  */
 class MapService() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNStringValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNStringValue] = Future{
     args match {
       case Seq(function, arguments @ _*) => {
         val service = MapReduceService.serviceFromValue(function).get
         val values = arguments.map({ arg =>
-          service.instantiateCallable(interestName, service.ccnName, Seq(arg), ccnApi, None).get.exec
+          Await.result(service.instantiateCallable(interestName, service.ccnName, Seq(arg), ccnApi, None).get.exec, 1 seconds)
         })
         NFNStringValue(MapReduceService.seqToString(values))
       }
@@ -34,9 +37,9 @@ class MapService() extends NFNService {
  * The result of service invocation is a [[NFNValue]].
  */
 class ReduceService() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
     args match {
-      case Seq(function, stringValue) => {
+      case Seq(function, stringValue) => Future{
         val service = MapReduceService.serviceFromValue(function).get
         val arguments = MapReduceService.stringToSeq(stringValue match {
           case NFNStringValue(str) => str
@@ -45,7 +48,7 @@ class ReduceService() extends NFNService {
             throw new NFNServiceArgumentException(s"Second argument to ReduceService must be NFNStringValue or NFNContentObjectValue, but was: $stringValue")
         })
 
-        service.instantiateCallable(interestName, service.ccnName, arguments, ccnApi, None).get.exec
+        Await.result(service.instantiateCallable(interestName, service.ccnName, arguments, ccnApi, None).get.exec,1 seconds)
       }
       case _ =>
         throw new NFNServiceArgumentException(s"A Reduce service must match Seq(service, value), but it was: $args")
@@ -90,10 +93,11 @@ object MapReduceService {
   }
 
   def seqToString(values: Seq[NFNValue]): String = values.map(nfnValueToString).mkString("[", ",", "]")
+
   def stringToSeq(s: String): Seq[NFNValue] = {
     val listRegex = """(?s)^\[(.*)\]$""".r
     s.trim match {
-      case listRegex(args) => args.split(',').map(stringToNfnValue)
+      case listRegex(args) => args.split(',').toIndexedSeq.map(stringToNfnValue)
       case _ =>
         throw new NFNServiceArgumentException(s"String must match '[arg, ..., arg]' but was '$s'")
     }

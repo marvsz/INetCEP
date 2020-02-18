@@ -6,7 +6,8 @@ package nfn.service
 
 import akka.actor.ActorRef
 import nfn.tools.Helpers
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.io.Source
 
 //Added for contentfetch
@@ -22,7 +23,7 @@ import scala.language.postfixOps
 
 class Sequence() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     val sacepicnEnv = StaticConfig.systemPath
 
@@ -85,7 +86,7 @@ class Sequence() extends NFNService {
       }
       else if (deliveryFormat.toLowerCase == "name") {
         LogMessage(nodeName, s"SEQUENCE OP Completed\n")
-        return NFNStringValue(Helpers.storeOutput(nodeName, output.toString, "SEQUENCE", "onOperator", ccnApi))
+        return NFNStringValue(Helpers.storeOutputLocally(nodeName, output.toString, "SEQUENCE", "onOperator", ccnApi))
       }
       LogMessage(nodeName, s"SEQUENCE OP Completed\n")
       //Default return = false

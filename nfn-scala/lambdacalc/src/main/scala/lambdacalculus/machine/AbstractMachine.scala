@@ -1,12 +1,8 @@
 package lambdacalculus.machine
 
-import com.typesafe.scalalogging.slf4j.Logging
-import lambdacalculus.parser.ast.Call
-import scala.annotation.tailrec
-import scala.concurrent.{ExecutionContext, Await, Future}
-import scala.util.{Failure, Success, Try}
+import com.typesafe.scalalogging.LazyLogging
 
-import scala.concurrent.duration._
+import scala.annotation.tailrec
 
 /**
  * Represents a single state of execution
@@ -22,7 +18,7 @@ trait CallExecutor {
   def executeCall(call: String): MachineValue
 }
 
-abstract class AbstractMachine(val storeIntermediateSteps:Boolean = false) extends Logging {
+abstract class AbstractMachine(val storeIntermediateSteps:Boolean = false) extends LazyLogging {
 
   type AbstractConfiguration <: Configuration
 

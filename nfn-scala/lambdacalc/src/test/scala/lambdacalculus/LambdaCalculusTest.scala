@@ -161,18 +161,14 @@ class LambdaCalculusTest extends FlatSpec with Matchers with GivenWhenThen {
   // NEG
 
   "The expression: 1 ADD " should s" throw ParseException with call-by-value " in {
-    evaluating {
-      intercept[ParseException] {
+    an [ParseException] should be thrownBy {
         LambdaCalculus(CallByValue).substituteParseCompileExecute("add 1")
-      }
     }
 
   }
   it should s" throw ParseException with call-by-name" in {
-    evaluating {
-      intercept[ParseException] {
+    an [ParseException] should be thrownBy  {
         LambdaCalculus(CallByValue).substituteParseCompileExecute("add 1 ")
-      }
     }
   }
 }

@@ -1,10 +1,9 @@
 
 package filterAccess.runnables
 
-import filterAccess.crypto.Encryption.symEncrypt
 import filterAccess.crypto.Decryption.symDecrypt
-import filterAccess.crypto.Helpers._
 
+import scala.language.postfixOps
 import scala.sys.process._
 
 
@@ -31,7 +30,7 @@ object AES_Decryptor{
     }
   }
 
-  def main (args: Array[String]) {
+  def main (args: Array[String]): Unit = {
 
     val data = args(0)
     val pkey = args(1)

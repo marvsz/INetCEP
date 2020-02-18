@@ -1,25 +1,24 @@
 package filterAccess.ndncomm15.services
 
-import javax.crypto.{Cipher, KeyGenerator}
+import java.util.concurrent.TimeUnit
 
 import akka.actor.ActorRef
-import akka.util.Timeout
-import ccn.packet.{Interest, Content, CCNName}
-import nfn.NFNApi
 import akka.pattern._
+import akka.util.Timeout
+import ccn.packet.{CCNName, Content, Interest}
+import nfn.NFNApi
 import nfn.service._
-
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future, ExecutionContext}
+import nfn.tools.IOHelpers._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
 import scala.io.Source
-import scala.util._
-import nfn.tools.Helpers._
 
 class Echo extends NFNService{
 
   val access_control_file = "ac.txt"
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val data = args.head
     val id = args.tail.head
 
@@ -39,9 +38,7 @@ class Echo extends NFNService{
                   val networkname = CCNName(filename.substring(1).split("/").toList, None)
                   NFNNameValue(networkname)
                   val interest = Interest(networkname)
-
-                  import ExecutionContext.Implicits.global
-                  implicit val timeout = Timeout(10000)
+                  implicit val timeout = Timeout(10000,TimeUnit.SECONDS)
                   val fres: Future[Content] = (ccnApi ? NFNApi.CCNSendReceive(interest, false)).mapTo[Content]
                   val res = Await.result(fres, timeout.duration)
 

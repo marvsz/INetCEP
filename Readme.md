@@ -20,23 +20,17 @@ CCN-lite requires OpenSSL. Use the following to install it:
     export CCNL_HOME="`pwd`/ccn-lite"
     export PATH=$PATH:"$CCNL_HOME/bin"
     ```
-    Customized to suit our development environment and VM:
-    ```bash
-    CCNL_HOME="/home/veno/Thesis/ccn-lite"
-    JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
-    OMNETPP="/home/veno/Thesis/omnetpp"
-    export CCNL_HOME
-    export JAVA_HOME
-    export PATH=$PATH:"$CCNL_HOME/bin":"$JAVA_HOME/bin":"$OMNETPP/omnetpp-4.5/bin"
-    export TCL_LIBRARY=/usr/share/tcltk/tcl8.6
-    ```
-   * /home/veno/ can be substituted with your relevant home directory in case the provided VM is not used.
-
     To make these variables permanent, add them to your shell's `.rc` file, e.g. `~/.bashrc`.
+    
 
 3.  Build CCN-lite using `make`:
     ```bash
-    cd $CCNL_HOME/src
+    cd $CCNL_HOME/
+    mkdir build
+    cd build
+    export USE_NFN=1
+    export USE_NACK=1
+    cmake ../src
     make clean all
     ```
 
@@ -73,37 +67,44 @@ CCN-lite requires OpenSSL. Use the following to install it:
 
 * This completes the build procedures for CCN-Lite and NFN-Scala.
 
-# INetCEP
+# SACEPICN
 
 ## Prerequisites
 * Copy your public key to the remote machine using `copyKeys.sh` script
+```
+bash copyKeys.sh
+```
 * Install dependencies and copy the binaries by 
 ```
 bash publishRemotely.sh install
 ```
 * Set environment variables using `setEnvironment.sh` script
+```
+bash setEnvironment.sh
+```
 
-There are two options to start INetCEP system. Basically Option 1 automates the entire process of option 2. 
+There are two options to start SACEPICN system. Basically Option 1 automates the entire process of option 2. 
 Note: Follow only one of the below options.
 
 ## Option 1
 
-To start INetCEP on the cluster of resources (see VMS.cfg), please follow the steps below: 
+To start SACEPICN on the cluster of resources (see VMS.cfg), please follow the steps below: 
 
-### Setup on VM compute resources
+### Setup on MAKI compute resources
 
 1. create your personalized VM configiration file `VMS.cfg` (refer VMS_MAKI1.cfg and VMS_MAKI2.cfg) for your user and IP addresses. 
-2. auto generate node data for the respective machines with the following topology: 
-
-       (3) -- (7)
-       
-        |
-
-(1) -- (2) -- (5)
- 
-        |      |
-
-       (4)    (6)
+2. auto generate node data for the respective machines with the following topology:
+```
+             (3) -- (7)
+             
+              |
+              
+      (1) -- (2) -- (5)
+      
+              |      |
+              
+             (4)    (6)
+```             
 using `python generate_node_info.py`. Note: this script uses VMS.cfg as input for IP address information. Ports used are 9001, 9001,..,9001+n. (n: number of nodes).
 
 ### Setup on GENI resources
@@ -116,11 +117,12 @@ using `python generate_node_info.py`. Note: this script uses VMS.cfg as input fo
 After the above setup execute the publishRemotely.sh script that publishes the application on either of the above resources based on the VMS.cfg file. Refer `publish_scripts/publishRemotely.sh` script. Usage:
 
 ```
-bash publish_scripts/publishRemotely.sh all "QueryPlacement" 20
+bash publish_scripts/publishRemotely.sh all "Placement" [Query] [QueryStorageReadPeriod] [ShutdownTimer]
 ```
-
-Here QueryPlacement is an element of set {"QueryCentralFixed", "QueryCentralLocalNS", "QueryCentralRemNS", "QueryDecentral", "QueryDecentralFixed", "QueryRandom", "QueryRandomLocalNS", "QueryRandomRemNS"}
-that are currently available placement services
+Query is a number that determines, which query is to be executed: 
+{1: Window, 2: Filter(Window), 3: Join(Filter(Window),Filter(Window), 4: Join(Predict2(Window),Predict2(Window)), 5: Filter(Join(Predict2(Window),Predict2(Window))), 6: Heatmap(Join(Window,Window))}.
+QueryStorageReadPeriod is a value in seconds that determines the interval at which the Query Store is read.
+ShutdownTimer is a value in Seconds that determnies after how many seconds the nodes are shut down.
 
 ## Option 2
 
@@ -133,7 +135,7 @@ Starting up nodes requires the following:
 1. Starting ccn-lite relay on a network node (X) requires us to execute the startup script for that specific node. Let's take nodeID 28 as our sample node for the rest of this tutorial.
 
 	```bash
-	cd MA-Ali/VM-Startup-Scripts/VM28/
+	cd INetCEP/VM-Startup-Scripts/VM28/
 	./startNodes.sh
 	```
 
@@ -142,7 +144,7 @@ Inside the VM28 folder, the startNodes script resides. This script initializes a
 2. Starting the Compute Server is similar to a node. Make sure that you are in the same /VM28 folder and then execute the following script.
 
 	```bash
-	cd MA-Ali/VM-Startup-Scripts/VM28/
+	cd INetCEP/VM-Startup-Scripts/VM28/
 	./startCS.sh
 	```
 
@@ -154,7 +156,7 @@ Inside the VM28 folder, the startNodes script resides. This script initializes a
 To start decentralized query processing in the network, we have to pass the Query Type (Centralized, Random, Decentralized) and the interval of re-evaluation for the query store.
 
 
-    cd MA-Ali/VM-Startup-Scripts/VM28/28
+    cd INetCEP/VM-Startup-Scripts/VM28/28
     ./startRemoteAny.sh QueryDecentral 20
 
 The startRemoteAny.sh script takes the query type (QueryDecentral -> basically the placement algorithm) that the system has to manage and the interval (20) that the query service has to consider for re-evaluations.
@@ -164,7 +166,7 @@ The startRemoteAny.sh script takes the query type (QueryDecentral -> basically t
 In order to carry out query execution, we can access any node in the network and issue the following query. Here, any node in the network can act as a placement coordinator. Therefore, the query can be issued from any node to any node in the network.
 
 
-    $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.28/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_QueryDecentral '1' 'Source' '9001' 'Client1' 'JOIN([name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,11:11:45.000),3=F&4>20,name)],[NULL])' 'Region1' '22:10:11.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 10.2.1.28/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 
 
 The above query issues a ccn-lite-peek interest to nodeID 28 for a decentralized query processing. The complex query is a join that works on two filters. The filters additionally evaluate the window operators on the streams after which the window data is filtered based on column schema represented by (1,2,3,4....n. Here 3=F means check whether the 3rd column contains F, if yes, select it).
@@ -186,40 +188,40 @@ The overall query resolution process has the following steps:
 * The selected path is then sent to the ProcessPlacement function, that traverses the path and sets in the appropriate complex queries in it.
 * Once the complex query has been set, the ProcessDeployment function is invoked, that executes these queries in the network. Upon gathering the evaluated results for child operators, the top most operator is then evaluated and then the result is returned back to the consumer.
 
-## Additions to NFN-Scala for INetCEP
-The following services, classes were added to the system in order to build up INetCEP over NFN-Scala.
+## Additions to NFN-Scala for SACEPICN
+The following services, classes were added to the system in order to build up SACEPICN over NFN-Scala.
 
 * HopObject: Representation for each hop
 
-    /src/main/java/INetCEP/HopObject
+    /src/main/java/SACEPICN/HopObject
 
 * Map: Representation for the operator graph in both tree and stack forms
 
-    /src/main/java/INetCEP/Map
+    /src/main/java/SACEPICN/Map
 
 * Node: Representation for each network node in the system. This contains the complex query, node name, port, parent and neighbor node links, processing tags etc.
 
-    /src/main/java/INetCEP/Node
+    /src/main/java/SACEPICN/Node
 
 * NodeInfo: This is used to represent all network nodes (determined during the node discovery process), get relevant node information and access the node list for node data (name, port, latency etc)
 
-    /src/main/java/INetCEP/NodeInfo
+    /src/main/java/SACEPICN/NodeInfo
 
 * NodeMapping: This is a representation of all nodes in the network with regards to their name prefix, port, ip
 
-    /src/main/java/INetCEP/NodeMapping
+    /src/main/java/SACEPICN/NodeMapping
 
 * Operator: An enumeration for available system operators
 
-    /src/main/java/INetCEP/Operator
+    /src/main/java/SACEPICN/Operator
 
 * OperatorTree: A java class that creates the operator tree by parsing the incoming complex query in the interest and creating NFN queries from those interests. Process: Parse interest, extract operator information, put operator queries in the tree/stack and return it.
 
-    /src/main/java/INetCEP/OperatorTree
+    /src/main/java/SACEPICN/OperatorTree
 
 * Paths: This is the representation for paths that contain network nodes. Each path can contain one or more network nodes
 
-    /src/main/java/INetCEP/Paths
+    /src/main/java/SACEPICN/Paths
 
 * FormattedOutput: Added code to manage numeric data in the system
 
@@ -297,28 +299,47 @@ The following services, classes were added to the system in order to build up IN
 
     src/main/scala/nfn/service/Window
 
-* ComputeServerStarter: Updates to the compute server started to publish INetCEP services on the ccn-lite node
+* ComputeServerStarter: Updates to the compute server started to publish SACEPICN services on the ccn-lite node
 
     src/main/scala/runnable/production/ComputeServerStarter
 
 
 
-## Additions to CCN-Lite for INetCEP
-In CCN-Lite, the major change was to manage the control interests. This was done in the ccnl_fwd_handleInterest and ccnl_fwd_handleContent methods of ccnl-core-fwd.c code file.
-Here, instead of saving the interest data in the content store, we skipped this process to reduce content store overload from control messages.
+## Additions to CCN-Lite
+We patched ccn-lite from the last release that supported NFN (ccn-lite 2.1) and have the latest master commits of https://github.com/cn-uofbasel/ccn-lite with the exception on some commits that mainly changed the data types.
+Our goal was to extend ccn-lite in order to allow producer initiated communication therefore we added three new packet types:
 
-    /ccn-lite/src/ccnl-core-fwd.c
+* Datastream Packet: A Packet that can initiate communication coming from a producer. The data is then send continuously to all consumers that have a pending interest in the data.
+* Add Constant Interest Packet: A Packet that signals, that the Interest should be always satisfied if possible, much like a subscribe message in pub-sub systems.
+* Remove Constant Interest Packet: A Packet that removes a constant interest packet much like an unsubscribe message in a pub-sub system.
 
-## Services 
+With these additions we also enable producer initiated complex event processing as in the consumers ad a query interest and the datastream packages initiate the computation of the complex event.
+
+This was achieved by making several extensions to ccn-lite:
+
+* Adding a sensor struct: A seperate struct with an own loop that constantly creates sensor readings as event tuples and sends them to a specified relay
+
+* Adding a sensor setting struct: A struct that holds the sensor information
+
+* Adding a sensor tuple struct: A buffer that contains the event tuples which are sent to the node they are connected to
+
+* Creating a utility library for packet dumping to constantly format the output of the packet
+
+* Altering the ccn-lite-fwd mechanism in order to handle datastream packets, add constant interest packets and remove constant interest packets
+
+## Services and Plots
 The services that were created for the system are:
 
 * Starting Nodes: StartNode.sh shell service (on each node)
 * Starting Compute Server: StartCS.sh shell service (on each node)
 * Query Service: queryService.sh shell service (on each node) to manage the query store
 
-    /VM-Startup-Scripts/VM28/queryService.sh
+    /INetCEP/VM-Startup-Scripts/VM28/queryService.sh
 
 * Update Node State: updateNodeState_NodeID.sh (on each node) shell service to gather network data from iPerf and ping tools as well as node battery status to update the nodes network state on its local Compute Server.
 
-    /VM-Startup-Scripts/VM28/updateNodeState_9001.sh
+    /INetCEP/VM-Startup-Scripts/VM28/updateNodeState_9001.sh
 
+* Plots: Evaluation plots for the system created in Python using matplotlib.
+
+    /INetCEP/plots/Thesis

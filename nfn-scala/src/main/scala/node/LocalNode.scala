@@ -1,24 +1,17 @@
 package node
 
-import java.util.concurrent.TimeUnit
-
-import ccn.ccnlite.CCNLiteInterfaceCli
-import com.typesafe.config.Config
-import com.typesafe.scalalogging.slf4j.Logging
-import nfn._
-import scala.concurrent.duration.FiniteDuration
-import akka.util.Timeout
 import akka.actor.{ActorRef, ActorSystem}
 import akka.pattern._
-import config.{ComputeNodeConfig, RouterConfig, StaticConfig, AkkaConfig}
+import ccn.CCNLiteProcess
 import ccn.packet._
-import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.duration._
-import nfn.service.{NFNService, NFNServiceLibrary}
-import scala.collection.immutable.{Iterable, IndexedSeq}
-import ccn.CCNLiteProcess
+import com.typesafe.config.Config
+import com.typesafe.scalalogging.LazyLogging
+import config.{AkkaConfig, ComputeNodeConfig, RouterConfig, StaticConfig}
 import monitor.Monitor
-import ccn.CCNLiteProcess
+import nfn._
+import nfn.service.{NFNService, NFNServiceLibrary}
+
+import scala.concurrent.{ExecutionContext, Future}
 
 object LocalNodeFactory {
 
@@ -143,7 +136,7 @@ object LocalNode {
   }
 }
 
-case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[ComputeNodeConfig]) extends Logging {
+case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[ComputeNodeConfig]) extends LazyLogging {
 
   implicit val timeout = StaticConfig.defaultTimeout
 
@@ -166,7 +159,7 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
     Thread.sleep(5)
 
     // If there is also a compute server, setup the local face
-    maybeComputeNodeConfig map {computeNodeConfig =>
+    maybeComputeNodeConfig foreach { computeNodeConfig =>
       if(!routerConfig.isCCNOnly) {
         ccnLiteNFNNetworkProcess.addPrefix(CCNName("COMPUTE"), computeNodeConfig.host, computeNodeConfig.port)
         //          ccnLiteNFNNetworkProcess.addPrefix(computeNodeConfig.prefix, computeNodeConfig.host, computeNodeConfig.port)
@@ -291,6 +284,8 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
       case n: Nack => throw new Exception(":NACK")
       case c: Content =>  c
       case i: Interest => throw new Exception("An interest was returned, this should never happen")
+      case ci: ConstantInterest => throw new Exception("A constant interest was returned, this should never happen")
+      case rci: RemoveConstantInterest => throw new Exception("A remove constant interest was returned, this should never happen")
       case a: AddToCacheAck => ???
       case a: AddToCacheNack => throw new Exception("Add content to cache failed!")
     }

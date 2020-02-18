@@ -6,7 +6,7 @@ import java.security.spec.X509EncodedKeySpec
 import javax.crypto.Cipher
 
 import filterAccess.crypto.Helpers._
-import nfn.tools.Helpers._
+import nfn.tools.IOHelpers._
 /**
  * Created by Claudio Marxer <marxer@claudio.li>
  *

@@ -1,18 +1,15 @@
 package filterAccess.runnables
 
 import ccn.packet.CCNName
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
-import filterAccess.service.content.{ContentChannelFiltering, ProxyContentChannel, ContentChannelStorage}
-import filterAccess.service.key.{ProxyKeyChannel, KeyChannelStorage}
-import filterAccess.service.permission.{ProxyPermissionChannel, PermissionChannelStorage}
-import filterAccess.service.processing.track.distance.{KeyChannelDistance, PermissionChannelDistance, ContentChannelDistance, Distance}
-import filterAccess.service.processing.track.maximum.{KeyChannelMaximum, PermissionChannelMaximum, ContentChannelMaximum}
+import filterAccess.service.content.{ContentChannelFiltering, ContentChannelStorage, ProxyContentChannel}
+import filterAccess.service.key.{KeyChannelStorage, ProxyKeyChannel}
+import filterAccess.service.permission.{PermissionChannelStorage, ProxyPermissionChannel}
+import filterAccess.service.processing.track.distance.{ContentChannelDistance, KeyChannelDistance, PermissionChannelDistance}
+import filterAccess.service.processing.track.maximum.{ContentChannelMaximum, KeyChannelMaximum, PermissionChannelMaximum}
 import filterAccess.tools.ConfigReader._
-import nfn.service._
 import node.LocalNode
-import runnables.production.ComputeServerConfigDefaults
-import runnables.production.ComputeServerStarter._
 import scopt.OptionParser
 
 /**
@@ -40,7 +37,7 @@ case class secureServiceConfig(prefix: CCNName = SecureServiceConfigDefaults.pre
                                suite: String = "",
                                secureServiceType: String = SecureServiceConfigDefaults.secureServiceType)
 
-object SecureServiceStarter extends Logging{
+object SecureServiceStarter extends LazyLogging{
   val argsParser =  new OptionParser[secureServiceConfig]("") {
     override def showUsageOnError = true
 
@@ -95,7 +92,7 @@ object SecureServiceStarter extends Logging{
 
         logger.debug(s"config: $config")
 
-        val prefix = if(config.prefix == "") SecureServiceConfigDefaults.prefix else config.prefix
+        val prefix = if(config.prefix.toString == "") SecureServiceConfigDefaults.prefix else config.prefix
 
         val name = config.secureServiceType match {
           case "DSU" => {

@@ -4,26 +4,11 @@ work_dir="$(cd "$(dirname "$0")" ; pwd -P)/.."
 source "$work_dir/VMS.cfg"
 count=0
 declare -a VMSdir
-CCNL_HOME="~/MA-Ali/ccn-lite" #requires project to copied at the home location (~)
+CCNL_HOME="~/INetCEP/ccn-lite" #requires project to copied at the home location (~)
 all(){
-installDependencies
 installOpenssl
 copy
 }
-
-installDependencies(){
-read -s -p "Enter Password for sudo: " sudoPW
-	for i in "${VMS[@]}"
-	do	
-		echo "logged in: " $i
-		ssh $user@$i <<-ENDSSH
-		echo "$sudoPW" | sudo -S apt-get update
-		echo "$sudoPW" | sudo -S apt autoremove -y
-		echo "$sudoPW" | sudo -S apt install -y build-essential
-		ENDSSH
-	done
-}
-
 
 installOpenssl(){
 read -s -p "Enter Password for sudo: " sudoPW

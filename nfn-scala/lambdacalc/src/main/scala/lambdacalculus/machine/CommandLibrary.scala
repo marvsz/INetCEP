@@ -1,7 +1,5 @@
 package lambdacalculus.machine
 
-import lambdacalculus.parser.StandardLambdaParser
-import lambdacalculus.parser.ast.{Let, Expr}
 import lambdacalculus.compiler.Compiler
 
 case class CommandInstruction(name: String, instructions: List[Instruction])
@@ -13,8 +11,8 @@ case class CommandLibrary(compiler: Compiler) {
 
   def substitudeCommands(code: String): String = {
     val parsedCmds: List[List[String]] = lib.split("\n").toList.map(_.split("=").toList)
-    val cmds: List[Pair[String, String]] = parsedCmds collect {
-      case name :: cmd :: Nil => Pair(name.trim, cmd.trim)
+    val cmds: List[Tuple2[String, String]] = parsedCmds collect {
+      case name :: cmd :: Nil => (name.trim, cmd.trim)
     }
 
     var tCode = code

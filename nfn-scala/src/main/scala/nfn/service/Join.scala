@@ -1,12 +1,15 @@
 package nfn.service
 
 /**
-  * Created by Ali on 06.02.18.
-  */
+ * Created by Johannes on 31.8.2019
+ */
 
 import akka.actor.ActorRef
-import nfn.tools.Helpers
+import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
 
+import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 //Added for contentfetch
 import ccn.packet.CCNName
 
@@ -18,46 +21,22 @@ import config.StaticConfig
 class Join() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  def joinStreams(right: String, left: String) = {
-    var output = ""
-    var sb = new StringBuilder
-    sb.append(Helpers.trimData(left))
-    sb.append(Helpers.trimData(right))
-    output = sb.toString()
-    if(output == "")
-      output = "No Results!"
-    else
-      output = output.stripSuffix("\n").stripMargin('#')
-    output
-  }
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+    val nodeInfo = interestName.cmps.mkString(" ")
+    val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
-    var nodeInfo = interestName.cmps.mkString(" ")
-    var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
-
-    def joinStrings(left: String, right: String) = "[" + left + "]" + "," + "[" + right + "]"
-
-    def processJoin(inputSource: String, left: String, right: String, outputFormat: String): String = {
-
-      LogMessage(nodeName, s"\nJoin OP Started")
+    def processJoinOn(inputSource: String, outputFormat: String, left: String, right: String, joinOn: String, conditions: String, joinType: String): String = {
+      LogMessage(nodeName, s"\n JoinOn OP Started")
       var output = ""
       if (inputSource == "name") {
         LogMessage(nodeName, "Handle left stream")
         val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
         LogMessage(nodeName, "Handle right stream")
         val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
-        output = joinStreams(intermediateResultLeft, intermediateResultRight)
-      }
-      else if (inputSource == "data") {
-        return joinStrings(left, right)
-      }
-      //sort the output to be in timely order
-      //TODO: make this work for every time stamp as an input.
-      if (output.contains(",")) {
-        output = sortByDateTime(output)
+        output = joinStreamsOn(intermediateResultLeft, left, intermediateResultRight, right, joinOn, conditions, joinType)
       }
       if (outputFormat == "name") {
-        output = Helpers.storeOutput(nodeName, output, "JOIN", "onOperators", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "JOIN", "onOperators", ccnApi)
       }
       else {
         LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
@@ -68,31 +47,209 @@ class Join() extends NFNService {
 
     NFNStringValue(
       args match {
-        //join strings => Pass strings to join
-        case Seq(l: NFNIntValue, r: NFNIntValue) => joinStrings(l.i.toString, r.i.toString)
-        case Seq(doc1: NFNContentObjectValue, doc2: NFNContentObjectValue) => joinStrings(new String(doc1.data), new String(doc2.data))
-        case Seq(string1: NFNStringValue, string2: NFNStringValue) => joinStrings(string1.str, string2.str)
-        //**Obsolete calls:
-        //ProcessFiles => Process sensor values. Options are applied directly on sensors
-        //case Seq(left: NFNStringValue, right: NFNStringValue, options: NFNStringValue) => processFiles(left, right, options)
-
-        //These cases are used to resolve content objects if present in the query:
-        //Options => Pass as NULL
-        //InputSource => 'name' <- in this case, filter must be passed with name. Window by default returns name.
-        //Case: JOIN('name' (name1) (name2) options)
-        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue) => processJoin(inputSource.str, left.str, right.str, outputFormat.str)
+        //case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue) => processJoin(inputSource.str, left.str, right.str, outputFormat.str)
+        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue, joinOn: NFNStringValue, conditions: NFNStringValue, joinType: NFNStringValue) => processJoinOn(inputSource.str, outputFormat.str, left.str, right.str, joinOn.str, conditions.str, joinType.str
+        )
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
     )
   }
 
-  def sortByDateTime(input: String) = {
-    val linelist = input.split("\n").toList.sortWith(_.split(",")(1).toInt < _.split(",")(1).toInt)
-    val output = new StringBuilder
-    for (line <- linelist) {
-      output.append(line + "\n")
+  /**
+   * Joins the content of two windows by matching each event of one window to all events in the other window on the given condition.
+   * The output are all events generated for all the matching event pairs.
+   *
+   * @param left            the left stream
+   * @param leftSensorName  the name of the left stream
+   * @param right           the right stream
+   * @param rightSensorName the name of the right stream
+   * @param joinOn          the column on which the streams are matched
+   * @param conditions      a list of conditions that is applied
+   * @param joinType        the type of the join. [innerJoin,leftOuterJoin,rightOuterJoin,fullOuterJoin]
+   * @return the output generated by the specific join type.
+   */
+  def joinStreamsOn(left: String, leftSensorName: String, right: String, rightSensorName: String, joinOn: String, conditions: String, joinType: String) = {
+    val joinOnPosLeft = SensorHelpers.getColumnNumber(leftSensorName, joinOn)
+    val joinOnPosRight = SensorHelpers.getColumnNumber(rightSensorName, joinOn)
+    val leftTrimmed = SensorHelpers.trimData(left)
+    val rightTrimmed = SensorHelpers.trimData(right)
+    val leftDelimiter = SensorHelpers.getDelimiterFromLine(leftTrimmed)
+    val rightDelimiter = SensorHelpers.getDelimiterFromLine(rightTrimmed)
+    var leftTrimmedSplit: Array[String] = null
+    var rightTrimmedSplit: Array[String] = null
+    if (conditions != "") {
+      leftTrimmedSplit = FilterHelpers.applyConditions(leftSensorName, leftTrimmed.split("\n"), conditions, leftDelimiter)
+      rightTrimmedSplit = FilterHelpers.applyConditions(rightSensorName, rightTrimmed.split("\n"), conditions, rightDelimiter)
     }
-    output.toString()
+    else {
+      leftTrimmedSplit = leftTrimmed.split("\n")
+      rightTrimmedSplit = rightTrimmed.split("\n")
+    }
+    //if the delimiters are different we need to choose one, in this case the delimiter from the left data stream
+    if (leftDelimiter != rightDelimiter) {
+      rightTrimmed.replace(rightDelimiter, leftDelimiter)
+    }
+    joinType.toLowerCase() match {
+      case "innerjoin" => innerjoin(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "leftouterjoin" => leftOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "rightouterjoin" => rightOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case "fullouterjoin" => fullOuterJoinOn(leftTrimmedSplit, joinOnPosLeft, rightTrimmedSplit, joinOnPosRight).stripSuffix("\n")
+      case _ => "Join Type not Supported"
+    }
   }
+
+  /**
+   * The output is generated only if there is a matching event in both the streams
+   *
+   * @param left           the left data stream
+   * @param joinOnPosLeft  the tuple position in the left data stream on which to join on
+   * @param right          the right data stream
+   * @param joinOnPosRight the tuple position in the right data stream on which to join on
+   * @return the generated output
+   */
+  def innerjoin(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    val sb = new StringBuilder
+    val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+        }
+      }
+    }
+    sb.toString()
+  }
+
+  /**
+   * removes a column from a given string
+   *
+   * @param line           one event
+   * @param joinOnPosRight the position in the event tuple to delete
+   * @param delimiter      the delimiter which separates the columns
+   * @return the event without the column to delete
+   */
+  def deleteJoinedOn(line: String, joinOnPosRight: Int, delimiter: String) = {
+    val newLine = line.split(delimiter).toSeq.patch(joinOnPosRight, Nil, 1)
+    newLine.mkString(delimiter)
+  }
+
+  /**
+   * It returns all the events on the left stream even if there are no matching events on the right stream by having null values at the right stream
+   *
+   * @param left          the left data stream
+   * @param joinOnPosLeft the tuple position in the left data stream on which to join on
+   * @param right         the right data stream
+   * @param joinOnPosRight
+   * @return the generated output
+   */
+  def leftOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var joinFound = false
+    var rightColumn = 0
+    val sb = new StringBuilder
+    val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        rightColumn = rightLine.split(delimiter).size - 1
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          joinFound = true
+        }
+      }
+      if (!joinFound) {
+        sb.append(leftLine).append(delimiter).append(generateNullLines(rightColumn, delimiter)).append("\n")
+      }
+      joinFound = false
+    }
+    sb.toString()
+  }
+
+  /**
+   * Generates a row with a null values
+   * This is used for outer Joins where there are mismatches
+   *
+   * @param columns   : the number of required null values
+   * @param delimiter the delimiter which separates the columns
+   * @return the row filled with x -1 null values where x is the number of columns
+   */
+  def generateNullLines(columns: Int, delimiter: String) = {
+    Array.fill[String](columns)("Null").mkString(delimiter)
+  }
+
+  /**
+   * It returns all the events in the right stream even if there are no matching events on the left stream by having null values at the left stream
+   *
+   * @param left          the left data stream
+   * @param joinOnPosLeft the tuple position in the left data stream on which to join on
+   * @param right         the right data stream
+   * @param joinOnPosRight
+   * @return the generated output
+   */
+  def rightOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var joinFound = false
+    var leftColumn = 0
+    val sb = new StringBuilder
+    val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
+    for (rightLine <- right) {
+      for (leftLine <- left) {
+        leftColumn = leftLine.split(delimiter).size - 1
+        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          joinFound = true
+        }
+      }
+      if (!joinFound) {
+        sb.append(generateNullLines(leftColumn, delimiter)).append(delimiter).append(rightLine).append("\n")
+      }
+      joinFound = false
+    }
+    sb.toString()
+  }
+
+  /**
+   * Combines the result of the left outer join and the right outer join. Output is generated for each incoming event, even if there are no matching events in the other stream
+   *
+   * @param left           the left data stream
+   * @param joinOnPosLeft  the tuple position in the left data stream on which to join on
+   * @param right          the right data stream
+   * @param joinOnPosRight the tuple position in the right data stream on which to join on
+   * @return the generated output
+   */
+  def fullOuterJoinOn(left: Array[String], joinOnPosLeft: Int, right: Array[String], joinOnPosRight: Int) = {
+    var joinFound = false
+    var columnCount = 0
+    val sb = new StringBuilder
+    val delimiter = SensorHelpers.getDelimiterFromLine(left(0))
+    for (leftLine <- left) {
+      for (rightLine <- right) {
+        columnCount = rightLine.split(delimiter).size - 1
+        if (leftLine.split(delimiter)(joinOnPosLeft).equals(rightLine.split(delimiter)(joinOnPosRight))) {
+          sb.append(leftLine).append(delimiter).append(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).append("\n")
+          joinFound = true
+        }
+      }
+      if (!joinFound) {
+        sb.append(leftLine).append(delimiter).append(generateNullLines(columnCount, delimiter)).append("\n")
+      }
+      joinFound = false
+    }
+
+    for (rightLine <- right) {
+      for (leftLine <- left) {
+        columnCount = leftLine.split(delimiter).size - 1
+        if (rightLine.split(delimiter)(joinOnPosLeft).equals(leftLine.split(delimiter)(joinOnPosRight))) {
+          val maybeElement = leftLine.concat(delimiter).concat(deleteJoinedOn(rightLine, joinOnPosRight, delimiter)).concat("\n")
+          if (!sb.toString().contains(maybeElement))
+            sb.append(maybeElement)
+          joinFound = true
+        }
+      }
+      if (!joinFound) {
+        sb.append(generateNullLines(columnCount, delimiter)).append(delimiter).append(rightLine).append("\n")
+      }
+      joinFound = false
+    }
+    sb.toString()
+  }
+
 }

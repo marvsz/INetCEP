@@ -1,0 +1,30 @@
+[2019-02-12 14:35:00.991][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:35:01.659][SACEPICN]: Query Result from network node: 9003|victims|9002=.1905,9007=.1391|99
+[2019-02-12 14:35:06.706][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:35:08.851][SACEPICN]: Query Result from network node: /9003/Filter/onOperator/14358
+[2019-02-12 14:35:09.285][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:35:10.321][SACEPICN]: Query Result from network node: No Results!
+[2019-02-12 14:35:16.330][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:35:17.070][SACEPICN]: Query Result from network node: 9003|victims|9002=.1160,9007=.119|98
+[2019-02-12 14:35:54.884][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:35:54.884][SACEPICN]: Query Result from network node: 9003|victims|9002=.1160,9007=.119|98
+[2019-02-12 14:36:36.819][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:36:37.891][SACEPICN]: Query Result from network node: 9003|victims|9002=.1254,9007=.1076|98
+[2019-02-12 14:36:43.981][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:36:45.706][SACEPICN]: Query Result from network node: /9003/Filter/onOperator/143645
+[2019-02-12 14:36:46.162][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:36:47.245][SACEPICN]: Query Result from network node: No Results!
+[2019-02-12 14:37:16.682][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:37:17.373][SACEPICN]: Query Result from network node: 9003|victims|9002=.103,9007=.13|98
+[2019-02-12 14:37:54.983][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:37:54.984][SACEPICN]: Query Result from network node: 9003|victims|9002=.103,9007=.13|98
+[2019-02-12 14:38:36.766][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:38:37.480][SACEPICN]: Query Result from network node: 9003|victims|9002=.150,9007=.1202|98
+[2019-02-12 14:38:44.020][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:38:46.480][SACEPICN]: Query Result from network node: /9003/Filter/onOperator/143845
+[2019-02-12 14:38:46.967][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:38:48.085][SACEPICN]: Query Result from network node: No Results!
+[2019-02-12 14:39:17.235][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:39:17.972][SACEPICN]: Query Result from network node: 9003|victims|9002=.1296,9007=.108|98
+[2019-02-12 14:39:55.053][SACEPICN]: execute NFN query called with nodeC
+[2019-02-12 14:39:55.053][SACEPICN]: Query Result from network node: 9003|victims|9002=.1296,9007=.108|98

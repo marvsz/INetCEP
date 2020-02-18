@@ -2,14 +2,14 @@ package myutil.systemcomandexecutor
 
 import java.io._
 import java.util.concurrent.TimeoutException
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 import myutil.IOHelper
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.sys.process._
 import scala.concurrent.duration._
 
 
-case class SystemCommandExecutor(cmdPipes: List[List[String]], maybeInputData: Option[Array[Byte]] = None) extends Logging {
+case class SystemCommandExecutor(cmdPipes: List[List[String]], maybeInputData: Option[Array[Byte]] = None) extends LazyLogging {
 
 //  def executeEC(ec: ExecutionContext): ExecutionResult = {
 //    execute()(ec)

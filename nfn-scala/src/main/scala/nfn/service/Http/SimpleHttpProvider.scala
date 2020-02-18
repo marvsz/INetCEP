@@ -78,7 +78,7 @@ class SimpleHttpProvider extends HttpProvider {
    */
   private[SimpleHttpProvider] def readResponse(reader: BufferedReader): String = {
     try {
-      val response = Stream.continually(reader.readLine()).takeWhile(_ != null).mkString("\n")
+      val response = LazyList.continually(reader.readLine()).takeWhile(_ != null).mkString("\n")
       reader.close()
       response
     } catch {

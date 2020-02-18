@@ -4,16 +4,18 @@ import ccn.packet._
 import config.StaticConfig
 import lambdacalculus.parser.ast.Expr
 import node.LocalNode
+import org.scalatest
 import org.scalatest.time.{Millis, Span}
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.concurrent.ScalaFutures
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait ExpressionTester extends FlatSpec
                        with ScalaFutures
                        with Matchers {
-  def testExpr(expr: Expr, descr: String, test: String => Unit, useThunks:Boolean = false)(implicit node: LocalNode) = {
+  def testExpr(expr: Expr, descr: String, test: String => scalatest.Assertion, useThunks:Boolean = false)(implicit node: LocalNode) = {
     s"expr: $expr" should s"$descr" in {
       doExp(expr, test)
     }
@@ -28,7 +30,7 @@ trait ExpressionTester extends FlatSpec
 
   def testExpected(expected: String) = (res: String) => res shouldBe expected
 
-  def doExp(exprToDo: Expr, test: String => Unit, useThunks: Boolean = false)(implicit node: LocalNode) = {
+  def doExp(exprToDo: Expr, test: String => scalatest.Assertion, useThunks: Boolean = false)(implicit node: LocalNode) = {
     implicit val us = useThunks
     import LambdaNFNImplicits._
     val f: Future[Content] = node ? exprToDo

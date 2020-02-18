@@ -1,24 +1,25 @@
 package monitor
 
-import monitor.Monitor._
-import net.liftweb.json._
-import net.liftweb.json.Serialization.write
-import myutil.IOHelper
 import java.io.File
-import com.typesafe.scalalogging.slf4j.Logging
-import scala.Some
+
+import com.typesafe.scalalogging.LazyLogging
+import monitor.Monitor._
+import myutil.IOHelper
+import net.liftweb.json._
 
 case class Packets(packets: List[TransmittedPacket])
 case class TransmittedPacket(`type`: String, from: NodeLog, to: NodeLog, timeMillis: Long, transmissionTime: Long, packet: PacketInfoLog)
 
 case class OmnetIntegration(nodes: Set[NodeLog],
-                            edges: Set[Pair[NodeLog, NodeLog]],
+                            edges: Set[(NodeLog, NodeLog)],
                             loggedPackets: Set[PacketLog],
-                            simStart: Long) extends Logging {
+                            simStart: Long) extends LazyLogging {
 
 
   def loggedPacketToType(lp: PacketInfoLog): String = lp match {
     case i: InterestInfoLog => "interest"
+    case ci: ConstantInterestInfoLog => "constantInterest"
+    case rci: RemoveConstantInterestInfoLog => "removeConstantInterest"
     case c: ContentInfoLog => "content"
     case _ => "unkown"
   }
@@ -84,6 +85,10 @@ case class OmnetIntegration(nodes: Set[NodeLog],
       p match {
         case i: InterestInfoLog =>
         ("name" -> i.name) ~ ("type" -> "interest")
+        case ci: ConstantInterestInfoLog =>
+          ("name" -> ci.name) ~ ("type" -> "constantInterest")
+        case rci: RemoveConstantInterestInfoLog =>
+          ("name" -> rci.name) ~ ("type" -> "removeConstantInterest")
         case c: ContentInfoLog =>
         ("name" -> c.name) ~ ("data" -> c.data) ~ ("type" -> "content")
         case _ => throw new Exception("asdf")
@@ -107,7 +112,7 @@ case class OmnetIntegration(nodes: Set[NodeLog],
         ("transmissionTime" -> p.transmissionTime) ~
         ("type" -> loggedPacketToType(p.packet))
       } )
-    pretty(render(json))
+    prettyRender(json)
 
   }
 

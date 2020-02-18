@@ -5,8 +5,9 @@ package nfn.service
   */
 
 import java.time.format.DateTimeFormatter
-
-import nfn.tools.Helpers
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import nfn.tools.{Helpers, SensorHelpers}
 
 //Added for contentfetch
 import akka.actor.ActorRef
@@ -25,7 +26,7 @@ class Prediction1() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
     LogMessage(nodeName, "started Function")
@@ -52,20 +53,20 @@ class Prediction1() extends NFNService {
       LogMessage(nodeName, s"Decide on the inputFormat Format")
       if (inputFormat.toLowerCase().equals("sensor")) {
         LogMessage(nodeName, s"Performing Prediction on Sensor data")
-        output = predict(Helpers.parseData(inputFormat, stream), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
       }
       else if (inputFormat.toLowerCase().equals("data")) {
         LogMessage(nodeName, s"Perform Prediction on inline data")
-        output = predict(Helpers.parseData(inputFormat, stream), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
       }
       else if (inputFormat.toLowerCase().equals("name")) {
         LogMessage(nodeName, s"Perform Prediction on named data")
         val intermediateResult = Helpers.handleNamedInputSource(nodeName, stream, ccnApi)
         LogMessage(nodeName, s"IntermediateResult = " + intermediateResult)
         var input = ""
-        input += Helpers.trimData(intermediateResult)
+        input += SensorHelpers.trimData(intermediateResult)
         if (!intermediateResult.contains("No Result")) {
-          output = predict(Helpers.parseData(inputFormat, input), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
+          output = predict(SensorHelpers.parseData(inputFormat, input), houseIdQuantity, householdIdQuantity, plugIdQuantity, granularityInSeconds, historyArray)
         }
         else {
           output = "No Results!"
@@ -81,7 +82,7 @@ class Prediction1() extends NFNService {
         output += "No Results!"
 
       if (outputFormat.toLowerCase == "name") {
-        output = Helpers.storeOutput(nodeName, output, "PREDICT1", "onOperators", ccnApi)
+        output = Helpers.storeOutputLocally(nodeName, output, "PREDICT1", "onOperators", ccnApi)
       }
       else {
         LogMessage(nodeName, s"Inside Predict -> Predict name: NONE, Predict content: $output")
@@ -113,9 +114,9 @@ class Prediction1() extends NFNService {
   def predict(data: List[String], houseIdQuantity: Int, householdIdQuantity: Int, plugIdQuantity: Int, granularityInSeconds: Int, historyArray: Array[Array[Array[Array[Double]]]]): String = {
     var output = new StringBuilder()
     if (data.nonEmpty) {
-      val delimiter = Helpers.getDelimiterFromLine(data.head)
-      val valuePosition = Helpers.getValuePosition(delimiter)
-      val datePosition = Helpers.getDatePosition(delimiter)
+      val delimiter = SensorHelpers.getDelimiterFromLine(data.head)
+      val valuePosition = SensorHelpers.getValuePosition(delimiter)
+      val datePosition = SensorHelpers.getDatePosition(delimiter)
       val propertyPosition = 3
       val plugIdPosition = 4
       val householdIdPosition = 5
@@ -123,7 +124,7 @@ class Prediction1() extends NFNService {
       var houseId = 0
       var householdId = 0
       var plugId = 0
-      val initialSecondsOfDay = Helpers.parseTime(data.head.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter)
+      val initialSecondsOfDay = SensorHelpers.parseTime(data.head.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter)
       val initialTimeStamp = initialSecondsOfDay.getHour * 60 * 60 + initialSecondsOfDay.getMinute * 60 + initialSecondsOfDay.getSecond
       var currentGranularity = Math.round(initialTimeStamp / granularityInSeconds)
 
@@ -131,7 +132,7 @@ class Prediction1() extends NFNService {
       for (line <- data) {
         //Iterate through each line
         if (!line.contains("redirect") && line != "") {
-          val timeStamp = Helpers.parseTime(line.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter) // get the time stamp of one tuple
+          val timeStamp = SensorHelpers.parseTime(line.split(delimiter)(datePosition).stripPrefix("(").stripSuffix(")").trim, delimiter) // get the time stamp of one tuple
           val secondsOfTheDay = timeStamp.getHour * 60 * 60 + timeStamp.getMinute * 60 + timeStamp.getSecond // calculates how many seconds have passed since midnight
           val correspondingGranularity = Math.round(secondsOfTheDay / granularityInSeconds) // maps the timestamp to a corresponding granularity in the history Array.
 

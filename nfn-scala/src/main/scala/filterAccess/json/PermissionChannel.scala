@@ -1,9 +1,7 @@
 package filterAccess.json
 
-import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
-
-import scala.collection.mutable
+import net.liftweb.json._
 
 
 /**
@@ -31,7 +29,7 @@ object PermissionChannelParser extends ChannelParser{
    * @return                  Access level
    */
   def getAccessLevel(JSONObject: String, node: String): Option[Int] = {
-
+    implicit val order = Ordering.Double.TotalOrdering
     val extractor = (m:JValue) => {
       m.extract[Permissions].permissions
         .filter(userLevel => userLevel.name == node)
@@ -97,7 +95,7 @@ object PermissionChannelBuilder {
             )
         )
 
-    compact(render(json))
+    compactRender(json)
   }
 
 

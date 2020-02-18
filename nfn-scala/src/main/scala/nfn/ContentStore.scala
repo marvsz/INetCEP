@@ -1,11 +1,11 @@
 package nfn
 
 import ccn.packet.{CCNName, Content}
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 
 import scala.collection.mutable
 
-case class ChunkStore(size: Int, name: List[String]) extends Logging {
+case class ChunkStore(size: Int, name: List[String]) extends LazyLogging {
   val cs = Array.fill(size)(Option.empty[Array[Byte]])
 
   def add(chunkNum: Int, chunkData: Array[Byte]): Unit = {
@@ -32,7 +32,7 @@ case class ChunkStore(size: Int, name: List[String]) extends Logging {
   }
 }
 
-case class ContentStore() extends Logging {
+case class ContentStore() extends LazyLogging {
   private val contentStore: mutable.Map[List[String], Content] = mutable.Map()
   private val chunkStore: mutable.Map[List[String], ChunkStore] = mutable.Map()
 

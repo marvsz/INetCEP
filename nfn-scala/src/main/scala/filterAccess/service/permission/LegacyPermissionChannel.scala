@@ -5,7 +5,8 @@ import ccn.packet.CCNName
 import filterAccess.json.{PermissionChannelBuilder, UserLevel}
 import filterAccess.tools.Exceptions._
 import nfn.service._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 /**
  * Created by Claudio Marxer <marxer@claudio.li>
  *
@@ -70,7 +71,7 @@ class LegacyPermissionChannel extends NFNService {
    */
   override def pinned: Boolean = false
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(request), NFNIntValue(level)) =>

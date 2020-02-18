@@ -36,7 +36,7 @@ class KlangCancellableFuture[T](work: => T)(implicit executor: ExecutionContext)
   run()
 
   private def run(): Unit = {
-    p tryCompleteWith Future {
+    p completeWith  Future {
       throwCancellationExceptionIfCancelled {
         val thread = Thread.currentThread
         lock.synchronized {
@@ -90,8 +90,12 @@ class KlangCancellableFuture[T](work: => T)(implicit executor: ExecutionContext)
   @throws[TimeoutException](classOf[TimeoutException])
   override def ready(atMost: Duration)(implicit permit: CanAwait): KlangCancellableFuture.this.type = {
     this
-    //    KlangCancellableFuture[T](Await.result(future, atMost))
+//    KlangCancellableFuture[T](Await.result(future, atMost))
   }
+
+  override def transform[S](f: Try[T] => Try[S])(implicit executor: ExecutionContext): Future[S] = ???
+
+  override def transformWith[S](f: Try[T] => Future[S])(implicit executor: ExecutionContext): Future[S] = ???
 }
 
 object KlangCancellableFutureTestApp extends App {

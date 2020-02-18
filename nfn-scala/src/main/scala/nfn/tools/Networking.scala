@@ -5,27 +5,23 @@ import java.util.concurrent.TimeoutException
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
-import ccn.packet.{CCNName, Content, Interest, MetaInfo, _}
-import akka.actor.Status._
-import akka.event.Logging
-import akka.util.Timeout
-import ccn.ccnlite.CCNLiteInterfaceCli
-import config.StaticConfig
+import ccn.packet.{CCNName, ConstantInterest, Content, Interest, NFNInterest}
+import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 import nfn.service._
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration._
-import scala.util.{Failure, Success}
-
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
+import scala.util.{Failure, Success}
 
 
 
 /**
   * Created by blacksheeep on 16/11/15.
   */
-object Networking {
+object Networking extends LazyLogging{
 
 
   /**
@@ -51,6 +47,40 @@ object Networking {
     }
     return Some(data)
   }
+
+  /**
+   *
+   * @param constantInterest the constant interest
+   * @param interestedComputation the computation that is interested in the data
+   * @param ccnApi the actor ref
+   */
+  def makeConstantInterest(constantInterest: String, interestedComputation: CCNName, ccnApi: ActorRef): Unit ={
+
+    makeConstantInterest(CCNName(new String(constantInterest).split("/").toIndexedSeq: _*), interestedComputation, ccnApi)
+  }
+
+  def makeConstantInterest(constantInterest: CCNName, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    makeConstantInterest(ConstantInterest(constantInterest), interestedComputation, ccnApi)
+  }
+
+  def makeConstantInterest(constantInterest: ConstantInterest, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    ccnApi ! NFNApi.CCNSendConstantInterest(constantInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
+  }
+
+  def subscribeToQuery(interestName: String, interestedComputation: String, ccnApi:ActorRef): Unit = {
+    val interestedComputationName = NFNInterest(interestedComputation).name.prepend("COMPUTE")
+      //CCNName(new String(interestedComputation).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
+    if(!interestName.contains("call")){
+      ccnApi ! makeConstantInterest(interestName,interestedComputationName,ccnApi)
+    }
+    else{
+      val interestComputationName = NFNInterest(interestName).name.prepend("COMPUTE")
+        //CCNName(new String(interestName).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
+      ccnApi ! NFNApi.CCNSendConstantInterest(ConstantInterest(interestComputationName), interestedComputationName, useThunks = false)
+    }
+
+  }
+
   /**
     * Try to fetch content object by given interest.
     *
@@ -59,9 +89,9 @@ object Networking {
     * @param    time       Timeout
     * @return              Content Object (on success)
     */
-  def fetchContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
+  def fetchContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -73,13 +103,13 @@ object Networking {
         case _ => None  // send keepalive interest
       }
     } catch {
-      case e: TimeoutException => println("fetchContent timed out."); None
+      case e: TimeoutException => logger.error("fetchContent timed out."); None
     }
   }
 
   def fetchContentRepeatedly(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -93,7 +123,7 @@ object Networking {
         if (result.isDefined)
           return result
       } catch {
-        case e: TimeoutException => println(s"timeout for interest ${interest.toString}, retry")
+        case e: TimeoutException => logger.error(s"timeout for interest ${interest.toString}, retry")
       }
     }
     None
@@ -102,11 +132,11 @@ object Networking {
   def fetchLocalContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     // try to fetch local data and return if successful
     try {
-      implicit val timeout = Timeout(time.toMillis)
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
       val futMaybeContent = (ccnApi ? NFNApi.GetFromLocalCache(interest)).mapTo[Option[Content]]
       Await.result(futMaybeContent, time)
     } catch {
-      case e: TimeoutException => println("fetchLocalContent timed out."); None
+      case e: TimeoutException => logger.error("fetchLocalContent timed out."); None
     }
   }
 
@@ -124,27 +154,27 @@ object Networking {
                                handleIntermediate: Option[(Int, Content) => Unit] = None): Option[Content] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
     def keepaliveInterest(interest: Interest): Interest = Interest(interest.name.makeKeepaliveName)
 
     def fetchIntermediate(index: Int) = {
-      println(s"Request intermediate #$interest")
+      logger.debug(s"Request intermediate #$interest")
 
       val intermediateInterest = Interest(interest.name.withRequest(s"GIM $index")) // CRASH HERE?
       val intermediateFuture = loadFromCacheOrNetwork(intermediateInterest)
       intermediateFuture onComplete {
         case Success(x) => x match {
           case c: Content => {
-            println("Received intermediate content.")
+            logger.debug("Received intermediate content.")
             val handler = handleIntermediate.get
             handler(index, c)
           }
-          case _ => println(s"Matched something else.")
+          case _ => logger.debug(s"Matched something else.")
         }
-        case Failure(error) => println(s"Completed with error: $error")
+        case Failure(error) => logger.error(s"Completed with error: $error")
       }
     }
 
@@ -174,7 +204,7 @@ object Networking {
             case c: Content =>
               if (c.data.length > 0) {
                 val highestAvailableIndex = new String(c.data).toInt
-                println(s"Highest available intermediate: $highestAvailableIndex")
+                logger.debug(s"Highest available intermediate: $highestAvailableIndex")
                 var index = highestRequestedIndex + 1
                 val endIndex = highestAvailableIndex
                 while (index <= highestAvailableIndex) {
@@ -183,9 +213,9 @@ object Networking {
                 }
                 highestRequestedIndex = highestAvailableIndex
               } else {
-                println("No intermediate results available (yet?).")
+                logger.debug("No intermediate results available (yet?).")
               }
-            case _ => println("Loading intermediate content timed out.")
+            case _ => logger.error("Loading intermediate content timed out.")
           }
           val elapsed = System.currentTimeMillis() - startTime
           if (elapsed < intermediateInterval) {
@@ -195,22 +225,22 @@ object Networking {
       }
     }
 
-    println("Fetch content and keepalive")
+    logger.debug("Fetch content and keepalive")
 
     while (shouldKeepTrying) {
-      println("Try again.")
+      logger.debug("Try again.")
       val futContent = loadFromCacheOrNetwork(interest)
       val futKeepalive = if (isFirstTry) None else Some(loadFromCacheOrNetwork(keepaliveInterest(interest)))
 
       try {
         val result = Await.result(futContent, timeoutDuration) match {
-          case c: Content => println("content."); Some(c)
-          case _ => println("none."); None
+          case c: Content => logger.debug("content."); Some(c)
+          case _ => logger.error("none."); None
         }
         if (result.isDefined)
           return result
       } catch {
-        case e: TimeoutException => println("timeout")
+        case e: TimeoutException => logger.error("timeout")
       }
 
       shouldKeepTrying = isFirstTry || futKeepalive.get.value.isDefined
@@ -224,7 +254,7 @@ object Networking {
                                  timeoutDuration: FiniteDuration = 20 seconds): Future[Option[Content]] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
@@ -232,19 +262,19 @@ object Networking {
       var isFirstTry = true
       var shouldKeepTrying = true
       while (shouldKeepTrying) {
-        println("Try again.")
+        logger.debug("Try again.")
         val futContent = loadFromCacheOrNetwork(interest)
         val futKeepalive = if (isFirstTry) None else Some(loadFromCacheOrNetwork(Interest(interest.name.makeKeepaliveName)))
 
         try {
           val result = Await.result(futContent, timeoutDuration) match {
-            case c: Content => println("content."); Some(c)
-            case _ => println("none."); None
+            case c: Content => logger.debug("content."); Some(c)
+            case _ => logger.error("none."); None
           }
           if (result.isDefined)
             return result
         } catch {
-          case e: TimeoutException => println("timeout")
+          case e: TimeoutException => logger.error("timeout")
         }
 
         shouldKeepTrying = isFirstTry || futKeepalive.get.value.isDefined
@@ -261,14 +291,14 @@ object Networking {
                            handleIntermediates: (Content) => Unit): Unit = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      implicit val timeout = Timeout(timeoutDuration.toMillis)
+      implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
       (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
     }
 
     val f = Future {
-      println("request intermediates 1")
+      logger.debug("request intermediates 1")
       Thread.sleep(2 * 1000)
-      println("request intermediates 2")
+      logger.debug("request intermediates 2")
       var highestRequestedIndex = -1
       val countIntermediatesInterest = Interest(interest.name.withRequest("CIM"))
       val loadFuture = loadFromCacheOrNetwork(countIntermediatesInterest)
@@ -277,17 +307,17 @@ object Networking {
         throw new TimeoutException("Future timeout")
       }
       val future = Future.firstCompletedOf(Seq(loadFuture, timeoutFuture))
-      println("request intermediates 3")
+      logger.debug("request intermediates 3")
 
       future onComplete {
         case Success(x) => x match {
           case c: Content => {
             val highestAvailableIndex = new String(c.data).toInt
-            println(s"Highest available intermediate: $highestAvailableIndex")
+            logger.debug(s"Highest available intermediate: $highestAvailableIndex")
           }
-          case _ => println(s"Matched something else.")
+          case _ => logger.debug(s"Matched something else.")
         }
-        case Failure(error) => println(s"Completed with error: $error")
+        case Failure(error) => logger.error(s"Completed with error: $error")
       }
     }
   }
@@ -303,7 +333,7 @@ object Networking {
     * @return              Content Object (on success)
     */
   def fetchContent(name: String, ccnApi: ActorRef, time: Duration): Option[Content] = {
-    val i = Interest(CCNName(name.split("/").tail: _*))
+    val i = Interest(CCNName(name.split("/").tail.toIndexedSeq: _*))
     fetchContent(i, ccnApi, time)
   }
   //
@@ -339,7 +369,7 @@ object Networking {
     //    println("Content Name: " + contentName.toString)
 
     contentName = contentName.withNFN
-    println("Content Name: " + contentName.toString)
+    logger.debug("Content Name: " + contentName.toString)
 
 
 

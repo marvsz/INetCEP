@@ -1,5 +1,13 @@
 ![](doc/logo/ccn-lite-logo-712x184.png)
 
+# Status of Automatic Tests
+
+[![Build Status](https://semaphoreci.com/api/v1/cn-unibas/ccn-lite/branches/master/badge.svg)](https://semaphoreci.com/cn-unibas/ccn-lite)
+
+(Currently, CCN-lite V2 supports only automatic build testing, there are no functionality tests)
+
+# Overview
+
 *Jump to the [Table of Contents](#toc)*
 
 CCN-lite is a reduced and lightweight -- yet functionally
@@ -15,8 +23,7 @@ CCN-lite supports multiple platforms, including:
 - Linux and OS X user space
 - Linux kernel
 - Android
-- Arduino and RFduino
-- OMNeT++
+- RIOT OS
 
 CCN-lite is meant as a code base for class room work, experimental
 extensions and simulation experiments. The ISC license makes it an
@@ -24,8 +31,6 @@ excellent starting point for commercial products.
 
 CCN-lite has been included in the RIOT operating system for the
 Internet of Things (IoT): http://www.riot-os.org/
-
-[![Build Status](https://travis-ci.org/cn-uofbasel/ccn-lite.svg?branch=master)](https://travis-ci.org/cn-uofbasel/ccn-lite)
 
 
 <a name="toc"></a>
@@ -109,11 +114,14 @@ right.
 
 What you get with CCN-lite is:
 
-- a tiny CCNx core (1000-2000 lines of C suffice)
+- a tiny core and forwarder
 - multiple platform support
+- little memory usage, runs on IOT platforms with less than 10k ram
+- libraries for applications (e.g. packet encoding libraries)
 - partially interoperable management protocol implementation
 - a simple HTTP server to display the relay's internal configuration
 - plus some interesting extensions of our own, see the next section.
+- little dependencies: cmake and openssl
 
 
 
@@ -151,7 +159,7 @@ Featue             | Description
 `USE_ECHO`         | Enable an echo prefix, returning the current time.
 `USE_LINKLAYER`    | Talk to Ethernet, W-LAN, 802.15.4 devices, raw frames.
 `USE_FRAG`         | Enable fragments, to run CCNx over Ethernet.
-`USE_HMAC256`      | Enables hash-based authentification codes.
+`USE_HMAC256`      | Enables hash-based message authentication codes.
 `USE_HTTP_STATUS`  | Provide status info for web browsers.
 `USE_IPV4`         | Enable IP support.
 `USE_LOGGING`      | Enable log messages.
@@ -164,7 +172,7 @@ Featue             | Description
 `USE_SCHEDULER`    | Rate control at CCNx msg and fragment level.
 `USE_SIGNATURES`   | Authenticate management messages.
 `USE_STATS`        | Enable statistics.
-`USE_SUITE_*`      | Enable a specific protocol: CCNB, NDN2013, CCNx2014, IOT2014, LOCALRPC or CISCO2015.
+`USE_SUITE_*`      | Enable a specific protocol: CCNB, NDNTLV (NDN 2014), CCNTLV (CCNx2014), or LOCALRPC and COMPRESSED (for packet compression)
 `USE_UNIXSOCKET`   | Add UNIX IPC to the set of interfaces.
 
 The approach for these extensions is that one can tailor a CCN forwarder to
@@ -184,8 +192,6 @@ files:
  * [Unix](doc/README-unix.md)
  * [Linux kernel](doc/README-kernel.md)
  * [Android](doc/README-android.md)
- * [Arduino and RFduino](doc/README-arduino.md)
- * [OMNeT++](doc/README-omnetpp.md)
 
 Additionally, CCN-lite has a pre-built [Dockerfile](Dockerfile) to enable the usage of
 [Docker](https://www.docker.com/) with CCN-lite. See the
@@ -197,6 +203,7 @@ shell level before invoking make:
 
 ```bash
 export USE_NFN=1
+cmake .
 make clean all
 ```
 
@@ -206,53 +213,34 @@ before invoking make:
 ```bash
 export USE_NFN=1
 export USE_NACK=1
+cmake .
 make clean all
 ```
-
-### CCN-lite-minimalrelay
-
-As an exercise in writing the least C code possible in order to get a working
-NDN forwarder, CCN-lite includes `ccn-lite-minimalrelay.c`. It has all extra
-features disabled and only provides UDP connectivity. But hey, it works! And it
-really is lean, looking at the lines of C code:
-
-```
- 435 ccn-lite-minimalrelay.c
-1010 ccnl-core.c
- 701 ccnl-core-fwd.c    // only partially needed
-1090 ccnl-core-util.c
- 647 ccnl-pkt-ndntlv.c  // only partially needed
-
- 316 ccnl-core.h
- 197 ccnl-defs.h
- 104 ccnl-pkt-ndntlv.h
-```
-
-
 
 <a name="lof"></a>
 ## 5. Command line tools
 
+The commandline tools can be found in the ccnl-utils folder
 The main command line tools and their corresponding source file that are shipped
 with CCN-lite are the following:
 
 Tool                           | Description
 :----------------------------- | :---------------------------------------------
-`ccn-lite-relay.c`             | CCN-lite forwarder: user space.<br /> This file is compiled into three executables, depending on compile time environment flags: <ul><li>`ccn-lite-relay`</li><li>`ccn-nfn-relay`</li><li>`ccn-nfn-relay-nack`</li></ul>
-`ccn-lite-lnxkernel.c`         | CCN-lite forwarder: Linux kernel module
-`util/ccn-lite-ctrl.c`         | Command line program running the CCNx management protocol (over Unix sockets). Used for configuring a running relay either running in user space or as a kernel module.
-`util/ccn-lite-ccnb2xml.c`     | Simple CCNB packet parser
-`util/ccn-lite-cryptoserver.c` | Used by the kernel module to carry out compute intensive crypto operations in user instead of kernel space.
-`util/ccn-lite-fetch.c`        | Fetches both a single chunk content or a series of chunks for larger named data. Only the content is returned without any protocol bytes.
-`util/ccn-lite-mkC.c`          | Simple content composer, to stdout, without crypto.
-`util/ccn-lite-mkF.c`          | Simple tool to split a large file into a fragment series.
-`util/ccn-lite-mkI.c`          | Simple interest composer, to stdout.
-`util/ccn-lite-peek.c`         | Simple interest injector waiting for a content chunk, can also be used to request named-function results.
-`util/ccn-lite-pktdump.c`      | Powerful packet dumper for all known packet formats. Output is in hexdump style, XML or content only.
-`util/ccn-lite-produce.c`      | Creates a series of chunks for data that does not fit into a single PDU.
-`util/ccn-lite-rpc.c`          | Send an RPC request and return the reply.
-`util/ccn-lite-simplenfn.c`    | Simplified interface to request named-function results.
-`util/ccn-lite-valid.c`        | Demo application for validating a packet's signature.
+`ccn-lite-relay`               | CCN-lite forwarder: user space.<br /> This file is compiled into three executables, depending on compile time environment flags: <ul><li>`ccn-lite-relay`</li><li>`ccn-nfn-relay`</li><li>`ccn-nfn-relay-nack`</li></ul>
+`ccn-lite-lxkernel`            | CCN-lite forwarder: Linux kernel module
+`ccn-lite-ctrl`                | Command line program running the CCNx management protocol (over Unix sockets). Used for configuring a running relay either running in user space or as a kernel module.
+`ccn-lite-ccnb2xml`            | Simple CCNB packet parser
+`ccn-lite-cryptoserver`        | Used by the kernel module to carry out compute intensive crypto operations in user instead of kernel space.
+`ccn-lite-fetch  `             | Fetches both a single chunk content or a series of chunks for larger named data. Only the content is returned without any protocol bytes.
+`ccn-lite-mkC  `               | Simple content composer, to stdout, without crypto.
+`ccn-lite-mkF  `               | Simple tool to split a large file into a fragment series.
+`ccn-lite-mkI  `               | Simple interest composer, to stdout.
+`ccn-lite-peek`                | Simple interest injector waiting for a content chunk, can also be used to request named-function results.
+`ccn-lite-pktdump`             | Powerful packet dumper for all known packet formats. Output is in hexdump style, XML or content only.
+`ccn-lite-produce`             | Creates a series of chunks for data that does not fit into a single PDU.
+`ccn-lite-rpc`                 | Send an RPC request and return the reply.
+`ccn-lite-simplenfn`           | Simplified interface to request named-function results.
+`ccn-lite-valid`               | Demo application for validating a packet's signature.
 
 
 
@@ -272,21 +260,24 @@ Tool                           | Description
 
 
 
-<a name="roadmap"></a>
-## 7. Tentative roadmap
-
-Work has started for the next release 0.4 (Dec 2015?), where the focus
-should be on the following areas:
- - Manifests
- - Security (key management, signed computations and trust schematas)
- - Data access control
- - Better selector support for NDN
- - RIOT re-integration
-
-
-
 <a name="changelog"></a>
 ## 8. Changelog
+
+### [Release 2.0.0 beta](https://github.com/cn-uofbasel/ccn-lite/releases/tag/2.0.0) (Nov 2017)
+
+ - Restructuration of the Code to a library system
+   Code was split to following libraries:
+	- ccnl-core: basic data structures
+        - ccnl-fwd:  forwarding functionality of CCN-lite
+        - ccnl-nfn:  library for NFN support
+        - ccnl-pkt:  packet encoding library, can be used for end point application with no forwarding requirements
+        - ccnl-riot: RIOT integration library 
+ - change build system to cmake
+ - add further RIOT support 
+        - add compressed packet format in an early stage
+ - Fix a lot of Bugs
+ - Fix some CVEs (discovered by Eric Sesterhenn / X41 D-Sec):
+   CVE-2017-12412, CVE-2017-12464, CVE-2017-12465, CVE-2017-12466, CVE-2017-12467, CVE-2017-12468, CVE-2017-12469, CVE-2017-12471, CVE-2017-12472 
 
 ### [Release 0.3.0](https://github.com/cn-uofbasel/ccn-lite/releases/tag/0.3.0) (Jul 2015)
 
@@ -306,6 +297,16 @@ should be on the following areas:
 
 <a name="credits"></a>
 ## 9. Credits
+
+### [Release 2.0.0 beta](https://github.com/cn-uofbasel/ccn-lite/releases/tag/2.0.0) (Nov 2017)
+
+#### Code contributions:
+Christopher Scherb   
+Balazs Faludi  
+Claudio Marxer  
+Cenk Gündogan  
+Eric Sesterhenn  
+Christian F. Tschudin  
 
 ### [Release 0.3.0](https://github.com/cn-uofbasel/ccn-lite/releases/tag/0.3.0) (Jul 2015)
 

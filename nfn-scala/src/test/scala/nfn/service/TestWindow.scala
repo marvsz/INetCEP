@@ -2,10 +2,10 @@ package nfn.service
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-import org.junit.Assert._
-import org.junit.Test
+import org.junit.jupiter.api.Assertions._
+import org.junit.jupiter.api.Test
 import config.StaticConfig
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 class TestWindow {
   val sacepicnEnv = StaticConfig.systemPath
@@ -19,16 +19,16 @@ class TestWindow {
 
   @Test def getDelimiterFromPathTest ={
     val window = new Window()
-    val delimiter1 = Helpers.getDelimiterFromPath(sensorPath1)
-    val delimiter2 = Helpers.getDelimiterFromPath(sensorPath2)
+    val delimiter1 = SensorHelpers.getDelimiterFromPath(sensorPath1)
+    val delimiter2 = SensorHelpers.getDelimiterFromPath(sensorPath2)
     assertEquals(",",delimiter1)
     assertEquals("/",delimiter2)
   }
 
   @Test def getDelimiterFromLineTest ={
     val window = new Window()
-    val delimiter1 = Helpers.getDelimiterFromLine(line1)
-    val delimiter2 = Helpers.getDelimiterFromLine(line2)
+    val delimiter1 = SensorHelpers.getDelimiterFromLine(line1)
+    val delimiter2 = SensorHelpers.getDelimiterFromLine(line2)
     assertEquals(",",delimiter1)
     assertEquals("/",delimiter2)
   }
@@ -36,20 +36,20 @@ class TestWindow {
 
   @Test def getDatePositionTest = {
     val window = new Window()
-    val delimiter1 = Helpers.getDelimiterFromLine(line1)
-    val delimiter2 = Helpers.getDelimiterFromLine(line2)
-    val datePosition1 = Helpers.getDatePosition(delimiter1)
-    val datePosition2 = Helpers.getDatePosition(delimiter2)
+    val delimiter1 = SensorHelpers.getDelimiterFromLine(line1)
+    val delimiter2 = SensorHelpers.getDelimiterFromLine(line2)
+    val datePosition1 = SensorHelpers.getDatePosition(delimiter1)
+    val datePosition2 = SensorHelpers.getDatePosition(delimiter2)
     assertEquals(1,datePosition1)
     assertEquals(0,datePosition2)
   }
 
   @Test def getValuePositionTest ={
     val window = new Window()
-    val delimiter1 = Helpers.getDelimiterFromLine(line1)
-    val delimiter2 = Helpers.getDelimiterFromLine(line2)
-    val valPosition1 = Helpers.getValuePosition(delimiter1)
-    val valPosition2 = Helpers.getValuePosition(delimiter2)
+    val delimiter1 = SensorHelpers.getDelimiterFromLine(line1)
+    val delimiter2 = SensorHelpers.getDelimiterFromLine(line2)
+    val valPosition1 = SensorHelpers.getValuePosition(delimiter1)
+    val valPosition2 = SensorHelpers.getValuePosition(delimiter2)
     assertEquals(2,valPosition1)
     assertEquals(1,valPosition2)
   }
@@ -57,18 +57,18 @@ class TestWindow {
   @Test def parseTimeTest = {
 
     val window = new Window()
-    val delimiter1 = Helpers.getDelimiterFromLine(line1)
-    val delimiter2 = Helpers.getDelimiterFromLine(line2)
-    val delimiter3 = Helpers.getDelimiterFromLine(line3)
-    val datePosition1 = Helpers.getDatePosition(delimiter1)
-    val datePosition2 = Helpers.getDatePosition(delimiter2)
-    val datePosition3 = Helpers.getDatePosition(delimiter3)
+    val delimiter1 = SensorHelpers.getDelimiterFromLine(line1)
+    val delimiter2 = SensorHelpers.getDelimiterFromLine(line2)
+    val delimiter3 = SensorHelpers.getDelimiterFromLine(line3)
+    val datePosition1 = SensorHelpers.getDatePosition(delimiter1)
+    val datePosition2 = SensorHelpers.getDatePosition(delimiter2)
+    val datePosition3 = SensorHelpers.getDatePosition(delimiter3)
     val timeVal1 = line1.split(delimiter1)(datePosition1)
     val timeVal2 = line2.split(delimiter2)(datePosition2)
     val timeVal3 = line3.split(delimiter3)(datePosition3)
-    assertEquals("00:00:05", Helpers.parseTime(timeVal1, delimiter1).toString)
-    assertEquals("22:18:38.841", Helpers.parseTime(timeVal2, delimiter2).toString)
-    assertEquals("13:00:05", Helpers.parseTime(timeVal3, delimiter3).toString)
+    assertEquals("00:00:05", SensorHelpers.parseTime(timeVal1, delimiter1).toString)
+    assertEquals("22:18:38.841", SensorHelpers.parseTime(timeVal2, delimiter2).toString)
+    assertEquals("13:00:05", SensorHelpers.parseTime(timeVal3, delimiter3).toString)
   }
   /*@Test
   def readVictimsSensorTest()={

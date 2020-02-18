@@ -327,6 +327,7 @@ public abstract class OperatorA {
         return (
             removeBracketsBraces(this.parameters[index].toLowerCase()).equals("name") 
                 || removeBracketsBraces(this.parameters[index].toLowerCase()).equals("data")
+                || removeBracketsBraces(this.parameters[index].toLowerCase()).equals("gps")
                 );
     };
 

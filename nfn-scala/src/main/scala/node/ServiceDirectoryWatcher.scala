@@ -20,5 +20,5 @@ trait ServiceDirectoryWatcher {
     }
   }
   
-  def publishServiceLocalPrefix(serv: NFNService)
+  def publishServiceLocalPrefix(serv: NFNService) : Unit
 }

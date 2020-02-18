@@ -92,9 +92,9 @@ object MathHelper {
       }
     }
     for (line <- results) {
-      val datepart1: LocalTime = Helpers.parseTime(line.split(",")(0), "")
+      val datepart1: LocalTime = SensorHelpers.parseTime(line.split(",")(0), "")
       for (line2 <- relevantTuples) {
-        val datepart2: LocalTime = Helpers.parseTime(line2.split(",")(0), "")
+        val datepart2: LocalTime = SensorHelpers.parseTime(line2.split(",")(0), "")
         if (datepart1.equals(datepart2)) {
 
           val line1split = line.split(",")
@@ -198,7 +198,7 @@ object MathHelper {
     var output = ""
     for (line <- lines) {
       val datepart = line.split(",")(1)
-      val timestamp = Helpers.parseTime(datepart, ",")
+      val timestamp = SensorHelpers.parseTime(datepart, ",")
       if ((timestamp.isAfter(minTime) || timestamp.equals(minTime)) && (timestamp.isBefore(maxTime) || timestamp.equals(maxTime))) {
         output = output + line + "\n"
       }

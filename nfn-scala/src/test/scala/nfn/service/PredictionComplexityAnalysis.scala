@@ -4,15 +4,15 @@ import java.io.FileNotFoundException
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import config.StaticConfig
-import nfn.tools.Helpers
+import nfn.tools.{Helpers, SensorHelpers}
 
 import scala.io.{BufferedSource, Source}
 
 class PredictionComplexityAnalysis {
   val sacepicnEnv = StaticConfig.systemPath
-  val join = new Join()
+  val join = new Concatenate()
   val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
   val tuples = 10800
 
@@ -30,7 +30,7 @@ class PredictionComplexityAnalysis {
 
   def joinStrings(left:String, right:String) ={
     val buf = new StringBuilder
-    buf.append(Helpers.trimData(left)).append(Helpers.trimData(right))
+    buf.append(SensorHelpers.trimData(left)).append(SensorHelpers.trimData(right))
     sortByDateTime(buf).toString()
   }
 

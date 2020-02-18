@@ -1,9 +1,10 @@
 package ccn
 
 import java.io._
-import com.typesafe.scalalogging.slf4j.Logging
-import config.{CCNLiteSystemPath, RouterConfig, StaticConfig}
+
 import ccn.packet.CCNName
+import com.typesafe.scalalogging.LazyLogging
+import config.{CCNLiteSystemPath, RouterConfig, StaticConfig}
 import myutil.systemcomandexecutor.{ExecutionError, ExecutionSuccess, SystemCommandExecutor}
 
 /**
@@ -51,7 +52,7 @@ class LogStreamReaderToFile(is: InputStream, logname: String, appendTimestamp: B
  * Call start and stop.
  * @param nodeConfig
  */
-case class CCNLiteProcess(nodeConfig: RouterConfig) extends Logging {
+case class CCNLiteProcess(nodeConfig: RouterConfig) extends LazyLogging {
 
   val wireFormat = StaticConfig.packetformat
 
@@ -122,7 +123,7 @@ case class CCNLiteProcess(nodeConfig: RouterConfig) extends Logging {
   def start() = {
 
     if(!nodeConfig.isAlreadyRunning) {
-      val ccnliteExecutableName = if(nodeConfig.isCCNOnly) s"$ccnLiteEnv/bin/ccn-lite-relay" else s"$ccnLiteEnv/bin/ccn-nfn-relay"
+      val ccnliteExecutableName = if(nodeConfig.isCCNOnly) s"$ccnLiteEnv/bin/ccn-lite-relay" else s"$ccnLiteEnv/bin/ccn-lite-relay"
       val ccnliteExecutable = ccnliteExecutableName + (if(StaticConfig.isNackEnabled) "-nack" else "")
 
 

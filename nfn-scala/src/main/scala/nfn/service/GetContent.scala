@@ -3,38 +3,27 @@ package nfn.service
 /**
   * Created by Ali on 06.02.18.
   */
-import nfn.NFNApi
-import nfn.service._
-import nfn.tools.Networking._
 import akka.actor.ActorRef
-import akka.event.Logging
-
-import scala.io.Source
-import scala.util.control._
-import scala.collection.mutable
-import scala.List
-import scala.collection.mutable.ArrayBuffer
-import scala.collection.immutable.Vector
-import scala.util.control.Exception._
+import nfn.tools.Networking._
 
 //Added for contentfetch
-import lambdacalculus.parser.ast.{Constant, Str}
+import ccn.packet.{CCNName, Interest}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
-import java.util.Calendar
-import java.time
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest, Interest}
 
 class GetContent() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
 
     def getValue(name: String): String = {
-      val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail: _*)
+      val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").tail.toIndexedSeq: _*)
+      val nameOfContentWithPrefix = CCNName(new String(name).split("/").toIndexedSeq: _*)
       var intermediateResult = ""
       try{
-        intermediateResult = new String(fetchContentRepeatedly(Interest(nameOfContentWithoutPrefixToAdd), ccnApi, 15 seconds).get.data)
+        intermediateResult = new String(fetchContent(Interest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
+        //intermediateResult = new String(fetchContent(ConstantInterest(nameOfContentWithPrefix), ccnApi, 15 seconds).get.data)
       }
       catch {
         case e : NoSuchElementException => intermediateResult = "Timeout"

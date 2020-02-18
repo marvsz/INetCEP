@@ -1,14 +1,12 @@
 package nfn.localAbstractMachine
 
-import scala.concurrent.{ExecutionContext, Future, Await}
-import scala.concurrent.duration._
-import scala.util.Failure
-
 import akka.actor.ActorRef
-
+import lambdacalculus.machine.CallByValue.VariableMachineValue
 import lambdacalculus.machine._
 import nfn.service._
-import lambdacalculus.machine.CallByValue.VariableMachineValue
+
+import scala.concurrent.duration._
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 case class LocalNFNCallExecutor(ccnWorker: ActorRef)(implicit execContext: ExecutionContext) extends CallExecutor {
 
@@ -18,7 +16,7 @@ case class LocalNFNCallExecutor(ccnWorker: ActorRef)(implicit execContext: Execu
       for {
         callableServ <- NFNService.parseAndFindFromName(call, ccnWorker)
       } yield {
-        val result = callableServ.exec
+        val result = Await.result(callableServ.exec,20.seconds)
         NFNValueToMachineValue.toMachineValue(result)
       }
     }

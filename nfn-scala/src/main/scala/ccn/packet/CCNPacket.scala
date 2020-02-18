@@ -1,6 +1,6 @@
 package ccn.packet
 
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 
 object CCNName {
   val thunkInterestKeyword = "THUNK"
@@ -16,7 +16,7 @@ object CCNName {
   def fromString(name: String):Option[CCNName] = {
     if(!name.startsWith("/")) None
     else {
-      Some(CCNName(name.split("/").tail:_*))
+      Some(CCNName(name.split("/").tail.toIndexedSeq:_*))
     }
   }
 
@@ -25,7 +25,7 @@ object CCNName {
 
 
 
-case class CCNName(cmps: List[String], chunkNum: Option[Int])extends Logging {
+case class CCNName(cmps: List[String], chunkNum: Option[Int])extends LazyLogging {
 
   import CCNName.{thunkKeyword, nfnKeyword, keepaliveKeyword, computeKeyword, getIntermediateKeyword,requestKeyword}
 
@@ -195,11 +195,42 @@ object NFNInterest {
 object Interest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
+
+object ConstantInterest {
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
+}
+
+object RemoveConstantInterest {
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
+}
+
+object ConstantNFNInterest{
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps ++ Seq("NFN") :_*))
+}
+
 case class Interest(name: CCNName) extends CCNPacket {
 
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
   def thunkify: Interest = Interest(name.thunkify)
+}
+
+case class ConstantInterest(name: CCNName) extends CCNPacket {
+  def this(cmps: String *) = this(CCNName(cmps:_*))
+
+  def thunkify: ConstantInterest = ConstantInterest(name.thunkify)
+}
+
+case class ConstantNFNInterest(name: CCNName) extends CCNPacket {
+  def this(cmps: String *) = this(CCNName(cmps:_*))
+
+  def thunkify: ConstantNFNInterest = ConstantNFNInterest(name.thunkify)
+}
+
+case class RemoveConstantInterest(name: CCNName) extends CCNPacket {
+  def this(cmps: String *) = this(CCNName(cmps:_*))
+
+  def thunkify: RemoveConstantInterest = RemoveConstantInterest(name.thunkify)
 }
 
 

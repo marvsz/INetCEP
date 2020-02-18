@@ -1,18 +1,16 @@
 package ccn.ccnlite
 
 import java.nio.ByteBuffer
-import javax.xml.bind.DatatypeConverter
 
 import ccn.packet._
-import com.typesafe.scalalogging.slf4j.Logging
-import org.xml.sax.SAXParseException
+import com.typesafe.scalalogging.LazyLogging
+import javax.xml.bind.DatatypeConverter
 
-import scala.collection.immutable
 import scala.util.{Failure, Success, Try}
 import scala.xml._
 
 
-object CCNLiteXmlParser extends Logging {
+object CCNLiteXmlParser extends LazyLogging {
 
   def decodeBase64(data: String): Array[Byte] = DatatypeConverter.parseBase64Binary(data)
   def encodeBase64(bytes: Array[Byte]): String = DatatypeConverter.printBase64Binary(bytes)
@@ -246,6 +244,26 @@ object CCNLiteXmlParser extends Logging {
             </Data>
           */
           case content @ <Data>{_*}</Data> => {
+            val name = ndntlvParseName(content)
+            val contentData = parseContentDataNDNTLV(content)
+
+            // parse last chunk num
+            val lastChunkNum: Option[Int] = (content \ "MetaInfo" \ "FinalBlockId" \ "NameComponent").headOption flatMap { (lastChunkNumNode: Node) =>
+              val lastChunkNumData = parseDataNDNTLV(lastChunkNumNode)
+              if(lastChunkNumData.size == 0 || lastChunkNumData(0) != chunkMarker) {
+                None
+              } else {
+                // TODO: this probably breaks for large numbers because it does ignore the NDNTLV encoding of includedNonNegInt
+                Some(unsignedByteToInt(lastChunkNumData.tail))
+              }
+            }
+            if(contentData.startsWith(":NACK".getBytes)) {
+              Nack(name)
+            } else {
+              Content(name, contentData, MetaInfo(lastChunkNum))
+            }
+          }
+          case content @ <Datastream>{_*}</Datastream> => {
             val name = ndntlvParseName(content)
             val contentData = parseContentDataNDNTLV(content)
 

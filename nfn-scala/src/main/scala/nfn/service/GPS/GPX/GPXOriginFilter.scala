@@ -5,7 +5,8 @@ import ccn.packet.CCNName
 import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
 import nfn.service.GPS.GPX.helpers.GPXPointHandler._
 import nfn.service.GPS.GPX.helpers.GPXInterestHandler.fetchRawGPXPoint
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 /**
  * Created by blacksheeep on 22/10/15.
  */
@@ -15,7 +16,7 @@ class GPXOriginFilter extends NFNService {
     (pn._1 - p1._1, pn._2 - p1._2, pn._3)
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
     (args.head, args.tail.head) match{
       case (name: NFNStringValue, num: NFNIntValue) => {
 

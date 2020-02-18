@@ -1,7 +1,6 @@
 package nfn.service
 import config.StaticConfig
-import org.junit.Assert._
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import scala.io.Source
 

@@ -42,7 +42,7 @@ object IOHelper {
   def readByteArrayFromFile(file: File): Array[Byte] = {
     val bis = new BufferedInputStream(new FileInputStream(file))
     try {
-      Stream.continually(bis.read).takeWhile(_ != -1 ).map(_.toByte).toArray
+      LazyList.continually(bis.read).takeWhile(_ != -1 ).map(_.toByte).toArray
     } finally {
       bis.close()
     }

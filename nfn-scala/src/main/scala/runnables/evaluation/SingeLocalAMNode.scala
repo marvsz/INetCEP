@@ -1,22 +1,17 @@
 package runnables.evaluation
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.ConfigFile
-import com.typesafe.config.ConfigFactory
-import config.{ComputeNodeConfig, RouterConfig, CombinedNodeConfig}
-import nfn.service.{WordCount, Translate}
-
-import scala.concurrent.duration._
 import akka.util.Timeout
-import nfn._
-import ccn.packet.{Content, CCNName}
-import node.{LocalNodeFactory, LocalNode}
+import ccn.packet.{CCNName, Content}
+import com.typesafe.config.ConfigFactory
+import config.{ComputeNodeConfig, RouterConfig}
 import lambdacalculus.parser.ast.{Expr, LambdaDSL}
-import scala.util.{Failure, Success}
+import nfn._
+import nfn.service.{Translate, WordCount}
+import node.{LocalNode, LocalNodeFactory}
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import nfn.service.WordCount
-import scala.util.Success
-import scala.util.Failure
-import scala.Some
+import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 /**
  * Created by basil on 14/05/14.
@@ -49,7 +44,7 @@ object SingeLocalAMNode extends App {
   val wcExpr: Expr = wc call (docName)
   val wcTranslateExpr: Expr = wc call List(translate call (docName))
 
-  val compExpr: Expr = 'x @: ('y @: (('x * 1) + 'y)  ! 2) ! 3
+  val compExpr: Expr = Symbol("x") @: (Symbol("y") @: ((Symbol("x") * 1) + Symbol("y"))  ! 2) ! 3
 
   val expr = wcTranslateExpr
   (node ?  wcExpr) onComplete {

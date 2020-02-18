@@ -1,3 +1,8 @@
+*~
+*.o
+*.a
+*.pyc
+
 #binaries
 *.class
 nfn-scala/testservice
@@ -10,30 +15,63 @@ test*.java
 #output files
 output/
 
-#idea
-.idea/
+# Linux kernel module:
+*.ko
+*.cmd
+*.mod.c
+*.mod.o
+.tmp_versions
+modules.order
+Module.symvers
 
-#ccn-lite
+# Project files:
+
+# ccn-binaries
+src/ccn-lite-minimalrelay
+src/ccn-lite-relay
+src/ccn-lite-simu
+src/arduino/.build/*
+src/arduino/lib/.holder
 ccn-lite/bin
-ccn-lite/test
-ccn-lite/src/ccn-lite-simu
-ccn-lite/src/ccn-lite-relay
-ccn-lite/src/ccn-nfn-relay
-ccn-lite/src/ccn-lite-relay-nack
-ccn-lite/src/ccn-nfn-relay-nack
-ccn-lite/src/util/ccn-lite-ccnb2xml
-ccn-lite/src/util/ccn-lite-cryptoserver
-ccn-lite/src/util/ccn-lite-ctrl
-ccn-lite/src/util/ccn-lite-fetch
-ccn-lite/src/util/ccn-lite-mkC
-ccn-lite/src/util/ccn-lite-mkF
-ccn-lite/src/util/ccn-lite-mkI
-ccn-lite/src/util/ccn-lite-peek
-ccn-lite/src/util/ccn-lite-pktdump
-ccn-lite/src/util/ccn-lite-produce
-ccn-lite/src/util/ccn-lite-rpc
-ccn-lite/src/util/ccn-lite-simplenfn
-ccn-lite/src/util/ccn-lite-valid
+
+# nfn-binaries
+src/ccn-lite-relay-nack
+src/ccn-nfn-relay
+src/ccn-nfn-relay-nack
+
+# util binaries
+src/util/ccn-lite-ccnb2xml
+src/util/ccn-lite-cryptoserver
+src/util/ccn-lite-ctrl
+src/util/ccn-lite-deF
+src/util/ccn-lite-localrpc
+src/util/ccn-lite-mkC
+src/util/ccn-lite-mkF
+src/util/ccn-lite-mkI
+src/util/ccn-lite-peek
+src/util/ccn-lite-peekcomputation
+src/util/ccn-lite-produce
+src/util/ccn-lite-fetch
+src/util/ccn-lite-pktdump
+src/util/ccn-lite-rpc
+src/util/ccn-lite-simplenfn
+src/util/ccn-lite-valid
+
+# unit tests
+test/unit/prefix-cmp
+test/unit/unit
+test/scripts/nfn/nfn.jar
+test/scripts/nfn/temp-service-library/*
+
+# bin files
+bin
+
+# output dirs
+lib/
+obj/
+build/
+bin/
+cmake-build-debug/
 
 #nodeData 
 nodeData/*_Log
@@ -43,3 +81,43 @@ nodeData/queryStore
 
 #logs
 VM-Startup-Scripts/*.log
+
+# OSX:
+
+# contains debug symbols tables for Xcode
+*.dSYM
+.DS_Store
+
+# vim:
+*.swp
+
+# sublime:
+*.sublime-workspace
+*.sublime-project
+
+# Visual Studio Code
+.vscode
+browse.VC.db
+
+# XCode
+*.xcodeproj
+
+# IDEA
+.idea
+
+# Eclipse
+.cproject
+.project
+.settings
+
+# GNU Files
+GTAGS
+GRTAGS
+GPATH
+
+# distribution files:
+distribution/Debian/ccn-lite
+distribution/Debian/ccn-lite.deb
+distribution/RedHat/rpmbuild
+
+# eof

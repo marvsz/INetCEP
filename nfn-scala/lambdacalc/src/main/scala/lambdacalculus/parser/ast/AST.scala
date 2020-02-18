@@ -26,11 +26,11 @@ object UnaryOp extends Enumeration {
 object LambdaDSLTest extends App {
   import LambdaDSL._
 
-  val a: Expr = 'x @: "y" @: (('x * 1) - "y")
+  val a: Expr = Symbol("x") @: "y" @: ((Symbol("x") * 1) - "y")
 
 //  val b: Call = "/WordCount" appl ("/doc/doc1")
 
-  val l: Expr = ("derp" =: 'a) ~ ('derp)
+  val l: Expr = ("derp" =: Symbol("a")) ~ (Symbol("derp"))
 
 }
 
@@ -81,9 +81,10 @@ case class Variable(name: String, accessValue: Int = -1) extends Expr {
   def apply(args: List[Expr]): Call = call(args:_*)
 
   import LambdaDSL._
+  def call(): Call =  Symbol(this.name) -> List()
   def call(args: Expr*): Call =  (Symbol(this.name), args)
   def call(args: List[Expr]): Call =  (Symbol(this.name), args)
-  def call(): Call =  Symbol(this.name) -> List()
+
 }
 
 object Constant {

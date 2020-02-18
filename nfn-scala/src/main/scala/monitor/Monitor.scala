@@ -1,18 +1,16 @@
 package monitor
 
+import java.net.InetSocketAddress
+
 import akka.actor.{Actor, ActorSystem, Props}
+import akka.event.Logging
 import ccn.packet.CCNPacket
 import config.AkkaConfig
-import java.net.InetSocketAddress
-import network.UDPConnection
-import akka.event.Logging
-import net.liftweb.json._
 import monitor.Monitor._
-import scala.util.Try
-import scala.util.Failure
-import scala.Some
-import scala.util.Success
-import net.liftweb.json.ShortTypeHints
+import net.liftweb.json.{ShortTypeHints, _}
+import network.UDPConnection
+
+import scala.util.{Failure, Success, Try}
 
 
 object Monitor {
@@ -40,6 +38,8 @@ object Monitor {
   }
   case class ContentInfoLog(`type`: String = "content", name: String, data: String) extends PacketInfoLog
   case class InterestInfoLog(`type`: String = "interest", name: String) extends PacketInfoLog
+  case class ConstantInterestInfoLog(`type`: String = "constantInterest", name: String) extends PacketInfoLog
+  case class RemoveConstantInterestInfoLog(`type`: String = "removeConstantInterest", name: String) extends PacketInfoLog
 
   case class PacketLogWithoutConfigs(fromHost: String, fromPort: Int, toHost: String, toPort: Int, isSent: Boolean, packet: PacketInfoLog ) extends MonitorLogEntry
 
@@ -75,7 +75,7 @@ case class Monitor() extends Actor {
 
   var nodes = Set[NodeLog]()
 
-  var edges = Set[Pair[NodeLog, NodeLog]]()
+  var edges = Set[(NodeLog, NodeLog)]()
 
   var loggedPackets = Set[PacketLog]()
 
@@ -83,14 +83,14 @@ case class Monitor() extends Actor {
 
   def handleConnectLog(log: ConnectLog): Unit = {
     import log._
-    if(!edges.contains(Pair(from, to))) {
+    if(!edges.contains((from, to))) {
       nodes += to
       nodes += from
-      edges += Pair(from, to)
+      edges += ((from, to))
     }
   }
 
-  override def preStart() {
+  override def preStart():Unit = {
     nfnSocket ! UDPConnection.Handler(self)
     logger.debug("started Monitor")
   }
@@ -125,7 +125,7 @@ case class Monitor() extends Actor {
 
   implicit val formats =
     DefaultFormats.withHints(
-      ShortTypeHints(List(classOf[InterestInfoLog], classOf[ContentInfoLog])) )
+      ShortTypeHints(List(classOf[InterestInfoLog], classOf[ConstantInterestInfoLog], classOf[RemoveConstantInterestInfoLog], classOf[ContentInfoLog])) )
 
   def handleConnectLogJson(json: JsonAST.JValue): Unit = {
     json.extractOpt[ConnectLog] match {
@@ -150,6 +150,12 @@ case class Monitor() extends Actor {
       (parsedPacket \\ "type").extract[String] match {
         case t @ "interest" => {
           InterestInfoLog(t, name)
+        }
+        case t @ "constantInterest" => {
+          ConstantInterestInfoLog(t, name)
+        }
+        case t @ "removeConstantInterest" => {
+          RemoveConstantInterestInfoLog(t, name)
         }
         case t @ "content" =>
           val data = (parsedPacket \\ "data").extract[String]

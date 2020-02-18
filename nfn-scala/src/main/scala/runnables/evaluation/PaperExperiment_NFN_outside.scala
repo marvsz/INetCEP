@@ -1,11 +1,11 @@
 package runnables.evaluation
 
-import ccn.packet.{CCNName, Interest, Content}
-import com.typesafe.config.{ConfigFactory, Config}
+import ccn.packet.{Content, Interest}
+import com.typesafe.config.{Config, ConfigFactory}
 import nfn.service.WordCount
 import node.LocalNodeFactory
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 /**
@@ -110,15 +110,15 @@ object PaperExperiment_NFN_outside extends App {
   implicit val useThunks: Boolean = false
 
   //Test1
-  val exp1 = 'x @: (wcPrefix1 call 'x)  // call 2 /../wc /../doc/test1 <-> /doc/test1 / @x call 2  /../wc / x
+  val exp1 = Symbol("x") @: (wcPrefix1 call Symbol("x"))  // call 2 /../wc /../doc/test1 <-> /doc/test1 / @x call 2  /../wc / x
   val i1 = Interest(exp1.name.prepend(docname3))
 
   //Test2
-  val exp2 = 'x @: ('x call docname5)
+  val exp2 = Symbol("x") @: (Symbol("x") call docname5)
   val i2 = Interest(exp2.name.prepend(wcPrefix3))
 
   //Test3
-  val exp3 = 'x @: (wcPrefix4 call 'x)
+  val exp3 = Symbol("x") @: (wcPrefix4 call Symbol("x"))
   val i3 = Interest(exp3.name.prepend(docname4))
 
 

@@ -13,9 +13,12 @@ import java.io._
 import nfn.service._
 import config.StaticConfig
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+
 class SetData() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     val sacepicnEnv = StaticConfig.systemPath
 

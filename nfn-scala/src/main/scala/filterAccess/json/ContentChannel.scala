@@ -1,9 +1,7 @@
 package filterAccess.json
 
-import net.liftweb.json._
 import net.liftweb.json.JsonDSL._
-
-import scala.util.parsing.json.JSONObject
+import net.liftweb.json._
 
 /**
  * Created by Claudio Marxer <marxer@claudio.li>
@@ -85,7 +83,7 @@ object ContentChannelBuilder {
             )
         )
 
-    compact(render(json))
+    compactRender(json)
   }
 
 }

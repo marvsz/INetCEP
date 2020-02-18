@@ -1,22 +1,13 @@
 package runnables.production
 
 
-import ccn.packet.{CCNName, Content}
-import com.typesafe.scalalogging.slf4j.Logging
+import ccn.packet.CCNName
+import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
-import nfn.service.GPS.GPX.GPXOriginFilter
-import nfn.service.GPS.GPX.GPXDistanceAggregator
-import nfn.service.GPS.GPX.GPXDistanceComputer
-import nfn.service.NBody
-import nfn.service.Temperature.{ReadSensorData, ReadSensorDataSimu, StoreSensorData}
-import nfn.service._
+import nfn.service.PlacementServices.QueryPlacement
+import nfn.service.{Filter, ServiceSubscriber, Window, QueryResultPrinter}
 import node.LocalNode
-import orgOpenmhealth.helperServices.SimpleToJSON
-import orgOpenmhealth.services.{DistanceTo, PointCount}
 import scopt.OptionParser
-
-import sys.process._
-import scala.io.Source
 
 
 object ComputeServerConfigDefaults {
@@ -38,7 +29,7 @@ case class ComputeServerConfig(prefix: CCNName = ComputeServerConfigDefaults.pre
                                suite: String = "")
 
 
-object ComputeServerStarter extends Logging {
+object ComputeServerStarter extends LazyLogging {
 
   val argsParser =  new OptionParser[ComputeServerConfig]("") {
     override def showUsageOnError = true
@@ -116,32 +107,36 @@ object ComputeServerStarter extends Logging {
           * Updated by Ali on 06.02.18.
           * To make a new service available for computations - it is important to add it here. Once done, named-function interests containing these service names will be available for resolution.
           */
-        node.publishServiceLocalPrefix(new Join())
+        //node.publishServiceLocalPrefix(new Concatenate())
         node.publishServiceLocalPrefix(new Window())
+        node.publishServiceLocalPrefix(new QueryPlacement())
+        node.publishServiceLocalPrefix(new ServiceSubscriber())
         node.publishServiceLocalPrefix(new Filter())
-        node.publishServiceLocalPrefix(new Sequence())
-        node.publishServiceLocalPrefix(new Aggregation())
-        node.publishServiceLocalPrefix(new Prediction1())
-        node.publishServiceLocalPrefix(new Prediction2())
-        node.publishServiceLocalPrefix(new Heatmap())
+        node.publishServiceLocalPrefix(new QueryResultPrinter())
+
+        //node.publishServiceLocalPrefix(new Sequence())
+        //node.publishServiceLocalPrefix(new Aggregation())
+        //node.publishServiceLocalPrefix(new Prediction1())
+        //node.publishServiceLocalPrefix(new Prediction2())
+        //node.publishServiceLocalPrefix(new Heatmap())
         //node.publishServiceLocalPrefix(new WordCount())
-        node.publishServiceLocalPrefix(new ExecuteQuery())
+        //node.publishServiceLocalPrefix(new ExecuteQuery())
         //node.publishServiceLocalPrefix(new QueryCentralLocalNS()) //One node keeps content state for all network. Network nodes must update this node.
         //node.publishServiceLocalPrefix(new QueryCentralRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
 
         //node.publishServiceLocalPrefix(new QueryRandomLocalNS()) //One node keeps content state for all network. Network nodes must update this node.
         //node.publishServiceLocalPrefix(new QueryRandomRemNS()) //Node that receives a query fetches network state on every query. Network nodes update themselves
         //node.publishServiceLocalPrefix(new QueryRandom()) //New RandomQuery Placement scheme
-        node.publishServiceLocalPrefix(new UpdateNodeState())
-        node.publishServiceLocalPrefix(new GetContent())
-        node.publishServiceLocalPrefix(new GetData())
-        node.publishServiceLocalPrefix(new SetData())
+        //node.publishServiceLocalPrefix(new UpdateNodeState())
+        //node.publishServiceLocalPrefix(new GetContent())
+        //node.publishServiceLocalPrefix(new GetData())
+        //node.publishServiceLocalPrefix(new SetData())
         //node.publishServiceLocalPrefix(new QueryDecentral()) //Decentral query execution
         //node.publishServiceLocalPrefix(new QueryCentralFixed()) //Fixed Weights Central
         //node.publishServiceLocalPrefix(new QueryDecentralFixed()) //Fixed Weights Decentral
         //Query Service (Consisting of both Centralized and Decentralized Placement algorithms)
-        node.publishServiceLocalPrefix(new Placement())
-        node.publishServiceLocalPrefix(new CentralizedPlacement())
+        //node.publishServiceLocalPrefix(new QueryPlacement())
+        //node.publishServiceLocalPrefix(new CentralizedPlacement())
 
         //node.publishServiceLocalPrefix(new DelayedWordCount())
         //node.publishServiceLocalPrefix(new IntermediateTest())

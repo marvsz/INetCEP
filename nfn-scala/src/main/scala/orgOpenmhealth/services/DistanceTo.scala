@@ -1,17 +1,18 @@
 package orgOpenmhealth.services
 
 import akka.actor.ActorRef
-import ccn.packet.{CCNName, Content, Interest}
-import config.CCNLiteSystemPath
+import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
 //import net.named_data.jndn.util.Blob
 //import net.named_data.jndn.{Name, Face}
 //import net.named_data.jndn.encrypt.{ConsumerDb, Consumer}
 //import net.named_data.jndn.security.KeyChain
-import nfn.service
 import nfn.service._
 import orgOpenmhealth.helpers.Helpers._
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 
 
@@ -47,7 +48,7 @@ class DistanceTo extends NFNService {
 
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match{
 

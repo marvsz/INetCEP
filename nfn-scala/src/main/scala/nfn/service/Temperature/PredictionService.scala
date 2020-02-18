@@ -6,6 +6,9 @@ import lambdacalculus.parser.ast.{Constant, Str}
 import nfn.service._
 import nfn.tools.Networking._
 import scala.concurrent.duration._
+import scala.language.postfixOps
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 /**
  * Created by blacksheeep on 17/11/15.
  */
@@ -18,7 +21,7 @@ class PredictionService  extends NFNService    {
   import nfn.LambdaNFNImplicits._
   implicit val useThunks: Boolean = false
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
     (args.head, args.tail.head, args.tail.tail.head, args.tail.tail.tail.head, args.tail.tail.tail.tail.head) match {
       case (tempSensorDB: NFNStringValue, preasureSensorDB: NFNStringValue, tempSensor: NFNStringValue, preasureSensor: NFNStringValue, predictionNum: NFNIntValue) => {
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #This script has to be started on each node capable of handling queries to utilize the queryStore and execute the commands after an interval.
-input="$HOME/manisha/gitlab/ws18_aoc2_lab/nodeData/queryStore"
-
+#input="$HOME/manisha/gitlab/ws18_aoc2_lab/nodeData/queryStore"
+input="$HOME/INetCEP/nodeData/queryStore"
 rm $input
 
 ParentIP=$1

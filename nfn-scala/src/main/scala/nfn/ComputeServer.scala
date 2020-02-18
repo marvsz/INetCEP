@@ -1,15 +1,19 @@
 package nfn
 
-import akka.actor.SupervisorStrategy.{Escalate, Restart, Resume, Stop}
-import akka.actor.{Actor, ActorRef, OneForOneStrategy, PoisonPill, Props}
+import akka.actor.SupervisorStrategy.Stop
+import akka.actor.{Actor, ActorRef, OneForOneStrategy, Props}
 import akka.event.Logging
 import ccn.packet.{CCNName, Content}
+import nfn.service.NFNValue
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object ComputeServer {
 
   case class Compute(name: CCNName)
+
+  case class ComputeDataStream(name: CCNName, additionalArguments: Seq[NFNValue])
 
   case class Thunk(name: CCNName)
 
@@ -48,7 +52,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
       if(name.isCompute) {
         val nameWithoutThunk = name.withoutThunk
         if(!computeWorkers.contains(nameWithoutThunk)) {
-          logger.debug(s"Started new computation with thunks for $nameWithoutThunk")
+          logger.info(s"Started new computation with thunks for $nameWithoutThunk")
           val computeWorker = createComputeWorker(nameWithoutThunk, sender, nodePrefix)
           computeWorkers += nameWithoutThunk -> computeWorker
           computeWorker.tell(computeMsg, sender)
@@ -56,7 +60,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
           logger.debug(s"Computation for $name is already running")
         }
       } else {
-        logger.error(s"Interest was not a compute interest, discaring it")
+        logger.error(s"Interest was not a compute interest, discarding it")
       }
     }
 
@@ -64,16 +68,38 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
       if(!name.isThunk) {
         computeWorkers.get(name) match {
           case Some(worker) => {
-            logger.debug(s"Received Compute for $name, forwarding it to running compute worker")
+            logger.error(s"Received Compute for $name, forwarding it to running compute worker")
             worker.tell(computeMsg, sender)
           }
           case None => {
-            logger.debug(s"Started new computation without thunks for $name")
+            logger.info(s"Started new computation without thunks for $name")
             val computeWorker = createComputeWorker(name, sender, nodePrefix)
             computeWorkers += name -> computeWorker
 
             // forward the compute message to the newly created compute worker
             computeWorker.tell(computeMsg, sender)
+          }
+        }
+      }
+      else {
+        logger.error(s"Compute message must contain the name of the final interest and not a thunk interest: $name")
+      }
+    }
+
+    case cds @ ComputeServer.ComputeDataStream(name: CCNName, additionalArguments: Seq[NFNValue]) =>{
+      if(!name.isThunk) {
+        computeWorkers.get(name) match {
+          case Some(worker) => {
+            logger.error(s"Received Compute for $name with additionalArguments ${additionalArguments.toString()}, forwarding it to running compute worker")
+            worker.tell(cds, sender)
+          }
+          case None => {
+            logger.info(s"Started new computation without thunks for $name with additionalArguments ${additionalArguments.toString()}")
+            val computeWorker = createComputeWorker(name, sender, nodePrefix)
+            computeWorkers += name -> computeWorker
+
+            // forward the compute message to the newly created compute worker
+            computeWorker.tell(cds, sender)
           }
         }
       }
@@ -98,8 +124,8 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
                 computeWorker.tell(ComputeWorker.Cancel(computeName), sender)
                 computeWorkers -= computeName
                 senderCopy ! Content(name, " ".getBytes) // empty response signifies successful cancellation
-                //                val workers = computeWorkers(computeName)
-                //                logger.debug(s"Remaining workers for $computeName: $workers")
+//                val workers = computeWorkers(computeName)
+//                logger.debug(s"Remaining workers for $computeName: $workers")
               }
               case None => logger.warning(s"Received CANCEL request for computation which does not exist: $name")
             }

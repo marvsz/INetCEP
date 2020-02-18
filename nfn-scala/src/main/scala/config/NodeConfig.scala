@@ -3,7 +3,6 @@ package config
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-import akka.event.Logging.LogLevel
 import akka.util.Timeout
 import ccn.CCNWireFormat
 import ccn.packet.CCNName
@@ -24,8 +23,8 @@ object StaticConfig {
   private var wireFormat: Option[CCNWireFormat] = None
 
   def systemPath = {
-    val path = System.getenv("HOME")+ "/MA-Ali" //"/manisha/gitlab/ws18_aoc2_lab"//"/MA-Ali" // ws18_aoc2_lab
-    //val path = System.getenv("HOME")+ "/manisha/gitlab/ws18_aoc2_lab"//"/MA-Ali" // ws18_aoc2_lab
+    val path = System.getenv("HOME")+ "/INetCEP" //"/manisha/gitlab/ws18_aoc2_lab"//"/INetCEP" // ws18_aoc2_lab
+    //val path = System.getenv("HOME")+ "/manisha/gitlab/ws18_aoc2_lab"//"/INetCEP" // ws18_aoc2_lab
     path
   }
 
@@ -79,8 +78,8 @@ object StaticConfig {
 }
 
 object LogLevelSLF4J {
-  import org.slf4j.LoggerFactory
   import ch.qos.logback.classic.{Level, Logger}
+  import org.slf4j.LoggerFactory
   def setLogLevel(str: String) = {
     val slf4jLevel =
       str.toUpperCase match {
@@ -98,7 +97,7 @@ object LogLevelSLF4J {
 
     setSLF4J(slf4jLevel)
   }
-  def setSLF4J(level: Level) {
+  def setSLF4J(level: Level): Unit = {
     val rootLogger = LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME).asInstanceOf[Logger]
     rootLogger.setLevel(level)
   }
@@ -125,8 +124,6 @@ trait NodeConfig {
   def port: Int
   def prefix: CCNName
   def toNodeLog: NodeLog
-
-
 }
 
 case class CombinedNodeConfig(maybeNFNNodeConfig: Option[RouterConfig], maybeComputeNodeConfig: Option[ComputeNodeConfig])
@@ -137,5 +134,5 @@ case class RouterConfig(host: String, port: Int, prefix: CCNName, mgmntSocket: S
 
 
 case class ComputeNodeConfig(host: String, port: Int, prefix: CCNName, withLocalAM: Boolean = false) extends NodeConfig {
-  def toNodeLog: NodeLog = NodeLog(host, port, Some("ComputeNode"), Some(prefix + "compute"))
+  def toNodeLog: NodeLog = NodeLog(host, port, Some("ComputeNode"), Some(prefix.toString + "compute"))
 }

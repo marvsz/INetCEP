@@ -1,30 +1,36 @@
 package SACEPICN;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 public class OperatorTreeTest {
 
 
     OperatorTree opTree;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.opTree = new OperatorTree();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         this.opTree = null;
     }
 
     @Test
     public void testCreateOperatorTree() throws Exception {
-        Map result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)])");
+
+        Map result = opTree.createOperatorTree("FILTER(gps,WINDOW(name,nodeA/sensor/gps1,5,S),Longitude>8,name)");
+        assertNotNull(result);
+        assertEquals(2, result._stackSize);
+
+        result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)])");
         assertNotNull(result);
         assertEquals(5, result._stackSize);
 

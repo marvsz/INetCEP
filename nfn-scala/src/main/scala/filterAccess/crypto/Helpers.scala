@@ -11,7 +11,7 @@ import javax.crypto.spec.SecretKeySpec
 import javax.crypto.spec.IvParameterSpec
 
 import java.security.KeyPairGenerator
-import nfn.tools.Helpers._
+import nfn.tools.IOHelpers._
 
 /**
  * Created by Claudio Marxer <marxer@claudio.li>

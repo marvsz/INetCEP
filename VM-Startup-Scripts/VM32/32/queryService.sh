@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #This script has to be started on each node capable of handling queries to utilize the queryStore and execute the commands after an interval.
-input="$HOME/MA-Ali/nodeData/queryStore"
+input="$HOME/INetCEP/nodeData/queryStore"
 
-rm $HOME/MA-Ali/nodeData/queryStore
+rm $HOME/INetCEP/nodeData/queryStore
 
 ParentIP=$1
 ParentPort=$2
@@ -40,8 +40,9 @@ do
 	fi
 
 	#Here sourceOfQuery = 'QS' signifies that this query is part of the re-computation process
-	#timeout 20 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 20 "" "call 8 /node/$ParentNodeName/nfn_service_$QueryType '$algorithm' '$newRunID' 'QS' '$clientID' '$query' '$region' '$timestamp'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	timeout 20 $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 20 "" "call 8 /node/$ParentNodeName/nfn_service_$QueryType '$algorithm' '$newRunID' 'QS' '$clientID' '$query' '$region' '$timestamp'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	timeout 20 $CCNL_HOME/src/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 20 "call 9 /node/$ParentNodeName/nfn_service_$QueryType '$algorithm' '$processing' '$newRunID' 'QS' '$clientID' '$query' '$region' '$timestamp'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2	
+#timeout 20 $CCNL_HOME/src/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 20 "" "call 9 /node/$ParentNodeName/nfn_service_$QueryType '$algorithm' '$processing' '$newRunID' 'QS' '$clientID' '$query' '$region' '$timestamp'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2	
+	#timeout 20 $CCNL_HOME/src/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 20 "" "call 9 /node/$ParentNodeName/nfn_service_$QueryType '$algorithm' '$processing' '$newRunID' 'QS' '$clientID' '$query' '$region' '$timestamp'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	if [ $? -eq 124 ]; then
 	    # Timeout occurred
 		echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': Request timed out after 20 seconds -' $?

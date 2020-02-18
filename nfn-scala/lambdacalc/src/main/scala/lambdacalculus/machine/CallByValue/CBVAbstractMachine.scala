@@ -1,9 +1,9 @@
 package lambdacalculus.machine.CallByValue
 
 import lambdacalculus.machine._
-import com.typesafe.scalalogging.slf4j.Logging
+import com.typesafe.scalalogging.LazyLogging
 
-case class CBVAbstractMachine(override val storeIntermediateSteps:Boolean = false, maybeExecutor: Option[CallExecutor] = None) extends AbstractMachine with Logging {
+case class CBVAbstractMachine(override val storeIntermediateSteps:Boolean = false, maybeExecutor: Option[CallExecutor] = None) extends AbstractMachine with LazyLogging {
 
   type AbstractConfiguration = CBVConfiguration
 

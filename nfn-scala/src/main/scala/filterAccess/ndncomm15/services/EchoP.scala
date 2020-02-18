@@ -4,7 +4,8 @@ import akka.actor.ActorRef
 import filterAccess.crypto.Helpers.symKeyGenerator
 import filterAccess.tools.Exceptions._
 import nfn.service._
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.Random
 import java.io.FileWriter
 
@@ -100,7 +101,7 @@ class EchoP extends NFNService {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(pubKey)) => processEcho(pubKey) match {

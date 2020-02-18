@@ -1,9 +1,7 @@
 package monitor
 
-import ccn.ccnlite.CCNLiteXmlParser
-import config.NodeConfig
-import monitor.Monitor.{ContentInfoLog, InterestInfoLog, PacketLog, NodeLog}
 import ccn.packet.Interest
+import monitor.Monitor.{ContentInfoLog, InterestInfoLog, NodeLog, PacketLog}
 
 /**
  * Created by basil on 17/04/14.
@@ -22,13 +20,13 @@ object TestApp extends App {
     )
 
   val edges = Set(
-    Pair(nodes(0), nodes(1)),
-    Pair(nodes(1), nodes(0)),
-    Pair(nodes(1), nodes(2)),
-    Pair(nodes(2), nodes(3)),
-    Pair(nodes(3), nodes(0)),
-    Pair(nodes(0), nodes(2)),
-    Pair(nodes(2), nodes(1))
+    (nodes(0), nodes(1)),
+    (nodes(1), nodes(0)),
+    (nodes(1), nodes(2)),
+    (nodes(2), nodes(3)),
+    (nodes(3), nodes(0)),
+    (nodes(0), nodes(2)),
+    (nodes(2), nodes(1))
   )
 
   val interest = Interest("name")

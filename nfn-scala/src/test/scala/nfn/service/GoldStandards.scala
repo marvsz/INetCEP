@@ -1,7 +1,8 @@
 package nfn.service
 
 import config.StaticConfig
-import org.junit.Test
+import nfn.tools.FilterHelpers
+import org.junit.jupiter.api.Test
 
 class GoldStandards {
   val sacepicnEnv = StaticConfig.systemPath
@@ -46,7 +47,7 @@ class GoldStandards {
     val path1 = victimsSensorPath
     var a = 0
     val executionTimes = 30
-    var arguments1 = filter.parseFilterArguments("3=M&4>30")
+    var arguments1 = FilterHelpers.parseFilterArguments("3=M&4>30")
     System.out.println("Q2 New Gold Standard: ")
     for (a <- 1 to executionTimes) {
       val window1 = new Window()
@@ -66,7 +67,7 @@ class GoldStandards {
     val path = gps1SensorPath
     var a = 0
     val executionTimes = 30
-    var arguments = filter.parseFilterArguments("3>50")
+    var arguments = FilterHelpers.parseFilterArguments("3>50")
     System.out.println("Q2 Gold Standard: ")
     for (a <- 1 to executionTimes) {
       System.out.println("Query Result: ")
@@ -81,14 +82,14 @@ class GoldStandards {
   @Test
   def q3NewGoldStandard() = {
 
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = victimsSensorPath
     val path2 = survivorsSensorPath
     var a = 0
     val executionTimes = 30
-    var arguments1 = filter.parseFilterArguments("3=f&4>25")
-    var arguments2 = filter.parseFilterArguments("3=M&4>30")
+    var arguments1 = FilterHelpers.parseFilterArguments("3=f&4>25")
+    var arguments2 = FilterHelpers.parseFilterArguments("3=M&4>30")
     System.out.println("Q3 New Gold Standard: ")
     for (a <- 1 to executionTimes) {
       val window1 = new Window()
@@ -106,13 +107,13 @@ class GoldStandards {
   def q3GoldStandard() = {
     val window1 = new Window()
     val window2 = new Window()
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = gps1SensorPath
     val path2 = gps2SensorPath
     var a = 0
     val executionTimes = 30
-    var arguments = filter.parseFilterArguments("3>50")
+    var arguments = FilterHelpers.parseFilterArguments("3>50")
     System.out.println("Q3 Gold Standard: ")
     for (a <- 1 to executionTimes) {
       System.out.println("Query Result: ")
@@ -123,7 +124,7 @@ class GoldStandards {
   @Test
   def q4GoldStandard()={
 
-    val join = new Join()
+    val join = new Concatenate()
     val path1 = plug1SensorPath
     val path2 = plug2SensorPath
     var a = 0
@@ -146,13 +147,13 @@ class GoldStandards {
   @Test
   def q5GoldStandard()={
 
-    val join = new Join()
+    val join = new Concatenate()
     val filter = new Filter()
     val path1 = plug1SensorPath
     val path2 = plug2SensorPath
     var a = 0
     val executionTimes = 120
-    var arguments = filter.parseFilterArguments("6>50")
+    var arguments = FilterHelpers.parseFilterArguments("6>50")
     System.out.println("Q5 Gold Standard: ")
     for (a <- 1 to executionTimes){
       val window1 = new Window()
@@ -171,7 +172,7 @@ class GoldStandards {
   @Test
   def q6GoldStandard(): Unit ={
 
-    val join = new Join()
+    val join = new Concatenate()
     val heatmap = new Heatmap()
     val path1 = gps1SensorPath
     val path2 = gps2SensorPath

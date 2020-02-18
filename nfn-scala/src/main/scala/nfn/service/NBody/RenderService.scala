@@ -2,25 +2,25 @@ package nfn.service.NBody
 
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
-import javax.imageio.ImageIO
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import akka.actor.ActorRef
 import ccn.packet.CCNName
+import javax.imageio.ImageIO
 import nfn.service.{NFNStringValue, _}
-import nfn.tools.Networking._
 
 
 class RenderService extends NFNService {
-  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): NFNValue = {
+  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
 
 
-    var options = Map('xres -> 500, 'yres -> 500)
+    var options = Map(Symbol("xres") -> 500, Symbol("yres") -> 500)
     var configuration = Array[Byte]()
 
     var args = argSeq.toList
     while (args.nonEmpty) args match {
-      case NFNStringValue("-w") :: NFNIntValue(value) :: tail => options += ('xres -> value); args = args drop 2
-      case NFNStringValue("-h") :: NFNIntValue(value) :: tail => options += ('yres -> value); args = args drop 2
+      case NFNStringValue("-w") :: NFNIntValue(value) :: tail => options += (Symbol("xres") -> value); args = args drop 2
+      case NFNStringValue("-h") :: NFNIntValue(value) :: tail => options += (Symbol("yres") -> value); args = args drop 2
       case NFNContentObjectValue(name, data) :: tail => configuration = data; args = args drop 1
       case _ => args = List()
     }
@@ -36,7 +36,7 @@ class RenderService extends NFNService {
     val simulation = new Simulation(config, deltaTime)
 
 //    val resolution = Vector(options('xres), options('yres))
-    val canvas = new BufferedImage(options('xres), options('yres), BufferedImage.TYPE_INT_RGB)
+    val canvas = new BufferedImage(options(Symbol("xres")), options(Symbol("yres")), BufferedImage.TYPE_INT_RGB)
     simulation.render(renderArea, canvas)
 
     val baos = new ByteArrayOutputStream()

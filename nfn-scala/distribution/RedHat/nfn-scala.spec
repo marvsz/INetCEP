@@ -1,5 +1,5 @@
 Name:		NFN-Scala
-Version:	0.2.0
+Version:	0.2.2
 Release:	1%{?dist}
 Summary:	NFN-Scala
 

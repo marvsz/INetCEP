@@ -13,7 +13,7 @@ queryServiceInterval=$4
 #simulation run time in seconds
 simRunTime=$5
 #TODO fix workaround: setting CCNL_HOME for executeQuery method (env variables of the remote machine cannot be accessed if quotes are removed from "ENDSSH" and if quotes are put then "queryType" cannot be accessed)
-CCNL_HOME="~/MA-Ali/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
+CCNL_HOME="~/INetCEP/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
 
 #This script automates the execution of the system remotely on seven VMS (check VMS.cfg) 
 #It first sets up the environment by copying the relevant binaries and scripts for execution remotely 
@@ -34,21 +34,25 @@ if [[ -z $simRunTime ]]
 #new Usage: bash publishRemotely.sh all "Placement" 1 20 1200
 all() {
 	
-	buildCCNLite
-	buildNFN
-	sleep 2s
-	setup	
-	sleep 2s
+	#deployCCN
+	#echo "building NFN"
+	#buildNFN
+	#sleep 2s
+	echo "copying Node Info"
 	copyNodeInfo
 	sleep 2s
-	copyCCNFiles
-	sleep 2s
-	copyNFNFiless
-	sleep 2s
+	#echo "copying NFN Files"
+	#copyNFNFiles
+	#sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	echo "Creating Topology"
 	createTopology
-	sleep 5s
+	sleep 14s
+	echo "Starting UpdateNodestate Service"
 	execute
-	sleep 5s
+	sleep 40s
+	echo "executing Query"
 	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
@@ -56,31 +60,94 @@ installDependencies() {
 read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
 	do
+		echo "logged in: " $i
 		ssh -t $user@$i<<-ENDSSH
-		echo "Installing JAVA"
 		echo "$sudoPW" | sudo -S apt-get update
-		echo "$sudoPW" | sudo -S apt-get install -y libssl-dev default-jdk default-jre bc iperf
+		echo "$sudoPW" | sudo -S apt-get remove scala-library scala		
+		echo "$sudoPW" | sudo -S apt-get install -y build-essential libssl-dev default-jdk default-jre bc iperf
+		cd ~/Download
+		echo "$sudoPW" | sudo -S wget http://scala-lang.org/files/archive/scala-2.13.1.deb
+		echo "$sudoPW" | sudo -S dpkg -i scala-2.13.1.deb
+		echo "$sudoPW" | sudo -S wget https://dl.bintray.com/sbt/debian/sbt-0.13.17.deb
+		echo "$sudoPW" | sudo -S dpkg -i sbt-0.13.17.deb
+		cd ~/Download
+		wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
+		tar -xzvf cmake-3.7.2.tar.gz
+		cd cmake-3.7.2/
+		./bootstrap
+		make -j4
+		echo "$sudoPW" | sudo -S make install
+		echo "$sudoPW" | sudo -S apt install doxygen -y
+		cd ~/Download
+		echo "Getting openssl1.1.0f"
+		wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz
+		tar xzvf openssl-1.1.1d.tar.gz
+		cd openssl-1.1.1d
+		./config -Wl,--enable-new-dtags,-rpath,'$(LIBRPATH)'
+		make
+		echo "$sudoPW" | sudo -S make install
+		cd /usr/local/lib/
+		echo "$sudoPW" | sudo -S cp libcrypto.so.1.1 /usr/lib/
+		echo "$sudoPW" | sudo -S cp libcrypto.a /usr/lib/
+		echo "$sudoPW" | sudo -S cp libssl.so.1.1 /usr/lib/
+		echo "$sudoPW" | sudo -S cp libssl.a /usr/lib/
+		cd /usr/lib/
+		echo "$sudoPW" | sudo -S ln -s libcrypto.so.1.1 libcrypto.so
+		echo "$sudoPW" | sudo -S ln -s libssl.so.1.1 libssl.so
+		echo "$sudoPW" | sudo -S ldconfig
 		ENDSSH
 	done
 }
 
-
-#copy the binaries
-#Usage : bash publishRemotely.sh setup
-setup() {
-echo "creating directories and deleting old ones"
+installGCC7(){
+read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
 	do
-		echo "logged in: " $i 	
-		# make directories if they don't exist already
-		ssh -t $user@$i <<-'ENDSSH'	
-		rm -rf ~/MA-Ali
-		mkdir -p ~/MA-Ali/ccn-lite/bin/
-		mkdir -p ~/MA-Ali/nodeData/
-		mkdir -p ~/MA-Ali/computeservers/nodes/
-		mkdir -p ~/MA-Ali/sensors
+		echo "logged in: " $i
+		ssh -t $user@$i<<-ENDSSH
+		echo "$sudoPW" | sudo -S update-alternatives --remove-all gcc 
+		echo "$sudoPW" | sudo -S update-alternatives --remove-all g++
+		echo "$sudoPW" | sudo -S apt-get install -y software-properties-common
+		echo "$sudoPW" | sudo -S add-apt-repository ppa:ubuntu-toolchain-r/test
+		echo "$sudoPW" | sudo -S apt update
+		echo "$sudoPW" | sudo -S apt install g++-7 -y
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 10
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 20
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 10
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 20
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+		echo "$sudoPW" | sudo -S update-alternatives --set cc /usr/bin/gcc
+		echo "$sudoPW" | sudo -S update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+		echo "$sudoPW" | sudo -S update-alternatives --set c++ /usr/bin/g++
 		ENDSSH
-    	done
+	done
+}
+
+restartVMs(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh $user@$i <<-ENDSSH
+		echo "$sudoPW" | sudo -S reboot
+		ENDSSH
+		echo "rebooted: " $i
+	done
+}
+
+updateVMs(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh $user@$i <<-ENDSSH
+		echo "$sudoPW" | sudo -S apt-get update
+		echo "$sudoPW" | sudo -S apt-get upgrade -y
+		echo "$sudoPW" | sudo -S apt-get autoremove -y
+		echo "$sudoPW" | sudo -S reboot
+		ENDSSH
+		echo "updated: " $i
+	done
 }
 
 copyNFNFiles(){
@@ -88,22 +155,13 @@ echo "copying NFN-jar"
 	#copy only the required jar
 	for i in "${VMS[@]}"
 	do
-		scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@$i:~/MA-Ali/computeservers/nodes/*/
+		scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@$i:~/INetCEP/computeservers/nodes/*/
 	done
 }
 
-copyCCNFiles(){
-echo "copying CCN-lite binaries"
-	#copy only the required binaries
-	for i in "${VMS[@]}"
-	do	
-		ssh -t $user@$i <<-'ENDSSH'
-		rm -rf ~/MA-Ali/computeservers/nodes/
-		mkdir -p ~/MA-Ali/computeservers/nodes/
-		ENDSSH
-		scp -rp "$work_dir"/ccn-lite/bin/* $user@$i:~/MA-Ali/ccn-lite/bin/ #TODO Ali: are there specific binaries of ccn-lite that must be copied ONLY? 
-	done
-
+deployCCN(){
+echo "copying CCN-lite source code to remote and then building it on each"
+bash remoteInstallCCNNFN.sh deployCCN
 }
 
 #copy the nodeInformation
@@ -116,37 +174,53 @@ echo "copying NodeInformation"
 		echo "logged in: " $i 	
 		# empty stuff in nodeData
 		ssh -t $user@$i <<-'ENDSSH'	
-		rm -rf ~/MA-Ali/nodeData/
-		mkdir -p ~/MA-Ali/nodeData/
-		rm -rf ~/MA-Ali/sensors
-		mkdir -p ~/MA-Ali/sensors
-		rm -rf ~/MA-Ali/evalData
-		mkdir -p ~/MA-Ali/evalData
+		rm -rf ~/INetCEP/nodeData/
+		mkdir -p ~/INetCEP/nodeData/
+		#rm -rf ~/INetCEP/sensors
+		#mkdir -p ~/INetCEP/sensors
+		rm -rf ~/INetCEP/evalData
+		mkdir -p ~/INetCEP/evalData
 		ENDSSH
 		nodesdir=($(ls -d $work_dir/computeservers/nodes/*))
-		scp -rp ${nodesdir[$count]} $user@$i:~/MA-Ali/computeservers/nodes/
-		scp -rp "$work_dir"/nodeData $user@$i:~/MA-Ali/
+		scp -rp ${nodesdir[$count]} $user@$i:~/INetCEP/computeservers/nodes/
+		scp -rp "$work_dir"/nodeData $user@$i:~/INetCEP/
 
-		scp -rp "$work_dir/VMS.cfg" $user@$i:~/MA-Ali/
-		scp -rp "$work_dir"/sensors/* $user@$i:~/MA-Ali/sensors/
+		scp -rp "$work_dir/VMS.cfg" $user@$i:~/INetCEP/
+		#scp -rp "$work_dir"/sensors/* $user@$i:~/INetCEP/sensors/
 	
-		#scp -rp "$work_dir"/evalData/* $USER@$i:~/MA-Ali/evalData/
+		#scp -rp "$work_dir"/evalData/* $USER@$i:~/INetCEP/evalData/
 
 		#copy the scripts only once for this VM
-		ssh $user@$i 'rm -r ~/MA-Ali/VM-Startup-Scripts'
+		ssh $user@$i 'rm -r ~/INetCEP/VM-Startup-Scripts'
 		VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
 		
 		#copy the start up scripts
-		scp -r ${VMSdir[$count]} $user@$i:~/MA-Ali/VM-Startup-Scripts
+		scp -r ${VMSdir[$count]} $user@$i:~/INetCEP/VM-Startup-Scripts
 
 		#copy the shutdown scripts
-		ssh $user@$i 'rm -r ~/MA-Ali/VM-Shutdown-Scripts'
+		ssh $user@$i 'rm -r ~/INetCEP/VM-Shutdown-Scripts'
 		VMSdir=($(ls -d $work_dir/VM-Shutdown-Scripts/*))
-		scp -r ${VMSdir[$count]} $user@$i:~/MA-Ali/VM-Shutdown-Scripts
+		scp -r ${VMSdir[$count]} $user@$i:~/INetCEP/VM-Shutdown-Scripts
 		
 		((count++))
 	
 	done
+}
+
+
+deleteOldLogs(){
+echo "deleting old logs"
+for i in "${VMS[@]}"
+	do
+	echo "logged in: " $i 	
+	# empty stuff in nodeData
+	ssh -t $user@$i <<-'ENDSSH'
+	cd ~/INetCEP/nodeData
+	find . -name "*_Log" -type f -delete
+	rm queryStore
+	ENDSSH
+	done
+
 }
 
 #initializes the topology and starts the compute server
@@ -156,7 +230,7 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		ssh -t $user@$i <<-'ENDSSH'
-		cd ~/MA-Ali/VM-Startup-Scripts
+		cd ~/INetCEP/VM-Startup-Scripts
 		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
 		#first create topology and start the compute server in all nodes
 		screen -d -m bash executeScripts.sh initialize
@@ -172,7 +246,7 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		ssh -t $user@$i <<-ENDSSH
-		cd ~/MA-Ali/VM-Startup-Scripts
+		cd ~/INetCEP/VM-Startup-Scripts
 		#second start the query service and update node state 
 		bash executeScripts.sh start $queryType $queryServiceInterval
 		ENDSSH
@@ -188,67 +262,22 @@ executeQueryinVMA() {
 	#one of a kind query
 	case $placementType in
 	1)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name),FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name))' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'WINDOW(name,victims,4,S)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	2)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Decentralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name),FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name))' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	3)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'PREDICT1(name,name,2m,JOIN(name,name,WINDOW(name,plug0,5,M),WINDOW(name,plug1,5,M)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name),FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	4)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,PREDICT2(name,name,2m,WINDOW(name,plug0,5,M)),PREDICT2(name,name,2m,WINDOW(name,plug1,5,M)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S)))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	5)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,PREDICT1(name,name,2m,JOIN(name,name,WINDOW(name,plug0,5,M),WINDOW(name,plug1,5,M))),6>20,name)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S))),6>50,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	6)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,JOIN(name,name,PREDICT2(name,name,2m,WINDOW(name,plug0,5,M)),PREDICT2(name,name,2m,WINDOW(name,plug1,5,M))),6>20,name)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	7)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.8215389251709,8.7262659072876,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,5,M),WINDOW(name,gps2,5,M)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	8)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'PREDICT1(name,name,30s,JOIN(name,name,WINDOW(name,plug0,16:22:00.000,16:23:00.000),WINDOW(name,plug1,16:22:00.000,16:23:00.000)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	9)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,22:18:38.841,22:18:41.841),3=M&4>30,name),FILTER(name,WINDOW(name,victims,22:18:38.841,22:18:41.841),3=M&4>30,name))' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	10)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,16:22:00.000,16:23:00.000)),PREDICT2(name,name,30s,WINDOW(name,plug1,16:22:00.000,16:23:00.000)))' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	11)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,15:23:00.000,15:23:30.000),WINDOW(name,gps2,15:23:00.000,15:23:30.000)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	12)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,16:22:00.000,16:23:00.000)),PREDICT2(name,name,30s,WINDOW(name,plug1,16:22:00.000,16:23:00.000))),5>58,name)' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	13)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,22:18:38.841,22:18:41.841),3=M&4>30,name)' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	14)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'WINDOW(name,victims,22:18:38.841,22:18:41.841)' 'Region1' '12:06:58.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	15)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,PREDICT1(name,name,30s,JOIN(name,name,WINDOW(name,plug0,16:22:00.000,16:23:00.000),WINDOW(name,plug1,16:22:00.000,16:23:00.000))),2>58,name)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	16)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'WINDOW(name,victims,4,S)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	17)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	18)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name),FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	19)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	20)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S))),6>50,name)' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	21)
-	$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u ${VMS[0]}/9001 -w 20 "" "call 8 /node/nodeA/nfn_service_Placement 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,2,S),WINDOW(name,gps2,2,S)))' 'Region1' '16:22:00.200'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,2,S),WINDOW(name,gps2,2,S)))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	*) echo "do_nothing"
 	;;
@@ -275,15 +304,17 @@ echo "building CCNLite"
 	cd $work_dir/ccn-lite/src
 	export USE_NFN=1
 	export USE_NACK=1
+	cmake .
 	make clean all
+	cp -r bin/ ..
 }
 
 
 # get the output from the machine where query was initialized (in this case VM 28)
 # Usage bash publishRemotely.sh getOutput
 getOutput(){
-	mkdir -p $work_dir/HeatmapOutput/	
-	scp -r $user@${VMS[0]}:~/MA-Ali/nodeData/* $work_dir/HeatmapOutput/
+	mkdir -p $work_dir/Output2/	
+	scp -r $user@${VMS[0]}:~/INetCEP/nodeData/* $work_dir/Output2/
 
 }
 
@@ -294,47 +325,83 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		# Shutdown script stops the relay and destroys the face
-		ssh -t $user@$i 'screen -d -m bash ~/MA-Ali/VM-Shutdown-Scripts/shutdown.sh'
+		ssh -t $user@$i 'screen -d -m bash ~/INetCEP/VM-Shutdown-Scripts/shutdown.sh'
 		# Still the java and bash processes needs to be stopped
 		bash $work_dir/publish_scripts/pkill.sh		
 	done
 }
 
+getLogs(){
+((count=0))
+VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
+for i in "${VMS[@]}"
+	do
+		mkdir -p $work_dir/Logs/$count	
+		scp -r $user@$i:~/INetCEP/nodeData/nodeA_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeB_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeC_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeD_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeE_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeF_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/nodeData/nodeG_Log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/CS.log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/nodes.log $work_dir/Logs/$count
+		scp -r $user@$i:~/INetCEP/VM-Startup-Scripts/*/startUp.log $work_dir/Logs/$count
+		((count++))
+	done
+}
 
 help="
 Invalid usage
 
 Publish SACEPICN script
 
-Usage: ./publishRemotely.sh <COMMAND1> <COMMAND2> <COMMAND3>
+Usage: ./publishRemotely.sh <COMMAND1> <COMMAND2> <COMMAND3> <COMMAND4> <COMMAND5>
 
 Available <COMMAND1> options:
-install: Install dependencies and setup the project
 setup: Copy the binaries and scripts to execute the application
-build: build the SACEPICN app and the ccn-lite binaries
+deployccn: deploys ccn-lite to all remote machines
+getlogs: pulls the logs from the remote machine
+restart: reboots the VMs
+update: updates the VMs
+copyNodeInfo: copies the Information necessary to run the nodes
+build: build the SACEPICN app
 create: Creates and starts the topology on ccn-lite emulator
 execute: Starts the query service, update node state and executes the placement strategy
 executeQuery: Initializes the query on VM A (1st VM in VMS.cfg)
 shutdown: Shutdown the emulation
+getOutput: pulls the Output from the VMs
+shutdown: properly shuts down the machines
 all: Run all steps to publish the cluster and start the application
 
-Available <COMMAND2> options: Query Placement service
-input: {"QueryCentralFixed", "QueryCentralLocalNS", "QueryCentralRemNS", "QueryDecentral", "QueryDecentralFixed", "QueryRandom", "QueryRandomLocalNS", "QueryRandomRemNS"}
+Available <COMMAND2> options (only with COMMAND1=all): Query Placement service
+input: {"Placement"}
 
-Avalable <COMMAND3> options: Query service interval 
-input: {N}: Any natural number
+Avalable <COMMAND3> options (only with COMMAND1=all): Query service interval 
+input: {N}: Any natural number that represents a Query, {1: Window, 2: Filter(Window), 3: Join(Filter(Window),Filter(Window), 4: Join(Predict2(Window),Predict2(Window)), 5: Filter(Join(Predict2(Window),Predict2(Window))), 6: Heatmap(Join(Window,Window))}
+
+Avalable <COMMAND4> options (only with COMMAND1=all): Query Service Interval
+input: {N}: Any natural number that represents the period in which the query store is read.
+
+Avalable <COMMAND5> options (only with COMMAND1=all): Run duration
+ipnut: {N}: Any natural number that represents the duration for which the query should run. 
 "
 
 
-if [ $1 == "setup" ]; then setup
+if [ $1 == "all" ]; then all
+elif [ $1 == "deletelogs" ]; then deleteOldLogs
+elif [ $1 == "deployccn" ]; then deployCCN
+elif [ $1 == "getlogs" ]; then getLogs
+elif [ $1 == "restart" ]; then restartVMs
+elif [ $1 == "update" ]; then updateVMs
 elif [ $1 == "copyNodeInfo" ]; then copyNodeInfo
 elif [ $1 == "install" ]; then installDependencies
 elif [ $1 == "build" ]; then buildNFN #&& buildCCNLite
 elif [ $1 == "create" ]; then createTopology
 elif [ $1 == "execute" ]; then execute
-elif [ $1 == "all" ]; then all
 elif [ $1 == "executeQuery" ]; then executeQueryinVMA
 elif [ $1 == "getOutput" ]; then getOutput
+elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "shutdown" ]; then shutdown
 else echo "$help"
 fi

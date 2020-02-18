@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 //We can also make this class final (essentially static)
 public class NodeMapping {
@@ -20,42 +21,21 @@ public class NodeMapping {
     public HashMap<String, String> nodeMapNameIP = null;
 
     public NodeMapping() {
-        String systemEnv = System.getenv("HOME") + "/MA-Ali";//"/manisha/gitlab/ws18_aoc2_lab"; // "/MA-Ali";
-        //String systemEnv = System.getenv("HOME") + "/manisha/gitlab/ws18_aoc2_lab"; // "/MA-Ali";
+        //String systemEnv = System.getenv("HOME") + "/INetCEP";//"/manisha/gitlab/ws18_aoc2_lab"; // "/INetCEP";
+        //String systemEnv = System.getenv("HOME") + "/manisha/gitlab/ws18_aoc2_lab"; // "/INetCEP";
 
         if (nodeMapPortName == null && nodeMapNamePort == null) {
-            String configFile = systemEnv + "/nodeData/nodeInformation";
-            String line = null;
-
+            NodeInformationSingleton nis = NodeInformationSingleton.getInstance();
             nodeMapPortName = new HashMap<String, String>();
             nodeMapNamePort = new HashMap<String, String>();
 
             nodeMapPortIP = new HashMap<String, String>();
             nodeMapNameIP = new HashMap<String, String>();
-
-            try {
-                FileReader fileReader =
-                        new FileReader(configFile);
-
-                BufferedReader bufferedReader =
-                        new BufferedReader(fileReader);
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    String[] lineBreak = line.split("-");
-                    if (lineBreak.length > 1) {
-                        //Adding node mapping to object:
-                        nodeMapNamePort.put(lineBreak[0], lineBreak[1]); //NodeX/900X
-                        nodeMapPortName.put(lineBreak[1], lineBreak[0]); //900X/NodeX
-
-                        nodeMapPortIP.put(lineBreak[1], lineBreak[2]);
-                        nodeMapNameIP.put(lineBreak[0], lineBreak[2]);
-                    }
-                }
-                bufferedReader.close();
-            } catch (FileNotFoundException ex) {
-
-            } catch (IOException ex) {
-
+            for (NodeInformation nodeinfo : nis.nodeInfoList){
+                nodeMapNamePort.put(nodeinfo._nodeName,nodeinfo._port);
+                nodeMapPortName.put(nodeinfo._port,nodeinfo._nodeName);
+                nodeMapPortIP.put(nodeinfo._port, nodeinfo._iPAddress);
+                nodeMapNameIP.put(nodeinfo._nodeName, nodeinfo._iPAddress);
             }
         }
     }

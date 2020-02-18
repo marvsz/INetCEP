@@ -1,18 +1,18 @@
 package runnables.evaluation
 
-import ccn.packet.{Content, CCNName}
+import ccn.packet.{CCNName, Content}
 import com.typesafe.config.{Config, ConfigFactory}
 import lambdacalculus.parser.ast.{Constant, Expr, Str}
 import monitor.Monitor
 import nfn.LambdaNFNImplicits._
 import nfn.service.GPS.GPX.GPSNearByDetector
 import nfn.service.Temperature._
-import nfn.service._
-import scala.io.Source
-import sys.process._
 import node.{LocalNode, LocalNodeFactory}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.io.Source
+import scala.language.postfixOps
+import scala.sys.process._
 import scala.util.{Failure, Success}
 
 
