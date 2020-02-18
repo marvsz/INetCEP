@@ -5,7 +5,7 @@ import java.util.concurrent.TimeoutException
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
-import ccn.packet.{CCNName, ConstantInterest, Content, Interest}
+import ccn.packet.{CCNName, ConstantInterest, Content, Interest, NFNInterest}
 import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 import nfn.service._
@@ -65,6 +65,20 @@ object Networking extends LazyLogging{
 
   def makeConstantInterest(constantInterest: ConstantInterest, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
     ccnApi ! NFNApi.CCNSendConstantInterest(constantInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
+  }
+
+  def subscribeToQuery(interestName: String, interestedComputation: String, ccnApi:ActorRef): Unit = {
+    val interestedComputationName = NFNInterest(interestedComputation).name.prepend("COMPUTE")
+      //CCNName(new String(interestedComputation).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
+    if(!interestName.contains("call")){
+      ccnApi ! makeConstantInterest(interestName,interestedComputationName,ccnApi)
+    }
+    else{
+      val interestComputationName = NFNInterest(interestName).name.prepend("COMPUTE")
+        //CCNName(new String(interestName).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
+      ccnApi ! NFNApi.CCNSendConstantInterest(ConstantInterest(interestComputationName), interestedComputationName, useThunks = false)
+    }
+
   }
 
   /**

@@ -4,7 +4,6 @@ import java.io.{File, FileOutputStream, PrintWriter}
 import java.util.Calendar
 
 import SACEPICN.NodeMapping
-import SACEPICN.Operators.OperatorA
 import akka.actor.ActorRef
 import ccn.packet._
 import config.StaticConfig
@@ -344,10 +343,10 @@ object Helpers {
     result
   }
 
-  def createNFNQuery(query: String, nodeName: String): String = {
+  /*def createNFNQuery(query: String, nodeName: String): String = {
     retVal = OperatorA.getParameters
     retVal = "(call " + (this.parameters.length + 2) + " /node/nodeQuery/nfn_service_Aggregator"
-  }
+  }*/
 
   /**
    * Stores content in the cache of a node
@@ -378,6 +377,12 @@ object Helpers {
     val name = s"state/$operator/$settings"
     val nameOfContentWithoutPrefixToAdd = CCNName(new String(name).split("/").toIndexedSeq: _*)
     LogMessage(nodeName, s"State for $name saved to Network")
+    ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
+  }
+
+  def storeState(nodeName: String, input: String, stateName: String, ccnApi: ActorRef)={
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(stateName.substring(1)).split("/").toIndexedSeq: _*)
+    LogMessage(nodeName, s"State for $stateName saved to Network")
     ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, input.getBytes, MetaInfo.empty))
   }
 

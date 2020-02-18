@@ -40,30 +40,41 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
         val name = currentNode._query.replace("nodeQuery", currentNode._executionNode)
         val query = currentNode._type match {
           case Operator.WINDOW => name
-          case Operator.FILTER => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
-          case Operator.JOIN => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode)).replace("[Q2]",currentNode.right._query.replace("nodeQuery",currentNode.right._executionNode))//.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
-          case Operator.AGGREGATION => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
-          case Operator.SEQUENCE => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
-          case Operator.PREDICT1 => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
-          case Operator.PREDICT2 => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
-          case Operator.HEATMAP => name.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
+          case Operator.FILTER => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+          case Operator.JOIN => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode)).replace("[Q2]",currentNode.right._query.replace("nodeQuery",currentNode.right._executionNode))//.replace("[Q1]", currentNode.left._value).replace("[Q2]", currentNode.right._value)
+          case Operator.AGGREGATION => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+          case Operator.SEQUENCE => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))
+          case Operator.PREDICT1 => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
+          case Operator.PREDICT2 => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
+          case Operator.HEATMAP => name//.replace("[Q1]",currentNode.left._query.replace("nodeQuery",currentNode.left._executionNode))//.replace("[Q1]",currentNode.left._value)
           case _ => name
         }
         currentNode._query = query
         LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: $query")
 
-        //Determine the location (name) where this query wwriteOutputFilesill be executed:
+        //Determine the location (name) where this query writeOutputFiles will be executed:
         val remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
-        val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
-        currentNode._value = intermediateResult
+        //val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+        var callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber 'Q1' 'Q2'".replace("Q1",currentNode._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/).replace("nodeQuery", currentNode._executionNode)
+        val result = currentNode._type match {
+          case Operator.FILTER => {
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+          }
+          case _ => Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+        }
+        currentNode._value = result
 
         LogMessage(nodeName, s"Deployment result: ${currentNode._value}\n")
         currentNode._Vprocessed = true
         LogMessage(nodeName, s"CurrentNode: Execution completed. Doing recursion, back to Parent!")
 
-        if (currentNode.parent == null)
+        if (currentNode.parent == null) {
+          val callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber '(call 1 /node/nodeQuery/nfn_service_QueryResultPrinter)' 'Q2'".replace("nodeQuery",remoteNodeName).replace("Q2",currentNode._query.replaceAll("'","|"))
+          val deploymentResult = Helpers.executeNFNQuery(callerQuery,remoteNodeName,ccnApi,60)
+          LogMessage(nodeName,deploymentResult)
           currentNode
-        else
+          // Here is the last one, call the printer of the result.
+        } else
           processDeploymentTree(currentNode.parent)
       }
     }
@@ -76,8 +87,8 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
     val deployedRoot = processDeploymentTree(root._root)
     LogMessage(nodeName, s"Query Deployement Completed")
 
-    output = deployedRoot._value
-    output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
+    output = "Built Operator Tree."//deployedRoot._value
+    //output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
     LogMessage(nodeName, s"Query Execution Completed")
     output
   }

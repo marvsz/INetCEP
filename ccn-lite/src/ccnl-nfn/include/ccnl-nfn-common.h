@@ -47,6 +47,9 @@ ccnl_nfn_local_content_search(struct ccnl_relay_s *ccnl,
                               struct configuration_s *config,
                               struct ccnl_prefix_s *prefix);
 
+struct ccnl_interest_s*
+ccnl_nfn_local_interest_search(struct ccnl_relay_s *ccnl, struct configuration_s *config, struct ccnl_prefix_s *prefix);
+
 struct ccnl_content_s *
 ccnl_nfn_result2content(struct ccnl_relay_s *ccnl,
                         struct ccnl_prefix_s **prefix,

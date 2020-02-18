@@ -49,6 +49,12 @@ struct ccnl_pendint_s {
     uint32_t last_used;          /** */
 };
 
+struct ccnl_pendQ_s {
+    struct ccnl_pendQ_s *next;
+    struct ccnl_interest_s *query;
+    uint32_t last_used;
+};
+
 /**
  * @brief A interest linked list element
  */
@@ -58,6 +64,7 @@ struct ccnl_interest_s {
     struct ccnl_pkt_s *pkt;             /**< the packet the interests originates from (?) */
     struct ccnl_face_s *from;           /**< the face the interest was received from */
     struct ccnl_pendint_s *pending;     /**< linked list of faces wanting that content */
+    struct ccnl_pendQ_s *pendingQueries; /**< linked list of queries that are to be executed when the interested Data is satisfied*/
     unsigned short flags;
     uint32_t lifetime;                  /**< interest lifetime */
     bool isConst;
@@ -87,7 +94,16 @@ struct ccnl_interest_s {
 struct ccnl_interest_s*
 ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   struct ccnl_pkt_s **pkt);
+/**
+ * Creates a new interest of type \ref ccnl_interest_s but does not append it to the PIT
+ * @param from
+ * @param pkt
+ * @return  Upon success a new interest of type \ref ccnl_interest_s, otherwise NULL
+ */
 
+struct ccnl_interest_s*
+ccnl_interest_dup(struct ccnl_face_s *from,
+                  struct ccnl_pkt_s **pkt);
 /**
  * Checks if two interests are the same
  *
@@ -116,6 +132,17 @@ ccnl_interest_isSame(struct ccnl_interest_s *i, struct ccnl_pkt_s *pkt);
 int
 ccnl_interest_append_pending(struct ccnl_interest_s *i, struct ccnl_face_s *from);
 
+/**
+ * Adds a pending query interest
+ * @param i data stream interested in
+ * @param q the query that is to be executed, when a new datatuple arrives
+ * @return 0
+ * @return 1
+ * @return -1 if \ref i was NULL
+ * @return -2 if \ref q was NULL
+ */
+int
+ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q);
 /**
  * Removes a pending interest
  *

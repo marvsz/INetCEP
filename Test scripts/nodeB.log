@@ -1,0 +1,148 @@
+[I] 0.0002: This is ccn-lite-relay, starting at Jan 24 14:25:21 2020
+[I] 0.0005:   ccnl-core: 2015-07-07
+[I] 0.0005:   compile time: Jan 23 2020 09:06:23
+[I] 0.0006:   compile options: CCNxDIGEST, DEBUG, DEBUG_MALLOC, ETHERNET, HMAC256, HTTP_STATUS, LOGGING, MGMT, NFN, SUITE_CCNB, SUITE_CCNTLV, SUITE_LOCALRPC, SUITE_NDNTLV, UNIXSOCKET, 
+[I] 0.0006:   seed: 4066724855
+[I] 0.0006: configuring relay
+[I] 0.0006: configuring relay2
+[I] 0.0007: UDP interface (0.0.0.0/9999) configured
+[I] 0.0007: configuring relay3
+[I] 0.0007: could not bind socket for http server
+[I] 0.0009: UNIX interface (/tmp/mgmt-nfn-relay-b.sock) configured
+[I] 0.0009: starting main event and IO loop
+[I] 1.0020: local time is Fri Jan 24 14:25:22 2020
+[V] 1.0020: ageing t=1
+[V] 2.0030: ageing t=2
+[D] 2.1010: ccnl_core_RX ifndx=1, 97 bytes
+[T] 2.1010: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-12039.sock
+[V] 2.1010:   found suitable interface 1 for /tmp/.ccn-light-ctrl-12039.sock
+[<] 2.1010: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[D] 2.1020:   face 1, peer=/tmp/.ccn-light-ctrl-12039.sock
+[D] 2.1020: Data content to dehead Òòú¥ccnx
+[D] 2.1020: ccnl_switch_dehead: started
+[D] 2.1020: enc was 1, suite is now -1
+[T] 2.1020: pkt2suite 1 210
+[D] 2.1020: ccnl_switch_dehead: started
+[W] 2.1020: kown packet format ccnl_core_RX ifndx=1, 97 bytes starting with 0x01 at offset 0, suit is 1
+[D] 2.1020: ccnl_ccnb_forwarder: 97B from face=0x555900e75218 (id=0.1)
+[D] 2.1020: ccnb fwd (95 bytes left)
+[T] 2.1020: ccnl_ccnb_extract
+[I] 2.1020:   incoming interest=</ccnx//newface/%04%ffffff82%01%ffffff9a%03%ffffffe5%05%ffffff82%04%ffffffca%ffffffbdnewface%000+%ffffffd2%ffffff9dany%00%04%ffffffda%ffffff9517%00%04%ffffffe2%ffffffcd127.0.0.1%00%04%ffffffea%ffffffa59998%000+%fffffff2%ffffffb50x0001%00%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-12039.sock
+[I] 2.1020:   found a mgmt message
+[T] 2.1020: ccnl_mgmt request "newface"
+[T] 2.1020: ccnl_mgmt_handle "newface"
+[T] 2.1020: ccnl_mgmt_newface from=0x555900e75218, ifndx=1
+[T] 2.1020:   adding IP face ip4src=any, proto=17, host=127.0.0.1, port=9998
+[T] 2.1020: ccnl_get_face_or_create src=127.0.0.1/9998
+[V] 2.1020:   found suitable interface 0 for 127.0.0.1/9998
+[<] 2.1020: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[T] 2.1020:   adding a new face (id=2) worked!
+[D] 2.1020: ccnl_mgmt_send_return_split 114 bytes, 1 packet(s)
+[T] 2.1020:   enqueue 130 133 bytes
+[T] 2.1020: enqueue face=0x555900e75218 (id=0.1) buf=0x555900e75a28 len=133
+[T] 2.1020: CTS face=0x555900e75218 sched=(nil)
+[T] 2.1020: dequeue face=0x555900e75218 (id=0.1)
+[T] 2.1020: enqueue interface=0x555900e61578 buf=0x555900e75a28 len=133 (qlen=0)
+[T] 2.1020: interface_CTS interface=0x555900e61578, qlen=1, sched=(nil)
+[D] 2.1020: unix sendto /tmp/.ccn-light-ctrl-12039.sock returned 133
+[D] 2.2070: ccnl_core_RX ifndx=1, 76 bytes
+[T] 2.2080: ccnl_get_face_or_create src=/tmp/.ccn-light-ctrl-12045.sock
+[V] 2.2080:   found suitable interface 1 for /tmp/.ccn-light-ctrl-12045.sock
+[<] 2.2080: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[D] 2.2080:   face 3, peer=/tmp/.ccn-light-ctrl-12045.sock
+[D] 2.2080: Data content to dehead Òòú¥ccnx
+[D] 2.2080: ccnl_switch_dehead: started
+[D] 2.2080: enc was 1, suite is now -1
+[T] 2.2080: pkt2suite 1 210
+[D] 2.2080: ccnl_switch_dehead: started
+[W] 2.2080: kown packet format ccnl_core_RX ifndx=1, 76 bytes starting with 0x01 at offset 0, suit is 1
+[D] 2.2080: ccnl_ccnb_forwarder: 76B from face=0x555900e75b18 (id=0.3)
+[D] 2.2080: ccnb fwd (74 bytes left)
+[T] 2.2080: ccnl_ccnb_extract
+[I] 2.2080:   incoming interest=</ccnx//prefixreg/%04%ffffff82%01%ffffff9a%02%ffffffad%05%ffffff8a%04%ffffffca%ffffffcdprefixreg%00%fffffff2%fffffffa%ffffffadnodeA%00%00%04%ffffffd2%ffffff8d2%000>%ffffffa2%ffffff8d%06%00%00%00%00>ccnb nonce=0 from=/tmp/.ccn-light-ctrl-12045.sock
+[I] 2.2080:   found a mgmt message
+[T] 2.2080: ccnl_mgmt request "prefixreg"
+[T] 2.2080: ccnl_mgmt_handle "prefixreg"
+[T] 2.2080: ccnl_mgmt_prefixreg
+[T] 2.2080: mgmt: adding prefix /nodeA to faceid=2, suite=ndn2013
+[D] 2.2080: ccnl_mgmt_send_return_split 78 bytes, 1 packet(s)
+[T] 2.2080:   enqueue 94 97 bytes
+[T] 2.2080: enqueue face=0x555900e75b18 (id=0.3) buf=0x555900e7cda8 len=97
+[T] 2.2080: CTS face=0x555900e75b18 sched=(nil)
+[T] 2.2080: dequeue face=0x555900e75b18 (id=0.3)
+[T] 2.2080: enqueue interface=0x555900e61578 buf=0x555900e7cda8 len=97 (qlen=0)
+[T] 2.2080: interface_CTS interface=0x555900e61578, qlen=1, sched=(nil)
+[D] 2.2080: unix sendto /tmp/.ccn-light-ctrl-12045.sock returned 97
+[V] 3.0040: ageing t=3
+[V] 4.0050: ageing t=4
+[V] 5.0060: ageing t=5
+[V] 6.0070: ageing t=6
+[V] 7.0080: ageing t=7
+[V] 8.0090: ageing t=8
+[V] 9.0110: ageing t=9
+[V] 10.0100: ageing t=10
+[V] 11.0100: ageing t=11
+[V] 12.0200: ageing t=12
+[V] 13.0200: ageing t=13
+[D] 14.0000: ccnl_core_RX ifndx=0, 237 bytes
+[T] 14.0000: ccnl_get_face_or_create src=127.0.0.1/9003
+[V] 14.0000:   found suitable interface 0 for 127.0.0.1/9003
+[<] 14.0000: ccnl_get_face_or_create() in /home/johannes/INetCEP/ccn-lite/src/ccnl-core/src/ccnl-relay.c:109
+[D] 14.0000:   face 4, peer=127.0.0.1/9003
+[D] 14.0000: Data content to dehead ëÝCOMPUTE½call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,node/nodeA/gps1,4,S),3=M&4>30,name)' 'Region1' '12:06:58.200'R2C	KEEPALIVENFN
+[D] 14.0000: ccnl_switch_dehead: started
+[D] 14.0000: enc was 1, suite is now -1
+[T] 14.0000: pkt2suite 6 235
+[D] 14.0000: ccnl_switch_dehead: started
+[W] 14.0000: kown packet format ccnl_core_RX ifndx=0, 237 bytes starting with 0x06 at offset 0, suit is 6
+[D] 14.0000: ccnl_ndntlv_forwarder (237 bytes left)
+[D] 14.0000: ccnl_ndntlv_bytes2pkt len=235
+[D] 14.0000:   check interest type
+[D] 14.0000:   is NFN interest
+[T] 14.0000: nfn_request_new(KEEPALIVE)
+[D] 14.0000:   is NFN REQUEST interest
+[D] 14.0000: The content is  
+[I] 14.0000:   incoming data=<nfn:request(comp: KEEPALIVE, type: KEEPALIVE, arg: (null))[/COMPUTE call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,node/nodeA/gps1,4,S),3=M&4>30,name)' 'Region1' '12:06:58.200']>ndn2013 (nfnflags=33) nonce=0 from=127.0.0.1/9003
+[I] 14.0000:   data  
+[D] 14.0000:  Check if it is a nfnprefix Request
+[T] 14.0000: ccnl_content_new 0x555900e7d428 <nfn:request(comp: KEEPALIVE, type: KEEPALIVE, arg: (null))[/COMPUTE call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,node/nodeA/gps1,4,S),3=M&4>30,name)' 'Region1' '12:06:58.200'] [-1]>
+[I] 14.0000: data after creating packet  
+[>] 14.0000: nfn_request_RX_keepalive() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-requests.c:542
+[D] 14.0000:   RX keepalive <nfn:request(comp: KEEPALIVE, type: KEEPALIVE, arg: (null))[/COMPUTE call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,node/nodeA/gps1,4,S),3=M&4>30,name)' 'Region1' '12:06:58.200']>
+[D] 14.0000:   keeping 0 interests alive
+[<] 14.0000: nfn_request_RX_keepalive() in /home/johannes/INetCEP/ccn-lite/src/ccnl-nfn/src/ccnl-nfn-requests.c:567
+[T] 14.0000: ccnl_content_serve_pending
+[D] 14.0000:   no matching interest
+[V] 14.0200: ageing t=14
+[D] 14.0500: ccnl_core_RX ifndx=0, 87 bytes
+[T] 14.0500: ccnl_get_face_or_create src=127.0.0.1/9003
+[D] 14.0500:   face 4, peer=127.0.0.1/9003
+[D] 14.0500: Data content to dehead UIB(call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )NFN	
+[D] 14.0500: ccnl_switch_dehead: started
+[D] 14.0500: enc was 1, suite is now -1
+[T] 14.0500: pkt2suite 5 85
+[D] 14.0500: ccnl_switch_dehead: started
+[W] 14.0500: kown packet format ccnl_core_RX ifndx=0, 87 bytes starting with 0x05 at offset 0, suit is 6
+[D] 14.0500: ccnl_ndntlv_forwarder (87 bytes left)
+[D] 14.0500: ccnl_ndntlv_bytes2pkt len=85
+[D] 14.0500:   check interest type
+[D] 14.0500:   is NFN interest
+[D] 14.0500: The content is 
+[I] 14.0500:   incoming interest=<nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )]>ndn2013 nonce=-870073563 from=127.0.0.1/9003
+[T] 14.0500: ccnl_nonce_find_or_append
+[D] 14.0500:   searching in CS
+[T] 14.0500: ccnl_new_interest(prefix=nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )], suite=ndn2013)
+[T] 14.0500: ccnl_append_pending
+[D] 14.0500:   appending a new pendint entry 0x555900e7ed88 <nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )]>(0x555900e7e7d8)
+[T] 14.0500: ccnl_nfn(0x555900e5f288, nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )], 0x555900e7d348, config=(nil))
+[D] 14.0500: Namecomps: nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )] 
+[D] 14.0500: expr is <(call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )>
+[T] 14.0500: Krivine_reduction()
+[D] 14.0500: PREFIX nfn[ (call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )]
+[I] 14.0500: Prog: CLOSURE(HALT);RESOLVENAME((call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] ))
+[D] 14.0500: Step 1 (0/0): CLOSURE(HALT);RESOLVENAME((call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] ))
+[D] 14.0500: ---to do: closure <HALT> (contd=RESOLVENAME((call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )))
+[T] 14.0500: push_to_stack: 0x555900e829e8
+[D] 14.0500: Step 2 (1/0): RESOLVENAME((call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] ))
+[D] 14.0500: ---to do: resolveNAME <(call 6 /node/nodeQuery/nfn_service_ServiceSubscriber [Q1], [Q2] )>
+startNode.sh: line 4: 11831 Alarm clock             ~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u $1 -x $2

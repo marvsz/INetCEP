@@ -420,6 +420,52 @@ create_prefix_for_content_on_result_stack(struct ccnl_relay_s *ccnl,
     return name;
 }
 
+struct ccnl_interest_s*
+    ccnl_nfn_local_interest_search(struct ccnl_relay_s *ccnl, struct configuration_s *config, struct ccnl_prefix_s *prefix){
+    struct prefix_mapping_s *iter;
+    struct ccnl_interest_s *interest;
+    struct ccnl_prefix_s *prefixchunkzero;
+
+    DEBUGMSG(TRACE, "ccnl_nfn_local_interest_search(%s, suite=%s)\n",
+             ccnl_prefix_to_path(prefix), ccnl_suite2str(prefix->suite));
+    DEBUGMSG(DEBUG, "Searching local for interest %s\n", ccnl_prefix_to_path(prefix));
+
+    for (interest = ccnl->pit; interest; interest = interest->next) {
+        if (interest->pkt->pfx->suite == prefix->suite &&
+            !ccnl_prefix_cmp(prefix, 0, interest->pkt->pfx, CMP_EXACT))
+            return interest;
+    }
+
+    // If the content for the prefix is chunked, the exact match on the prefix fails.
+    // We assume that if chunk 0 is available the content is available.
+    // Searching the content again with the same prefix for chunk 0.
+    prefixchunkzero = ccnl_prefix_dup(prefix);
+    ccnl_prefix_addChunkNum(prefixchunkzero, 0);
+    for (interest = ccnl->pit; interest; interest = interest->next) {
+        if (interest->pkt->pfx->suite == prefix->suite &&
+            !ccnl_prefix_cmp(prefixchunkzero, 0, interest->pkt->pfx, CMP_EXACT)) {
+            ccnl_prefix_free(prefixchunkzero);
+            return interest;
+        }
+    }
+    if (prefixchunkzero) ccnl_prefix_free(prefixchunkzero);
+    prefixchunkzero = 0;
+
+    if (!config || !config->fox_state || !config->fox_state->prefix_mapping)
+        return NULL;
+
+    for (iter = config->fox_state->prefix_mapping; iter; iter = iter->next) {
+        if (!ccnl_prefix_cmp(prefix, 0, iter->key, CMP_EXACT)) {
+            for (interest = ccnl->pit; interest; interest = interest->next) {
+                if (interest->pkt->pfx->suite == prefix->suite &&
+                    !ccnl_prefix_cmp(iter->value, 0, interest->pkt->pfx, CMP_EXACT))
+                    return interest;
+            }
+        }
+    }
+    return NULL;
+}
+
 
 struct ccnl_content_s *
 ccnl_nfn_local_content_search(struct ccnl_relay_s *ccnl,

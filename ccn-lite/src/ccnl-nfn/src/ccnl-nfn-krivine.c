@@ -857,7 +857,14 @@ setup_global_environment(struct environment_s **env)
                 "CLOSURE(OP_SUB);RESOLVENAME(@op(@x(@y x y op)));TAILAPPLY");
     allocAndAdd(env, "mult",
                 "CLOSURE(OP_MULT);RESOLVENAME(@op(@x(@y x y op)));TAILAPPLY");
+    allocAndAdd(env, "find",
+            "CLOSURE(OP_FIND);RESOLVENAME(@op(@x x op));TAILAPPLY");
+/**
+ * Added by Johannes for testing
+ */
 
+    allocAndAdd(env, "window",
+            "CLOSURE(OP_WINDOW);RESOLVENAME(@op(@x(@y(@z x y z op))));TAILAPPLY");
     allocAndAdd(env, "call",
                 "CLOSURE(CALL);RESOLVENAME(@op(@x x op));TAILAPPLY");
 
