@@ -22,6 +22,14 @@
 
 #ifdef USE_NFN
 
+
+
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn.h"
+#include "../include/ccnl-nfn-parse.h"
+#include "../include/ccnl-nfn-krivine.h"
+#include "../include/ccnl-nfn-ops.h"
+#else
 #include "ccnl-nfn.h"
 #include <stddef.h>
 #include <stdio.h>
@@ -33,6 +41,7 @@
 #include "ccnl-nfn-parse.h"
 #include "ccnl-nfn-krivine.h"
 #include "ccnl-nfn-ops.h"
+#endif
 
 
 void
@@ -136,7 +145,12 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
          int suite, int start_locally)
 {
     struct ccnl_buf_s *res = NULL;
+#ifndef CCNL_LINUXKERNEL
     char str[CCNL_MAX_PACKET_SIZE];
+#else
+    char *str = ccnl_malloc(CCNL_MAX_PACKET_SIZE);
+#endif
+
     int i, len = 0;
 
     DEBUGMSG(TRACE, "ccnl_nfn(%p, %s, %p, config=%p)\n",
@@ -212,6 +226,10 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
 restart:
     res = Krivine_reduction(ccnl, str, start_locally, &config, prefix, suite);
 
+#ifdef CCNL_LINUXKERNEL
+    ccnl_free(str);
+#endif
+
     //stores result if computed
     if (res && res->datalen > 0) {
         struct ccnl_prefix_s *copy;
@@ -254,10 +272,39 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     struct ccnl_interest_s *i;
     struct ccnl_pkt_s **packet = pkt;
 
+#ifdef CCNL_LINUXKERNEL
+    if(ccnl==NULL)
+        DEBUGMSG_CFWD(DEBUG, "relay was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "relay was not null");
+    if(from==NULL)
+        DEBUGMSG_CFWD(DEBUG, "face was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "face was not null");
+    if((*pkt)==NULL)
+        DEBUGMSG_CFWD(DEBUG, "pkt was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "pkt was not null");
+    if((*pkt)->pfx == NULL)
+        DEBUGMSG_CFWD(DEBUG, "pkt pfx was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "pkt pfx was not null");
+    if(ccnl->km == NULL)
+        DEBUGMSG_CFWD(DEBUG, "km was null");
+    else
+        DEBUGMSG_CFWD(DEBUG, "km was not null");
+#endif
+
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)
         || ccnl->km->numOfRunningComputations >= NFN_MAX_RUNNING_COMPUTATIONS) {
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "checkted the prefix, will return null");
+#endif
         return NULL;
     }
+#ifdef CCNL_LINUXKERNEL
+    DEBUGMSG_CFWD(DEBUG, "checkted the prefix, did not return null");
+#endif
 
 #ifdef USE_NFN_REQUESTS
     if (ccnl_nfnprefix_isKeepalive((*pkt)->pfx)

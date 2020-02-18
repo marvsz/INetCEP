@@ -22,10 +22,11 @@
 #ifndef CCNL_NFN_H
 #define CCNL_NFN_H
 
+#ifndef CCNL_LINUXKERNEL
 #include "ccnl-relay.h"
 #include "ccnl-prefix.h"
 #include "ccnl-interest.h"
-
+#endif
 
 
 // ----------------------------------------------------------------------

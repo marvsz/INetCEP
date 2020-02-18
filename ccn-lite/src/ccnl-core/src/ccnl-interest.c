@@ -46,14 +46,31 @@ struct ccnl_interest_s*
 ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
                   struct ccnl_pkt_s **pkt)
 {
+    struct ccnl_interest_s *i;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
-    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
-                                                                       sizeof(struct ccnl_interest_s));
+#else
+    char *s = NULL;
+#endif
+    DEBUGMSG_CORE(TRACE,"Trying to allocate buffer for interest with the size of %lu",sizeof(struct ccnl_interest_s));
+    i = (struct ccnl_interest_s *) ccnl_calloc(1,sizeof(struct ccnl_interest_s));
+
+    if(i == NULL){
+        DEBUGMSG(TRACE, "Was not able to allocate memory for new interest");
+    }
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG_CORE(TRACE,
                   "ccnl_new_interest(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
+#else
+    DEBUGMSG_CORE(TRACE,
+                  "ccnl_new_interest(prefix=%s, suite=%s)\n",
+                  (s = ccnl_prefix_to_path((*pkt)->pfx)),
+                  ccnl_suite2str((*pkt)->pfx->suite));
+    //ccnl_free(s);
+#endif
     if (!i)
         return NULL;
     i->pkt = *pkt;
@@ -65,6 +82,8 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
     i->last_used = CCNL_NOW();
+#ifndef CCNL_LINUXKERNEL
+#endif
     if(ccnl->max_pit_entries != -1){
         if (ccnl->pitcnt >= ccnl->max_pit_entries) {
             ccnl_pkt_free(i->pkt);
@@ -187,12 +206,16 @@ ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q){
 int
 ccnl_interest_append_pending(struct ccnl_interest_s *i,  struct ccnl_face_s *from)
 {
+#ifndef CCNL_LINUXKERNEL
+    char s[CCNL_MAX_PREFIX_SIZE];
+#else
+    char *s = NULL;
+#endif
+
     if (i) {
         DEBUGMSG_CORE(TRACE, "ccnl_append_pending\n");
         if (from) {
             struct ccnl_pendint_s *pi, *last = NULL;
-            char s[CCNL_MAX_PREFIX_SIZE];
-
             for (pi = i->pending; pi; pi = pi->next) { // check whether already listed
                 if (pi->face == from) {
                     DEBUGMSG_CORE(DEBUG, "  we found a matching interest, updating time\n");
@@ -207,10 +230,17 @@ ccnl_interest_append_pending(struct ccnl_interest_s *i,  struct ccnl_face_s *fro
                 return -1;
             }
 
-
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG_CORE(DEBUG, "  appending a new pendint entry %p <%s>(%p)\n",
                           (void *) pi, ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           (void *) i->pkt->pfx);
+#else
+            DEBUGMSG_CORE(DEBUG, "  appending a new pendint entry %p <%s>(%p)\n",
+                          (void *) pi, (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                          (void *) i->pkt->pfx);
+            //ccnl_free(s);
+#endif
+
             pi->face = from;
             pi->last_used = CCNL_NOW();
 
@@ -236,19 +266,29 @@ ccnl_interest_remove_pending(struct ccnl_interest_s *interest, struct ccnl_face_
     if (interest) {
         /** face is valid? */
         if (face) {
+#ifndef CCNL_LINUXKERNEL
             char s[CCNL_MAX_PREFIX_SIZE];
-            result = 0;
-
+#else
+            char *s = NULL;
+#endif
             struct ccnl_pendint_s *prev = NULL;
             struct ccnl_pendint_s *pend = interest->pending;
-
+            result = 0;
             DEBUGMSG_CORE(TRACE, "ccnl_interest_remove_pending\n");
 
             while (pend) {  // TODO: is this really the most elegant solution?
                 if (face->faceid == pend->face->faceid) {
+#ifndef CCNL_LINUXKERNEL
                     DEBUGMSG_CFWD(INFO, "  removed face (%s) for interest %s\n",
                                   ccnl_addr2ascii(&pend->face->peer),
                                   ccnl_prefix_to_str(interest->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
+#else
+                    DEBUGMSG_CFWD(INFO, "  removed face (%s) for interest %s\n",
+                                  ccnl_addr2ascii(&pend->face->peer),
+                                  (s = ccnl_prefix_to_path(interest->pkt->pfx)));
+                    //ccnl_free(s);
+#endif
+
 
                     result++;
                     if (prev) {

@@ -1281,7 +1281,7 @@ ccnl_mgmt_newdev(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     int len = 0, len3;
 //    unsigned char contentobj[2000];
 //    unsigned char faceinst[2000];
-    struct ccnl_if_s *i;
+    struct ccnl_if_s *i = NULL;
 
 
     DEBUGMSG(TRACE, "ccnl_mgmt_newdev\n");
@@ -1645,7 +1645,9 @@ Bail:
     // prepare FWDENTRY
     len3 = ccnl_ccnb_mkHeader(fwdentry_buf, CCNL_DTAG_PREFIX, CCN_TT_DTAG);
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_ACTION, CCN_TT_DTAG, cp);
-    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG, ccnl_prefix_to_str(p,s,CCNL_MAX_PREFIX_SIZE)); // prefix
+    char *s = NULL;
+    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG,(s = ccnl_prefix_to_path(p))); // prefix
+    //ccnl_free(s);
 
     //    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_FACEID, CCN_TT_DTAG, (char*) faceid);
     memset(h,0,sizeof(h));
@@ -1680,7 +1682,10 @@ ccnl_mgmt_prefixreg(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     unsigned char *action, *faceid, *suite=0, h[10];
     char *cp = "prefixreg cmd failed";
     int rc = -1;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
+#endif
+
 
     int len = 0, len3;
 //    unsigned char contentobj[2000];
@@ -1746,9 +1751,16 @@ ccnl_mgmt_prefixreg(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         int fi = strtol((const char*)faceid, NULL, 0);
 
         p->suite = suite[0];
-
+#ifndef CCNL_LINUXKERNEL
         DEBUGMSG(TRACE, "mgmt: adding prefix %s to faceid=%s, suite=%s\n",
                  ccnl_prefix_to_str(p,s,CCNL_MAX_PREFIX_SIZE), faceid, ccnl_suite2str(suite[0]));
+#else
+        char *s = NULL;
+        DEBUGMSG(TRACE, "mgmt: adding prefix %s to faceid=%s, suite=%s\n",
+                (s = ccnl_prefix_to_path(p)), faceid, ccnl_suite2str(suite[0]));
+        //ccnl_free(s);
+#endif
+
 
         for (f = ccnl->faces; f && f->faceid != fi; f = f->next);
         if (!f) goto Bail;
@@ -1787,7 +1799,14 @@ Bail:
     // prepare FWDENTRY
     len3 = ccnl_ccnb_mkHeader(fwdentry_buf, CCNL_DTAG_PREFIX, CCN_TT_DTAG);
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_ACTION, CCN_TT_DTAG, cp);
+#ifndef CCNL_LINUXKERNEL
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG, ccnl_prefix_to_str(p,s,CCNL_MAX_PREFIX_SIZE)); // prefix
+#else
+    char *s = NULL;
+    len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_NAME, CCN_TT_DTAG,(s = ccnl_prefix_to_path(p))); // prefix
+    //ccnl_free(s);
+#endif
+
 
     len3 += ccnl_ccnb_mkStrBlob(fwdentry_buf+len3, CCN_DTAG_FACEID, CCN_TT_DTAG, (char*) faceid);
     memset(h,0,sizeof(h));
@@ -1822,7 +1841,9 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     unsigned int chunknum = 0, chunkflag = 0;
     int num, typ, num_of_components = -1, suite = 2;
     struct ccnl_prefix_s *prefix_new;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
+#endif
 
     buf = prefix->comp[3];
     buflen = prefix->complen[3];
@@ -1881,18 +1902,32 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
     ccnl_free(components);
     components = NULL;
     prefix_new->suite = suite;
-
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG(TRACE, "  mgmt: adding object %s to cache (suite=%s)\n",
              ccnl_prefix_to_str(ccnl_prefix_dup(prefix_new),s,CCNL_MAX_PREFIX_SIZE),
              ccnl_suite2str(suite));
+#else
+    char *s = NULL;
+    DEBUGMSG(TRACE, "  mgmt: adding object %s to cache (suite=%s)\n",
+             (s = ccnl_prefix_to_path(ccnl_prefix_dup(prefix_new))),
+             ccnl_suite2str(suite));
+    //ccnl_free(s);
+#endif
+
 
     //Reply MSG
     if (h)
         ccnl_free(h);
     h = ccnl_malloc(300);
-
+#ifndef CCNL_LINUXKERNEL
     sprintf((char *)h, "received add to cache request, inizializing callback for %s",
             ccnl_prefix_to_str(prefix_new,s,CCNL_MAX_PREFIX_SIZE));
+#else
+    sprintf((char *)h, "received add to cache request, inizializing callback for %s",
+            (s = ccnl_prefix_to_path(prefix_new)));
+    //ccnl_free(s);
+#endif
+
     ccnl_mgmt_return_ccn_msg(ccnl, orig, prefix, from,
                              "addcacheobject", (char *)h);
     if (h)

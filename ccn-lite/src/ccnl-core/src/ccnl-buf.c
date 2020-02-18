@@ -53,8 +53,15 @@ ccnl_buf_new(void *data, int len)
         return NULL;
     b->next = NULL;
     b->datalen = len;
-    if (data)
+    if (data){
+#ifndef CCNL_LINUXKERNEL
         memcpy(b->data, data, len);
+#else
+        memcpy(b->data, data, len);
+        //ccnl_free(data);
+#endif
+
+    }
     return b;
 }
 

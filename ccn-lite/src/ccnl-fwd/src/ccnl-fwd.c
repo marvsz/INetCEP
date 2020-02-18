@@ -145,8 +145,11 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                        struct ccnl_pkt_s **pkt)
 {
     struct ccnl_content_s *c;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
+#endif
+
 
 #ifdef USE_NFN
     int nonce = 0;
@@ -160,14 +163,34 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         char *from_as_str = ccnl_addr2ascii(&(from->peer));
 
         if (from_as_str) {
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG_CFWD(INFO, "  incoming data=<%s>%s (nfnflags=%d) nonce=%i from=%s\n",
-                ccnl_prefix_to_str((*pkt)->pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str((*pkt)->suite),
-                (*pkt)->pfx->nfnflags, nonce, from_as_str ? from_as_str : "");
+                          ccnl_prefix_to_str((*pkt)->pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str((*pkt)->suite),
+                          (*pkt)->pfx->nfnflags, nonce, from_as_str ? from_as_str : "");
+#else
+            char *s = NULL;
+            DEBUGMSG_CFWD(INFO, "  incoming data=<%s>%s (nfnflags=%d) nonce=%i from=%s\n",
+                          (s = ccnl_prefix_to_path((*pkt)->pfx)), ccnl_suite2str((*pkt)->suite),
+                          (*pkt)->pfx->nfnflags, nonce, from_as_str ? from_as_str : "");
+
+            //ccnl_free(s);
+#endif
+
         } 
     } else {
+#ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(INFO, "  incoming data=<%s>%s (nfnflags=%d) nonce=%i from=%s\n",
-            ccnl_prefix_to_str((*pkt)->pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str((*pkt)->suite),
-            (*pkt)->pfx->nfnflags, nonce, "");
+                      ccnl_prefix_to_str((*pkt)->pfx,s,CCNL_MAX_PREFIX_SIZE), ccnl_suite2str((*pkt)->suite),
+                      (*pkt)->pfx->nfnflags, nonce, "");
+#else
+        char *s = NULL;
+        DEBUGMSG_CFWD(INFO, "  incoming data=<%s>%s (nfnflags=%d) nonce=%i from=%s\n",
+                      (s = ccnl_prefix_to_path((*pkt)->pfx)), ccnl_suite2str((*pkt)->suite),
+                      (*pkt)->pfx->nfnflags, nonce, "");
+
+        //ccnl_free(s);
+#endif
+
 
     }
 
@@ -354,13 +377,17 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     clock_gettime(CLOCK_MONOTONIC,&tstart);
 #else
     struct timespec tstart;
+    struct timespec tend;
     getrawmonotonic(&tstart);
 #endif
-    struct ccnl_interest_s *i;
-    struct ccnl_content_s *c;
+    struct ccnl_interest_s *i = NULL;
+    struct ccnl_content_s *c = NULL;
     int propagate= 0;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
+#endif
+
     int32_t nonce = 0;
     if (pkt != NULL && (*pkt) != NULL && (*pkt)->s.ndntlv.nonce != NULL) {
         if ((*pkt)->s.ndntlv.nonce->datalen == 4) {
@@ -376,10 +403,15 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
              ccnl_suite2str((*pkt)->suite), nonce,
              from_as_str ? from_as_str : "");
 #else
+        DEBUGMSG_CFWD(DEBUG, "Before the allocation\n");
+        char *s = NULL;
         DEBUGMSG_CFWD(INFO, "  incoming interest=<%s>%s nonce=%d from=%s\n",
-            ccnl_prefix_to_str((*pkt)->pfx,s,CCNL_MAX_PREFIX_SIZE),
-            ccnl_suite2str((*pkt)->suite), nonce,
-            from_as_str ? from_as_str : "");
+                (s = ccnl_prefix_to_path((*pkt)->pfx)),
+                ccnl_suite2str((*pkt)->suite), nonce,
+                from_as_str ? from_as_str : "");
+        DEBUGMSG_CFWD(DEBUG, "Before the free\n");
+        //ccnl_free(s);
+        DEBUGMSG_CFWD(DEBUG, "After the free\n");
 #endif
     }
 
@@ -464,8 +496,21 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     // Step 2: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
-    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+    if(relay!=NULL){
+        DEBUGMSG_CFWD(DEBUG, "Relay is not Null");
+    }
+    if(relay->contents != NULL){
+        DEBUGMSG_CFWD(DEBUG, "contents is not Null");
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "contents is Null");
+    }
 
+    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+#ifdef CCNL_LINUXKERNEL
+    if(relay != NULL && relay->contents != NULL){
+        DEBUGMSG_CFWD(DEBUG, "Appearently both now were not null, going into the loop");
+#endif
     for (c = relay->contents; c; c = c->next) {
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)
             continue;
@@ -498,11 +543,18 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifndef CCNL_LINUXKERNEL
             clock_gettime(CLOCK_MONOTONIC,&tend);
 #else
-            struct timespec tend;
             getrawmonotonic(&tend);
 #endif
+            {
             uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG(DEBUG,"Handling of Interest package took about %lu seconds\n",timeDifference);
+
+#else
+            DEBUGMSG(DEBUG,"Handling of Interest package took about %llu seconds\n",timeDifference);
+#endif
+            }
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;
@@ -516,30 +568,76 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if(!(*pkt)->s.ndntlv.isConstant) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
             return 0; // we are done
     }
-
+#ifdef CCNL_LINUXKERNEL
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "Both now were null, did not go into the loop");
+    }
+#endif
     // CONFORM: Step 3: check whether interest is already known
+#ifdef CCNL_LINUXKERNEL
+if(relay->pit != NULL){
+        DEBUGMSG_CFWD(DEBUG, "pit was not null, did go into the loop to search the PIT");
+#endif
     for (i = relay->pit; i; i = i->next)
         if (ccnl_interest_isSame(i, *pkt))
             break;
-
-    if (!i) { // this is a new/unknown I request: create and propagate
+#ifdef CCNL_LINUXKERNEL
+    }
+    else{
+        DEBUGMSG_CFWD(DEBUG, "pit was null, did not go into the loop");
+    }
+#endif
+    if (!i) {// this is a new/unknown I request: create and propagate
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "this is a new/unknown I request: create and propagate");
+        DEBUGMSG_CFWD(DEBUG, "Check Again, if relay is not noll");
+        if(relay == NULL)
+            DEBUGMSG_CFWD(DEBUG, "Relay was null");
+        else
+            DEBUGMSG_CFWD(DEBUG, "Relay was not null");
+#endif
 #ifdef USE_NFN
-        if (ccnl_nfn_RX_request(relay, from, pkt))
+        if (ccnl_nfn_RX_request(relay, from, pkt)){
+#ifdef CCNL_LINUXKERNEL
+            DEBUGMSG_CFWD(DEBUG, "this means: everything is ok and pkt was consumed");
+#endif
             return -1; // this means: everything is ok and pkt was consumed
+        }
+
 #endif
         propagate = 1;
     }
-    if (!ccnl_pkt_fwdOK(*pkt))
+    if (!ccnl_pkt_fwdOK(*pkt)){
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "pktfwd returned -1");
+#endif
         return -1;
+    }
+
     if (!i) {
+#ifdef CCNL_LINUXKERNEL
+        DEBUGMSG_CFWD(DEBUG, "create new interest");
+#endif
         i = ccnl_interest_new(relay, from, pkt);
 
 #ifdef USE_NFN
+#ifndef CCNL_LINUXKERNEL
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
                       (void *) i,
                       ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                       i->pkt->pfx->nfnflags);
+#else
+        char *s = NULL;
+        DEBUGMSG_CFWD(DEBUG,
+                      "  created new interest entry %p (prefix=%s, nfnflags=%d)\n",
+                      (void *) i,
+                      (s = ccnl_prefix_to_path(i->pkt->pfx)),
+                      i->pkt->pfx->nfnflags);
+        //ccnl_free(s);
+#endif
+
 #else
         DEBUGMSG_CFWD(DEBUG,
                       "  created new interest entry %p (prefix=%s)\n",
@@ -841,12 +939,21 @@ ccnl_set_tap(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
              tapCallback callback)
 {
     struct ccnl_forward_s *fwd, **fwd2;
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
 
     DEBUGMSG_CFWD(INFO, "setting tap for <%s>, suite %s\n",
-             ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE),
-             ccnl_suite2str(pfx->suite));
+                  ccnl_prefix_to_str(pfx,s,CCNL_MAX_PREFIX_SIZE),
+                  ccnl_suite2str(pfx->suite));
+#else
+    char *s = NULL;
+    DEBUGMSG_CFWD(INFO, "setting tap for <%s>, suite %s\n",
+                  (s = ccnl_prefix_to_path(pfx)),
+                  ccnl_suite2str(pfx->suite));
+    //ccnl_free(s);
+#endif
+
 
     for (fwd = relay->fib; fwd; fwd = fwd->next) {
         if (fwd->suite == pfx->suite &&

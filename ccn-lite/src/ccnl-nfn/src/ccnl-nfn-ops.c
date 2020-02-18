@@ -22,8 +22,17 @@
 #define _POSIX_C_SOURCE 199309L
 #ifdef USE_NFN
 
+#ifdef CCNL_LINUXKERNEL
+#include "../include/ccnl-nfn-ops.h"
+#include "../include/ccnl-nfn-common.h"
+#include "../include/ccnl-nfn-krivine.h"
+#include "../../ccnl-core/include/ccnl-os-time.h"
+#include "../../ccnl-core/include/ccnl-malloc.h"
+#include "../../ccnl-core/include/ccnl-logging.h"
+#include <linux/time.h>
+#else
+#include<time.h>
 #include "ccnl-nfn-ops.h"
-
 #include <stdio.h>
 #include <bits/types/struct_timespec.h>
 #include <time.h>
@@ -34,10 +43,12 @@
 #include "ccnl-nfn-krivine.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-builder.h"
-
 #include "ccnl-os-time.h"
 #include "ccnl-malloc.h"
 #include "ccnl-logging.h"
+#endif
+
+
 
 char** str_split(char* a_str, const char a_delim)
 {
@@ -249,15 +260,35 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
             struct timespec tstart ={0,0}, tend={0,0};
             clock_gettime(CLOCK_MONOTONIC, &tstart);
     int i1=0, i2=0, *h;
+#ifndef CCNL_LINUXKERNEL
+    struct timespec tstart={0,0}, tend={0,0};
+    clock_gettime(CLOCK_MONOTONIC,&tstart);
+#else
+    struct timespec tstart;
+    struct timespec tend;
+    getrawmonotonic(&tstart);
+#endif
     (void) restart;
     DEBUGMSG(DEBUG, "---to do: OP_ADD <%s> pending: %s\n", prog+7, pending);
     pop2int();
     h = ccnl_malloc(sizeof(int));
     *h = i1 + i2;
     push_to_stack(stack, h, STACK_TYPE_INT);
+#ifndef CCNL_LINUXKERNEL
     clock_gettime(CLOCK_MONOTONIC,&tend);
-    DEBUGMSG(DEBUG,"buildin add took about %.9f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
-                                                         ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+#else
+    getrawmonotonic(&tend);
+#endif
+    {
+        uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+
+#ifndef CCNL_LINUXKERNEL
+        DEBUGMSG(DEBUG,"Builtin Add took about %lu seconds\n",timeDifference);
+
+#else
+        DEBUGMSG(DEBUG,"Builtin Kernel Add took about %llu seconds\n",timeDifference);
+#endif
+    }
     return pending ? ccnl_strdup(pending) : NULL;
 }
 
