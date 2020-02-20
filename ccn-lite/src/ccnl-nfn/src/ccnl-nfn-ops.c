@@ -93,7 +93,7 @@ char** str_split(char* a_str, const char a_delim)
 
         while (token)
         {
-            assert(idx < count);
+            assert((idx < count));
             *(result + idx++) = ccnl_strdup(token);
 #ifndef CCNL_LINUXKERNEL
             token = strtok(0, delim);
@@ -102,7 +102,7 @@ char** str_split(char* a_str, const char a_delim)
 #endif
 
         }
-        assert(idx == count - 1);
+        assert((idx == count - 1));
         *(result + idx) = 0;
     }
 
