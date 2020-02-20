@@ -257,8 +257,6 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                int *restart, int *halt, char *prog, char *pending,
                struct stack_s **stack)
 {
-            struct timespec tstart ={0,0}, tend={0,0};
-            clock_gettime(CLOCK_MONOTONIC, &tstart);
     int i1=0, i2=0, *h;
 #ifndef CCNL_LINUXKERNEL
     struct timespec tstart={0,0}, tend={0,0};
