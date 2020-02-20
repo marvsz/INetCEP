@@ -127,7 +127,7 @@ struct ccnl_pkt_s* createNewPacket(struct ccnl_prefix_s *prefix, char *buf, int 
     int it, size = CCNL_MAX_PACKET_SIZE/2;
     int numPackets = len/(size/2) + 1;
     //(void) prefix;
-    struct ccnl_pkt_s *pkt;
+    struct ccnl_pkt_s *pkt = NULL;
 
     //DEBUGMSG(DEBUG, "The content of the new Packet should be: %.*s\n",len,buf);
 

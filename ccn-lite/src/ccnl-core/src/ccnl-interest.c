@@ -106,13 +106,27 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
 struct ccnl_interest_s*
         ccnl_interest_dup(struct ccnl_face_s *from,
                           struct ccnl_pkt_s **pkt){
+
+
+#ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
-    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
-                                                                       sizeof(struct ccnl_interest_s));
+    (void) s;
+#else
+    char *s = NULL;
+#endif
+#ifndef CCNL_LINUXKERNEL
     DEBUGMSG_CORE(TRACE,
                   "ccnl_interest_dup(prefix=%s, suite=%s)\n",
                   ccnl_prefix_to_str((*pkt)->pfx, s, CCNL_MAX_PREFIX_SIZE),
                   ccnl_suite2str((*pkt)->pfx->suite));
+#else
+    DEBUGMSG_CORE(TRACE,
+                  "ccnl_new_interest(prefix=%s, suite=%s)\n",
+                  (s = ccnl_prefix_to_path((*pkt)->pfx)),
+                  ccnl_suite2str((*pkt)->pfx->suite));
+#endif
+    struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
+                                                                       sizeof(struct ccnl_interest_s));
     if (!i)
         return NULL;
     i->pkt = *pkt;
@@ -169,9 +183,13 @@ ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q){
     if(i){
         if(q){
             struct ccnl_pendQ_s *pq, *last = NULL;
-
+#ifndef CCNL_LINUXKERNEL
             char s[CCNL_MAX_PREFIX_SIZE];
             char t[CCNL_MAX_PREFIX_SIZE];
+#else
+            char *s = NULL;
+            char *t = NULL;
+#endif
             for(pq = i->pendingQueries; pq; pq = pq->next){
                 if(ccnl_interest_isSame(pq->query,q->pkt)){
                     ccnl_interest_append_pending(pq->query,q->from);
@@ -185,9 +203,17 @@ ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q){
             if(!pq){
                 DEBUGMSG_CORE(DEBUG, "  no mem\n");
             }
+
+#ifndef CCNL_LINUXKERNEL
             DEBUGMSG_CORE(DEBUG, "  appending a new pendQ entry %p <%s>(%p <%s>)\n",
                           (void *) pq, ccnl_prefix_to_str(q->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE),
                           (void *) i, ccnl_prefix_to_str(i->pkt->pfx,t,CCNL_MAX_PREFIX_SIZE));
+#else
+            DEBUGMSG_CORE(DEBUG, "  appending a new pendQ entry %p <%s>(%p <%s>)\n",
+                          (void *) pq, (s = ccnl_prefix_to_path(pq->pkt->pfx)),
+                          (void *) i, (s = ccnl_prefix_to_path(i->pkt->pfx)));
+            //ccnl_free(s);
+#endif
             pq->query=q;
             ccnl_interest_append_pending(pq->query,pq->query->from);
             pq->last_used = CCNL_NOW();
