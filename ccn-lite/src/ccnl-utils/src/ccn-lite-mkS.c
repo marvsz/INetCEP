@@ -67,7 +67,7 @@ main(int argc, char **argv){
     char *datadir = NULL;
     struct ccnl_sensor_setting_s* setting = NULL;
     struct ccnl_sensor_s* sensor = NULL;
-    while((opt = getopt(argc,argv, "hn:i:t:s:n:d:v:x:")) != -1){
+    while((opt = getopt(argc,argv, "hn:i:t:s:n:d:v:u:x:")) != -1){
         switch(opt){
             case 'i':
                 id = atoi(optarg);
@@ -107,6 +107,7 @@ usage:
                                " -n The name of the sensor. 1 for Victims, 2 for Survivors, 3 for GPS and 4 for Data\n"
                                " -d The directory of the file used with emulation\n"
                                " -v The level of debug Information (fatal, error, warning, info, debug, verbose, trace)\n"
+                               " -u a.b.c.d/port  UDP destination (default is 127.0.0.1/6363)\n"
                                " -x The name of the socket to connect the sensor to\n"
                                " -h For Help\n"
                                "Examples:\n"
