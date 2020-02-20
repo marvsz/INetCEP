@@ -60,8 +60,7 @@ static inline int strncmpci(const char * str1, const char * str2, size_t num)
 int
 main(int argc, char **argv){
     int opt, id, type, samplingRate = -1;
-    int sock = 0, suite = CCNL_SUITE_DEFAULT, port;
-    struct sockaddr sa;
+    int suite = CCNL_SUITE_DEFAULT, port;
     char *addr = NULL, *udp = NULL, *socket = NULL;
     char *name = NULL;
     int nameID = -1;
