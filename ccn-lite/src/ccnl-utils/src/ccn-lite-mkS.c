@@ -60,8 +60,8 @@ static inline int strncmpci(const char * str1, const char * str2, size_t num)
 int
 main(int argc, char **argv){
     int opt, id, type, samplingRate = -1;
-    int suite = CCNL_SUITE_DEFAULT, port;
-    char *addr = NULL, *udp = NULL, *socket = NULL;
+    //int suite = CCNL_SUITE_DEFAULT, port;
+    char /**addr = NULL,*/ *udp = NULL, *socket = NULL;
     char *name = NULL;
     int nameID = -1;
     char *datadir = NULL;
@@ -119,10 +119,12 @@ usage:
         }
     }
 
-    if (ccnl_parseUdp(udp, suite, &addr, &port) != 0) {
+    /*if (ccnl_parseUdp(udp, suite, &addr, &port) != 0) {
         exit(-1);
-    }
-    DEBUGMSG(TRACE, "using udp address %s/%d\n", addr, port);
+    }*/
+    if(udp)
+        socket = udp;
+    //DEBUGMSG(TRACE, "using udp address %s/%d\n", addr, port);
 
     /*if (socket) { // use UNIX socket
         struct sockaddr_un *su = (struct sockaddr_un*) &sa;
