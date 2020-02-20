@@ -211,7 +211,7 @@ ccnl_query_append_pending(struct ccnl_interest_s *i, struct ccnl_interest_s *q){
 #else
             DEBUGMSG_CORE(DEBUG, "  appending a new pendQ entry %p <%s>(%p <%s>)\n",
                           (void *) pq, (s = ccnl_prefix_to_path(q->pkt->pfx)),
-                          (void *) i, (s = ccnl_prefix_to_path(i->pkt->pfx)));
+                          (void *) i, (t = ccnl_prefix_to_path(i->pkt->pfx)));
             //ccnl_free(s);
 #endif
             pq->query=q;
