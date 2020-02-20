@@ -25,6 +25,7 @@ struct ccnl_sensor_setting_s {
     unsigned int type; /** < the type of the sensor, possible at the moment are emulation or simulation. */
     unsigned int samplingRate;/** < The rate in seconds at which the sensor emits its data/reading */
     unsigned int name;/** < the name of the sensor,  [Victims, Survivors, GPS, Plug]*/
+    bool use_udp;
     char* socketPath; /**< the path of the socket we want to connect the sensor to. The sensor then sends it sensor data to this socket */
 };
 

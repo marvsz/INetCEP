@@ -60,9 +60,11 @@ static inline int strncmpci(const char * str1, const char * str2, size_t num)
 int
 main(int argc, char **argv){
     int opt, id, type, samplingRate = -1;
+    int sock = 0, suite = CCNL_SUITE_DEFAULT, port;
+    struct sockaddr sa;
+    char *addr = NULL, *udp = NULL, *socket = NULL;
     char *name = NULL;
     int nameID = -1;
-    char *socket = NULL;
     char *datadir = NULL;
     struct ccnl_sensor_setting_s* setting = NULL;
     struct ccnl_sensor_s* sensor = NULL;
@@ -85,6 +87,9 @@ main(int argc, char **argv){
                 break;
             case 'x':
                 socket = optarg;
+                break;
+            case 'u':
+                udp = optarg;
                 break;
             case 'v':
                 if (isdigit(optarg[0]))
@@ -113,6 +118,25 @@ usage:
                 exit(EXIT_FAILURE);
         }
     }
+
+    if (ccnl_parseUdp(udp, suite, &addr, &port) != 0) {
+        exit(-1);
+    }
+    DEBUGMSG(TRACE, "using udp address %s/%d\n", addr, port);
+
+    /*if (socket) { // use UNIX socket
+        struct sockaddr_un *su = (struct sockaddr_un*) &sa;
+        su->sun_family = AF_UNIX;
+        strcpy(su->sun_path, socket);
+        sock = ux_open();
+    } else { // UDP
+        struct sockaddr_in *si = (struct sockaddr_in*) &sa;
+        si->sin_family = PF_INET;
+        si->sin_addr.s_addr = inet_addr(addr);
+        si->sin_port = htons(port);
+        sock = udp_open();
+    }*/
+
     if(id==-1||type==-1||samplingRate==-1||name==NULL||socket==NULL)
         goto usage;
     if(type==1 && datadir==NULL)

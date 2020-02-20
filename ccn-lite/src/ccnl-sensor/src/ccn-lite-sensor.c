@@ -122,6 +122,10 @@ ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamp
     s->name = name;
     s->type = type;
     s->samplingRate = sasamplingRate;
+    if(strchr(socketPath, '/'))
+        s->use_udp = 1;
+    else
+        s->use_udp = 0;
     s->socketPath = socketPath;
     return s;
 }
@@ -217,7 +221,10 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     char stopPath[100];
     snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
     char sock[100];
-    snprintf(sock,sizeof(sock),"/tmp/%s",sensor->settings->socketPath);
+    if(!sensor->settings->use_udp)
+        snprintf(sock,sizeof(sock),"/tmp/%s",sensor->settings->socketPath);
+    else
+        snprintf(sock,sizeof(sock),"%s",sensor->settings->socketPath);
     char tuplePath[100];
     snprintf(tuplePath,sizeof(tuplePath),"/tmp/%s%i/tupleData",getSensorName(sensor->settings->name),sensor->settings->id);
     _mkdir(tuplePath);
@@ -280,12 +287,19 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     fclose(fPtr);
     //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
              //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
-    snprintf(uri, sizeof(uri), "/node%c/sensor/%s%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
-             sensor->settings->id);
+    if(!sensor->settings->use_udp)
+        snprintf(uri, sizeof(uri), "/node%c/sensor/%s%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
+                 sensor->settings->id);
+    else
+        snprintf(uri, sizeof(uri), "/nodeA/sensor/%s%i", getSensorName(sensor->settings->name),
+                 sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
     DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+    if(!sensor->settings->use_udp)
+        snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+    else
+        snprintf(exec, sizeof(exec), "%s/bin/%s -u %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
     //snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
     DEBUGMSG(DEBUG, "command Messge is %s\n",exec);
     //snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
