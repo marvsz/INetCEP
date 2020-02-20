@@ -181,7 +181,12 @@ struct ccnl_pkt_s* createNewPacket(struct ccnl_prefix_s *prefix, char *buf, int 
  */
 void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s *ccnl, struct ccnl_prefix_s* pfx){
     //char* intName = "/nodeA/sensor/gps1";+
-    int nonce = rand();
+    int nonce;
+#ifndef CCNL_LINUXKERNEL
+    nonce = rand();
+#else
+    nonce = random();
+#endif
     ccnl_interest_opts_u int_opts;
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
@@ -344,8 +349,14 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                   int *restart, int *halt, char *prog, char *pending,
                   struct stack_s **stack)
 {
-    struct timespec tstart ={0,0}, tend={0,0};
-    clock_gettime(CLOCK_MONOTONIC, &tstart);
+#ifndef CCNL_LINUXKERNEL
+    struct timespec tstart={0,0}, tend={0,0};
+    clock_gettime(CLOCK_MONOTONIC,&tstart);
+#else
+    struct timespec tstart;
+    struct timespec tend;
+    getrawmonotonic(&tstart);
+#endif
     int local_search = 1;
     struct stack_s *streamStack;
     char *cp = NULL;
@@ -497,9 +508,20 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
 
         cp = ccnl_strdup(pending);
     }
+#ifndef CCNL_LINUXKERNEL
     clock_gettime(CLOCK_MONOTONIC,&tend);
-    DEBUGMSG(DEBUG,"buildin window took about %.9f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
-                                                         ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+#else
+    getrawmonotonic(&tend);
+#endif
+
+    uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
+
+#ifndef CCNL_LINUXKERNEL
+    DEBUGMSG(DEBUG,"Builtin Add took about %lu seconds\n",timeDifference);
+
+#else
+    DEBUGMSG(DEBUG,"Builtin Kernel Add took about %llu seconds\n",timeDifference);
+#endif
     return cp;
 }
 
