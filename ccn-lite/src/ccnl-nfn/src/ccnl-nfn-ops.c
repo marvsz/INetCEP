@@ -87,7 +87,7 @@ char** str_split(char* a_str, const char a_delim)
 #ifndef CCNL_LINUXKERNEL
         token = strtok(a_str, delim);
 #else
-        token = strsep(a_str, delim);
+        token = strsep(&a_str, delim);
 #endif
 
 
