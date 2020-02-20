@@ -310,7 +310,7 @@ void
 window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int stateContLen, int quantity, int unit){
     char **intermediateArray = NULL;
     (void) unit;
-    DEBUGMSG(DEBUG,"Statr content length was %i\n",stateContLen);
+    DEBUGMSG(DEBUG,"State content length was %i\n",stateContLen);
     if(stateContLen){
         intermediateArray = str_split(stateContent, '\n');
     }
@@ -333,16 +333,16 @@ window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int 
             ccnl_free(*(intermediateArray+i));
         }
         if(i< quantity-1 && intermediateArray){
-            //DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            //DEBUGMSG(DEBUG, "WINDOW: Start copying last Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal,*(intermediateArray+i));
-            strcat(retVal,"\n");
+            //strcat(retVal,"\n");
             //DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i because there was still space left: %s\n",i,*(intermediateArray+i));
             ccnl_free(*(intermediateArray+i));
         }
         //DEBUGMSG(DEBUG, "WINDOW: Freeing Intermediate Result\n");
         ccnl_free(intermediateArray);
     }
-        }
+}
 
 char*
 op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
@@ -517,10 +517,10 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
 
 #ifndef CCNL_LINUXKERNEL
-    DEBUGMSG(DEBUG,"Builtin Add took about %lu seconds\n",timeDifference);
+    DEBUGMSG(DEBUG,"Builtin Window took about %lu seconds\n",timeDifference);
 
 #else
-    DEBUGMSG(DEBUG,"Builtin Kernel Add took about %llu seconds\n",timeDifference);
+    DEBUGMSG(DEBUG,"Builtin Kernel Window took about %llu seconds\n",timeDifference);
 #endif
     return cp;
 }
