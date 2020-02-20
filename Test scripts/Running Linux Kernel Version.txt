@@ -24,3 +24,6 @@ Normale
 
 ### Sensor starten Kernel
 ~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500 -u 127.0.0.1/6363 -v trace -d /home/johannes/INetCEP/sensors/gps1
+
+### Window Query Kernel
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -v trace -u 127.0.0.1/6363 "window /nodeA/sensor/gps1 4 1" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 3
