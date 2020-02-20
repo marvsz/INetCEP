@@ -66,14 +66,14 @@ read -s -p "Enter Password for sudo: " sudoPW
 		echo "$sudoPW" | sudo -S apt-get remove scala-library scala		
 		echo "$sudoPW" | sudo -S apt-get install -y build-essential libssl-dev default-jdk default-jre bc iperf
 		cd ~/Download
-		echo "$sudoPW" | sudo -S wget http://scala-lang.org/files/archive/scala-2.13.1.deb
+		wget https://scala-lang.org/files/archive/scala-2.13.1.deb
 		echo "$sudoPW" | sudo -S dpkg -i scala-2.13.1.deb
-		echo "$sudoPW" | sudo -S wget https://dl.bintray.com/sbt/debian/sbt-0.13.17.deb
-		echo "$sudoPW" | sudo -S dpkg -i sbt-0.13.17.deb
+		wget https://dl.bintray.com/sbt/debian/sbt-1.3.8.deb
+		echo "$sudoPW" | sudo -S dpkg -i sbt-1.3.8.deb
 		cd ~/Download
-		wget https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz
-		tar -xzvf cmake-3.7.2.tar.gz
-		cd cmake-3.7.2/
+		wget https://cmake.org/files/v3.17/cmake-3.17.0-rc1.tar.gz
+		tar -xzvf cmake-3.17.0-rc1.tar.gz
+		cd cmake-3.17.0-rc1/
 		./bootstrap
 		make -j4
 		echo "$sudoPW" | sudo -S make install
