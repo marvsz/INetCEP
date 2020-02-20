@@ -83,13 +83,24 @@ char** str_split(char* a_str, const char a_delim)
     if (result)
     {
         size_t idx  = 0;
-        char* token = strtok(a_str, delim);
+        char* token;
+#ifndef CCNL_LINUXKERNEL
+        token = strtok(a_str, delim);
+#else
+        token = strsep(a_str, delim);
+#endif
+
 
         while (token)
         {
             assert(idx < count);
             *(result + idx++) = ccnl_strdup(token);
+#ifndef CCNL_LINUXKERNEL
             token = strtok(0, delim);
+#else
+            token = strsep(0,delim);
+#endif
+
         }
         assert(idx == count - 1);
         *(result + idx) = 0;
