@@ -103,10 +103,10 @@ char** str_split(char* a_str, const char a_delim)
             assert(idx < count);
             *(result + idx++) = ccnl_strdup(token);
 #ifndef CCNL_LINUXKERNEL
-            token = strtok(NULL, delim);
+            token = NULL;//strtok(NULL, delim);
 #else
             DEBUGMSG(DEBUG, "Second strsep\n");
-            token = strsep(NULL,delim);
+            token = NULL; //strsep(NULL,delim);
             DEBUGMSG(DEBUG, "After second strsep\n");
 #endif
         }
