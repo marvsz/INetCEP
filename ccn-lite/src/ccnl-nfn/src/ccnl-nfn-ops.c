@@ -60,6 +60,7 @@ char** str_split(char* a_str, const char a_delim)
     delim[0] = a_delim;
     delim[1] = 0;
 
+    DEBUGMSG(DEBUG, "First \n");
     /* Count how many elements will be extracted. */
     while (*tmp)
     {
@@ -71,6 +72,7 @@ char** str_split(char* a_str, const char a_delim)
         tmp++;
     }
 
+    DEBUGMSG(DEBUG, "Second, count is %lu \n",count);
     /* Add space for trailing token. */
     count += last_comma < (a_str + strlen(a_str) - 1);
 
@@ -80,14 +82,19 @@ char** str_split(char* a_str, const char a_delim)
 
     result = ccnl_malloc(sizeof(char*) * count);
 
+    DEBUGMSG(DEBUG, "Third, allocated space for result? ");
+
     if (result)
     {
+        DEBUGMSG(DEBUG, "Yes\n");
         size_t idx  = 0;
         char* token;
 #ifndef CCNL_LINUXKERNEL
         token = strtok(a_str, delim);
 #else
+        DEBUGMSG(DEBUG, "First strsep\n");
         token = strsep(&a_str, delim);
+        DEBUGMSG(DEBUG, "After first strsep\n");
 #endif
 
 
@@ -98,13 +105,15 @@ char** str_split(char* a_str, const char a_delim)
 #ifndef CCNL_LINUXKERNEL
             token = strtok(0, delim);
 #else
+            DEBUGMSG(DEBUG, "Second strsep\n");
             token = strsep(0,delim);
+            DEBUGMSG(DEBUG, "After second strsep\n");
 #endif
-
         }
         assert(idx == count - 1);
         *(result + idx) = 0;
-    }
+    } else
+        DEBUGMSG(DEBUG, "No\n");
 
     return result;
 }
