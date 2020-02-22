@@ -387,7 +387,13 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
     DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
              ccnl_prefix_to_str(pfx, s, CCNL_MAX_PREFIX_SIZE), (void *) pfx);
     DEBUGMSG(VERBOSE, "name=<%s>(%p) digest=%p\n",
-             ccnl_prefix_to_str(nam, s, CCNL_MAX_PREFIX_SIZE), (void *) nam, (void *) md);
+            ccnl_prefix_to_str(nam, s, CCNL_MAX_PREFIX_SIZE), (void *) nam, (void *) md);
+#else
+    char* s;
+    DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
+             (s = ccnl_prefix_to_path(pfx)), (void *) pfx);
+    DEBUGMSG(VERBOSE, "name=<%s>(%p) digest=%p\n",
+            (s = ccnl_prefix_to_path(nam)), (void *) nam, (void *) md);
 #endif
     if (mode == CMP_EXACT) {
         if (plen != nam->compcnt) {
