@@ -32,6 +32,7 @@
 #include <linux/time.h>
 #else
 #include<time.h>
+#include <limits.h>
 #include "ccnl-nfn-ops.h"
 #include <stdio.h>
 #include <bits/types/struct_timespec.h>
@@ -93,7 +94,7 @@ char** str_split(char* a_str, const char a_delim)
         {
             assert(idx < count);
             *(result + idx++) = ccnl_strdup(token);
-            token = strtok(NULL, delim);
+            token = strtok(0, delim);
         }
 #else
         while( (token = strsep(&a_str,delim)) != NULL ){
@@ -123,48 +124,98 @@ int get_int_len (int value){
  * @return the packet or the last packet, depending on how many packets are being created.
  */
 struct ccnl_pkt_s* createNewPacket(struct ccnl_prefix_s *prefix, char *buf, int len){
+    /*
+int newlen = 0;
+    unsigned char body[CCN_LITE_MKC_BODY_SIZE];
+    unsigned char out[CCN_LITE_MKC_OUT_SIZE];
+    unsigned int lastchunknum = UINT_MAX;
+    ccnl_data_opts_u data_opts;
+    int offs = 0;
+    struct ccnl_pkt_s *pkt = NULL;
+    int contentpos;
+    memcpy(body,buf,len);
+
+#ifdef USE_SUITE_CCNB
+newlen = ccnl_ccnb_fillContent(prefix,body,len,NULL,out);
+#endif
+#ifdef USE_SUITE_CCNTLV
+    offs = CCNL_MAX_PACKET_SIZE;*/
+    //newlen = ccnl_ccntlv_prependContentWithHdr(prefix, body, len,
+    //                                        lastchunknum == UINT_MAX ? NULL : &lastchunknum,
+    //                                        NULL /* Int *contentpos */, &offs, out);
+    /*
+#endif
+#ifdef USE_SUITE_NDNTLV
+    offs = CCNL_MAX_PACKET_SIZE;
+    data_opts.ndntlv.finalblockid = lastchunknum;
+    newlen = ccnl_ndntlv_prependContent(prefix, body, len,
+                                     NULL, lastchunknum == UINT_MAX ? NULL : &(data_opts.ndntlv),
+                                     &offs, out);
+#endif
+
+
+    pkt = ccnl_calloc(1, sizeof(*pkt));
+    //pkt->pfx = ccnl_URItoPrefix(uri, CCNL_SUITE_CCNB, NULL, NULL);
+    pkt->pfx = prefix;
+    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, out, newlen, &contentpos, NULL);
+    pkt->content = pkt->buf->data + contentpos;
+    pkt->contlen = newlen;
+    ccnl_free(out);
+    //ccnl_free(packet);
+     */
+
     int it, size = CCNL_MAX_PACKET_SIZE/2;
     int numPackets = len/(size/2) + 1;
-    //(void) prefix;
+    (void) prefix;
+    //unsigned char body[len+1];
     struct ccnl_pkt_s *pkt = NULL;
 
+    DEBUGMSG(DEBUG,"Contentlen was %lu, given length was %i",strlen(buf),len);
+
+    /*int contentpos;
+    pkt = ccnl_calloc(1, sizeof(*pkt));
+    memcpy(body,buf,len);
+    pkt->pfx = prefix;
+    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, body, len+1, &contentpos, NULL);
+    pkt->content = pkt->buf->data + contentpos;
+    pkt->contlen = len+1;*/
     //DEBUGMSG(DEBUG, "The content of the new Packet should be: %.*s\n",len,buf);
 
     for(it=0; it < numPackets; ++it){
         unsigned char *buf2;
-        int packetsize = size/2, len4 = 0, len5;
+        int packetsize = size/2, len4 = 0, len5, hdrlen = 0;
         unsigned char *packet = (unsigned char*) ccnl_malloc(sizeof(char)*packetsize * 2);
-        len4 += ccnl_ccnb_mkHeader(packet+len4, CCNL_DTAG_FRAG, CCN_TT_DTAG);
-        if(it == numPackets -1){
+        hdrlen += ccnl_ccnb_mkHeader(packet+len4, CCNL_DTAG_FRAG, CCN_TT_DTAG);
+        len4 += hdrlen;
+        //if(it == numPackets -1){
             len4 += ccnl_ccnb_mkStrBlob(packet+len4, CCN_DTAG_ANY, CCN_TT_DTAG, buf);
-        }
+        //}
         len5 = len - it * packetsize;
         if (len5 > packetsize)
             len5 = packetsize;
-        len4 += ccnl_ccnb_mkBlob(packet+len4, CCN_DTAG_CONTENTDIGEST,
-                                 CCN_TT_DTAG, (char*) buf + it*packetsize,
-                                 len5);
+        //len4 += ccnl_ccnb_mkBlob(packet+len4, CCN_DTAG_CONTENTDIGEST,
+                                 //CCN_TT_DTAG, (char*) buf + it*packetsize,
+                                 //len5);
         packet[len4++] = 0;
         buf2 = ccnl_malloc(CCNL_MAX_PACKET_SIZE*sizeof(char));
         len5 = ccnl_ccnb_mkHeader(buf2, CCN_DTAG_CONTENTOBJ, CCN_TT_DTAG);   // content
-        //len5 += ccnl_ccnb_mkStrBlob(packet+len5, CCN_DTAG_CONTENT, CCN_TT_DTAG, buf);
         memcpy(buf2+len5, packet, len4);
         len5 +=len4;
         buf2[len5++] = 0; // end-of-interest
-        /*if(it == 0){
-            struct ccnl_buf_s *retbuf;
-            DEBUGMSG(TRACE, "  enqueue %d %d bytes\n", len4, len5);
-            retbuf = ccnl_buf_new((char *)buf2, len5);
-            ccnl_face_enqueue(ccnl, from, retbuf);
-        }*/
+        //if(it == 0){
+        //    struct ccnl_buf_s *retbuf;
+        //    DEBUGMSG(TRACE, "  enqueue %d %d bytes\n", len4, len5);
+        //    retbuf = ccnl_buf_new((char *)buf2, len5);
+        //    ccnl_face_enqueue(ccnl, from, retbuf);
+        //}
         //char uri[50];
         int contentpos;
+
         pkt = ccnl_calloc(1, sizeof(*pkt));
-        //pkt->pfx = ccnl_URItoPrefix(uri, CCNL_SUITE_CCNB, NULL, NULL);
         pkt->pfx = prefix;
         pkt->buf = ccnl_mkSimpleContent(pkt->pfx, buf2, len5, &contentpos, NULL);
-        pkt->content = pkt->buf->data + contentpos;
-        pkt->contlen = len5;
+        pkt->content = pkt->buf->data + contentpos + hdrlen;
+        pkt->contlen = len;
         ccnl_free(buf2);
         ccnl_free(packet);
     }
@@ -179,7 +230,6 @@ struct ccnl_pkt_s* createNewPacket(struct ccnl_prefix_s *prefix, char *buf, int 
  * @param pfx the prefix for the packet to which the system shall react to.
  */
 void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s *ccnl, struct ccnl_prefix_s* pfx){
-    //char* intName = "/nodeA/sensor/gps1";+
     int nonce;
 #ifndef CCNL_LINUXKERNEL
     nonce = rand();
@@ -190,10 +240,6 @@ void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s 
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
 #endif
-    /*
-     * TODO: Search the pit beforehand to maybe already find an entry --> do not create too many!
-     */
-
     struct ccnl_interest_s *i = NULL;
     for(i = ccnl->pit; i; i=i->next){
         DEBUGMSG(DEBUG,"\n");
@@ -211,7 +257,7 @@ void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s 
         }
     }
     if(!i){
-        i= ccnl_mkPersistentInterestObject(pfx,&int_opts);
+        i= ccnl_mkPersistentInterestObject(ccnl_prefix_dup(pfx),&int_opts);
         i->pkt->s = intr->pkt->s;
         DBL_LINKED_LIST_ADD(ccnl->pit, i);
         ccnl->pitcnt++;
@@ -314,25 +360,24 @@ window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int 
         intermediateArray = str_split(stateContent, '\n');
     }
     strcpy(retVal,tupleContent);
-    strcat(retVal,"\n");
-
-
+    if(stateContLen)
+        strcat(retVal,"\n");
 
     //DEBUGMSG(DEBUG, "WINDOW: Copied new tuple as the first Element of the result\n");
     //DEBUGMSG(DEBUG, "WINDOW: TEEEEST1\n");
     if(intermediateArray){
         //DEBUGMSG(DEBUG, "WINDOW: IntermediateArray was not null\n");
         int i = 0;
-        for(i=0; *(intermediateArray + i + 1); i++){
+        for(i=0; (i < quantity-2 && *(intermediateArray + i + 1)); i++){
             //DEBUGMSG(DEBUG, "WINDOW: TEEEEST\n");
-            //DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal,*(intermediateArray+i));
             strcat(retVal,"\n");
             //DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i regularly: %s\n",i,*(intermediateArray+i));
             ccnl_free(*(intermediateArray+i));
         }
         if(i< quantity-1 && intermediateArray){
-            //DEBUGMSG(DEBUG, "WINDOW: Start copying last Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            DEBUGMSG(DEBUG, "WINDOW: Start copying last Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal,*(intermediateArray+i));
             //strcat(retVal,"\n");
             //DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i because there was still space left: %s\n",i,*(intermediateArray+i));
@@ -359,6 +404,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     int local_search = 1;
     struct stack_s *streamStack;
     char *cp = NULL;
+    char *s = NULL;
     struct ccnl_prefix_s *stateprefix;
     struct ccnl_prefix_s *tupleprefix;
     struct ccnl_content_s *state = NULL;
@@ -404,7 +450,8 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     if(tuple){
         tupleContLen = tuple->pkt->contlen;
     }
-    char tupleContent[tupleContLen];
+    DEBUGMSG(DEBUG,"Tuple Content Length was %i",tupleContLen);
+    char tupleContent[tupleContLen+1];
     if(tuple){
         memcpy(tupleContent,tuple->pkt->content,tuple->pkt->contlen);
     }
@@ -413,9 +460,16 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     }
 
     //DEBUGMSG(DEBUG, "WINDOW: Found Tuple Content %s\n",tupleContent);
-    int prefixLength = strlen(ccnl_prefix_to_path(tupleprefix))+strlen("state")+ get_int_len(quantity)+get_int_len(unit)+2;
+
+    int prefixLength = strlen((s = ccnl_prefix_to_path(tupleprefix)))+strlen("state")+ get_int_len(quantity)+get_int_len(unit)+3;
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
     char statePrefix[prefixLength];
-    sprintf(statePrefix,"state%s/%i/%i",ccnl_prefix_to_path(tupleprefix),quantity,unit);
+    sprintf(statePrefix,"state%s/%i/%i",(s = ccnl_prefix_to_path(tupleprefix)),quantity,unit);
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
     //DEBUGMSG(DEBUG, "Derived State Name is %.*s, calculated Length was %i, actual Length was %lu. This is because of lengths: tuplePrefix: %lu, state: %lu, quantitiy:%lu, unit:%lu\n",(int)strlen(statePrefix),statePrefix,prefixLength,strlen(statePrefix),strlen(ccnl_prefix_to_path(tupleprefix)),strlen("state"),sizeof(quantity),sizeof(unit));
     //DEBUGMSG(DEBUG, "Derived State Name is %.*s\n",(int)strlen(statePrefix),statePrefix);
     stateprefix =  ccnl_URItoPrefix(statePrefix, config->suite, NULL, NULL);
@@ -424,7 +478,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     if(state){
         stateContLen = state->pkt->contlen;
     }
-    char stateContent[stateContLen];
+    char stateContent[stateContLen+1];
     if(state){
         memcpy(stateContent,state->pkt->content,state->pkt->contlen);
         DEBUGMSG(DEBUG, "WINDOW: Found State Content %s\n",stateContent);
@@ -432,7 +486,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     else{
         DEBUGMSG(DEBUG, "WINDOW: Did not find state content \n");
     }
-    char endResult[tupleContLen+stateContLen];
+    char endResult[tupleContLen+2+stateContLen+1];
     window_purge_old_data(endResult, stateContent, tupleContent, stateContLen, quantity, unit);
     /*char s[CCNL_MAX_PREFIX_SIZE];
     if(state){
@@ -453,7 +507,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
      */
     if(!state){
         struct ccnl_interest_s* nfnInterest = ccnl_nfn_local_interest_search(ccnl,config,config->prefix);
-        ccnl_makeQueryPersistent(nfnInterest, ccnl, ccnl_prefix_dup(tupleprefix));
+        ccnl_makeQueryPersistent(nfnInterest, ccnl, tupleprefix);
     }
     /*else
         DEBUGMSG(DEBUG, "Datalen of the Buffer was %lu, contentlen of the pkt was %i\n",state->pkt->buf->datalen,state->pkt->contlen);*/
@@ -499,7 +553,10 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     DEBUGMSG(DEBUG, "The content of the new Packet Buffer is: %.*s\n",(int)state->pkt->buf->datalen+state->pkt->contlen,state->pkt->buf->data);
     DEBUGMSG(DEBUG, "Datalen of the Buffer was %lu, contentlen of the new Packet was %i\n",state->pkt->buf->datalen,state->pkt->contlen);
      */
-    DEBUGMSG(INFO, "WINDOW: result was found ---> handle it (%s), prog=%s, pending=%s\n", ccnl_prefix_to_path(stateprefix), prog, pending);
+    DEBUGMSG(INFO, "WINDOW: result was found ---> handle it (%s), prog=%s, pending=%s\n", (s = ccnl_prefix_to_path(stateprefix)), prog, pending);
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
     push_to_stack(&config->result_stack, ccnl_prefix_dup(stateprefix), STACK_TYPE_PREFIX);
     ccnl_free(stateprefix);
     if (pending) {

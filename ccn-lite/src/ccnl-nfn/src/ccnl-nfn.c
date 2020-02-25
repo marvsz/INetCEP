@@ -113,7 +113,9 @@ ccnl_nfn_find_running_computation(struct ccnl_relay_s *ccnl, struct ccnl_prefix_
 
     char *path = ccnl_prefix_to_path(copy);
     DEBUGMSG(DEBUG, "Searching for computation: %s\n", path);
+#ifndef CCNL_LINUXKERNEL
     ccnl_free(path);
+#endif
 
     for (i = 0; i < -ccnl->km->configid; ++i) {
         struct configuration_s *config;
@@ -152,13 +154,19 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
 #endif
 
     int i, len = 0;
-
+    char *s = NULL;
     DEBUGMSG(TRACE, "ccnl_nfn(%p, %s, %p, config=%p)\n",
-             (void*)ccnl, ccnl_prefix_to_path(prefix),
+             (void*)ccnl, (s = ccnl_prefix_to_path(prefix)),
              (void*)from, (void*)config);
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
 
     //    prefix = ccnl_prefix_dup(prefix);
-    DEBUGMSG(DEBUG, "Namecomps: %s \n", ccnl_prefix_to_path(prefix));
+    DEBUGMSG(DEBUG, "Namecomps: %s \n", (s = ccnl_prefix_to_path(prefix)));
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
 
     if (config){
         suite = config->suite;
@@ -181,7 +189,10 @@ ccnl_nfn(struct ccnl_relay_s *ccnl, // struct ccnl_buf_s *orig,
         struct ccnl_prefix_s *copy = ccnl_prefix_dup(prefix);
 	
         copy->compcnt -= 1;
-        DEBUGMSG(DEBUG, "   checking local available of %s\n", ccnl_prefix_to_path(copy));
+        DEBUGMSG(DEBUG, "   checking local available of %s\n", (s = ccnl_prefix_to_path(copy)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
         ccnl_nfnprefix_clear(copy, CCNL_PREFIX_NFN);
 #ifdef USE_NFN_REQUESTS
         ccnl_nfnprefix_clear(copy, CCNL_PREFIX_REQUEST);
@@ -359,6 +370,7 @@ ccnl_nfn_RX_result(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 {
     struct ccnl_interest_s *i_it = NULL;
     int found = 0;
+    char *s = NULL;
     (void)from;
 
     DEBUGMSG_CFWD(INFO, "data in rx result %.*s\n", c->pkt->contlen, c->pkt->content);
@@ -390,7 +402,10 @@ ccnl_nfn_RX_result(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             
 	        DEBUGMSG_CFWD(INFO, "data in rx resulti after add to cache %.*s\n", c->pkt->contlen, c->pkt->content);
             DEBUGMSG(DEBUG, "Continue configuration for configid: %d with prefix: %s\n",
-                  faceid, ccnl_prefix_to_path(c->pkt->pfx));
+                  faceid, (s = ccnl_prefix_to_path(c->pkt->pfx)));
+#ifndef CCNL_LINUXKERNEL
+            ccnl_free(s);
+#endif
             i_it->flags |= CCNL_PIT_COREPROPAGATES;
             i_it->from = NULL;
 

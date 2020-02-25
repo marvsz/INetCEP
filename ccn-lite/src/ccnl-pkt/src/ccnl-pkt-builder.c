@@ -284,6 +284,8 @@ ccnl_mkSimpleContent(struct ccnl_prefix_s *name,
     DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",
                   ccnl_prefix_to_str(name, s, CCNL_MAX_PREFIX_SIZE),
                   paylen);
+    DEBUGMSG_CUTL(DEBUG, "mkSimpleContent Content is %s\n",
+                  payload);
 #else
     char *s = NULL;
     DEBUGMSG_CUTL(DEBUG, "mkSimpleContent (%s, %d bytes)\n",

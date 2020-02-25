@@ -359,8 +359,14 @@ rpc_cacheRemove(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             if (!ccnl_prefix_cmp(c->pkt->pfx, NULL, prefix, CMP_EXACT)) {
                 struct ccnl_content_s *tmp = c->next;
                 ccnl_content_remove(relay, c);
+                {
+                    char *s = NULL;
                 DEBUGMSG(DEBUG, "content %s removed\n",
-                         ccnl_prefix_to_path(prefix));
+                         (s = ccnl_prefix_to_path(prefix)));
+#ifndef CCNL_LINUXKERNEL
+                ccnl_free(s);
+#endif
+                }
                 cnt++;
                 c = tmp;
             } else

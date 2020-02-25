@@ -648,7 +648,9 @@ nfn_request_RX_cancel(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     char *s = NULL;
     DEBUGMSG(INFO, "Original (modified) prefix for cancel response: %s\n", s = ccnl_prefix_to_path(cancel_pfx));
-    ccnl_free(s);  
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
 
     int dataoffset;
     struct ccnl_pkt_s *packet;

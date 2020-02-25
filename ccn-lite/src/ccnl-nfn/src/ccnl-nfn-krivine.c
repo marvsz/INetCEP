@@ -247,7 +247,14 @@ create_namecomps(struct ccnl_relay_s *ccnl, struct configuration_s *config,
         //local computation name components
         DEBUGMSG(DEBUG, "content local available\n");
         struct ccnl_prefix_s *pref = ccnl_nfnprefix_mkComputePrefix(config, prefix->suite);
-        DEBUGMSG(DEBUG, "LOCAL PREFIX: %s\n", ccnl_prefix_to_path(pref));
+        {
+            char *s = NULL;
+
+        DEBUGMSG(DEBUG, "LOCAL PREFIX: %s\n", (s = ccnl_prefix_to_path(pref)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
+        }
         return pref;
     }
     return ccnl_nfnprefix_mkCallPrefix(prefix, config, parameter_number);
@@ -365,9 +372,15 @@ ZAM_fox(struct ccnl_relay_s *ccnl, struct configuration_s *config,
                      *(int *)config->fox_state->params[i]->content);
             break;
         case STACK_TYPE_PREFIX:
+        {
+            char *s = NULL;
             DEBUGMSG(DEBUG, "  info: Parameter %d %s\n", i,
-                     ccnl_prefix_to_path((struct ccnl_prefix_s*)
-                                      config->fox_state->params[i]->content));
+                     (s = ccnl_prefix_to_path((struct ccnl_prefix_s*)
+                                              config->fox_state->params[i]->content)));
+#ifndef CCNL_LINUXKERNEL
+            ccnl_free(s);
+#endif
+        }
             break;
         default:
             DEBUGMSG(DEBUG, "  info: Parameter %d %s %p\n", i,
@@ -432,8 +445,15 @@ local_compute:
 
     config->local_done = 1;
     pref = ccnl_nfnprefix_mkComputePrefix(config, config->suite);
+    {
+        char *s = NULL;
+
     DEBUGMSG(DEBUG, "Prefix local computation: %s\n",
-             ccnl_prefix_to_path(pref));
+             (s = ccnl_prefix_to_path(pref)));
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
+}
     interest = ccnl_nfn_query2interest(ccnl, &pref, config);
     if (pref)
         ccnl_prefix_free(pref);
@@ -470,9 +490,18 @@ handlecontent: //if result was found ---> handle it
             mapping->key = ccnl_prefix_dup(name); //TODO COPY
             mapping->value = ccnl_prefix_dup(c->pkt->pfx);
             DBL_LINKED_LIST_ADD(config->fox_state->prefix_mapping, mapping);
+            {
+                char *s = NULL;
+                char *t = NULL;
+
             DEBUGMSG(DEBUG, "Created a mapping %s - %s\n",
-                        ccnl_prefix_to_path(mapping->key),
-                        ccnl_prefix_to_path(mapping->value));
+                     (s = ccnl_prefix_to_path(mapping->key)),
+                     (t = ccnl_prefix_to_path(mapping->value)));
+#ifndef CCNL_LINUXKERNEL
+                ccnl_free(s);
+                ccnl_free(t);
+#endif
+            }
         }
     }
     
@@ -935,7 +964,7 @@ Krivine_reduction(struct ccnl_relay_s *ccnl, char *expression,
     int steps = 0, halt = 0, restart = 1;
     int len = strlen("CLOSURE(HALT);RESOLVENAME()") + strlen(expression) + 1;
     char *dummybuf;
-
+    char *s = NULL;
     DEBUGMSG(TRACE, "Krivine_reduction()\n");
 
     if (!*config && strlen(expression) == 0)
@@ -948,7 +977,10 @@ Krivine_reduction(struct ccnl_relay_s *ccnl, char *expression,
         prog = ccnl_malloc(len*sizeof(char));
         sprintf(prog, "CLOSURE(HALT);RESOLVENAME(%s)", expression);
         setup_global_environment(&global_dict);
-        DEBUGMSG(DEBUG, "PREFIX %s\n", ccnl_prefix_to_path(prefix));
+        DEBUGMSG(DEBUG, "PREFIX %s\n", ( s = ccnl_prefix_to_path(prefix)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
         *config = new_config(ccnl, prog, global_dict,
                              start_locally,
                              prefix, ccnl->km->configid, suite);

@@ -51,7 +51,6 @@ struct ccnl_prefix_s {
 #ifdef USE_NFN_REQUESTS
     struct nfn_request_s *request; /**< if nfn request, information about the nfn request (R2C) */
 #endif
-
     unsigned char *nfnexpr; /**< if nfn request, contains nfn expression */
 #endif
 };

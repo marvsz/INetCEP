@@ -146,11 +146,15 @@ ccnl_nfn_result2content(struct ccnl_relay_s *ccnl,
     struct ccnl_pkt_s *pkt;
     struct ccnl_content_s *c;
     (void)ccnl;
-
+    {
+        char *s = NULL;
     DEBUGMSG(TRACE, "ccnl_nfn_result2content(prefix=%s, suite=%s, contlen=%d)\n",
-             ccnl_prefix_to_path(*prefix), ccnl_suite2str((*prefix)->suite),
+             (s = ccnl_prefix_to_path(*prefix)), ccnl_suite2str((*prefix)->suite),
              resultlen);
-
+#ifndef CCNL_LINUXKERNEL
+    ccnl_free(s);
+#endif
+}
     pkt = ccnl_calloc(1, sizeof(*pkt));
     if (!pkt)
         return NULL;
@@ -426,10 +430,19 @@ struct ccnl_interest_s*
     struct ccnl_interest_s *interest;
     struct ccnl_prefix_s *prefixchunkzero;
 
-    DEBUGMSG(TRACE, "ccnl_nfn_local_interest_search(%s, suite=%s)\n",
-             ccnl_prefix_to_path(prefix), ccnl_suite2str(prefix->suite));
-    DEBUGMSG(DEBUG, "Searching local for interest %s\n", ccnl_prefix_to_path(prefix));
+    {
+        char *s = NULL;
 
+    DEBUGMSG(TRACE, "ccnl_nfn_local_interest_search(%s, suite=%s)\n",
+             (s = ccnl_prefix_to_path(prefix)), ccnl_suite2str(prefix->suite));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
+    DEBUGMSG(DEBUG, "Searching local for interest %s\n", (s = ccnl_prefix_to_path(prefix)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
+}
     for (interest = ccnl->pit; interest; interest = interest->next) {
         if (interest->pkt->pfx->suite == prefix->suite &&
             !ccnl_prefix_cmp(prefix, 0, interest->pkt->pfx, CMP_EXACT))
@@ -582,14 +595,26 @@ ccnl_nfn_mkKeepalivePrefix(struct ccnl_prefix_s *pfx)
     DEBUGMSG(TRACE, "ccnl_nfn_mkKeepalivePrefix()\n");
     
     p = ccnl_prefix_dup(pfx);
-    DEBUGMSG(TRACE, "  duped prefix: %s\n", ccnl_prefix_to_path(p));
+    {
+        char *s = NULL;
 
+    DEBUGMSG(TRACE, "  duped prefix: %s\n", (s = ccnl_prefix_to_path(p)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
+}
     char *comp = "KEEPALIVE";
     int complen = strlen(comp);
     p->request = nfn_request_new((unsigned char*)comp, complen);
     p->nfnflags |= CCNL_PREFIX_REQUEST;
+    {
+        char *s = NULL;
 
-    DEBUGMSG(TRACE, "  keep alive prefix: %s\n", ccnl_prefix_to_path(p));
+    DEBUGMSG(TRACE, "  keep alive prefix: %s\n", (s = ccnl_prefix_to_path(p)));
+#ifndef CCNL_LINUXKERNEL
+        ccnl_free(s);
+#endif
+}
     return p;
 }
 
