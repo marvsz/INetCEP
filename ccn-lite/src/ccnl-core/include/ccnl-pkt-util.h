@@ -68,9 +68,9 @@ uint32_t
 ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt);
 
 bool
-ccnl_pkt_interest_isConstant(const struct ccnl_pkt_s *pkt);
+ccnl_pkt_interest_isPersistent(const struct ccnl_pkt_s *pkt);
 
 bool
-ccnl_pkt_interest_isRemoveI(const struct ccnl_pkt_s *pkt);
+ccnl_pkt_interest_isRemovePersistent(const struct ccnl_pkt_s *pkt);
 
 #endif

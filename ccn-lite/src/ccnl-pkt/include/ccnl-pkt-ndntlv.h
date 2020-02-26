@@ -42,31 +42,31 @@
 #define NDN_DEFAULT_INTEREST_LIFETIME (4000u)
 #endif
 
-#define NDN_UDP_PORT                    6363
-#define NDN_DEFAULT_MTU                 4096
+#define NDN_UDP_PORT                     6363
+#define NDN_DEFAULT_MTU                  4096
 
 // Packet types:
-#define NDN_TLV_Interest                0x05
-#define NDN_TLV_ConstInterest           0x1f
-#define NDN_TLV_RemoveConstInterest     0x20
-#define NDN_TLV_Data                    0x06
-#define NDN_TLV_Datastream              0x1e
-#define NDN_TLV_NDNLP                   0x64
-#define NDN_TLV_Fragment                NDN_TLV_NDNLP
+#define NDN_TLV_Interest                 0x05
+#define NDN_TLV_PersistentInterest       0x1f
+#define NDN_TLV_RemovePersistentInterest 0x20
+#define NDN_TLV_Data                     0x06
+#define NDN_TLV_Datastream               0x1e
+#define NDN_TLV_NDNLP                    0x64
+#define NDN_TLV_Fragment                 NDN_TLV_NDNLP
 
 // Common fields:
-#define NDN_TLV_Name                    0x07
-#define NDN_TLV_NameComponent           0x08
+#define NDN_TLV_Name                     0x07
+#define NDN_TLV_NameComponent            0x08
 
 // Interest packet:
-#define NDN_TLV_Selectors               0x09
-#define NDN_TLV_Nonce                   0x0a
-#define NDN_TLV_Scope                   0x0b
-#define NDN_TLV_InterestLifetime        0x0c
+#define NDN_TLV_Selectors                0x09
+#define NDN_TLV_Nonce                    0x0a
+#define NDN_TLV_Scope                    0x0b
+#define NDN_TLV_InterestLifetime         0x0c
 
 // Interest/Selectors:
-#define NDN_TLV_MinSuffixComponents     0x0d
-#define NDN_TLV_MaxSuffixComponents     0x0e
+#define NDN_TLV_MinSuffixComponents      0x0d
+#define NDN_TLV_MaxSuffixComponents      0x0e
 #define NDN_TLV_PublisherPublicKeyLocator 0x0f
 #define NDN_TLV_Exclude                 0x10
 #define NDN_TLV_ChildSelector           0x11
@@ -182,8 +182,8 @@ ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_n
                             int *offset, unsigned char *buf, int type);
 
 int
-ccnl_ndntlv_prependConstantInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
-                            int *offset, unsigned char *buf);
+ccnl_ndntlv_prependPersistentInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_ndntlv_interest_opts_s *opts,
+                                      int *offset, unsigned char *buf);
 
 /**
  * Composes the ndntlv content for the prefix

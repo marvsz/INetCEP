@@ -124,13 +124,13 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     case NDN_TLV_Interest:
         pkt->flags |= CCNL_PKT_REQUEST;
         break;
-    case NDN_TLV_ConstInterest:
+    case NDN_TLV_PersistentInterest:
         pkt->flags |= CCNL_PKT_REQUEST;
-            pkt->s.ndntlv.isConstant = true;
+            pkt->s.ndntlv.isPersistent = true;
         break;
-    case NDN_TLV_RemoveConstInterest:
+    case NDN_TLV_RemovePersistentInterest:
         pkt->flags |= CCNL_PKT_REQUEST;
-            pkt->s.ndntlv.isRemoveI = true;
+            pkt->s.ndntlv.isRemovePersistent = true;
         break;
     case NDN_TLV_Data:
         pkt->flags |= CCNL_PKT_REPLY;
@@ -206,7 +206,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
                 !memcmp(p->comp[p->compcnt-1], "AQI", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
-                pkt->s.ndntlv.isConstant = 1;
+                pkt->s.ndntlv.isPersistent = 1;
                 DEBUGMSG(DEBUG, "  is add Query interest\n");
             }
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
@@ -602,13 +602,13 @@ ccnl_ndntlv_prependInterest(struct ccnl_prefix_s *name, int scope, struct ccnl_n
                                       offset, buf) < 0)
                 return -1;
             break;
-        case NDN_TLV_ConstInterest:
-            if (ccnl_ndntlv_prependTL(NDN_TLV_ConstInterest, oldoffset - *offset,
+        case NDN_TLV_PersistentInterest:
+            if (ccnl_ndntlv_prependTL(NDN_TLV_PersistentInterest, oldoffset - *offset,
                                       offset, buf) < 0)
                 return -1;
             break;
-        case NDN_TLV_RemoveConstInterest:
-            if (ccnl_ndntlv_prependTL(NDN_TLV_RemoveConstInterest, oldoffset - *offset,
+        case NDN_TLV_RemovePersistentInterest:
+            if (ccnl_ndntlv_prependTL(NDN_TLV_RemovePersistentInterest, oldoffset - *offset,
                                       offset, buf) < 0)
                 return -1;
             break;

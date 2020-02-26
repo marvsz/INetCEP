@@ -418,7 +418,7 @@ ccnl_interest_propagate(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
                 }
             }
 #ifndef CCNL_LINUXKERNEL
-            DEBUGMSG(DEBUG,"  outgoing interest is constant interest=%i - 1 means yes 0 means no\n", i->pkt->s.ndntlv.isConstant);
+            DEBUGMSG(DEBUG,"  outgoing interest is constant interest=%i - 1 means yes 0 means no\n", i->pkt->s.ndntlv.isPersistent);
             DEBUGMSG_CFWD(INFO, "  outgoing interest=<%s> nonce=%i to=%s\n",
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE), nonce,
                           fwd->face ? ccnl_addr2ascii(&fwd->face->peer)
@@ -752,13 +752,13 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
             cnt++;
         }
 #ifndef USE_NFN_REQUESTS
-        if(i->pkt->s.ndntlv.isConstant){ // if the interest is constant or an add query Interest
+        if(i->pkt->s.ndntlv.isPersistent){ // if the interest is constant or an add query Interest
             DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed");
             i = i->next;
             //continue;
         }
 #else
-        if(ccnl_nfnprefix_isAddQueryInterest(i->pkt->pfx) || (i->pkt->s.ndntlv.isConstant)){ // if the interest is constant or an add query Interest
+        if(ccnl_nfnprefix_isPersistentInterest(i->pkt->pfx) || (i->pkt->s.ndntlv.isPersistent)){ // if the interest is constant or an add query Interest
             DEBUGMSG(DEBUG,"Interest was a constant interest and will not be removed\n");
             i = i->next;
             //continue;
@@ -828,7 +828,7 @@ ccnl_do_ageing(void *ptr, void *dummy)
     }
     while (i) { // CONFORM: "Entries in the PIT MUST timeout rather
                 // than being held indefinitely, except for Interests that were added with the addQueryInterest package"
-        if (!i->isConst && ((i->last_used + i->lifetime) <= (uint32_t) t ||
+        if (!i->isPersistent && ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT)) {
             DEBUGMSG(TRACE,"Interest Lifetime was %i\n",i->lifetime);
 #ifdef USE_NFN_REQUESTS

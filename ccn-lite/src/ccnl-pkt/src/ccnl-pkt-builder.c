@@ -158,8 +158,8 @@ ccnl_mkPersistentInterestObject(struct ccnl_prefix_s *name, ccnl_interest_opts_u
     struct ccnl_interest_s *i = (struct ccnl_interest_s *) ccnl_calloc(1,
                                                                        sizeof(struct ccnl_interest_s));
     i->pkt = (struct ccnl_pkt_s *) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
-    i->pkt->buf = ccnl_mkSimpleInterest(name, opts,NDN_TLV_ConstInterest);
-    i->isConst = true;
+    i->pkt->buf = ccnl_mkSimpleInterest(name, opts, NDN_TLV_PersistentInterest);
+    i->isPersistent = true;
     i->pkt->pfx = ccnl_prefix_dup(name);
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = NULL;
@@ -181,11 +181,11 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, in
         case NDN_TLV_Interest:
             ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_Interest);
             break;
-        case NDN_TLV_ConstInterest:
-            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_ConstInterest);
+        case NDN_TLV_PersistentInterest:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_PersistentInterest);
             break;
-        case NDN_TLV_RemoveConstInterest:
-            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_RemoveConstInterest);
+        case NDN_TLV_RemovePersistentInterest:
+            ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_RemovePersistentInterest);
             break;
         default:
             ccnl_mkInterest(name, opts, tmp, &len, &offs, NDN_TLV_Interest);
@@ -235,11 +235,11 @@ void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
                 case NDN_TLV_Interest:
                     (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_Interest);
                     break;
-                case NDN_TLV_ConstInterest:
-                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_ConstInterest);
+                case NDN_TLV_PersistentInterest:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_PersistentInterest);
                     break;
-                case NDN_TLV_RemoveConstInterest:
-                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_RemoveConstInterest);
+                case NDN_TLV_RemovePersistentInterest:
+                    (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_RemovePersistentInterest);
                     break;
                 default:
                     (*len) = ccnl_ndntlv_prependInterest(name, -1, &(opts->ndntlv), offs, tmp, NDN_TLV_Interest);

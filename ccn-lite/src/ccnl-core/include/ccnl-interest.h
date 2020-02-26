@@ -67,7 +67,7 @@ struct ccnl_interest_s {
     struct ccnl_pendQ_s *pendingQueries; /**< linked list of queries that are to be executed when the interested Data is satisfied*/
     unsigned short flags;
     uint32_t lifetime;                  /**< interest lifetime */
-    bool isConst;
+    bool isPersistent;
     bool isRemoveI;
 #define CCNL_PIT_COREPROPAGATES    0x01
     int64_t last_used;                 /**< last time the entry was used */

@@ -157,7 +157,7 @@ main(int argc, char *argv[])
 
         memset(&dummyFace, 0, sizeof(dummyFace));
 
-        buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_RemoveConstInterest);
+        buf = ccnl_mkSimpleInterest(prefix, &int_opts, NDN_TLV_RemovePersistentInterest);
 
         DEBUGMSG(DEBUG, "interest has %zd bytes\n", buf->datalen);
 /*

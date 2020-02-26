@@ -726,12 +726,12 @@ ccnl_nfnprefix_isRequest(struct ccnl_prefix_s *p)
 }
 
 int
-ccnl_nfnprefix_isAddQueryInterest(struct ccnl_prefix_s *p){
+ccnl_nfnprefix_isPersistentInterest(struct ccnl_prefix_s *p){
     return p->nfnflags & CCNL_PREFIX_AQI;
 }
 
 int
-ccnl_nfnprefix_isRemoveQueryInterest(struct ccnl_prefix_s *p){
+ccnl_nfnprefix_isRemovePersistentInterest(struct ccnl_prefix_s *p){
     return p->nfnflags & CCNL_PREFIX_RQI;
 }
 

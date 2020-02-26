@@ -202,10 +202,10 @@ Usage:
             buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_Interest);
             break;
         case 2:
-            buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_ConstInterest);
+            buf = ccnl_mkSimpleInterest(prefix, &int_opts, NDN_TLV_PersistentInterest);
             break;
         case 3:
-            buf = ccnl_mkSimpleInterest(prefix, &int_opts,NDN_TLV_RemoveConstInterest);
+            buf = ccnl_mkSimpleInterest(prefix, &int_opts, NDN_TLV_RemovePersistentInterest);
             break;
         case 0:
         default:

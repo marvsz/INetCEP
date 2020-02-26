@@ -83,8 +83,8 @@ struct ccnl_pktdetail_ndntlv_s {
     struct ccnl_buf_s *nonce;      /**< nonce */
     struct ccnl_buf_s *ppkl;       /**< publisher public key locator */
     uint32_t interestlifetime;     /**< interest lifetime */
-    bool isConstant;                /**< Constant Flag */
-    bool isRemoveI;                 /**< Remove Flag */
+    bool isPersistent;                /**< Constant Flag */
+    bool isRemovePersistent;                 /**< Remove Flag */
     /* Data */
     uint32_t freshnessperiod;      /**< defines how long a node has to wait (after the arrival of this data before) marking it “non-fresh” */
 };

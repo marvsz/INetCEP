@@ -76,8 +76,8 @@ ccnl_interest_new(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
     i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
-    i->isConst = ccnl_pkt_interest_isConstant(*pkt);
-    i->isRemoveI = ccnl_pkt_interest_isRemoveI(*pkt);
+    i->isPersistent = ccnl_pkt_interest_isPersistent(*pkt);
+    i->isRemoveI = ccnl_pkt_interest_isRemovePersistent(*pkt);
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;
@@ -132,8 +132,8 @@ struct ccnl_interest_s*
     i->pkt = *pkt;
     /* currently, the aging function relies on seconds rather than on milli seconds */
     i->lifetime = ccnl_pkt_interest_lifetime(*pkt);
-    i->isConst = ccnl_pkt_interest_isConstant(*pkt);
-    i->isRemoveI = ccnl_pkt_interest_isRemoveI(*pkt);
+    i->isPersistent = ccnl_pkt_interest_isPersistent(*pkt);
+    i->isRemoveI = ccnl_pkt_interest_isRemovePersistent(*pkt);
     *pkt = NULL;
     i->flags |= CCNL_PIT_COREPROPAGATES;
     i->from = from;

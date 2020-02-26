@@ -493,7 +493,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
 
     // Step 1: check if it is a remove (Query) Interest
-    if((*pkt)->s.ndntlv.isRemoveI){
+    if((*pkt)->s.ndntlv.isRemovePersistent){
         for (i = relay->pit; i; i = i->next)
             if (ccnl_interest_isSame(i, *pkt)){
                 ccnl_interest_remove_pending(i,from);
@@ -515,7 +515,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         DEBUGMSG_CFWD(DEBUG, "contents is Null");
     }
 
-    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isConstant);
+    //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isPersistent);
 #ifdef CCNL_LINUXKERNEL
     if(relay != NULL && relay->contents != NULL){
         DEBUGMSG_CFWD(DEBUG, "Appearently both now were not null, going into the loop");
@@ -574,7 +574,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             ccnl_app_RX(relay, c);
 #endif
         } //TODO: Johannes: Don't we need to free the interest here since we just send the answer? NO! the interest free thing happens somewhere else, all goot
-        if(!(*pkt)->s.ndntlv.isConstant) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
+        if(!(*pkt)->s.ndntlv.isPersistent) // if it is not a constant package we are done and the interest will be removed. otherwise we will constantly need to send it back.
             return 0; // we are done
     }
 #ifdef CCNL_LINUXKERNEL
@@ -906,11 +906,11 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;
-    case NDN_TLV_ConstInterest:
+    case NDN_TLV_PersistentInterest:
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;
-    case NDN_TLV_RemoveConstInterest:
+    case NDN_TLV_RemovePersistentInterest:
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;

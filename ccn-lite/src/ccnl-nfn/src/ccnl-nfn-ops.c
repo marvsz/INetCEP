@@ -194,7 +194,7 @@ void ccnl_makeQueryPersistent(struct ccnl_interest_s* intr, struct ccnl_relay_s 
     for(i = ccnl->pit; i; i=i->next){
         DEBUGMSG(DEBUG,"\n");
         if(!ccnl_prefix_cmp(i->pkt->pfx,NULL,pfx,CMP_EXACT)){
-            if(!i->isConst){
+            if(!i->isPersistent){
                 DEBUGMSG(DEBUG,"Found already pending Interest, but not a persistent one\n");
                 continue;
             }
