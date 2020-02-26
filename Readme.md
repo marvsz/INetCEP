@@ -236,6 +236,7 @@ In order to carry out query execution, we can access any node in the network and
 The above query issues a persistent ccn-lite-simplenfn interest to nodeID 28 for a decentralized query processing. The complex query is a filter that works on a window. The filter reduces the contents of the window to only the tuples where the gender is male and the age above 30. The result of the window operator is fed to its parent operator, which once complete, is returned back to the consumer node.
 
 ## Placement Logic
+OUTDATED
 In order to understand the placement logic, we will describe the overall query execution process along with the invoked methods and their uses.
 
 The overall query resolution process has the following steps:
@@ -366,6 +367,9 @@ The following services, classes were added to the system in order to build up SA
 
     src/main/scala/runnable/production/ComputeServerStarter
 
+The following was changed in order to support producer initiated communication:
+
+* 
 
 
 ## Additions to CCN-Lite
