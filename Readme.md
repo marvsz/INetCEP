@@ -369,7 +369,7 @@ The following services, classes were added to the system in order to build up SA
 
 
 ## Additions to CCN-Lite
-We patched ccn-lite from the last release that supported NFN (ccn-lite 2.1) and have the latest master commits of https://github.com/cn-uofbasel/ccn-lite with the exception on some commits that mainly changed the data types.
+We patched ccn-lite from the last release that supported NFN (ccn-lite 2.0.1) and have the latest master commits of https://github.com/cn-uofbasel/ccn-lite with the exception on some commits that mainly changed the data types.
 Our goal was to extend ccn-lite in order to additionally allow producer initiated communication therefore we added three new packet types:
 
 * Datastream Packet: A Packet that can initiate communication coming from a producer. The data is then send continuously to all consumers that have a pending interest in the data.
@@ -389,6 +389,8 @@ This was achieved by making several extensions to ccn-lite:
 * Creating a utility library for packet dumping to constantly format the output of the packet
 
 * Altering the ccn-lite-fwd mechanism in order to handle datastream packets, add constant interest packets and remove constant interest packets
+
+Furhtermore we made changes to the linuxkernel Version of CCN-Lite in order to run it on the latest linux Kernel supported by Ubuntu 18.04 LTS which is at the time Kernel 5.3.0-40-generic. We also made extensions to integrate the capabilities to run NFN in the Kernel.
 
 In Detail:
 
