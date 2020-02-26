@@ -10,14 +10,14 @@ CCN-lite requires OpenSSL. Use the following to install it:
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/cn-uofbasel/ccn-lite
+    git clone https://github.com/marvsz/INetCEP
     ```
     Or clone the ccn-lite folder from this repository.
 
 2.  Set environment variable `$CCNL_HOME` and add the binary folder of CCN-lite to your `$PATH`:
     Default:
     ```bash
-    export CCNL_HOME="`pwd`/ccn-lite"
+    export CCNL_HOME="`pwd`/InetCEP/ccn-lite"
     export PATH=$PATH:"$CCNL_HOME/bin"
     ```
     To make these variables permanent, add them to your shell's `.rc` file, e.g. `~/.bashrc`.
@@ -62,23 +62,23 @@ CCN-lite requires OpenSSL. Use the following to install it:
     sbt assembly
     ```
 
-    Once your assembly file (.JAR) has been created, it will be placed in the ../nfn-scala/target/scala-2.10/ folder. Use the .jar file to start the compute server.
+    Once your assembly file (.JAR) has been created, it will be placed in the ../nfn-scala/target/scala-2.13/ folder. Use the .jar file to start the compute server.
 
 
 * This completes the build procedures for CCN-Lite and NFN-Scala.
 
-# SACEPICN
+# INetCEP
 
 ## Prerequisites
 * Copy your public key to the remote machine using `copyKeys.sh` script
 ```
 bash copyKeys.sh
 ```
-* Install dependencies and copy the binaries by 
+* Install dependencies and copy the binaries to remote machines by 
 ```
 bash publishRemotely.sh install
 ```
-* Set environment variables using `setEnvironment.sh` script
+* Set environment variables on the remote machines using `setEnvironment.sh` script
 ```
 bash setEnvironment.sh
 ```
@@ -88,7 +88,7 @@ Note: Follow only one of the below options.
 
 ## Option 1
 
-To start SACEPICN on the cluster of resources (see VMS.cfg), please follow the steps below: 
+To start INetCEP on the cluster of resources (see VMS.cfg), please follow the steps below: 
 
 ### Setup on MAKI compute resources
 
@@ -107,8 +107,17 @@ To start SACEPICN on the cluster of resources (see VMS.cfg), please follow the s
 ```             
 using `python generate_node_info.py`. Note: this script uses VMS.cfg as input for IP address information. Ports used are 9001, 9001,..,9001+n. (n: number of nodes).
 
-### Setup on GENI resources
+In the Publishremotely file are different pre-defined queries. They can be executed by
+    ```bash publishRemotely.sh all "Placement" queryNumber timeOut runTime
+    ```
+A example configuration with query 1, timeout of 20s and a runTime of 20 Minutes is:
+    ```bash
+    cd INetCEP/publish_scripts/
+    bash publishRemotely.sh all "Placement" 1 20 1200
+    ```
 
+### Setup on GENI resources
+This needs to be reworked and is currently not working anymore.
 1. generate the Rspec file to request resources on GENI using `python generate_rspec.py <number of nodes> <out dir>`
 2. upload the rspec, select site and reserve resources. 
 3. download the manifest rspec file with IP address and port information. 
@@ -126,51 +135,105 @@ ShutdownTimer is a value in Seconds that determnies after how many seconds the n
 
 ## Option 2
 
-### Node Startup
+### Local Node Startup
 Starting up nodes requires the following:
-* Startup of the ccn-lite relay
-* Linking a nfn-scala compute server with that relay
-* Starting the node state update service that manages the node state and the query service
+* Startup of the ccn-lite relay: Starting a local ccn-lite relay with the udp port 9998 and the socket mgmt-nfn-relay-a.sock:
+```
+bash ~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9998 -x /tmp/mgmt-nfn-relay-a.sock
+```
+This is automated and can be executed through
+```
+bash start1node.sh
+```
+* Linking a nfn-scala compute server with that relay on port 9999
+```
+java -jar ~/INetCEP/nfn-scala/target/scala-2.13/nfn-assembly-0.2.2.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9998 --cs-port 9999 --debug --ccnl-already-running /node/nodeA
+```
+The whole process of starting a relay and connecting the nfn-scala compute server can be automated with
+```
+bash start1relay.sh
+```
 
-1. Starting ccn-lite relay on a network node (X) requires us to execute the startup script for that specific node. Let's take nodeID 28 as our sample node for the rest of this tutorial.
+### Sending an Interest for the data nodeA/sensor/victims/ -> Consumer initiated communication
 
-	```bash
-	cd INetCEP/VM-Startup-Scripts/VM28/
-	./startNodes.sh
-	```
+1. Starting a local ccn-lite relay and nfn-scala server:
+```
+bash start1relay.sh
+```
+2. Sending an interest to the relay:
+```
+bash ~/INetCEP/bin/ccn-lite-peek /ndoeA/sensor/victims/1
+```
+This does only return content if it acutally exists on the relay
 
-Inside the VM28 folder, the startNodes script resides. This script initializes a node, sets up the required faces and adds those faces to the node. For each node in the network, the face configuration has been done to reflect the network topology presented in the report.
+### Sending a persistent Interest for the data nodeA/sensor/victims/1 -> Producer initiated communication
 
-2. Starting the Compute Server is similar to a node. Make sure that you are in the same /VM28 folder and then execute the following script.
+1. Starting a local ccn-lite relay and nfn-scala server:
+```
+bash start1relay.sh
+```
+2. Sending a persistent to the relay:
+```
+bash ~/INetCEP/bin/ccn-lite-peekConstant /ndoeA/sensor/victims/1
+```
+This does only return content if it acutally exists on the relay
 
-	```bash
-	cd INetCEP/VM-Startup-Scripts/VM28/
-	./startCS.sh
-	```
+### Getting producer initiated content -> Producer initiated communication
 
-3. Starting the network discovery and query server is handled by one script that manages all sub-system tasks. These tasks include:
+1. Starting a local ccn-lite relay and nfn-scala server:
+```
+bash start1relay.sh
+```
 
-* Running the query server, that manages incoming consumer queries (stored in the query store) and re-evaluates them after a pre-defined time interval.
-* Updating node state on local nodes. The node state is sent to the ccn-lite node that then sends it to the compute server. The compute server than adds this node state in its local content store.
+2. Starting an emulated sensor with id 1, sampling rate every 500ms and the directory for the data trace at INetCEP/sensors/victims that constantly publishes the data to the ccn-lite relay with the socket mgmt-nfn-relay-a.sock:
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500 -x mgmt-nfn-relay-a.sock -v trace -d ~/INetCEP/sensors/victims
+```
 
-To start decentralized query processing in the network, we have to pass the Query Type (Centralized, Random, Decentralized) and the interval of re-evaluation for the query store.
+3. Sending a persistent interest in this sensor to the relay:
+```
+bash ~/INetCEP/bin/ccn-lite-peek /ndoeA/sensor/victims/1
+```
+This returns content whenever the sensor sends it to the relay.
 
+### Local Query Execution
 
-    cd INetCEP/VM-Startup-Scripts/VM28/28
-    ./startRemoteAny.sh QueryDecentral 20
+Execution NFN Functions works in different ways. We can use the builtin NFN Functions from ccn-lite or the NFN Functions provided by NFN-Scala. We describe different ways to execute those functions.
 
-The startRemoteAny.sh script takes the query type (QueryDecentral -> basically the placement algorithm) that the system has to manage and the interval (20) that the query service has to consider for re-evaluations.
+1. NFN-Scala sliding Window Operator of 5 Seconds:
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 3 /node/nodeA/nfn_service_Window 'Pull' 'nodeA/sensor/victims/1' '5' 'S'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+```
+
+2. Persistent NFN-Scala sliding Window Operator of 5 Seconds:
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 3 /node/nodeA/nfn_service_Window 'Push' 'nodeA/sensor/victims/1' '5' 'S'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+```
+
+3. Persistent buildin Window Operator of 5 Seconds:
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 "window /nodeA/sensor/victims/1 4 1" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 3
+```
+
+4. To execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by Male and people above 30 years of age while using the nfn-scala window operator:
+```
+$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(WINDOW(Push,nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+```
+
+5. To execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by Male and people above 30 years of age while using the builtin window operator:
+```
+$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(WINDOW(Push,nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+```
 
 ## Query Execution
 
 In order to carry out query execution, we can access any node in the network and issue the following query. Here, any node in the network can act as a placement coordinator. Therefore, the query can be issued from any node to any node in the network.
 
 
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 10.2.1.28/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 10.2.1.28/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(WINDOW(Push,nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 
 
-The above query issues a ccn-lite-peek interest to nodeID 28 for a decentralized query processing. The complex query is a join that works on two filters. The filters additionally evaluate the window operators on the streams after which the window data is filtered based on column schema represented by (1,2,3,4....n. Here 3=F means check whether the 3rd column contains F, if yes, select it).
-The result of each operator is fed to its parent operator, which once complete, is returned back to the consumer node.
+The above query issues a persistent ccn-lite-simplenfn interest to nodeID 28 for a decentralized query processing. The complex query is a filter that works on a window. The filter reduces the contents of the window to only the tuples where the gender is male and the age above 30. The result of the window operator is fed to its parent operator, which once complete, is returned back to the consumer node.
 
 ## Placement Logic
 In order to understand the placement logic, we will describe the overall query execution process along with the invoked methods and their uses.
