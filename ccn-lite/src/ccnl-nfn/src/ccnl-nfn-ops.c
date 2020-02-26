@@ -50,7 +50,12 @@
 #endif
 
 
-
+/**
+ * Splits a given string with a delimiter.
+ * @param a_str the string to split.
+ * @param a_delim the delimiter at which to split.
+ * @return the string split at the given delimiter split.
+ */
 char** str_split(char* a_str, const char a_delim)
 {
     char** result    = 0;
@@ -124,62 +129,13 @@ int get_int_len (int value){
  * @return the packet or the last packet, depending on how many packets are being created.
  */
 struct ccnl_pkt_s* createNewPacket(struct ccnl_prefix_s *prefix, char *buf, int len){
-    /*
-int newlen = 0;
-    unsigned char body[CCN_LITE_MKC_BODY_SIZE];
-    unsigned char out[CCN_LITE_MKC_OUT_SIZE];
-    unsigned int lastchunknum = UINT_MAX;
-    ccnl_data_opts_u data_opts;
-    int offs = 0;
-    struct ccnl_pkt_s *pkt = NULL;
-    int contentpos;
-    memcpy(body,buf,len);
-
-#ifdef USE_SUITE_CCNB
-newlen = ccnl_ccnb_fillContent(prefix,body,len,NULL,out);
-#endif
-#ifdef USE_SUITE_CCNTLV
-    offs = CCNL_MAX_PACKET_SIZE;*/
-    //newlen = ccnl_ccntlv_prependContentWithHdr(prefix, body, len,
-    //                                        lastchunknum == UINT_MAX ? NULL : &lastchunknum,
-    //                                        NULL /* Int *contentpos */, &offs, out);
-    /*
-#endif
-#ifdef USE_SUITE_NDNTLV
-    offs = CCNL_MAX_PACKET_SIZE;
-    data_opts.ndntlv.finalblockid = lastchunknum;
-    newlen = ccnl_ndntlv_prependContent(prefix, body, len,
-                                     NULL, lastchunknum == UINT_MAX ? NULL : &(data_opts.ndntlv),
-                                     &offs, out);
-#endif
-
-
-    pkt = ccnl_calloc(1, sizeof(*pkt));
-    //pkt->pfx = ccnl_URItoPrefix(uri, CCNL_SUITE_CCNB, NULL, NULL);
-    pkt->pfx = prefix;
-    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, out, newlen, &contentpos, NULL);
-    pkt->content = pkt->buf->data + contentpos;
-    pkt->contlen = newlen;
-    ccnl_free(out);
-    //ccnl_free(packet);
-     */
 
     int it, size = CCNL_MAX_PACKET_SIZE/2;
     int numPackets = len/(size/2) + 1;
     (void) prefix;
-    //unsigned char body[len+1];
     struct ccnl_pkt_s *pkt = NULL;
 
-    DEBUGMSG(DEBUG,"Contentlen was %lu, given length was %i",strlen(buf),len);
-
-    /*int contentpos;
-    pkt = ccnl_calloc(1, sizeof(*pkt));
-    memcpy(body,buf,len);
-    pkt->pfx = prefix;
-    pkt->buf = ccnl_mkSimpleContent(pkt->pfx, body, len+1, &contentpos, NULL);
-    pkt->content = pkt->buf->data + contentpos;
-    pkt->contlen = len+1;*/
-    //DEBUGMSG(DEBUG, "The content of the new Packet should be: %.*s\n",len,buf);
+    //DEBUGMSG(DEBUG,"Contentlen was %lu, given length was %i",strlen(buf),len);
 
     for(it=0; it < numPackets; ++it){
         unsigned char *buf2;
@@ -202,13 +158,7 @@ newlen = ccnl_ccnb_fillContent(prefix,body,len,NULL,out);
         memcpy(buf2+len5, packet, len4);
         len5 +=len4;
         buf2[len5++] = 0; // end-of-interest
-        //if(it == 0){
-        //    struct ccnl_buf_s *retbuf;
-        //    DEBUGMSG(TRACE, "  enqueue %d %d bytes\n", len4, len5);
-        //    retbuf = ccnl_buf_new((char *)buf2, len5);
-        //    ccnl_face_enqueue(ccnl, from, retbuf);
-        //}
-        //char uri[50];
+
         int contentpos;
 
         pkt = ccnl_calloc(1, sizeof(*pkt));
@@ -351,33 +301,38 @@ op_builtin_add(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     return pending ? ccnl_strdup(pending) : NULL;
 }
 
+/**
+ *
+ * @param retVal Pointer to the char value where the result is written into
+ * @param stateContent the content of the previous state
+ * @param tupleContent the content of the new tuple
+ * @param stateContLen the length of the state content
+ * @param quantity the quantitiy, for a time window this is dependand of the unit, if it is seconds, then seconds, if m inutes minutes, if hours hours.
+ * @param unit the time unit. Only used for the time window.
+ */
 void
 window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int stateContLen, int quantity, int unit){
     char **intermediateArray = NULL;
     (void) unit;
-    DEBUGMSG(DEBUG,"State content length was %i\n",stateContLen);
+    //DEBUGMSG(DEBUG,"State content length was %i\n",stateContLen);
     if(stateContLen){
         intermediateArray = str_split(stateContent, '\n');
     }
     strcpy(retVal,tupleContent);
     if(stateContLen)
         strcat(retVal,"\n");
-
-    //DEBUGMSG(DEBUG, "WINDOW: Copied new tuple as the first Element of the result\n");
-    //DEBUGMSG(DEBUG, "WINDOW: TEEEEST1\n");
     if(intermediateArray){
-        //DEBUGMSG(DEBUG, "WINDOW: IntermediateArray was not null\n");
         int i = 0;
         for(i=0; (i < quantity-2 && *(intermediateArray + i + 1)); i++){
             //DEBUGMSG(DEBUG, "WINDOW: TEEEEST\n");
-            DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            //DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal,*(intermediateArray+i));
             strcat(retVal,"\n");
             //DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i regularly: %s\n",i,*(intermediateArray+i));
             ccnl_free(*(intermediateArray+i));
         }
         if(i< quantity-1 && intermediateArray){
-            DEBUGMSG(DEBUG, "WINDOW: Start copying last Datatuple %i with content %s\n",i,*(intermediateArray+i));
+            //DEBUGMSG(DEBUG, "WINDOW: Start copying last Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal,*(intermediateArray+i));
             //strcat(retVal,"\n");
             //DEBUGMSG(DEBUG, "WINDOW: Added the Datatuple %i because there was still space left: %s\n",i,*(intermediateArray+i));
@@ -387,6 +342,18 @@ window_purge_old_data(char* retVal, char* stateContent, char* tupleContent, int 
         ccnl_free(intermediateArray);
     }
 }
+
+/**
+ *
+ * @param ccnl the ccn-lite relay
+ * @param config the configuration of the krivine abstract machine
+ * @param restart unused parameter, for remote fetching
+ * @param halt unused parameter, for remote fetching
+ * @param prog name of the prog
+ * @param pending the pending calculation
+ * @param stack the arguemtn stack
+ * @return the name of the data packet that has to be fetched as the result
+ */
 
 char*
 op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
@@ -450,7 +417,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     if(tuple){
         tupleContLen = tuple->pkt->contlen;
     }
-    DEBUGMSG(DEBUG,"Tuple Content Length was %i",tupleContLen);
+    //DEBUGMSG(DEBUG,"Tuple Content Length was %i",tupleContLen);
     char tupleContent[tupleContLen+1];
     if(tuple){
         memcpy(tupleContent,tuple->pkt->content,tuple->pkt->contlen);
