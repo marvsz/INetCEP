@@ -309,13 +309,15 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     } else {
         DEBUGMSG_CFWD(DEBUG, "  not caching nfn request\n");
     }
-    if(!ccnl_content_serve_pendingQueries(relay,c)){
-        if (!ccnl_content_serve_pending(relay, c)) { // unsolicited content
-            // CONFORM: "A node MUST NOT forward unsolicited data [...]"
-            DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
-            ccnl_content_free(c);
-            return 0;
-        }
+
+    int servedQueries = ccnl_content_serve_pendingQueries(relay,c);
+    int servedInterests = ccnl_content_serve_pending(relay, c);
+
+    if(!(servedQueries&&servedInterests)){ // unsolicited content
+        // CONFORM: "A node MUST NOT forward unsolicited data [...]"
+        DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
+        ccnl_content_free(c);
+        return 0;
     }
 #endif
 
