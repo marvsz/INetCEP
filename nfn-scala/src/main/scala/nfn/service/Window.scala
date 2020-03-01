@@ -77,7 +77,7 @@ class Window() extends NFNService {
 
     def placeWindowInterest(stream: String, interestedComputation: CCNName) : Future[NFNValue] = Future {
       LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream}")
-      Networking.makeConstantInterest(stream,interestedComputation,ccnApi)
+      Networking.makePersistentInterest(stream,interestedComputation,ccnApi)
       LogMessage(nodeName, s"Paced Window Interest")
       NFNStringValue("Placed Interests")
     }
@@ -88,7 +88,7 @@ class Window() extends NFNService {
       val nameOfState = s"/state/SlidingEventWindow/$setting"
       val returnValue = ""
       Helpers.storeState(nodeName,returnValue,"SlidingEventWindow",setting,ccnApi)
-      Networking.makeConstantInterest(sensor.str,interestedComputationName,ccnApi)
+      Networking.makePersistentInterest(sensor.str,interestedComputationName,ccnApi)
       LogMessage(nodeName,s"Initial sliding Event Window Content should be empty and is: $returnValue")
       if(deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
@@ -105,7 +105,7 @@ class Window() extends NFNService {
       val nameOfState = s"/state/SlidingTimeWindow/$setting"
       val returnValue = ""
       Helpers.storeState(nodeName,returnValue,"SlidingTimeWindow",setting,ccnApi)
-      Networking.makeConstantInterest(sensor.str,interestedComputationName,ccnApi)
+      Networking.makePersistentInterest(sensor.str,interestedComputationName,ccnApi)
       LogMessage(nodeName,s"Initial sliding Time Window Content should be empty and is: $returnValue")
       if(deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)

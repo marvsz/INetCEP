@@ -55,7 +55,7 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
     }
   }
 
-  override def mkBinaryConstantInterest(constInterest: ConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
+  override def mkBinaryPersistentInterest(constInterest: PersistentInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
     val mkI = "ccn-lite-mkI"
     val interestType = List("-t" , "ConstantInterest")
 
@@ -73,7 +73,7 @@ case class CCNLiteInterfaceCli(wireFormat: CCNWireFormat) extends CCNInterface w
     }
   }
 
-  override def mkBinaryRemoveConstantInterest(rmvconstInterest: RemoveConstantInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
+  override def mkBinaryRemovePersistentInterest(rmvconstInterest: RemovePersistentInterest)(implicit ec: ExecutionContext): Future[Array[Byte]] = {
     val mkI = "ccn-lite-mkI"
     val interestType = List("-t" , "removeConstantInterest")
 

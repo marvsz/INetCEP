@@ -5,7 +5,7 @@ import java.util.concurrent.TimeoutException
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
-import ccn.packet.{CCNName, ConstantInterest, Content, Interest, NFNInterest}
+import ccn.packet.{CCNName, PersistentInterest, Content, Interest, NFNInterest}
 import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 import nfn.service._
@@ -50,35 +50,39 @@ object Networking extends LazyLogging{
 
   /**
    *
-   * @param constantInterest the constant interest
+   * @param persistentInterest the constant interest
    * @param interestedComputation the computation that is interested in the data
    * @param ccnApi the actor ref
    */
-  def makeConstantInterest(constantInterest: String, interestedComputation: CCNName, ccnApi: ActorRef): Unit ={
+  def makePersistentInterest(persistentInterest: String, interestedComputation: CCNName, ccnApi: ActorRef): Unit ={
 
-    makeConstantInterest(CCNName(new String(constantInterest).split("/").toIndexedSeq: _*), interestedComputation, ccnApi)
+    makePersistentInterest(CCNName(new String(persistentInterest).split("/").toIndexedSeq: _*), interestedComputation, ccnApi)
   }
 
-  def makeConstantInterest(constantInterest: CCNName, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
-    makeConstantInterest(ConstantInterest(constantInterest), interestedComputation, ccnApi)
+  def makePersistentInterest(persistentInterest: CCNName, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    makePersistentInterest(PersistentInterest(persistentInterest), interestedComputation, ccnApi)
   }
 
-  def makeConstantInterest(constantInterest: ConstantInterest, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
-    ccnApi ! NFNApi.CCNSendConstantInterest(constantInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
+  def makePersistentInterest(persistentInterest: PersistentInterest, interestedComputation:CCNName, ccnApi: ActorRef): Unit = {
+    ccnApi ! NFNApi.CCNSendPersistentInterest(persistentInterest, (interestedComputation.prepend("COMPUTE")).append("NFN"), useThunks = false)
   }
 
   def subscribeToQuery(interestName: String, interestedComputation: String, ccnApi:ActorRef): Unit = {
     val interestedComputationName = NFNInterest(interestedComputation).name.prepend("COMPUTE")
       //CCNName(new String(interestedComputation).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
     if(!interestName.contains("call")){
-      ccnApi ! makeConstantInterest(interestName,interestedComputationName,ccnApi)
+      ccnApi ! makePersistentInterest(interestName,interestedComputationName,ccnApi)
     }
     else{
       val interestComputationName = NFNInterest(interestName).name.prepend("COMPUTE")
         //CCNName(new String(interestName).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
-      ccnApi ! NFNApi.CCNSendConstantInterest(ConstantInterest(interestComputationName), interestedComputationName, useThunks = false)
+      ccnApi ! NFNApi.CCNSendPersistentInterest(PersistentInterest(interestComputationName), interestedComputationName, useThunks = false)
     }
 
+  }
+
+  def startService(i:Interest, ccnApi:ActorRef)={
+    NFNApi.CCNStartService(i,useThunks = false)
   }
 
   /**
