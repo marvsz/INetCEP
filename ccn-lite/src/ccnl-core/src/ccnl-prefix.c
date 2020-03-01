@@ -75,7 +75,7 @@ ccnl_prefix_free(struct ccnl_prefix_s *p)
     ccnl_free(p->comp);
     ccnl_free(p->complen);
     ccnl_free(p->chunknum);
-    ccnl_free(p->nameptr);
+    //ccnl_free(p->nameptr);
 #ifdef USE_NFN
     ccnl_free(p->request);
     ccnl_free(p->nfnexpr);
