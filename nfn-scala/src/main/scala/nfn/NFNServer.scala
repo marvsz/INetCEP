@@ -16,7 +16,9 @@ import monitor.Monitor.PacketLogWithoutConfigs
 import network._
 import nfn.NFNServer._
 import nfn.localAbstractMachine.LocalAbstractMachineWorker
-import nfn.service.NFNStringValue
+import nfn.service.PlacementServices.QueryPlacement
+import nfn.service.{Filter, GetContent, Heatmap, Join, NFNStringValue, Prediction1, Prediction2, Sequence, UpdateNodeState, Window}
+import node.LocalNode
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
@@ -37,7 +39,9 @@ object NFNApi {
 
   case class CCNSendReceive(interest: Interest, useThunks: Boolean)
 
-  case class CCNSendConstantInterest(constantInterest: ConstantInterest, interestedComputation: CCNName, useThunks: Boolean)
+  case class CCNSendPersistentInterest(persistentInterest: PersistentInterest, interestedComputation: CCNName, useThunks: Boolean)
+
+  case class CCNStartService(interest: Interest, useThunks: Boolean)
 
   case class AddToCCNCache(content: Content)
 
@@ -115,8 +119,8 @@ class UDPConnectionWireFormatEncoder(local: InetSocketAddress,
   def logPacket(packet: CCNPacket) = {
     val maybePacketLog = packet match {
       case i: Interest => Some(Monitor.InterestInfoLog("interest", i.name.toString))
-      case ci: ConstantInterest => Some(Monitor.ConstantInterestInfoLog("constantInterest",ci.name.toString))
-      case rci: RemoveConstantInterest => Some(Monitor.RemoveConstantInterestInfoLog("removeConstantInterest",rci.name.toString))
+      case ci: PersistentInterest => Some(Monitor.PersistentInterestInfoLog("constantInterest",ci.name.toString))
+      case rci: RemovePersistentInterest => Some(Monitor.RemovePersistentInterestInfoLog("removeConstantInterest",rci.name.toString))
       case c: Content => Some(Monitor.ContentInfoLog("content", c.name.toString, c.possiblyShortenedDataString))
       case n: Nack => Some(Monitor.ContentInfoLog("content", n.name.toString, ":NACK"))
       case a: AddToCacheAck => None // Not Monitored for now
@@ -139,20 +143,20 @@ class UDPConnectionWireFormatEncoder(local: InetSocketAddress,
             self.tell(UDPConnection.Send(binaryInterest), senderCopy)
           case Failure(e) => logger.error(e, s"could not create binary interest for $i")
         }
-      case ci: ConstantInterest =>
+      case ci: PersistentInterest =>
         logger.debug(s"handling constant interest: $packet")
-        ccnLite.mkBinaryConstantInterest(ci) onComplete{
-          case Success(binaryConstantInterest) =>
+        ccnLite.mkBinaryPersistentInterest(ci) onComplete{
+          case Success(binaryPersistentInterest) =>
             logger.debug(s"Sending binary constant interest for $ci to network")
-            self.tell(UDPConnection.Send(binaryConstantInterest), senderCopy)
+            self.tell(UDPConnection.Send(binaryPersistentInterest), senderCopy)
           case Failure(e) => logger.error(e,s"could not create binary constant interest for $ci")
         }
-      case rci: RemoveConstantInterest =>
+      case rci: RemovePersistentInterest =>
         logger.debug(s"handling constant interest: $packet")
-        ccnLite.mkBinaryRemoveConstantInterest(rci) onComplete{
-          case Success(binaryRemoveConstantInterest) =>
+        ccnLite.mkBinaryRemovePersistentInterest(rci) onComplete{
+          case Success(binaryRemovePersistentInterest) =>
             logger.debug(s"Sending binary constant interest for $rci to network")
-            self.tell(UDPConnection.Send(binaryRemoveConstantInterest), senderCopy)
+            self.tell(UDPConnection.Send(binaryRemovePersistentInterest), senderCopy)
           case Failure(e) => logger.error(e,s"could not create binary constant interest for $rci")
         }
       case c: Content =>
@@ -258,22 +262,30 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
 
     /**
-     * [[NFNApi.CCNSendConstantInterest]] is a message of the external API which retrieves the content for the interest and sends it back to the sender actor.
+     * [[NFNApi.CCNSendPersistentInterest]] is a message of the external API which retrieves the content for the interest and sends it back to the sender actor.
      * The sender actor can be initialized from an ask patter or form another actor.
      * It tries to first serve the interest from the localAbstractMachine cs, otherwise it adds an entry to the pit
      * and asks the network if it was the first entry in the pit.
      * Thunk interests get converted to normal interests, thunks need to be enabled with the boolean flag in the message
      */
-    case NFNApi.CCNSendConstantInterest(constantInterest, interestedComputation, useThunks) => {
+    case NFNApi.CCNSendPersistentInterest(persistentInterest, interestedComputation, useThunks) => {
       val senderCopy = sender
       logger.debug(s"the name of the interested Computation we actually store is ${interestedComputation}")
-      logger.debug(s"The Comps of the constant Interest are ${constantInterest.name.cmps.toString()}")
+      logger.debug(s"The Comps of the constant Interest are ${persistentInterest.name.cmps.toString()}")
       logger.debug(s"The Comps of the interested Computation are ${interestedComputation.cmps.toString()}")
-      pqt.add(constantInterest.name,interestedComputation, defaultTimeoutDuration)
-      logger.debug(s"API: Sending interest $constantInterest (f=$senderCopy)")
+      pqt.add(persistentInterest.name,interestedComputation, defaultTimeoutDuration)
+      logger.debug(s"API: Sending interest $persistentInterest (f=$senderCopy)")
       val maybeThunkInterest =
-        if (constantInterest.name.isNFN && useThunks) constantInterest.thunkify
-        else constantInterest
+        if (persistentInterest.name.isNFN && useThunks) persistentInterest.thunkify
+        else persistentInterest
+      handlePacket(maybeThunkInterest, senderCopy)
+    }
+
+    case NFNApi.CCNStartService(interest, useThunks) => {
+      val senderCopy = sender
+      val maybeThunkInterest =
+        if (interest.name.isNFN && useThunks) interest.thunkify
+        else interest
       handlePacket(maybeThunkInterest, senderCopy)
     }
 
@@ -349,13 +361,13 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
         logger.info(s"Received interest: $i (f=$senderCopy)")
         handleInterest(i, senderCopy)
       }
-      case ci: ConstantInterest => {
+      case ci: PersistentInterest => {
         logger.info(s"Received constantInterest: $ci (f=$senderCopy)")
-        handleConstantInterest(ci, senderCopy)
+        handlePersistentInterest(ci, senderCopy)
       }
-      case rci: RemoveConstantInterest => {
+      case rci: RemovePersistentInterest => {
         logger.info(s"Received constantInterest: $rci (f=$senderCopy)")
-        handleRemoveConstantInterest(rci, senderCopy)
+        handleRemovePersistentInterest(rci, senderCopy)
       }
       case c: Content => {
         logger.info(s"Received content: $c (f=$senderCopy)")
@@ -375,6 +387,58 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
         logger.error(s"Received AddToCacheNack")
       }
     }
+  }
+
+  def startDynService(i: Interest) = {
+
+    var debugVal = ""
+    val node = LocalNode(routerConfig, Some(computeNodeConfig))
+    val serviceName = i.name.withoutSStart.toString.toLowerCase()
+    logger.debug(s"Service name is:$serviceName")
+    serviceName match {
+      case "window" => {
+        node.publishServiceLocalPrefix(new Window())
+        debugVal = "Window Service published Locally"
+      }
+      case "queryplacement" => {
+        node.publishServiceLocalPrefix(new QueryPlacement())
+        debugVal = "QueryPlacement Service published Locally"
+      }
+      case "filter" => {
+        node.publishServiceLocalPrefix(new Filter())
+        debugVal = "Filter Service published Locally"
+      }
+      case "sequence" => {
+        node.publishServiceLocalPrefix(new Sequence())
+        debugVal = "Sequence Service published Locally"
+      }
+      case "prediction1" => {
+        node.publishServiceLocalPrefix(new Prediction1)
+        debugVal = "Prediction1 Service published Locally"
+      }
+      case "prediction2" => {
+        node.publishServiceLocalPrefix(new Prediction2)
+        debugVal = "Prediction2 Service published Locally"
+      }
+      case "heatmap" => {
+        node.publishServiceLocalPrefix(new Heatmap)
+        debugVal = "Heatmap Service published Locally"
+      }
+      case "updatenodestate" => {
+        node.publishServiceLocalPrefix(new UpdateNodeState)
+        debugVal = "Update Nodestate Service published Locally"
+      }
+      case "getcontent" => {
+        node.publishServiceLocalPrefix(new GetContent())
+        debugVal = "Get Content Service published Locally"
+      }
+      case "join" => {
+        node.publishServiceLocalPrefix(new Join())
+        debugVal = "Join Service published Locally"
+      }
+      case _ => debugVal = "Service not found"
+    }
+    logger.debug(s"Service name is:$debugVal")
   }
 
   //Updated by Ali
@@ -577,6 +641,10 @@ success
             }
           }
           case None => {
+            if(i.name.isSStart){
+              startDynService(i)
+            }
+            else{
             if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
               pit.add(i.name, senderFace, defaultTimeoutDuration)
             }
@@ -589,6 +657,8 @@ success
             }
 
             }
+
+
 
             //Updated by Ali
             // /.../.../NFN
@@ -652,13 +722,14 @@ success
               nfnGateway ! i
             }
           }
+          }
         }
       }
     }
     //}
   }
 
-  private def handleConstantInterest(i: ConstantInterest, senderCopy: ActorRef) = {
+  private def handlePersistentInterest(i: PersistentInterest, senderCopy: ActorRef) = {
 
     /*if (i.name.isKeepalive) {
       logger.debug(s"Receive keepalive interest: " + i.name)
@@ -773,7 +844,7 @@ success
     //}
   }
 
-  private def handleRemoveConstantInterest(i: RemoveConstantInterest, senderCopy: ActorRef) = {
+  private def handleRemovePersistentInterest(i: RemovePersistentInterest, senderCopy: ActorRef) = {
 
     /*if (i.name.isKeepalive) {
       logger.debug(s"Receive keepalive interest: " + i.name)

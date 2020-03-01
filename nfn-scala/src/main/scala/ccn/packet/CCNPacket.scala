@@ -10,6 +10,7 @@ object CCNName {
   val getIntermediateKeyword = "GIM"
   val requestKeyword = "R2C"
   val computeKeyword = "COMPUTE"
+  val serviceStarterKeyword = "SSTART"
   def withAddedNFNComponent(ccnName: CCNName) = CCNName(ccnName.cmps ++ Seq(nfnKeyword) :_*)
   def withAddedNFNComponent(cmps: Seq[String]) = CCNName(cmps ++ Seq(nfnKeyword) :_*)
 
@@ -27,7 +28,7 @@ object CCNName {
 
 case class CCNName(cmps: List[String], chunkNum: Option[Int])extends LazyLogging {
 
-  import CCNName.{thunkKeyword, nfnKeyword, keepaliveKeyword, computeKeyword, getIntermediateKeyword,requestKeyword}
+  import CCNName.{thunkKeyword, nfnKeyword, keepaliveKeyword, computeKeyword, getIntermediateKeyword,requestKeyword, serviceStarterKeyword}
 
 //  def to = toString.replaceAll("/", "_").replaceAll("[^a-zA-Z0-9]", "-")
   override def toString = {
@@ -39,6 +40,8 @@ case class CCNName(cmps: List[String], chunkNum: Option[Int])extends LazyLogging
   def isThunk: Boolean = isThunkWithKeyword(thunkKeyword)
 
   def isNFN: Boolean = cmps.nonEmpty && cmps.last == nfnKeyword
+
+  def isSStart: Boolean = cmps.nonEmpty && cmps.last == serviceStarterKeyword
 
   def isKeepalive: Boolean = cmps.size >= 2 && cmps(cmps.size - 2) == keepaliveKeyword
 
@@ -92,6 +95,15 @@ def withoutRequest: CCNName = {
   def withNFN: CCNName = {
     CCNName(cmps ++ Seq(nfnKeyword):_*)
   }
+  def withSStart: CCNName = {
+    CCNName(cmps ++ Seq(serviceStarterKeyword):_*)
+  }
+
+  def withoutSStart: CCNName = {
+    if(cmps.last == serviceStarterKeyword) CCNName(cmps.dropRight(1):_*)
+    else this
+  }
+
   def withRequest: CCNName = {
     CCNName(withoutNFN.cmps ++ Seq(requestKeyword):_*).withNFN
   }
@@ -192,19 +204,23 @@ object NFNInterest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps ++ Seq("NFN") :_*))
 }
 
+object ServiceStarterInterest {
+  def apply(cmps: String *): Interest = Interest(CCNName(cmps ++ Seq("SSTART") :_*))
+}
+
 object Interest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
 
-object ConstantInterest {
+object PersistentInterest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
 
-object RemoveConstantInterest {
+object RemovePersistentInterest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
 
-object ConstantNFNInterest{
+object PersistentNFNInterest{
   def apply(cmps: String *): Interest = Interest(CCNName(cmps ++ Seq("NFN") :_*))
 }
 
@@ -215,22 +231,22 @@ case class Interest(name: CCNName) extends CCNPacket {
   def thunkify: Interest = Interest(name.thunkify)
 }
 
-case class ConstantInterest(name: CCNName) extends CCNPacket {
+case class PersistentInterest(name: CCNName) extends CCNPacket {
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
-  def thunkify: ConstantInterest = ConstantInterest(name.thunkify)
+  def thunkify: PersistentInterest = PersistentInterest(name.thunkify)
 }
 
-case class ConstantNFNInterest(name: CCNName) extends CCNPacket {
+case class PersistentNFNInterest(name: CCNName) extends CCNPacket {
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
-  def thunkify: ConstantNFNInterest = ConstantNFNInterest(name.thunkify)
+  def thunkify: PersistentNFNInterest = PersistentNFNInterest(name.thunkify)
 }
 
-case class RemoveConstantInterest(name: CCNName) extends CCNPacket {
+case class RemovePersistentInterest(name: CCNName) extends CCNPacket {
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
-  def thunkify: RemoveConstantInterest = RemoveConstantInterest(name.thunkify)
+  def thunkify: RemovePersistentInterest = RemovePersistentInterest(name.thunkify)
 }
 
 

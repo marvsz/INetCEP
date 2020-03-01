@@ -1,13 +1,12 @@
 package nfn.service
 import akka.actor.ActorRef
-import ccn.packet.CCNName
-import nfn.service.PlacementServices.QueryPlacement
-import node.LocalNode
+import ccn.packet.{CCNName, ServiceStarterInterest}
+import nfn.tools.Networking
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ServiceStarter(node: LocalNode) extends NFNService {
+class ServiceStarter() extends NFNService {
 
   override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
     var nodeInfo = interestName.cmps.mkString(" ")
@@ -20,43 +19,43 @@ class ServiceStarter(node: LocalNode) extends NFNService {
 
      service.toLowerCase() match {
        case "window" => {
-         node.publishServiceLocalPrefix(new Window())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Window Service published Locally"
        }
        case "queryplacement" => {
-         node.publishServiceLocalPrefix(new QueryPlacement())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
            retVal = "QueryPlacement Service published Locally"
        }
        case "filter" => {
-         node.publishServiceLocalPrefix(new Filter())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Filter Service published Locally"
        }
        case "sequence" => {
-         node.publishServiceLocalPrefix(new Sequence())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Sequence Service published Locally"
        }
        case "prediction1" => {
-         node.publishServiceLocalPrefix(new Prediction1)
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Prediction1 Service published Locally"
        }
        case "prediction2" => {
-         node.publishServiceLocalPrefix(new Prediction2)
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Prediction2 Service published Locally"
        }
        case "heatmap" => {
-         node.publishServiceLocalPrefix(new Heatmap)
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Heatmap Service published Locally"
        }
        case "updatenodestate" => {
-         node.publishServiceLocalPrefix(new UpdateNodeState)
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Update Nodestate Service published Locally"
        }
        case "getcontent" => {
-         node.publishServiceLocalPrefix(new GetContent())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Get Content Service published Locally"
        }
        case "join" => {
-         node.publishServiceLocalPrefix(new Join())
+         Networking.startService(ServiceStarterInterest("window"), ccnApi)
          retVal = "Join Service published Locally"
        }
        case _ => retVal = "Service not found"
