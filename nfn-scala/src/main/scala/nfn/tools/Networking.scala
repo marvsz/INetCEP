@@ -82,7 +82,7 @@ object Networking extends LazyLogging{
   }
 
   def startService(i:Interest, ccnApi:ActorRef)={
-    NFNApi.CCNStartService(i,useThunks = false)
+    ccnApi ! NFNApi.CCNStartService(i,useThunks = false)
   }
 
   /**

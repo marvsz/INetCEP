@@ -17,7 +17,7 @@ import network._
 import nfn.NFNServer._
 import nfn.localAbstractMachine.LocalAbstractMachineWorker
 import nfn.service.PlacementServices.QueryPlacement
-import nfn.service.{Filter, GetContent, Heatmap, Join, NFNStringValue, Prediction1, Prediction2, Sequence, UpdateNodeState, Window}
+import nfn.service.{Filter, GetContent, Heatmap, Join, NFNServiceLibrary, NFNStringValue, Prediction1, Prediction2, Sequence, UpdateNodeState, Window}
 import node.LocalNode
 
 import scala.concurrent.Future
@@ -389,51 +389,50 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
   }
 
-  def startDynService(i: Interest) = {
+  def startDynService(i: Interest, senderCopy: ActorRef) = {
 
     var debugVal = ""
-    val node = LocalNode(routerConfig, Some(computeNodeConfig))
-    val serviceName = i.name.withoutSStart.toString.toLowerCase()
+    val serviceName = i.name.withoutSStart.toString.toLowerCase().drop(1)
     logger.debug(s"Service name is:$serviceName")
     serviceName match {
       case "window" => {
-        node.publishServiceLocalPrefix(new Window())
+        NFNServiceLibrary.nfnPublishService(new Window(), Some(computeNodeConfig.prefix),self)
         debugVal = "Window Service published Locally"
       }
       case "queryplacement" => {
-        node.publishServiceLocalPrefix(new QueryPlacement())
+        NFNServiceLibrary.nfnPublishService(new QueryPlacement(), Some(computeNodeConfig.prefix),self)
         debugVal = "QueryPlacement Service published Locally"
       }
       case "filter" => {
-        node.publishServiceLocalPrefix(new Filter())
+        NFNServiceLibrary.nfnPublishService(new Filter(), Some(computeNodeConfig.prefix),self)
         debugVal = "Filter Service published Locally"
       }
       case "sequence" => {
-        node.publishServiceLocalPrefix(new Sequence())
+        NFNServiceLibrary.nfnPublishService(new Sequence(), Some(computeNodeConfig.prefix),self)
         debugVal = "Sequence Service published Locally"
       }
       case "prediction1" => {
-        node.publishServiceLocalPrefix(new Prediction1)
+        NFNServiceLibrary.nfnPublishService(new Prediction1(), Some(computeNodeConfig.prefix),self)
         debugVal = "Prediction1 Service published Locally"
       }
       case "prediction2" => {
-        node.publishServiceLocalPrefix(new Prediction2)
+        NFNServiceLibrary.nfnPublishService(new Prediction2(), Some(computeNodeConfig.prefix),self)
         debugVal = "Prediction2 Service published Locally"
       }
       case "heatmap" => {
-        node.publishServiceLocalPrefix(new Heatmap)
+        NFNServiceLibrary.nfnPublishService(new Heatmap(), Some(computeNodeConfig.prefix),self)
         debugVal = "Heatmap Service published Locally"
       }
       case "updatenodestate" => {
-        node.publishServiceLocalPrefix(new UpdateNodeState)
+        NFNServiceLibrary.nfnPublishService(new UpdateNodeState(), Some(computeNodeConfig.prefix),self)
         debugVal = "Update Nodestate Service published Locally"
       }
       case "getcontent" => {
-        node.publishServiceLocalPrefix(new GetContent())
+        NFNServiceLibrary.nfnPublishService(new GetContent(), Some(computeNodeConfig.prefix),self)
         debugVal = "Get Content Service published Locally"
       }
       case "join" => {
-        node.publishServiceLocalPrefix(new Join())
+        NFNServiceLibrary.nfnPublishService(new Join(), Some(computeNodeConfig.prefix),self)
         debugVal = "Join Service published Locally"
       }
       case _ => debugVal = "Service not found"
@@ -447,7 +446,6 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
 
     logger.debug(s"Content Chunk name: ${contentChunk.name}")
     logger.debug(s"Content name without chunk: ${contentChunk.name.withoutChunk}")
-
 
     var maybeFace = pit.get(contentChunk.name)
     if (maybeFace.isEmpty) {
@@ -642,7 +640,7 @@ success
           }
           case None => {
             if(i.name.isSStart){
-              startDynService(i)
+              startDynService(i, senderCopy)
             }
             else{
             if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
