@@ -1962,6 +1962,8 @@ ccnl_mgmt_addcacheobject(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
         if (!interest)
             return 0;
 
+        interest->lifetime = 1;
+
         //Send interest to from!
         ccnl_face_enqueue(ccnl, from, buffer);
     }
