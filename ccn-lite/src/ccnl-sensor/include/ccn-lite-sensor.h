@@ -64,6 +64,7 @@ struct ccnl_sensor_s {
     struct ccnl_sensor_setting_s* settings; /** < the settings of this sensor */
     struct ccnl_sensor_tuple_s* sensorData; /** < a pointer to the first element of the sensor data list*/
     int64_t last_sampled; /** < the last time the sensor was sampled */
+    int sampleCounter;
 };
 
 /**

@@ -152,6 +152,114 @@ char *getSensorName(unsigned int i) {
     return retval;
 }
 
+int get_int_len (int value){
+    int l=1;
+    while(value>9){ l++; value/=10; }
+    return l;
+}
+
+struct ccnl_sensor_tuple_s*
+        ccnl_sensor_generate_random_victims_tuple(struct ccnl_sensor_s* sensor){
+ // <Date, SequenceNumber, Gender, Age>
+ int sequenceNumber = sensor->sampleCounter +1;
+ time_t t ;
+    struct tm *tmp;
+    char MY_TIME[50];
+    char gender;
+    time(&t);
+    tmp = localtime(&t);
+    strftime(MY_TIME, sizeof(MY_TIME),"%H:%M:%S:000", tmp);
+    srand(time(NULL));
+    if((rand() & 1))
+        gender = 'M';
+    else
+        gender = 'F';
+    int age = rand() % 100;
+
+    int SizeOfTuple = strlen(MY_TIME) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
+    char newTuple[SizeOfTuple];
+    snprintf(newTuple, sizeof(newTuple), "%s;%i;%c,%i", MY_TIME,sequenceNumber,gender,age);
+    return ccnl_sensor_tuple_new(newTuple,SizeOfTuple);
+}
+
+struct ccnl_sensor_tuple_s*
+ccnl_sensor_generate_random_survivors_tuple(struct ccnl_sensor_s* sensor){
+    // <Date, SequenceNumber, Gender, Age>
+    int sequenceNumber = sensor->sampleCounter +1;
+    time_t t ;
+    struct tm *tmp;
+    char date[50];
+    char gender;
+    time(&t);
+    tmp = localtime(&t);
+    strftime(date, sizeof(date), "%H:%M:%S:000", tmp);
+    srand(time(NULL));
+    if((rand() & 1))
+        gender = 'M';
+    else
+        gender = 'F';
+    int age = rand() % 100;
+
+    int sizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
+    char newTuple[sizeOfTuple];
+    snprintf(newTuple, sizeof(newTuple), "%s;%i;%c,%i", date, sequenceNumber, gender, age);
+    return ccnl_sensor_tuple_new(newTuple, sizeOfTuple);
+
+}
+
+struct ccnl_sensor_tuple_s*
+ccnl_sensor_generate_random_gps_tuple(struct ccnl_sensor_s* sensor){
+    // <Date, Identifier, Latitude, Longitude, Altitude, Accuracy, Distance, Speed>
+
+    time_t t ;
+    struct tm *tmp;
+    char date[50];
+    time(&t);
+    tmp = localtime(&t);
+    strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", tmp);
+    double latitude;
+    double longitude;
+    int identifier = sensor->settings->id;
+    int altitude = 180;
+    int accuracy = 1;
+    int distance = 1;
+    int speed = 1;
+
+
+    srand ( time ( NULL));
+
+    latitude = (double)rand()/RAND_MAX*2.0-90.0;//float in range -1 to 1
+    longitude = (double)rand()/RAND_MAX*2.0-180.0;//float in range -1 to 1
+    int sizeOfTuple = strlen(date) + get_int_len(identifier) + 11 + 10 + + get_int_len(altitude) + get_int_len(accuracy) + get_int_len(distance) + get_int_len(speed) + 1 + 7;
+    char newTuple[sizeOfTuple];
+    snprintf(newTuple, sizeof(newTuple),"%s;%i;%f;%f;%i;%i;%i;%i",date,identifier,latitude,longitude,altitude,accuracy,distance,speed);
+    return ccnl_sensor_tuple_new(newTuple, sizeOfTuple);
+}
+
+struct ccnl_sensor_tuple_s*
+ccnl_sensor_generate_random_plug_tuple(struct ccnl_sensor_s* sensor){
+    // <SequenceNumber, Date, Value, Property, Plug_ID, Household_ID, House_ID>
+    int sequenceNumber = sensor->sampleCounter +1;
+    time_t t ;
+    struct tm *tmp;
+    char date[50];
+    char gender;
+    time(&t);
+    tmp = localtime(&t);
+    strftime(date, sizeof(date), "%Y-%m-%d %H:%M:%S", tmp);
+    srand(time(NULL));
+    if((rand() & 1))
+        gender = 'M';
+    else
+        gender = 'F';
+    int age = rand() % 100;
+
+    int SizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
+    char newTuple[SizeOfTuple];
+    snprintf(newTuple, sizeof(newTuple), "%s;%i;%c,%i", date, sequenceNumber, gender, age);
+    return ccnl_sensor_tuple_new(newTuple,SizeOfTuple);
+}
+
 struct ccnl_sensor_tuple_s*
 ccnl_sensor_tuple_new(void *data, int len){
     //DEBUGMSG(DEBUG,"sensor_new: started\n");
@@ -279,8 +387,28 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     }
     else{
         DEBUGMSG(DEBUG,"Enter random content into store.\n");
-        snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
-
+        struct ccnl_sensor_tuple_s* currentData;
+        switch(sensor->settings->name){
+            case CCNL_SENSORNAME_VICTIMS:
+                currentData = ccnl_sensor_generate_random_victims_tuple(sensor);
+                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
+                break;
+            case CCNL_SENSORNAME_SURVIVORS:
+                currentData = ccnl_sensor_generate_random_survivors_tuple(sensor);
+                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
+                break;
+            case CCNL_SENSORNAME_GPS:
+                currentData = ccnl_sensor_generate_random_gps_tuple(sensor);
+                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
+                break;
+            case CCNL_SENSORNAME_PLUG:
+                currentData = ccnl_sensor_generate_random_plug_tuple(sensor);
+                snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+                break;
+            default:
+                snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+                break;
+        }
     }
     DEBUGMSG(DEBUG,"Enter Tuple Data into file.\n");
     fputs(tupleData, fPtr);
