@@ -560,10 +560,10 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             uint64_t timeDifference = tend.tv_nsec - tstart.tv_nsec;//((uint64_t)tend.tv_sec + 1.0e-9*tend.tv_nsec) - ((uint64_t)tstart.tv_sec + 1.0e-9*tstart.tv_nsec);
 
 #ifndef CCNL_LINUXKERNEL
-            DEBUGMSG(EVAL,"Handling of Interest package took about %lu seconds\n",timeDifference);
+            DEBUGMSG(EVAL,"Handling of Interest package took about %lu nano seconds\n",timeDifference);
 
 #else
-            DEBUGMSG(EVAL,"Handling of Interest package took about %llu seconds\n",timeDifference);
+            DEBUGMSG(EVAL,"Handling of Interest package took about %llu nano seconds\n",timeDifference);
 #endif
             }
             ccnl_send_pkt(relay, from, c->pkt);
