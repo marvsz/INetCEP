@@ -37,6 +37,7 @@ ccnl_debugLevelToChar(int level)
     switch (level) {
         case FATAL:     return 'F';
         case ERROR:     return 'E';
+        case EVAL:      return 'A';
         case WARNING:   return 'W';
         case INFO:      return 'I';
         case DEBUG:     return 'D';
@@ -50,6 +51,8 @@ ccnl_debugLevelToChar(int level)
         return 'F';
     if (level == ERROR)
         return 'E';
+    if (level == EVAL)
+        return 'A';
     if (level == WARNING)
         return 'W';
     if (level == INFO)
@@ -69,6 +72,7 @@ ccnl_debug_str2level(char *s)
 {
     if (!strcmp(s, "fatal"))   return FATAL;
     if (!strcmp(s, "error"))   return ERROR;
+    if (!strcmp(s, "evaluation"))    return EVAL;
     if (!strcmp(s, "warning")) return WARNING;
     if (!strcmp(s, "info"))    return INFO;
     if (!strcmp(s, "debug"))   return DEBUG;

@@ -186,9 +186,9 @@ usage:
                 break;
             len = recv(sock, out, sizeof(out), 0);
             clock_gettime(CLOCK_MONOTONIC,&tend);
-            DEBUGMSG(DEBUG,"took about %.5f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
+            DEBUGMSG(EVAL,"took about %.5f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
                                                        ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
-            DEBUGMSG(DEBUG, "received %d bytes\n", len);
+            DEBUGMSG(EVAL, "received %d bytes\n", len);
 /*
             {
                 int fd = open("incoming.bin", O_WRONLY|O_CREAT|O_TRUNC, 0700);

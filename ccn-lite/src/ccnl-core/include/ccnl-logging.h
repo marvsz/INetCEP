@@ -30,11 +30,12 @@
 #ifndef CCNL_RIOT
 #define FATAL   0  // FATAL
 #define ERROR   1  // ERROR
-#define WARNING 2  // WARNING
-#define INFO    3  // INFO
-#define DEBUG   4  // DEBUG
-#define VERBOSE 5  // VERBOSE
-#define TRACE 	6  // TRACE
+#define EVAL 2 // EVAL
+#define WARNING 3  // WARNING
+#define INFO    4  // INFO
+#define DEBUG   5  // DEBUG
+#define VERBOSE 6  // VERBOSE
+#define TRACE 	7  // TRACE
 #else
 #include "ccnl-riot-logging.h"
 #endif
