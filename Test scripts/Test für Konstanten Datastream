@@ -1,0 +1,34 @@
+### ccn-lite-relay für nodeA starten
+~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9998 -x /tmp/mgmt-nfn-relay-a.sock
+
+### ccn-lite-relay für nodeB starten
+~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9999 -x /tmp/mgmt-nfn-relay-b.sock
+
+### Weiterleitungsregel von nodeA nach nodeB erstellen. 
+FACEID=`~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock newUDPface any 127.0.0.1 9999 \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml | grep FACEID | sed -e 's/^[^0-9]*\([0-9]\+\).*/\1/'`
+
+### Relay A ist durch das UDP face mit B verbunden, logisch hat A aber noch nicht den nötigen forwarding state um B zu erreichen. Also muss eine Forwarding Regel (/nodeB --> B) erstellt werden
+~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock prefixreg /nodeB $FACEID ndn2013 \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+### Sensor starten
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 2 -s 500 -v trace
+
+### Sensor stoppen
+~/INetCEP/ccn-lite/bin/ccn-lite-rmS -n gps -i 1 -v trace
+
+### Peek interest für gps1 senden
+ ~/INetCEP/ccn-lite/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9998 "/nodeA/sensor/gps1" \
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f2
+
+### Constant Peek interest für gps1 senden
+~/INetCEP/ccn-lite/bin/ccn-lite-peekConstant -s ndn2013 -u 127.0.0.1/9998 "/nodeA/sensor/gps1" -v trace\
+  | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f2
+
+
+### Shutdown realy A
+  ~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock debug halt | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
+
+### Shutdown realy B
+  ~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-b.sock debug halt | ~/INetCEP/ccn-lite/bin/ccn-lite-ccnb2xml
