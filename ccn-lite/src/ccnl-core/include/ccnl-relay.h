@@ -51,6 +51,13 @@ struct ccnl_relay_s {
     struct ccnl_if_s ifs[CCNL_MAX_INTERFACES];
     int ifcount;               /**< number of active interfaces */
     char halt_flag;            /**< Flag to interrupt the IO_Loop and to exit the relay */
+    int recieved_pkts;         /**< A counter for how many packets have arrived at the realay*/
+    int recieved_interest_pkts; /**< A counter for how many interest packets have arrived at the relay*/
+    int recieved_data_pkts; /**< A counter for how many data packets have arrived at the relay*/
+    int recieved_persistent_interest_pkts; /**< A counter for how many persistent interest packets have arrived at the relay*/
+    int recieved_data_stream_pkts; /**< A counter for how many data stream packets have arrived at the relay*/
+    int served_content;       /**< A counter for how many served content packets have been served. Used to determine the troughput for evaluation */
+    int served_pkts;          /**< A coutner for how many packets have been served. Used in the evaluation */
     struct ccnl_sched_s* (*defaultFaceScheduler)(struct ccnl_relay_s*,
                                                  void(*cts_done)(void*,void*)); /**< FuncPoint to the scheduler for faces*/
     struct ccnl_sched_s* (*defaultInterfaceScheduler)(struct ccnl_relay_s*,

@@ -424,8 +424,12 @@ ccnl_eth_RX(struct sk_buff *skb, struct net_device *indev,
         memcpy(su.linklayer.sll_addr, skb_mac_header(skb)+ETH_ALEN, ETH_ALEN);
         su.linklayer.sll_protocol = *((short int*)(skb_mac_header(skb)+2*ETH_ALEN));
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data, skb->len);
-    } else
+    } else{
+        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
+        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
+    }
+
 
     return 1;
 }
@@ -453,8 +457,12 @@ ccnl_udp_data_ready(struct sock *sk)
         //DEBUGMSG(DEBUG, "Data is at the moment %.*s",(int)skb->len,skb->data);
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data/* + sizeof(struct udphdr)*/,
                                 skb->len/* - sizeof(struct udphdr)*/);
-    } else
+    } else{
+        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
+        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
+    }
+
     return;
 Bail:
     return;
@@ -484,8 +492,12 @@ ccnl_ux_data_ready(struct sock *sk)
                  i, skb->len, ccnl_addr2ascii(&su));
 
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data, skb->len);
-    } else
+    } else{
+        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
+        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
+    }
+
 
     return;
 Bail:

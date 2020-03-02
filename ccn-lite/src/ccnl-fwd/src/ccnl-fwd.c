@@ -507,7 +507,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     // Step 2: search in content store
     DEBUGMSG_CFWD(DEBUG, "  searching in CS\n");
-    if(relay!=NULL){
+    /*if(relay!=NULL){
         DEBUGMSG_CFWD(DEBUG, "Relay is not Null");
     }
     if(relay->contents != NULL){
@@ -515,7 +515,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     }
     else{
         DEBUGMSG_CFWD(DEBUG, "contents is Null");
-    }
+    }*/
 
     //DEBUGMSG_CFWD(DEBUG, "  the interest is a constant Interest = %i, 1 is yes, 0 is no.\n", (*pkt)->s.ndntlv.isPersistent);
 #ifdef CCNL_LINUXKERNEL
@@ -566,6 +566,7 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             DEBUGMSG(EVAL,"Handling of Interest package took about %llu nano seconds\n",timeDifference);
 #endif
             }
+            relay->served_content++;
             ccnl_send_pkt(relay, from, c->pkt);
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;
@@ -688,10 +689,14 @@ ccnl_ccnb_fwd(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     pkt->flags |= typ == CCN_DTAG_INTEREST ? CCNL_PKT_REQUEST : CCNL_PKT_REPLY;
 
     if (pkt->flags & CCNL_PKT_REQUEST) { // interest
-        if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccnb_cMatch))
+        if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccnb_cMatch)){
+            relay->recieved_interest_pkts++;
+        }
             goto Done;
     } else { // content
-        if (ccnl_fwd_handleContent(relay, from, &pkt))
+        if (ccnl_fwd_handleContent(relay, from, &pkt)){
+            relay->recieved_data_pkts++;
+        }
             goto Done;
     }
     rc = 0;
@@ -852,8 +857,11 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if (pkt->type == CCNX_TLV_TL_Interest) {
             pkt->flags |= CCNL_PKT_REQUEST;
             // DEBUGMSG_CFWD(DEBUG, "  interest=<%s>\n", ccnl_prefix_to_path(pkt->pfx));
-            if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccntlv_cMatch))
+            if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccntlv_cMatch)){
+                relay->recieved_interest_pkts++;
                 goto Done;
+            }
+
         } else {
             DEBUGMSG_CFWD(WARNING, "  ccntlv: interest pkt type mismatch %d %d\n",
                           hp->pkttype, pkt->type);
@@ -861,6 +869,7 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     } else if (hp->pkttype == CCNX_PT_Data) {
         if (pkt->type == CCNX_TLV_TL_Object) {
             pkt->flags |= CCNL_PKT_REPLY;
+            relay->recieved_data_pkts++;
             ccnl_fwd_handleContent(relay, from, &pkt);
         } else {
             DEBUGMSG_CFWD(WARNING, "  ccntlv: data pkt type mismatch %d %d\n",
@@ -905,22 +914,28 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     pkt->type = typ;
     switch (typ) {
     case NDN_TLV_Interest:
+        relay->recieved_interest_pkts++;
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
+
         break;
     case NDN_TLV_PersistentInterest:
+        relay->recieved_persistent_interest_pkts++;
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;
     case NDN_TLV_RemovePersistentInterest:
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
+
         break;
     case NDN_TLV_Data:
+        relay->recieved_data_pkts++;
         if (ccnl_fwd_handleContent(relay, from, &pkt))
             goto Done;
         break;
     case NDN_TLV_Datastream:
+        relay->recieved_data_stream_pkts++;
         if (ccnl_fwd_handleContent(relay, from, &pkt))
             goto Done;
         break;

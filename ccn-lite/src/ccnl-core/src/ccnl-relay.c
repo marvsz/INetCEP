@@ -282,6 +282,7 @@ int
 ccnl_send_pkt(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                 struct ccnl_pkt_s *pkt)
 {
+    ccnl->served_pkts++;
     return ccnl_face_enqueue(ccnl, to, buf_dup(pkt->buf));
 }
 
@@ -734,6 +735,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                                  c->pkt->content, c->pkt->contlen);
 #endif
 
+                ccnl->served_content++;
                 ccnl_send_pkt(ccnl, pi->face, c->pkt);
 
 #ifdef USE_NFN_REQUESTS
