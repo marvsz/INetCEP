@@ -261,6 +261,14 @@ main(int argc, char *argv[])
 
             //write(1, out, len);
             if(rc==1){
+                long            ns; // Nanoseconds
+                time_t          s;  // Seconds
+                struct timespec spec;
+                clock_gettime(CLOCK_REALTIME, &spec);
+                s  = spec.tv_sec;
+                ns =  spec.tv_nsec;
+                DEBUGMSG(EVAL,"Current at recieving packet: %"PRIdMAX".%09ld seconds since the Epoch\n",
+                         (intmax_t)s, ns);
                 dump_content(0,out,out,len,2,-1,stdout);
                 fflush(stdout);
             }

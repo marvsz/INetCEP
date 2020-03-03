@@ -1189,7 +1189,7 @@ main(int argc, char *argv[]) {
         DEBUGMSG(ERROR, "unknown command %s\n", argv[1]);
         goto help;
     }
-    DEBUGMSG(ERROR,"len is %i\n",len);
+    DEBUGMSG(DEBUG,"len is %i\n",len);
     if (len > 0 && !msgOnly) {
         unsigned int slen = 0;
         int num = 1;

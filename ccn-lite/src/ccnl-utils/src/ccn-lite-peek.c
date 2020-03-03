@@ -186,9 +186,14 @@ usage:
                 break;
             len = recv(sock, out, sizeof(out), 0);
             clock_gettime(CLOCK_MONOTONIC,&tend);
-            DEBUGMSG(EVAL,"took about %.5f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
-                                                       ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
-            DEBUGMSG(EVAL, "received %d bytes\n", len);
+
+            long            ns; // Nanoseconds
+            time_t          s;  // Seconds
+            struct timespec spec;
+            clock_gettime(CLOCK_REALTIME, &spec);
+            s  = spec.tv_sec;
+            ns =  spec.tv_nsec;
+
 /*
             {
                 int fd = open("incoming.bin", O_WRONLY|O_CREAT|O_TRUNC, 0700);
@@ -258,6 +263,11 @@ usage:
                 DEBUGMSG(WARNING, "skipping non-data packet\n");
                 continue;
             }
+            DEBUGMSG(EVAL,"Current time: %"PRIdMAX".%09ld seconds since the Epoch\n",
+                     (intmax_t)s, ns);
+            DEBUGMSG(EVAL,"took about %.6f seconds\n",((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) -
+                                                      ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+            DEBUGMSG(EVAL, "received %d bytes\n", len);
             write(1, out, len);
             myexit(0);
         }

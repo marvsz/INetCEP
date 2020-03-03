@@ -1,7 +1,9 @@
 //
 // Created by johannes on 09.10.19.
 //
-#define _POSIX_C_SOURCE 199309L
+//#define _POSIX_C_SOURCE 199309L
+#define _POSIX_C_SOURCE 200809L
+
 #include <ccnl-core.h>
 #include <stdio.h>
 #include <time.h>
@@ -9,6 +11,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
+#include <inttypes.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include "../include/ccn-lite-sensor.h"
@@ -161,7 +164,8 @@ int get_int_len (int value){
 struct ccnl_sensor_tuple_s*
         ccnl_sensor_generate_random_victims_tuple(struct ccnl_sensor_s* sensor){
  // <Date, SequenceNumber, Gender, Age>
- int sequenceNumber = sensor->sampleCounter +1;
+    sensor->sampleCounter++;
+ int sequenceNumber = sensor->sampleCounter;
  time_t t ;
     struct tm *tmp;
     char MY_TIME[50];
@@ -185,7 +189,8 @@ struct ccnl_sensor_tuple_s*
 struct ccnl_sensor_tuple_s*
 ccnl_sensor_generate_random_survivors_tuple(struct ccnl_sensor_s* sensor){
     // <Date, SequenceNumber, Gender, Age>
-    int sequenceNumber = sensor->sampleCounter +1;
+    sensor->sampleCounter++;
+    int sequenceNumber = sensor->sampleCounter;
     time_t t ;
     struct tm *tmp;
     char date[50];
@@ -326,6 +331,10 @@ void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
 
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     struct timespec ts;
+    struct timespec tstart;
+    struct timespec tend;
+    struct timespec tdelta;
+    struct timespec resultsleep;
     char stopPath[100];
     snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
     char sock[100];
@@ -342,9 +351,15 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     ts.tv_sec = sensor->settings->samplingRate / 1000;
     ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
     while (!sensor->stopflag) {
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
         ccnl_sensor_sample(sensor,sock,tuplePath,binaryContentPath);
-        nanosleep(&ts, &ts);
         sensorStopped(sensor,stopPath);
+        clock_gettime(CLOCK_MONOTONIC,&tend);
+        tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
+        tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
+        resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
+        resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
+        nanosleep(&resultsleep, &resultsleep);
     }
     ccnl_sensor_free(sensor);
     remove(stopPath);
@@ -410,27 +425,39 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
                 break;
         }
     }
-    DEBUGMSG(DEBUG,"Enter Tuple Data into file.\n");
+    DEBUGMSG(EVAL,"Enter Tuple Data %s into file.\n", tupleData);
     fputs(tupleData, fPtr);
     fclose(fPtr);
     //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
              //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
     if(!sensor->settings->use_udp)
-        snprintf(uri, sizeof(uri), "/node%c/sensor/%s%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
+        snprintf(uri, sizeof(uri), "/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
                  sensor->settings->id);
     else
-        snprintf(uri, sizeof(uri), "/nodeA/sensor/%s%i", getSensorName(sensor->settings->name),
+        snprintf(uri, sizeof(uri), "/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
                  sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
-    DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
+    (void) mkCStatus;
+    //DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
     if(!sensor->settings->use_udp)
-        snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+        snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v evaluation", ccnl_home, ctrl, sock, binaryContentPath);
     else
-        snprintf(exec, sizeof(exec), "%s/bin/%s -u %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
+        snprintf(exec, sizeof(exec), "%s/bin/%s -u %s addContentToCache %s -v evaluation", ccnl_home, ctrl, sock, binaryContentPath);
     //snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
-    DEBUGMSG(DEBUG, "command Messge is %s\n",exec);
+    //DEBUGMSG(DEBUG, "command Messge is %s\n",exec);
+
+
+    long            ns; // Nanoseconds
+    time_t          s;  // Seconds
+    struct timespec spec;
+    clock_gettime(CLOCK_REALTIME, &spec);
+    s  = spec.tv_sec;
+    ns =  spec.tv_nsec;
+    DEBUGMSG(EVAL,"Current time: %"PRIdMAX".%09ld seconds since the Epoch\n",
+             (intmax_t)s, ns);
     //snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
     execStatus = system(exec);
-    DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
+    (void) execStatus;
+    //DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
 }
