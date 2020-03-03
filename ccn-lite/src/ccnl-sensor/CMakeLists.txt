@@ -9,3 +9,5 @@ file(GLOB SOURCES "src/*.c")
 file(GLOB HEADERS "include/*.h")
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
+
+target_link_libraries(ccnl-sensor m)
