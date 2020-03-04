@@ -66,7 +66,7 @@ struct ccnl_interest_s {
     struct ccnl_pendint_s *pending;     /**< linked list of faces wanting that content */
     struct ccnl_pendQ_s *pendingQueries; /**< linked list of queries that are to be executed when the interested Data is satisfied*/
     unsigned short flags;
-    uint32_t lifetime;                  /**< interest lifetime */
+    uint32_t lifetime;                  /**< interest lifetime in seconds*/
     bool isPersistent;
     bool isRemoveI;
 #define CCNL_PIT_COREPROPAGATES    0x01
