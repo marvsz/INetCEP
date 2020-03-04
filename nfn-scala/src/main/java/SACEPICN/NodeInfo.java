@@ -11,6 +11,7 @@ public class NodeInfo {
     public String NI_Sensor = null;
     public Latency[] NI_Latency = null;
     public Double NI_Battery = null;
+    public String[] NI_Operators = null;
 
     public NodeInfo(String data) {
         String[] intermData = data.split("\\|");
@@ -20,6 +21,7 @@ public class NodeInfo {
             NI_Sensor = intermData[1];
             NI_Latency = getLatencyfromData(intermData[2]);
             NI_Battery = FormattedOutput.parseDouble(intermData[3].toString());
+            NI_Operators = intermData[4].split(",");
         }
     }
     //To manage no-existant nodes (6/3/18)

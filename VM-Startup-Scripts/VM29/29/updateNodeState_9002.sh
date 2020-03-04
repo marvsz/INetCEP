@@ -9,14 +9,16 @@ MyNodeName=$5
 HostedSensor=$6
 QueryType=$7
 Interval=$8
+deployedOperators=""
+FILE=DeployedOperators.txt
 if [[ -z $Interval ]]
 then
 	#default interval
 	Interval=20
 fi
 
-./queryService.sh $ParentIP $ParentPort $ParentNodeName $QueryType $Interval &
-echo 'Query Service Started'
+#./queryService.sh $ParentIP $ParentPort $ParentNodeName $QueryType $Interval &
+#echo 'Query Service Started'
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
@@ -27,8 +29,8 @@ nohup iperf -s -p 8002 -u  &
 
 #replacing this read with a sleep of 30 (for automated scripts)
 #read -p 'iperf Started - Other nodes up? [y/n] ' Identifier
-echo 'Waiting for 30 seconds..'
-sleep 30
+echo 'Waiting for 5 seconds..'
+sleep 5
 echo 'Update node state is ready to begin..'
 #After this sleep elapses, we can assume that the iperf services on the other nodes have already been started.
 
@@ -72,20 +74,27 @@ do
 	
 	DATE_WITH_TIME=`date "+%Y%m%d-%H%M%S%3N"` #%S%3N
 
-	Content="$MyNodeName|$HostedSensor|$Latency|$Battery"
+	if [[ -f "$FILE" ]]; then
+		deployedOperators=`cat DeployedOperators.txt`
+	fi
+
+	Content="$MyNodeName|$HostedSensor|$Latency|$Battery|$deployedOperators"
 
 	#echo $Content
 
 	#Set Content at parent (so that parent can fetch later):
-	timeout 10 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 10 "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
+	echo $Content > nodeStatusContent
+	$CCNL_HOME/bin/ccn-lite-mkDSC -s ndn2013 "node/$ParentNodeName/state/nodeState" -i nodeStatusContent > binaryNodeStatusContent
+	$CCNL_HOME/bin/ccn-lite-ctrl -u 127.0.0.1/$ParentPort addContentToCache binaryNodeStatusContent
+	#timeout 10 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 10 "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
 	#timeout 10 $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 10 "" "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-	if [ $? -eq 124 ]; then
+	#if [ $? -eq 124 ]; then
 	    # Timeout occurred
-		echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request timed out after 10 seconds -' $?
-	else
+		#echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request timed out after 10 seconds -' $?
+	#else
 	    # No hang
-		echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request Successful'
-	fi
+		#echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request Successful'
+	#fi
 
 	arrNodes=()
 

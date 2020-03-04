@@ -1,6 +1,7 @@
 #!/bin/bash
 queryType=$2
 queryServiceInterval=$3
+executionScripts=~/INetCEP/VM-Startup-Scripts/31/
 
 initializetopology() {
 	rm *.log
@@ -11,8 +12,9 @@ initializetopology() {
 }
 
 startexecution() {
-	dirs=($(ls -d ~/INetCEP/VM-Startup-Scripts/*))
-	cd "${dirs[@]}"
+	#dirs=($(ls -d ~/INetCEP/VM-Startup-Scripts/*))
+	#cd "${dirs[@]}"
+	cd $executionScripts
 	rm *.log
 	#execute this script the last once all the nodes and compute servers are started 
 	nohup bash startRemoteAny.sh $queryType $queryServiceInterval > startUp.log &
