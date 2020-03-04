@@ -5,7 +5,7 @@ import ccn.packet.CCNName
 import com.typesafe.scalalogging.LazyLogging
 import config.{ComputeNodeConfig, RouterConfig, StaticConfig}
 import nfn.service.PlacementServices.QueryPlacement
-import nfn.service.{Filter, QueryResultPrinter, ServiceStarter, ServiceSubscriber, Window}
+import nfn.service.{Filter, Heatmap, Prediction2, QueryResultPrinter, Sequence, ServiceStarter, ServiceSubscriber, Window}
 import node.LocalNode
 import scopt.OptionParser
 
@@ -108,10 +108,10 @@ object ComputeServerStarter extends LazyLogging {
           * To make a new service available for computations - it is important to add it here. Once done, named-function interests containing these service names will be available for resolution.
           */
         //node.publishServiceLocalPrefix(new Concatenate())
-        //node.publishServiceLocalPrefix(new Window())
+        node.publishServiceLocalPrefix(new Window())
         node.publishServiceLocalPrefix(new QueryPlacement())
         node.publishServiceLocalPrefix(new ServiceSubscriber())
-        //node.publishServiceLocalPrefix(new Filter())
+        node.publishServiceLocalPrefix(new Filter())
         node.publishServiceLocalPrefix(new QueryResultPrinter())
         node.publishServiceLocalPrefix(new ServiceStarter())
         //node.publishServiceLocalPrefix(new Sequence())
