@@ -28,11 +28,12 @@ for i in "${VMS[@]}"
 		# make directories if they don't exist already
 		ssh -t $user@$i <<-'ENDSSH'
 		cd INetCEP/ccn-lite/
+		rm -rf build bin
 		mkdir build
 		cd build
 		export USE_NFN=1
 		export USE_NACK=1
-		cmake ..
+		cmake ../src/
 		make clean all
 		ENDSSH
 	done
