@@ -7,7 +7,7 @@ public class NodeInformationSingleton {
     private static NodeInformationSingleton instance;
 
     public static final ArrayList<NodeInformation> nodeInfoList = new ArrayList<NodeInformation>(Arrays.asList(
-            new NodeInformation("nodeA", "10.2.1.88", "9001"),
+            new NodeInformation("nodeA", "10.2.1.118", "9001"),
             new NodeInformation("nodeB", "10.2.1.85", "9002"),
             new NodeInformation("nodeC", "10.2.1.70", "9003"),
             new NodeInformation("nodeD", "10.2.1.71", "9004"),
