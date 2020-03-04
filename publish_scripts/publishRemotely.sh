@@ -31,27 +31,27 @@ if [[ -z $simRunTime ]]
 
 #Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
-#new Usage: bash publishRemotely.sh all "Placement" 1 20 1200
+#new Usage: bash publishRemotely.sh all "Placement" 7 20 1200
 all() {
-	
+	#echo "deploying CCN"
 	#deployCCN
-	#echo "building NFN"
-	#buildNFN
+	echo "building NFN"
+	buildNFN
 	#sleep 2s
-	echo "copying Node Info"
-	copyNodeInfo
+	#echo "copying Node Info"
+	#copyNodeInfo
 	sleep 2s
-	#echo "copying NFN Files"
-	#copyNFNFiles
-	#sleep 2s
+	echo "copying NFN Files"
+	copyNFNFiles
+	sleep 2s
 	echo "Deleting old logs"
 	deleteOldLogs
 	echo "Creating Topology"
 	createTopology
-	sleep 14s
+	sleep 2s
 	echo "Starting UpdateNodestate Service"
 	execute
-	sleep 40s
+	sleep 10s
 	echo "executing Query"
 	executeQueryinVMA & sleep $simRunTime; shutdown
 }
@@ -155,7 +155,7 @@ echo "copying NFN-jar"
 	#copy only the required jar
 	for i in "${VMS[@]}"
 	do
-		scp -rp "$work_dir"/nfn-scala/target/scala-2.10/*.jar $user@$i:~/INetCEP/computeservers/nodes/*/
+		scp -rp "$work_dir"/nfn-scala/target/scala-2.13/*.jar $user@$i:~/INetCEP/computeservers/nodes/*/
 	done
 }
 
@@ -217,7 +217,6 @@ for i in "${VMS[@]}"
 	ssh -t $user@$i <<-'ENDSSH'
 	cd ~/INetCEP/nodeData
 	find . -name "*_Log" -type f -delete
-	rm queryStore
 	ENDSSH
 	done
 
@@ -255,7 +254,7 @@ for i in "${VMS[@]}"
 }
 
 #initiates the query on the first VM
-#Usage : bash publishRemotely.sh executeQuery "Placement" 1 (1: Centralized  and 2: Decentralized)
+#Usage : DEPRECATED. NOT THE REAL USAGE ANYMORE bash publishRemotely.sh executeQuery "Placement" 1 (1: Centralized  and 2: Decentralized)
 executeQueryinVMA() {
 	ssh $user@${VMS[0]} <<-ENDSSH
 	echo "logged in "${VMS[0]}
@@ -278,6 +277,9 @@ executeQueryinVMA() {
 	;;
 	6)
 	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,2,S),WINDOW(name,gps2,2,S)))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	7)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,nodeA/sensor/gps1,4,S),Gender=M&Age>30,name)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	*) echo "do_nothing"
 	;;
