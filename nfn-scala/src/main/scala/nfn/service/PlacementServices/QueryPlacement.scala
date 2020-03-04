@@ -6,17 +6,19 @@ package nfn.service.PlacementServices
  */
 
 import SACEPICN.{NodeMapping, _}
-import akka.actor.ActorRef
+import akka.actor.{ActorContext, ActorRef}
 import myutil.FormattedOutput
 import nfn.service._
 import nfn.tools._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.annotation.tailrec
-import scala.collection.mutable.{ListBuffer}
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.Future
 import scala.io.Source
 import scala.jdk.CollectionConverters._
 import scala.language.postfixOps
+import scala.concurrent.duration._
 
 //Added for contentfetch
 import java.util.Calendar
@@ -119,11 +121,12 @@ class QueryPlacement() extends NFNService {
 
       def getCentralizedNodeStatus: Unit ={
         for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList.asScala) {
-          val name = s"/${e._port}/" + now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
+          val name = s"node/${e._nodeName}/state/nodeState"
+          LogMessage(nodeName, s"sending the interest $name")
           //Get content from network
-          val intermediateResult = Helpers.executeNFNQueryRepeatedly(s"(call 2 /node/${e._nodeName}/nfn_service_GetContent '${name}')", e._nodeName, ccnApi, 15)
-          if (intermediateResult != "") {
-            var ni = new NodeInfo(intermediateResult)
+          val intermediateResult = Networking.fetchContent(name,ccnApi,500 milliseconds)
+          if(intermediateResult.isDefined) {
+            var ni = new NodeInfo(new String(intermediateResult.get.data))
             LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
             allNodes += ni
           }
@@ -388,6 +391,10 @@ class QueryPlacement() extends NFNService {
           LogMessage(nodeName, s"oneStepTraverse hop added -> ${path.previousHop.hopName} -> ${path.hopName}")
           cPath += path
         }
+      }
+      LogMessage(nodeName, s"oneStepTraverse finished. The size of cPath is ${cPath.size}")
+      for(p <- cPath){
+        LogMessage(nodeName,s"${p.hopName}")
       }
       cPath
     }
