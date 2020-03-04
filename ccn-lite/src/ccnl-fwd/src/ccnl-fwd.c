@@ -203,7 +203,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
     }
 
-    DEBUGMSG_CFWD(INFO, "  data %.*s\n", (*pkt)->contlen, (*pkt)->content);
+    //DEBUGMSG_CFWD(INFO, "  data %.*s\n", (*pkt)->contlen, (*pkt)->content);
 #else
     if (from) {
         char *from_as_str = ccnl_addr2ascii(&(from->peer));
@@ -269,9 +269,9 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 
 #endif
 
-    DEBUGMSG_CFWD(DEBUG," trying to create new content\n");
+    //DEBUGMSG_CFWD(DEBUG," trying to create new content\n");
     c = ccnl_content_new(pkt);
-    DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
+    //DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
     if (!c)
         return 0;
 
@@ -297,9 +297,9 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     if (!ccnl_nfnprefix_isRequest(c->pkt->pfx)) {
 #endif
         if (relay->max_cache_entries != 0) { // it's set to -1 or a limit
-            DEBUGMSG_CFWD(DEBUG, "  adding content to cache\n");
+            //DEBUGMSG_CFWD(DEBUG, "  adding content to cache\n");
             ccnl_content_add2cache(relay, c);
-            DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
+            //DEBUGMSG_CFWD(INFO, "data after creating packet %.*s\n", c->pkt->contlen, c->pkt->content);
         } else {
             DEBUGMSG_CFWD(DEBUG, "Max Cache entries are %i",relay->max_cache_entries);
             DEBUGMSG_CFWD(DEBUG, "  content not added to cache\n");
