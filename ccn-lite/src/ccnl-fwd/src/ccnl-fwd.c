@@ -316,7 +316,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     if(!(servedQueries||servedInterests)){ // unsolicited content
         // CONFORM: "A node MUST NOT forward unsolicited data [...]"
         DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
-        ccnl_content_free(c);
+        ccnl_content_remove(relay, c);
         return 0;
     }
 #endif
