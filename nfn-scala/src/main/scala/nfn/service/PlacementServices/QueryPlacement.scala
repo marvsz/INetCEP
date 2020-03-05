@@ -102,7 +102,9 @@ class QueryPlacement() extends NFNService {
       //1) Find the number of operators in the query:
       val placement: Placement = Placement(algorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount)
 
-      placement.process()
+      val resultVal = placement.process()
+      LogMessage(nodeName,s"result of Deployment is: $resultVal")
+      resultVal
     }
 
     /**
@@ -202,7 +204,7 @@ class QueryPlacement() extends NFNService {
         var next = traversalNodes.head
         LogMessage(nodeName, s"While -> Next -> ${next.NI_NodeName}")
 
-        LogMessage(nodeName, s"While -> Retrieve HopInfo\n")
+        LogMessage(nodeName, s"While -> Retrieve HopInfo")
         hopInfo.appendAll(oneStepTraverse(nodeName, root, next, hopInfo))
 
         LogMessage(nodeName, s"While -> Retrieve other traversal nodes")
@@ -378,25 +380,21 @@ class QueryPlacement() extends NFNService {
     }
 
     def oneStepTraverse(nodeName: String, myRoot: NodeInfo, cNode: NodeInfo, cPath: ListBuffer[HopObject]): ListBuffer[HopObject] = {
+      var retVal = new ListBuffer[HopObject]()
       for (latency <- cNode.NI_Latency) {
         LogMessage(nodeName, s"oneStepTraverse -> ${latency.Lat_Node} - ${latency.Lat_Latency}")
-
         //find root node in CPath:
-        var pathRoot = cPath.filter(x => x.hopName == cNode.NI_NodeName)
+        val pathRoot = cPath.filter(x => x.hopName == cNode.NI_NodeName)
         if (pathRoot != null) {
           var path = new HopObject()
           path.hopName = latency.Lat_Node
           path.hopLatency += latency.Lat_Latency
           path.previousHop = pathRoot.head; //get the first head
           LogMessage(nodeName, s"oneStepTraverse hop added -> ${path.previousHop.hopName} -> ${path.hopName}")
-          cPath += path
+          retVal += path
         }
       }
-      LogMessage(nodeName, s"oneStepTraverse finished. The size of cPath is ${cPath.size}")
-      for(p <- cPath){
-        LogMessage(nodeName,s"${p.hopName}")
-      }
-      cPath
+      retVal
     }
 
     NFNStringValue(
