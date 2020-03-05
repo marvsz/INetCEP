@@ -564,8 +564,9 @@ ccnl_nfn_interest_remove(struct ccnl_relay_s *relay, struct ccnl_interest_s *i)
     }
 
     face = i->from;
-    if (face)
-        faceid = face->faceid;
+    (void) face;
+    //if (face)
+    //    faceid = face->faceid;
     DEBUGMSG(DEBUG, "ccnl_nfn_interest_remove %d\n", faceid);
 
     if (faceid < 0){
