@@ -122,7 +122,7 @@ trait Placement {
           case Operator.FILTER => {
             Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
           }
-          case _ => Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+          case _ => "to Execute was a window, will be executed by the upper operator."//Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
         }
 
         currentNode._value = result

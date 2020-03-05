@@ -146,7 +146,7 @@ class Window() extends NFNService {
       var stateContent = ""
       val setting = sensor.str.split("/")(2).concat("/").concat(timerPeriod.str).concat(timeUnit.str)
       val nameOfState = s"/state${interestName.toString}"
-      val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
+      val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.substring(1).toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
         stateContent = new String(stateOptional.get.data)

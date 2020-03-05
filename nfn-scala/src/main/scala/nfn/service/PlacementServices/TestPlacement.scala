@@ -60,7 +60,7 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
           case Operator.FILTER => {
             Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
           }
-          case _ => Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
+          case _ => "WindowToDeploy"//Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
         }
         currentNode._value = result
 
