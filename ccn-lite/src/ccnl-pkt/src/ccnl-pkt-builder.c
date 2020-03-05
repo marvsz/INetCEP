@@ -203,10 +203,10 @@ ccnl_mkSimpleInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts, in
 void ccnl_mkInterest(struct ccnl_prefix_s *name, ccnl_interest_opts_u *opts,
                      unsigned char *tmp, int *len, int *offs, int type) {
     ccnl_interest_opts_u default_opts;
-    default_opts.ndntlv.interestlifetime = 2;
 
     switch (name->suite) {
 #ifdef USE_SUITE_CCNB
+
         case CCNL_SUITE_CCNB:
             (*len) = ccnl_ccnb_fillInterest(name, NULL, tmp, CCNL_MAX_PACKET_SIZE);
             (*offs) = 0;

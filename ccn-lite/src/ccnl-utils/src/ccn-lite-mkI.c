@@ -196,6 +196,7 @@ Usage:
     prefix->suite = packettype;
 #ifdef USE_SUITE_NDNTLV
     int_opts.ndntlv.nonce = nonce;
+    int_opts.ndntlv.interestlifetime = 2000; // 2000 milliseconds = 2 seconds
 #endif
     switch(typeToInt(type)){
         case 1:
