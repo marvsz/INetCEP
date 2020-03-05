@@ -832,6 +832,9 @@ ccnl_do_ageing(void *ptr, void *dummy)
                 // than being held indefinitely, except for Interests that were added with the addQueryInterest package"
         if (!i->isPersistent && ((i->last_used + i->lifetime) <= (uint32_t) t ||
                                 i->retries >= CCNL_MAX_INTEREST_RETRANSMIT)) {
+            DEBUGMSG(TRACE, "Interest Lifetime was %i\n",i->lifetime);
+            DEBUGMSG(TRACE, "Time at the Moment is %i\n", (uint32_t) t);
+            DEBUGMSG(TRACE, "Last Used was %lu\n",i->last_used);
 #ifdef USE_NFN_REQUESTS
                 if (!ccnl_nfnprefix_isNFN(i->pkt->pfx)) {
                     DEBUGMSG_AGEING("AGING: REMOVE CCN INTEREST", "timeout: remove interest", s, CCNL_MAX_PREFIX_SIZE);
