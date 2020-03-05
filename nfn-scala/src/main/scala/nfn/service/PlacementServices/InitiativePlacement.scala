@@ -63,11 +63,11 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
 
     //Output is what we send back as the final result:
     output = deployedRoot._value
-    output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
-    if (output != null && !output.isEmpty)
-      output = output.stripSuffix("\n").stripMargin('#')
-    else
-      output += "No Results!"
+    //output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
+    //if (output != null && !output.isEmpty)
+      //output = output.stripSuffix("\n").stripMargin('#')
+    //else
+      //output += "No Results!"
     evalHandler.setEndTimeNow()
     LogMessage(nodeName, s"Query Execution Completed")
     LogMessage(nodeName, s"Query Output = $output")
@@ -94,7 +94,7 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
       s"${evalHandler.selectedPath},$energyWeightString,$overheadWeightString"
 
     IOHelpers.writeOutputFiles(output_for_Run, output_for_AdaptiveWeights, outputForPrecision, output)
-    LogMessage(nodeName, s"Output Files written, Query store should be processed again now.")
+    LogMessage(nodeName, s"Output Files written.")
     output
   }
 }
