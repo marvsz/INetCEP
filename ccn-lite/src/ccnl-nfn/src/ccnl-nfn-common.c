@@ -695,6 +695,7 @@ ccnl_nfn_mkKeepaliveInterest(struct ccnl_relay_s *ccnl,
     if (i) {
         interest->keepalive = i;
         i->keepalive_origin = interest;
+        i->lifetime = 2;
     }
     return i;
 }
