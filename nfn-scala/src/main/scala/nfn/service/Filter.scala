@@ -82,7 +82,7 @@ class Filter() extends NFNService {
       else {
         LogMessage(nodeName, s"Inside Filter -> FILTER name: NONE, FILTER content: ${output}")
       }
-      LogMessage(nodeName, s"Filter OP Completed\n")
+      LogMessage(nodeName, s"Filter OP Completed")
       output
     }
 
@@ -90,8 +90,8 @@ class Filter() extends NFNService {
       args match {
         //Output format: Either name (/node/Filter/Sensor/Time) or data (data value directly)
         //[data/sensor][string of data][filter][outputFormat]
-        case Seq(timestamp: NFNStringValue, interestNodeName: NFNStringValue, queryInterest: NFNStringValue,filter:NFNStringValue, outputFormat: NFNStringValue) => placeFilterInterests(interestNodeName.str, queryInterest.str, interestName)
-        case Seq(interestNodeName: NFNStringValue, queryInterest: NFNStringValue,filter:NFNStringValue ,dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
+        case Seq(timestamp: NFNStringValue, inputFormat: NFNStringValue, queryInterest: NFNStringValue, filter:NFNStringValue, outputFormat: NFNStringValue) => placeFilterInterests(inputFormat.str, queryInterest.str, interestName)
+        case Seq(timestamp: NFNStringValue, inputFormat: NFNStringValue, queryInterest: NFNStringValue, filter:NFNStringValue, outputFormat:NFNStringValue, dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
         //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterInitialStream(source.str, stream.str, filter, outputFormat, interestName)
         case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, outputFormat, dataStream)
         //[content][contentobject][filter][outputFormat]
