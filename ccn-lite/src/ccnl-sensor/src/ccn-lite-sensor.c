@@ -172,7 +172,7 @@ struct ccnl_sensor_tuple_s*
     char gender;
     time(&t);
     tmp = localtime(&t);
-    strftime(MY_TIME, sizeof(MY_TIME),"%H:%M:%S:000", tmp);
+    strftime(MY_TIME, sizeof(MY_TIME),"%H:%M:%S.000", tmp);
     srand(time(NULL));
     if((rand() & 1))
         gender = 'M';
@@ -182,7 +182,7 @@ struct ccnl_sensor_tuple_s*
 
     int SizeOfTuple = strlen(MY_TIME) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
     char newTuple[SizeOfTuple];
-    snprintf(newTuple, sizeof(newTuple), "%s;%i;%c,%i", MY_TIME,sequenceNumber,gender,age);
+    snprintf(newTuple, sizeof(newTuple), "%s/%i/%c/%i", MY_TIME,sequenceNumber,gender,age);
     return ccnl_sensor_tuple_new(newTuple,SizeOfTuple);
 }
 
@@ -197,7 +197,7 @@ ccnl_sensor_generate_random_survivors_tuple(struct ccnl_sensor_s* sensor){
     char gender;
     time(&t);
     tmp = localtime(&t);
-    strftime(date, sizeof(date), "%H:%M:%S:000", tmp);
+    strftime(date, sizeof(date), "%H:%M:%S.000", tmp);
     srand(time(NULL));
     if((rand() & 1))
         gender = 'M';
@@ -207,7 +207,7 @@ ccnl_sensor_generate_random_survivors_tuple(struct ccnl_sensor_s* sensor){
 
     int sizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
     char newTuple[sizeOfTuple];
-    snprintf(newTuple, sizeof(newTuple), "%s;%i;%c,%i", date, sequenceNumber, gender, age);
+    snprintf(newTuple, sizeof(newTuple), "%s/%i/%c/%i", date, sequenceNumber, gender, age);
     return ccnl_sensor_tuple_new(newTuple, sizeOfTuple);
 
 }
@@ -431,10 +431,10 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
              //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
     if(!sensor->settings->use_udp)
-        snprintf(uri, sizeof(uri), "/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
+        snprintf(uri, sizeof(uri), "node/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
                  sensor->settings->id);
     else
-        snprintf(uri, sizeof(uri), "/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
+        snprintf(uri, sizeof(uri), "node/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
                  sensor->settings->id);
     snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
     mkCStatus = system(exec);
