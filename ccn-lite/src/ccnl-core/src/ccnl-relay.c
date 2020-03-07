@@ -893,6 +893,8 @@ ccnl_do_ageing(void *ptr, void *dummy)
         } else {
             // CONFORM: "A node MUST retransmit Interest Messages
             // periodically for pending PIT entries."
+            // But not if they are a persistent interet because we react to them.
+            if(!i->isPersistent){
 #ifndef CCNL_LINUXKERNEL
             DEBUGMSG_CORE(DEBUG, " retransmit %d <%s>\n", i->retries,
                           ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
@@ -914,6 +916,10 @@ ccnl_do_ageing(void *ptr, void *dummy)
 #endif
 
             i->retries++;
+
+            } else{
+                DEBUGMSG(TRACE,"Did not retransmit persistent Interest.\n");
+            }
             i = i->next;
         }
     }
