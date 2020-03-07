@@ -35,6 +35,7 @@
 #else
 #include "ccnl-nfn-common.h"
 #include <stdio.h>
+#include <ccnl-pkt.h>
 #include "ccnl-pkt-builder.h"
 #include "ccnl-pkt-ccntlv.h"
 #include "ccnl-pkt-switch.h"
@@ -78,9 +79,9 @@ ccnl_nfn_krivine_const2str(struct const_s * con){ //may be unsafe
 // ----------------------------------------------------------------------
 
 struct ccnl_interest_s *
-ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
+ccnl_nfn_query2interestWithOrigin(struct ccnl_relay_s *ccnl,
                         struct ccnl_prefix_s **prefix,
-                        struct configuration_s *config)
+                        struct configuration_s *config, struct ccnl_interest_s *originInterest)
 {
 #ifdef CCNL_LINUXKERNEL
     int nonce = random();
@@ -119,10 +120,77 @@ ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
 #ifdef USE_SUITE_NDNTLV
     case CCNL_SUITE_NDNTLV:
         pkt->s.ndntlv.maxsuffix = CCNL_MAX_NAME_COMP;
+        pkt->s.ndntlv.interestlifetime = originInterest->pkt->s.ndntlv.interestlifetime;
+        pkt->s.ndntlv.isPersistent = originInterest->pkt->s.ndntlv.isPersistent;
         break;
 #endif
     default:
         break;
+    }
+    if(ccnl_pkt_interest_isPersistent(originInterest->pkt)){
+        DEBUGMSG(DEBUG,"origin Interest was persistent.");
+        pkt->buf = ccnl_mkSimpleInterest(*prefix, &int_opts, NDN_TLV_PersistentInterest);
+    }
+    else
+        pkt->buf = ccnl_mkSimpleInterest(*prefix, &int_opts, NDN_TLV_Interest);
+    pkt->pfx = *prefix;
+    *prefix = NULL;
+    pkt->val.final_block_id = -1;
+
+    i = ccnl_interest_new(ccnl, from, &pkt);
+    if (i) {
+        DEBUGMSG(TRACE, "  new interest %p, from=%p, i->from=%p\n",
+                 (void*)i, (void*)from, (void*)i->from);
+    }
+    return i;
+}
+
+struct ccnl_interest_s *
+ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
+                        struct ccnl_prefix_s **prefix,
+                        struct configuration_s *config)
+{
+#ifdef CCNL_LINUXKERNEL
+    int nonce = random();
+#else
+    int nonce = rand();
+#endif
+
+    ccnl_interest_opts_u int_opts;
+#ifdef USE_SUITE_NDNTLV
+    int_opts.ndntlv.nonce = nonce;
+#endif
+    struct ccnl_pkt_s *pkt;
+    struct ccnl_face_s *from;
+    struct ccnl_interest_s *i;
+
+    DEBUGMSG(TRACE, "nfn_query2interest(configID=%d)\n", config->configid);
+
+    from = ccnl_malloc(sizeof(struct ccnl_face_s));
+    pkt = ccnl_calloc(1, sizeof(*pkt));
+    if (!from || !pkt) {
+        ccnl_free(from);
+        ccnl_pkt_free(pkt);
+        return NULL;
+    }
+    from->faceid = config->configid;
+    from->last_used = CCNL_NOW();
+    from->outq = NULL;
+
+    pkt->suite = (*prefix)->suite;
+    switch(pkt->suite) {
+#ifdef USE_SUITE_CCNB
+        case CCNL_SUITE_CCNB:
+            pkt->s.ccnb.maxsuffix = CCNL_MAX_NAME_COMP;
+            break;
+#endif
+#ifdef USE_SUITE_NDNTLV
+        case CCNL_SUITE_NDNTLV:
+            pkt->s.ndntlv.maxsuffix = CCNL_MAX_NAME_COMP;
+            break;
+#endif
+        default:
+            break;
     }
     pkt->buf = ccnl_mkSimpleInterest(*prefix, &int_opts, NDN_TLV_Interest);
     pkt->pfx = *prefix;
@@ -565,8 +633,8 @@ ccnl_nfn_interest_remove(struct ccnl_relay_s *relay, struct ccnl_interest_s *i)
 
     face = i->from;
     (void) face;
-    //if (face)
-    //    faceid = face->faceid;
+    if (face)
+        faceid = face->faceid;
     DEBUGMSG(DEBUG, "ccnl_nfn_interest_remove %d\n", faceid);
 
     if (faceid < 0){
@@ -578,7 +646,10 @@ ccnl_nfn_interest_remove(struct ccnl_relay_s *relay, struct ccnl_interest_s *i)
         ccnl_nack_reply(relay, i->pkt->pfx, face, i->pkt->suite);
 #endif
     i->from = NULL;
-    i = ccnl_interest_remove(relay, i);
+    if(!i->isPersistent)
+        i = ccnl_interest_remove(relay, i);
+    else
+        i = i->next;
 
     if (faceid < 0)
         ccnl_nfn_continue_computation(relay, -faceid, 1);

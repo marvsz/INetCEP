@@ -75,6 +75,11 @@ void
 ccnl_nfn_freeStack(struct stack_s* s);
 
 struct ccnl_interest_s *
+ccnl_nfn_query2interestWithOrigin(struct ccnl_relay_s *ccnl,
+                        struct ccnl_prefix_s **prefix,
+                        struct configuration_s *config, struct ccnl_interest_s *originInterest);
+
+struct ccnl_interest_s *
 ccnl_nfn_query2interest(struct ccnl_relay_s *ccnl,
                         struct ccnl_prefix_s **prefix,
                         struct configuration_s *config);
