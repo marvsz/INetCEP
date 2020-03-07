@@ -74,7 +74,7 @@ object Networking extends LazyLogging{
       ccnApi ! makePersistentInterest(interestName,interestedComputationName,ccnApi)
     }
     else{
-      val interestComputationName = NFNInterest(interestName).name.prepend("COMPUTE")
+      val interestComputationName = NFNInterest(interestName).name//.prepend("COMPUTE")
         //CCNName(new String(interestName).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
       ccnApi ! NFNApi.CCNSendPersistentInterest(PersistentInterest(interestComputationName), interestedComputationName, useThunks = false)
     }
