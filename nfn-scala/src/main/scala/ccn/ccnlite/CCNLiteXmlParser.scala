@@ -135,6 +135,7 @@ object CCNLiteXmlParser extends LazyLogging {
             val nameComponents = parseComponentsCCNB(interest)
             Interest(nameComponents :_*)
           }
+
           // CCNB content
           case content @ <contentobj>{_*}</contentobj> => {
             val nameComponents = parseComponentsCCNB(content)
@@ -160,6 +161,32 @@ object CCNLiteXmlParser extends LazyLogging {
                 ndntlvParseName(interest)
               }
             Interest(name)
+          }
+          case persistentInterest @ <PersistentInterest>{_*}</PersistentInterest> => {
+            val nameNodes: NodeSeq = persistentInterest \ "Name"
+
+            val nameSegments  = nameNodes \ "NameSegment"
+            val name =
+              if(nameSegments.nonEmpty) {
+                ccntlvParseName(persistentInterest)
+              }
+              else {
+                ndntlvParseName(persistentInterest)
+              }
+            PersistentInterest(name)
+          }
+          case removePersistentInterest @ <RemovePersistentInterest>{_*}</RemovePersistentInterest> => {
+            val nameNodes: NodeSeq = removePersistentInterest \ "Name"
+
+            val nameSegments  = nameNodes \ "NameSegment"
+            val name =
+              if(nameSegments.nonEmpty) {
+                ccntlvParseName(removePersistentInterest)
+              }
+              else {
+                ndntlvParseName(removePersistentInterest)
+              }
+            RemovePersistentInterest(name)
           }
             /* CCNTLV Content Object (chunked)
             <Object>
