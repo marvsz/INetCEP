@@ -20,6 +20,7 @@ import nfn.service.PlacementServices.QueryPlacement
 import nfn.service.{Filter, GetContent, Heatmap, Join, NFNServiceLibrary, NFNStringValue, Prediction1, Prediction2, Sequence, UpdateNodeState, Window}
 import node.LocalNode
 
+import scala.collection.mutable
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -160,7 +161,7 @@ class UDPConnectionWireFormatEncoder(local: InetSocketAddress,
           case Failure(e) => logger.error(e,s"could not create binary constant interest for $rci")
         }
       case c: Content =>
-        ccnLite.mkBinaryContent(c) onComplete {
+        ccnLite.mkBinaryDatastreamContent(c) onComplete {
           case Success(binaryContents) => {
             logger.debug(s"Sending ${binaryContents} binary content objects for $c to network")
             binaryContents foreach { binaryContent =>
@@ -456,7 +457,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       logger.error(s"content ${contentChunk.name} not found in PIT")
       return
     }
-    val face: Set[ActorRef] = maybeFace match {
+    val face: mutable.Set[ActorRef] = maybeFace match {
       case Some(f) => f
       case None => null
     }
@@ -482,7 +483,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     pit.get(contentChunk.name) match {
       //      case Some(name) => {pit.add}
       case _ => face foreach {
-        pit.add(contentChunk.name, _, 10 seconds)
+        pit.add(contentChunk.name,false, _, 10 seconds)
       }
     }
   }
@@ -521,11 +522,14 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
           //          logger.debug(s"Timeout duration: ${timeout.duration}")
           val timeout = Timeout(timeoutFromContent)
           pendingFaces foreach { pf =>
-            pit.add(contentNameWithoutThunk, pf, timeout.duration)
+            pit.add(contentNameWithoutThunk, false, pf, timeout.duration)
           }
 
           nfnGateway ! interest
-          pit.remove(content.name)
+          pendingFaces foreach {
+            pf => pit.remove(content.name,pf)
+          }
+
         }
         case None =>
           logger.error(s"Discarding thunk content $content because there is no entry in pit")
@@ -572,18 +576,35 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
             (self ? NFNApi.CCNSendReceive(Interest(CCNName(unescapedNameCmps, None)), useThunks = false)).mapTo[CCNPacket] map {
               case c: Content => {
                 logger.debug(s"fetch content from each pending face")
-                pendingFaces foreach { pendingFace => pendingFace ! c }
-                pit.remove(content.name)
+                pendingFaces foreach { pendingFace => {
+                  pendingFace ! c
+                  pit.remove(content.name,pendingFace)
+                }}
+
                 logger.debug(s"finished fetching content")
               }
               case nonContent@_ =>
                 logger.warning(s"Received $nonContent when fetching a redirected content, dropping it")
             }
           } else {
-            pendingFaces foreach { pendingFace => pendingFace ! content }
-            pit.remove(content.name)
-          }
+            pendingFaces foreach { pendingFace => {
+              pendingFace ! content
+              pit.remove(content.name,pendingFace)
+            } }
 
+          }
+          logger.debug(s"Checking if a pending query interest is present")
+          pqt.get(content.name) match {
+            case Some(queryIntersts) => {
+              logger.debug(s"Found at least one pending query interest")
+              queryIntersts foreach {
+                qi => computeServer ! ComputeServer.ComputeDataStream(qi,Seq(NFNStringValue(new String(content.data))))
+              }
+            }
+            case None =>{
+              logger.info(s"No matching entry in pqt but in pit. Content of the PQT is "+ pqt.toString())
+            }
+          }
         }
         case None =>
           logger.debug(s"Checking if a pending query interest is present")
@@ -634,7 +655,7 @@ success
         pit.get(i.name) match {
           case Some(pendingFaces) => {
             if (!i.name.isRequest) {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              pit.add(i.name, false, senderFace, defaultTimeoutDuration)
               //                nfnGateway ! i
             }
           }
@@ -644,13 +665,13 @@ success
             }
             else{
             if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              pit.add(i.name, false, senderFace, defaultTimeoutDuration)
             }
 
             // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
             i.name.chunkNum foreach { _ => {
               logger.info("Try to add content for a specific chunk to the senderFace")
-              pit.add(CCNName(i.name.cmps, None), senderFace, defaultTimeoutDuration)
+              pit.add(CCNName(i.name.cmps, None), false, senderFace, defaultTimeoutDuration)
 
             }
 
@@ -739,7 +760,7 @@ success
         case None => logger.debug(s"Did not find in PIT.")
       }
     } else {*/
-    logger.debug(s"Handle interest.")
+    logger.debug(s"Handle persistent interest.")
     cs.get(i.name) match {
       /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
 
@@ -757,19 +778,21 @@ success
         pit.get(i.name) match {
           case Some(pendingFaces) => {
             if (!i.name.isRequest) {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              pit.add(i.name, true, senderFace, defaultTimeoutDuration)
               //                nfnGateway ! i
             }
           }
           case None => {
             if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              logger.info(s"Adding ${i.name.toString} to the PIT.")
+              pit.add(i.name, true, senderFace, defaultTimeoutDuration)
+
             }
 
             // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
             i.name.chunkNum foreach { _ => {
               logger.info("Try to add content for a specific chunk to the senderFace")
-              pit.add(CCNName(i.name.cmps, None), senderFace, defaultTimeoutDuration)
+              pit.add(CCNName(i.name.cmps, None), true, senderFace, defaultTimeoutDuration)
 
             }
 
@@ -872,19 +895,19 @@ success
         pit.get(i.name) match {
           case Some(pendingFaces) => {
             if (!i.name.isRequest) {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              pit.add(i.name, false, senderFace, defaultTimeoutDuration)
               //                nfnGateway ! i
             }
           }
           case None => {
             if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
-              pit.add(i.name, senderFace, defaultTimeoutDuration)
+              pit.add(i.name, false,senderFace, defaultTimeoutDuration)
             }
 
             // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
             i.name.chunkNum foreach { _ => {
               logger.info("Try to add content for a specific chunk to the senderFace")
-              pit.add(CCNName(i.name.cmps, None), senderFace, defaultTimeoutDuration)
+              pit.add(CCNName(i.name.cmps, None),false, senderFace, defaultTimeoutDuration)
 
             }
 
@@ -965,7 +988,9 @@ success
           pendingFaces foreach {
             _ ! nack
           }
-          pit.remove(nack.name)
+          pendingFaces foreach {
+            pit.remove(nack.name,_)
+          }
         }
         case None => logger.warning(s"Received nack for name which is not in PIT: $nack")
       }
