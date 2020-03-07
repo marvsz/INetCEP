@@ -220,10 +220,6 @@ object RemovePersistentInterest {
   def apply(cmps: String *): Interest = Interest(CCNName(cmps :_*))
 }
 
-object PersistentNFNInterest{
-  def apply(cmps: String *): Interest = Interest(CCNName(cmps ++ Seq("NFN") :_*))
-}
-
 case class Interest(name: CCNName) extends CCNPacket {
 
   def this(cmps: String *) = this(CCNName(cmps:_*))
@@ -235,12 +231,6 @@ case class PersistentInterest(name: CCNName) extends CCNPacket {
   def this(cmps: String *) = this(CCNName(cmps:_*))
 
   def thunkify: PersistentInterest = PersistentInterest(name.thunkify)
-}
-
-case class PersistentNFNInterest(name: CCNName) extends CCNPacket {
-  def this(cmps: String *) = this(CCNName(cmps:_*))
-
-  def thunkify: PersistentNFNInterest = PersistentNFNInterest(name.thunkify)
 }
 
 case class RemovePersistentInterest(name: CCNName) extends CCNPacket {
