@@ -339,6 +339,7 @@ ZAM_fox(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     struct ccnl_content_s *c = NULL;
     struct ccnl_prefix_s *pref;
     struct ccnl_interest_s *interest;
+    struct ccnl_interest_s *originInterest;
 
     DEBUGMSG(DEBUG, "---to do: FOX <%s>\n", arg);
     ccnl_free(arg);
@@ -418,8 +419,16 @@ recontinue: //loop by reentering after timeout of the interest...
         //no more parameter --> no result found, can try a local computation
         goto local_compute;
     // create new prefix with name components!!!!
+    //struct ccnl_prefix_s* interestPrefix = config->fox_state->params[parameter_number]->content;
+    for (originInterest = ccnl->pit; originInterest;) {
+        if(ccnl_prefix_cmp(originInterest->pkt->pfx,NULL,config->fox_state->params[parameter_number]->content,CMP_EXACT)){
+            DEBUGMSG(DEBUG,"Found a matching origin interest\n");
+            break;
+        }
+        originInterest = originInterest->next;
+    }
     pref = create_namecomps(ccnl, config, parameter_number,
-                        config->fox_state->params[parameter_number]->content);
+                            config->fox_state->params[parameter_number]->content);
     c = ccnl_nfn_local_content_search(ccnl, config, pref);
     if (c) {
         ccnl_prefix_free(pref);
@@ -428,7 +437,7 @@ recontinue: //loop by reentering after timeout of the interest...
 
     // Result not in cache, search over the network
 //    pref2 = ccnl_prefix_dup(pref);
-    interest = ccnl_nfn_query2interest(ccnl, &pref, config);
+    interest = ccnl_nfn_query2interestWithOrigin(ccnl, &pref, config, originInterest);
     if (pref)
         ccnl_prefix_free(pref);
     if (interest) {
@@ -487,17 +496,26 @@ handlecontent: //if result was found ---> handle it
                 create_prefix_for_content_on_result_stack(ccnl, config);
             push_to_stack(&config->result_stack, name, STACK_TYPE_PREFIX);
             mapping = ccnl_malloc(sizeof(struct prefix_mapping_s));
+
             mapping->key = ccnl_prefix_dup(name); //TODO COPY
             mapping->value = ccnl_prefix_dup(c->pkt->pfx);
             DBL_LINKED_LIST_ADD(config->fox_state->prefix_mapping, mapping);
+            struct prefix_mapping_s* relayMapping;
+            relayMapping = ccnl_malloc(sizeof(struct prefix_mapping_s));
+            relayMapping->key = ccnl_prefix_dup(config->prefix);
+            relayMapping->value = ccnl_prefix_dup(c->pkt->pfx);
+            DBL_LINKED_LIST_ADD(ccnl->mapping,relayMapping);
             {
                 char *s = NULL;
                 char *t = NULL;
+                char *u = NULL;
 
             DEBUGMSG(DEBUG, "Created a mapping %s - %s\n",
                      (s = ccnl_prefix_to_path(mapping->key)),
                      (t = ccnl_prefix_to_path(mapping->value)));
+            DEBUGMSG(DEBUG, "Computation prefix is %s\n",(u = ccnl_prefix_to_path(config->prefix)));
 #ifndef CCNL_LINUXKERNEL
+                ccnl_free(u);
                 ccnl_free(s);
                 ccnl_free(t);
 #endif

@@ -69,6 +69,7 @@ struct ccnl_relay_s {
 
 #ifdef USE_NFN
     struct ccnl_krivine_s *km;  /**< Krivine Abstract Machine for NFN*/
+    struct prefix_mapping_s *mapping; /**< A state mapping for this prefix mapping thing **/
 #endif
 
    // struct ccnl_buf_s *bufCleanUpList;

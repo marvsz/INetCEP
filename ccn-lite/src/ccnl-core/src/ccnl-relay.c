@@ -336,7 +336,8 @@ ccnl_interest_remove(struct ccnl_relay_s *ccnl, struct ccnl_interest_s *i)
     if (!i)
         return NULL;
 */
-    DEBUGMSG_CORE(TRACE, "ccnl_interest_remove %p\n", (void *) i);
+    char s[CCNL_MAX_PREFIX_SIZE];
+    DEBUGMSG_CORE(TRACE, "ccnl_interest_remove %p with prefix %s\n", (void *) i,ccnl_prefix_to_str(i->pkt->pfx,s,CCNL_MAX_PREFIX_SIZE));
 
 /*
 #ifdef USE_NFN
@@ -773,7 +774,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
     }
-
+DEBUGMSG(DEBUG,"Serve Pending done\n");
 #ifdef USE_NFN_REQUESTS
     if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
         return 1;   //

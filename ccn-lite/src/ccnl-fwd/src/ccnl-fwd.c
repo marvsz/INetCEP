@@ -237,7 +237,15 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #endif
     // CONFORM: Step 1:
     for (c = relay->contents; c; c = c->next) {
-        if(!((*pkt)->type == NDN_TLV_Datastream)){
+        if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
+            DEBUGMSG_CFWD(TRACE, "  content is duplicate, removing old one and storing new one\n");
+            c = ccnl_content_remove(relay, c);
+            DEBUGMSG_CFWD(TRACE,"  old content removed\n");
+            if(!c)
+                break;
+        }
+    }
+        /*if(!((*pkt)->type == NDN_TLV_Datastream)){
             if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
                 DEBUGMSG_CFWD(TRACE, "  content is duplicate, ignoring\n");
                 return 0; // content is dup, do nothing
@@ -252,7 +260,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
                     break;
             }
         }
-    }
+    }*/
 
 
 
@@ -287,7 +295,31 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 // #endif // USE_NFN_REQUESTS
             if (ccnl_nfn_RX_result(relay, from, c))
                 return 0;   // FIXME: memory leak
-            DEBUGMSG_CFWD(VERBOSE, "no running computation found \n");
+            DEBUGMSG_CFWD(VERBOSE, "no running computation found, searching the mapping.\n");
+            struct prefix_mapping_s *returnMapping;
+            for (returnMapping = relay->mapping; returnMapping;){
+                if(!ccnl_prefix_cmp(c->pkt->pfx,NULL,returnMapping->value,CMP_EXACT)){
+                    char *ss = NULL;
+                    char *tt = NULL;
+                    DEBUGMSG(DEBUG, "Found a mapping %s - %s\n",
+                             (ss = ccnl_prefix_to_path(returnMapping->key)),
+                             (tt = ccnl_prefix_to_path(returnMapping->value)));
+#ifndef CCNL_LINUXKERNEL
+                        ccnl_free(ss);
+                        ccnl_free(tt);
+#endif
+                    struct ccnl_prefix_s *returnPrefix = ccnl_prefix_dup(returnMapping->key);
+                    struct ccnl_content_s* newContentToServe = ccnl_nfn_result2content(relay,&returnPrefix,c->pkt->content,c->pkt->contlen);
+                    newContentToServe->flags = CCNL_CONTENT_FLAGS_STATIC;
+                    set_propagate_of_interests_to_1(relay, newContentToServe->pkt->pfx);
+                    ccnl_content_serve_pending(relay,newContentToServe);
+                    ccnl_content_add2cache(relay, newContentToServe);
+                    return 0;
+                } else
+                    returnMapping = returnMapping->next;
+            }
+            DEBUGMSG_CFWD(VERBOSE, "There even was no mapping for this content\n");
+            // HEre I have to do this packet crafting with the new packet!
 //#ifdef USE_NFN_REQUESTS
 //        }
 //#endif // USE_NFN_REQUESTS
