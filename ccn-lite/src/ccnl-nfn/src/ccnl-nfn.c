@@ -393,7 +393,10 @@ ccnl_nfn_RX_result(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 #ifdef USE_NFN_REQUESTS
              }
 #endif
-            i_it = ccnl_interest_remove(relay, i_it);
+            if(!i_it->isPersistent)
+                i_it = ccnl_interest_remove(relay, i_it);
+            else
+                i_it = i_it->next;
             //ccnl_face_remove(relay, from);
             ++found;
             //goto Done;
