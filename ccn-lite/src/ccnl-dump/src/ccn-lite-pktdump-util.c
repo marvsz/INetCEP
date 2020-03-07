@@ -745,6 +745,12 @@ ndn_type2name(unsigned type) {
         case NDN_TLV_Interest:
             n = "Interest";
             break;
+        case NDN_TLV_PersistentInterest:
+            n = "PersistentInterest";
+            break;
+        case NDN_TLV_RemovePersistentInterest:
+            n = "RemovePersistentInterest";
+            break;
         case NDN_TLV_Data:
             n = "Data";
             break;
@@ -1144,6 +1150,8 @@ emit_content_only(unsigned char *start, int len, int suite, int format) {
 static void
 ndn_init() {
     ndntlv_recurse[NDN_TLV_Interest] = 1;
+    ndntlv_recurse[NDN_TLV_PersistentInterest] = 1;
+    ndntlv_recurse[NDN_TLV_RemovePersistentInterest] = 1;
     ndntlv_recurse[NDN_TLV_Data] = 1;
     ndntlv_recurse[NDN_TLV_Datastream] = 1;
     ndntlv_recurse[NDN_TLV_Fragment] = 1;
