@@ -121,3 +121,11 @@ distribution/Debian/ccn-lite.deb
 distribution/RedHat/rpmbuild
 
 # eof
+ShellTests/28/DeployedOperators.txt
+ShellTests/28/Tests.sh
+ShellTests/binaryNodeStatusContent
+ShellTests/build.sbt
+ShellTests/DeployedOperators.txt
+ShellTests/nodeStatusContent
+ShellTests/project/build.properties
+ShellTests/src/main/scala/FileReader.scala
