@@ -33,8 +33,8 @@ if [[ -z $simRunTime ]]
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
 #new Usage: bash publishRemotely.sh all "Placement" 7 20 1200
 all() {
-	echo "deploying CCN"
-	deployCCN
+	#echo "deploying CCN"
+	#deployCCN
 	#echo "building NFN"
 	#buildNFN
 	#sleep 2s
@@ -51,9 +51,9 @@ all() {
 	sleep 2s
 	echo "Starting UpdateNodestate Service"
 	execute
-	#sleep 10s
-	#echo "executing Query"
-	#executeQueryinVMA & sleep $simRunTime; shutdown
+	sleep 10s
+	echo "executing Query"
+	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
 installDependencies() {
@@ -327,10 +327,11 @@ for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
 		# Shutdown script stops the relay and destroys the face
-		ssh -t $user@$i 'screen -d -m bash ~/INetCEP/VM-Shutdown-Scripts/shutdown.sh'
-		# Still the java and bash processes needs to be stopped
-		bash $work_dir/publish_scripts/pkill.sh		
+		ssh -t $user@$i 'bash ~/INetCEP/VM-Shutdown-Scripts/shutdown.sh'
 	done
+# Still the java and bash processes needs to be stopped
+sleep 10s
+bash $work_dir/publish_scripts/pkill.sh	
 }
 
 getLogs(){
