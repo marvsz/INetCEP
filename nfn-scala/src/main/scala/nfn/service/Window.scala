@@ -153,7 +153,7 @@ class Window() extends NFNService {
       }
       else
         LogMessage(nodeName,"State Content was empty")
-      val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str)
+      val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
       LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
       Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
       NFNStringValue(returnValue)
@@ -221,12 +221,12 @@ class Window() extends NFNService {
   }
 
 
-  def slideTimedWindow(windowContent: String, newTuple: String, timerPeriod: Long, timeUnit: String ):String ={
+  def slideTimedWindow(windowContent: String, newTuple: String, timerPeriod: Long, timeUnit: String, nodeName: String ):String ={
     val delimiter = SensorHelpers.getDelimiterFromLine(newTuple)
-    LogMessage("nodeA",s"delimiter is: $delimiter")
+    LogMessage(nodeName,s"delimiter is: $delimiter")
     val datePosition = SensorHelpers.getDatePosition(delimiter)
-    LogMessage("nodeA",s"date position is: $datePosition")
-    LogMessage("nodeA",s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
+    LogMessage(nodeName,s"date position is: $datePosition")
+    LogMessage(nodeName,s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
     val relativeTime: LocalTime = SensorHelpers.parseTime(newTuple.split(delimiter)(datePosition), delimiter)
     (windowContent.split("\n").filter(purgeOldData(_,relativeTime,timerPeriod,timeUnit)):+newTuple).mkString("\n")
 
