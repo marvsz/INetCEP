@@ -1,0 +1,1919 @@
+[2020-03-07 21:17:50.902][SACEPICN]: Query Execution Started
+[2020-03-07 21:17:50.905][SACEPICN]: Operator Tree creation Started
+[2020-03-07 21:17:50.905][SACEPICN]: Query is FILTER(data,WINDOW(name,node/nodeA/sensor/victims/1,4,S),Gender=M&Age>30,data)
+[2020-03-07 21:17:50.915][SACEPICN]: Stacksize is 2
+[2020-03-07 21:17:50.915][SACEPICN]: Operator Tree creation Completed
+[2020-03-07 21:17:50.916][SACEPICN]: Get Node Status Started - Algorithm => centralized
+[2020-03-07 21:17:50.920][SACEPICN]: sending the interest node/nodeA/state/nodeState
+[2020-03-07 21:17:50.952][SACEPICN]: Node Added: 9001
+[2020-03-07 21:17:50.953][SACEPICN]: sending the interest node/nodeB/state/nodeState
+[2020-03-07 21:17:50.976][SACEPICN]: Node Added: 9002
+[2020-03-07 21:17:50.977][SACEPICN]: sending the interest node/nodeC/state/nodeState
+[2020-03-07 21:17:51.008][SACEPICN]: Node Added: 9003
+[2020-03-07 21:17:51.009][SACEPICN]: sending the interest node/nodeD/state/nodeState
+[2020-03-07 21:17:51.042][SACEPICN]: Node Added: 9004
+[2020-03-07 21:17:51.042][SACEPICN]: sending the interest node/nodeE/state/nodeState
+[2020-03-07 21:17:51.093][SACEPICN]: Node Added: 9005
+[2020-03-07 21:17:51.093][SACEPICN]: sending the interest node/nodeF/state/nodeState
+[2020-03-07 21:17:51.131][SACEPICN]: Node Added: 9006
+[2020-03-07 21:17:51.131][SACEPICN]: sending the interest node/nodeG/state/nodeState
+[2020-03-07 21:17:51.175][SACEPICN]: Node Added: 9007
+[2020-03-07 21:17:51.176][SACEPICN]: Get Node Status Completed
+[2020-03-07 21:17:51.176][SACEPICN]: Building Paths Started
+[2020-03-07 21:17:51.179][SACEPICN]: add new Node in traversal List -> 9002
+[2020-03-07 21:17:51.180][SACEPICN]: getTraversalNodes -> on Root
+[2020-03-07 21:17:51.180][SACEPICN]: oneStepTraverse ROOT added -> NULL -> 9001
+[2020-03-07 21:17:51.181][SACEPICN]: oneStepTraverse -> on Root
+[2020-03-07 21:17:51.183][SACEPICN]: oneStepTraverse -> 9002 - 0.144
+[2020-03-07 21:17:51.184][SACEPICN]: oneStepTraverse hop added -> 9001 -> 9002
+[2020-03-07 21:17:51.185][SACEPICN]: While -> Next -> 9002
+[2020-03-07 21:17:51.185][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.185][SACEPICN]: oneStepTraverse -> 9003 - 0.1905
+[2020-03-07 21:17:51.186][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9003
+[2020-03-07 21:17:51.186][SACEPICN]: oneStepTraverse -> 9001 - 0.1023
+[2020-03-07 21:17:51.186][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9001
+[2020-03-07 21:17:51.187][SACEPICN]: oneStepTraverse -> 9005 - 0.1328
+[2020-03-07 21:17:51.187][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9005
+[2020-03-07 21:17:51.187][SACEPICN]: oneStepTraverse -> 9004 - 0.1748
+[2020-03-07 21:17:51.188][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9004
+[2020-03-07 21:17:51.188][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.188][SACEPICN]: add new Node in traversal List -> 9003
+[2020-03-07 21:17:51.189][SACEPICN]: add new Node in traversal List -> 9005
+[2020-03-07 21:17:51.189][SACEPICN]: add new Node in traversal List -> 9004
+[2020-03-07 21:17:51.189][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.190][SACEPICN]: While -> Next -> 9003
+[2020-03-07 21:17:51.191][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.191][SACEPICN]: oneStepTraverse -> 9002 - 0.129
+[2020-03-07 21:17:51.191][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9002
+[2020-03-07 21:17:51.192][SACEPICN]: oneStepTraverse -> 9007 - 0.17
+[2020-03-07 21:17:51.192][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9007
+[2020-03-07 21:17:51.192][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.193][SACEPICN]: add new Node in traversal List -> 9007
+[2020-03-07 21:17:51.193][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.193][SACEPICN]: While -> Next -> 9005
+[2020-03-07 21:17:51.194][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.194][SACEPICN]: oneStepTraverse -> 9002 - 0.17
+[2020-03-07 21:17:51.194][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9002
+[2020-03-07 21:17:51.195][SACEPICN]: oneStepTraverse -> 9006 - 0.303
+[2020-03-07 21:17:51.195][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9006
+[2020-03-07 21:17:51.196][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.196][SACEPICN]: add new Node in traversal List -> 9006
+[2020-03-07 21:17:51.196][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.197][SACEPICN]: While -> Next -> 9004
+[2020-03-07 21:17:51.197][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.197][SACEPICN]: oneStepTraverse -> 9002 - 0.2126
+[2020-03-07 21:17:51.198][SACEPICN]: oneStepTraverse hop added -> 9004 -> 9002
+[2020-03-07 21:17:51.198][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.198][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.199][SACEPICN]: While -> Next -> 9007
+[2020-03-07 21:17:51.199][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.199][SACEPICN]: oneStepTraverse -> 9003 - 0.076
+[2020-03-07 21:17:51.200][SACEPICN]: oneStepTraverse hop added -> 9007 -> 9003
+[2020-03-07 21:17:51.200][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.200][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.201][SACEPICN]: While -> Next -> 9006
+[2020-03-07 21:17:51.201][SACEPICN]: While -> Retrieve HopInfo
+[2020-03-07 21:17:51.201][SACEPICN]: oneStepTraverse -> 9005 - 0.1884
+[2020-03-07 21:17:51.202][SACEPICN]: oneStepTraverse hop added -> 9006 -> 9005
+[2020-03-07 21:17:51.202][SACEPICN]: While -> Retrieve other traversal nodes
+[2020-03-07 21:17:51.202][SACEPICN]: While -> remove current node from traversal
+[2020-03-07 21:17:51.217][SACEPICN]: checkPath - Current => 9002
+[2020-03-07 21:17:51.218][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.219][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.219][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=0.0 
+[2020-03-07 21:17:51.219][SACEPICN]: This is the first hop for adaptive weight application
+[2020-03-07 21:17:51.220][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 50.07)--> 9002 
+
+[2020-03-07 21:17:51.220][SACEPICN]: checkPath - Current => 9003
+[2020-03-07 21:17:51.221][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2020-03-07 21:17:51.221][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.221][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2020-03-07 21:17:51.222][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.222][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.222][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.223][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2020-03-07 21:17:51.223][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.223][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 60.06)--> 9002  --(BDP: 50.1)--> 9003 
+
+[2020-03-07 21:17:51.224][SACEPICN]: checkPath - Current => 9001
+[2020-03-07 21:17:51.224][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2020-03-07 21:17:51.224][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.225][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.225][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.225][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.226][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 60.06)--> 9002 
+
+[2020-03-07 21:17:51.226][SACEPICN]: checkPath - Current => 9005
+[2020-03-07 21:17:51.226][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2020-03-07 21:17:51.227][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.227][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.227][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.227][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.228][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.228][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.228][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.229][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 50.07)--> 9002  --(BDP: 60.05)--> 9005 
+
+[2020-03-07 21:17:51.229][SACEPICN]: checkPath - Current => 9004
+[2020-03-07 21:17:51.229][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2020-03-07 21:17:51.230][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.230][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2020-03-07 21:17:51.230][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.231][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.231][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.231][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2020-03-07 21:17:51.231][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.232][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 60.06)--> 9002  --(BDP: 50.09)--> 9004 
+
+[2020-03-07 21:17:51.232][SACEPICN]: checkPath - Current => 9002
+[2020-03-07 21:17:51.233][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2020-03-07 21:17:51.233][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2020-03-07 21:17:51.233][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.233][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.234][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.234][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.235][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.235][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.236][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.236][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 70.04)--> 9002  --(BDP: 60.08)--> 9003 
+
+[2020-03-07 21:17:51.237][SACEPICN]: checkPath - Current => 9007
+[2020-03-07 21:17:51.237][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9007
+[2020-03-07 21:17:51.237][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.238][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.238][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.238][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2020-03-07 21:17:51.239][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.239][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.239][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.239][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.240][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.240][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.240][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.241][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 70.04)--> 9002  --(BDP: 60.08)--> 9003  --(BDP: 70.05)--> 9007 
+
+[2020-03-07 21:17:51.241][SACEPICN]: checkPath - Current => 9002
+[2020-03-07 21:17:51.241][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9002
+[2020-03-07 21:17:51.241][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2020-03-07 21:17:51.242][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.242][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.244][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.244][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.245][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.245][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.245][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.246][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 60.06)--> 9002  --(BDP: 70.04)--> 9005 
+
+[2020-03-07 21:17:51.246][SACEPICN]: checkPath - Current => 9006
+[2020-03-07 21:17:51.246][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2020-03-07 21:17:51.247][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.247][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.247][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.248][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2020-03-07 21:17:51.248][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.248][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.248][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.249][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.249][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.249][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.250][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.250][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 60.06)--> 9002  --(BDP: 70.04)--> 9005  --(BDP: 60.12)--> 9006 
+
+[2020-03-07 21:17:51.250][SACEPICN]: checkPath - Current => 9002
+[2020-03-07 21:17:51.251][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9004 -> 9002
+[2020-03-07 21:17:51.251][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2020-03-07 21:17:51.251][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.252][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.252][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.252][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.253][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.253][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.253][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.254][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 70.04)--> 9002  --(BDP: 60.07)--> 9004 
+
+[2020-03-07 21:17:51.254][SACEPICN]: checkPath - Current => 9003
+[2020-03-07 21:17:51.255][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2020-03-07 21:17:51.255][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9007
+[2020-03-07 21:17:51.255][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.256][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.256][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.256][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2020-03-07 21:17:51.257][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.257][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.257][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.258][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.258][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.258][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2020-03-07 21:17:51.259][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.259][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 70.04)--> 9002  --(BDP: 60.08)--> 9003  --(BDP: 70.05)--> 9007 
+
+[2020-03-07 21:17:51.259][SACEPICN]: checkPath - Current => 9005
+[2020-03-07 21:17:51.259][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9006 -> 9005
+[2020-03-07 21:17:51.260][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2020-03-07 21:17:51.260][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.260][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.261][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.261][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2020-03-07 21:17:51.261][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.262][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2020-03-07 21:17:51.262][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.262][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2020-03-07 21:17:51.262][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2020-03-07 21:17:51.263][SACEPICN]: Previous Weight values were: Energy=0.2 and BDP=0.8 
+[2020-03-07 21:17:51.263][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2020-03-07 21:17:51.263][SACEPICN]: Path: NULL --(0.0)--> 9001  --(BDP: 70.04)--> 9002  --(BDP: 80.03)--> 9005  --(BDP: 70.09)--> 9006 
+
+[2020-03-07 21:17:51.264][SACEPICN]: Path Finished!
+[2020-03-07 21:17:51.264][SACEPICN]: Building Paths Completed
+[2020-03-07 21:17:51.264][SACEPICN]: Checking paths:
+[2020-03-07 21:17:51.266][SACEPICN]: 9001 9002 - BDP: 50.07 - Hops: 2
+[2020-03-07 21:17:51.266][SACEPICN]: 9001 9002 9003 - BDP: 110.16 - Hops: 3
+[2020-03-07 21:17:51.266][SACEPICN]: 9001 9002 - BDP: 60.06 - Hops: 2
+[2020-03-07 21:17:51.267][SACEPICN]: 9001 9002 9005 - BDP: 110.12 - Hops: 3
+[2020-03-07 21:17:51.267][SACEPICN]: 9001 9002 9004 - BDP: 110.15 - Hops: 3
+[2020-03-07 21:17:51.267][SACEPICN]: 9001 9002 9003 - BDP: 130.12 - Hops: 3
+[2020-03-07 21:17:51.267][SACEPICN]: 9001 9002 9003 9007 - BDP: 200.17000000000002 - Hops: 4
+[2020-03-07 21:17:51.268][SACEPICN]: 9001 9002 9005 - BDP: 130.10000000000002 - Hops: 3
+[2020-03-07 21:17:51.268][SACEPICN]: 9001 9002 9005 9006 - BDP: 190.22 - Hops: 4
+[2020-03-07 21:17:51.268][SACEPICN]: 9001 9002 9004 - BDP: 130.11 - Hops: 3
+[2020-03-07 21:17:51.269][SACEPICN]: 9001 9002 9003 9007 - BDP: 200.17000000000002 - Hops: 4
+[2020-03-07 21:17:51.269][SACEPICN]: 9001 9002 9005 9006 - BDP: 220.16000000000003 - Hops: 4
+[2020-03-07 21:17:51.278][SACEPICN]: Checking optimal path energy weights:
+[2020-03-07 21:17:51.279][SACEPICN]: (9002,0.5)
+[2020-03-07 21:17:51.279][SACEPICN]: Checking optimal path BDP weights:
+[2020-03-07 21:17:51.280][SACEPICN]: (9002,0.5)
+[2020-03-07 21:17:51.280][SACEPICN]: Operator Placement Started
+[2020-03-07 21:17:51.281][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2020-03-07 21:17:51.281][SACEPICN]: CurrentNode: WINDOW - Processing Placement
+[2020-03-07 21:17:51.282][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeB/nfn_service_Window '1583612270914' 'name' 'node/nodeA/sensor/victims/1' '4' 'S')
+[2020-03-07 21:17:51.282][SACEPICN]: Current Optimal Path 9001 9002
+[2020-03-07 21:17:51.283][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2020-03-07 21:17:51.283][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2020-03-07 21:17:51.284][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data')
+[2020-03-07 21:17:51.284][SACEPICN]: Current Optimal Path 9001
+[2020-03-07 21:17:51.284][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2020-03-07 21:17:51.285][SACEPICN]: Operator Placement Completed
+[2020-03-07 21:17:51.285][SACEPICN]: Query Deployement Started
+[2020-03-07 21:17:51.285][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2020-03-07 21:17:51.285][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2020-03-07 21:17:51.286][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeB/nfn_service_Window '1583612270914' 'name' 'node/nodeA/sensor/victims/1' '4' 'S')
+[2020-03-07 21:17:51.286][SACEPICN]: Deployment result: to Execute was a window, will be executed by the upper operator.
+
+[2020-03-07 21:17:51.286][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2020-03-07 21:17:51.287][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2020-03-07 21:17:51.287][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data')
+[2020-03-07 21:17:51.288][SACEPICN]: execute NFN query call 3 /node/nodeA/nfn_service_ServiceSubscriber '(call 6 /node/nodeA/nfn_service_Filter |1583612270913| |data| |WINDOW(name,node/nodeA/sensor/victims/1,4,S)| |2=m&3>30| |data|)' '(call 6 /node/nodeB/nfn_service_Window |1583612270914| |name| |node/nodeA/sensor/victims/1| |4| |S|)' called with nodeA
+[2020-03-07 21:17:51.337][SACEPICN]: The query to Execute is: call 6 /node/nodeB/nfn_service_Window '1583612270914' 'name' 'node/nodeA/sensor/victims/1' '4' 'S'
+[2020-03-07 21:17:51.337][SACEPICN]: The query interested in  is: call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data'
+[2020-03-07 21:17:51.389][SACEPICN]: Query Result from network node: Placed Subscriptions for call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data' to be interested in call 6 /node/nodeB/nfn_service_Window '1583612270914' 'name' 'node/nodeA/sensor/victims/1' '4' 'S'
+[2020-03-07 21:17:51.389][SACEPICN]: Deployment result: No Result!
+
+[2020-03-07 21:17:51.390][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2020-03-07 21:17:51.390][SACEPICN]: execute NFN query call 3 /node/nodeA/nfn_service_ServiceSubscriber '(call 1 /node/nodeA/nfn_service_QueryResultPrinter)' '(call 6 /node/nodeA/nfn_service_Filter |1583612270913| |data| |WINDOW(name,node/nodeA/sensor/victims/1,4,S)| |2=m&3>30| |data|)' called with nodeA
+[2020-03-07 21:17:51.443][SACEPICN]: The query to Execute is: call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data'
+[2020-03-07 21:17:51.443][SACEPICN]: The query interested in  is: call 1 /node/nodeA/nfn_service_QueryResultPrinter
+[2020-03-07 21:17:51.506][SACEPICN]: Query Result from network node: Placed Subscriptions for call 1 /node/nodeA/nfn_service_QueryResultPrinter to be interested in call 6 /node/nodeA/nfn_service_Filter '1583612270913' 'data' 'WINDOW(name,node/nodeA/sensor/victims/1,4,S)' '2=m&3>30' 'data'
+[2020-03-07 21:17:51.506][SACEPICN]: No Result!
+[2020-03-07 21:17:51.507][SACEPICN]: Query Deployement Completed
+[2020-03-07 21:17:51.507][SACEPICN]: Query Execution Completed
+[2020-03-07 21:17:51.508][SACEPICN]: Query Output = 
+[2020-03-07 21:17:51.510][SACEPICN]: Output Files written.
+[2020-03-07 21:17:51.511][SACEPICN]: result of Deployment is: 
+[2020-03-07 21:17:51.753][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:51.757][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:51.758][SACEPICN]: Inside Filter -> Stream to filter: Placed Interests
+[2020-03-07 21:17:51.760][SACEPICN]: Delimiter is 
+[2020-03-07 21:17:51.769][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:51.770][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:51.994][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:51.994][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:51.995][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+[2020-03-07 21:17:51.995][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:51.996][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:51.996][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:52.013][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:52.013][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:52.013][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/8/M/78
+[2020-03-07 21:17:52.014][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:52.014][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:52.015][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:52.315][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:52.315][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:52.316][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+[2020-03-07 21:17:52.316][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:52.317][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:52.317][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:52.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:52.806][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:52.807][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+[2020-03-07 21:17:52.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:52.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:52.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:53.363][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:53.363][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:53.363][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+[2020-03-07 21:17:53.363][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:53.365][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:53.365][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:53.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:53.806][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:53.806][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+[2020-03-07 21:17:53.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:53.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:53.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:54.309][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:54.310][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:54.310][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+[2020-03-07 21:17:54.310][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:54.312][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:54.312][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:54.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:54.805][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:54.805][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+[2020-03-07 21:17:54.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:54.807][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:54.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:55.303][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:55.303][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:55.303][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+[2020-03-07 21:17:55.304][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:55.305][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:55.305][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:55.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:55.805][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:55.806][SACEPICN]: Inside Filter -> Stream to filter: 21:17:51.000/7/M/78
+21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+[2020-03-07 21:17:55.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:55.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:55.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:56.303][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:56.304][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:56.304][SACEPICN]: Inside Filter -> Stream to filter: 21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+[2020-03-07 21:17:56.304][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:56.306][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:56.306][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:56.817][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:56.818][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:56.818][SACEPICN]: Inside Filter -> Stream to filter: 21:17:52.000/9/M/58
+21:17:52.000/10/M/58
+21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+[2020-03-07 21:17:56.819][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:56.821][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:56.822][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:57.434][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:57.434][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:57.435][SACEPICN]: Inside Filter -> Stream to filter: 21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+[2020-03-07 21:17:57.435][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:57.437][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:57.437][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:57.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:57.805][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:57.806][SACEPICN]: Inside Filter -> Stream to filter: 21:17:53.000/11/M/77
+21:17:53.000/12/M/77
+21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+[2020-03-07 21:17:57.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:57.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:57.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:58.316][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:58.316][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:58.317][SACEPICN]: Inside Filter -> Stream to filter: 21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+[2020-03-07 21:17:58.317][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:58.319][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:58.319][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:58.990][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:58.991][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:58.991][SACEPICN]: Inside Filter -> Stream to filter: 21:17:54.000/13/F/0
+21:17:54.000/14/F/0
+21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+[2020-03-07 21:17:58.991][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:58.994][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:58.994][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:59.315][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:59.315][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:59.316][SACEPICN]: Inside Filter -> Stream to filter: 21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+[2020-03-07 21:17:59.316][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:59.318][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:59.318][SACEPICN]: Filter OP Completed
+[2020-03-07 21:17:59.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:17:59.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:17:59.807][SACEPICN]: Inside Filter -> Stream to filter: 21:17:55.000/15/M/81
+21:17:55.000/16/M/81
+21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+[2020-03-07 21:17:59.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:17:59.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:17:59.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:00.308][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:00.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:00.308][SACEPICN]: Inside Filter -> Stream to filter: 21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+[2020-03-07 21:18:00.309][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:00.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:00.311][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:00.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:00.806][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:00.806][SACEPICN]: Inside Filter -> Stream to filter: 21:17:56.000/17/F/44
+21:17:56.000/18/F/44
+21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+[2020-03-07 21:18:00.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:00.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:00.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:01.307][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:01.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:01.308][SACEPICN]: Inside Filter -> Stream to filter: 21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+[2020-03-07 21:18:01.308][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:01.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:01.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:01.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:01.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:01.808][SACEPICN]: Inside Filter -> Stream to filter: 21:17:57.000/19/F/92
+21:17:57.000/20/F/92
+21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+[2020-03-07 21:18:01.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:01.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:01.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:02.303][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:02.303][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:02.304][SACEPICN]: Inside Filter -> Stream to filter: 21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+[2020-03-07 21:18:02.304][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:02.307][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:02.307][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:02.803][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:02.803][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:02.804][SACEPICN]: Inside Filter -> Stream to filter: 21:17:58.000/21/F/81
+21:17:58.000/22/F/81
+21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+[2020-03-07 21:18:02.804][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:02.806][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:02.806][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:03.361][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:03.362][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:03.362][SACEPICN]: Inside Filter -> Stream to filter: 21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+[2020-03-07 21:18:03.362][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:03.364][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:03.364][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:03.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:03.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:03.807][SACEPICN]: Inside Filter -> Stream to filter: 21:17:59.000/23/F/97
+21:17:59.000/24/F/97
+21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+[2020-03-07 21:18:03.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:03.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:03.810][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:04.302][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:04.302][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:04.303][SACEPICN]: Inside Filter -> Stream to filter: 21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+[2020-03-07 21:18:04.303][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:04.305][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:04.305][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:04.804][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:04.804][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:04.805][SACEPICN]: Inside Filter -> Stream to filter: 21:18:00.000/25/F/46
+21:18:00.000/26/F/46
+21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+[2020-03-07 21:18:04.805][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:04.807][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:04.807][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:05.320][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:05.320][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:05.320][SACEPICN]: Inside Filter -> Stream to filter: 21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+[2020-03-07 21:18:05.320][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:05.322][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:05.322][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:05.810][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:05.811][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:05.811][SACEPICN]: Inside Filter -> Stream to filter: 21:18:01.000/27/F/32
+21:18:01.000/28/F/32
+21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+[2020-03-07 21:18:05.811][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:05.813][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:05.813][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:06.303][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:06.304][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:06.304][SACEPICN]: Inside Filter -> Stream to filter: 21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+[2020-03-07 21:18:06.304][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:06.306][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:06.306][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:06.805][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:06.805][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:06.806][SACEPICN]: Inside Filter -> Stream to filter: 21:18:02.000/29/M/82
+21:18:02.000/30/M/82
+21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+[2020-03-07 21:18:06.806][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:06.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:06.808][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:07.304][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:07.305][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:07.305][SACEPICN]: Inside Filter -> Stream to filter: 21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+[2020-03-07 21:18:07.305][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:07.307][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:07.307][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:07.809][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:07.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:07.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:03.000/31/F/24
+21:18:03.000/32/F/24
+21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+[2020-03-07 21:18:07.810][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:07.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:07.812][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:08.318][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:08.318][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:08.318][SACEPICN]: Inside Filter -> Stream to filter: 21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+[2020-03-07 21:18:08.319][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:08.320][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:08.320][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:08.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:08.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:08.807][SACEPICN]: Inside Filter -> Stream to filter: 21:18:04.000/33/M/11
+21:18:04.000/34/M/11
+21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+[2020-03-07 21:18:08.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:08.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:08.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:09.307][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:09.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:09.308][SACEPICN]: Inside Filter -> Stream to filter: 21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+[2020-03-07 21:18:09.308][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:09.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:09.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:09.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:09.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:09.807][SACEPICN]: Inside Filter -> Stream to filter: 21:18:05.000/35/M/40
+21:18:05.000/36/M/40
+21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+[2020-03-07 21:18:09.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:09.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:09.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:10.311][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:10.311][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:10.312][SACEPICN]: Inside Filter -> Stream to filter: 21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+[2020-03-07 21:18:10.312][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:10.314][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:10.314][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:10.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:10.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:10.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:06.000/37/M/17
+21:18:06.000/38/M/17
+21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+[2020-03-07 21:18:10.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:10.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:10.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:11.308][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:11.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:11.309][SACEPICN]: Inside Filter -> Stream to filter: 21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+[2020-03-07 21:18:11.309][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:11.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:11.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:11.823][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:11.823][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:11.824][SACEPICN]: Inside Filter -> Stream to filter: 21:18:07.000/39/F/86
+21:18:07.000/40/F/86
+21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+[2020-03-07 21:18:11.824][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:11.825][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:11.826][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:12.310][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:12.311][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:12.311][SACEPICN]: Inside Filter -> Stream to filter: 21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+[2020-03-07 21:18:12.311][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:12.312][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:12.313][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:12.817][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:12.817][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:12.817][SACEPICN]: Inside Filter -> Stream to filter: 21:18:08.000/41/M/97
+21:18:08.000/42/M/97
+21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+[2020-03-07 21:18:12.818][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:12.819][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:12.820][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:13.319][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:13.319][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:13.320][SACEPICN]: Inside Filter -> Stream to filter: 21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+[2020-03-07 21:18:13.320][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:13.321][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:13.321][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:13.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:13.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:13.808][SACEPICN]: Inside Filter -> Stream to filter: 21:18:09.000/43/M/99
+21:18:09.000/44/M/99
+21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+[2020-03-07 21:18:13.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:13.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:13.810][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:14.311][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:14.311][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:14.312][SACEPICN]: Inside Filter -> Stream to filter: 21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+[2020-03-07 21:18:14.312][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:14.313][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:14.313][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:14.810][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:14.811][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:14.811][SACEPICN]: Inside Filter -> Stream to filter: 21:18:10.000/45/M/17
+21:18:10.000/46/M/17
+21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+[2020-03-07 21:18:14.811][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:14.813][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:14.813][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:15.310][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:15.311][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:15.311][SACEPICN]: Inside Filter -> Stream to filter: 21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+[2020-03-07 21:18:15.311][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:15.312][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:15.313][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:15.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:15.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:15.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:11.000/47/M/0
+21:18:11.000/48/M/0
+21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+[2020-03-07 21:18:15.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:15.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:15.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:16.308][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:16.309][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:16.309][SACEPICN]: Inside Filter -> Stream to filter: 21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+[2020-03-07 21:18:16.309][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:16.311][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:16.311][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:16.812][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:16.812][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:16.812][SACEPICN]: Inside Filter -> Stream to filter: 21:18:12.000/49/F/8
+21:18:12.000/50/F/8
+21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+[2020-03-07 21:18:16.813][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:16.814][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:16.814][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:17.309][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:17.309][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:17.310][SACEPICN]: Inside Filter -> Stream to filter: 21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+[2020-03-07 21:18:17.310][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:17.311][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:17.312][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:17.807][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:17.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:17.808][SACEPICN]: Inside Filter -> Stream to filter: 21:18:13.000/51/M/59
+21:18:13.000/52/M/59
+21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+[2020-03-07 21:18:17.808][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:17.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:17.810][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:18.337][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:18.337][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:18.338][SACEPICN]: Inside Filter -> Stream to filter: 21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+[2020-03-07 21:18:18.338][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:18.339][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:18.339][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:18.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:18.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:18.807][SACEPICN]: Inside Filter -> Stream to filter: 21:18:14.000/53/M/78
+21:18:14.000/54/M/78
+21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+[2020-03-07 21:18:18.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:18.809][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:18.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:19.308][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:19.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:19.308][SACEPICN]: Inside Filter -> Stream to filter: 21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+[2020-03-07 21:18:19.308][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:19.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:19.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:19.809][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:19.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:19.810][SACEPICN]: Inside Filter -> Stream to filter: 21:18:15.000/55/M/77
+21:18:15.000/56/M/77
+21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+[2020-03-07 21:18:19.810][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:19.812][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:19.812][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:20.311][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:20.311][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:20.312][SACEPICN]: Inside Filter -> Stream to filter: 21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+[2020-03-07 21:18:20.312][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:20.313][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:20.314][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:20.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:20.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:20.808][SACEPICN]: Inside Filter -> Stream to filter: 21:18:16.000/57/F/40
+21:18:16.000/58/F/40
+21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+[2020-03-07 21:18:20.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:20.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:20.810][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:21.321][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:21.321][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:21.321][SACEPICN]: Inside Filter -> Stream to filter: 21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+[2020-03-07 21:18:21.322][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:21.323][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:21.323][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:21.809][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:21.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:21.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:17.000/59/M/38
+21:18:17.000/60/M/38
+21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+[2020-03-07 21:18:21.810][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:21.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:21.812][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:22.309][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:22.309][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:22.310][SACEPICN]: Inside Filter -> Stream to filter: 21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+[2020-03-07 21:18:22.310][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:22.311][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:22.312][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:22.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:22.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:22.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:18.000/61/F/97
+21:18:18.000/62/F/97
+21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+[2020-03-07 21:18:22.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:22.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:22.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:23.362][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:23.363][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:23.363][SACEPICN]: Inside Filter -> Stream to filter: 21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+[2020-03-07 21:18:23.363][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:23.364][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:23.364][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:23.810][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:23.810][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:23.810][SACEPICN]: Inside Filter -> Stream to filter: 21:18:19.000/63/F/0
+21:18:19.000/64/F/0
+21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+[2020-03-07 21:18:23.811][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:23.812][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:23.812][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:24.311][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:24.312][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:24.312][SACEPICN]: Inside Filter -> Stream to filter: 21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+[2020-03-07 21:18:24.312][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:24.313][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:24.313][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:24.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:24.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:24.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:20.000/65/F/87
+21:18:20.000/66/F/87
+21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+[2020-03-07 21:18:24.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:24.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:24.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:25.309][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:25.309][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:25.309][SACEPICN]: Inside Filter -> Stream to filter: 21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+[2020-03-07 21:18:25.310][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:25.311][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:25.311][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:25.809][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:25.810][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:25.810][SACEPICN]: Inside Filter -> Stream to filter: 21:18:21.000/67/M/85
+21:18:21.000/68/M/85
+21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+[2020-03-07 21:18:25.810][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:25.811][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:25.812][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:26.307][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:26.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:26.308][SACEPICN]: Inside Filter -> Stream to filter: 21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+[2020-03-07 21:18:26.308][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:26.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:26.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:26.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:26.808][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:26.808][SACEPICN]: Inside Filter -> Stream to filter: 21:18:22.000/69/F/34
+21:18:22.000/70/F/34
+21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+[2020-03-07 21:18:26.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:26.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:26.810][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:27.317][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:27.317][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:27.318][SACEPICN]: Inside Filter -> Stream to filter: 21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+[2020-03-07 21:18:27.318][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:27.330][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:27.330][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:27.808][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:27.809][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:27.809][SACEPICN]: Inside Filter -> Stream to filter: 21:18:23.000/71/F/65
+21:18:23.000/72/F/65
+21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+[2020-03-07 21:18:27.809][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:27.810][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:27.811][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:28.349][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:28.349][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:28.350][SACEPICN]: Inside Filter -> Stream to filter: 21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+21:18:28.000/81/F/44
+[2020-03-07 21:18:28.350][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:28.351][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:28.351][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:28.806][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:28.807][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:28.807][SACEPICN]: Inside Filter -> Stream to filter: 21:18:24.000/73/F/41
+21:18:24.000/74/F/41
+21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+21:18:28.000/81/F/44
+21:18:28.000/82/F/44
+[2020-03-07 21:18:28.807][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:28.808][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:28.809][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:29.308][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:29.308][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:29.309][SACEPICN]: Inside Filter -> Stream to filter: 21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+21:18:28.000/81/F/44
+21:18:28.000/82/F/44
+21:18:29.000/83/F/29
+[2020-03-07 21:18:29.309][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:29.310][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:29.310][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:29.813][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:29.814][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:29.814][SACEPICN]: Inside Filter -> Stream to filter: 21:18:25.000/75/F/77
+21:18:25.000/76/F/77
+21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+21:18:28.000/81/F/44
+21:18:28.000/82/F/44
+21:18:29.000/83/F/29
+21:18:29.000/84/F/29
+[2020-03-07 21:18:29.814][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:29.815][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:29.815][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:30.315][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:30.316][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:30.316][SACEPICN]: Inside Filter -> Stream to filter: 21:18:26.000/77/M/63
+21:18:26.000/78/M/63
+21:18:27.000/79/M/48
+21:18:27.000/80/M/48
+21:18:28.000/81/F/44
+21:18:28.000/82/F/44
+21:18:29.000/83/F/29
+21:18:29.000/84/F/29
+21:18:30.000/85/F/75
+[2020-03-07 21:18:30.316][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:30.317][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:30.317][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:36.054][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:36.055][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:36.055][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+[2020-03-07 21:18:36.055][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:36.056][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:36.056][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:36.556][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:36.556][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:36.556][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+[2020-03-07 21:18:36.557][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:36.557][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:36.557][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:37.055][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:37.055][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:37.055][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+[2020-03-07 21:18:37.056][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:37.056][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:37.057][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:37.563][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:37.563][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:37.563][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+[2020-03-07 21:18:37.564][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:37.564][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:37.564][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:38.059][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:38.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:38.060][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+[2020-03-07 21:18:38.060][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:38.061][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:38.061][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:38.586][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:38.587][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:38.587][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+[2020-03-07 21:18:38.587][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:38.588][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:38.588][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:39.058][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:39.058][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:39.058][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+[2020-03-07 21:18:39.059][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:39.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:39.060][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:39.556][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:39.557][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:39.557][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+[2020-03-07 21:18:39.557][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:39.558][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:39.558][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:40.057][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:40.058][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:40.058][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+[2020-03-07 21:18:40.058][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:40.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:40.060][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:40.557][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:40.557][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:40.557][SACEPICN]: Inside Filter -> Stream to filter: 21:18:36.000/1/F/6
+21:18:36.000/2/F/6
+21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+[2020-03-07 21:18:40.558][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:40.559][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:40.559][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:41.057][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:41.057][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:41.057][SACEPICN]: Inside Filter -> Stream to filter: 21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+[2020-03-07 21:18:41.057][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:41.058][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:41.058][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:41.557][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:41.558][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:41.558][SACEPICN]: Inside Filter -> Stream to filter: 21:18:37.000/3/F/27
+21:18:37.000/4/F/27
+21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+[2020-03-07 21:18:41.558][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:41.559][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:41.559][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:42.056][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:42.056][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:42.057][SACEPICN]: Inside Filter -> Stream to filter: 21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+[2020-03-07 21:18:42.057][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:42.058][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:42.059][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:42.560][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:42.560][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:42.560][SACEPICN]: Inside Filter -> Stream to filter: 21:18:38.000/5/F/92
+21:18:38.000/6/F/92
+21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+[2020-03-07 21:18:42.560][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:42.561][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:42.562][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:43.056][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:43.057][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:43.057][SACEPICN]: Inside Filter -> Stream to filter: 21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+[2020-03-07 21:18:43.057][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:43.058][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:43.058][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:43.575][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:43.575][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:43.575][SACEPICN]: Inside Filter -> Stream to filter: 21:18:39.000/7/F/39
+21:18:39.000/8/F/39
+21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+[2020-03-07 21:18:43.575][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:43.576][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:43.577][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:44.058][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:44.058][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:44.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+[2020-03-07 21:18:44.059][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:44.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:44.060][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:44.560][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:44.560][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:44.560][SACEPICN]: Inside Filter -> Stream to filter: 21:18:40.000/9/M/73
+21:18:40.000/10/M/73
+21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+[2020-03-07 21:18:44.560][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:44.561][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:44.561][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:45.059][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:45.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:45.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+[2020-03-07 21:18:45.060][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:45.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:45.061][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:45.559][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:45.559][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:45.560][SACEPICN]: Inside Filter -> Stream to filter: 21:18:41.000/11/M/41
+21:18:41.000/12/M/41
+21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+[2020-03-07 21:18:45.560][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:45.562][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:45.562][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:46.065][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:46.066][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:46.066][SACEPICN]: Inside Filter -> Stream to filter: 21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+[2020-03-07 21:18:46.066][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:46.068][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:46.068][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:46.559][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:46.559][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:46.559][SACEPICN]: Inside Filter -> Stream to filter: 21:18:42.000/13/M/86
+21:18:42.000/14/M/86
+21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+[2020-03-07 21:18:46.559][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:46.560][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:46.561][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:47.058][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:47.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:47.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+[2020-03-07 21:18:47.059][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:47.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:47.060][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:47.560][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:47.560][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:47.560][SACEPICN]: Inside Filter -> Stream to filter: 21:18:43.000/15/F/90
+21:18:43.000/16/F/90
+21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+[2020-03-07 21:18:47.560][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:47.561][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:47.561][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:48.256][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:48.257][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:48.257][SACEPICN]: Inside Filter -> Stream to filter: 21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+[2020-03-07 21:18:48.258][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:48.259][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:48.260][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:48.560][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:48.560][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:48.560][SACEPICN]: Inside Filter -> Stream to filter: 21:18:44.000/17/F/48
+21:18:44.000/18/F/48
+21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+[2020-03-07 21:18:48.560][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:48.561][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:48.561][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:49.058][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:49.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:49.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+[2020-03-07 21:18:49.059][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:49.060][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:49.061][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:49.558][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:49.558][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:49.559][SACEPICN]: Inside Filter -> Stream to filter: 21:18:45.000/19/M/54
+21:18:45.000/20/M/54
+21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+21:18:49.000/28/M/0
+[2020-03-07 21:18:49.559][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:49.560][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:49.560][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:50.059][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:50.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:50.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+21:18:49.000/28/M/0
+21:18:50.000/29/M/35
+[2020-03-07 21:18:50.059][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:50.061][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:50.061][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:50.562][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:50.563][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:50.563][SACEPICN]: Inside Filter -> Stream to filter: 21:18:46.000/21/F/29
+21:18:46.000/22/F/29
+21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+21:18:49.000/28/M/0
+21:18:50.000/29/M/35
+21:18:50.000/30/M/35
+[2020-03-07 21:18:50.563][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:50.564][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:50.564][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:51.059][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:51.059][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:51.059][SACEPICN]: Inside Filter -> Stream to filter: 21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+21:18:49.000/28/M/0
+21:18:50.000/29/M/35
+21:18:50.000/30/M/35
+21:18:51.000/31/M/15
+[2020-03-07 21:18:51.060][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:51.061][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:51.061][SACEPICN]: Filter OP Completed
+[2020-03-07 21:18:51.560][SACEPICN]: 
+Filter OP Started
+[2020-03-07 21:18:51.560][SACEPICN]: Handle Filter Stream
+[2020-03-07 21:18:51.561][SACEPICN]: Inside Filter -> Stream to filter: 21:18:47.000/23/F/28
+21:18:47.000/24/F/28
+21:18:48.000/25/F/2
+21:18:48.000/26/F/2
+21:18:49.000/27/M/0
+21:18:49.000/28/M/0
+21:18:50.000/29/M/35
+21:18:50.000/30/M/35
+21:18:51.000/31/M/15
+21:18:51.000/32/M/15
+[2020-03-07 21:18:51.561][SACEPICN]: Delimiter is /
+[2020-03-07 21:18:51.562][SACEPICN]: Inside Filter -> FILTER name: NONE, FILTER content: No Results!
+[2020-03-07 21:18:51.563][SACEPICN]: Filter OP Completed
