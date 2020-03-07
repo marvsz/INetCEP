@@ -389,51 +389,51 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
 
     DEBUGMSG(VERBOSE, "prefix_cmp(mode=%s) ", ccnl_matchMode2str(mode));
 #ifndef CCNL_LINUXKERNEL
-    char s[CCNL_MAX_PREFIX_SIZE];
+    /*char s[CCNL_MAX_PREFIX_SIZE];
     DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
              ccnl_prefix_to_str(pfx, s, CCNL_MAX_PREFIX_SIZE), (void *) pfx);
     DEBUGMSG(VERBOSE, "name=<%s>(%p) digest=%p\n",
-            ccnl_prefix_to_str(nam, s, CCNL_MAX_PREFIX_SIZE), (void *) nam, (void *) md);
+            ccnl_prefix_to_str(nam, s, CCNL_MAX_PREFIX_SIZE), (void *) nam, (void *) md);*/
 #else
-    char* s;
+    /*char* s;
     DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
              (s = ccnl_prefix_to_path(pfx)), (void *) pfx);
     DEBUGMSG(VERBOSE, "name=<%s>(%p) digest=%p\n",
-            (s = ccnl_prefix_to_path(nam)), (void *) nam, (void *) md);
+            (s = ccnl_prefix_to_path(nam)), (void *) nam, (void *) md);*/
 #endif
     if (mode == CMP_EXACT) {
         if (plen != nam->compcnt) {
-            DEBUGMSG(VERBOSE, "comp count mismatch\n");
+            //DEBUGMSG(VERBOSE, "comp count mismatch\n");
             goto done;
         }
         if (pfx->chunknum || nam->chunknum) {
             if (!pfx->chunknum || !nam->chunknum) {
-                DEBUGMSG(VERBOSE, "chunk mismatch\n");
+                //DEBUGMSG(VERBOSE, "chunk mismatch\n");
                 goto done;
             }
             if (*pfx->chunknum != *nam->chunknum) {
-                DEBUGMSG(VERBOSE, "chunk number mismatch\n");
+                //DEBUGMSG(VERBOSE, "chunk number mismatch\n");
                 goto done;
             }
         }
 
 #ifdef USE_NFN
         if (nam->nfnflags != pfx->nfnflags) {
-            DEBUGMSG(VERBOSE, "nfn flags mismatch\n");
+            //DEBUGMSG(VERBOSE, "nfn flags mismatch\n");
             goto done;
         }
         if (ccnl_nfnprefix_isRequest(nam) != ccnl_nfnprefix_isRequest(pfx)) {
-            DEBUGMSG(VERBOSE, "request mismatch\n");
+            //DEBUGMSG(VERBOSE, "request mismatch\n");
             goto done;
         }
         if (ccnl_nfnprefix_isRequest(nam)) {
             if (nam->request->type != pfx->request->type) {
-                DEBUGMSG(VERBOSE, "request type mismatch\n");
+                //DEBUGMSG(VERBOSE, "request type mismatch\n");
                 goto done;
             }
             if (pfx->request->complen != nam->request->complen
                 || memcmp(pfx->request->comp, nam->request->comp, nam->request->complen)) {
-                DEBUGMSG(VERBOSE, "request component mismatch\n");
+                //DEBUGMSG(VERBOSE, "request component mismatch\n");
                 goto done;
             }
         }
@@ -467,18 +467,18 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
         }
 
         if (ccnl_nfnprefix_isRequest(pfx) != ccnl_nfnprefix_isRequest(nam)) {
-            DEBUGMSG(VERBOSE, "nfn request mismatch\n");
+           //DEBUGMSG(VERBOSE, "nfn request mismatch\n");
             goto done;
         }
         if (ccnl_nfnprefix_isRequest(pfx)) {
             if (pfx->request->type != nam->request->type) {
-                DEBUGMSG(VERBOSE, "request type mismatch\n");
+                //DEBUGMSG(VERBOSE, "request type mismatch\n");
                 goto done;
             }
             if (ccnl_nfnprefix_isIntermediate(pfx)) {
                 if (nfn_request_get_arg_int(nam->request)
                     != nfn_request_get_arg_int(pfx->request)) {
-                    DEBUGMSG(VERBOSE, "nfn intermediate index mismatch\n");
+                    //DEBUGMSG(VERBOSE, "nfn intermediate index mismatch\n");
                     goto done;
                 }
             }
@@ -492,15 +492,15 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
         clen = i < pfx->compcnt ? pfx->complen[i] : 32; // SHA256_DIGEST_LEN
         if (clen != nam->complen[i] || memcmp(comp, nam->comp[i], nam->complen[i])) {
             rc = mode == CMP_EXACT ? -1 : i;
-            DEBUGMSG(VERBOSE, "component mismatch: %i\n", i);
+            //DEBUGMSG(VERBOSE, "component mismatch: %i\n", i);
             goto done;
         }
     }
     // FIXME: we must also inspect chunknum here!
     rc = (mode == CMP_EXACT) ? 0 : i;
     done:
-    DEBUGMSG(TRACE, "  cmp result: pfxlen=%d cmplen=%d namlen=%d matchlen=%d\n",
-             pfx->compcnt, plen, nam->compcnt, rc);
+    /*DEBUGMSG(TRACE, "  cmp result: pfxlen=%d cmplen=%d namlen=%d matchlen=%d\n",
+             pfx->compcnt, plen, nam->compcnt, rc);*/
     return rc;
 }
 
@@ -513,11 +513,11 @@ ccnl_i_prefixof_c(struct ccnl_prefix_s *prefix,
 
 
 #ifndef CCNL_LINUXKERNEL
-    char s[CCNL_MAX_PREFIX_SIZE];
-    DEBUGMSG(VERBOSE, "ccnl_i_prefixof_c prefix=<%s> ",
-             ccnl_prefix_to_str(prefix, s, CCNL_MAX_PREFIX_SIZE));
-    DEBUGMSG(VERBOSE, "content=<%s> min=%d max=%d\n",
-             ccnl_prefix_to_str(p, s, CCNL_MAX_PREFIX_SIZE), minsuffix, maxsuffix);
+    /*char s[CCNL_MAX_PREFIX_SIZE];
+    *DEBUGMSG(VERBOSE, "ccnl_i_prefixof_c prefix=<%s> ",
+              ccnl_prefix_to_str(prefix, s, CCNL_MAX_PREFIX_SIZE));
+     DEBUGMSG(VERBOSE, "content=<%s> min=%d max=%d\n",
+              ccnl_prefix_to_str(p, s, CCNL_MAX_PREFIX_SIZE), minsuffix, maxsuffix);*/
 #endif
 
     //
@@ -529,7 +529,7 @@ ccnl_i_prefixof_c(struct ccnl_prefix_s *prefix,
 
     if ( (prefix->compcnt + minsuffix) > (p->compcnt + 1) ||
          (prefix->compcnt + maxsuffix) < (p->compcnt + 1)) {
-        DEBUGMSG(TRACE, "  mismatch in # of components\n");
+        //DEBUGMSG(TRACE, "  mismatch in # of components\n");
         return 0;
     }
 
