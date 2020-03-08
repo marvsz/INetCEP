@@ -425,8 +425,6 @@ ccnl_eth_RX(struct sk_buff *skb, struct net_device *indev,
         su.linklayer.sll_protocol = *((short int*)(skb_mac_header(skb)+2*ETH_ALEN));
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data, skb->len);
     } else{
-        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
-        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
     }
 
@@ -458,8 +456,6 @@ ccnl_udp_data_ready(struct sock *sk)
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data/* + sizeof(struct udphdr)*/,
                                 skb->len/* - sizeof(struct udphdr)*/);
     } else{
-        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
-        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
     }
 
@@ -493,8 +489,6 @@ ccnl_ux_data_ready(struct sock *sk)
 
         ccnl_schedule_upcall_RX(i, &su, skb, skb->data, skb->len);
     } else{
-        DEBUGMSG(EVAL,"Served Content Packets: %i",theRelay->served_content);
-        DEBUGMSG(EVAL,"Overall Served Packets: %i",theRelay->served_pkts);
         kfree_skb(skb);
     }
 
@@ -871,6 +865,12 @@ ccnl_lnxkernel_cleanup(void)
 static void __exit
 ccnl_exit( void )
 {
+    DEBUGMSG(EVAL,"Recieved Interest Packets: %i\n",theRelay.recieved_interest_pkts);
+    DEBUGMSG(EVAL,"Recieved Persistent Interest Packets: %i\n",theRelay.recieved_persistent_interest_pkts);
+    DEBUGMSG(EVAL,"Recieved Data Packets: %i\n",theRelay.recieved_data_pkts);
+    DEBUGMSG(EVAL,"Recieved Data Stream Packets: %i\n",theRelay.recieved_data_stream_pkts);
+    DEBUGMSG(EVAL,"Served Content Packets: %i\n",theRelay.served_content);
+    DEBUGMSG(EVAL,"Overall Served Packets: %i\n",theRelay.served_pkts);
     DEBUGMSG(INFO, "%s: exit\n", THIS_MODULE->name);
 
     if (ageing_handler)
