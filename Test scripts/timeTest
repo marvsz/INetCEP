@@ -1,0 +1,11 @@
+#!/bin/bash
+tstart=$(($(date +%s%N)/1000))
+echo "Hallo"
+tend=$(($(date +%s%N)/1000))
+tDelta=$(($tend-$tstart))
+tDeltaSeconds=$(bc <<<  "scale = 3; $tDelta / 1000000")
+tDeltaDelay=$(bc <<< "scale = 3; $1 - $tDeltaSeconds")
+echo $tDeltaDelay
+
+tNeu=$(bc <<< "scale = 0; 1000 / 40")
+echo $tNeu

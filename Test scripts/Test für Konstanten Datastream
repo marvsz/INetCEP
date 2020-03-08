@@ -26,7 +26,7 @@ FACEID=`~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock newUD
   | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f2
 
 ### Constant Peek interest für gps1 senden
-~/INetCEP/ccn-lite/bin/ccn-lite-peekConstant -s ndn2013 -u 127.0.0.1/9998 "/nodeA/sensor/victims1" -v evaluation | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f2
+~/INetCEP/ccn-lite/bin/ccn-lite-peekConstant -s ndn2013 -u 127.0.0.1/9998 "/nodeA/sensor/victims/1" -v evaluation | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f2
 
 
 ### Shutdown realy A
