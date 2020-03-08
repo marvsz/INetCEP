@@ -207,6 +207,19 @@ echo "copying NodeInformation"
 	done
 }
 
+copyTestScripts(){
+((count=0))
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'	
+		rm -rf ~/INetCEP/Test\ scripts/
+		ENDSSH
+		scp -rp "$work_dir"/Test\ scripts $user@$i:~/INetCEP/
+		((count++))
+	
+	done	
+}
 
 deleteOldLogs(){
 echo "deleting old logs"
@@ -405,6 +418,7 @@ elif [ $1 == "execute" ]; then execute
 elif [ $1 == "executeQuery" ]; then executeQueryinVMA
 elif [ $1 == "getOutput" ]; then getOutput
 elif [ $1 == "upgradegcc" ]; then installGCC7
+elif [ $1 == "copyTest" ]; then copyTestScripts
 elif [ $1 == "shutdown" ]; then shutdown
 else echo "$help"
 fi
