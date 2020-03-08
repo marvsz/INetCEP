@@ -48,12 +48,12 @@ all() {
 	deleteOldLogs
 	echo "Creating Topology"
 	createTopology
-	sleep 2s
-	echo "Starting UpdateNodestate Service"
-	execute
-	sleep 10s
-	echo "executing Query"
-	executeQueryinVMA & sleep $simRunTime; shutdown
+	#sleep 2s
+	#echo "Starting UpdateNodestate Service"
+	#execute
+	#sleep 10s
+	#echo "executing Query"
+	#executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
 installDependencies() {

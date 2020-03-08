@@ -177,6 +177,8 @@ main(int argc, char *argv[])
         }
         DEBUGMSG(DEBUG, "sendto returned %d\n", rc);
 
+        int recievedPackets = 0;
+
         for (;;) { // wait for a content pkt (ignore interests)
             unsigned char *cp = out;
             int enc, suite2, len2;
@@ -267,7 +269,8 @@ main(int argc, char *argv[])
                 clock_gettime(CLOCK_REALTIME, &spec);
                 s  = spec.tv_sec;
                 ns =  spec.tv_nsec;
-                DEBUGMSG(EVAL,"Current at recieving packet: %"PRIdMAX".%09ld seconds since the Epoch\n",
+                recievedPackets++;
+                DEBUGMSG(EVAL,"Current Time at recieving packet number %i: %"PRIdMAX".%09ld seconds since the Epoch\n",recievedPackets,
                          (intmax_t)s, ns);
                 dump_content(0,out,out,len,2,-1,stdout);
                 fflush(stdout);

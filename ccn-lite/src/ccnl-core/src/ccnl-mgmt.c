@@ -690,9 +690,21 @@ ccnl_mgmt_debug(struct ccnl_relay_s *ccnl, struct ccnl_buf_s *orig,
 
         }
         else if (!strcmp((char*) debugaction, "halt")){
+            DEBUGMSG(EVAL,"Recieved Interest Packets: %i\n",ccnl->recieved_interest_pkts);
+            DEBUGMSG(EVAL,"Recieved Persistent Interest Packets: %i\n",ccnl->recieved_persistent_interest_pkts);
+            DEBUGMSG(EVAL,"Recieved Data Packets: %i\n",ccnl->recieved_data_pkts);
+            DEBUGMSG(EVAL,"Recieved Data Stream Packets: %i\n",ccnl->recieved_data_stream_pkts);
+            DEBUGMSG(EVAL,"Served Content Packets: %i\n",ccnl->served_content);
+            DEBUGMSG(EVAL,"Overall Served Packets: %i\n",ccnl->served_pkts);
             ccnl->halt_flag = 1;
         }
         else if (!strcmp((char*) debugaction, "dump+halt")) {
+            DEBUGMSG(EVAL,"Recieved Interest Packets: %i\n",ccnl->recieved_interest_pkts);
+            DEBUGMSG(EVAL,"Recieved Persistent Interest Packets: %i\n",ccnl->recieved_persistent_interest_pkts);
+            DEBUGMSG(EVAL,"Recieved Data Packets: %i\n",ccnl->recieved_data_pkts);
+            DEBUGMSG(EVAL,"Recieved Data Stream Packets: %i\n",ccnl->recieved_data_stream_pkts);
+            DEBUGMSG(EVAL,"Served Content Packets: %i\n",ccnl->served_content);
+            DEBUGMSG(EVAL,"Overall Served Packets: %i\n",ccnl->served_pkts);
             ccnl_dump(0, CCNL_RELAY, ccnl);
 
             get_faces_dump(0, ccnl, faceid, facenext, faceprev, faceifndx,
