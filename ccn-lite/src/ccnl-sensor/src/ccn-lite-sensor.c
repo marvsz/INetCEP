@@ -163,16 +163,16 @@ int get_int_len (int value){
 
 struct ccnl_sensor_tuple_s*
         ccnl_sensor_generate_random_victims_tuple(struct ccnl_sensor_s* sensor){
- // <Date, SequenceNumber, Gender, Age>
+ // <Date, ID, SequenceNumber, Gender, Age>
     sensor->sampleCounter++;
  int sequenceNumber = sensor->sampleCounter;
  time_t t ;
     struct tm *tmp;
-    char MY_TIME[50];
+    char date[50];
     char gender;
     time(&t);
     tmp = localtime(&t);
-    strftime(MY_TIME, sizeof(MY_TIME),"%H:%M:%S.000", tmp);
+    strftime(date, sizeof(date), "%H:%M:%S.000", tmp);
     srand(time(NULL));
     if((rand() & 1))
         gender = 'M';
@@ -180,10 +180,10 @@ struct ccnl_sensor_tuple_s*
         gender = 'F';
     int age = rand() % 100;
 
-    int SizeOfTuple = strlen(MY_TIME) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
-    char newTuple[SizeOfTuple];
-    snprintf(newTuple, sizeof(newTuple), "%s/%i/%c/%i", MY_TIME,sequenceNumber,gender,age);
-    return ccnl_sensor_tuple_new(newTuple,SizeOfTuple);
+    int sizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + get_int_len(sensor->settings->id) + 6;
+    char newTuple[sizeOfTuple];
+    snprintf(newTuple, sizeof(newTuple), "%s/%i/%i/%c/%i", date, sensor->settings->id, sequenceNumber, gender, age);
+    return ccnl_sensor_tuple_new(newTuple,sizeOfTuple);
 }
 
 struct ccnl_sensor_tuple_s*
@@ -205,9 +205,9 @@ ccnl_sensor_generate_random_survivors_tuple(struct ccnl_sensor_s* sensor){
         gender = 'F';
     int age = rand() % 100;
 
-    int sizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + 5;
+    int sizeOfTuple = strlen(date) + get_int_len(age) + get_int_len(sequenceNumber) + get_int_len(sensor->settings->id) + 6;
     char newTuple[sizeOfTuple];
-    snprintf(newTuple, sizeof(newTuple), "%s/%i/%c/%i", date, sequenceNumber, gender, age);
+    snprintf(newTuple, sizeof(newTuple), "%s/%i/%i/%c/%i", date, sensor->settings->id, sequenceNumber, gender, age);
     return ccnl_sensor_tuple_new(newTuple, sizeOfTuple);
 
 }
