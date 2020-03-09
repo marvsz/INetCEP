@@ -655,12 +655,6 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
             }
         }
     }
-    DEBUGMSG(EVAL,"Recieved Interest Packets: %i\n",ccnl->recieved_interest_pkts);
-    DEBUGMSG(EVAL,"Recieved Persistent Interest Packets: %i\n",ccnl->recieved_persistent_interest_pkts);
-    DEBUGMSG(EVAL,"Recieved Data Packets: %i\n",ccnl->recieved_data_pkts);
-    DEBUGMSG(EVAL,"Recieved Data Stream Packets: %i\n",ccnl->recieved_data_stream_pkts);
-    DEBUGMSG(EVAL,"Served Content Packets: %i\n",ccnl->served_content);
-    DEBUGMSG(EVAL,"Overall Served Packets: %i\n",ccnl->served_pkts);
     return 0;
 }
 
