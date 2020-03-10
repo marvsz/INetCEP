@@ -16,6 +16,7 @@ add_library(common STATIC src/ccnl-common.c src/base64.c src/ccnl-socket.c)
 add_library(ccnl-crypto STATIC src/ccnl-crypto.c src/ccnl-ext-hmac.c src/lib-sha256.c)
 
 add_executable(ccn-lite-peek src/ccn-lite-peek.c)
+add_executable(ccn-lite-sendI src/ccn-lite-sendI.c)
 add_executable(ccn-lite-peekConstant src/ccn-lite-peekConstant.c)
 add_executable(ccn-lite-rmI src/ccn-lite-rmI.c)
 #add_executable(ccn-lite-peekcomputation ccn-lite-peekcomputation.c) #todo work to do
@@ -44,6 +45,9 @@ add_executable(ccn-lite-rmS src/ccn-lite-rmS.c)
 
 target_link_libraries(ccn-lite-peek ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+
+target_link_libraries(ccn-lite-sendI ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+target_link_libraries(ccn-lite-sendI ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
 target_link_libraries(ccn-lite-peekConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
