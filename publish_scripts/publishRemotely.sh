@@ -367,6 +367,11 @@ for i in "${VMS[@]}"
 	done
 }
 
+getUnifiedTestLogs(){
+mkdir -p $work_dir/UnifiedLogs
+scp -r johannes@10.2.1.118:~/INetCEP/Test\ scripts/Logs $work_dir/UnifiedLogs
+}
+
 help="
 Invalid usage
 
@@ -420,6 +425,7 @@ elif [ $1 == "getOutput" ]; then getOutput
 elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "copyTest" ]; then copyTestScripts
 elif [ $1 == "shutdown" ]; then shutdown
+elif [ $q == "unifiedLogs" ]; then getUnifiedTestLogs
 else echo "$help"
 fi
 

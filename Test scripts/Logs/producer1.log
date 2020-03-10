@@ -1,0 +1,6 @@
+[T] 0.0001: Starting Sensor Loop
+[T] 0.0002: sensor loop started
+[I] 0.0002: Sample sensor with sampling rate of 25 milliseconds
+[D] 0.0004: Enter random content into store.
+[A] 0.0005: Enter Tuple Data 18:56:16.000/1/1/F/27 into file.
+[A] 0.0042: Current time: 1583862976.456108917 seconds since the Epoch

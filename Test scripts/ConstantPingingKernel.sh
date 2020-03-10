@@ -1,5 +1,4 @@
 #!/bin/bash
-
 Interval=$1
 while true
 do

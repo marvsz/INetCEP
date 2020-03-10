@@ -1,0 +1,14 @@
+Cannot exec 'makeSensor.sh': No such file or directory
+Cannot exec 'makeSensor.sh': No such file or directory
+Cannot exec '/home/johannes/INetCEP/Test scripts/makeSensor.sh': Permission denied
+[A] 0.0002: Enter Tuple Data 15:15:59.000/1/1/M/88 into file.
+[A] 0.0037: Current time: 1583849759.097214284 seconds since the Epoch
+[E] 0.0001: named pipe '/tmp/mgmt-nfn-relay-a.sock'
+sending datagram message: No such file or directory
+[A] 0.0004: Enter Tuple Data 15:16:15.000/1/1/M/99 into file.
+[A] 0.0028: Current time: 1583849775.280881244 seconds since the Epoch
+[E] 0.0002: named pipe '/tmp/mgmt-nfn-relay-a.sock'
+sending datagram message: No such file or directory
+bash: /home/johannes/INetCEP/Test scripts/makeSensor.sh: Permission denied
+bash: /home/johannes/INetCEP/Test scripts/makeSensor.sh: Permission denied
+bash: /home/johannes/INetCEP/Test scripts/makeSensor.sh: Permission denied
