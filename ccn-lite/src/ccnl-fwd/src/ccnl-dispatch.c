@@ -19,6 +19,7 @@
  * 2017-06-20 created
  */
 
+#include <ccnl-unix.h>
 #include "../include/ccnl-dispatch.h"
 
 #include "../../ccnl-core/include/ccnl-os-time.h"
@@ -42,6 +43,12 @@
 #include "../../ccnl-core/include/ccnl-logging.h"
 
 struct ccnl_suite_s ccnl_core_suites[CCNL_SUITE_LAST];
+
+void *ccnl_core_RX_threaded(void *arguments){
+    struct arg_struct *args = arguments;
+    ccnl_core_RX(args->relay,args->ifndx,args->data,args->datalen,args->sa,args->addrlen);
+    return NULL;
+}
 
 void
 ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,

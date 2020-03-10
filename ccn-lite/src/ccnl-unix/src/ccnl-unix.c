@@ -20,6 +20,7 @@
  * 2017-06-16 created
  */
 
+#include <pthread.h>
 #include "ccnl-unix.h"
 
 #include "ccnl-os-includes.h"
@@ -612,26 +613,53 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
             if (FD_ISSET(ccnl->ifs[i].sock, &readfs)) {
                 sockunion src_addr;
                 socklen_t addrlen = sizeof(sockunion);
+                struct arg_struct* args = (struct arg_struct*)ccnl_malloc(sizeof(struct arg_struct));
                 if ((len = recvfrom(ccnl->ifs[i].sock, buf, sizeof(buf), 0,
                                 (struct sockaddr*) &src_addr, &addrlen)) > 0) {
                     if (0) {}
 #ifdef USE_IPV4
                     else if (src_addr.sa.sa_family == AF_INET) {
-                        ccnl_core_RX(ccnl, i, buf, len,
-                                     &src_addr.sa, sizeof(src_addr.ip4));
+                        args->relay = ccnl;
+                        args->ifndx = i;
+                        args->data = buf;
+                        args->datalen = len;
+                        args->sa = &src_addr.sa;
+                        args->addrlen = sizeof(src_addr.ip4);
+                        pthread_t thread_id;
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        /*ccnl_core_RX(ccnl, i, buf, len,
+                                     &src_addr.sa, sizeof(src_addr.ip4));*/
                     }
 #endif
 #ifdef USE_IPV6
                     else if (src_addr.sa.sa_family == AF_INET6) {
-                        ccnl_core_RX(ccnl, i, buf, len,
-                                     &src_addr.sa, sizeof(src_addr.ip6));
+                        args->relay = ccnl;
+                        args->ifndx = i;
+                        args->data = buf;
+                        args->datalen = len;
+                        args->sa = &src_addr.sa;
+                        args->addrlen = sizeof(src_addr.ip6);
+                        pthread_t thread_id;
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        /*ccnl_core_RX(ccnl, i, buf, len,
+                                     &src_addr.sa, sizeof(src_addr.ip6));*/
                     }
 #endif
 #ifdef USE_LINKLAYER
                     else if (src_addr.sa.sa_family == AF_PACKET) {
-                        if (len > 14)
-                            ccnl_core_RX(ccnl, i, buf+14, len-14,
-                                         &src_addr.sa, sizeof(src_addr.linklayer));
+                        if (len > 14){
+                            args->relay = ccnl;
+                            args->ifndx = i;
+                            args->data = buf+14;
+                            args->datalen = len-14;
+                            args->sa = &src_addr.sa;
+                            args->addrlen = sizeof(src_addr.linklayer);
+                            pthread_t thread_id;
+                            pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                            /*ccnl_core_RX(ccnl, i, buf+14, len-14,
+                                         &src_addr.sa, sizeof(src_addr.linklayer));*/
+                        }
+
                     }
 #endif
 #ifdef USE_WPAN
@@ -643,8 +671,16 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
 #endif
 #ifdef USE_UNIXSOCKET
                     else if (src_addr.sa.sa_family == AF_UNIX) {
-                        ccnl_core_RX(ccnl, i, buf, len,
-                                     &src_addr.sa, sizeof(src_addr.ux));
+                        args->relay = ccnl;
+                        args->ifndx = i;
+                        args->data = buf;
+                        args->datalen = len;
+                        args->sa = &src_addr.sa;
+                        args->addrlen = sizeof(src_addr.ux);
+                        pthread_t thread_id;
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        /*ccnl_core_RX(ccnl, i, buf, len,
+                                     &src_addr.sa, sizeof(src_addr.ux));*/
                     }
 #endif
                 }

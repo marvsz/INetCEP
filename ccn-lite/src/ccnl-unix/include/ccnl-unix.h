@@ -44,6 +44,15 @@ ccnl_open_ethdev(char *devname, struct sockaddr_ll *sll, int ethtype);
 #endif
 #endif
 
+struct arg_struct {
+    struct ccnl_relay_s *relay;
+    int ifndx;
+    unsigned char *data;
+    int datalen;
+    struct sockaddr *sa;
+    int addrlen;
+};
+
 #ifdef USE_WPAN
 int
 ccnl_open_wpandev(char *devname, struct sockaddr_ieee802154 *swpan);

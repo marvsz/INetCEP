@@ -48,5 +48,8 @@ void
 ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
              int datalen, struct sockaddr *sa, int addrlen);
 
+void
+*ccnl_core_RX_threaded(void* arguments);
+
 #endif
 /** @} */
