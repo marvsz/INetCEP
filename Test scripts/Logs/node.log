@@ -1,1 +1,0 @@
-startNode.sh: line 4: 15843 Segmentation fault      (core dumped) ~/INetCEP/ccn-lite/bin/ccn-lite-relay -v evaluation -s ndn2013 -u $1 -x $2
