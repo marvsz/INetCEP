@@ -48,8 +48,9 @@ frag_cb(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
 int
 main(int argc, char *argv[])
 {
-    int cnt, opt, port, sock = 0, socksize, suite = CCNL_SUITE_NDNTLV;
+    int cnt, opt, port, sock = 0, socksize, samplingRate, suite = CCNL_SUITE_NDNTLV;
     char *addr = NULL, *udp = NULL, *ux = NULL;
+    char *test = NULL;
     struct sockaddr sa;
     struct ccnl_prefix_s *prefix;
     unsigned int chunknum = UINT_MAX;
@@ -58,10 +59,13 @@ main(int argc, char *argv[])
     ccnl_isFragmentFunc isFragment;
 #endif
 
-    while ((opt = getopt(argc, argv, "hn:s:u:v:x:")) != -1) {
+    while ((opt = getopt(argc, argv, "hn:s:u:v:x:r:")) != -1) {
         switch (opt) {
             case 'n':
                 chunknum = atoi(optarg);
+                break;
+            case 'r':
+                samplingRate = atoi(optarg);
                 break;
             case 's':
                 suite = ccnl_str2suite(optarg);
@@ -104,6 +108,7 @@ main(int argc, char *argv[])
         }
     }
 
+    (void) test;
     if (!argv[optind])
         goto usage;
 
@@ -163,9 +168,25 @@ main(int argc, char *argv[])
             socksize = sizeof(struct sockaddr_in);
         }
         cnt = 0;
+    struct timespec ts;
+    struct timespec tstart;
+    struct timespec tend;
+    struct timespec tdelta;
+    struct timespec resultsleep;
+    ts.tv_sec = samplingRate / 1000;
+    ts.tv_nsec = (samplingRate % 1000) * 1000000;
+    DEBUGMSG(DEBUG, "Sampling rate is %i microseconds\n",samplingRate);
         while(cnt < 1000000){
+            clock_gettime(CLOCK_MONOTONIC,&tstart);
             rc = sendto(sock, buf->data, buf->datalen, 0, (struct sockaddr*)&sa, socksize);
+            DEBUGMSG(DEBUG, "sendto returned %d\n", rc);
             cnt++;
+            clock_gettime(CLOCK_MONOTONIC,&tend);
+            tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
+            tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
+            resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
+            resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
+            nanosleep(&resultsleep, &resultsleep);
         }
 
         if (rc < 0) {
