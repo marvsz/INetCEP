@@ -338,64 +338,38 @@ void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
     }
 }
 
-int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
-
-    /*sendTuples(sensor);*/
-    struct timespec ts;
-    struct timespec tstart;
-    struct timespec tend;
-    struct timespec tdelta;
-    struct timespec resultsleep;
-    char stopPath[100];
-    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
-    DEBUGMSG(TRACE, "sensor loop started\n");
-    ts.tv_sec = sensor->settings->samplingRate / 1000;
-    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
-    while (!sensor->stopflag) {
-        clock_gettime(CLOCK_MONOTONIC,&tstart);
-        ccnl_sensor_sample(sensor);
-        sensorStopped(sensor,stopPath);
-        clock_gettime(CLOCK_MONOTONIC,&tend);
-        tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
-        tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
-        resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
-        resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
-        nanosleep(&resultsleep, &resultsleep);
-    }
-    remove(stopPath);
-    ccnl_sensor_free(sensor);
-
-    return 0;
-}
-
 char getNodeName(char* socket){
     return toupper(socket[15]);
 }
 
-int sendTuple(struct ccnl_sensor_s *sensor, struct ccnl_sensor_tuple_s* currentData, char* pfxName){
-    unsigned char out[CCN_LITE_MKC_OUT_SIZE];
-    unsigned char body[CCN_LITE_MKC_BODY_SIZE];
+int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
+
+    /*sendTuples(sensor);*/
+    struct timespec ts, tstart, tend, tdelta, resultsleep;
     char *addr = NULL, *ux = NULL;
-    int port, socksize, len, offs = CCNL_MAX_PACKET_SIZE, sock = 0, suite = CCNL_SUITE_DEFAULT;
-    //int cnt = 0;
     struct sockaddr sa;
+    int port, sock = 0, suite = CCNL_SUITE_DEFAULT;
+    int  socksize;
+    char stopPath[100];
+    char uri[100];
+
+    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
+    // create the name for the data
+    if(!sensor->settings->use_udp)
+        snprintf(uri, sizeof(uri), "node/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
+                 sensor->settings->id);
+    else
+        snprintf(uri, sizeof(uri), "node/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
+                 sensor->settings->id);
+
     struct ccnl_prefix_s *name;
 
-    // make the prefix
-    name = ccnl_URItoPrefix(pfxName, suite, NULL, NULL);
-    // copy the tuple content into the body
-    snprintf((char*)body, sizeof(body),"%.*s",(int)currentData->datalen,currentData->data);
-    // set the length of the body
-    len = (int) currentData->datalen +1;
-    // prepend the data stream content
-    len = ccnl_ndntlv_prependDataStreamContent(name, body, len, NULL, NULL, &offs, out);
+    // make the prefix from the data name
+    name = ccnl_URItoPrefix(uri, suite, NULL, NULL);
 
-
-    //Now we send it
+    // parse the udp address or else safe the address for the socket path
     if(sensor->settings->use_udp){
-        char tempSockPath[25];
-        strcpy(tempSockPath,sensor->settings->socketPath);
-        if (ccnl_parseUdp(tempSockPath, suite, &addr, &port) != 0) {
+        if (ccnl_parseUdp(sensor->settings->socketPath, suite, &addr, &port) != 0) {
             exit(-1);
         }
     }
@@ -405,6 +379,7 @@ int sendTuple(struct ccnl_sensor_s *sensor, struct ccnl_sensor_tuple_s* currentD
         ux=uxSocketPath;//sensor->settings->socketPath;
     }
 
+    // open the socket
     if (ux) { // use UNIX socket
         struct sockaddr_un *su = (struct sockaddr_un*) &sa;
         su->sun_family = AF_UNIX;
@@ -417,17 +392,56 @@ int sendTuple(struct ccnl_sensor_s *sensor, struct ccnl_sensor_tuple_s* currentD
         si->sin_port = htons(port);
         sock = udp_open();
     }
-    int rc;
-    struct ccnl_face_s dummyFace;
 
+
+    // get the socksize
     if (ux) {
         socksize = sizeof(struct sockaddr_un);
     } else {
         socksize = sizeof(struct sockaddr_in);
     }
 
+    DEBUGMSG(TRACE, "sensor loop started\n");
+    ts.tv_sec = sensor->settings->samplingRate / 1000;
+    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
+    while (!sensor->stopflag) {
+        clock_gettime(CLOCK_MONOTONIC,&tstart);
+        ccnl_sensor_sample(sensor, name, sa, sock, socksize);
+        sensorStopped(sensor,stopPath);
+        clock_gettime(CLOCK_MONOTONIC,&tend);
+        tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
+        tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
+        resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
+        resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
+        nanosleep(&resultsleep, &resultsleep);
+    }
+    close(sock);
+    remove(stopPath);
+    ccnl_sensor_free(sensor);
 
-    memset(&dummyFace, 0, sizeof(dummyFace));
+    return 0;
+}
+
+
+
+int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize){
+    unsigned char out[CCN_LITE_MKC_OUT_SIZE];
+    unsigned char body[CCN_LITE_MKC_BODY_SIZE];
+    int rc, len, offs = CCNL_MAX_PACKET_SIZE;
+    //int cnt = 0;
+
+    // copy the tuple content into the body
+    snprintf((char*)body, sizeof(body),"%.*s",(int)currentData->datalen,currentData->data);
+    // set the length of the body
+    len = (int) currentData->datalen +1;
+    // free the allocated memory for the tuple
+    ccnl_free(currentData);
+    // prepend the data stream content
+    len = ccnl_ndntlv_prependDataStreamContent(name, body, len, NULL, NULL, &offs, out);
+
+
+    //Now we send it
+
     rc = sendto(sock, out+offs, len, 0, (struct sockaddr*)&sa, socksize);
     /*
     while(cnt < 100){
@@ -435,27 +449,17 @@ int sendTuple(struct ccnl_sensor_s *sensor, struct ccnl_sensor_tuple_s* currentD
         rc = sendto(sock, out+offs, len, 0, (struct sockaddr*)&sa, socksize);
         cnt++;
     }*/
-
-    close(sock);
     return rc;
 }
 
 
 
-void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
+void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize) {
     struct ccnl_sensor_tuple_s* currentData;
     DEBUGMSG(INFO, "Sample sensor with sampling rate of %i milliseconds\n", sensor->settings->samplingRate);
     struct timeval tv;
     gettimeofday(&tv, NULL);
     int returnVal = 0;
-    char uri[100];
-
-    if(!sensor->settings->use_udp)
-        snprintf(uri, sizeof(uri), "node/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
-                 sensor->settings->id);
-    else
-        snprintf(uri, sizeof(uri), "node/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
-                 sensor->settings->id);
 
     if(sensor->settings->type==CCNL_SENSORTYPE_EMULATION){
         DEBUGMSG(DEBUG,"Getting current trace data.\n");
@@ -486,7 +490,7 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor) {
                 break;
         }
     }
-    returnVal = sendTuple(sensor,currentData,uri);
+    returnVal = sendTuple(currentData,name, sa, sock, socksize);
     DEBUGMSG(DEBUG,"Sendto returned %i",returnVal);
     long            ns; // Nanoseconds
     time_t          s;  // Seconds
