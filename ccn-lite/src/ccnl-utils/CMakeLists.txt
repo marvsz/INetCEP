@@ -47,7 +47,8 @@ target_link_libraries(ccn-lite-peek ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peek ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
 
 target_link_libraries(ccn-lite-sendI ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
-target_link_libraries(ccn-lite-sendI ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+target_link_libraries(ccn-lite-sendI ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
+target_link_libraries(ccn-lite-sendI pthread)
 
 target_link_libraries(ccn-lite-peekConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-peekConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
