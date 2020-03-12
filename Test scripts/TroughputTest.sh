@@ -8,6 +8,6 @@ then
 else
 for ((c=1; c<=$var3; c++))
 do
-	screen -d -m bash -c " bash /home/johannes/INetCEP/Test\ scripts/makeSensor.sh $c 2 25 mgmt-nfn-relay-a.sock trace &> Logs/producer$c.log"
+	screen -d -m bash -c " bash /home/johannes/INetCEP/Test\ scripts/makeSensor.sh $c 2 25 mgmt-nfn-relay-a.sock trace &> LogsPing/producer$c.log"
 done
 fi

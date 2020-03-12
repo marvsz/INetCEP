@@ -211,10 +211,10 @@ copyTestScripts(){
 ((count=0))
 	for i in "${VMS[@]}"
 	do
-		echo "logged in: " $i
-		ssh -t $user@$i <<-'ENDSSH'	
-		rm -rf ~/INetCEP/Test\ scripts/
-		ENDSSH
+		#echo "logged in: " $i
+		#ssh -t $user@$i <<-'ENDSSH'	
+		#rm -rf ~/INetCEP/Test\ scripts/
+		#ENDSSH
 		scp -rp "$work_dir"/Test\ scripts $user@$i:~/INetCEP/
 		((count++))
 	
