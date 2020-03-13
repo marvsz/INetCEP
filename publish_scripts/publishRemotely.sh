@@ -372,7 +372,16 @@ mkdir -p $work_dir/UnifiedLogs
 VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
 for i in "${VMS[@]}"
 	do
-	scp -r $user@$i:~/INetCEP/Test\\\ scripts/Logs $work_dir/UnifiedLogs
+	scp -r $user@$i:~/INetCEP/Test\\\ scripts/Logs /media/johannes/BULK
+	done
+}
+
+getPingingTestLogs(){
+mkdir -p $work_dir/UnifiedLogs
+VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
+for i in "${VMS[@]}"
+	do
+	scp -r $user@$i:~/INetCEP/Test\\\ scripts/LogsPing /media/johannes/BULK
 	done
 }
 
@@ -430,6 +439,7 @@ elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "copyTest" ]; then copyTestScripts
 elif [ $1 == "shutdown" ]; then shutdown
 elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs
+elif [ $1 == "pingLogs" ]; then getPingingTestLogs
 else echo "$help"
 fi
 
