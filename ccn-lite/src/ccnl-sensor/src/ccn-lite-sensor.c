@@ -345,10 +345,10 @@ char getNodeName(char* socket){
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
 
     /*sendTuples(sensor);*/
-    struct timespec ts, tstart, tend, tdelta, resultsleep;
+    struct timespec ts/*, tstart, tend*/, resultsleep;
     char *addr = NULL, *ux = NULL;
     struct sockaddr sa;
-    int port, sock = 0, suite = CCNL_SUITE_DEFAULT;
+    int port, cnt=0, sock = 0, suite = CCNL_SUITE_DEFAULT;
     int  socksize;
     char stopPath[100];
     char uri[100];
@@ -402,18 +402,24 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     }
 
     DEBUGMSG(TRACE, "sensor loop started\n");
-    ts.tv_sec = sensor->settings->samplingRate / 1000;
-    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
+    ts.tv_sec = sensor->settings->samplingRate / 1000000;
+    ts.tv_nsec = (sensor->settings->samplingRate % 1000000) * 1000;
     while (!sensor->stopflag) {
-        clock_gettime(CLOCK_MONOTONIC,&tstart);
+        clock_gettime(CLOCK_MONOTONIC,&resultsleep);
+        resultsleep.tv_sec = resultsleep.tv_sec + ts.tv_sec;
+        resultsleep.tv_nsec = resultsleep.tv_nsec + ts.tv_nsec;
+        //clock_gettime(CLOCK_MONOTONIC,&tstart);
+        cnt++;
         ccnl_sensor_sample(sensor, name, sa, sock, socksize);
+        DEBUGMSG(EVAL,"sent %i Messages\n",cnt);
+
         sensorStopped(sensor,stopPath);
-        clock_gettime(CLOCK_MONOTONIC,&tend);
-        tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
-        tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
-        resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
-        resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
-        nanosleep(&resultsleep, &resultsleep);
+        //clock_gettime(CLOCK_MONOTONIC,&tend);
+        //resultsleep.tv_sec = ts.tv_sec - (tend.tv_sec - tstart.tv_sec);
+        //resultsleep.tv_nsec = ts.tv_nsec - (tend.tv_nsec - tstart.tv_nsec);
+        //DEBUGMSG(EVAL,"t nano delta was %lu\n",tdelta.tv_nsec);
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME,&resultsleep, NULL);
+
     }
     close(sock);
     remove(stopPath);
@@ -456,7 +462,7 @@ int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* nam
 
 void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize) {
     struct ccnl_sensor_tuple_s* currentData;
-    DEBUGMSG(INFO, "Sample sensor with sampling rate of %i milliseconds\n", sensor->settings->samplingRate);
+    DEBUGMSG(INFO, "Sample sensor with sampling rate of %i microseconds\n", sensor->settings->samplingRate);
     struct timeval tv;
     gettimeofday(&tv, NULL);
     int returnVal = 0;
