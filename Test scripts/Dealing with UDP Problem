@@ -1,10 +1,10 @@
 Monitor with: watch -n 1 -d 'cat /proc/net/udp'
 
 Set udp_mem higher with:
-sysctl -w 'net/ipv4/udp_mem=37562100 50083100 75124200'
+sudo sysctl -w 'net/ipv4/udp_mem=37562100 50083100 75124200'
 
 Set wmem_default higher with:
-sysctl -w 'net/core/wmem_default=26214400'
+sudo sysctl -w 'net/core/wmem_default=26214400'
 
 Enter into a /etc/sysctl.conf:
 
