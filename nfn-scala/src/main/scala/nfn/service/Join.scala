@@ -26,22 +26,35 @@ class Join() extends NFNService {
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
-    def processJoinOn(inputSource: String, outputFormat: String, left: String, right: String, joinOn: String, conditions: String, joinType: String): String = {
+    def processJoinOn(left: String, right: String, joinOn: String, conditions: String, joinType: String, dataStream: String): String = {
       LogMessage(nodeName, s"\n JoinOn OP Started")
+      LogMessage(nodeName, s"Data stream is:\n $dataStream")
+      LogMessage(nodeName, s"Left is: $left")
+      LogMessage(nodeName, s"Right is: $right")
       var output = ""
-      if (inputSource == "name") {
-        LogMessage(nodeName, "Handle left stream")
-        val intermediateResultLeft = Helpers.handleNamedInputSource(nodeName, left, ccnApi)
-        LogMessage(nodeName, "Handle right stream")
-        val intermediateResultRight = Helpers.handleNamedInputSource(nodeName, right, ccnApi)
-        output = joinStreamsOn(intermediateResultLeft, left, intermediateResultRight, right, joinOn, conditions, joinType)
+      val side = determineLeftOrRight(left,right,dataStream)
+      if(side == "left")
+        stateHolder.updateState(left,dataStream)
+      else if(side == "right")
+        stateHolder.updateState(right,dataStream)
+        else{
+        LogMessage(nodeName,s"something went wring")
       }
-      if (outputFormat == "name") {
-        output = Helpers.storeOutputLocally(nodeName, output, "JOIN", "onOperators", ccnApi)
+      var leftSide = stateHolder.getWindowState(left)
+      var rightSide = stateHolder.getWindowState(right)
+      if(leftSide==null) {
+        LogMessage(nodeName,"JOIN: Left was empty")
+        leftSide = ""
       }
-      else {
-        LogMessage(nodeName, s"Inside Join -> JOIN name: NONE, JOIN content: ${output}")
+      else
+        LogMessage(nodeName, s"JOIN: Left was $leftSide")
+      if(rightSide==null) {
+        LogMessage(nodeName,"JOIN: Right was empty")
+        rightSide = ""
       }
+      else
+      LogMessage(nodeName,s"JOIN: Right was $rightSide")
+      output = "Join Output"//joinStreamsOn(leftSide, left, rightSide, right, joinOn, conditions, joinType)
       LogMessage(nodeName, s"Join OP Completed\n")
       output
     }
@@ -49,12 +62,21 @@ class Join() extends NFNService {
     NFNStringValue(
       args match {
         //case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue) => processJoin(inputSource.str, left.str, right.str, outputFormat.str)
-        case Seq(timestamp: NFNStringValue, inputSource: NFNStringValue, outputFormat: NFNStringValue, left: NFNStringValue, right: NFNStringValue, joinOn: NFNStringValue, conditions: NFNStringValue, joinType: NFNStringValue) => processJoinOn(inputSource.str, outputFormat.str, left.str, right.str, joinOn.str, conditions.str, joinType.str
+        case Seq(left: NFNStringValue, right: NFNStringValue, joinOn: NFNStringValue, conditions: NFNStringValue, joinType: NFNStringValue, dataStream: NFNStringValue) => processJoinOn(left.str, right.str, joinOn.str, conditions.str, joinType.str, dataStream.str
         )
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
     )
+  }
+
+  def determineLeftOrRight(left: String, right: String, dataStream: String):String ={
+    var etVal = "none"
+    if(dataStream.split("\n")(0).toLowerCase() == left.toLowerCase())
+      etVal = "left"
+    else if(dataStream.split("\n")(0).toLowerCase() == right.toLowerCase())
+      etVal = "right"
+    etVal
   }
 
   /**
