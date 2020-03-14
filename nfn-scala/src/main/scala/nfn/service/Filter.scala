@@ -33,7 +33,7 @@ class Filter() extends NFNService {
     //Sample Query: 'Victims' '2=1001&&3=M||4>46'
     //First break OR and then get AND
 
-    def placeFilterInterests(interestNodeName: String, stream: String, interestedComputation: CCNName): String = {
+    def placeFilterInterests(): String = {
       /*LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
       Networking.subscribeToQuery(stream,interestedComputation.toString,ccnApi)*/
       "Initial Filter Operation started --> can I get rid of this in general? Maybe have a Non-returning thing here..."
@@ -42,12 +42,14 @@ class Filter() extends NFNService {
     def filterStream1(dataStreamName: String, filter: String, dataStream: String):String = {
       LogMessage(nodeName, s"\nFilter OP Started")
       val filterParams = FilterHelpers.parseFilterArguments(filter)
-      filterHandler(dataStreamName,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
-      "filtered Stream"
+      LogMessage(nodeName,s"Filter($dataStreamName,$filter)")
+      //filterHandler(dataStreamName,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
+      s"Filter($dataStreamName,$filter)" + "\n" + dataStream
+      //"filtered Stream"
     }
 
     def filterInitialStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, interestedComputationName: CCNName): String = {
-      LogMessage(nodeName, s"Initial Filteroperation started")
+      LogMessage(nodeName, s"Initial Filteroperation startedd")
       val setting = s"/state/Filter/".concat(filter.str).concat(stream)
       Networking.makePersistentInterest(stream.substring(1),interestedComputationName,ccnApi) // remove the first backslash from stream
       setting
@@ -77,12 +79,8 @@ class Filter() extends NFNService {
 
       //If outputFormat = name => we will return a named interest
       //If outputFormat = data => we will return the data
-      if (outputFormat.toLowerCase == "name") {
-        output = Helpers.storeOutputLocally(nodeName, output, "FILTER", "onWindow", ccnApi)
-      }
-      else {
-        LogMessage(nodeName, s"Inside Filter -> FILTER name: NONE, FILTER content: ${output}")
-      }
+      LogMessage(nodeName, s"Inside Filter -> FILTER name: NONE, FILTER content: ${output}")
+
       LogMessage(nodeName, s"Filter OP Completed")
       output
     }
@@ -91,10 +89,10 @@ class Filter() extends NFNService {
       args match {
         //Output format: Either name (/node/Filter/Sensor/Time) or data (data value directly)
         //[data/sensor][string of data][filter][outputFormat]
-        case Seq(timestamp: NFNStringValue, inputFormat: NFNStringValue, queryInterest: NFNStringValue, filter:NFNStringValue, outputFormat: NFNStringValue) => placeFilterInterests(inputFormat.str, queryInterest.str, interestName)
-        case Seq(timestamp: NFNStringValue, inputFormat: NFNStringValue, queryInterest: NFNStringValue, filter:NFNStringValue, outputFormat:NFNStringValue, dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
+        case Seq(queryInterest: NFNStringValue, filter:NFNStringValue) => placeFilterInterests()
+        case Seq(queryInterest: NFNStringValue, filter:NFNStringValue, dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
         //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterInitialStream(source.str, stream.str, filter, outputFormat, interestName)
-        case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, outputFormat, dataStream)
+        //case Seq(source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, dataStream)
         //[content][contentobject][filter][outputFormat]
         //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNContentObjectValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream(source.str, new String(stream.data), filter, outputFormat)
         //[sensor][string of data][filter]
