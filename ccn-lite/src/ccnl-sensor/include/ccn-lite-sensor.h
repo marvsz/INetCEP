@@ -97,7 +97,7 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path);
  */
 int ccnl_sensor_isSame(struct ccnl_sensor_setting_s* sensor1, struct ccnl_sensor_setting_s* sensor2);
 
-void ccnl_sensor_sample(struct ccnl_sensor_s* sensor,char* sock, char* tuplePath, char* binaryContentPath);
+void ccnl_sensor_sample(struct ccnl_sensor_s* sensor, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize);
 
 /**
  * @brief the sensor loop
@@ -106,4 +106,9 @@ void ccnl_sensor_sample(struct ccnl_sensor_s* sensor,char* sock, char* tuplePath
  */
 int ccnl_sensor_loop(struct ccnl_sensor_s* sensor);
 
+
+int sendTuple(struct ccnl_sensor_tuple_s*, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize);
+
+
+//static void _mkdir(const char *dir);
 #endif //CCN_LITE_CCN_LITE_SENSOR_H

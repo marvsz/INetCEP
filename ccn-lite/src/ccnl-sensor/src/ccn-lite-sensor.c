@@ -14,14 +14,23 @@
 #include <inttypes.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <ccnl-ext-hmac.h>
+#include <limits.h>
+#include <ccnl-common.h>
+#include <stdlib.h>
 #include "../include/ccn-lite-sensor.h"
 #include "ccnl-os-includes.h"
 #include "../../ccnl-utils/include/ccnl-crypto.h"
+#include "../../ccnl-nfn/include/ccnl-nfn-ops.h"
 
 //#include "../include/randomGPS.h"
 //#include "../include/randomVICTIMS.h"
 //#include "../include/randomPLUG.h"
 //#include "../include/randomSURVIVORS.h"
+
+#ifndef CCN_LITE_MKC_OUT_SIZE
+#define CCN_LITE_MKC_OUT_SIZE (65 * 1024)
+#endif
 
 #ifndef CCN_LITE_MKC_BODY_SIZE
 #define CCN_LITE_MKC_BODY_SIZE (64 * 1024)
@@ -97,7 +106,7 @@ int64_t my_getline(char **restrict line, size_t *restrict len, FILE *restrict fp
  * https://stackoverflow.com/questions/2336242/recursive-mkdir-system-call-on-unix/11425692
  * https://stackoverflow.com/questions/7430248/creating-a-new-directory-in-c
  */
-static void _mkdir(const char *dir) {
+/*static void _mkdir(const char *dir) {
     char tmp[256];
     char *p = NULL;
     size_t len;
@@ -114,7 +123,7 @@ static void _mkdir(const char *dir) {
                 mkdir(tmp, S_IRWXU);
             *p = '/';
         }
-}
+}*/
 
 
 struct ccnl_sensor_setting_s *
@@ -155,11 +164,11 @@ char *getSensorName(unsigned int i) {
     return retval;
 }
 
-int get_int_len (int value){
+/*int get_int_len (int value){
     int l=1;
     while(value>9){ l++; value/=10; }
     return l;
-}
+}*/
 
 struct ccnl_sensor_tuple_s*
         ccnl_sensor_generate_random_victims_tuple(struct ccnl_sensor_s* sensor){
@@ -329,125 +338,166 @@ void sensorStopped(struct ccnl_sensor_s* sensor, char* stoppath){
     }
 }
 
-int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
-    struct timespec ts;
-    struct timespec tstart;
-    struct timespec tend;
-    struct timespec tdelta;
-    struct timespec resultsleep;
-    char stopPath[100];
-    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
-    char sock[100];
-    if(!sensor->settings->use_udp)
-        snprintf(sock,sizeof(sock),"/tmp/%s",sensor->settings->socketPath);
-    else
-        snprintf(sock,sizeof(sock),"%s",sensor->settings->socketPath);
-    char tuplePath[100];
-    snprintf(tuplePath,sizeof(tuplePath),"/tmp/%s%i/tupleData",getSensorName(sensor->settings->name),sensor->settings->id);
-    _mkdir(tuplePath);
-    char binaryContentPath[100];
-    snprintf(binaryContentPath,sizeof(binaryContentPath),"/tmp/%s%i/tupleDataBinary",getSensorName(sensor->settings->name),sensor->settings->id);
-    DEBUGMSG(TRACE, "sensor loop started\n");
-    ts.tv_sec = sensor->settings->samplingRate / 1000;
-    ts.tv_nsec = (sensor->settings->samplingRate % 1000) * 1000000;
-    while (!sensor->stopflag) {
-        clock_gettime(CLOCK_MONOTONIC,&tstart);
-        ccnl_sensor_sample(sensor,sock,tuplePath,binaryContentPath);
-        sensorStopped(sensor,stopPath);
-        clock_gettime(CLOCK_MONOTONIC,&tend);
-        tdelta.tv_sec = tend.tv_sec - tstart.tv_sec;
-        tdelta.tv_nsec = tend.tv_nsec - tstart.tv_nsec;
-        resultsleep.tv_sec = ts.tv_sec - tdelta.tv_sec;
-        resultsleep.tv_nsec = ts.tv_nsec - tdelta.tv_nsec;
-        nanosleep(&resultsleep, &resultsleep);
-    }
-    ccnl_sensor_free(sensor);
-    remove(stopPath);
-    return 0;
-}
-
 char getNodeName(char* socket){
     return toupper(socket[15]);
 }
 
-void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath, char* binaryContentPath) {
-    char *ccnl_home = getenv("CCNL_HOME");
-    char *ctrl = "ccn-lite-ctrl";
-    char *mkc = "ccn-lite-mkDSC";
-    int mkCStatus, execStatus;
-    char exec[200];
-    DEBUGMSG(INFO, "Sample sensor with sampling rate of %i milliseconds\n", sensor->settings->samplingRate);
-    struct timeval tv;
-    struct tm *tm;
-    gettimeofday(&tv, NULL);
-    tm = localtime(&tv.tv_sec);
+int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
+
+    /*sendTuples(sensor);*/
+    struct timespec ts/*, tstart, tend*/, resultsleep;
+    char *addr = NULL, *ux = NULL;
+    struct sockaddr sa;
+    int port, cnt=0, sock = 0, suite = CCNL_SUITE_DEFAULT;
+    int  socksize;
+    char stopPath[100];
     char uri[100];
-    char tupleData[1000];
-    FILE * fPtr;
-    fPtr = fopen(tuplePath,"w");
-    if(fPtr == NULL){
-        DEBUGMSG(DEBUG,"Unable to create file.\n");
-        exit(EXIT_FAILURE);
-    }
 
-    if(sensor->settings->type==CCNL_SENSORTYPE_EMULATION){
-        DEBUGMSG(DEBUG,"Enter trace content into store.\n");
-        struct ccnl_sensor_tuple_s* currentData = sensor->sensorData;
-        snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
-        DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
-        ccnl_free(currentData);
-        if(!sensor->sensorData)
-            sensor->stopflag=1;
-
-    }
-    else{
-        DEBUGMSG(DEBUG,"Enter random content into store.\n");
-        struct ccnl_sensor_tuple_s* currentData;
-        switch(sensor->settings->name){
-            case CCNL_SENSORNAME_VICTIMS:
-                currentData = ccnl_sensor_generate_random_victims_tuple(sensor);
-                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
-                break;
-            case CCNL_SENSORNAME_SURVIVORS:
-                currentData = ccnl_sensor_generate_random_survivors_tuple(sensor);
-                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
-                break;
-            case CCNL_SENSORNAME_GPS:
-                currentData = ccnl_sensor_generate_random_gps_tuple(sensor);
-                snprintf(tupleData, sizeof(tupleData),"%.*s",(int)currentData->datalen,currentData->data);
-                break;
-            case CCNL_SENSORNAME_PLUG:
-                currentData = ccnl_sensor_generate_random_plug_tuple(sensor);
-                snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
-                break;
-            default:
-                snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
-                break;
-        }
-    }
-    DEBUGMSG(EVAL,"Enter Tuple Data %s into file.\n", tupleData);
-    fputs(tupleData, fPtr);
-    fclose(fPtr);
-    //snprintf(uri, sizeof(uri), "/node%s/sensor/%s%i/%02d:%02d:%02d.%03d", "A", getSensorName(sensor->settings->name),
-             //sensor->settings->id, tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+    snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
+    // create the name for the data
     if(!sensor->settings->use_udp)
         snprintf(uri, sizeof(uri), "node/node%c/sensor/%s/%i", getNodeName(sensor->settings->socketPath), getSensorName(sensor->settings->name),
                  sensor->settings->id);
     else
         snprintf(uri, sizeof(uri), "node/nodeA/sensor/%s/%i", getSensorName(sensor->settings->name),
                  sensor->settings->id);
-    snprintf(exec, sizeof(exec), "%s/bin/%s -s ndn2013 \"%s\" -i %s > %s", ccnl_home, mkc, uri, tuplePath, binaryContentPath);
-    mkCStatus = system(exec);
-    (void) mkCStatus;
-    //DEBUGMSG(DEBUG, "mkC returned %i sock is %s\n", mkCStatus, sock);
-    if(!sensor->settings->use_udp)
-        snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v evaluation", ccnl_home, ctrl, sock, binaryContentPath);
-    else
-        snprintf(exec, sizeof(exec), "%s/bin/%s -u %s addContentToCache %s -v evaluation", ccnl_home, ctrl, sock, binaryContentPath);
-    //snprintf(exec, sizeof(exec), "%s/bin/%s -u 127.0.0.1/6363 addContentToCache %s -v trace", ccnl_home, ctrl, binaryContentPath);
-    //DEBUGMSG(DEBUG, "command Messge is %s\n",exec);
+
+    struct ccnl_prefix_s *name;
+
+    // make the prefix from the data name
+    name = ccnl_URItoPrefix(uri, suite, NULL, NULL);
+
+    // parse the udp address or else safe the address for the socket path
+    if(sensor->settings->use_udp){
+        if (ccnl_parseUdp(sensor->settings->socketPath, suite, &addr, &port) != 0) {
+            exit(-1);
+        }
+    }
+    else{
+        char uxSocketPath[100];
+        snprintf(uxSocketPath, sizeof(uxSocketPath),"tmp/%s",sensor->settings->socketPath);
+        ux=uxSocketPath;//sensor->settings->socketPath;
+    }
+
+    // open the socket
+    if (ux) { // use UNIX socket
+        struct sockaddr_un *su = (struct sockaddr_un*) &sa;
+        su->sun_family = AF_UNIX;
+        strcpy(su->sun_path, ux);
+        sock = ux_open();
+    } else { // UDP
+        struct sockaddr_in *si = (struct sockaddr_in*) &sa;
+        si->sin_family = PF_INET;
+        si->sin_addr.s_addr = inet_addr(addr);
+        si->sin_port = htons(port);
+        sock = udp_open();
+    }
 
 
+    // get the socksize
+    if (ux) {
+        socksize = sizeof(struct sockaddr_un);
+    } else {
+        socksize = sizeof(struct sockaddr_in);
+    }
+
+    DEBUGMSG(TRACE, "sensor loop started\n");
+    ts.tv_sec = sensor->settings->samplingRate / 1000000;
+    ts.tv_nsec = (sensor->settings->samplingRate % 1000000) * 1000;
+    while (!sensor->stopflag) {
+        clock_gettime(CLOCK_MONOTONIC,&resultsleep);
+        resultsleep.tv_sec = resultsleep.tv_sec + ts.tv_sec;
+        resultsleep.tv_nsec = resultsleep.tv_nsec + ts.tv_nsec;
+        //clock_gettime(CLOCK_MONOTONIC,&tstart);
+        cnt++;
+        ccnl_sensor_sample(sensor, name, sa, sock, socksize);
+        DEBUGMSG(EVAL,"sent %i Messages\n",cnt);
+
+        sensorStopped(sensor,stopPath);
+        //clock_gettime(CLOCK_MONOTONIC,&tend);
+        //resultsleep.tv_sec = ts.tv_sec - (tend.tv_sec - tstart.tv_sec);
+        //resultsleep.tv_nsec = ts.tv_nsec - (tend.tv_nsec - tstart.tv_nsec);
+        //DEBUGMSG(EVAL,"t nano delta was %lu\n",tdelta.tv_nsec);
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME,&resultsleep, NULL);
+
+    }
+    close(sock);
+    remove(stopPath);
+    ccnl_sensor_free(sensor);
+
+    return 0;
+}
+
+
+
+int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize){
+    unsigned char out[CCN_LITE_MKC_OUT_SIZE];
+    unsigned char body[CCN_LITE_MKC_BODY_SIZE];
+    int rc, len, offs = CCNL_MAX_PACKET_SIZE;
+    //int cnt = 0;
+
+    // copy the tuple content into the body
+    snprintf((char*)body, sizeof(body),"%.*s",(int)currentData->datalen,currentData->data);
+    // set the length of the body
+    len = (int) currentData->datalen +1;
+    // free the allocated memory for the tuple
+    ccnl_free(currentData);
+    // prepend the data stream content
+    len = ccnl_ndntlv_prependDataStreamContent(name, body, len, NULL, NULL, &offs, out);
+
+
+    //Now we send it
+
+    rc = sendto(sock, out+offs, len, 0, (struct sockaddr*)&sa, socksize);
+    /*
+    while(cnt < 100){
+        //since the content is at the end of the buffer we send only the end.
+        rc = sendto(sock, out+offs, len, 0, (struct sockaddr*)&sa, socksize);
+        cnt++;
+    }*/
+    return rc;
+}
+
+
+
+void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize) {
+    struct ccnl_sensor_tuple_s* currentData;
+    DEBUGMSG(INFO, "Sample sensor with sampling rate of %i microseconds\n", sensor->settings->samplingRate);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    int returnVal = 0;
+
+    if(sensor->settings->type==CCNL_SENSORTYPE_EMULATION){
+        DEBUGMSG(DEBUG,"Getting current trace data.\n");
+        currentData = sensor->sensorData;
+        DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
+        ccnl_free(currentData);
+        if(!sensor->sensorData)
+            sensor->stopflag=1;
+    }
+    else{
+        DEBUGMSG(DEBUG,"Generating random data.\n");
+        switch(sensor->settings->name){
+            case CCNL_SENSORNAME_VICTIMS:
+                currentData = ccnl_sensor_generate_random_victims_tuple(sensor);
+                break;
+            case CCNL_SENSORNAME_SURVIVORS:
+                currentData = ccnl_sensor_generate_random_survivors_tuple(sensor);
+                break;
+            case CCNL_SENSORNAME_GPS:
+                currentData = ccnl_sensor_generate_random_gps_tuple(sensor);
+                break;
+            case CCNL_SENSORNAME_PLUG:
+                currentData = ccnl_sensor_generate_random_plug_tuple(sensor);
+                break;
+            default:
+                currentData = ccnl_sensor_generate_random_victims_tuple(sensor);
+                //snprintf(tupleData, sizeof(tupleData),"Testdata %02d:%02d:%02d.%03d", tm->tm_hour, tm->tm_min, tm->tm_sec, (int) (tv.tv_usec / 1000));
+                break;
+        }
+    }
+    returnVal = sendTuple(currentData,name, sa, sock, socksize);
+    DEBUGMSG(DEBUG,"Sendto returned %i",returnVal);
     long            ns; // Nanoseconds
     time_t          s;  // Seconds
     struct timespec spec;
@@ -456,8 +506,4 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor,char* sock, char* tuplePath
     ns =  spec.tv_nsec;
     DEBUGMSG(EVAL,"Current time: %"PRIdMAX".%09ld seconds since the Epoch\n",
              (intmax_t)s, ns);
-    //snprintf(exec, sizeof(exec), "%s/bin/%s -x %s addContentToCache %s -v trace", ccnl_home, ctrl, sock, binaryContentPath);
-    execStatus = system(exec);
-    (void) execStatus;
-    //DEBUGMSG(DEBUG, "addContentToCache returned %i\n", execStatus);
 }

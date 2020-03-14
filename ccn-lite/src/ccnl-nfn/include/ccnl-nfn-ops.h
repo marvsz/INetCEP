@@ -17,5 +17,5 @@
 
 struct builtin_s *op_extensions;
 extern struct builtin_s bifs[];
-
+int get_int_len (int value);
 #endif //CCNL_NFN_OPS_H

@@ -211,10 +211,10 @@ copyTestScripts(){
 ((count=0))
 	for i in "${VMS[@]}"
 	do
-		echo "logged in: " $i
-		ssh -t $user@$i <<-'ENDSSH'	
-		rm -rf ~/INetCEP/Test\ scripts/
-		ENDSSH
+		#echo "logged in: " $i
+		#ssh -t $user@$i <<-'ENDSSH'	
+		#rm -rf ~/INetCEP/Test\ scripts/
+		#ENDSSH
 		scp -rp "$work_dir"/Test\ scripts $user@$i:~/INetCEP/
 		((count++))
 	
@@ -367,6 +367,24 @@ for i in "${VMS[@]}"
 	done
 }
 
+getUnifiedTestLogs(){
+mkdir -p $work_dir/UnifiedLogs
+VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
+for i in "${VMS[@]}"
+	do
+	scp -r $user@$i:~/INetCEP/Test\\\ scripts/Logs /media/johannes/BULK
+	done
+}
+
+getPingingTestLogs(){
+mkdir -p $work_dir/UnifiedLogs
+VMSdir=($(ls -d $work_dir/VM-Startup-Scripts/*))
+for i in "${VMS[@]}"
+	do
+	scp -r $user@$i:~/INetCEP/Test\\\ scripts/LogsPing /media/johannes/BULK
+	done
+}
+
 help="
 Invalid usage
 
@@ -420,6 +438,8 @@ elif [ $1 == "getOutput" ]; then getOutput
 elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "copyTest" ]; then copyTestScripts
 elif [ $1 == "shutdown" ]; then shutdown
+elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs
+elif [ $1 == "pingLogs" ]; then getPingingTestLogs
 else echo "$help"
 fi
 

@@ -1,0 +1,18 @@
+Monitor with: watch -n 1 -d 'cat /proc/net/udp'
+
+Set udp_mem higher with:
+sysctl -w 'net/ipv4/udp_mem=37562100 50083100 75124200'
+
+Set wmem_default higher with:
+sysctl -w 'net/core/wmem_default=26214400'
+
+Enter into a /etc/sysctl.conf:
+
+net.core.rmem_max=26214400
+net.core.rmem_default=26214400
+
+Based on:
+https://serverfault.com/questions/214520/how-to-measure-and-minimize-udp-packet-loss
+https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+https://medium.com/@CameronSparr/increase-os-udp-buffers-to-improve-performance-51d167bb1360
+https://jvns.ca/blog/2016/08/24/find-out-where-youre-dropping-packets/

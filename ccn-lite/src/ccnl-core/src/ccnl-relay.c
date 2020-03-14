@@ -290,6 +290,7 @@ int
 ccnl_face_enqueue(struct ccnl_relay_s *ccnl, struct ccnl_face_s *to,
                  struct ccnl_buf_s *buf)
 {
+    to->last_used = CCNL_NOW();
     struct ccnl_buf_s *msg;
     if (buf == NULL) {
         DEBUGMSG_CORE(ERROR, "enqueue face: buf most not be NULL\n");
@@ -731,6 +732,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 #endif
                 DEBUGMSG_CORE(VERBOSE, "    Serve to face: %d (pkt=%p)\n",
                          pi->face->faceid, (void*) c->pkt);
+
 #ifdef USE_NFN_MONITOR
                 ccnl_nfn_monitor(ccnl, pi->face, c->pkt->pfx,
                                  c->pkt->content, c->pkt->contlen);
