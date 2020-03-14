@@ -135,7 +135,7 @@ ccnl_pkt2suite(unsigned char *data, int len, int *skip) {
     if (len <= 0)
         return -1;
 
-    DEBUGMSG_CUTL(TRACE, "pkt2suite %d %d\n", data[0], data[1]);
+    //DEBUGMSG_CUTL(TRACE, "pkt2suite %d %d\n", data[0], data[1]);
 
     while (!ccnl_switch_dehead(&data, &len, &enc))
         suite = ccnl_enc2suite(enc);

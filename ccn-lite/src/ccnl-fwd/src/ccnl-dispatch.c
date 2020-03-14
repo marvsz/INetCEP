@@ -78,7 +78,7 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
         DEBUGMSG(DEBUG,"Data content to dehead %.*s\n",(int)datalen,data);
         while (!ccnl_switch_dehead(&data, &datalen, &enc))
             suite = ccnl_enc2suite(enc);
-        DEBUGMSG(DEBUG,"enc was %i, suite is now %i\n",enc,suite);
+        //DEBUGMSG(DEBUG,"enc was %i, suite is now %i\n",enc,suite);
         if (suite == -1)
             suite = ccnl_pkt2suite(data, datalen, &skip);
 
@@ -87,8 +87,8 @@ ccnl_core_RX(struct ccnl_relay_s *relay, int ifndx, unsigned char *data,
                      ifndx, datalen, *data, (int)(data - base),suite);
             return;
         }
-        DEBUGMSG_CORE(WARNING, "known packet format ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d, suit is %i\n",
-                      ifndx, datalen, *data, (int)(data - base),suite);
+        /*DEBUGMSG_CORE(WARNING, "known packet format ccnl_core_RX ifndx=%d, %d bytes starting with 0x%02x at offset %d, suit is %i\n",
+                      ifndx, datalen, *data, (int)(data - base),suite);*/
         dispatch = ccnl_core_suites[suite].RX;
         if (!dispatch) {
             DEBUGMSG_CORE(ERROR, "Forwarder not initialized or dispatcher "

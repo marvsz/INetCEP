@@ -45,7 +45,7 @@
 struct ccnl_buf_s*
 ccnl_buf_new(void *data, int len)
 {
-    DEBUGMSG_CORE(TRACE,"Setting new buffer with the length of %i\n",len);
+    //DEBUGMSG_CORE(TRACE,"Setting new buffer with the length of %i\n",len);
     struct ccnl_buf_s *b = (struct ccnl_buf_s*) ccnl_malloc(sizeof(*b) + len);
 
     if (!b)

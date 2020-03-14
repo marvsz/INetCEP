@@ -526,7 +526,7 @@ struct ccnl_content_s*
 ccnl_content_remove(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 {
     struct ccnl_content_s *c2;
-    DEBUGMSG_CORE(TRACE, "ccnl_content_remove\n");
+    //DEBUGMSG_CORE(TRACE, "ccnl_content_remove\n");
 
     c2 = c->next;
     DBL_LINKED_LIST_REMOVE(ccnl->contents, c);
@@ -539,7 +539,7 @@ ccnl_content_remove(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
     }
     //    ccnl_prefix_free(c->name);
     ccnl_free(c);
-    DEBUGMSG_CORE(TRACE, "ccnl_content_removed\n");
+    //DEBUGMSG_CORE(TRACE, "ccnl_content_removed\n");
     ccnl->contentcnt--;
 #ifdef CCNL_RIOT
     evtimer_del((evtimer_t *)(&ccnl_evtimer), (evtimer_event_t *)&c->evtmsg_cstimeout);
@@ -776,7 +776,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
     }
-DEBUGMSG(DEBUG,"Serve Pending done\n");
+//DEBUGMSG(DEBUG,"Serve Pending done\n");
 #ifdef USE_NFN_REQUESTS
     if (ccnl_nfnprefix_isIntermediate(c->pkt->pfx)) {
         return 1;   //

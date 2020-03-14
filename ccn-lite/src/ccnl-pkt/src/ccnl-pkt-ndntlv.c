@@ -110,7 +110,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
     int validAlgoIsHmac256 = 0;
 #endif
 
-    DEBUGMSG(DEBUG, "ccnl_ndntlv_bytes2pkt len=%d\n", *datalen);
+    //DEBUGMSG(DEBUG, "ccnl_ndntlv_bytes2pkt len=%d\n", *datalen);
 
     pkt = (struct ccnl_pkt_s*) ccnl_calloc(1, sizeof(struct ccnl_pkt_s));
     if (!pkt)
@@ -144,7 +144,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
         break;
 #endif
     default:
-        DEBUGMSG(INFO, "  ndntlv: unknown packet type %d\n", pkttype);
+        DEBUGMSG(WARNING, "  ndntlv: unknown packet type %d\n", pkttype);
         goto Bail;
     }
 
@@ -194,26 +194,26 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
                 len2 -= i;
             }
             p->namelen = *data - p->nameptr;
-            DEBUGMSG(DEBUG, "  check interest type\n");
+            //DEBUGMSG(DEBUG, "  check interest type\n");
 #ifdef USE_NFN
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
                     !memcmp(p->comp[p->compcnt-1], "NFN", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
-                DEBUGMSG(DEBUG, "  is NFN interest\n");
+                DEBUGMSG(INFO, "  is NFN interest\n");
             }
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
                 !memcmp(p->comp[p->compcnt-1], "AQI", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
                 pkt->s.ndntlv.isPersistent = 1;
-                DEBUGMSG(DEBUG, "  is add Query interest\n");
+                DEBUGMSG(INFO, "  is add Query interest\n");
             }
             if (p->compcnt > 0 && p->complen[p->compcnt-1] == 3 &&
                 !memcmp(p->comp[p->compcnt-1], "RQI", 3)) {
                 p->nfnflags |= CCNL_PREFIX_NFN;
                 p->compcnt--;
-                DEBUGMSG(DEBUG, "  is remove Query interest\n");
+                DEBUGMSG(INFO, "  is remove Query interest\n");
             }
 
 #ifdef USE_NFN_REQUESTS
@@ -343,7 +343,7 @@ ccnl_ndntlv_bytes2pkt(unsigned int pkttype, unsigned char *start,
         if (p->nameptr)
             p->nameptr = pkt->buf->data + (p->nameptr - start);
     }
-    DEBUGMSG(DEBUG,"The content is %.*s\n",(int)pkt->contlen,pkt->content);
+    DEBUGMSG(INFO,"The content is %.*s\n",(int)pkt->contlen,pkt->content);
     return pkt;
 Bail:
     ccnl_pkt_free(pkt);

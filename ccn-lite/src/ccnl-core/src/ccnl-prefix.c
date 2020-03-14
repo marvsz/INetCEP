@@ -387,7 +387,7 @@ ccnl_prefix_cmp(struct ccnl_prefix_s *pfx, unsigned char *md,
     unsigned char *comp;
 
 
-    DEBUGMSG(VERBOSE, "prefix_cmp(mode=%s) ", ccnl_matchMode2str(mode));
+    //DEBUGMSG(VERBOSE, "prefix_cmp(mode=%s)\n", ccnl_matchMode2str(mode));
 #ifndef CCNL_LINUXKERNEL
     /*char s[CCNL_MAX_PREFIX_SIZE];
     DEBUGMSG(VERBOSE, "prefix=<%s>(%p) of? ",
