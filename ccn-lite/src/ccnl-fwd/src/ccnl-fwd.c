@@ -63,6 +63,12 @@ int ccnl_fib_add_entry(struct ccnl_relay_s *relay, struct ccnl_prefix_s *pfx,
                        struct ccnl_face_s *face);
 #endif
 
+/**
+ * Added by Johannes
+ * @param relay The relay
+ * @param c the content for which to serve the pending queries
+ * @return 0 if there were no pending queries, n > 0 where n is the number of served pending queries.
+ */
 int
 ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_content_s *c){
     struct ccnl_interest_s *i;
@@ -144,7 +150,7 @@ ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_conten
         i = i->next;
 
     }
-    DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pendingQueries done\n");
+    //DEBUGMSG_CORE(TRACE, "ccnl_content_serve_pendingQueries done\n");
 
     return cnt;
 }
@@ -238,9 +244,9 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     // CONFORM: Step 1:
     for (c = relay->contents; c; c = c->next) {
         if (ccnl_prefix_cmp(c->pkt->pfx, NULL, (*pkt)->pfx, CMP_EXACT) == 0) {
-            DEBUGMSG_CFWD(TRACE, "  content is duplicate, removing old one and storing new one\n");
+            DEBUGMSG_CFWD(INFO, "Content is duplicate, removing old one and storing new one\n");
             c = ccnl_content_remove(relay, c);
-            DEBUGMSG_CFWD(TRACE,"  old content removed\n");
+            //DEBUGMSG_CFWD(INFO,"  old content removed\n");
             if(!c)
                 break;
         }
@@ -345,7 +351,7 @@ ccnl_fwd_handleContent(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     int servedQueries = ccnl_content_serve_pendingQueries(relay,c);
     int servedInterests = ccnl_content_serve_pending(relay, c);
 
-    if(!(servedQueries||servedInterests)){ // unsolicited content
+    if(!(servedQueries||servedInterests)&&!(c->pkt->type==NDN_TLV_Datastream)){ // unsolicited content
         // CONFORM: "A node MUST NOT forward unsolicited data [...]"
         DEBUGMSG_CFWD(DEBUG, "  removed because no matching interest\n");
         ccnl_content_remove(relay, c);
@@ -932,15 +938,15 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     unsigned char *start = *data;
     struct ccnl_pkt_s *pkt;
 
-    DEBUGMSG_CFWD(DEBUG, "ccnl_ndntlv_forwarder (%d bytes left)\n", *datalen);
+    //DEBUGMSG_CFWD(DEBUG, "ccnl_ndntlv_forwarder (%d bytes left)\n", *datalen);
 
     if (ccnl_ndntlv_dehead(data, datalen, (int*) &typ, &len) || (int) len > *datalen) {
-        DEBUGMSG_CFWD(TRACE, "  invalid packet format\n");
+        DEBUGMSG_CFWD(WARNING, "  invalid packet format\n");
         return -1;
     }
     pkt = ccnl_ndntlv_bytes2pkt(typ, start, data, datalen);
     if (!pkt) {
-        DEBUGMSG_CFWD(INFO, "  ndntlv packet coding problem\n");
+        DEBUGMSG_CFWD(WARNING, "  ndntlv packet coding problem\n");
         goto Done;
     }
     pkt->type = typ;
