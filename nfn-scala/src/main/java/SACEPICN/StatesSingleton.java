@@ -1,10 +1,14 @@
 package SACEPICN;
 
+import scala.Array;
+import scala.Double;
+
 import java.util.HashMap;
 
 public class StatesSingleton {
     private static StatesSingleton instantce;
-    public HashMap<String, String> states = new HashMap<String, String>();
+    private HashMap<String, String> windowStates = new HashMap<String, String>();
+    private HashMap<String, Double[]> prediction2States = new HashMap<String, Double[]>();
 
     /**
      * A synchronized singleton that holds state for an operator.
@@ -22,8 +26,12 @@ public class StatesSingleton {
      * @param operatorName The name of the operator.
      * @return The state that is stored for this operator.
      */
-    public String getState(String operatorName){
-        return states.get(operatorName);
+    public String getWindowState(String operatorName){
+        return windowStates.get(operatorName);
+    }
+
+    public Double[] getPrediction2State(String operatorName){
+        return prediction2States.get(operatorName);
     }
 
     /**
@@ -32,6 +40,6 @@ public class StatesSingleton {
      * @param state The state content that should be updated.
      */
     public void updateState(String operatorName, String state){
-        states.put(operatorName,state);
+        windowStates.put(operatorName,state);
     }
 }
