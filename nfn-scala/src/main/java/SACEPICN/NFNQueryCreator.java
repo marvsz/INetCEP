@@ -18,7 +18,6 @@ public class NFNQueryCreator {
     {
         String call = f;
         // add each parameter as string
-        call += " '" + _timestamp.getTime() + "'";
         for (String p : this.parameters)
         {
             call += " '" + p + "'";
