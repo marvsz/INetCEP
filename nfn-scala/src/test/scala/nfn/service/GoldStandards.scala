@@ -13,7 +13,7 @@ class GoldStandards {
   val victimsSensorPath = "victims"
   val survivorsSensorPath = "survivors"
 
-  @Test
+  /*@Test
   def q1NewGoldStandard() = {
 
     val path1 = victimsSensorPath
@@ -192,5 +192,5 @@ class GoldStandards {
       var retVal = heatmap.generateIntermediateHeatmap(heatmap.generateHeatmap(lines,granularity.toDouble,minLong.toDouble,maxLong.toDouble,minLat.toDouble,maxLat.toDouble))
       System.out.println(retVal)
     }
-  }
+  }*/
 }
