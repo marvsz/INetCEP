@@ -626,7 +626,7 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
                         args->sa = &src_addr.sa;
                         args->addrlen = sizeof(src_addr.ip4);
                         pthread_t thread_id;
-                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, args);
                         /*ccnl_core_RX(ccnl, i, buf, len,
                                      &src_addr.sa, sizeof(src_addr.ip4));*/
                     }
@@ -640,7 +640,7 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
                         args->sa = &src_addr.sa;
                         args->addrlen = sizeof(src_addr.ip6);
                         pthread_t thread_id;
-                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, args);
                         /*ccnl_core_RX(ccnl, i, buf, len,
                                      &src_addr.sa, sizeof(src_addr.ip6));*/
                     }
@@ -655,7 +655,7 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
                             args->sa = &src_addr.sa;
                             args->addrlen = sizeof(src_addr.linklayer);
                             pthread_t thread_id;
-                            pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                            pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, args);
                             /*ccnl_core_RX(ccnl, i, buf+14, len-14,
                                          &src_addr.sa, sizeof(src_addr.linklayer));*/
                         }
@@ -678,7 +678,7 @@ ccnl_io_loop(struct ccnl_relay_s *ccnl)
                         args->sa = &src_addr.sa;
                         args->addrlen = sizeof(src_addr.ux);
                         pthread_t thread_id;
-                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, (void *)&args);
+                        pthread_create(&thread_id, NULL, &ccnl_core_RX_threaded, args);
                         /*ccnl_core_RX(ccnl, i, buf, len,
                                      &src_addr.sa, sizeof(src_addr.ux));*/
                     }
