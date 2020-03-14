@@ -1,6 +1,9 @@
 package nfn.service
 
 import java.io.File
+
+import SACEPICN.StatesSingleton
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import akka.actor.ActorRef
@@ -33,7 +36,7 @@ object PandocTestDocuments {
 }
 
 class Pandoc extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
     args match {
       case Seq(NFNContentObjectValue(_, doc), NFNStringValue(from), NFNStringValue(to)) =>
         val cmds = List("pandoc", "-s", "-f", from, "-t", to)

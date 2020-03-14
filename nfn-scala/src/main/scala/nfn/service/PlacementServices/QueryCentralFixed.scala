@@ -32,7 +32,7 @@ import scala.sys.process._
 
 class QueryCentralFixed() extends NFNService {
 
-    override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+    override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
     val sacepicnEnv = StaticConfig.systemPath
     //ClientID: Client who requested the query

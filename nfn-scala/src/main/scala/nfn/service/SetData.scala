@@ -4,12 +4,15 @@ package nfn.service
   */
 import akka.actor.ActorRef
 import ccn.packet.CCNName
+
 import scala.io.Source
 import scala.util.control._
 import ccn.packet.{CCNName, Content, MetaInfo, NFNInterest}
 import nfn.NFNApi
 import nfn.tools.Networking._
 import java.io._
+
+import SACEPICN.StatesSingleton
 import nfn.service._
 import config.StaticConfig
 
@@ -18,7 +21,7 @@ import scala.concurrent.Future
 
 class SetData() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     val sacepicnEnv = StaticConfig.systemPath
 

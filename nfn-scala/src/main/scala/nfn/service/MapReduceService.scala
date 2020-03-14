@@ -2,6 +2,7 @@ package nfn.service
 
 import java.nio.charset.StandardCharsets
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, MetaInfo}
 
@@ -16,12 +17,12 @@ import scala.util.{Failure, Success, Try}
  * The result of service invocation is a [[NFNListValue]].
  */
 class MapService() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNStringValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNStringValue] = Future{
     args match {
       case Seq(function, arguments @ _*) => {
         val service = MapReduceService.serviceFromValue(function).get
         val values = arguments.map({ arg =>
-          Await.result(service.instantiateCallable(interestName, service.ccnName, Seq(arg), ccnApi, None).get.exec, 1 seconds)
+          Await.result(service.instantiateCallable(interestName, service.ccnName, Seq(arg),stateHolder, ccnApi, None).get.exec, 1 seconds)
         })
         NFNStringValue(MapReduceService.seqToString(values))
       }
@@ -37,7 +38,7 @@ class MapService() extends NFNService {
  * The result of service invocation is a [[NFNValue]].
  */
 class ReduceService() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
     args match {
       case Seq(function, stringValue) => Future{
         val service = MapReduceService.serviceFromValue(function).get
@@ -48,7 +49,7 @@ class ReduceService() extends NFNService {
             throw new NFNServiceArgumentException(s"Second argument to ReduceService must be NFNStringValue or NFNContentObjectValue, but was: $stringValue")
         })
 
-        Await.result(service.instantiateCallable(interestName, service.ccnName, arguments, ccnApi, None).get.exec,1 seconds)
+        Await.result(service.instantiateCallable(interestName, service.ccnName, arguments,stateHolder, ccnApi, None).get.exec,1 seconds)
       }
       case _ =>
         throw new NFNServiceArgumentException(s"A Reduce service must match Seq(service, value), but it was: $args")

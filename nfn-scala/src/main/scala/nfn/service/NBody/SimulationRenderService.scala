@@ -2,7 +2,10 @@ package nfn.service.NBody
 
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
+
+import SACEPICN.StatesSingleton
 import javax.imageio.ImageIO
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import akka.actor.ActorRef
@@ -12,7 +15,7 @@ import nfn.tools.Networking.{fetchContentAndKeepAlive, intermediateResult}
 
 
 class SimulationRenderService extends NFNService {
-  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, argSeq: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     var options = Map(Symbol("xres") -> 500, Symbol("yres") -> 500)
 //    var configuration = Array[Byte]()

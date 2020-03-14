@@ -1,15 +1,17 @@
 package nfn.service.NBody
 
+import SACEPICN.StatesSingleton
 import akka.actor._
 import ccn.packet.CCNName
 import nfn.service.{NFNStringValue, _}
 import nfn.tools.Networking._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SimulationService extends NFNService {
 
-  override def function(interestName: CCNName, argSeq: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, argSeq: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
     // /path/to/NBodySimulation [/path/to/config] ['-c' <configSize>] ['-d' <deltaTime>] ['-s' <stepCount>] ['-i' <intermediateInterval>]
 
     var options = Map(Symbol("configSize") -> 100, Symbol("deltaTime") -> 10, Symbol("stepCount") -> 1000000, Symbol("intermediateInterval") -> 1000)

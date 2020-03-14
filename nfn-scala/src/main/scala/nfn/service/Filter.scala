@@ -4,6 +4,7 @@ package nfn.service
  * Created by Ali on 06.02.18.
  */
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{FilterHelpers, Helpers, Networking, SensorHelpers}
 
@@ -20,7 +21,7 @@ import scala.language.postfixOps
 class Filter() extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
     var nodeInfo = interestName.cmps.mkString(" ")
     var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 

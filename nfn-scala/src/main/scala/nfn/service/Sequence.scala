@@ -4,8 +4,10 @@ package nfn.service
   * Created by Ali on 20.08.18.
   */
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.Helpers
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.io.Source
@@ -23,7 +25,7 @@ import scala.language.postfixOps
 
 class Sequence() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     val sacepicnEnv = StaticConfig.systemPath
 

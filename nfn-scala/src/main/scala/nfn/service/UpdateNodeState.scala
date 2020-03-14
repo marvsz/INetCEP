@@ -2,8 +2,10 @@ package nfn.service
 /**
   * Created by Ali on 06.02.18.
   */
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.NFNApi
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 //Added for contentfetch
@@ -15,7 +17,7 @@ import scala.language.postfixOps
 
 
 class UpdateNodeState() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future {
 
     //Very important to remember: Content stored here through NFN Calls is ONLY available to this node.
     def updateNodeState(nodeID: String, content: String, timeOfUpdate: String): String = {

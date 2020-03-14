@@ -2,6 +2,7 @@ package nfn.service.Temperature
 
 import java.io.FileWriter
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, NFNInterest}
 import lambdacalculus.parser.ast.{Call, Constant, Str}
@@ -48,7 +49,7 @@ class StoreSensorData extends NFNService   {
     try pw.append(s) finally pw.close()
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     (args.head, args.tail.head, args.tail.tail.head) match {
       case (sensorname: NFNStringValue, sensortyp: NFNStringValue, datapoint: NFNIntValue) => {

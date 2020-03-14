@@ -4,6 +4,7 @@ import java.io.{File, FileOutputStream, PrintWriter}
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+import SACEPICN.StatesSingleton
 import akka.actor._
 import akka.pattern._
 import akka.util.Timeout
@@ -22,7 +23,7 @@ object NFNService extends LazyLogging {
 
   implicit val timeout = Timeout(StaticConfig.defaultTimeoutDuration)
 
-  def parseAndFindFromName(name: String, ccnServer: ActorRef)(implicit ec: ExecutionContext): Future[CallableNFNService] = {
+  def parseAndFindFromName(name: String, stateHolder: StatesSingleton, ccnServer: ActorRef)(implicit ec: ExecutionContext): Future[CallableNFNService] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       (ccnServer ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
@@ -103,7 +104,7 @@ object NFNService extends LazyLogging {
               for {
                 args <- futArgs
                 serv <- futServ
-                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args, ccnServer, serv.executionTimeEstimate)
+                callable <- serv.instantiateCallable(CCNName(name), serv.ccnName, args, stateHolder, ccnServer, serv.executionTimeEstimate)
               } yield callable
 
             futCallableServ onComplete {
@@ -187,7 +188,7 @@ trait NFNService {
 
   def executionTimeEstimate: Option[Int] = None
 
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue]
+  def function(interestName: CCNName, args: Seq[NFNValue], stateHolder: StatesSingleton, ccnApi: ActorRef): Future[NFNValue]
 
   // Edited by Johannes in order to automatically resolve a Redirect
   /*def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
@@ -199,9 +200,9 @@ trait NFNService {
   }*/
 
 
-  def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
+  def instantiateCallable(interestName: CCNName, name: CCNName, values: Seq[NFNValue], stateHolder: StatesSingleton, ccnServer: ActorRef, executionTimeEstimate: Option[Int]): Try[CallableNFNService] = {
     assert(name == ccnName, s"Service $ccnName is created with wrong name $name")
-    Try(CallableNFNService(interestName, name, values, ccnServer, (interestName, args, ccnApi) => function(interestName, args, ccnApi), executionTimeEstimate = executionTimeEstimate))
+    Try(CallableNFNService(interestName, name, values, stateHolder, ccnServer, (interestName, args, stateHolder, ccnApi) => function(interestName, args, stateHolder, ccnApi), executionTimeEstimate = executionTimeEstimate))
   }
 
   // End Edit
@@ -237,13 +238,13 @@ case class NFNServiceExecutionException(msg: String) extends ServiceException(ms
 
 case class NFNServiceArgumentException(msg: String) extends ServiceException(msg)
 
-case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], ActorRef) => Future[NFNValue], executionTimeEstimate: Option[Int]) extends LazyLogging
+case class CallableNFNService(interestName: CCNName, name: CCNName, values: Seq[NFNValue], stateHolder: StatesSingleton, nfnMaster: ActorRef, function: (CCNName, Seq[NFNValue], StatesSingleton, ActorRef) => Future[NFNValue], executionTimeEstimate: Option[Int]) extends LazyLogging
 {
 
-  def exec: Future[NFNValue] = function(interestName, values, nfnMaster)
+  def exec: Future[NFNValue] = function(interestName, values, stateHolder, nfnMaster)
 
   // Added by Johannes
-  def execWithArgs(additionalArgs: Seq[NFNValue]): Future[NFNValue] = function(interestName, values++additionalArgs, nfnMaster)
+  def execWithArgs(additionalArgs: Seq[NFNValue]): Future[NFNValue] = function(interestName, values++additionalArgs, stateHolder, nfnMaster)
 }
 
 abstract class NFNDynamicService() extends NFNService {

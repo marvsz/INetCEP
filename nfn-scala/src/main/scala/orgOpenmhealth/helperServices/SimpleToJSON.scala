@@ -1,9 +1,11 @@
 package orgOpenmhealth.helperServices
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
 import orgOpenmhealth.helpers.Helpers._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -19,7 +21,7 @@ class SimpleToJSON extends NFNService {
     s"""{"lat":${lat},"lng":${lng}"""
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
     /*
      *

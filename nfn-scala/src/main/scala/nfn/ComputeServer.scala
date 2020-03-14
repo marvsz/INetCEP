@@ -1,5 +1,6 @@
 package nfn
 
+import SACEPICN.StatesSingleton
 import akka.actor.SupervisorStrategy.Stop
 import akka.actor.{Actor, ActorRef, OneForOneStrategy, Props}
 import akka.event.Logging
@@ -30,9 +31,10 @@ object ComputeServer {
 
 case class ComputeServer(nodePrefix: CCNName) extends Actor {
   val logger = Logging(context.system, this)
+  val stateHolder = StatesSingleton.getInstance()
 
-  private def createComputeWorker(name: CCNName, ccnServer: ActorRef, nodePrefix: CCNName): ActorRef =
-    context.actorOf(Props(classOf[ComputeWorker], ccnServer, nodePrefix: CCNName), s"ComputeWorker-${name.hashCode}")
+  private def createComputeWorker(name: CCNName, ccnServer: ActorRef, nodePrefix: CCNName, stateHolder: StatesSingleton): ActorRef =
+    context.actorOf(Props(classOf[ComputeWorker], ccnServer, nodePrefix: CCNName, stateHolder), s"ComputeWorker-${name.hashCode}")
 
   var computeWorkers = Map[CCNName, ActorRef]()
 
@@ -53,7 +55,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
         val nameWithoutThunk = name.withoutThunk
         if(!computeWorkers.contains(nameWithoutThunk)) {
           logger.info(s"Started new computation with thunks for $nameWithoutThunk")
-          val computeWorker = createComputeWorker(nameWithoutThunk, sender, nodePrefix)
+          val computeWorker = createComputeWorker(nameWithoutThunk, sender, nodePrefix, stateHolder)
           computeWorkers += nameWithoutThunk -> computeWorker
           computeWorker.tell(computeMsg, sender)
         } else {
@@ -73,7 +75,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
           }
           case None => {
             logger.info(s"Started new computation without thunks for $name")
-            val computeWorker = createComputeWorker(name, sender, nodePrefix)
+            val computeWorker = createComputeWorker(name, sender, nodePrefix, stateHolder)
             computeWorkers += name -> computeWorker
 
             // forward the compute message to the newly created compute worker
@@ -95,7 +97,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
           }
           case None => {
             logger.info(s"Started new computation without thunks for $name with additionalArguments ${additionalArguments.toString()}")
-            val computeWorker = createComputeWorker(name, sender, nodePrefix)
+            val computeWorker = createComputeWorker(name, sender, nodePrefix, stateHolder)
             computeWorkers += name -> computeWorker
 
             // forward the compute message to the newly created compute worker

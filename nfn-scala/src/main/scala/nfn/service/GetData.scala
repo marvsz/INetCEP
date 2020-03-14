@@ -3,6 +3,7 @@ package nfn.service
 /**
   * Created by Ali on 06.02.18.
   */
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 
 import scala.io.Source
@@ -19,7 +20,7 @@ import scala.language.postfixOps
 
 class GetData() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue]= Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue]= Future{
 
     val sacepicnEnv = StaticConfig.systemPath
 

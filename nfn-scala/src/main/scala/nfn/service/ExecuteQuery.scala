@@ -3,6 +3,7 @@ package nfn.service
 /**
   * Created by Ali on 06.02.18.
   */
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.Networking._
 
@@ -16,7 +17,7 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class ExecuteQuery() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future{
 
     def processQuery(parameterCount: String, node: String, service: String, parameters: String): String = {
       val paramsList = parameters.toString().split(' ')

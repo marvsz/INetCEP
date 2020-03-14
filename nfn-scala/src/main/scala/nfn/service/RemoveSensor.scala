@@ -1,13 +1,15 @@
 package nfn.service
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.tools.SensorHelpers
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RemoveSensor extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     def removeSensor(filename: String): String = {
       SensorHelpers.removeSensor(filename)

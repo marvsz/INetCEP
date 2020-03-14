@@ -1,18 +1,20 @@
 package nfn.localAbstractMachine
 
+import SACEPICN.StatesSingleton
 import akka.actor._
 import akka.event.Logging
 import ccn.packet._
 import lambdacalculus._
-import lambdacalculus.machine.{MachineValue, ListMachineValue, ConstMachineValue}
-import scala.util.{Success, Failure, Try}
+import lambdacalculus.machine.{ConstMachineValue, ListMachineValue, MachineValue}
+
+import scala.util.{Failure, Success, Try}
 import nfn.NFNApi
 
 /**
  * Encapsulates a single abstract machine, reduces lambdacalculus expressions and sends requests for content back to the [[ccnServer]].
  * @param ccnServer
  */
-class LocalAbstractMachineWorker(ccnServer: ActorRef) extends Actor {
+class LocalAbstractMachineWorker(ccnServer: ActorRef, stateHolder:StatesSingleton) extends Actor {
 
   import context.dispatcher
 
@@ -20,7 +22,7 @@ class LocalAbstractMachineWorker(ccnServer: ActorRef) extends Actor {
   val lc = LambdaCalculus(execOrder = ExecutionOrder.CallByValue,
                           debug = true,
                           storeIntermediateSteps = true,
-                          maybeExecutor = Some(LocalNFNCallExecutor(ccnServer)),
+                          maybeExecutor = Some(LocalNFNCallExecutor(ccnServer,stateHolder)),
                           parser = new NFNLambdaParser)
 
   override def receive: Actor.Receive = {

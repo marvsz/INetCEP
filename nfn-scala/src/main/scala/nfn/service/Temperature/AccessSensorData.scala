@@ -1,5 +1,6 @@
 package nfn.service.Temperature
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service.{NFNIntValue, NFNService, NFNStringValue, NFNValue}
@@ -14,7 +15,7 @@ import scala.concurrent.Future
 
 class AccessSensorData  extends NFNService    {
 
-  def readData(sensorname: String, sensortyp: String, datapoint: Int) : String = {
+  def readData(sensorname: String, sensortyp: String,datapoint: Int) : String = {
 
     val lines = readFile("database.txt")
     val csl = lines.map(x => x.split(';'))
@@ -31,7 +32,7 @@ class AccessSensorData  extends NFNService    {
     scala.io.Source.fromFile(p).getLines().toList
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
     (args.head, args.tail.head, args.tail.tail.head) match {
       case (sensorname: NFNStringValue, sensortyp: NFNStringValue, datapoint: NFNIntValue) => {
         val datavalue = readData(sensorname.str, sensortyp.str, datapoint.i)

@@ -6,6 +6,7 @@ package nfn.service
 
 import java.io.FileNotFoundException
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{Helpers, Networking, SensorHelpers}
 
@@ -29,7 +30,7 @@ class Window() extends NFNService {
   val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
   var relativeTime: LocalTime = null
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
 
 
     //Interest will always be in the form of: call X /node/nodeX/nfn_service_X
@@ -119,8 +120,15 @@ class Window() extends NFNService {
     def processSlidingEventWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Sliding Event Window Computation, dataStream is $dataStream")
       var stateContent = ""
-      val setting = sensor.str.split("/")(2).concat("/").concat(numberOfEvents.str)
       val nameOfState = s"/state${interestName.toString}"
+      stateContent = stateHolder.getState(nameOfState)
+      if(stateContent == "Null") {
+        LogMessage(nodeName,"State Content was empty")
+        stateContent = ""
+      }
+      else
+        LogMessage(nodeName,"Found State Content")
+      /*
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -128,24 +136,28 @@ class Window() extends NFNService {
       }
       else
         LogMessage(nodeName,"State Content was empty")
+
+       */
       val returnValue = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
-      Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
+      //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
+      stateHolder.updateState(nameOfState,returnValue)
       LogMessage(nodeName,s"Sliding Event Window Content is $returnValue")
       NFNStringValue(returnValue)
-      /*if(deliveryFormat.str.toLowerCase == "data")
-        NFNStringValue(returnValue)
-      else if(deliveryFormat.str.toLowerCase == "name"){
-        NFNStringValue(nameOfState)
-      }
-      else
-        NFNStringValue("Not a matching Return Format, Allowed are data and name")*/
     }
 
     def processSlidingTimeWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Sliding Time Window Computation, dataStream is $dataStream")
       var stateContent = ""
-      val setting = sensor.str.split("/")(2).concat("/").concat(timerPeriod.str).concat(timeUnit.str)
       val nameOfState = s"/state${interestName.toString}"
+      stateContent = stateHolder.getState(nameOfState)
+      if(stateContent == null) {
+        LogMessage(nodeName,"State Content was empty")
+        stateContent = ""
+      }
+      else {
+        LogMessage(nodeName,"Found State Content")
+      }
+      /*
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.substring(1).toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
         LogMessage(nodeName, "Found State Content")
@@ -153,19 +165,13 @@ class Window() extends NFNService {
       }
       else
         LogMessage(nodeName,"State Content was empty")
-      val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
-      LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
-      Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      NFNStringValue(returnValue)
-      /*if(deliveryFormat.str.toLowerCase == "data")
-        NFNStringValue(returnValue)
-      else if(deliveryFormat.str.toLowerCase == "name"){
-        NFNStringValue(nameOfState)
-      }
-      else
-        NFNStringValue("Not a matching Return Format, Allowed are data and name")
-        */
 
+       */
+      val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
+      //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
+      stateHolder.updateState(nameOfState,returnValue)
+      LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
+      NFNStringValue(returnValue)
     }
 
     //NFNValue(
@@ -229,7 +235,6 @@ class Window() extends NFNService {
     LogMessage(nodeName,s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
     val relativeTime: LocalTime = SensorHelpers.parseTime(newTuple.split(delimiter)(datePosition), delimiter)
     (windowContent.split("\n").filter(purgeOldData(_,relativeTime,timerPeriod,timeUnit)):+newTuple).mkString("\n")
-
   }
 
   def slideEventWindow(windowContent: String, newTuple: String, numberOfEvents: Int): String ={

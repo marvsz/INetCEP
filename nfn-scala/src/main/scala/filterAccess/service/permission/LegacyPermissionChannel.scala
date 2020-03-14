@@ -1,10 +1,12 @@
 package filterAccess.service.permission
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import filterAccess.json.{PermissionChannelBuilder, UserLevel}
 import filterAccess.tools.Exceptions._
 import nfn.service._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -71,7 +73,7 @@ class LegacyPermissionChannel extends NFNService {
    */
   override def pinned: Boolean = false
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(request), NFNIntValue(level)) =>

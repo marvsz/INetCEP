@@ -4,8 +4,10 @@ package nfn.service
   * Created by Ali on 06.02.18.
   */
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{Helpers, SensorHelpers}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -33,7 +35,7 @@ class Concatenate() extends NFNService {
     output
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 

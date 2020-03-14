@@ -2,9 +2,11 @@ package nfn.service.Http
 
 import java.net.URLEncoder
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service.{NFNService, NFNServiceArgumentException, NFNStringValue, NFNValue}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /** Abstract NFNService class that implements a method to concatenate a sequence of arguments (NFNValue type) into a HTTP query string.
@@ -30,7 +32,7 @@ abstract class HttpQueryStringBuilderService extends NFNService {
   * Version: 1.0
   */
 class HttpGetQueryStringBuilderService extends HttpQueryStringBuilderService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
     args match{
       case Seq(NFNStringValue(baseUrl)) => NFNStringValue(baseUrl)
       case Seq(NFNStringValue(baseUrl), parameters @ _*) => {
@@ -60,6 +62,6 @@ class HttpPostQueryStringBuilderService extends HttpQueryStringBuilderService {
    * @param ccnApi
    * @return
    */
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future(NFNStringValue(build(args)))
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future(NFNStringValue(build(args)))
 }
 

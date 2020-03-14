@@ -1,8 +1,10 @@
 package nfn.service.Http
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
+
 import scala.language.postfixOps
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,7 +29,7 @@ class HttpService() extends NFNService {
    * @param ccnApi
    * @return NFNValue
    */
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future{
     args match{
       case Seq (NFNStringValue(method), url : NFNValue) => executeRequest(method, new String(url.toDataRepresentation))
       case Seq (NFNStringValue(method), url : NFNValue, NFNStringValue("--header"), header @ _*) => executeRequest(method, new String(url.toDataRepresentation), extractHeader(header))

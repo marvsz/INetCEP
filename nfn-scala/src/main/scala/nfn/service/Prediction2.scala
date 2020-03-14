@@ -1,6 +1,8 @@
 package nfn.service
 
+import SACEPICN.StatesSingleton
 import nfn.tools.{Helpers, SensorHelpers}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 //Added for contentfetch
@@ -20,7 +22,7 @@ class Prediction2 extends NFNService {
   var currentGranularity = -1
   var currentAverage = 0.0
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
     def predictionHandler(inputFormat: String, outputFormat: String, granularity: String, stream: String): String = {
 

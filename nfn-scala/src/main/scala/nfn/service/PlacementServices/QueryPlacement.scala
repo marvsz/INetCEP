@@ -29,7 +29,7 @@ import ccn.packet.CCNName
 
 class QueryPlacement() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
 
     //Algorithm: Centralized or Decentralized

@@ -2,16 +2,18 @@ package nfn.service
 
 import java.util.concurrent.TimeUnit
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.tools.Networking._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration._
 
 
 class ChainIntermediates() extends NFNService {
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
     if (args.length < 2) {
       throw new NFNServiceArgumentException(s"$ccnName requires 2 arguments")

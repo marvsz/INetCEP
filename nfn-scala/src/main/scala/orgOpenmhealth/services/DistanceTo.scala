@@ -1,5 +1,6 @@
 package orgOpenmhealth.services
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Interest}
 import nfn.tools.Networking._
@@ -48,7 +49,7 @@ class DistanceTo extends NFNService {
 
   }
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match{
 

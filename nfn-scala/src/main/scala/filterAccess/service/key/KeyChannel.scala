@@ -1,10 +1,12 @@
 package filterAccess.service.key
 
+import SACEPICN.StatesSingleton
 import filterAccess.service.Channel
 import nfn.service._
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import filterAccess.tools.Exceptions._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -43,7 +45,7 @@ abstract class KeyChannel extends Channel {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(rdn), NFNIntValue(level), NFNStringValue(pubKey)) => {

@@ -7,11 +7,13 @@ import nfn.service._
 import scala.concurrent.duration._
 import filterAccess.tools.Exceptions.noReturnException
 import Networking._
+import SACEPICN.StatesSingleton
 import ccn.packet.CCNName
 import filterAccess.json.ContentChannelParser.getTrack
 import filterAccess.json._
 import filterAccess.crypto.Encryption.symEncrypt
 import filterAccess.crypto.Helpers.{computeHash, symKeyGenerator}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -71,7 +73,7 @@ class ContentChannelDistance extends Distance {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(extRDN), NFNIntValue(contentLevel)) => {

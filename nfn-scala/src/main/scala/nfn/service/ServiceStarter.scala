@@ -2,6 +2,7 @@ package nfn.service
 import java.io.IOException
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, ServiceStarterInterest}
 import nfn.tools.Networking
@@ -11,7 +12,7 @@ import scala.concurrent.Future
 
 class ServiceStarter() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
     var nodeInfo = interestName.cmps.mkString(" ")
     var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 

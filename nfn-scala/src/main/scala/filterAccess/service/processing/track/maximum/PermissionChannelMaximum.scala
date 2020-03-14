@@ -1,5 +1,6 @@
 package filterAccess.service.processing.track.maximum
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import filterAccess.json.UserLevel
@@ -9,6 +10,7 @@ import filterAccess.crypto.Encryption._
 import filterAccess.tools.Exceptions.noReturnException
 import filterAccess.service.processing.track.distance.DistanceAPI._
 import filterAccess.json.PermissionChannelBuilder.conjunctiveMerge
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -67,7 +69,7 @@ class PermissionChannelMaximum extends Maximum {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(extRDN1), NFNStringValue(extRDN2)) => {

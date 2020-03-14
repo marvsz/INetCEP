@@ -5,8 +5,10 @@ package nfn.service
   */
 
 //Added for contentfetch
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.SensorHelpers
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
@@ -21,7 +23,7 @@ import nfn.tools.Helpers
 class Heatmap extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future{
     def heatMapHandler(inputFormat: String, outputFormat: String, granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, stream: String): String = {
       val nodeInfo = interestName.cmps.mkString(" ")
       val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)

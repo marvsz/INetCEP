@@ -1,5 +1,6 @@
 package nfn
 
+import SACEPICN.StatesSingleton
 import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
 import akka.pattern.ask
@@ -23,7 +24,7 @@ object ComputeWorker {
 
 class e extends Throwable
 
-case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor {
+case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName, stateHolder:StatesSingleton) extends Actor {
   import context.dispatcher
 
   val logger = Logging(context.system, this)
@@ -45,7 +46,7 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName) extends Actor
       val rawComputeName = computeName.withoutCompute.withoutThunk.withoutNFN
       assert(rawComputeName.cmps.size == 1, "Compute cmps at this moment should only have one component")
 
-      val futCallableServ: Future[CallableNFNService] = NFNService.parseAndFindFromName(rawComputeName.cmps.head, ccnServer)
+      val futCallableServ: Future[CallableNFNService] = NFNService.parseAndFindFromName(rawComputeName.cmps.head, stateHolder, ccnServer)
       // send back thunk content when callable service is creating (means everything was available)
       if (useThunks) {
         futCallableServ foreach { callableServ =>

@@ -1,5 +1,6 @@
 package nfn.localAbstractMachine
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import lambdacalculus.machine.CallByValue.VariableMachineValue
 import lambdacalculus.machine._
@@ -8,13 +9,13 @@ import nfn.service._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-case class LocalNFNCallExecutor(ccnWorker: ActorRef)(implicit execContext: ExecutionContext) extends CallExecutor {
+case class LocalNFNCallExecutor(ccnWorker: ActorRef, stateHolder:StatesSingleton)(implicit execContext: ExecutionContext) extends CallExecutor {
 
   override def executeCall(call: String): MachineValue = {
 
     val futValue: Future[MachineValue] = {
       for {
-        callableServ <- NFNService.parseAndFindFromName(call, ccnWorker)
+        callableServ <- NFNService.parseAndFindFromName(call, stateHolder, ccnWorker)
       } yield {
         val result = Await.result(callableServ.exec,20.seconds)
         NFNValueToMachineValue.toMachineValue(result)

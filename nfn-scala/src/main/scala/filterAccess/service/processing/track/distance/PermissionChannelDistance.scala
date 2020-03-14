@@ -7,8 +7,10 @@ import nfn.service._
 import filterAccess.crypto.Encryption._
 import filterAccess.tools.Exceptions.noReturnException
 import Networking._
+import SACEPICN.StatesSingleton
 import ccn.packet.CCNName
 import filterAccess.json.PermissionChannelBuilder.{manipulateLevel, minimizePermissions}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -56,7 +58,7 @@ class PermissionChannelDistance extends Distance {
    * @param    ccnApi   Akka Actor
    * @return            Functions result
    */
-  def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     args match {
       case Seq(NFNStringValue(extRDN)) => {

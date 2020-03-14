@@ -1,10 +1,12 @@
 package filterAccess.service.content
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import filterAccess.json._
 import filterAccess.tools.Exceptions._
 import nfn.service._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 /**
@@ -70,7 +72,7 @@ class LegacyContentChannel extends NFNService {
    * @param ccnApi Akka Actor
    * @return Execution result
    */
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future{
 
     args match {
       case Seq(NFNStringValue(track), NFNIntValue(level)) => {

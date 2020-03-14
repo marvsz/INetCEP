@@ -1,8 +1,10 @@
 package nfn.service.Temperature
 
+import SACEPICN.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._
+
 import scala.language.postfixOps
 import sys.process._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,7 +18,7 @@ class ReadSensorData() extends NFNService  {
   val consttemp = 20
   val constpreasure = 1000
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], ccnApi: ActorRef): Future[NFNValue] = Future {
+  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
     (args.head) match { // sensorname, datapoint
       case (dataPoint: NFNIntValue) => {
