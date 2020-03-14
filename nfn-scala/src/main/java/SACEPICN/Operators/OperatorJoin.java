@@ -13,14 +13,14 @@ public class OperatorJoin extends OperatorA {
     @Override
     public Boolean checkParameters() {
         // first parameter
-        int index = 0;
+        /*int index = 0;
         if (!isParamFormatNameOnIndex(index)) return false;
         // second parameter
         index = 1;
-        if (!isParamFormatNameOnIndex(index)) return false;
+        if (!isParamFormatNameOnIndex(index)) return false;*/
 
         // third and fourth parameter
-        for (int i = 2; i <= 3; i++)
+        for (int i = 0; i <= 1; i++)
         {
             Boolean min = false;
             // "at least one has to be true"
@@ -39,7 +39,7 @@ public class OperatorJoin extends OperatorA {
 
     @Override
     public String genNFNQuery() {
-        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+2) + " /node/nodeQuery/nfn_service_Join");
+        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+1) + " /node/nodeQuery/nfn_service_Join");
         // add all parameter
         int counter = 1;
         for (int i = 0; i < this.parameters.length; i++)

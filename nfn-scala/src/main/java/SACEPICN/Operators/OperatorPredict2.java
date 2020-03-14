@@ -17,7 +17,7 @@ public class OperatorPredict2 extends OperatorA {
 
     @Override
     public String genNFNQuery() {
-        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+2) + " /node/nodeQuery/nfn_service_Prediction2");
+        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+1) + " /node/nodeQuery/nfn_service_Prediction2");
         // add all parameter
         int counter = 1;
         for (int i = 0; i < this.parameters.length; i++)

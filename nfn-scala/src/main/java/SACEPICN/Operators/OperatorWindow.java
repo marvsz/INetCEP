@@ -13,8 +13,8 @@ public class OperatorWindow extends OperatorA {
     @Override
     public Boolean checkParameters() {
         // first param
-        Integer index = 0;
-        if (!isParamFormatNameOnIndex(index));
+        /*Integer index = 0;
+        if (!isParamFormatNameOnIndex(index));*/
 
         return true;
     }
@@ -32,7 +32,7 @@ public class OperatorWindow extends OperatorA {
     }
 
     private NFNQueryCreator prepareNfn() {
-        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+2) + " /node/nodeQuery/nfn_service_Window");
+        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+1) + " /node/nodeQuery/nfn_service_Window");
         // add all parameter
         int counter = 1;
         for (int i = 0; i < this.parameters.length; i++)

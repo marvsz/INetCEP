@@ -18,10 +18,10 @@ public class OperatorFilter extends OperatorA {
     public Boolean checkParameters() {
 
         // first parameter
-        int index = 0;
-        if (!isParamFormatNameOnIndex(index)) return false;
+        //int index = 0;
+        //if (!isParamFormatNameOnIndex(index)) return false;
         // third parameter
-        index = 1;
+        int index = 0;
         // "at least one has to be true"
         Boolean min = false;
         min = isParamFilterQueryOnIndex(index);
@@ -32,20 +32,20 @@ public class OperatorFilter extends OperatorA {
         min |= isParamHeatmapQueryOnIndex(index);
         if (!min) return false;
 
-        index = 2;
+        index = 1;
         if (!isParamBoolExp(index) || this.parameters[index].contains("NULL")) return false;
         // mapping for expressiveness
-        this.parameters[index] = performExpressivenessHandling(this.parameters[index]);
+        //this.parameters[index] = performExpressivenessHandling(this.parameters[index]);
 
-        index = 3;
-        if (!isParamFormatNameOnIndex(index)) return false;
+        /*index = 3;
+        if (!isParamFormatNameOnIndex(index)) return false;*/
         
         // each parameter is correct
         return true;
     }
 
     public String genNFNQuery() {
-        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+2) + " /node/nodeQuery/nfn_service_Filter");
+        NFNQueryCreator nfn = new NFNQueryCreator("(call " + (this.parameters.length+1) + " /node/nodeQuery/nfn_service_Filter");
         // add all parameter
         int counter = 1;
         for (int i = 0; i < this.parameters.length; i++)
