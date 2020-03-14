@@ -18,11 +18,12 @@ import config.StaticConfig
 
 class Prediction2 extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
-  var historyArray: Array[Double] = null
+  //var historyArray: Array[Double] = null
   var currentGranularity = -1
   var currentAverage = 0.0
 
   override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
+    var historyArray = stateHolder.getPrediction2State(interestName.toString)
 
     def predictionHandler(inputFormat: String, outputFormat: String, granularity: String, stream: String): String = {
 
@@ -34,16 +35,16 @@ class Prediction2 extends NFNService {
       //Sensor is not the preferred way to perform a prediction. Suggested is 'name'
       if (inputFormat.toLowerCase().equals("sensor")) {
         LogMessage(nodeName, s"Performing Prediction on Sensor data")
-        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity,historyArray)
       }
       else if (inputFormat.toLowerCase().equals("data")) {
         LogMessage(nodeName, s"Perform Prediction on inline data")
-        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, stream), granularity,historyArray)
       }
       else if (inputFormat.toLowerCase().equals("name")) {
         LogMessage(nodeName, s"Perform Prediction on named data")
         val intermediateResult = Helpers.handleNamedInputSource(nodeName, stream, ccnApi)
-        output = predict(SensorHelpers.parseData(inputFormat, intermediateResult), granularity)
+        output = predict(SensorHelpers.parseData(inputFormat, intermediateResult), granularity,historyArray)
       }
       if (output != "")
         output = output.stripSuffix("\n").stripMargin('#')
@@ -76,7 +77,8 @@ class Prediction2 extends NFNService {
     * @param granularity the granularity at which rate predictions are made
     * @return a string with predictions written in it. each prediction is in a new line and is a new tuple of information
     */
-  def predict(data: List[String], granularity: String): String = {
+  def predict(data: List[String], granularity: String, stateArray: Array[Double]): String = {
+    var historyArray = stateArray
     val granularityInSeconds = granularity.takeRight(1).toLowerCase() match {
       case "s" => granularity.dropRight(1).toInt
       case "m" => granularity.dropRight(1).toInt * 60
