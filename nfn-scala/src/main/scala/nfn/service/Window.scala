@@ -117,11 +117,11 @@ class Window() extends NFNService {
         NFNStringValue("Not a matching Return Format, Allowed are data and name")
     }
 
-    def processSlidingEventWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
+    def processSlidingEventWindow(sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Sliding Event Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val nameOfState = s"/state${interestName.toString}"
-      stateContent = stateHolder.getState(nameOfState)
+      stateContent = stateHolder.getWindowState(nameOfState)
       if(stateContent == "Null") {
         LogMessage(nodeName,"State Content was empty")
         stateContent = ""
@@ -145,11 +145,11 @@ class Window() extends NFNService {
       NFNStringValue(returnValue)
     }
 
-    def processSlidingTimeWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
+    def processSlidingTimeWindow(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
       LogMessage(nodeName,s"Started Sliding Time Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val nameOfState = s"/state${interestName.toString}"
-      stateContent = stateHolder.getState(nameOfState)
+      stateContent = stateHolder.getWindowState(nameOfState)
       if(stateContent == null) {
         LogMessage(nodeName,"State Content was empty")
         stateContent = ""
@@ -187,12 +187,12 @@ class Window() extends NFNService {
       //case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
       //  processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
 
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
+      case Seq(sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
         placeWindowInterest(sensor.str, interestName).recover {
           case e => throw e
         }
 
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
+      case Seq(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
         placeWindowInterest(sensor.str, interestName).recover {
           case e => throw e
         }
@@ -208,13 +208,13 @@ class Window() extends NFNService {
         }*/
 
        // ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 6 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5' 's'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
-        processSlidingTimeWindow(deliveryFormat, sensor, timerPeriod, timeUnit, dataStream).recover {
+      case Seq(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
+        processSlidingTimeWindow(sensor, timerPeriod, timeUnit, dataStream).recover {
           case e => throw e
         }
       //~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 5 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue) =>
-        processSlidingEventWindow(deliveryFormat, sensor, numberOfEvents, dataStream).recover {
+      case Seq(sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue) =>
+        processSlidingEventWindow(sensor, numberOfEvents, dataStream).recover {
           case e => throw e
         }
 
