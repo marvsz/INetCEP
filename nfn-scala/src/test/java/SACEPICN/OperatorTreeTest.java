@@ -26,7 +26,7 @@ public class OperatorTreeTest {
     @Test
     public void testCreateOperatorTree() throws Exception {
 
-        Map result = opTree.createOperatorTree("FILTER(gps,WINDOW(name,nodeA/sensor/gps1,5,S),Longitude>8,name)");
+        Map result = opTree.createOperatorTree("JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)");
         assertNotNull(result);
         assertEquals(2, result._stackSize);
 
