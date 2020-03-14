@@ -57,6 +57,16 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
         //val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
         var callerQuery = "call 3 /node/nodeQuery/nfn_service_ServiceSubscriber 'Q1' 'Q2'".replace("Q1",currentNode._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/).replace("nodeQuery", currentNode._executionNode)
         val result = currentNode._type match {
+          case Operator.JOIN =>{
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.right._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+          }
+          case Operator.PREDICT2 => {
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+          }
+          case Operator.HEATMAP => {
+            Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
+          }
           case Operator.FILTER => {
             Helpers.executeNFNQuery(callerQuery.replace("Q2",currentNode.left._query.replaceAll("'","|")/*.replaceAll("[(]","").replaceAll("[)]","")*/),remoteNodeName,ccnApi,60)
           }
