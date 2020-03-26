@@ -147,6 +147,7 @@ usage:
         ccnl_interest_opts_u int_opts;
 #ifdef USE_SUITE_NDNTLV
         int_opts.ndntlv.nonce = nonce;
+        int_opts.ndntlv.interestlifetime = 2000;
 #endif
 
         DEBUGMSG(TRACE, "sending request, iteration %d\n", cnt);
