@@ -138,11 +138,14 @@ class Window() extends NFNService {
         LogMessage(nodeName,"State Content was empty")
 
        */
-      val returnValue = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
+      val sensorName = sensor.str.split("/")(3)
+      val header = "Window("+sensor.str+","+numberOfEvents.str + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
+      val newStateContent = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
+      val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateState(nameOfState,returnValue)
-      LogMessage(nodeName,s"Sliding Event Window Content is $returnValue")
-      NFNStringValue(returnValue)
+      stateHolder.updateState(nameOfState,newStateContent)
+      LogMessage(nodeName,s"Sliding Event Window Content is $retVal")
+      NFNStringValue(retVal)
     }
 
     def processSlidingTimeWindow(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
@@ -167,11 +170,14 @@ class Window() extends NFNService {
         LogMessage(nodeName,"State Content was empty")
 
        */
-      val returnValue = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
+      val sensorName = sensor.str.split("/")(3)
+      val header = "Window("+sensor.str+","+timerPeriod.str + "," + timeUnit.str + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
+      val newStateContent = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
+      val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateState(nameOfState,returnValue)
-      LogMessage(nodeName,s"Slinding TIme Window Content is $returnValue")
-      NFNStringValue(returnValue)
+      stateHolder.updateState(nameOfState,newStateContent)
+      LogMessage(nodeName,s"Slinding TIme Window Content is $retVal")
+      NFNStringValue(retVal)
     }
 
     //NFNValue(
