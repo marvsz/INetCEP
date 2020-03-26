@@ -1,5 +1,7 @@
 package nfn.tools
 
+import SACEPICN.{Node, Operator, OperatorTree}
+
 import scala.collection.mutable.ArrayBuffer
 
 /**
@@ -38,7 +40,7 @@ object FilterHelpers {
     sb.toString().split("\n")
   }
 
-  def conditionHandler(sensor: String, filter: String, line: String, delimiter: String): Boolean = {
+  def conditionHandler(streamSchema: String, filter: String, line: String, delimiter: String): Boolean = {
     val operatorPattern = "[>,<,=,<>]+".r // regex for all operators
     val operator = operatorPattern.findFirstIn(filter).map(_.toString).getOrElse("")
     val value = filter.toString.split("[>,<,=,<>]+").map(_.trim)
@@ -47,13 +49,25 @@ object FilterHelpers {
     var queryColumn = 0
 
     if (operator != "")
-      queryColumn = SensorHelpers.getColumnNumber(sensor, value(0).stripPrefix("(").stripSuffix(")").trim)
+      queryColumn = getColumnNumber(streamSchema, value(0).stripPrefix("(").stripSuffix(")").trim)
     else
       return false
 
     queryVariable = value(1).stripPrefix("(").stripSuffix(")").trim
     val returnValue = matchCondition(operator, queryColumn, queryVariable, line, delimiter)
     returnValue
+  }
+
+  def getColumnNumber(schema: String, columnName: String) : Int = {
+    val columns = schema.split(",")
+    var columnId = 0
+    if (columns.contains(columnName.toLowerCase)) {
+      for (co <- columns) {
+        if (co == columnName.toLowerCase) return columnId
+        columnId += 1
+      }
+    }
+    -1
   }
 
   def matchCondition(operator: String, queryColumn: Int, queryVariable: String, line: String, delimiter: String): Boolean = {
@@ -135,4 +149,5 @@ object FilterHelpers {
     retVal(1) = allORs
     retVal
   }
+
 }

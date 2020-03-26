@@ -42,9 +42,14 @@ class Filter() extends NFNService {
     def filterStream1(dataStreamName: String, filter: String, dataStream: String):String = {
       LogMessage(nodeName, s"\nFilter OP Started")
       val filterParams = FilterHelpers.parseFilterArguments(filter)
-      LogMessage(nodeName,s"Filter($dataStreamName,$filter)")
-      //filterHandler(dataStreamName,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
-      s"Filter($dataStreamName,$filter)" + "\n" + dataStream
+      //LogMessage(nodeName,s"Filter($dataStreamName,$filter)")
+      val streamHeader = dataStream.split("\n")(0)
+      val streamSchema = streamHeader.toString().split("-")(1)
+      val newHeader = s"Filter($dataStreamName,$filter)" + " - " + streamSchema + "\n"
+      //LogMessage(nodeName,s"Schema is $streamSchema")
+      val returnVal = newHeader +  filterHandler(streamSchema,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
+      LogMessage(nodeName, s"Filter OP Completed")
+      returnVal
       //"filtered Stream"
     }
 
@@ -66,7 +71,7 @@ class Filter() extends NFNService {
         filterHandler(source, filterParams(0), filterParams(1), outputFormat.str, nodeName, dataStream.str)
     }
 
-    def filterHandler(sensorName: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
+    def filterHandler(streamSchema: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
       var output = ""
 
       LogMessage(nodeName, "Handle Filter Stream")
@@ -74,14 +79,12 @@ class Filter() extends NFNService {
       LogMessage(nodeName, s"Inside Filter -> Stream to filter: $datastream")
       val delimiter = SensorHelpers.getDelimiterFromLine(datastream)
       LogMessage(nodeName, s"Delimiter is $delimiter")
-      output = filter(sensorName, datastream, aNDS, oRS, delimiter)
+      output = filter(streamSchema, datastream, aNDS, oRS, delimiter)
 
 
       //If outputFormat = name => we will return a named interest
       //If outputFormat = data => we will return the data
-      LogMessage(nodeName, s"Inside Filter -> FILTER name: NONE, FILTER content: ${output}")
-
-      LogMessage(nodeName, s"Filter OP Completed")
+      LogMessage(nodeName, s"Inside Filter -> \nFILTER content: ${output}")
       output
     }
 
@@ -103,7 +106,7 @@ class Filter() extends NFNService {
     )
   }
 
-  def filter(sensorName: String, sourceValue: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], delimiter: String): String = {
+  def filter(streamSchema: String, sourceValue: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], delimiter: String): String = {
     var data: List[String] = null
     var output = ""
     data =
@@ -118,7 +121,7 @@ class Filter() extends NFNService {
         var andConditionisValid = true
         aNDS.foreach(
           and =>
-            if (andConditionisValid && !FilterHelpers.conditionHandler(sensorName, and, line, delimiter)) {
+            if (andConditionisValid && !FilterHelpers.conditionHandler(streamSchema, and, line, delimiter)) {
               andConditionisValid = false
             })
 
@@ -130,7 +133,7 @@ class Filter() extends NFNService {
         if (!lineAdded) {
           oRS.foreach(
             or => {
-              if (!lineAdded && FilterHelpers.conditionHandler(sensorName, or, line, delimiter)) {
+              if (!lineAdded && FilterHelpers.conditionHandler(streamSchema, or, line, delimiter)) {
                 output += "#" + line.toString + "\n"
                 lineAdded = true
               }
@@ -142,7 +145,7 @@ class Filter() extends NFNService {
     if (output != "")
       output = output.stripSuffix("\n").stripMargin('#')
     else
-      output += "No Results!"
+      output += "Empty!"
     output
   }
 }
