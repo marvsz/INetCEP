@@ -286,12 +286,12 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)
         || ccnl->km->numOfRunningComputations >= NFN_MAX_RUNNING_COMPUTATIONS) {
 #ifdef CCNL_LINUXKERNEL
-        DEBUGMSG_CFWD(DEBUG, "checkted the prefix, will return null");
+        DEBUGMSG_CFWD(DEBUG, "checkted the prefix, will return null so is not an NFN Prefix");
 #endif
         return NULL;
     }
 #ifdef CCNL_LINUXKERNEL
-    DEBUGMSG_CFWD(DEBUG, "checkted the prefix, did not return null");
+    DEBUGMSG_CFWD(DEBUG, "checkted the prefix, did not return null so is an NFN Prefix");
 #endif
 
 #ifdef USE_NFN_REQUESTS
