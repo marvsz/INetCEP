@@ -44,10 +44,14 @@ all() {
 	#echo "copying NFN Files"
 	#copyNFNFiles
 	#sleep 2s
-	echo "Deleting old logs"
-	deleteOldLogs
-	echo "Creating Topology"
-	createTopology
+	#echo "Deleting old logs"
+	#deleteOldLogs
+	#echo "Creating Topology"
+	#createTopology
+	echo "Create Line Topology Kernel"
+	createTopologyTestLineKernel
+	#echo "Create Line Topology"
+	#createTopologyTestLine
 	#sleep 2s
 	#echo "Starting UpdateNodestate Service"
 	#execute
@@ -251,6 +255,71 @@ for i in "${VMS[@]}"
 
 }
 
+createTopologyTestLine() {
+for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'
+		cd ~/INetCEP/VM-Startup-Scripts
+		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
+		#first create topology and start the compute server in all nodes
+		screen -d -m bash executeScripts.sh initializeTestLine
+		ENDSSH
+	done
+
+}
+
+createTopologyTestLineKernel(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh $user@$i <<-ENDSSH
+		cd ~/INetCEP/VM-Startup-Scripts
+		echo "$sudoPW" | sudo -S bash startKernel.sh
+		ENDSSH
+	done
+sleep 1s
+for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'
+		cd ~/INetCEP/VM-Startup-Scripts
+		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
+		#first create topology and start the compute server in all nodes
+		screen -d -m bash executeScripts.sh initializeTestLineKernel
+		ENDSSH
+	done
+
+}
+
+compileKernel(){
+for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'
+		cd ~/INetCEP/ccn-lite/src/ccnl-lnxkernel/
+		rm -rf ccnl-lxkernel
+		rm -rf CMakeFiles
+		rm CMakeCache.txt Makefile
+		cmake .
+		make
+		ENDSSH
+	done
+}
+
+shutdownKernel(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh $user@$i <<-ENDSSH
+		cd ~/INetCEP/VM-Shutdown-Scripts/
+		echo "$sudoPW" | sudo -S bash removeKernel.sh
+		ENDSSH
+	done
+}
+
 #initiates query service and node state update for operator placement
 #Usage : bash publishRemotely.sh execute "QueryCentralRemNS" 20
 execute() {
@@ -428,6 +497,7 @@ elif [ $1 == "deployccn" ]; then deployCCN
 elif [ $1 == "getlogs" ]; then getLogs
 elif [ $1 == "restart" ]; then restartVMs
 elif [ $1 == "update" ]; then updateVMs
+elif [ $1 == "compileKernel" ]; then compileKernel
 elif [ $1 == "copyNodeInfo" ]; then copyNodeInfo
 elif [ $1 == "install" ]; then installDependencies
 elif [ $1 == "build" ]; then buildNFN #&& buildCCNLite
@@ -437,6 +507,7 @@ elif [ $1 == "executeQuery" ]; then executeQueryinVMA
 elif [ $1 == "getOutput" ]; then getOutput
 elif [ $1 == "upgradegcc" ]; then installGCC7
 elif [ $1 == "copyTest" ]; then copyTestScripts
+elif [ $1 == "shutdownKernel" ]; then shutdownKernel
 elif [ $1 == "shutdown" ]; then shutdown
 elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs
 elif [ $1 == "pingLogs" ]; then getPingingTestLogs

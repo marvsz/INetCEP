@@ -1,6 +1,6 @@
 #!/bin/bash
 work_dir="$(cd "$(dirname "$0")" ; pwd -P)/../"
-source "$work_dirVMS.cfg"
+source "$work_dir/VMS.cfg"
 
 #Start nodes:
 #CCN-Lite-Old Version
