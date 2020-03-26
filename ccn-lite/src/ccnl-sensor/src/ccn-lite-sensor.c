@@ -134,10 +134,10 @@ ccnl_sensor_settings_new(unsigned int id, unsigned int type, unsigned int sasamp
     s->name = name;
     s->type = type;
     s->samplingRate = sasamplingRate;
-    if(strchr(socketPath, '/'))
-        s->use_udp = 1;
-    else
+    if(strchr(socketPath, 's'))
         s->use_udp = 0;
+    else
+        s->use_udp = 1;
     s->socketPath = socketPath;
     return s;
 }
@@ -347,11 +347,13 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     /*sendTuples(sensor);*/
     struct timespec ts, tstart, tend, resultsleep;
     char *addr = NULL, *ux = NULL;
-    struct sockaddr sa;
+    //struct sockaddr sa;
     int port, cnt=0, sock = 0, suite = CCNL_SUITE_DEFAULT;
     int  socksize;
     char stopPath[100];
     char uri[100];
+    struct sockaddr_un su;
+    struct sockaddr_in si;
 
     snprintf(stopPath, sizeof(stopPath),"/tmp/%s%i/stop",getSensorName(sensor->settings->name),sensor->settings->id);
     // create the name for the data
@@ -375,21 +377,23 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     }
     else{
         char uxSocketPath[100];
-        snprintf(uxSocketPath, sizeof(uxSocketPath),"tmp/%s",sensor->settings->socketPath);
+        snprintf(uxSocketPath, sizeof(uxSocketPath),"/tmp/%s",sensor->settings->socketPath);
         ux=uxSocketPath;//sensor->settings->socketPath;
     }
 
     // open the socket
     if (ux) { // use UNIX socket
-        struct sockaddr_un *su = (struct sockaddr_un*) &sa;
-        su->sun_family = AF_UNIX;
-        strcpy(su->sun_path, ux);
+        su.sun_family = AF_UNIX;
+        strcpy(su.sun_path, ux);
         sock = ux_open();
     } else { // UDP
-        struct sockaddr_in *si = (struct sockaddr_in*) &sa;
-        si->sin_family = PF_INET;
-        si->sin_addr.s_addr = inet_addr(addr);
-        si->sin_port = htons(port);
+        si.sin_family = AF_INET;
+        si.sin_port = htons(port);
+        if(inet_aton(addr, &si.sin_addr) == 0){
+            DEBUGMSG(ERROR, "inet_aton() failed\n");
+        }
+        //si->sin_addr.s_addr = inet_addr(addr);
+
         sock = udp_open();
     }
 
@@ -410,7 +414,13 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
         //resultsleep.tv_nsec = resultsleep.tv_nsec + ts.tv_nsec;
         clock_gettime(CLOCK_MONOTONIC,&tstart);
         cnt++;
-        ccnl_sensor_sample(sensor, name, sa, sock, socksize);
+        //ccnl_sensor_sample(sensor, name, sa, sock, socksize);
+        if(!sensor->settings->use_udp){
+            ccnl_sensor_sample(sensor, name, (struct sockaddr *) &su, sock, socksize);
+        } else{
+            ccnl_sensor_sample(sensor, name, (struct sockaddr *) &si, sock, socksize);
+        }
+
         DEBUGMSG(EVAL,"sent %i Messages\n",cnt);
 
         sensorStopped(sensor,stopPath);
@@ -430,7 +440,7 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
 
 
 
-int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize){
+int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* name, struct sockaddr *sa, int sock, int socksize){
     unsigned char out[CCN_LITE_MKC_OUT_SIZE];
     unsigned char body[CCN_LITE_MKC_BODY_SIZE];
     int rc, len, offs = CCNL_MAX_PACKET_SIZE;
@@ -448,7 +458,7 @@ int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* nam
 
     //Now we send it
 
-    rc = sendto(sock, out+offs, len, 0, (struct sockaddr*)&sa, socksize);
+    rc = sendto(sock, out+offs, len, 0, sa, socksize);
     /*
     while(cnt < 100){
         //since the content is at the end of the buffer we send only the end.
@@ -460,7 +470,7 @@ int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* nam
 
 
 
-void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name, struct sockaddr sa, int sock, int socksize) {
+void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name, struct sockaddr *sa, int sock, int socksize) {
     struct ccnl_sensor_tuple_s* currentData;
     DEBUGMSG(INFO, "Sample sensor with sampling rate of %i microseconds\n", sensor->settings->samplingRate);
     struct timeval tv;
