@@ -17,6 +17,7 @@ public class SchemaBrokerSingleton {
         Set<String> survivorSet = new LinkedHashSet<>();
         survivorSet.add("Date");
         survivorSet.add("SequenceNumber");
+        survivorSet.add("SensorID");
         survivorSet.add("Gender");
         survivorSet.add("Age");
         insertSchema("Survivors",survivorSet);
@@ -24,6 +25,7 @@ public class SchemaBrokerSingleton {
         Set<String> victimSet = new LinkedHashSet<>();
         victimSet.add("Date");
         victimSet.add("SequenceNumber");
+        victimSet.add("SensorID");
         victimSet.add("Gender");
         victimSet.add("Age");
         insertSchema("Victims",victimSet);
