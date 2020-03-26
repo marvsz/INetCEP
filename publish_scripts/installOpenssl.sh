@@ -15,7 +15,7 @@ read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
 	do
 		echo "logged in: " $i
-		ssh -t $user@$i<<-'ENDSSH'
+		ssh -t $user@$i <<-'ENDSSH'
 		mkdir Download
 		cd Download
 		echo "Getting openssl1.1.0f"
@@ -33,7 +33,7 @@ copy(){
 read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
 	do
-		ssh -t $user@$i<<-'ENDSSH'
+		ssh -t $user@$i <<-'ENDSSH'
 		cd /usr/local/lib/
 		echo "$sudoPW" | sudo -S cp libcrypto.so.1.1 /usr/lib/
 		echo "$sudoPW" | sudo -S cp libcrypto.a /usr/lib/
