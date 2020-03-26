@@ -561,6 +561,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         DEBUGMSG_CFWD(DEBUG, "Appearently both now were not null, going into the loop");
 #endif
     for (c = relay->contents; c; c = c->next) {
+        if(c->pkt->s.ndntlv.mbf)
+            continue;
         if (c->pkt->pfx->suite != (*pkt)->pfx->suite)
             continue;
         if (cMatch(*pkt, c))
@@ -606,6 +608,8 @@ ccnl_fwd_handleInterest(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             }
             relay->served_content++;
             ccnl_send_pkt(relay, from, c->pkt);
+            if(c->pkt->type == NDN_TLV_Datastream)
+                c->pkt->s.ndntlv.mbf = 1;
 #ifdef USE_NFN_REQUESTS
             c->pkt = cpkt;
 #endif

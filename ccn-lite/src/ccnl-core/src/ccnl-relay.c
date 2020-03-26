@@ -740,6 +740,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
 
                 ccnl->served_content++;
                 ccnl_send_pkt(ccnl, pi->face, c->pkt);
+                if(c->pkt->type == NDN_TLV_Datastream)
+                    c->pkt->s.ndntlv.mbf = 1;
 
 #ifdef USE_NFN_REQUESTS
                 if (matches_start_request) {
