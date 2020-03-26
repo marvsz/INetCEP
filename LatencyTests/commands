@@ -1,0 +1,3 @@
+~/INetCEP/ccn-lite/bin/ccn-lite-mkC -s ndn2013 "/node/nodeA/FillerContent" > ~/INetCEP/LatencyTests/fillerContent.ndntlv
+
+~/INetCEP/ccn-lite/bin/ccn-lite-ctrl -x /tmp/mgmt-nfn-relay-a.sock addContentToCache ~/INetCEP/LatencyTests/fillerContent.ndntlv
