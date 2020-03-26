@@ -218,10 +218,17 @@ ccnl_pkt_interest_lifetime(const struct ccnl_pkt_s *pkt)
             /* CCN-TLV parser does not support lifetime parsing, yet. */
             return CCNL_INTEREST_TIMEOUT;
 #endif
+#ifndef CCNL_LINUXKERNEL
 #ifdef USE_SUITE_NDNTLV
         case CCNL_SUITE_NDNTLV:
             return (pkt->s.ndntlv.interestlifetime / 1000);
 #endif
+#else
+        case CCNL_SUITE_NDNTLV:
+            return pkt->s.ndntlv.interestlifetime;
+#endif
+
+
         default:
             break;
     }
