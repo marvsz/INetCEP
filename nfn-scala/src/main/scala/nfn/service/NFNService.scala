@@ -218,7 +218,7 @@ trait NFNService {
 
 //Added by Ali 6/2/18:
 case class LogMessage(node: String, msg: String) extends LazyLogging {
-  logger.debug(s"SA-CEP-ICN: $msg")
+  logger.debug(s"INetCEP: $msg")
 
   val path = StaticConfig.systemPath
   //Log the event to a file: A little tedious but it will ensure that we do not break any functionality due to missing files on remote systems without the correct directory structure.

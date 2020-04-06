@@ -7,6 +7,9 @@ initializetopology() {
 	rm *.log
 	nohup bash startNodes.sh > nodes.log &
 	sleep 2s
+	nohup bash startSensor.sh victims 1 2 500000 trace > sensor.log &
+	nohup bash startSensor.sh victims 2 2 500000 trace > sensor.log &
+	sleep 1s
 	nohup bash startCS.sh > CS.log &
 	sleep 10s
 }

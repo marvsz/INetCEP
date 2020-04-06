@@ -32,32 +32,33 @@ if [[ -z $simRunTime ]]
 #Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
 #Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
 #new Usage: bash publishRemotely.sh all "Placement" 7 20 1200
+#new Usage: bash publishRemotely.sh all "Placement" 8 20 1200
 all() {
 	#echo "deploying CCN"
 	#deployCCN
 	#echo "building NFN"
 	#buildNFN
 	#sleep 2s
-	#echo "copying Node Info"
-	#copyNodeInfo
-	#sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
 	#echo "copying NFN Files"
 	#copyNFNFiles
 	#sleep 2s
 	#echo "Deleting old logs"
 	#deleteOldLogs
-	#echo "Creating Topology"
-	#createTopology
-	echo "Create Line Topology Kernel"
-	createTopologyTestLineKernel
+	echo "Creating Topology"
+	createTopology
+	#echo "Create Line Topology Kernel"
+	#createTopologyTestLineKernel
 	#echo "Create Line Topology"
 	#createTopologyTestLine
-	#sleep 2s
-	#echo "Starting UpdateNodestate Service"
-	#execute
-	#sleep 10s
-	#echo "executing Query"
-	#executeQueryinVMA & sleep $simRunTime; shutdown
+	sleep 2s
+	echo "Starting UpdateNodestate Service"
+	execute
+	sleep 10s
+	echo "executing Query"
+	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
 installDependencies() {
@@ -269,6 +270,22 @@ for i in "${VMS[@]}"
 
 }
 
+createTopologyTestLineFill() {
+for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'
+		cd ~/INetCEP/VM-Startup-Scripts
+		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
+		#first create topology and start the compute server in all nodes
+		screen -d -m bash executeScripts.sh initializeTestLine
+		sleep 2s
+		bash createFillerContent.sh 10000
+		ENDSSH
+	done
+
+}
+
 createTopologyTestLineKernel(){
 read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
@@ -288,6 +305,32 @@ for i in "${VMS[@]}"
 		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
 		#first create topology and start the compute server in all nodes
 		screen -d -m bash executeScripts.sh initializeTestLineKernel
+		ENDSSH
+	done
+
+}
+
+createTopologyTestLineKernelFill(){
+read -s -p "Enter Password for sudo: " sudoPW
+	for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh $user@$i <<-ENDSSH
+		cd ~/INetCEP/VM-Startup-Scripts
+		echo "$sudoPW" | sudo -S bash startKernel.sh
+		ENDSSH
+	done
+sleep 1s
+for i in "${VMS[@]}"
+	do
+		echo "logged in: " $i
+		ssh -t $user@$i <<-'ENDSSH'
+		cd ~/INetCEP/VM-Startup-Scripts
+		#call the scripts asynchronously using screen (nohup and & didn't work) in order to repeat the same for all the VMs
+		#first create topology and start the compute server in all nodes
+		screen -d -m bash executeScripts.sh initializeTestLineKernel
+		sleep 2s
+		screen -d -m bash createFillerContent.sh $2
 		ENDSSH
 	done
 
@@ -343,25 +386,34 @@ executeQueryinVMA() {
 	#one of a kind query
 	case $placementType in
 	1)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'WINDOW(name,victims,4,S)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	2)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	3)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name),FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	4)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S)))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	5)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'FILTER(name,JOIN(name,name,PREDICT2(name,name,30s,WINDOW(name,plug0,1,S)),PREDICT2(name,name,30s,WINDOW(name,plug1,1,S))),6>50,name)' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),date,fullouter,none),Value>50)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	6)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_Placement 'Centralized' 'Centralized' '1' 'Source' 'Client1' 'HEATMAP(name,name,0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(name,name,WINDOW(name,gps1,2,S),WINDOW(name,gps2,2,S)))' 'Region1' '16:22:00.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	7)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(data,WINDOW(name,node/nodeA/sensor/victims/1,4,S),Gender=M&Age>30,data)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	8)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	9)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	10)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),date,fullouter,none),Value>50)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	*) echo "do_nothing"
 	;;
@@ -511,6 +563,8 @@ elif [ $1 == "shutdownKernel" ]; then shutdownKernel
 elif [ $1 == "shutdown" ]; then shutdown
 elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs
 elif [ $1 == "pingLogs" ]; then getPingingTestLogs
+elif [ $1 == "lineFill" ]; then createTopologyTestLineFill
+elif [ $1 == "kernelLineFill" ]; then createTopologyTestLineKernelFill
 else echo "$help"
 fi
 

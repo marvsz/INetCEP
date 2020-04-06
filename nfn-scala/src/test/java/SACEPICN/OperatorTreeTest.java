@@ -28,7 +28,12 @@ public class OperatorTreeTest {
 
         Map result = opTree.createOperatorTree("JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)");
         assertNotNull(result);
-        assertEquals(2, result._stackSize);
+        assertEquals(5, result._stackSize);
+
+        result = opTree.createOperatorTree("HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))");
+        assertNotNull(result);
+        assertEquals(4, result._stackSize);
+
 
         result = opTree.createOperatorTree("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)])");
         assertNotNull(result);

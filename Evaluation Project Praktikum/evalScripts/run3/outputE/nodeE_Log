@@ -1,0 +1,300 @@
+[2019-02-12 13:46:28.036][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:46:28.038][SACEPICN]: Performing filter on named data
+[2019-02-12 13:46:28.038][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975578989' 'name' 'victims' '5' 'M')
+[2019-02-12 13:46:28.333][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:46:28.358][SACEPICN]: Past Time: 13:41:28.348
+[2019-02-12 13:46:28.358][SACEPICN]: Current Time: 13:46:28.348
+[2019-02-12 13:46:28.368][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:46:28.369][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/134628, WINDOW content: No Results!
+[2019-02-12 13:46:28.369][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:46:28.556][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/134628
+[2019-02-12 13:46:28.556][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/134628
+[2019-02-12 13:46:28.557][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:46:28.558][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:46:28.562][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:46:28.562][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/134628, FILTER content: No Results!
+[2019-02-12 13:46:28.563][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:47:00.047][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:47:00.048][SACEPICN]: Performing filter on named data
+[2019-02-12 13:47:00.048][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975619025' 'name' 'victims' '5' 'M')
+[2019-02-12 13:47:00.352][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:47:00.353][SACEPICN]: Past Time: 13:42:00.352
+[2019-02-12 13:47:00.353][SACEPICN]: Current Time: 13:47:00.352
+[2019-02-12 13:47:00.356][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:47:00.356][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/13470, WINDOW content: No Results!
+[2019-02-12 13:47:00.356][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:47:00.546][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/13470
+[2019-02-12 13:47:00.546][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/13470
+[2019-02-12 13:47:00.547][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:47:00.548][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:47:00.548][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:47:00.549][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/13470, FILTER content: No Results!
+[2019-02-12 13:47:00.549][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:48:28.710][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:48:28.712][SACEPICN]: Performing filter on named data
+[2019-02-12 13:48:28.712][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975699098' 'name' 'victims' '5' 'M')
+[2019-02-12 13:48:29.012][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:48:29.013][SACEPICN]: Past Time: 13:43:29.013
+[2019-02-12 13:48:29.013][SACEPICN]: Current Time: 13:48:29.013
+[2019-02-12 13:48:29.015][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:48:29.016][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/134829, WINDOW content: No Results!
+[2019-02-12 13:48:29.016][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:48:29.207][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/134829
+[2019-02-12 13:48:29.208][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/134829
+[2019-02-12 13:48:29.209][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:48:29.209][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:48:29.210][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:48:29.210][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/134829, FILTER content: No Results!
+[2019-02-12 13:48:29.211][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:49:00.164][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:49:00.164][SACEPICN]: Performing filter on named data
+[2019-02-12 13:49:00.165][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975739118' 'name' 'victims' '5' 'M')
+[2019-02-12 13:49:00.445][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:49:00.446][SACEPICN]: Past Time: 13:44:00.445
+[2019-02-12 13:49:00.446][SACEPICN]: Current Time: 13:49:00.445
+[2019-02-12 13:49:00.448][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:49:00.448][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/13490, WINDOW content: No Results!
+[2019-02-12 13:49:00.449][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:49:00.649][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/13490
+[2019-02-12 13:49:00.649][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/13490
+[2019-02-12 13:49:00.652][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:49:00.652][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:49:00.653][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:49:00.654][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/13490, FILTER content: No Results!
+[2019-02-12 13:49:00.654][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:49:16.232][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:49:16.233][SACEPICN]: Performing filter on named data
+[2019-02-12 13:49:16.233][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975747793' 'name' 'victims' '5' 'M')
+[2019-02-12 13:49:16.523][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:49:16.523][SACEPICN]: Past Time: 13:44:16.523
+[2019-02-12 13:49:16.524][SACEPICN]: Current Time: 13:49:16.523
+[2019-02-12 13:49:16.526][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:49:16.526][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/134916, WINDOW content: No Results!
+[2019-02-12 13:49:16.526][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:49:16.725][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/134916
+[2019-02-12 13:49:16.725][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/134916
+[2019-02-12 13:49:16.726][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:49:16.726][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:49:16.727][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:49:16.728][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/134916, FILTER content: No Results!
+[2019-02-12 13:49:16.728][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:49:21.570][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:49:21.570][SACEPICN]: Performing filter on named data
+[2019-02-12 13:49:21.571][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975759281' 'name' 'victims' '5' 'M')
+[2019-02-12 13:49:21.882][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:49:21.882][SACEPICN]: Past Time: 13:44:21.882
+[2019-02-12 13:49:21.883][SACEPICN]: Current Time: 13:49:21.882
+[2019-02-12 13:49:21.885][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:49:21.885][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/134921, WINDOW content: No Results!
+[2019-02-12 13:49:21.885][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:49:22.098][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/134921
+[2019-02-12 13:49:22.098][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/134921
+[2019-02-12 13:49:22.100][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:49:22.100][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:49:22.101][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:49:22.101][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/134922, FILTER content: No Results!
+[2019-02-12 13:49:22.102][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:49:45.388][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:49:45.388][SACEPICN]: Performing filter on named data
+[2019-02-12 13:49:45.388][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975779176' 'name' 'victims' '5' 'M')
+[2019-02-12 13:49:45.679][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:49:45.679][SACEPICN]: Past Time: 13:44:45.679
+[2019-02-12 13:49:45.680][SACEPICN]: Current Time: 13:49:45.679
+[2019-02-12 13:49:45.681][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:49:45.682][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/134945, WINDOW content: No Results!
+[2019-02-12 13:49:45.682][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:49:45.894][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/134945
+[2019-02-12 13:49:45.895][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/134945
+[2019-02-12 13:49:45.896][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:49:45.896][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:49:45.897][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:49:45.897][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/134945, FILTER content: No Results!
+[2019-02-12 13:49:45.898][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:50:01.576][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:50:01.576][SACEPICN]: Performing filter on named data
+[2019-02-12 13:50:01.577][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975799315' 'name' 'victims' '5' 'M')
+[2019-02-12 13:50:01.871][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:50:01.871][SACEPICN]: Past Time: 13:45:01.871
+[2019-02-12 13:50:01.872][SACEPICN]: Current Time: 13:50:01.871
+[2019-02-12 13:50:01.873][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:50:01.874][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/13501, WINDOW content: No Results!
+[2019-02-12 13:50:01.874][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:50:02.080][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/13501
+[2019-02-12 13:50:02.080][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/13501
+[2019-02-12 13:50:02.081][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:50:02.081][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:50:02.082][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:50:02.083][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/13502, FILTER content: No Results!
+[2019-02-12 13:50:02.083][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:51:45.799][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:51:45.799][SACEPICN]: Performing filter on named data
+[2019-02-12 13:51:45.799][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975899274' 'name' 'victims' '5' 'M')
+[2019-02-12 13:51:46.089][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:51:46.090][SACEPICN]: Past Time: 13:46:46.090
+[2019-02-12 13:51:46.090][SACEPICN]: Current Time: 13:51:46.090
+[2019-02-12 13:51:46.092][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:51:46.092][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/135146, WINDOW content: No Results!
+[2019-02-12 13:51:46.092][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:51:46.287][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/135146
+[2019-02-12 13:51:46.287][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/135146
+[2019-02-12 13:51:46.288][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:51:46.288][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:51:46.289][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:51:46.289][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/135146, FILTER content: No Results!
+[2019-02-12 13:51:46.289][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:52:29.338][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:52:29.338][SACEPICN]: Performing filter on named data
+[2019-02-12 13:52:29.339][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975939314' 'name' 'victims' '5' 'M')
+[2019-02-12 13:52:29.636][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:52:29.638][SACEPICN]: Past Time: 13:47:29.636
+[2019-02-12 13:52:29.638][SACEPICN]: Current Time: 13:52:29.636
+[2019-02-12 13:52:29.640][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:52:29.640][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/135229, WINDOW content: No Results!
+[2019-02-12 13:52:29.640][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:52:29.843][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/135229
+[2019-02-12 13:52:29.843][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/135229
+[2019-02-12 13:52:29.844][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:52:29.844][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:52:29.845][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:52:29.846][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/135229, FILTER content: No Results!
+[2019-02-12 13:52:29.846][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:53:00.456][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:53:00.457][SACEPICN]: Performing filter on named data
+[2019-02-12 13:53:00.457][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549975979362' 'name' 'victims' '5' 'M')
+[2019-02-12 13:53:00.745][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:53:00.746][SACEPICN]: Past Time: 13:48:00.745
+[2019-02-12 13:53:00.746][SACEPICN]: Current Time: 13:53:00.745
+[2019-02-12 13:53:00.748][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:53:00.748][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/13530, WINDOW content: No Results!
+[2019-02-12 13:53:00.748][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:53:00.952][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/13530
+[2019-02-12 13:53:00.952][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/13530
+[2019-02-12 13:53:00.953][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:53:00.953][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:53:00.954][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:53:00.954][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/13530, FILTER content: No Results!
+[2019-02-12 13:53:00.954][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:53:46.150][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:53:46.150][SACEPICN]: Performing filter on named data
+[2019-02-12 13:53:46.151][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549976019376' 'name' 'victims' '5' 'M')
+[2019-02-12 13:53:46.441][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:53:46.442][SACEPICN]: Past Time: 13:48:46.441
+[2019-02-12 13:53:46.442][SACEPICN]: Current Time: 13:53:46.441
+[2019-02-12 13:53:46.443][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:53:46.444][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/135346, WINDOW content: No Results!
+[2019-02-12 13:53:46.445][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:53:46.653][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/135346
+[2019-02-12 13:53:46.654][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/135346
+[2019-02-12 13:53:46.654][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:53:46.654][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:53:46.655][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:53:46.655][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/135346, FILTER content: No Results!
+[2019-02-12 13:53:46.656][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:54:29.759][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:54:29.760][SACEPICN]: Performing filter on named data
+[2019-02-12 13:54:29.760][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549976059431' 'name' 'victims' '5' 'M')
+[2019-02-12 13:54:30.079][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:54:30.080][SACEPICN]: Past Time: 13:49:30.080
+[2019-02-12 13:54:30.080][SACEPICN]: Current Time: 13:54:30.080
+[2019-02-12 13:54:30.082][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:54:30.082][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/135430, WINDOW content: No Results!
+[2019-02-12 13:54:30.082][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:54:30.295][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/135430
+[2019-02-12 13:54:30.295][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/135430
+[2019-02-12 13:54:30.296][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:54:30.296][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:54:30.297][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:54:30.297][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/135430, FILTER content: No Results!
+[2019-02-12 13:54:30.298][SACEPICN]: Filter OP Completed
+
+[2019-02-12 13:55:00.613][SACEPICN]: 
+Filter OP Started
+[2019-02-12 13:55:00.614][SACEPICN]: Performing filter on named data
+[2019-02-12 13:55:00.614][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549976099449' 'name' 'victims' '5' 'M')
+[2019-02-12 13:55:00.920][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 13:55:00.921][SACEPICN]: Past Time: 13:50:00.920
+[2019-02-12 13:55:00.921][SACEPICN]: Current Time: 13:55:00.920
+[2019-02-12 13:55:00.923][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 13:55:00.923][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/13550, WINDOW content: No Results!
+[2019-02-12 13:55:00.924][SACEPICN]: Window OP Completed
+
+[2019-02-12 13:55:01.140][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/13550
+[2019-02-12 13:55:01.141][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/13550
+[2019-02-12 13:55:01.141][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 13:55:01.142][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 13:55:01.142][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 13:55:01.143][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/13551, FILTER content: No Results!
+[2019-02-12 13:55:01.143][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:01:55.696][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:01:55.697][SACEPICN]: Performing filter on named data
+[2019-02-12 14:01:55.697][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeE/nfn_service_Window '1549976499779' 'name' 'victims' '5' 'M')
+[2019-02-12 14:01:55.994][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:01:55.995][SACEPICN]: Past Time: 13:56:55.995
+[2019-02-12 14:01:55.995][SACEPICN]: Current Time: 14:01:55.995
+[2019-02-12 14:01:55.997][SACEPICN]: Window OP: Prefix of node is: 9005
+[2019-02-12 14:01:55.997][SACEPICN]: Inside Window -> WINDOW name: /9005/window/victims/14155, WINDOW content: No Results!
+[2019-02-12 14:01:55.998][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:01:56.210][SACEPICN]: Intermediate Named-Function Result is: /9005/window/victims/14155
+[2019-02-12 14:01:56.211][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9005/window/victims/14155
+[2019-02-12 14:01:56.211][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:01:56.211][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:01:56.212][SACEPICN]: Filter OP: Prefix of node is: 9005
+[2019-02-12 14:01:56.213][SACEPICN]: Inside Filter -> FILTER name: /9005/Filter/onOperator/14156, FILTER content: No Results!
+[2019-02-12 14:01:56.213][SACEPICN]: Filter OP Completed
+
