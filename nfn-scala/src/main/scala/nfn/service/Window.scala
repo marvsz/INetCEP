@@ -6,7 +6,7 @@ package nfn.service
 
 import java.io.FileNotFoundException
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{Helpers, Networking, SensorHelpers}
 

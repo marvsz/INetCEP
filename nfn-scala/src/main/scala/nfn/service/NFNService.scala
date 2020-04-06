@@ -4,7 +4,7 @@ import java.io.{File, FileOutputStream, PrintWriter}
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor._
 import akka.pattern._
 import akka.util.Timeout

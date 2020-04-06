@@ -7,7 +7,7 @@ package nfn.service.PlacementServices
 import java.io._
 import java.text.SimpleDateFormat
 
-import SACEPICN.{NodeMapping, _}
+import INetCEP.{NodeMapping, _}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
 import nfn.tools.Networking._

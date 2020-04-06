@@ -7,7 +7,7 @@ import nfn.service._
 import filterAccess.crypto.Encryption._
 import filterAccess.tools.Exceptions.noReturnException
 import Networking._
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import ccn.packet.CCNName
 import filterAccess.json.PermissionChannelBuilder.{manipulateLevel, minimizePermissions}
 

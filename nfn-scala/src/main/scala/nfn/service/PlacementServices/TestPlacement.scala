@@ -1,5 +1,5 @@
 package nfn.service.PlacementServices
-import SACEPICN.{Map, Node, NodeMapping, Operator, Paths}
+import INetCEP.{Map, Node, NodeMapping, Operator, Paths}
 import akka.actor.ActorRef
 import nfn.service.LogMessage
 import nfn.tools.{EvaluationHandler, Helpers}
@@ -10,7 +10,7 @@ class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef,
   override val nodeName: String = _nodeName
   override val mapping: NodeMapping = _mapping
   override val ccnApi: ActorRef = _ccnApi
-  override val root: SACEPICN.Map = _root
+  override val root: INetCEP.Map = _root
   override val paths: ListBuffer[Paths] = _paths
   override val maxPath: Int = _maxPath
   override val evalHandler: EvaluationHandler = _evalHandler

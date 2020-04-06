@@ -2,7 +2,7 @@ package nfn.service
 import java.io.IOException
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, ServiceStarterInterest}
 import nfn.tools.Networking

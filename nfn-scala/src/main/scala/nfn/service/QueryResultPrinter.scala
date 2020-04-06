@@ -1,5 +1,5 @@
 package nfn.service
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 

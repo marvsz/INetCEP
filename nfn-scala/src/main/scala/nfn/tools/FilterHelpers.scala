@@ -1,6 +1,6 @@
 package nfn.tools
 
-import SACEPICN.{Node, Operator, OperatorTree}
+import INetCEP.{Node, Operator, OperatorTree}
 
 import scala.collection.mutable.ArrayBuffer
 

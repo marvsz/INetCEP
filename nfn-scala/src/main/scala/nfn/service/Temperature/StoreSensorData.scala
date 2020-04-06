@@ -2,7 +2,7 @@ package nfn.service.Temperature
 
 import java.io.FileWriter
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, NFNInterest}
 import lambdacalculus.parser.ast.{Call, Constant, Str}

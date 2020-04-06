@@ -1,6 +1,6 @@
 package nfn.service.GPS.NDNfit
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service.{NFNIntValue, NFNService, NFNValue}

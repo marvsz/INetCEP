@@ -1,6 +1,6 @@
 package nfn.localAbstractMachine
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor._
 import akka.event.Logging
 import ccn.packet._

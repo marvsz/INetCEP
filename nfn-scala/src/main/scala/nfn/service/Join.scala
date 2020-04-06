@@ -7,7 +7,7 @@ package nfn.service
 import java.util
 import java.util.{LinkedHashSet, Set}
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{FilterHelpers, Helpers, SensorHelpers}
 

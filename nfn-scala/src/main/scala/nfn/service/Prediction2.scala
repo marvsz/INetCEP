@@ -1,6 +1,6 @@
 package nfn.service
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import nfn.tools.{Helpers, SensorHelpers}
 
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -2,7 +2,7 @@ package filterAccess.ndncomm15.services
 
 import java.util.concurrent.TimeUnit
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout

@@ -1,6 +1,6 @@
 package runnables.evaluation.usecase.cdn
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet._
 import com.typesafe.config.ConfigFactory

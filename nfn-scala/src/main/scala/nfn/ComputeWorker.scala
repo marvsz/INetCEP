@@ -1,6 +1,6 @@
 package nfn
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
 import akka.pattern.ask

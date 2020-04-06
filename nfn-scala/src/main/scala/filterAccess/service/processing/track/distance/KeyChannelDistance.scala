@@ -6,7 +6,7 @@ import filterAccess.tools.{DataNaming, Networking}
 import nfn.service._
 import filterAccess.tools.Exceptions.noReturnException
 import Networking._
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import ccn.packet.CCNName
 import filterAccess.crypto.Encryption.pubEncrypt
 

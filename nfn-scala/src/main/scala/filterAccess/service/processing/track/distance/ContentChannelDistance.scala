@@ -7,7 +7,7 @@ import nfn.service._
 import scala.concurrent.duration._
 import filterAccess.tools.Exceptions.noReturnException
 import Networking._
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import ccn.packet.CCNName
 import filterAccess.json.ContentChannelParser.getTrack
 import filterAccess.json._

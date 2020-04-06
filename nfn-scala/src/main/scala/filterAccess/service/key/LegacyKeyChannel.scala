@@ -1,6 +1,6 @@
 package filterAccess.service.key
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet._
 import filterAccess.json.PermissionChannelParser._

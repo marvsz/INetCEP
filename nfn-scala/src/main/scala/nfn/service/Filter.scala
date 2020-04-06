@@ -4,7 +4,7 @@ package nfn.service
  * Created by Ali on 06.02.18.
  */
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import nfn.tools.{FilterHelpers, Helpers, Networking, SensorHelpers}
 

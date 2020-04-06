@@ -1,6 +1,6 @@
 package filterAccess.service.processing.track.maximum
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import filterAccess.json.KeyChannelParser._

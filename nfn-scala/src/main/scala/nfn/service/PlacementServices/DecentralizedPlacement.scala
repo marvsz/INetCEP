@@ -1,6 +1,6 @@
 package nfn.service.PlacementServices
 
-import SACEPICN.{Map, NodeMapping, Paths}
+import INetCEP.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
 import nfn.tools.EvaluationHandler
 import scala.concurrent.ExecutionContext.Implicits.global

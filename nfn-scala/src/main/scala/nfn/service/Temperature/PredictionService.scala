@@ -1,6 +1,6 @@
 package nfn.service.Temperature
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, NFNInterest}
 import lambdacalculus.parser.ast.{Constant, Str}

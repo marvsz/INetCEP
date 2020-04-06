@@ -2,7 +2,7 @@ package nfn.service
 
 import java.util.concurrent.TimeUnit
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.{CCNName, Content, Interest}
 import nfn.tools.Networking._

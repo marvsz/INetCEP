@@ -3,7 +3,7 @@ package nfn.service.NBody
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

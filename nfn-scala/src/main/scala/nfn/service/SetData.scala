@@ -12,7 +12,7 @@ import nfn.NFNApi
 import nfn.tools.Networking._
 import java.io._
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import nfn.service._
 import config.StaticConfig
 

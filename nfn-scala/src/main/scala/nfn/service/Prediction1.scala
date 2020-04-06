@@ -6,7 +6,7 @@ package nfn.service
 
 import java.time.format.DateTimeFormatter
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -1,6 +1,6 @@
 package nfn.service.NBody
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor._
 import ccn.packet.CCNName
 import nfn.service.{NFNStringValue, _}

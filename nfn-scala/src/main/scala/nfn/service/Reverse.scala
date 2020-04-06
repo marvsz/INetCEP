@@ -4,7 +4,7 @@ package nfn.service
 // It is used to have access to the client-library style interface to CCN where you can send interests to and
 // receive content from (as well as access to the management interface and more)
 // This service will no make use of this
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 

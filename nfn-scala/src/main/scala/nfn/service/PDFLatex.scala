@@ -2,7 +2,7 @@ package nfn.service
 
 import java.io.File
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import myutil.IOHelper

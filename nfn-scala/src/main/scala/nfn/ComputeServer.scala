@@ -1,6 +1,6 @@
 package nfn
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.SupervisorStrategy.Stop
 import akka.actor.{Actor, ActorRef, OneForOneStrategy, Props}
 import akka.event.Logging

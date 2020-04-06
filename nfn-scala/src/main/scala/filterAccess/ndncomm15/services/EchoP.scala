@@ -10,7 +10,7 @@ import scala.concurrent.Future
 import scala.util.Random
 import java.io.FileWriter
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import ccn.packet.CCNName
 
 import scala.sys.process._

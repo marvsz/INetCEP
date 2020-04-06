@@ -4,7 +4,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
-import SACEPICN.{ConnectedSensorsSingleton, SchemaBrokerSingleton, Sensor}
+import INetCEP.{ConnectedSensorsSingleton, SchemaBrokerSingleton, Sensor}
 import nfn.tools.Helpers.sacepicnEnv
 
 import scala.io.Source

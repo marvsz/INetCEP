@@ -5,7 +5,7 @@ package nfn.service.PlacementServices
  * This is the centralized query placement while using the fetch based network discovery approach
  */
 
-import SACEPICN.{NodeMapping, _}
+import INetCEP.{NodeMapping, _}
 import akka.actor.{ActorContext, ActorRef}
 import myutil.FormattedOutput
 import nfn.service._

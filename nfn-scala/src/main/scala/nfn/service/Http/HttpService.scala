@@ -1,6 +1,6 @@
 package nfn.service.Http
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
 import nfn.service._

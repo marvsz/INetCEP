@@ -1,6 +1,6 @@
 package nfn.localAbstractMachine
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import lambdacalculus.machine.CallByValue.VariableMachineValue
 import lambdacalculus.machine._

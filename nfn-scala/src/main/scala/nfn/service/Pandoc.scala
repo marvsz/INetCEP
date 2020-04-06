@@ -2,7 +2,7 @@ package nfn.service
 
 import java.io.File
 
-import SACEPICN.StatesSingleton
+import INetCEP.StatesSingleton
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -1,6 +1,6 @@
 package nfn.service.PlacementServices
 
-import SACEPICN.{Map, NodeMapping, Paths}
+import INetCEP.{Map, NodeMapping, Paths}
 import akka.actor.ActorRef
 import myutil.FormattedOutput
 import nfn.service.LogMessage

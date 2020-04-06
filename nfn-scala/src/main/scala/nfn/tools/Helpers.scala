@@ -3,7 +3,7 @@ package nfn.tools
 import java.io.{File, FileOutputStream, PrintWriter}
 import java.util.Calendar
 
-import SACEPICN.NodeMapping
+import INetCEP.NodeMapping
 import akka.actor.ActorRef
 import ccn.packet._
 import config.StaticConfig
