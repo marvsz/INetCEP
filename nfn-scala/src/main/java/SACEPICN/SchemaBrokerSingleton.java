@@ -1,5 +1,7 @@
 package SACEPICN;
 
+import akka.japi.Pair;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -11,24 +13,24 @@ Created by Johannes on 26.9.2019
 
 public class SchemaBrokerSingleton {
     private static SchemaBrokerSingleton instance;
-    public HashMap<String, Set<String>> schemes = new HashMap<String,Set<String>>();
+    public HashMap<String, Pair<String, Set<String>>> schemes = new HashMap<String,Pair<String, Set<String>>>();
 
     public SchemaBrokerSingleton(){
         Set<String> survivorSet = new LinkedHashSet<>();
         survivorSet.add("Date");
-        survivorSet.add("SequenceNumber");
         survivorSet.add("SensorID");
+        survivorSet.add("SequenceNumber");
         survivorSet.add("Gender");
         survivorSet.add("Age");
-        insertSchema("Survivors",survivorSet);
+        insertSchema("Survivors", survivorSet, "/");
 
         Set<String> victimSet = new LinkedHashSet<>();
         victimSet.add("Date");
-        victimSet.add("SequenceNumber");
         victimSet.add("SensorID");
+        victimSet.add("SequenceNumber");
         victimSet.add("Gender");
         victimSet.add("Age");
-        insertSchema("Victims",victimSet);
+        insertSchema("Victims",victimSet,"/");
 
         Set<String> gpsSet = new LinkedHashSet<>();
         gpsSet.add("Date");
@@ -39,7 +41,7 @@ public class SchemaBrokerSingleton {
         gpsSet.add("Accuracy");
         gpsSet.add("Distance");
         gpsSet.add("Speed");
-        insertSchema("GPS",gpsSet);
+        insertSchema("GPS",gpsSet,";");
 
         Set<String> plugSet = new LinkedHashSet<>();
         plugSet.add("SequenceNumber");
@@ -49,7 +51,7 @@ public class SchemaBrokerSingleton {
         plugSet.add("Plug_ID");
         plugSet.add("Household_ID");
         plugSet.add("House_ID");
-        insertSchema("Plug",plugSet);
+        insertSchema("Plug",plugSet,",");
     }
 
     /**
@@ -69,13 +71,13 @@ public class SchemaBrokerSingleton {
      * @param columnNames a set of strings representing the new column names of the schema
      * @return true iff the new schema did not already exist, false otherwise
      */
-    public boolean insertSchema(String schemaName,Set<String> columnNames){
+    public boolean insertSchema(String schemaName,Set<String> columnNames, String delimiter){
         if(schemes.get(schemaName.toLowerCase()) == null){
             Set<String> lowerCaseColumnNames = new LinkedHashSet<>();
             for(String i : columnNames){
                 lowerCaseColumnNames.add(i.toLowerCase());
             }
-            schemes.put(schemaName.toLowerCase(),lowerCaseColumnNames);
+            schemes.put(schemaName.toLowerCase(),new Pair<String, Set<String>>(delimiter, lowerCaseColumnNames));
             return true;
         }
         else
@@ -88,7 +90,16 @@ public class SchemaBrokerSingleton {
      * @return a set of column names representing the schema, null if it does not exist.
      */
     public Set<String> getSchema(String schemaName){
-        return schemes.get(schemaName.toLowerCase());
+        return schemes.get(schemaName.toLowerCase()).second();
+    }
+
+    /**
+     * Returns teh delimiter for a given schema name
+     * @param schemaName the Name for which we want the delimiter
+     * @return a string representing the delimiter of the schema
+     */
+    public String getDelimiter(String schemaName){
+        return schemes.get(schemaName.toLowerCase()).first();
     }
 
     /**
@@ -118,7 +129,7 @@ public class SchemaBrokerSingleton {
      * @param schema2 the name of the second sensor that provides a data stream
      * @return true iff joining was successfull and a new schema was inserted into the schema list, flase otherwise
      */
-    public boolean joinSchema(String joinOn, String conditions, String schema1, String schema2){
+    /*public boolean joinSchema(String joinOn, String conditions, String schema1, String schema2){
         Set<String> columnNames1 = getSchema(schema1);
         Set<String> columnNames2 = getSchema(schema2);
         String newSchemaName="Join(".concat(schema1).concat(",").concat(schema2).concat("|").concat(joinOn).concat(",[").concat(conditions).concat("]").concat(")");
@@ -139,7 +150,7 @@ public class SchemaBrokerSingleton {
             }
         }
         return false;
-    }
+    }*/
 
     /**
      * Returns the ID of a column name in the schema

@@ -1,1 +1,0 @@
-QID:Client1_16 1 9001 Client1 PREDICT1({name},{2m},{JOIN([name],[WINDOW(plug0,16:22:00.000,16:27:00.000)],[WINDOW(plug1,16:22:00.000,16:27:00.000)],[NULL])}) Region1 12:06:58.200

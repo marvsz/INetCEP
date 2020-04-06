@@ -41,39 +41,37 @@ object FilterHelpers {
   }
 
   def conditionHandler(streamSchema: String, filter: String, line: String, delimiter: String): Boolean = {
+    var returnValue = true
     val operatorPattern = "[>,<,=,<>]+".r // regex for all operators
     val operator = operatorPattern.findFirstIn(filter).map(_.toString).getOrElse("")
     val value = filter.toString.split("[>,<,=,<>]+").map(_.trim)
 
     var queryVariable = ""
-    var queryColumn = 0
+    var queryColumns :List[Int] = List()
 
     if (operator != "")
-      queryColumn = getColumnNumber(streamSchema, value(0).stripPrefix("(").stripSuffix(")").trim)
+      queryColumns = SensorHelpers.getColumnIDs(streamSchema, value(0).stripPrefix("(").stripSuffix(")").trim,delimiter)
     else
+      return false
+    if(queryColumns.isEmpty)
       return false
 
     queryVariable = value(1).stripPrefix("(").stripSuffix(")").trim
-    val returnValue = matchCondition(operator, queryColumn, queryVariable, line, delimiter)
-    returnValue
-  }
-
-  def getColumnNumber(schema: String, columnName: String) : Int = {
-    val columns = schema.split(",")
-    var columnId = 0
-    if (columns.contains(columnName.toLowerCase)) {
-      for (co <- columns) {
-        if (co == columnName.toLowerCase) return columnId
-        columnId += 1
-      }
+    for (col <- queryColumns){
+      print(s"ColumnID is $col \n")
+      print(s"Operator is $operator \n")
+      val retCond = matchCondition(operator, col, queryVariable, line, delimiter)
+      print(s"return of Match Condition is $retCond \n")
+      returnValue = returnValue && retCond
+      if(!returnValue)
+        returnValue
     }
-    -1
+    returnValue
   }
 
   def matchCondition(operator: String, queryColumn: Int, queryVariable: String, line: String, delimiter: String): Boolean = {
     //First, split the link into schema:
-    var schema = line.split(delimiter);
-
+    var schema = line.split(delimiter)
     var index = queryColumn
     //val schamaValue = schema(index).toDouble
     //val quaryVariableValue = queryVariable.toString.toDouble

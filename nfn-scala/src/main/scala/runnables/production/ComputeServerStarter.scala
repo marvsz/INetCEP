@@ -115,11 +115,12 @@ object ComputeServerStarter extends LazyLogging {
         node.publishServiceLocalPrefix(new QueryResultPrinter())
         node.publishServiceLocalPrefix(new ServiceStarter())
         node.publishServiceLocalPrefix(new Join())
+        node.publishServiceLocalPrefix(new Prediction2())
+        node.publishServiceLocalPrefix(new Heatmap())
         //node.publishServiceLocalPrefix(new Sequence())
         //node.publishServiceLocalPrefix(new Aggregation())
         //node.publishServiceLocalPrefix(new Prediction1())
-        //node.publishServiceLocalPrefix(new Prediction2())
-        //node.publishServiceLocalPrefix(new Heatmap())
+
         //node.publishServiceLocalPrefix(new WordCount())
         //node.publishServiceLocalPrefix(new ExecuteQuery())
         //node.publishServiceLocalPrefix(new QueryCentralLocalNS()) //One node keeps content state for all network. Network nodes must update this node.

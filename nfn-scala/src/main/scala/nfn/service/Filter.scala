@@ -46,7 +46,7 @@ class Filter() extends NFNService {
       val streamHeader = dataStream.split("\n")(0)
       val streamSchema = streamHeader.toString().split("-")(1)
       val newHeader = s"Filter($dataStreamName,$filter)" + " - " + streamSchema + "\n"
-      //LogMessage(nodeName,s"Schema is $streamSchema")
+      LogMessage(nodeName,s"Schema is $streamSchema")
       val returnVal = newHeader +  filterHandler(streamSchema,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
       LogMessage(nodeName, s"Filter OP Completed")
       returnVal
@@ -106,14 +106,14 @@ class Filter() extends NFNService {
     )
   }
 
-  def filter(streamSchema: String, sourceValue: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], delimiter: String): String = {
+  def filter(streamSchema: String, dataStream: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], delimiter: String): String = {
     var data: List[String] = null
     var output = ""
     data =
-      sourceValue.split("\n")
+      dataStream.split("\n")
         .toSeq
         .map(_.trim)
-        .filter(_ != "").toList
+        .filter(_ != "").toList.drop(1)
 
     if (data.nonEmpty) {
       data.foreach(line => {

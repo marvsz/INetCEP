@@ -70,7 +70,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
       if(!name.isThunk) {
         computeWorkers.get(name) match {
           case Some(worker) => {
-            logger.error(s"Received Compute for $name, forwarding it to running compute worker")
+            logger.info(s"Received Compute for $name, forwarding it to running compute worker")
             worker.tell(computeMsg, sender)
           }
           case None => {
@@ -92,7 +92,7 @@ case class ComputeServer(nodePrefix: CCNName) extends Actor {
       if(!name.isThunk) {
         computeWorkers.get(name) match {
           case Some(worker) => {
-            logger.error(s"Received Compute for $name with additionalArguments ${additionalArguments.toString()}, forwarding it to running compute worker")
+            logger.info(s"Received Compute for $name with additionalArguments ${additionalArguments.toString()}, forwarding it to running compute worker")
             worker.tell(cds, sender)
           }
           case None => {

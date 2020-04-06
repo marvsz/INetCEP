@@ -1,0 +1,1588 @@
+[2019-02-14 14:05:50.937][SACEPICN]: Query Execution Started
+[2019-02-14 14:05:50.937][SACEPICN]: Right algorithm found!
+[2019-02-14 14:05:50.940][SACEPICN]: Query appended to Query Store - Source Source
+[2019-02-14 14:05:50.941][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:05:50.951][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:05:50.952][SACEPICN]: Operator Placement Started
+[2019-02-14 14:05:50.952][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:05:50.953][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:05:50.953][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:05:50.953][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149550950' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:05:50.954][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.081][SACEPICN]: Window OP Started
+
+[2019-02-14 14:05:51.095][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14551, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.095][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:05:51.151][SACEPICN]: Query Result from network node: /9001/window/victims/14551
+[2019-02-14 14:05:51.151][SACEPICN]: Deployment result: /9001/window/victims/14551
+
+[2019-02-14 14:05:51.151][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:05:51.151][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:05:51.151][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149550949' 'name' '/9001/window/victims/14551' '3=M&4>30' 'name')
+[2019-02-14 14:05:51.151][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.219][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:05:51.220][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:05:51.220][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14551
+[2019-02-14 14:05:51.220][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.319][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.320][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.320][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.320][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.320][SACEPICN]: Delimiter is /
+[2019-02-14 14:05:51.324][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:05:51.324][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14551, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.325][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:05:51.376][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14551
+[2019-02-14 14:05:51.376][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14551
+
+[2019-02-14 14:05:51.376][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:05:51.376][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:05:51.376][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:05:51.377][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:05:51.377][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149550949' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:05:51.377][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.441][SACEPICN]: Window OP Started
+
+[2019-02-14 14:05:51.443][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14551, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.443][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:05:51.486][SACEPICN]: Query Result from network node: /9001/window/victims/14551
+[2019-02-14 14:05:51.486][SACEPICN]: Deployment result: /9001/window/victims/14551
+
+[2019-02-14 14:05:51.486][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:05:51.486][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:05:51.487][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149550948' 'name' '/9001/window/victims/14551' '3=M&4>30' 'name')
+[2019-02-14 14:05:51.487][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.552][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:05:51.552][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:05:51.552][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14551
+[2019-02-14 14:05:51.552][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.553][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.553][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.553][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.553][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:05:51.553][SACEPICN]: Delimiter is /
+[2019-02-14 14:05:51.555][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:05:51.555][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14551, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.555][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:05:51.598][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14551
+[2019-02-14 14:05:51.598][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14551
+
+[2019-02-14 14:05:51.598][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:05:51.599][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:05:51.599][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149550947' 'name' 'name' '/9001/FILTER/onWindow/14551' '/9001/FILTER/onWindow/14551')
+[2019-02-14 14:05:51.599][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.666][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:05:51.666][SACEPICN]: Handle left stream
+[2019-02-14 14:05:51.667][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14551
+[2019-02-14 14:05:51.667][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.776][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.776][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.776][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.776][SACEPICN]: Handle right stream
+[2019-02-14 14:05:51.776][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14551
+[2019-02-14 14:05:51.777][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:05:51.777][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.777][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.778][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.779][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:05:51.780][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14551, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:05:51.780][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:05:51.841][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14551
+[2019-02-14 14:05:51.841][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14551
+
+[2019-02-14 14:05:51.841][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:05:51.841][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:05:51.841][SACEPICN]: Query Execution Completed
+[2019-02-14 14:06:10.732][SACEPICN]: Query Execution Started
+[2019-02-14 14:06:10.732][SACEPICN]: Right algorithm found!
+[2019-02-14 14:06:10.732][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:06:10.732][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:06:10.733][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:06:10.734][SACEPICN]: Operator Placement Started
+[2019-02-14 14:06:10.734][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:06:10.734][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:10.734][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:10.734][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149570733' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:10.734][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:10.809][SACEPICN]: Window OP Started
+
+[2019-02-14 14:06:10.811][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14610, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:10.811][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:06:10.876][SACEPICN]: Query Result from network node: /9001/window/victims/14610
+[2019-02-14 14:06:10.876][SACEPICN]: Deployment result: /9001/window/victims/14610
+
+[2019-02-14 14:06:10.876][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:10.876][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:10.877][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149570733' 'name' '/9001/window/victims/14610' '3=M&4>30' 'name')
+[2019-02-14 14:06:10.877][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:10.971][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:06:10.971][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:06:10.972][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14610
+[2019-02-14 14:06:10.972][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.077][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:11.077][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:11.077][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:11.077][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:11.077][SACEPICN]: Delimiter is /
+[2019-02-14 14:06:11.078][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:06:11.078][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14611, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.079][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:06:11.117][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14611
+[2019-02-14 14:06:11.117][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14611
+
+[2019-02-14 14:06:11.117][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:11.117][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:06:11.118][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:11.118][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:11.118][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149570733' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:11.118][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.118][SACEPICN]: Query Result from network node: /9001/window/victims/14610
+[2019-02-14 14:06:11.119][SACEPICN]: Deployment result: /9001/window/victims/14610
+
+[2019-02-14 14:06:11.119][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:11.119][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:11.119][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149570733' 'name' '/9001/window/victims/14610' '3=M&4>30' 'name')
+[2019-02-14 14:06:11.119][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.119][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14611
+[2019-02-14 14:06:11.120][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14611
+
+[2019-02-14 14:06:11.120][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:11.120][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:06:11.120][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149570732' 'name' 'name' '/9001/FILTER/onWindow/14611' '/9001/FILTER/onWindow/14611')
+[2019-02-14 14:06:11.120][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.184][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:06:11.184][SACEPICN]: Handle left stream
+[2019-02-14 14:06:11.185][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14611
+[2019-02-14 14:06:11.185][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.282][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.282][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.282][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.282][SACEPICN]: Handle right stream
+[2019-02-14 14:06:11.282][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14611
+[2019-02-14 14:06:11.282][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:11.283][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.283][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.283][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.284][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:06:11.284][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14611, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:06:11.284][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:06:11.324][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14611
+[2019-02-14 14:06:11.324][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14611
+
+[2019-02-14 14:06:11.324][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:11.325][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:06:11.325][SACEPICN]: Query Execution Completed
+[2019-02-14 14:06:31.540][SACEPICN]: Query Execution Started
+[2019-02-14 14:06:31.540][SACEPICN]: Right algorithm found!
+[2019-02-14 14:06:31.540][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:06:31.541][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:06:31.542][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:06:31.543][SACEPICN]: Operator Placement Started
+[2019-02-14 14:06:31.543][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:06:31.543][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:31.543][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:31.543][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149591542' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:31.543][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:31.609][SACEPICN]: Window OP Started
+
+[2019-02-14 14:06:31.611][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14631, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:31.611][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:06:31.672][SACEPICN]: Query Result from network node: /9001/window/victims/14631
+[2019-02-14 14:06:31.672][SACEPICN]: Deployment result: /9001/window/victims/14631
+
+[2019-02-14 14:06:31.672][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:31.672][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:31.672][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149591542' 'name' '/9001/window/victims/14631' '3=M&4>30' 'name')
+[2019-02-14 14:06:31.673][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:31.759][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:06:31.759][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:06:31.760][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14631
+[2019-02-14 14:06:31.760][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:31.886][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:31.886][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:31.886][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:31.887][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:31.887][SACEPICN]: Delimiter is /
+[2019-02-14 14:06:31.888][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:06:31.888][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14631, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:31.888][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:06:31.935][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14631
+[2019-02-14 14:06:31.935][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14631
+
+[2019-02-14 14:06:31.935][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:31.935][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:06:31.935][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:31.935][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:31.936][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149591542' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:31.936][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:31.937][SACEPICN]: Query Result from network node: /9001/window/victims/14631
+[2019-02-14 14:06:31.937][SACEPICN]: Deployment result: /9001/window/victims/14631
+
+[2019-02-14 14:06:31.937][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:31.937][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:31.937][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149591541' 'name' '/9001/window/victims/14631' '3=M&4>30' 'name')
+[2019-02-14 14:06:31.937][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:32.016][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:06:32.017][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:06:32.017][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14631
+[2019-02-14 14:06:32.017][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:32.018][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:32.018][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:32.018][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:32.018][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:32.018][SACEPICN]: Delimiter is /
+[2019-02-14 14:06:32.020][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:06:32.020][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14632, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.020][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:06:32.080][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14632
+[2019-02-14 14:06:32.080][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14632
+
+[2019-02-14 14:06:32.081][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:32.081][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:06:32.081][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149591541' 'name' 'name' '/9001/FILTER/onWindow/14632' '/9001/FILTER/onWindow/14631')
+[2019-02-14 14:06:32.081][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:32.151][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:06:32.151][SACEPICN]: Handle left stream
+[2019-02-14 14:06:32.151][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14632
+[2019-02-14 14:06:32.151][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:32.269][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.269][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.269][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.269][SACEPICN]: Handle right stream
+[2019-02-14 14:06:32.270][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14631
+[2019-02-14 14:06:32.270][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:32.366][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.366][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.366][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.366][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:06:32.366][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14632, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:06:32.366][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:06:32.410][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14632
+[2019-02-14 14:06:32.410][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14632
+
+[2019-02-14 14:06:32.410][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:32.410][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:06:32.410][SACEPICN]: Query Execution Completed
+[2019-02-14 14:06:52.586][SACEPICN]: Query Execution Started
+[2019-02-14 14:06:52.586][SACEPICN]: Right algorithm found!
+[2019-02-14 14:06:52.586][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:06:52.586][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:06:52.587][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:06:52.587][SACEPICN]: Operator Placement Started
+[2019-02-14 14:06:52.587][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:06:52.587][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:52.588][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:52.588][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149612587' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:52.588][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:52.649][SACEPICN]: Window OP Started
+
+[2019-02-14 14:06:52.650][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14652, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:52.651][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:06:52.693][SACEPICN]: Query Result from network node: /9001/window/victims/14652
+[2019-02-14 14:06:52.693][SACEPICN]: Deployment result: /9001/window/victims/14652
+
+[2019-02-14 14:06:52.693][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:52.693][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:52.693][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149612587' 'name' '/9001/window/victims/14652' '3=M&4>30' 'name')
+[2019-02-14 14:06:52.693][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:52.788][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:06:52.788][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:06:52.788][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14652
+[2019-02-14 14:06:52.788][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:52.935][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:52.935][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:52.935][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:52.935][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:52.935][SACEPICN]: Delimiter is /
+[2019-02-14 14:06:52.936][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:06:52.936][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14652, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:52.937][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:06:53.001][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14652
+[2019-02-14 14:06:53.001][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14652
+
+[2019-02-14 14:06:53.001][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:53.001][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:06:53.001][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:06:53.001][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:06:53.001][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149612586' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:06:53.001][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.097][SACEPICN]: Window OP Started
+
+[2019-02-14 14:06:53.098][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14653, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:53.098][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:06:53.139][SACEPICN]: Query Result from network node: /9001/window/victims/14653
+[2019-02-14 14:06:53.139][SACEPICN]: Deployment result: /9001/window/victims/14653
+
+[2019-02-14 14:06:53.140][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:53.140][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:06:53.140][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149612586' 'name' '/9001/window/victims/14653' '3=M&4>30' 'name')
+[2019-02-14 14:06:53.140][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.205][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:06:53.205][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:06:53.205][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14653
+[2019-02-14 14:06:53.205][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.313][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:53.313][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:53.313][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:53.314][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:06:53.314][SACEPICN]: Delimiter is /
+[2019-02-14 14:06:53.314][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:06:53.315][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14653, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.315][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:06:53.359][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14653
+[2019-02-14 14:06:53.360][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14653
+
+[2019-02-14 14:06:53.360][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:53.360][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:06:53.360][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149612586' 'name' 'name' '/9001/FILTER/onWindow/14653' '/9001/FILTER/onWindow/14652')
+[2019-02-14 14:06:53.360][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.460][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:06:53.461][SACEPICN]: Handle left stream
+[2019-02-14 14:06:53.461][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14653
+[2019-02-14 14:06:53.461][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.602][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.602][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.602][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.602][SACEPICN]: Handle right stream
+[2019-02-14 14:06:53.603][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14652
+[2019-02-14 14:06:53.603][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:06:53.728][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.728][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.728][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.728][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:06:53.728][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14653, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:06:53.729][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:06:53.791][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14653
+[2019-02-14 14:06:53.791][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14653
+
+[2019-02-14 14:06:53.791][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:06:53.792][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:06:53.792][SACEPICN]: Query Execution Completed
+[2019-02-14 14:07:13.998][SACEPICN]: Query Execution Started
+[2019-02-14 14:07:13.998][SACEPICN]: Right algorithm found!
+[2019-02-14 14:07:13.998][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:07:13.998][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:07:13.999][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:07:13.999][SACEPICN]: Operator Placement Started
+[2019-02-14 14:07:14.000][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:07:14.000][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:14.000][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:14.000][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149633999' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:14.000][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.063][SACEPICN]: Window OP Started
+
+[2019-02-14 14:07:14.064][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14714, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:14.064][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:07:14.126][SACEPICN]: Query Result from network node: /9001/window/victims/14714
+[2019-02-14 14:07:14.127][SACEPICN]: Deployment result: /9001/window/victims/14714
+
+[2019-02-14 14:07:14.127][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:14.127][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:14.127][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149633999' 'name' '/9001/window/victims/14714' '3=M&4>30' 'name')
+[2019-02-14 14:07:14.127][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.223][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:07:14.223][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:07:14.223][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14714
+[2019-02-14 14:07:14.223][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.321][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:14.321][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:14.321][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:14.322][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:14.322][SACEPICN]: Delimiter is /
+[2019-02-14 14:07:14.323][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:07:14.323][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14714, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.323][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:07:14.365][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14714
+[2019-02-14 14:07:14.365][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14714
+
+[2019-02-14 14:07:14.365][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:14.365][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:07:14.365][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:14.365][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:14.365][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149633999' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:14.365][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.366][SACEPICN]: Query Result from network node: /9001/window/victims/14714
+[2019-02-14 14:07:14.366][SACEPICN]: Deployment result: /9001/window/victims/14714
+
+[2019-02-14 14:07:14.366][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:14.366][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:14.366][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149633999' 'name' '/9001/window/victims/14714' '3=M&4>30' 'name')
+[2019-02-14 14:07:14.366][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.367][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14714
+[2019-02-14 14:07:14.367][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14714
+
+[2019-02-14 14:07:14.367][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:14.367][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:07:14.367][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149633999' 'name' 'name' '/9001/FILTER/onWindow/14714' '/9001/FILTER/onWindow/14714')
+[2019-02-14 14:07:14.367][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.432][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:07:14.432][SACEPICN]: Handle left stream
+[2019-02-14 14:07:14.432][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14714
+[2019-02-14 14:07:14.432][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.557][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.557][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.558][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.558][SACEPICN]: Handle right stream
+[2019-02-14 14:07:14.558][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14714
+[2019-02-14 14:07:14.558][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:14.559][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.559][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.559][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.559][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:07:14.560][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14714, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:07:14.560][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:07:14.625][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14714
+[2019-02-14 14:07:14.625][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14714
+
+[2019-02-14 14:07:14.626][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:14.626][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:07:14.626][SACEPICN]: Query Execution Completed
+[2019-02-14 14:07:34.805][SACEPICN]: Query Execution Started
+[2019-02-14 14:07:34.805][SACEPICN]: Right algorithm found!
+[2019-02-14 14:07:34.805][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:07:34.805][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:07:34.805][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:07:34.806][SACEPICN]: Operator Placement Started
+[2019-02-14 14:07:34.806][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:07:34.806][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:34.806][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:34.806][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149654805' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:34.806][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:34.873][SACEPICN]: Window OP Started
+
+[2019-02-14 14:07:34.874][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14734, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:34.874][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:07:34.917][SACEPICN]: Query Result from network node: /9001/window/victims/14734
+[2019-02-14 14:07:34.917][SACEPICN]: Deployment result: /9001/window/victims/14734
+
+[2019-02-14 14:07:34.917][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:34.917][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:34.917][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149654805' 'name' '/9001/window/victims/14734' '3=M&4>30' 'name')
+[2019-02-14 14:07:34.917][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:34.988][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:07:34.988][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:07:34.989][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14734
+[2019-02-14 14:07:34.989][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.095][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:35.095][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:35.095][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:35.096][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:35.096][SACEPICN]: Delimiter is /
+[2019-02-14 14:07:35.096][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:07:35.096][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14735, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.096][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:07:35.161][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14735
+[2019-02-14 14:07:35.161][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14735
+
+[2019-02-14 14:07:35.161][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:35.161][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:07:35.161][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:35.161][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:35.161][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149654805' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:35.161][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.162][SACEPICN]: Query Result from network node: /9001/window/victims/14734
+[2019-02-14 14:07:35.162][SACEPICN]: Deployment result: /9001/window/victims/14734
+
+[2019-02-14 14:07:35.162][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:35.162][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:35.162][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149654805' 'name' '/9001/window/victims/14734' '3=M&4>30' 'name')
+[2019-02-14 14:07:35.162][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.163][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14735
+[2019-02-14 14:07:35.163][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14735
+
+[2019-02-14 14:07:35.163][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:35.163][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:07:35.163][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149654805' 'name' 'name' '/9001/FILTER/onWindow/14735' '/9001/FILTER/onWindow/14735')
+[2019-02-14 14:07:35.163][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.267][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:07:35.267][SACEPICN]: Handle left stream
+[2019-02-14 14:07:35.267][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14735
+[2019-02-14 14:07:35.267][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.400][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.401][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.401][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.401][SACEPICN]: Handle right stream
+[2019-02-14 14:07:35.401][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14735
+[2019-02-14 14:07:35.401][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:35.402][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.402][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.402][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.402][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:07:35.403][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14735, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:07:35.403][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:07:35.460][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14735
+[2019-02-14 14:07:35.460][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14735
+
+[2019-02-14 14:07:35.460][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:35.460][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:07:35.460][SACEPICN]: Query Execution Completed
+[2019-02-14 14:07:55.755][SACEPICN]: Query Execution Started
+[2019-02-14 14:07:55.755][SACEPICN]: Right algorithm found!
+[2019-02-14 14:07:55.755][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:07:55.755][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:07:55.757][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:07:55.757][SACEPICN]: Operator Placement Started
+[2019-02-14 14:07:55.757][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:07:55.758][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:55.758][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:55.758][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149675757' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:55.758][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:55.898][SACEPICN]: Window OP Started
+
+[2019-02-14 14:07:55.899][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14755, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:55.900][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:07:55.984][SACEPICN]: Query Result from network node: /9001/window/victims/14755
+[2019-02-14 14:07:55.984][SACEPICN]: Deployment result: /9001/window/victims/14755
+
+[2019-02-14 14:07:55.985][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:55.985][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:55.985][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149675757' 'name' '/9001/window/victims/14755' '3=M&4>30' 'name')
+[2019-02-14 14:07:55.985][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.149][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:07:56.149][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:07:56.149][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14755
+[2019-02-14 14:07:56.149][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.371][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:56.371][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:56.372][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:56.372][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:07:56.372][SACEPICN]: Delimiter is /
+[2019-02-14 14:07:56.373][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:07:56.373][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14756, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.373][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:07:56.465][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14756
+[2019-02-14 14:07:56.465][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14756
+
+[2019-02-14 14:07:56.465][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:56.465][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:07:56.465][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:07:56.465][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:07:56.466][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149675757' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:07:56.466][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.467][SACEPICN]: Query Result from network node: /9001/window/victims/14755
+[2019-02-14 14:07:56.467][SACEPICN]: Deployment result: /9001/window/victims/14755
+
+[2019-02-14 14:07:56.467][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:56.467][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:07:56.467][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149675757' 'name' '/9001/window/victims/14755' '3=M&4>30' 'name')
+[2019-02-14 14:07:56.468][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.468][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14756
+[2019-02-14 14:07:56.468][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14756
+
+[2019-02-14 14:07:56.469][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:56.469][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:07:56.469][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149675755' 'name' 'name' '/9001/FILTER/onWindow/14756' '/9001/FILTER/onWindow/14756')
+[2019-02-14 14:07:56.469][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.599][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:07:56.599][SACEPICN]: Handle left stream
+[2019-02-14 14:07:56.599][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14756
+[2019-02-14 14:07:56.599][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.797][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.797][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.798][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.798][SACEPICN]: Handle right stream
+[2019-02-14 14:07:56.798][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14756
+[2019-02-14 14:07:56.798][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:07:56.799][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.799][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.799][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.799][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:07:56.799][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14756, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:07:56.799][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:07:56.877][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14756
+[2019-02-14 14:07:56.877][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14756
+
+[2019-02-14 14:07:56.877][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:07:56.877][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:07:56.877][SACEPICN]: Query Execution Completed
+[2019-02-14 14:08:17.146][SACEPICN]: Query Execution Started
+[2019-02-14 14:08:17.146][SACEPICN]: Right algorithm found!
+[2019-02-14 14:08:17.146][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:08:17.146][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:08:17.146][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:08:17.147][SACEPICN]: Operator Placement Started
+[2019-02-14 14:08:17.147][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:08:17.147][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:17.147][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:17.147][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149697146' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:17.147][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.222][SACEPICN]: Window OP Started
+
+[2019-02-14 14:08:17.223][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14817, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:17.223][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:08:17.297][SACEPICN]: Query Result from network node: /9001/window/victims/14817
+[2019-02-14 14:08:17.298][SACEPICN]: Deployment result: /9001/window/victims/14817
+
+[2019-02-14 14:08:17.298][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:17.298][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:17.298][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149697146' 'name' '/9001/window/victims/14817' '3=M&4>30' 'name')
+[2019-02-14 14:08:17.298][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.382][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:08:17.382][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:08:17.382][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14817
+[2019-02-14 14:08:17.382][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.541][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:17.541][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:17.541][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:17.541][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:17.541][SACEPICN]: Delimiter is /
+[2019-02-14 14:08:17.542][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:08:17.542][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14817, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.542][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:08:17.588][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14817
+[2019-02-14 14:08:17.588][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14817
+
+[2019-02-14 14:08:17.588][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:17.588][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:08:17.588][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:17.588][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:17.588][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149697146' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:17.588][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.589][SACEPICN]: Query Result from network node: /9001/window/victims/14817
+[2019-02-14 14:08:17.589][SACEPICN]: Deployment result: /9001/window/victims/14817
+
+[2019-02-14 14:08:17.589][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:17.589][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:17.589][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149697146' 'name' '/9001/window/victims/14817' '3=M&4>30' 'name')
+[2019-02-14 14:08:17.589][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.589][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14817
+[2019-02-14 14:08:17.589][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14817
+
+[2019-02-14 14:08:17.589][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:17.589][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:08:17.590][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149697146' 'name' 'name' '/9001/FILTER/onWindow/14817' '/9001/FILTER/onWindow/14817')
+[2019-02-14 14:08:17.590][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.669][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:08:17.669][SACEPICN]: Handle left stream
+[2019-02-14 14:08:17.669][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14817
+[2019-02-14 14:08:17.669][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.782][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.782][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.782][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.783][SACEPICN]: Handle right stream
+[2019-02-14 14:08:17.783][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14817
+[2019-02-14 14:08:17.783][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:17.783][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.783][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.783][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.783][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:08:17.783][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14817, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:08:17.784][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:08:17.838][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14817
+[2019-02-14 14:08:17.838][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14817
+
+[2019-02-14 14:08:17.838][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:17.838][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:08:17.839][SACEPICN]: Query Execution Completed
+[2019-02-14 14:08:38.100][SACEPICN]: Query Execution Started
+[2019-02-14 14:08:38.100][SACEPICN]: Right algorithm found!
+[2019-02-14 14:08:38.100][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:08:38.100][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:08:38.100][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:08:38.100][SACEPICN]: Operator Placement Started
+[2019-02-14 14:08:38.100][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:08:38.101][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:38.101][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:38.101][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149718100' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:38.101][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.208][SACEPICN]: Window OP Started
+
+[2019-02-14 14:08:38.209][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14838, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:38.209][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:08:38.282][SACEPICN]: Query Result from network node: /9001/window/victims/14838
+[2019-02-14 14:08:38.282][SACEPICN]: Deployment result: /9001/window/victims/14838
+
+[2019-02-14 14:08:38.283][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:38.283][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:38.283][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149718100' 'name' '/9001/window/victims/14838' '3=M&4>30' 'name')
+[2019-02-14 14:08:38.283][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.365][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:08:38.365][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:08:38.365][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14838
+[2019-02-14 14:08:38.365][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.500][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:38.500][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:38.500][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:38.500][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:38.500][SACEPICN]: Delimiter is /
+[2019-02-14 14:08:38.501][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:08:38.501][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14838, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.501][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:08:38.567][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14838
+[2019-02-14 14:08:38.567][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14838
+
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149718100' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:38.567][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.567][SACEPICN]: Query Result from network node: /9001/window/victims/14838
+[2019-02-14 14:08:38.567][SACEPICN]: Deployment result: /9001/window/victims/14838
+
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:38.567][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149718100' 'name' '/9001/window/victims/14838' '3=M&4>30' 'name')
+[2019-02-14 14:08:38.568][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.568][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14838
+[2019-02-14 14:08:38.568][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14838
+
+[2019-02-14 14:08:38.568][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:38.568][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:08:38.568][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149718100' 'name' 'name' '/9001/FILTER/onWindow/14838' '/9001/FILTER/onWindow/14838')
+[2019-02-14 14:08:38.568][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.637][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:08:38.637][SACEPICN]: Handle left stream
+[2019-02-14 14:08:38.638][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14838
+[2019-02-14 14:08:38.638][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.757][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.758][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.758][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.758][SACEPICN]: Handle right stream
+[2019-02-14 14:08:38.758][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14838
+[2019-02-14 14:08:38.758][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:38.760][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.760][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.760][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.760][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:08:38.760][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14838, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:08:38.760][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:08:38.811][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14838
+[2019-02-14 14:08:38.811][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14838
+
+[2019-02-14 14:08:38.811][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:38.811][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:08:38.811][SACEPICN]: Query Execution Completed
+[2019-02-14 14:08:59.018][SACEPICN]: Query Execution Started
+[2019-02-14 14:08:59.018][SACEPICN]: Right algorithm found!
+[2019-02-14 14:08:59.018][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:08:59.018][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:08:59.019][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:08:59.019][SACEPICN]: Operator Placement Started
+[2019-02-14 14:08:59.019][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:08:59.019][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:59.019][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:59.019][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149739019' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:59.019][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.092][SACEPICN]: Window OP Started
+
+[2019-02-14 14:08:59.093][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14859, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.093][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:08:59.163][SACEPICN]: Query Result from network node: /9001/window/victims/14859
+[2019-02-14 14:08:59.163][SACEPICN]: Deployment result: /9001/window/victims/14859
+
+[2019-02-14 14:08:59.163][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:59.163][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:59.163][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149739019' 'name' '/9001/window/victims/14859' '3=M&4>30' 'name')
+[2019-02-14 14:08:59.163][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.275][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:08:59.275][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:08:59.276][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14859
+[2019-02-14 14:08:59.276][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.433][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.433][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.433][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.433][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.433][SACEPICN]: Delimiter is /
+[2019-02-14 14:08:59.434][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:08:59.434][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14859, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.434][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:08:59.503][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14859
+[2019-02-14 14:08:59.503][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14859
+
+[2019-02-14 14:08:59.503][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:59.503][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:08:59.503][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:08:59.503][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:08:59.504][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149739019' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:08:59.504][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.504][SACEPICN]: Query Result from network node: /9001/window/victims/14859
+[2019-02-14 14:08:59.504][SACEPICN]: Deployment result: /9001/window/victims/14859
+
+[2019-02-14 14:08:59.504][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:59.504][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:08:59.504][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149739018' 'name' '/9001/window/victims/14859' '3=M&4>30' 'name')
+[2019-02-14 14:08:59.504][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.613][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:08:59.613][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:08:59.614][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14859
+[2019-02-14 14:08:59.614][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.614][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.614][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.614][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.614][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:08:59.614][SACEPICN]: Delimiter is /
+[2019-02-14 14:08:59.615][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:08:59.615][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14859, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.615][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:08:59.692][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14859
+[2019-02-14 14:08:59.692][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14859
+
+[2019-02-14 14:08:59.692][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:08:59.692][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:08:59.692][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149739018' 'name' 'name' '/9001/FILTER/onWindow/14859' '/9001/FILTER/onWindow/14859')
+[2019-02-14 14:08:59.692][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.767][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:08:59.767][SACEPICN]: Handle left stream
+[2019-02-14 14:08:59.767][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14859
+[2019-02-14 14:08:59.767][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.929][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.929][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.929][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.929][SACEPICN]: Handle right stream
+[2019-02-14 14:08:59.930][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14859
+[2019-02-14 14:08:59.930][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:08:59.930][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.930][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.930][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.930][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:08:59.930][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14859, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:08:59.931][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:09:00.005][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14859
+[2019-02-14 14:09:00.005][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14859
+
+[2019-02-14 14:09:00.006][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:00.006][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:09:00.006][SACEPICN]: Query Execution Completed
+[2019-02-14 14:09:20.251][SACEPICN]: Query Execution Started
+[2019-02-14 14:09:20.251][SACEPICN]: Right algorithm found!
+[2019-02-14 14:09:20.251][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:09:20.251][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:09:20.252][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:09:20.252][SACEPICN]: Operator Placement Started
+[2019-02-14 14:09:20.252][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:09:20.252][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:09:20.252][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:09:20.252][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149760252' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:09:20.252][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.348][SACEPICN]: Window OP Started
+
+[2019-02-14 14:09:20.349][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14920, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.349][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:09:20.411][SACEPICN]: Query Result from network node: /9001/window/victims/14920
+[2019-02-14 14:09:20.411][SACEPICN]: Deployment result: /9001/window/victims/14920
+
+[2019-02-14 14:09:20.411][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:20.411][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:09:20.411][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149760252' 'name' '/9001/window/victims/14920' '3=M&4>30' 'name')
+[2019-02-14 14:09:20.412][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.511][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:09:20.512][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:09:20.512][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14920
+[2019-02-14 14:09:20.512][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.635][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.636][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.636][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.636][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.636][SACEPICN]: Delimiter is /
+[2019-02-14 14:09:20.636][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:09:20.636][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14920, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:20.636][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:09:20.685][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14920
+[2019-02-14 14:09:20.685][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14920
+
+[2019-02-14 14:09:20.685][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:20.685][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:09:20.685][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:09:20.685][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:09:20.685][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149760251' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:09:20.685][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.762][SACEPICN]: Window OP Started
+
+[2019-02-14 14:09:20.763][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14920, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.763][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:09:20.837][SACEPICN]: Query Result from network node: /9001/window/victims/14920
+[2019-02-14 14:09:20.837][SACEPICN]: Deployment result: /9001/window/victims/14920
+
+[2019-02-14 14:09:20.837][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:20.837][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:09:20.837][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149760251' 'name' '/9001/window/victims/14920' '3=M&4>30' 'name')
+[2019-02-14 14:09:20.837][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.912][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:09:20.912][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:09:20.913][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14920
+[2019-02-14 14:09:20.913][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:20.913][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.913][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.913][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.913][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:20.913][SACEPICN]: Delimiter is /
+[2019-02-14 14:09:20.914][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:09:20.914][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14920, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:20.914][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:09:20.988][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14920
+[2019-02-14 14:09:20.988][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14920
+
+[2019-02-14 14:09:20.989][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:20.989][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:09:20.989][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149760251' 'name' 'name' '/9001/FILTER/onWindow/14920' '/9001/FILTER/onWindow/14920')
+[2019-02-14 14:09:20.989][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:21.068][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:09:21.069][SACEPICN]: Handle left stream
+[2019-02-14 14:09:21.069][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14920
+[2019-02-14 14:09:21.069][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:21.187][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.187][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.187][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.187][SACEPICN]: Handle right stream
+[2019-02-14 14:09:21.187][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14920
+[2019-02-14 14:09:21.187][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:21.188][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.188][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.188][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.188][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:09:21.188][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14921, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:09:21.188][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:09:21.242][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14921
+[2019-02-14 14:09:21.242][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14921
+
+[2019-02-14 14:09:21.242][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:21.242][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:09:21.242][SACEPICN]: Query Execution Completed
+[2019-02-14 14:09:41.453][SACEPICN]: Query Execution Started
+[2019-02-14 14:09:41.453][SACEPICN]: Right algorithm found!
+[2019-02-14 14:09:41.453][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:09:41.453][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:09:41.454][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:09:41.454][SACEPICN]: Operator Placement Started
+[2019-02-14 14:09:41.454][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:09:41.454][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:09:41.454][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:09:41.454][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149781453' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:09:41.454][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.569][SACEPICN]: Window OP Started
+
+[2019-02-14 14:09:41.570][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14941, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:41.570][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:09:41.644][SACEPICN]: Query Result from network node: /9001/window/victims/14941
+[2019-02-14 14:09:41.644][SACEPICN]: Deployment result: /9001/window/victims/14941
+
+[2019-02-14 14:09:41.644][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:41.644][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:09:41.644][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149781453' 'name' '/9001/window/victims/14941' '3=M&4>30' 'name')
+[2019-02-14 14:09:41.644][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.720][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:09:41.720][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:09:41.720][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14941
+[2019-02-14 14:09:41.720][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.839][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:41.839][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:41.839][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:41.839][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:09:41.839][SACEPICN]: Delimiter is /
+[2019-02-14 14:09:41.840][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:09:41.840][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14941, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:41.840][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:09:41.892][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14941
+[2019-02-14 14:09:41.892][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14941
+
+[2019-02-14 14:09:41.892][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:41.892][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:09:41.892][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:09:41.892][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:09:41.893][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149781453' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:09:41.893][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.893][SACEPICN]: Query Result from network node: /9001/window/victims/14941
+[2019-02-14 14:09:41.893][SACEPICN]: Deployment result: /9001/window/victims/14941
+
+[2019-02-14 14:09:41.893][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:41.893][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:09:41.893][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149781453' 'name' '/9001/window/victims/14941' '3=M&4>30' 'name')
+[2019-02-14 14:09:41.893][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.894][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14941
+[2019-02-14 14:09:41.894][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14941
+
+[2019-02-14 14:09:41.894][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:41.894][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:09:41.894][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149781453' 'name' 'name' '/9001/FILTER/onWindow/14941' '/9001/FILTER/onWindow/14941')
+[2019-02-14 14:09:41.894][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:41.983][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:09:41.983][SACEPICN]: Handle left stream
+[2019-02-14 14:09:41.983][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14941
+[2019-02-14 14:09:41.984][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:42.102][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.102][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.102][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.102][SACEPICN]: Handle right stream
+[2019-02-14 14:09:42.103][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14941
+[2019-02-14 14:09:42.103][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:09:42.103][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.103][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.103][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.103][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:09:42.103][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14942, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:09:42.103][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:09:42.154][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14942
+[2019-02-14 14:09:42.155][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14942
+
+[2019-02-14 14:09:42.155][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:09:42.155][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:09:42.155][SACEPICN]: Query Execution Completed
+[2019-02-14 14:10:02.426][SACEPICN]: Query Execution Started
+[2019-02-14 14:10:02.426][SACEPICN]: Right algorithm found!
+[2019-02-14 14:10:02.426][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:10:02.426][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:10:02.427][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:10:02.427][SACEPICN]: Operator Placement Started
+[2019-02-14 14:10:02.427][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:10:02.427][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:10:02.427][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:10:02.427][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149802427' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:10:02.427][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:02.548][SACEPICN]: Window OP Started
+
+[2019-02-14 14:10:02.549][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14102, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:02.549][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:10:02.631][SACEPICN]: Query Result from network node: /9001/window/victims/14102
+[2019-02-14 14:10:02.631][SACEPICN]: Deployment result: /9001/window/victims/14102
+
+[2019-02-14 14:10:02.631][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:02.631][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:10:02.631][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149802426' 'name' '/9001/window/victims/14102' '3=M&4>30' 'name')
+[2019-02-14 14:10:02.631][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:02.751][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:10:02.751][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:10:02.751][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14102
+[2019-02-14 14:10:02.751][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:02.873][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:02.873][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:02.873][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:02.873][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:02.873][SACEPICN]: Delimiter is /
+[2019-02-14 14:10:02.874][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:10:02.874][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14102, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:02.874][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:10:02.925][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14102
+[2019-02-14 14:10:02.925][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14102
+
+[2019-02-14 14:10:02.925][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:02.925][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:10:02.925][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:10:02.926][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:10:02.926][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149802426' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:10:02.926][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.005][SACEPICN]: Window OP Started
+
+[2019-02-14 14:10:03.005][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/14103, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:03.005][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:10:03.056][SACEPICN]: Query Result from network node: /9001/window/victims/14103
+[2019-02-14 14:10:03.056][SACEPICN]: Deployment result: /9001/window/victims/14103
+
+[2019-02-14 14:10:03.057][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:03.057][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:10:03.057][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149802426' 'name' '/9001/window/victims/14103' '3=M&4>30' 'name')
+[2019-02-14 14:10:03.057][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.177][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:10:03.178][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:10:03.178][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/14103
+[2019-02-14 14:10:03.178][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.305][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:03.305][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:03.306][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:03.306][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:03.306][SACEPICN]: Delimiter is /
+[2019-02-14 14:10:03.306][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:10:03.306][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/14103, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.306][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:10:03.358][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/14103
+[2019-02-14 14:10:03.358][SACEPICN]: Deployment result: /9001/FILTER/onWindow/14103
+
+[2019-02-14 14:10:03.358][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:03.358][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:10:03.358][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149802426' 'name' 'name' '/9001/FILTER/onWindow/14103' '/9001/FILTER/onWindow/14102')
+[2019-02-14 14:10:03.358][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.440][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:10:03.440][SACEPICN]: Handle left stream
+[2019-02-14 14:10:03.440][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14103
+[2019-02-14 14:10:03.440][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.568][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.568][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.569][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.569][SACEPICN]: Handle right stream
+[2019-02-14 14:10:03.569][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/14102
+[2019-02-14 14:10:03.569][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:03.694][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.694][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.694][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.694][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:10:03.694][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/14103, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:10:03.694][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:10:03.748][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/14103
+[2019-02-14 14:10:03.748][SACEPICN]: Deployment result: /9001/JOIN/onOperators/14103
+
+[2019-02-14 14:10:03.748][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:03.748][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:10:03.748][SACEPICN]: Query Execution Completed
+[2019-02-14 14:10:24.027][SACEPICN]: Query Execution Started
+[2019-02-14 14:10:24.027][SACEPICN]: Right algorithm found!
+[2019-02-14 14:10:24.027][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-14 14:10:24.027][SACEPICN]: Operator Tree creation Started
+[2019-02-14 14:10:24.028][SACEPICN]: Operator Tree creation Completed
+[2019-02-14 14:10:24.028][SACEPICN]: Operator Placement Started
+[2019-02-14 14:10:24.028][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-14 14:10:24.028][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:10:24.028][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:10:24.028][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149824028' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:10:24.028][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.160][SACEPICN]: Window OP Started
+
+[2019-02-14 14:10:24.160][SACEPICN]: Inside Window -> WINDOW name: /9001/window/victims/141024, WINDOW content: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:24.160][SACEPICN]: Window OP Completed
+
+[2019-02-14 14:10:24.241][SACEPICN]: Query Result from network node: /9001/window/victims/141024
+[2019-02-14 14:10:24.241][SACEPICN]: Deployment result: /9001/window/victims/141024
+
+[2019-02-14 14:10:24.241][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:24.241][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:10:24.241][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149824028' 'name' '/9001/window/victims/141024' '3=M&4>30' 'name')
+[2019-02-14 14:10:24.241][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.367][SACEPICN]: 
+Filter OP Started
+[2019-02-14 14:10:24.367][SACEPICN]: Handle Filter Stream
+[2019-02-14 14:10:24.367][SACEPICN]: Intermediate Named-Interest is: /9001/window/victims/141024
+[2019-02-14 14:10:24.367][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.537][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:24.537][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:24.537][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:24.537][SACEPICN]: Inside Filter -> Child Operator Result: 22:18:38.841/1001/M/50
+22:18:39.841/1002/F/40
+22:18:40.841/1003/F/22
+22:18:41.841/1004/M/8
+[2019-02-14 14:10:24.537][SACEPICN]: Delimiter is /
+[2019-02-14 14:10:24.538][SACEPICN]: FILTER OP: Prefix of node is: 9001
+[2019-02-14 14:10:24.538][SACEPICN]: Inside FILTER -> FILTER name: /9001/FILTER/onWindow/141024, FILTER content: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.538][SACEPICN]: Filter OP Completed
+
+[2019-02-14 14:10:24.593][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/141024
+[2019-02-14 14:10:24.593][SACEPICN]: Deployment result: /9001/FILTER/onWindow/141024
+
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: FILTER - Left Exists. Process Left
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: WINDOW - Deploying Operator
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: WINDOW - Query: (call 6 /node/nodeA/nfn_service_Window '1550149824028' 'name' 'victims' '22:18:38.841' '22:18:41.841')
+[2019-02-14 14:10:24.593][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.593][SACEPICN]: Query Result from network node: /9001/window/victims/141024
+[2019-02-14 14:10:24.593][SACEPICN]: Deployment result: /9001/window/victims/141024
+
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-14 14:10:24.593][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeA/nfn_service_Filter '1550149824028' 'name' '/9001/window/victims/141024' '3=M&4>30' 'name')
+[2019-02-14 14:10:24.594][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.594][SACEPICN]: Query Result from network node: /9001/FILTER/onWindow/141024
+[2019-02-14 14:10:24.594][SACEPICN]: Deployment result: /9001/FILTER/onWindow/141024
+
+[2019-02-14 14:10:24.594][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:24.594][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-14 14:10:24.594][SACEPICN]: CurrentNode: JOIN - Query: (call 6 /node/nodeA/nfn_service_Join '1550149824028' 'name' 'name' '/9001/FILTER/onWindow/141024' '/9001/FILTER/onWindow/141024')
+[2019-02-14 14:10:24.594][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.678][SACEPICN]: 
+Join OP Started
+[2019-02-14 14:10:24.678][SACEPICN]: Handle left stream
+[2019-02-14 14:10:24.678][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/141024
+[2019-02-14 14:10:24.678][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.805][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.805][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.805][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.805][SACEPICN]: Handle right stream
+[2019-02-14 14:10:24.805][SACEPICN]: Intermediate Named-Interest is: /9001/FILTER/onWindow/141024
+[2019-02-14 14:10:24.805][SACEPICN]: execute NFN query called with nodeA
+[2019-02-14 14:10:24.805][SACEPICN]: Query Result from network node: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.806][SACEPICN]: Result after fetching: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.806][SACEPICN]: Intermediate Result: 22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.806][SACEPICN]: JOIN OP: Prefix of node is: 9001
+[2019-02-14 14:10:24.806][SACEPICN]: Inside JOIN -> JOIN name: /9001/JOIN/onOperators/141024, JOIN content: 22:18:38.841/1001/M/50
+22:18:38.841/1001/M/50
+[2019-02-14 14:10:24.806][SACEPICN]: Join OP Completed
+
+[2019-02-14 14:10:24.860][SACEPICN]: Query Result from network node: /9001/JOIN/onOperators/141024
+[2019-02-14 14:10:24.860][SACEPICN]: Deployment result: /9001/JOIN/onOperators/141024
+
+[2019-02-14 14:10:24.860][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-14 14:10:24.860][SACEPICN]: Operator Placement Completed
+[2019-02-14 14:10:24.860][SACEPICN]: Query Execution Completed

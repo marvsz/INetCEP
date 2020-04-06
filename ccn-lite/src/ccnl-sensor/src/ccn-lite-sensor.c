@@ -315,7 +315,7 @@ void populate_sensorData(struct ccnl_sensor_s* sensor, char* path){
     int i = 0;
     fp = fopen(path,"r");
     if(fp == NULL){
-        DEBUGMSG(ERROR,"Unable to locate or open file.\n");
+        DEBUGMSG(ERROR,"Unable to locate or open file. Path is %s\n",path);
         exit(EXIT_FAILURE);
     }
     DEBUGMSG(DEBUG,"Vor dem while\n");
@@ -481,7 +481,7 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name
         DEBUGMSG(DEBUG,"Getting current trace data.\n");
         currentData = sensor->sensorData;
         DBL_LINKED_LIST_REMOVE_FIRST(sensor->sensorData);
-        ccnl_free(currentData);
+        //ccnl_free(currentData);
         if(!sensor->sensorData)
             sensor->stopflag=1;
     }

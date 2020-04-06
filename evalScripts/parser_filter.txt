@@ -1,8 +1,0 @@
-Filter,40,3
-Filter,49,10
-Filter,147,31
-Filter,357,100
-Filter,1785,511
-Filter,2950,1000
-Filter,11226,3000
-

@@ -24,59 +24,38 @@ class Heatmap extends NFNService {
   val sacepicnEnv = StaticConfig.systemPath
 
   override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton,ccnApi: ActorRef): Future[NFNValue] = Future{
-    def heatMapHandler(inputFormat: String, outputFormat: String, granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, stream: String): String = {
-      val nodeInfo = interestName.cmps.mkString(" ")
-      val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
-      LogMessage(nodeName,"HEATMAP OP started")
+    val nodeInfo = interestName.cmps.mkString(" ")
+    val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
+    def initialHeatMapHandler(granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String): String = {
+      LogMessage(nodeName,"HEATMAP: Started initial heatmap")
+      "HEATMAP: Started initial prediction"
+    }
+
+    def heatMapHandler(granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String, dataStream: String): String = {
+      LogMessage(nodeName,"HEATMAP OP started")
       var heatmap:Array[Array[Int]] = null
       //Sensor is not the preferred way to perform a heatmap. Suggested is 'name'
-      if (inputFormat.toLowerCase().equals("sensor")) {
-        LogMessage(nodeName, s"Performing Heatmap on Sensor data")
-        heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
-      }
-      else if (inputFormat.toLowerCase().equals("data")) {
-        LogMessage(nodeName, s"Perform Heatmap on inline data")
-        heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, stream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
-      }
-      else if (inputFormat.toLowerCase().equals("name")) {
-        LogMessage(nodeName, s"Perform Heatmap on named data")
-        val intermediateResult = Helpers.handleNamedInputSource(nodeName, stream, ccnApi)
-        LogMessage(nodeName,"Heatmap is after the fetch")
-        var input = ""
-        if(!intermediateResult.contains("redirect")){
-          input += SensorHelpers.trimData(intermediateResult)
-          heatmap = generateHeatmap(SensorHelpers.parseData(inputFormat, input), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
-        }
-      }
-      else {
-        LogMessage(nodeName, s"Input Source Type not recognized. Doing nothing")
-      }
-
+      heatmap = generateHeatmap(SensorHelpers.parseData("data",dataStream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
       var output = ""
-      if (outputFormat.toLowerCase == "name" && heatmap != null) {
+      if (heatmap != null) {
         output = generateIntermediateHeatmap(heatmap)
-        output = Helpers.storeOutputLocally(nodeName, output, "HEATMAP", "onOperator", ccnApi)
       }
-      else if(heatmap != null){
-        output = heatmapPrinter(heatmap)
-        LogMessage(nodeName, s"Inside Heatmap -> Heatmap name: NONE, Heatmap content: $output")
-      }
-
       if (output != "")
         output = output.stripSuffix("\n").stripMargin('#')
       else
         output += "No Results!"
-
-
-      LogMessage(nodeName, s"Heatmap OP Completed\n")
+      LogMessage(nodeName, s"Heatmap OP Completed")
+      LogMessage(nodeName, s"Output is $output")
       output
     }
 
     NFNStringValue(
       args match {
-        case Seq(timestamp: NFNStringValue, inputFormat: NFNStringValue, outputFormat: NFNStringValue, granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, inputSource: NFNStringValue) =>
-          heatMapHandler(inputFormat.str, outputFormat.str, granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, inputSource.str)
+        case Seq(granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue) =>
+          initialHeatMapHandler(granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str)
+        case Seq(granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue, dataStream: NFNStringValue) =>
+          heatMapHandler(granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str, dataStream.str)
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
@@ -90,11 +69,15 @@ class Heatmap extends NFNService {
    * @param minimalLongitude the minimal Longitude value
    * @param maximalLongitude the maximal Longitude value
    * @param minmalLattitude the minimal latitude value
+   *
    * @param maximalLattitude the maximale latitude value
    * @return the generated heatmap as a two dimensional array
    */
   def generateHeatmap(data: List[String], granularity: Double, minimalLongitude: Double, maximalLongitude:Double, minmalLattitude: Double, maximalLattitude:Double): Array[Array[Int]] = {
     var output = ""
+    val streamName = data.head.split("-")(0).trim
+    var streamData = data.drop(1)
+    val schema = data.head.split("-")(1).trim
     val horizontalSize = maximalLattitude.toDouble - minmalLattitude.toDouble
     val verticalSize = maximalLongitude.toDouble - minimalLongitude.toDouble
     val numberOfWidths = Math.ceil(horizontalSize / granularity.toDouble)
@@ -103,21 +86,23 @@ class Heatmap extends NFNService {
     val heatmap = Array.ofDim[Int](numberOfWidths.toInt, numberOfHeights.toInt)
     var lat = 0.0
     var long = 0.0
-    val delimiter = SensorHelpers.getDelimiterFromLine(data.head)
-    val longitudePosition = SensorHelpers.getLongitudePosition(delimiter)
-    val latitudePosition = SensorHelpers.getLattitudePosition(delimiter)
+    val delimiter = SensorHelpers.getDelimiterFromLine(schema)
+    val longitudePositions = SensorHelpers.getColumnIDs(schema,"longitude",delimiter)
+    val latitudePositions = SensorHelpers.getColumnIDs(schema,"latitude",delimiter)
     var correspondingRow = 0
     var correspondingCol = 0
-    if (data.nonEmpty) {
-      for (line <- data) {
-        if (line != "No Results!") {
-          lat = line.split(delimiter)(latitudePosition).toDouble
-          long = line.split(delimiter)(longitudePosition).toDouble
-          correspondingCol = Math.ceil((long - minimalLongitude) / granularity).toInt - 1
-          correspondingRow = Math.ceil((lat - minmalLattitude) / granularity).toInt - 1
-          if (!(correspondingRow < 0 || correspondingRow > heatmap.length))
-            if (!(correspondingCol < 0 || correspondingCol > heatmap(correspondingRow).length))
-              heatmap(correspondingRow)(correspondingCol) = heatmap(correspondingRow)(correspondingCol) + 1
+    if (streamData.nonEmpty) {
+      for (i <- 0 to longitudePositions.length-1){
+        for (line <- streamData) {
+          if (line != "No Results!") {
+            lat = line.split(delimiter)(latitudePositions(i)).toDouble
+            long = line.split(delimiter)(longitudePositions(i)).toDouble
+            correspondingCol = Math.ceil((long - minimalLongitude) / granularity).toInt - 1
+            correspondingRow = Math.ceil((lat - minmalLattitude) / granularity).toInt - 1
+            if (!(correspondingRow < 0 || correspondingRow > heatmap.length))
+              if (!(correspondingCol < 0 || correspondingCol > heatmap(correspondingRow).length))
+                heatmap(correspondingRow)(correspondingCol) = heatmap(correspondingRow)(correspondingCol) + 1
+          }
         }
       }
     }
@@ -133,7 +118,7 @@ class Heatmap extends NFNService {
     for(j <- 0 until height -1){
       for (i <- 0 until width -1){
         if(heatmap(j)(i)!=0){
-          sb.append(s"$j|$i:$heatmap(j)(i);")
+          sb.append(s"$j|$i:${heatmap(j)(i)};")
         }
       }
     }
