@@ -61,6 +61,60 @@ all() {
 	executeQueryinVMA & sleep $simRunTime; shutdown
 }
 
+latencyTestsUserland(){
+	echo "deploying CCN"
+	deployCCN
+	sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	echo "Create Line Topology"
+	createTopologyTestLine
+}
+
+latencyTestsKernel(){
+	echo "deploying CCN"
+	deployCCN
+	sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	echo "Create Line Topology Kernel"
+	createTopologyTestLineKernel
+}
+
+latencyTestsUserlandFill(){
+	echo "deploying CCN"
+	deployCCN
+	sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	echo "Create Line Topology"
+	createTopologyTestLineFill
+}
+
+latencyTestsKernelFill(){
+	echo "deploying CCN"
+	deployCCN
+	sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	echo "Create Line Topology Kernel"
+	createTopologyTestLineKernelFill
+}
+
+
+
 installDependencies() {
 read -s -p "Enter Password for sudo: " sudoPW
 	for i in "${VMS[@]}"
@@ -565,6 +619,10 @@ elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs
 elif [ $1 == "pingLogs" ]; then getPingingTestLogs
 elif [ $1 == "lineFill" ]; then createTopologyTestLineFill
 elif [ $1 == "kernelLineFill" ]; then createTopologyTestLineKernelFill
+elif [ $1 == "latencyTestsUserland" ]; then latencyTestsUserland
+elif [ $1 == "latencyTestsKernel" ]; then latencyTestsKernel
+elif [ $1 == "latencyTestsUserlandFill" ]; then latencyTestsUserlandFill
+elif [ $1 == "latencyTestsKernelFill" ]; then latencyTestsKernelFill
 else echo "$help"
 fi
 
