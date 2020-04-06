@@ -96,14 +96,12 @@ class QueryPlacement() extends NFNService {
             maxPath = path.hopCount
           }
         }
-        LogMessage(nodeName,s"Finished Checking Paths")
       }
 
       //Now that we have all the paths we need: Place the queries on these paths:
       //1) Find the number of operators in the query:
       val placement: Placement = Placement(algorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount)
 
-      LogMessage(nodeName,s"Created Placment from Factory")
       val resultVal = placement.process()
       LogMessage(nodeName,s"result of Deployment is: $resultVal")
       resultVal

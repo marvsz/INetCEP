@@ -46,10 +46,9 @@ class TestJoin {
     val joinOn = "Date"
     val conditions = ""
     val joinType = "innerJoin"
-    val sb = new StringBuilder
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/87406/M/96\n00:00:01.000/87402/M/80/87407/M/34\n00:00:02.000/87403/F/16/87408/F/68\n00:00:03.000/87404/F/98/87409/F/5\n00:00:04.000/87405/F/56/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -68,9 +67,9 @@ class TestJoin {
     val joinOn = "SequenceNumber"
     val conditions = ""
     val joinType = "innerJoin"
-   // val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "No Results!"
     if(res == "")
       res = "No Results!"
@@ -89,9 +88,9 @@ class TestJoin {
     val joinOn = "Gender"
     val conditions = ""
     val joinType = "innerJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
     System.out.println("Query Result: ")
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/00:00:02.000/87408/68\n00:00:00.000/87401/F/55/00:00:03.000/87409/5\n00:00:01.000/87402/M/80/00:00:00.000/87406/96\n00:00:01.000/87402/M/80/00:00:01.000/87407/34\n00:00:01.000/87402/M/80/00:00:04.000/87410/47\n00:00:02.000/87403/F/16/00:00:02.000/87408/68\n00:00:02.000/87403/F/16/00:00:03.000/87409/5\n00:00:03.000/87404/F/98/00:00:02.000/87408/68\n00:00:03.000/87404/F/98/00:00:03.000/87409/5\n00:00:04.000/87405/F/56/00:00:02.000/87408/68\n00:00:04.000/87405/F/56/00:00:03.000/87409/5"
     if(res == "")
       res = "No Results!"
@@ -110,9 +109,9 @@ class TestJoin {
     val joinOn = "Age"
     val conditions = ""
     val joinType = "innerJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "No Results!"
     if(res == "")
       res = "No Results!"
@@ -131,9 +130,9 @@ class TestJoin {
     val joinOn = "Date"
     val conditions = ""
     val joinType = "leftOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/87406/M/96\n00:00:01.000/87402/M/80/87407/M/34\n00:00:02.000/87403/F/16/87408/F/68\n00:00:03.000/87404/F/98/87409/F/5\n00:00:04.000/87405/F/56/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -152,9 +151,9 @@ class TestJoin {
     val joinOn = "SequenceNumber"
     val conditions = ""
     val joinType = "leftOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/Null/Null/Null\n00:00:01.000/87402/M/80/Null/Null/Null\n00:00:02.000/87403/F/16/Null/Null/Null\n00:00:03.000/87404/F/98/Null/Null/Null\n00:00:04.000/87405/F/56/Null/Null/Null"
     if(res == "")
       res = "No Results!"
@@ -173,9 +172,9 @@ class TestJoin {
     val joinOn = "Gender"
     val conditions = ""
     val joinType = "leftOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/00:00:02.000/87408/68\n00:00:00.000/87401/F/55/00:00:03.000/87409/5\n00:00:01.000/87402/M/80/00:00:00.000/87406/96\n00:00:01.000/87402/M/80/00:00:01.000/87407/34\n00:00:01.000/87402/M/80/00:00:04.000/87410/47\n00:00:02.000/87403/F/16/00:00:02.000/87408/68\n00:00:02.000/87403/F/16/00:00:03.000/87409/5\n00:00:03.000/87404/F/98/00:00:02.000/87408/68\n00:00:03.000/87404/F/98/00:00:03.000/87409/5\n00:00:04.000/87405/F/56/00:00:02.000/87408/68\n00:00:04.000/87405/F/56/00:00:03.000/87409/5"
     if(res == "")
       res = "No Results!"
@@ -194,9 +193,9 @@ class TestJoin {
     val joinOn = "Age"
     val conditions = ""
     val joinType = "leftOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/Null/Null/Null\n00:00:01.000/87402/M/80/Null/Null/Null\n00:00:02.000/87403/F/16/Null/Null/Null\n00:00:03.000/87404/F/98/Null/Null/Null\n00:00:04.000/87405/F/56/Null/Null/Null"
     if(res == "")
       res = "No Results!"
@@ -215,9 +214,9 @@ class TestJoin {
     val joinOn = "Date"
     val conditions = ""
     val joinType = "rightOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/87406/M/96\n00:00:01.000/87402/M/80/87407/M/34\n00:00:02.000/87403/F/16/87408/F/68\n00:00:03.000/87404/F/98/87409/F/5\n00:00:04.000/87405/F/56/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -236,9 +235,9 @@ class TestJoin {
     val joinOn = "SequenceNumber"
     val conditions = ""
     val joinType = "rightOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "Null/Null/Null/00:00:00.000/87406/M/96\nNull/Null/Null/00:00:01.000/87407/M/34\nNull/Null/Null/00:00:02.000/87408/F/68\nNull/Null/Null/00:00:03.000/87409/F/5\nNull/Null/Null/00:00:04.000/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -257,9 +256,9 @@ class TestJoin {
     val joinOn = "Gender"
     val conditions = ""
     val joinType = "rightOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:01.000/87402/M/80/00:00:00.000/87406/96\n00:00:01.000/87402/M/80/00:00:01.000/87407/34\n00:00:00.000/87401/F/55/00:00:02.000/87408/68\n00:00:02.000/87403/F/16/00:00:02.000/87408/68\n00:00:03.000/87404/F/98/00:00:02.000/87408/68\n00:00:04.000/87405/F/56/00:00:02.000/87408/68\n00:00:00.000/87401/F/55/00:00:03.000/87409/5\n00:00:02.000/87403/F/16/00:00:03.000/87409/5\n00:00:03.000/87404/F/98/00:00:03.000/87409/5\n00:00:04.000/87405/F/56/00:00:03.000/87409/5\n00:00:01.000/87402/M/80/00:00:04.000/87410/47"
     if(res == "")
       res = "No Results!"
@@ -278,9 +277,9 @@ class TestJoin {
     val joinOn = "Age"
     val conditions = ""
     val joinType = "rightOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "Null/Null/Null/00:00:00.000/87406/M/96\nNull/Null/Null/00:00:01.000/87407/M/34\nNull/Null/Null/00:00:02.000/87408/F/68\nNull/Null/Null/00:00:03.000/87409/F/5\nNull/Null/Null/00:00:04.000/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -299,9 +298,9 @@ class TestJoin {
     val joinOn = "Date"
     val conditions = ""
     val joinType = "fullOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/87406/M/96\n00:00:01.000/87402/M/80/87407/M/34\n00:00:02.000/87403/F/16/87408/F/68\n00:00:03.000/87404/F/98/87409/F/5\n00:00:04.000/87405/F/56/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -320,9 +319,9 @@ class TestJoin {
     val joinOn = "SequenceNumber"
     val conditions = ""
     val joinType = "fullOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/Null/Null/Null\n00:00:01.000/87402/M/80/Null/Null/Null\n00:00:02.000/87403/F/16/Null/Null/Null\n00:00:03.000/87404/F/98/Null/Null/Null\n00:00:04.000/87405/F/56/Null/Null/Null\nNull/Null/Null/00:00:00.000/87406/M/96\nNull/Null/Null/00:00:01.000/87407/M/34\nNull/Null/Null/00:00:02.000/87408/F/68\nNull/Null/Null/00:00:03.000/87409/F/5\nNull/Null/Null/00:00:04.000/87410/M/47"
     if(res == "")
       res = "No Results!"
@@ -341,9 +340,9 @@ class TestJoin {
     val joinOn = "Gender"
     val conditions = ""
     val joinType = "fullOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/00:00:02.000/87408/68\n00:00:00.000/87401/F/55/00:00:03.000/87409/5\n00:00:01.000/87402/M/80/00:00:00.000/87406/96\n00:00:01.000/87402/M/80/00:00:01.000/87407/34\n00:00:01.000/87402/M/80/00:00:04.000/87410/47\n00:00:02.000/87403/F/16/00:00:02.000/87408/68\n00:00:02.000/87403/F/16/00:00:03.000/87409/5\n00:00:03.000/87404/F/98/00:00:02.000/87408/68\n00:00:03.000/87404/F/98/00:00:03.000/87409/5\n00:00:04.000/87405/F/56/00:00:02.000/87408/68\n00:00:04.000/87405/F/56/00:00:03.000/87409/5"
     if(res == "")
       res = "No Results!"
@@ -362,9 +361,9 @@ class TestJoin {
     val joinOn = "Age"
     val conditions = ""
     val joinType = "fullOuterJoin"
-    //val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
-    //val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
-    var res = join.joinStreamsOn(win1,sensor1Name,win1,win2,sensor2Name,win2,joinOn,conditions,joinType,"testNode")
+    val joiningWorked = SensorHelpers.joinSensors(sensor1Name,sensor2Name,joinOn,conditions)
+    val joinedSchemaName = SensorHelpers.getJoinedSchemaName(sensor1Name,sensor2Name,joinOn,conditions)
+    var res = join.joinStreamsOn(win1,sensor1Name,win2,sensor2Name,joinOn,conditions,joinType)
     val expectedOutcome = "00:00:00.000/87401/F/55/Null/Null/Null\n00:00:01.000/87402/M/80/Null/Null/Null\n00:00:02.000/87403/F/16/Null/Null/Null\n00:00:03.000/87404/F/98/Null/Null/Null\n00:00:04.000/87405/F/56/Null/Null/Null\nNull/Null/Null/00:00:00.000/87406/M/96\nNull/Null/Null/00:00:01.000/87407/M/34\nNull/Null/Null/00:00:02.000/87408/F/68\nNull/Null/Null/00:00:03.000/87409/F/5\nNull/Null/Null/00:00:04.000/87410/M/47"
     if(res == "")
       res = "No Results!"

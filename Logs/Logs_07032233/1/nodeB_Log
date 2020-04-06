@@ -1,0 +1,2547 @@
+[2020-03-07 22:33:58.380][SACEPICN]: Placing Entries in PIT and PQT accordingly: /call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' on nodeB is interested in node/nodeA/sensor/victims/1
+[2020-03-07 22:33:58.382][SACEPICN]: Paced Window Interest
+[2020-03-07 22:34:33.548][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:33.000/1/F/1)
+[2020-03-07 22:34:33.750][SACEPICN]: State Content was empty
+[2020-03-07 22:34:33.752][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:33.752][SACEPICN]: date position is: 0
+[2020-03-07 22:34:33.753][SACEPICN]: new Tuple's date is 22:34:33.000
+[2020-03-07 22:34:33.758][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+[2020-03-07 22:34:33.759][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:34.040][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:34.000/2/M/66)
+[2020-03-07 22:34:34.041][SACEPICN]: Found State Content
+[2020-03-07 22:34:34.046][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:34.047][SACEPICN]: date position is: 0
+[2020-03-07 22:34:34.047][SACEPICN]: new Tuple's date is 22:34:34.000
+[2020-03-07 22:34:34.049][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+[2020-03-07 22:34:34.050][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:34.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:34.000/3/M/66)
+[2020-03-07 22:34:34.537][SACEPICN]: Found State Content
+[2020-03-07 22:34:34.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:34.538][SACEPICN]: date position is: 0
+[2020-03-07 22:34:34.538][SACEPICN]: new Tuple's date is 22:34:34.000
+[2020-03-07 22:34:34.540][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+[2020-03-07 22:34:34.541][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:35.243][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:35.000/4/F/67)
+[2020-03-07 22:34:35.245][SACEPICN]: Found State Content
+[2020-03-07 22:34:35.246][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:35.246][SACEPICN]: date position is: 0
+[2020-03-07 22:34:35.246][SACEPICN]: new Tuple's date is 22:34:35.000
+[2020-03-07 22:34:35.247][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+[2020-03-07 22:34:35.248][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:35.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:35.000/5/F/67)
+[2020-03-07 22:34:35.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:35.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:35.536][SACEPICN]: date position is: 0
+[2020-03-07 22:34:35.536][SACEPICN]: new Tuple's date is 22:34:35.000
+[2020-03-07 22:34:35.537][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+[2020-03-07 22:34:35.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:36.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:36.000/6/M/56)
+[2020-03-07 22:34:36.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:36.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:36.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:36.036][SACEPICN]: new Tuple's date is 22:34:36.000
+[2020-03-07 22:34:36.037][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+[2020-03-07 22:34:36.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:36.532][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:36.000/7/M/56)
+[2020-03-07 22:34:36.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:36.534][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:36.534][SACEPICN]: date position is: 0
+[2020-03-07 22:34:36.535][SACEPICN]: new Tuple's date is 22:34:36.000
+[2020-03-07 22:34:36.536][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+[2020-03-07 22:34:36.536][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:37.033][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:37.000/8/F/57)
+[2020-03-07 22:34:37.034][SACEPICN]: Found State Content
+[2020-03-07 22:34:37.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:37.035][SACEPICN]: date position is: 0
+[2020-03-07 22:34:37.035][SACEPICN]: new Tuple's date is 22:34:37.000
+[2020-03-07 22:34:37.037][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+[2020-03-07 22:34:37.037][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:37.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:37.000/9/F/57)
+[2020-03-07 22:34:37.536][SACEPICN]: Found State Content
+[2020-03-07 22:34:37.536][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:37.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:37.537][SACEPICN]: new Tuple's date is 22:34:37.000
+[2020-03-07 22:34:37.538][SACEPICN]: Slinding TIme Window Content is 22:34:33.000/1/F/1
+22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+[2020-03-07 22:34:37.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:38.033][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:38.000/10/M/55)
+[2020-03-07 22:34:38.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:38.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:38.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:38.038][SACEPICN]: new Tuple's date is 22:34:38.000
+[2020-03-07 22:34:38.039][SACEPICN]: Slinding TIme Window Content is 22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+[2020-03-07 22:34:38.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:38.535][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:38.000/11/M/55)
+[2020-03-07 22:34:38.537][SACEPICN]: Found State Content
+[2020-03-07 22:34:38.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:38.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:38.538][SACEPICN]: new Tuple's date is 22:34:38.000
+[2020-03-07 22:34:38.539][SACEPICN]: Slinding TIme Window Content is 22:34:34.000/2/M/66
+22:34:34.000/3/M/66
+22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+[2020-03-07 22:34:38.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:39.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:39.000/12/F/89)
+[2020-03-07 22:34:39.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:39.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:39.035][SACEPICN]: date position is: 0
+[2020-03-07 22:34:39.036][SACEPICN]: new Tuple's date is 22:34:39.000
+[2020-03-07 22:34:39.037][SACEPICN]: Slinding TIme Window Content is 22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+[2020-03-07 22:34:39.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:39.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:39.000/13/F/89)
+[2020-03-07 22:34:39.537][SACEPICN]: Found State Content
+[2020-03-07 22:34:39.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:39.538][SACEPICN]: date position is: 0
+[2020-03-07 22:34:39.538][SACEPICN]: new Tuple's date is 22:34:39.000
+[2020-03-07 22:34:39.539][SACEPICN]: Slinding TIme Window Content is 22:34:35.000/4/F/67
+22:34:35.000/5/F/67
+22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+[2020-03-07 22:34:39.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:40.137][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:40.000/14/M/97)
+[2020-03-07 22:34:40.138][SACEPICN]: Found State Content
+[2020-03-07 22:34:40.139][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:40.139][SACEPICN]: date position is: 0
+[2020-03-07 22:34:40.139][SACEPICN]: new Tuple's date is 22:34:40.000
+[2020-03-07 22:34:40.140][SACEPICN]: Slinding TIme Window Content is 22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+[2020-03-07 22:34:40.141][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:40.533][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:40.000/15/M/97)
+[2020-03-07 22:34:40.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:40.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:40.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:40.535][SACEPICN]: new Tuple's date is 22:34:40.000
+[2020-03-07 22:34:40.537][SACEPICN]: Slinding TIme Window Content is 22:34:36.000/6/M/56
+22:34:36.000/7/M/56
+22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+[2020-03-07 22:34:40.537][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:41.033][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:41.000/16/M/19)
+[2020-03-07 22:34:41.034][SACEPICN]: Found State Content
+[2020-03-07 22:34:41.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:41.035][SACEPICN]: date position is: 0
+[2020-03-07 22:34:41.035][SACEPICN]: new Tuple's date is 22:34:41.000
+[2020-03-07 22:34:41.037][SACEPICN]: Slinding TIme Window Content is 22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+[2020-03-07 22:34:41.037][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:41.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:41.000/17/M/19)
+[2020-03-07 22:34:41.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:41.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:41.536][SACEPICN]: date position is: 0
+[2020-03-07 22:34:41.536][SACEPICN]: new Tuple's date is 22:34:41.000
+[2020-03-07 22:34:41.537][SACEPICN]: Slinding TIme Window Content is 22:34:37.000/8/F/57
+22:34:37.000/9/F/57
+22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+[2020-03-07 22:34:41.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:42.033][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:42.000/18/F/21)
+[2020-03-07 22:34:42.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:42.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:42.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:42.037][SACEPICN]: new Tuple's date is 22:34:42.000
+[2020-03-07 22:34:42.039][SACEPICN]: Slinding TIme Window Content is 22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+[2020-03-07 22:34:42.040][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:42.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:42.000/19/F/21)
+[2020-03-07 22:34:42.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:42.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:42.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:42.536][SACEPICN]: new Tuple's date is 22:34:42.000
+[2020-03-07 22:34:42.537][SACEPICN]: Slinding TIme Window Content is 22:34:38.000/10/M/55
+22:34:38.000/11/M/55
+22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+[2020-03-07 22:34:42.537][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:43.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:43.000/20/M/87)
+[2020-03-07 22:34:43.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:43.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:43.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:43.036][SACEPICN]: new Tuple's date is 22:34:43.000
+[2020-03-07 22:34:43.038][SACEPICN]: Slinding TIme Window Content is 22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+[2020-03-07 22:34:43.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:43.533][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:43.000/21/M/87)
+[2020-03-07 22:34:43.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:43.534][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:43.534][SACEPICN]: date position is: 0
+[2020-03-07 22:34:43.535][SACEPICN]: new Tuple's date is 22:34:43.000
+[2020-03-07 22:34:43.536][SACEPICN]: Slinding TIme Window Content is 22:34:39.000/12/F/89
+22:34:39.000/13/F/89
+22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+[2020-03-07 22:34:43.536][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:44.036][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:44.000/22/M/24)
+[2020-03-07 22:34:44.037][SACEPICN]: Found State Content
+[2020-03-07 22:34:44.038][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:44.038][SACEPICN]: date position is: 0
+[2020-03-07 22:34:44.038][SACEPICN]: new Tuple's date is 22:34:44.000
+[2020-03-07 22:34:44.039][SACEPICN]: Slinding TIme Window Content is 22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+[2020-03-07 22:34:44.040][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:44.533][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:44.000/23/M/24)
+[2020-03-07 22:34:44.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:44.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:44.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:44.535][SACEPICN]: new Tuple's date is 22:34:44.000
+[2020-03-07 22:34:44.537][SACEPICN]: Slinding TIme Window Content is 22:34:40.000/14/M/97
+22:34:40.000/15/M/97
+22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+[2020-03-07 22:34:44.537][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:45.044][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:45.000/24/F/33)
+[2020-03-07 22:34:45.045][SACEPICN]: Found State Content
+[2020-03-07 22:34:45.046][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:45.046][SACEPICN]: date position is: 0
+[2020-03-07 22:34:45.047][SACEPICN]: new Tuple's date is 22:34:45.000
+[2020-03-07 22:34:45.048][SACEPICN]: Slinding TIme Window Content is 22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+[2020-03-07 22:34:45.049][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:45.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:45.000/25/F/33)
+[2020-03-07 22:34:45.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:45.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:45.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:45.536][SACEPICN]: new Tuple's date is 22:34:45.000
+[2020-03-07 22:34:45.537][SACEPICN]: Slinding TIme Window Content is 22:34:41.000/16/M/19
+22:34:41.000/17/M/19
+22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+[2020-03-07 22:34:45.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:46.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:46.000/26/F/46)
+[2020-03-07 22:34:46.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:46.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:46.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:46.037][SACEPICN]: new Tuple's date is 22:34:46.000
+[2020-03-07 22:34:46.038][SACEPICN]: Slinding TIme Window Content is 22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+[2020-03-07 22:34:46.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:46.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:46.000/27/F/46)
+[2020-03-07 22:34:46.538][SACEPICN]: Found State Content
+[2020-03-07 22:34:46.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:46.539][SACEPICN]: date position is: 0
+[2020-03-07 22:34:46.539][SACEPICN]: new Tuple's date is 22:34:46.000
+[2020-03-07 22:34:46.540][SACEPICN]: Slinding TIme Window Content is 22:34:42.000/18/F/21
+22:34:42.000/19/F/21
+22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+[2020-03-07 22:34:46.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:47.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:47.000/28/M/12)
+[2020-03-07 22:34:47.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:47.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:47.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:47.036][SACEPICN]: new Tuple's date is 22:34:47.000
+[2020-03-07 22:34:47.038][SACEPICN]: Slinding TIme Window Content is 22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+[2020-03-07 22:34:47.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:47.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:47.000/29/M/12)
+[2020-03-07 22:34:47.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:47.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:47.536][SACEPICN]: date position is: 0
+[2020-03-07 22:34:47.536][SACEPICN]: new Tuple's date is 22:34:47.000
+[2020-03-07 22:34:47.537][SACEPICN]: Slinding TIme Window Content is 22:34:43.000/20/M/87
+22:34:43.000/21/M/87
+22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+[2020-03-07 22:34:47.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:48.035][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:48.000/30/M/83)
+[2020-03-07 22:34:48.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:48.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:48.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:48.037][SACEPICN]: new Tuple's date is 22:34:48.000
+[2020-03-07 22:34:48.039][SACEPICN]: Slinding TIme Window Content is 22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+[2020-03-07 22:34:48.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:48.533][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:48.000/31/M/83)
+[2020-03-07 22:34:48.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:48.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:48.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:48.536][SACEPICN]: new Tuple's date is 22:34:48.000
+[2020-03-07 22:34:48.537][SACEPICN]: Slinding TIme Window Content is 22:34:44.000/22/M/24
+22:34:44.000/23/M/24
+22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+[2020-03-07 22:34:48.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:49.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:49.000/32/M/2)
+[2020-03-07 22:34:49.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:49.036][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:49.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:49.036][SACEPICN]: new Tuple's date is 22:34:49.000
+[2020-03-07 22:34:49.038][SACEPICN]: Slinding TIme Window Content is 22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+[2020-03-07 22:34:49.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:49.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:49.000/33/M/2)
+[2020-03-07 22:34:49.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:49.536][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:49.536][SACEPICN]: date position is: 0
+[2020-03-07 22:34:49.536][SACEPICN]: new Tuple's date is 22:34:49.000
+[2020-03-07 22:34:49.537][SACEPICN]: Slinding TIme Window Content is 22:34:45.000/24/F/33
+22:34:45.000/25/F/33
+22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+[2020-03-07 22:34:49.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:50.052][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:50.000/34/M/39)
+[2020-03-07 22:34:50.053][SACEPICN]: Found State Content
+[2020-03-07 22:34:50.053][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:50.053][SACEPICN]: date position is: 0
+[2020-03-07 22:34:50.054][SACEPICN]: new Tuple's date is 22:34:50.000
+[2020-03-07 22:34:50.055][SACEPICN]: Slinding TIme Window Content is 22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+[2020-03-07 22:34:50.055][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:50.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:50.000/35/M/39)
+[2020-03-07 22:34:50.536][SACEPICN]: Found State Content
+[2020-03-07 22:34:50.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:50.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:50.537][SACEPICN]: new Tuple's date is 22:34:50.000
+[2020-03-07 22:34:50.538][SACEPICN]: Slinding TIme Window Content is 22:34:46.000/26/F/46
+22:34:46.000/27/F/46
+22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+[2020-03-07 22:34:50.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:51.035][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:51.000/36/M/54)
+[2020-03-07 22:34:51.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:51.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:51.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:51.037][SACEPICN]: new Tuple's date is 22:34:51.000
+[2020-03-07 22:34:51.038][SACEPICN]: Slinding TIme Window Content is 22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+[2020-03-07 22:34:51.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:51.533][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:51.000/37/M/54)
+[2020-03-07 22:34:51.534][SACEPICN]: Found State Content
+[2020-03-07 22:34:51.535][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:51.535][SACEPICN]: date position is: 0
+[2020-03-07 22:34:51.535][SACEPICN]: new Tuple's date is 22:34:51.000
+[2020-03-07 22:34:51.536][SACEPICN]: Slinding TIme Window Content is 22:34:47.000/28/M/12
+22:34:47.000/29/M/12
+22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+[2020-03-07 22:34:51.537][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:52.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:52.000/38/F/72)
+[2020-03-07 22:34:52.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:52.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:52.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:52.036][SACEPICN]: new Tuple's date is 22:34:52.000
+[2020-03-07 22:34:52.037][SACEPICN]: Slinding TIme Window Content is 22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+[2020-03-07 22:34:52.037][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:52.535][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:52.000/39/F/72)
+[2020-03-07 22:34:52.536][SACEPICN]: Found State Content
+[2020-03-07 22:34:52.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:52.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:52.537][SACEPICN]: new Tuple's date is 22:34:52.000
+[2020-03-07 22:34:52.539][SACEPICN]: Slinding TIme Window Content is 22:34:48.000/30/M/83
+22:34:48.000/31/M/83
+22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+[2020-03-07 22:34:52.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:53.034][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:53.000/40/F/77)
+[2020-03-07 22:34:53.035][SACEPICN]: Found State Content
+[2020-03-07 22:34:53.035][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:53.036][SACEPICN]: date position is: 0
+[2020-03-07 22:34:53.036][SACEPICN]: new Tuple's date is 22:34:53.000
+[2020-03-07 22:34:53.037][SACEPICN]: Slinding TIme Window Content is 22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+[2020-03-07 22:34:53.037][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:53.534][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:53.000/41/F/77)
+[2020-03-07 22:34:53.535][SACEPICN]: Found State Content
+[2020-03-07 22:34:53.536][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:53.536][SACEPICN]: date position is: 0
+[2020-03-07 22:34:53.537][SACEPICN]: new Tuple's date is 22:34:53.000
+[2020-03-07 22:34:53.538][SACEPICN]: Slinding TIme Window Content is 22:34:49.000/32/M/2
+22:34:49.000/33/M/2
+22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+[2020-03-07 22:34:53.538][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:54.035][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:54.000/42/F/33)
+[2020-03-07 22:34:54.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:54.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:54.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:54.037][SACEPICN]: new Tuple's date is 22:34:54.000
+[2020-03-07 22:34:54.038][SACEPICN]: Slinding TIme Window Content is 22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+[2020-03-07 22:34:54.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:54.535][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:54.000/43/F/33)
+[2020-03-07 22:34:54.536][SACEPICN]: Found State Content
+[2020-03-07 22:34:54.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:54.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:54.537][SACEPICN]: new Tuple's date is 22:34:54.000
+[2020-03-07 22:34:54.539][SACEPICN]: Slinding TIme Window Content is 22:34:50.000/34/M/39
+22:34:50.000/35/M/39
+22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+[2020-03-07 22:34:54.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:55.048][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:55.000/44/M/19)
+[2020-03-07 22:34:55.049][SACEPICN]: Found State Content
+[2020-03-07 22:34:55.050][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:55.050][SACEPICN]: date position is: 0
+[2020-03-07 22:34:55.050][SACEPICN]: new Tuple's date is 22:34:55.000
+[2020-03-07 22:34:55.051][SACEPICN]: Slinding TIme Window Content is 22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+[2020-03-07 22:34:55.051][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:55.535][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:55.000/45/M/19)
+[2020-03-07 22:34:55.536][SACEPICN]: Found State Content
+[2020-03-07 22:34:55.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:55.537][SACEPICN]: date position is: 0
+[2020-03-07 22:34:55.537][SACEPICN]: new Tuple's date is 22:34:55.000
+[2020-03-07 22:34:55.538][SACEPICN]: Slinding TIme Window Content is 22:34:51.000/36/M/54
+22:34:51.000/37/M/54
+22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+[2020-03-07 22:34:55.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:56.035][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:56.000/46/F/0)
+[2020-03-07 22:34:56.036][SACEPICN]: Found State Content
+[2020-03-07 22:34:56.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:56.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:56.037][SACEPICN]: new Tuple's date is 22:34:56.000
+[2020-03-07 22:34:56.038][SACEPICN]: Slinding TIme Window Content is 22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+[2020-03-07 22:34:56.038][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:56.537][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:56.000/47/F/0)
+[2020-03-07 22:34:56.538][SACEPICN]: Found State Content
+[2020-03-07 22:34:56.539][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:56.539][SACEPICN]: date position is: 0
+[2020-03-07 22:34:56.540][SACEPICN]: new Tuple's date is 22:34:56.000
+[2020-03-07 22:34:56.541][SACEPICN]: Slinding TIme Window Content is 22:34:52.000/38/F/72
+22:34:52.000/39/F/72
+22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+[2020-03-07 22:34:56.542][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:57.037][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:57.000/48/M/68)
+[2020-03-07 22:34:57.038][SACEPICN]: Found State Content
+[2020-03-07 22:34:57.038][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:57.038][SACEPICN]: date position is: 0
+[2020-03-07 22:34:57.039][SACEPICN]: new Tuple's date is 22:34:57.000
+[2020-03-07 22:34:57.040][SACEPICN]: Slinding TIme Window Content is 22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+[2020-03-07 22:34:57.040][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:57.537][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:57.000/49/M/68)
+[2020-03-07 22:34:57.538][SACEPICN]: Found State Content
+[2020-03-07 22:34:57.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:57.539][SACEPICN]: date position is: 0
+[2020-03-07 22:34:57.539][SACEPICN]: new Tuple's date is 22:34:57.000
+[2020-03-07 22:34:57.540][SACEPICN]: Slinding TIme Window Content is 22:34:53.000/40/F/77
+22:34:53.000/41/F/77
+22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+[2020-03-07 22:34:57.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:58.037][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:58.000/50/M/25)
+[2020-03-07 22:34:58.038][SACEPICN]: Found State Content
+[2020-03-07 22:34:58.038][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:58.038][SACEPICN]: date position is: 0
+[2020-03-07 22:34:58.039][SACEPICN]: new Tuple's date is 22:34:58.000
+[2020-03-07 22:34:58.040][SACEPICN]: Slinding TIme Window Content is 22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+[2020-03-07 22:34:58.040][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:58.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:58.000/51/M/25)
+[2020-03-07 22:34:58.537][SACEPICN]: Found State Content
+[2020-03-07 22:34:58.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:58.538][SACEPICN]: date position is: 0
+[2020-03-07 22:34:58.538][SACEPICN]: new Tuple's date is 22:34:58.000
+[2020-03-07 22:34:58.539][SACEPICN]: Slinding TIme Window Content is 22:34:54.000/42/F/33
+22:34:54.000/43/F/33
+22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+[2020-03-07 22:34:58.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:59.036][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:59.000/52/F/89)
+[2020-03-07 22:34:59.037][SACEPICN]: Found State Content
+[2020-03-07 22:34:59.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:59.037][SACEPICN]: date position is: 0
+[2020-03-07 22:34:59.038][SACEPICN]: new Tuple's date is 22:34:59.000
+[2020-03-07 22:34:59.038][SACEPICN]: Slinding TIme Window Content is 22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+[2020-03-07 22:34:59.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:34:59.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:34:59.000/53/F/89)
+[2020-03-07 22:34:59.537][SACEPICN]: Found State Content
+[2020-03-07 22:34:59.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:34:59.538][SACEPICN]: date position is: 0
+[2020-03-07 22:34:59.538][SACEPICN]: new Tuple's date is 22:34:59.000
+[2020-03-07 22:34:59.539][SACEPICN]: Slinding TIme Window Content is 22:34:55.000/44/M/19
+22:34:55.000/45/M/19
+22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+[2020-03-07 22:34:59.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:00.049][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:00.000/54/F/43)
+[2020-03-07 22:35:00.050][SACEPICN]: Found State Content
+[2020-03-07 22:35:00.050][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:00.051][SACEPICN]: date position is: 0
+[2020-03-07 22:35:00.051][SACEPICN]: new Tuple's date is 22:35:00.000
+[2020-03-07 22:35:00.052][SACEPICN]: Slinding TIme Window Content is 22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+[2020-03-07 22:35:00.053][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:00.542][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:00.000/55/F/43)
+[2020-03-07 22:35:00.543][SACEPICN]: Found State Content
+[2020-03-07 22:35:00.543][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:00.543][SACEPICN]: date position is: 0
+[2020-03-07 22:35:00.544][SACEPICN]: new Tuple's date is 22:35:00.000
+[2020-03-07 22:35:00.544][SACEPICN]: Slinding TIme Window Content is 22:34:56.000/46/F/0
+22:34:56.000/47/F/0
+22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+[2020-03-07 22:35:00.545][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:01.037][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:01.000/56/F/30)
+[2020-03-07 22:35:01.038][SACEPICN]: Found State Content
+[2020-03-07 22:35:01.038][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:01.038][SACEPICN]: date position is: 0
+[2020-03-07 22:35:01.038][SACEPICN]: new Tuple's date is 22:35:01.000
+[2020-03-07 22:35:01.039][SACEPICN]: Slinding TIme Window Content is 22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+[2020-03-07 22:35:01.040][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:01.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:01.000/57/F/30)
+[2020-03-07 22:35:01.538][SACEPICN]: Found State Content
+[2020-03-07 22:35:01.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:01.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:01.538][SACEPICN]: new Tuple's date is 22:35:01.000
+[2020-03-07 22:35:01.539][SACEPICN]: Slinding TIme Window Content is 22:34:57.000/48/M/68
+22:34:57.000/49/M/68
+22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+[2020-03-07 22:35:01.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:02.037][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:02.000/58/M/65)
+[2020-03-07 22:35:02.039][SACEPICN]: Found State Content
+[2020-03-07 22:35:02.039][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:02.039][SACEPICN]: date position is: 0
+[2020-03-07 22:35:02.039][SACEPICN]: new Tuple's date is 22:35:02.000
+[2020-03-07 22:35:02.040][SACEPICN]: Slinding TIme Window Content is 22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+[2020-03-07 22:35:02.041][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:02.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:02.000/59/M/65)
+[2020-03-07 22:35:02.537][SACEPICN]: Found State Content
+[2020-03-07 22:35:02.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:02.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:02.538][SACEPICN]: new Tuple's date is 22:35:02.000
+[2020-03-07 22:35:02.539][SACEPICN]: Slinding TIme Window Content is 22:34:58.000/50/M/25
+22:34:58.000/51/M/25
+22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+[2020-03-07 22:35:02.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:03.036][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:03.000/60/F/34)
+[2020-03-07 22:35:03.037][SACEPICN]: Found State Content
+[2020-03-07 22:35:03.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:03.038][SACEPICN]: date position is: 0
+[2020-03-07 22:35:03.038][SACEPICN]: new Tuple's date is 22:35:03.000
+[2020-03-07 22:35:03.039][SACEPICN]: Slinding TIme Window Content is 22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+[2020-03-07 22:35:03.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:03.537][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:03.000/61/F/34)
+[2020-03-07 22:35:03.537][SACEPICN]: Found State Content
+[2020-03-07 22:35:03.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:03.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:03.538][SACEPICN]: new Tuple's date is 22:35:03.000
+[2020-03-07 22:35:03.539][SACEPICN]: Slinding TIme Window Content is 22:34:59.000/52/F/89
+22:34:59.000/53/F/89
+22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+[2020-03-07 22:35:03.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:04.038][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:04.000/62/F/3)
+[2020-03-07 22:35:04.038][SACEPICN]: Found State Content
+[2020-03-07 22:35:04.039][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:04.039][SACEPICN]: date position is: 0
+[2020-03-07 22:35:04.039][SACEPICN]: new Tuple's date is 22:35:04.000
+[2020-03-07 22:35:04.040][SACEPICN]: Slinding TIme Window Content is 22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+[2020-03-07 22:35:04.041][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:04.537][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:04.000/63/F/3)
+[2020-03-07 22:35:04.538][SACEPICN]: Found State Content
+[2020-03-07 22:35:04.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:04.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:04.539][SACEPICN]: new Tuple's date is 22:35:04.000
+[2020-03-07 22:35:04.539][SACEPICN]: Slinding TIme Window Content is 22:35:00.000/54/F/43
+22:35:00.000/55/F/43
+22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+[2020-03-07 22:35:04.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:05.046][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:05.000/64/M/87)
+[2020-03-07 22:35:05.047][SACEPICN]: Found State Content
+[2020-03-07 22:35:05.047][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:05.047][SACEPICN]: date position is: 0
+[2020-03-07 22:35:05.047][SACEPICN]: new Tuple's date is 22:35:05.000
+[2020-03-07 22:35:05.048][SACEPICN]: Slinding TIme Window Content is 22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+[2020-03-07 22:35:05.055][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:05.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:05.000/65/M/87)
+[2020-03-07 22:35:05.537][SACEPICN]: Found State Content
+[2020-03-07 22:35:05.537][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:05.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:05.538][SACEPICN]: new Tuple's date is 22:35:05.000
+[2020-03-07 22:35:05.539][SACEPICN]: Slinding TIme Window Content is 22:35:01.000/56/F/30
+22:35:01.000/57/F/30
+22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+[2020-03-07 22:35:05.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:06.038][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:06.000/66/F/65)
+[2020-03-07 22:35:06.039][SACEPICN]: Found State Content
+[2020-03-07 22:35:06.039][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:06.040][SACEPICN]: date position is: 0
+[2020-03-07 22:35:06.040][SACEPICN]: new Tuple's date is 22:35:06.000
+[2020-03-07 22:35:06.041][SACEPICN]: Slinding TIme Window Content is 22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+[2020-03-07 22:35:06.041][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:06.536][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:06.000/67/F/65)
+[2020-03-07 22:35:06.537][SACEPICN]: Found State Content
+[2020-03-07 22:35:06.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:06.538][SACEPICN]: date position is: 0
+[2020-03-07 22:35:06.538][SACEPICN]: new Tuple's date is 22:35:06.000
+[2020-03-07 22:35:06.539][SACEPICN]: Slinding TIme Window Content is 22:35:02.000/58/M/65
+22:35:02.000/59/M/65
+22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+[2020-03-07 22:35:06.539][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:07.036][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:07.000/68/F/39)
+[2020-03-07 22:35:07.037][SACEPICN]: Found State Content
+[2020-03-07 22:35:07.037][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:07.037][SACEPICN]: date position is: 0
+[2020-03-07 22:35:07.038][SACEPICN]: new Tuple's date is 22:35:07.000
+[2020-03-07 22:35:07.038][SACEPICN]: Slinding TIme Window Content is 22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+[2020-03-07 22:35:07.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:07.538][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:07.000/69/F/39)
+[2020-03-07 22:35:07.538][SACEPICN]: Found State Content
+[2020-03-07 22:35:07.538][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:07.539][SACEPICN]: date position is: 0
+[2020-03-07 22:35:07.539][SACEPICN]: new Tuple's date is 22:35:07.000
+[2020-03-07 22:35:07.540][SACEPICN]: Slinding TIme Window Content is 22:35:03.000/60/F/34
+22:35:03.000/61/F/34
+22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+[2020-03-07 22:35:07.540][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:08.037][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:08.000/70/F/95)
+[2020-03-07 22:35:08.037][SACEPICN]: Found State Content
+[2020-03-07 22:35:08.038][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:08.038][SACEPICN]: date position is: 0
+[2020-03-07 22:35:08.038][SACEPICN]: new Tuple's date is 22:35:08.000
+[2020-03-07 22:35:08.039][SACEPICN]: Slinding TIme Window Content is 22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+[2020-03-07 22:35:08.039][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:08.538][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:08.000/71/F/95)
+[2020-03-07 22:35:08.539][SACEPICN]: Found State Content
+[2020-03-07 22:35:08.540][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:08.540][SACEPICN]: date position is: 0
+[2020-03-07 22:35:08.540][SACEPICN]: new Tuple's date is 22:35:08.000
+[2020-03-07 22:35:08.541][SACEPICN]: Slinding TIme Window Content is 22:35:04.000/62/F/3
+22:35:04.000/63/F/3
+22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+[2020-03-07 22:35:08.541][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:09.043][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:09.000/72/M/95)
+[2020-03-07 22:35:09.044][SACEPICN]: Found State Content
+[2020-03-07 22:35:09.044][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:09.044][SACEPICN]: date position is: 0
+[2020-03-07 22:35:09.044][SACEPICN]: new Tuple's date is 22:35:09.000
+[2020-03-07 22:35:09.045][SACEPICN]: Slinding TIme Window Content is 22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+22:35:09.000/72/M/95
+[2020-03-07 22:35:09.045][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:09.538][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:09.000/73/M/95)
+[2020-03-07 22:35:09.539][SACEPICN]: Found State Content
+[2020-03-07 22:35:09.540][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:09.540][SACEPICN]: date position is: 0
+[2020-03-07 22:35:09.540][SACEPICN]: new Tuple's date is 22:35:09.000
+[2020-03-07 22:35:09.541][SACEPICN]: Slinding TIme Window Content is 22:35:05.000/64/M/87
+22:35:05.000/65/M/87
+22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+22:35:09.000/72/M/95
+22:35:09.000/73/M/95
+[2020-03-07 22:35:09.541][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:10.073][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:10.000/74/M/29)
+[2020-03-07 22:35:10.074][SACEPICN]: Found State Content
+[2020-03-07 22:35:10.074][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:10.074][SACEPICN]: date position is: 0
+[2020-03-07 22:35:10.074][SACEPICN]: new Tuple's date is 22:35:10.000
+[2020-03-07 22:35:10.075][SACEPICN]: Slinding TIme Window Content is 22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+22:35:09.000/72/M/95
+22:35:09.000/73/M/95
+22:35:10.000/74/M/29
+[2020-03-07 22:35:10.075][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:10.539][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:10.000/75/M/29)
+[2020-03-07 22:35:10.540][SACEPICN]: Found State Content
+[2020-03-07 22:35:10.540][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:10.540][SACEPICN]: date position is: 0
+[2020-03-07 22:35:10.541][SACEPICN]: new Tuple's date is 22:35:10.000
+[2020-03-07 22:35:10.541][SACEPICN]: Slinding TIme Window Content is 22:35:06.000/66/F/65
+22:35:06.000/67/F/65
+22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+22:35:09.000/72/M/95
+22:35:09.000/73/M/95
+22:35:10.000/74/M/29
+22:35:10.000/75/M/29
+[2020-03-07 22:35:10.542][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:11.039][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:11.000/76/F/41)
+[2020-03-07 22:35:11.040][SACEPICN]: Found State Content
+[2020-03-07 22:35:11.040][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:11.040][SACEPICN]: date position is: 0
+[2020-03-07 22:35:11.041][SACEPICN]: new Tuple's date is 22:35:11.000
+[2020-03-07 22:35:11.041][SACEPICN]: Slinding TIme Window Content is 22:35:07.000/68/F/39
+22:35:07.000/69/F/39
+22:35:08.000/70/F/95
+22:35:08.000/71/F/95
+22:35:09.000/72/M/95
+22:35:09.000/73/M/95
+22:35:10.000/74/M/29
+22:35:10.000/75/M/29
+22:35:11.000/76/F/41
+[2020-03-07 22:35:11.042][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:15.843][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:15.000/1/F/44)
+[2020-03-07 22:35:15.843][SACEPICN]: Found State Content
+[2020-03-07 22:35:15.844][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:15.844][SACEPICN]: date position is: 0
+[2020-03-07 22:35:15.844][SACEPICN]: new Tuple's date is 22:35:15.000
+[2020-03-07 22:35:15.845][SACEPICN]: Slinding TIme Window Content is 22:35:11.000/76/F/41
+22:35:15.000/1/F/44
+[2020-03-07 22:35:15.845][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:16.343][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:16.000/2/M/24)
+[2020-03-07 22:35:16.343][SACEPICN]: Found State Content
+[2020-03-07 22:35:16.344][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:16.344][SACEPICN]: date position is: 0
+[2020-03-07 22:35:16.344][SACEPICN]: new Tuple's date is 22:35:16.000
+[2020-03-07 22:35:16.345][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+[2020-03-07 22:35:16.345][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:16.843][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:16.000/3/M/24)
+[2020-03-07 22:35:16.843][SACEPICN]: Found State Content
+[2020-03-07 22:35:16.844][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:16.844][SACEPICN]: date position is: 0
+[2020-03-07 22:35:16.844][SACEPICN]: new Tuple's date is 22:35:16.000
+[2020-03-07 22:35:16.844][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+[2020-03-07 22:35:16.845][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:17.343][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:17.000/4/M/79)
+[2020-03-07 22:35:17.344][SACEPICN]: Found State Content
+[2020-03-07 22:35:17.344][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:17.345][SACEPICN]: date position is: 0
+[2020-03-07 22:35:17.345][SACEPICN]: new Tuple's date is 22:35:17.000
+[2020-03-07 22:35:17.345][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+[2020-03-07 22:35:17.346][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:17.844][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:17.000/5/M/79)
+[2020-03-07 22:35:17.845][SACEPICN]: Found State Content
+[2020-03-07 22:35:17.845][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:17.845][SACEPICN]: date position is: 0
+[2020-03-07 22:35:17.846][SACEPICN]: new Tuple's date is 22:35:17.000
+[2020-03-07 22:35:17.847][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+[2020-03-07 22:35:17.847][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:18.343][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:18.000/6/M/61)
+[2020-03-07 22:35:18.344][SACEPICN]: Found State Content
+[2020-03-07 22:35:18.344][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:18.344][SACEPICN]: date position is: 0
+[2020-03-07 22:35:18.344][SACEPICN]: new Tuple's date is 22:35:18.000
+[2020-03-07 22:35:18.345][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+[2020-03-07 22:35:18.345][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:18.843][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:18.000/7/M/61)
+[2020-03-07 22:35:18.844][SACEPICN]: Found State Content
+[2020-03-07 22:35:18.844][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:18.844][SACEPICN]: date position is: 0
+[2020-03-07 22:35:18.845][SACEPICN]: new Tuple's date is 22:35:18.000
+[2020-03-07 22:35:18.845][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+[2020-03-07 22:35:18.845][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:19.345][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:19.000/8/F/61)
+[2020-03-07 22:35:19.345][SACEPICN]: Found State Content
+[2020-03-07 22:35:19.346][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:19.346][SACEPICN]: date position is: 0
+[2020-03-07 22:35:19.346][SACEPICN]: new Tuple's date is 22:35:19.000
+[2020-03-07 22:35:19.347][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+[2020-03-07 22:35:19.347][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:19.843][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:19.000/9/F/61)
+[2020-03-07 22:35:19.844][SACEPICN]: Found State Content
+[2020-03-07 22:35:19.844][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:19.844][SACEPICN]: date position is: 0
+[2020-03-07 22:35:19.844][SACEPICN]: new Tuple's date is 22:35:19.000
+[2020-03-07 22:35:19.845][SACEPICN]: Slinding TIme Window Content is 22:35:15.000/1/F/44
+22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+[2020-03-07 22:35:19.845][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:20.357][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:20.000/10/M/13)
+[2020-03-07 22:35:20.358][SACEPICN]: Found State Content
+[2020-03-07 22:35:20.358][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:20.358][SACEPICN]: date position is: 0
+[2020-03-07 22:35:20.359][SACEPICN]: new Tuple's date is 22:35:20.000
+[2020-03-07 22:35:20.359][SACEPICN]: Slinding TIme Window Content is 22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+[2020-03-07 22:35:20.359][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:20.844][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:20.000/11/M/13)
+[2020-03-07 22:35:20.845][SACEPICN]: Found State Content
+[2020-03-07 22:35:20.845][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:20.846][SACEPICN]: date position is: 0
+[2020-03-07 22:35:20.846][SACEPICN]: new Tuple's date is 22:35:20.000
+[2020-03-07 22:35:20.846][SACEPICN]: Slinding TIme Window Content is 22:35:16.000/2/M/24
+22:35:16.000/3/M/24
+22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+[2020-03-07 22:35:20.847][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:21.346][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:21.000/12/F/62)
+[2020-03-07 22:35:21.347][SACEPICN]: Found State Content
+[2020-03-07 22:35:21.347][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:21.347][SACEPICN]: date position is: 0
+[2020-03-07 22:35:21.347][SACEPICN]: new Tuple's date is 22:35:21.000
+[2020-03-07 22:35:21.348][SACEPICN]: Slinding TIme Window Content is 22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+[2020-03-07 22:35:21.348][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:21.845][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:21.000/13/F/62)
+[2020-03-07 22:35:21.845][SACEPICN]: Found State Content
+[2020-03-07 22:35:21.846][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:21.846][SACEPICN]: date position is: 0
+[2020-03-07 22:35:21.846][SACEPICN]: new Tuple's date is 22:35:21.000
+[2020-03-07 22:35:21.847][SACEPICN]: Slinding TIme Window Content is 22:35:17.000/4/M/79
+22:35:17.000/5/M/79
+22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+[2020-03-07 22:35:21.847][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:22.345][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:22.000/14/F/91)
+[2020-03-07 22:35:22.345][SACEPICN]: Found State Content
+[2020-03-07 22:35:22.346][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:22.346][SACEPICN]: date position is: 0
+[2020-03-07 22:35:22.346][SACEPICN]: new Tuple's date is 22:35:22.000
+[2020-03-07 22:35:22.347][SACEPICN]: Slinding TIme Window Content is 22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+[2020-03-07 22:35:22.347][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:22.844][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:22.000/15/F/91)
+[2020-03-07 22:35:22.845][SACEPICN]: Found State Content
+[2020-03-07 22:35:22.845][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:22.846][SACEPICN]: date position is: 0
+[2020-03-07 22:35:22.846][SACEPICN]: new Tuple's date is 22:35:22.000
+[2020-03-07 22:35:22.847][SACEPICN]: Slinding TIme Window Content is 22:35:18.000/6/M/61
+22:35:18.000/7/M/61
+22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+[2020-03-07 22:35:22.847][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:23.347][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:23.000/16/F/43)
+[2020-03-07 22:35:23.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:23.348][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:23.348][SACEPICN]: date position is: 0
+[2020-03-07 22:35:23.349][SACEPICN]: new Tuple's date is 22:35:23.000
+[2020-03-07 22:35:23.350][SACEPICN]: Slinding TIme Window Content is 22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+[2020-03-07 22:35:23.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:23.846][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:23.000/17/F/43)
+[2020-03-07 22:35:23.847][SACEPICN]: Found State Content
+[2020-03-07 22:35:23.847][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:23.847][SACEPICN]: date position is: 0
+[2020-03-07 22:35:23.847][SACEPICN]: new Tuple's date is 22:35:23.000
+[2020-03-07 22:35:23.848][SACEPICN]: Slinding TIme Window Content is 22:35:19.000/8/F/61
+22:35:19.000/9/F/61
+22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+[2020-03-07 22:35:23.848][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:24.347][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:24.000/18/M/0)
+[2020-03-07 22:35:24.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:24.348][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:24.348][SACEPICN]: date position is: 0
+[2020-03-07 22:35:24.348][SACEPICN]: new Tuple's date is 22:35:24.000
+[2020-03-07 22:35:24.349][SACEPICN]: Slinding TIme Window Content is 22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+[2020-03-07 22:35:24.349][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:24.845][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:24.000/19/M/0)
+[2020-03-07 22:35:24.845][SACEPICN]: Found State Content
+[2020-03-07 22:35:24.846][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:24.846][SACEPICN]: date position is: 0
+[2020-03-07 22:35:24.846][SACEPICN]: new Tuple's date is 22:35:24.000
+[2020-03-07 22:35:24.846][SACEPICN]: Slinding TIme Window Content is 22:35:20.000/10/M/13
+22:35:20.000/11/M/13
+22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+[2020-03-07 22:35:24.847][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:25.358][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:25.000/20/M/43)
+[2020-03-07 22:35:25.358][SACEPICN]: Found State Content
+[2020-03-07 22:35:25.359][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:25.359][SACEPICN]: date position is: 0
+[2020-03-07 22:35:25.359][SACEPICN]: new Tuple's date is 22:35:25.000
+[2020-03-07 22:35:25.360][SACEPICN]: Slinding TIme Window Content is 22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+[2020-03-07 22:35:25.360][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:25.845][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:25.000/21/M/43)
+[2020-03-07 22:35:25.846][SACEPICN]: Found State Content
+[2020-03-07 22:35:25.846][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:25.847][SACEPICN]: date position is: 0
+[2020-03-07 22:35:25.847][SACEPICN]: new Tuple's date is 22:35:25.000
+[2020-03-07 22:35:25.848][SACEPICN]: Slinding TIme Window Content is 22:35:21.000/12/F/62
+22:35:21.000/13/F/62
+22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+[2020-03-07 22:35:25.848][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:26.346][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:26.000/22/M/53)
+[2020-03-07 22:35:26.347][SACEPICN]: Found State Content
+[2020-03-07 22:35:26.347][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:26.347][SACEPICN]: date position is: 0
+[2020-03-07 22:35:26.347][SACEPICN]: new Tuple's date is 22:35:26.000
+[2020-03-07 22:35:26.348][SACEPICN]: Slinding TIme Window Content is 22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+[2020-03-07 22:35:26.348][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:26.846][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:26.000/23/M/53)
+[2020-03-07 22:35:26.847][SACEPICN]: Found State Content
+[2020-03-07 22:35:26.847][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:26.847][SACEPICN]: date position is: 0
+[2020-03-07 22:35:26.847][SACEPICN]: new Tuple's date is 22:35:26.000
+[2020-03-07 22:35:26.848][SACEPICN]: Slinding TIme Window Content is 22:35:22.000/14/F/91
+22:35:22.000/15/F/91
+22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+[2020-03-07 22:35:26.848][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:27.347][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:27.000/24/M/17)
+[2020-03-07 22:35:27.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:27.348][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:27.348][SACEPICN]: date position is: 0
+[2020-03-07 22:35:27.348][SACEPICN]: new Tuple's date is 22:35:27.000
+[2020-03-07 22:35:27.349][SACEPICN]: Slinding TIme Window Content is 22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+[2020-03-07 22:35:27.349][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:27.846][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:27.000/25/M/17)
+[2020-03-07 22:35:27.847][SACEPICN]: Found State Content
+[2020-03-07 22:35:27.847][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:27.847][SACEPICN]: date position is: 0
+[2020-03-07 22:35:27.848][SACEPICN]: new Tuple's date is 22:35:27.000
+[2020-03-07 22:35:27.848][SACEPICN]: Slinding TIme Window Content is 22:35:23.000/16/F/43
+22:35:23.000/17/F/43
+22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+[2020-03-07 22:35:27.848][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:28.347][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:28.000/26/M/73)
+[2020-03-07 22:35:28.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:28.348][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:28.348][SACEPICN]: date position is: 0
+[2020-03-07 22:35:28.349][SACEPICN]: new Tuple's date is 22:35:28.000
+[2020-03-07 22:35:28.349][SACEPICN]: Slinding TIme Window Content is 22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+[2020-03-07 22:35:28.349][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:28.846][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:28.000/27/M/73)
+[2020-03-07 22:35:28.846][SACEPICN]: Found State Content
+[2020-03-07 22:35:28.847][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:28.847][SACEPICN]: date position is: 0
+[2020-03-07 22:35:28.847][SACEPICN]: new Tuple's date is 22:35:28.000
+[2020-03-07 22:35:28.847][SACEPICN]: Slinding TIme Window Content is 22:35:24.000/18/M/0
+22:35:24.000/19/M/0
+22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+[2020-03-07 22:35:28.848][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:29.345][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:29.000/28/M/93)
+[2020-03-07 22:35:29.346][SACEPICN]: Found State Content
+[2020-03-07 22:35:29.346][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:29.347][SACEPICN]: date position is: 0
+[2020-03-07 22:35:29.347][SACEPICN]: new Tuple's date is 22:35:29.000
+[2020-03-07 22:35:29.348][SACEPICN]: Slinding TIme Window Content is 22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+[2020-03-07 22:35:29.348][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:29.847][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:29.000/29/M/93)
+[2020-03-07 22:35:29.848][SACEPICN]: Found State Content
+[2020-03-07 22:35:29.848][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:29.849][SACEPICN]: date position is: 0
+[2020-03-07 22:35:29.849][SACEPICN]: new Tuple's date is 22:35:29.000
+[2020-03-07 22:35:29.849][SACEPICN]: Slinding TIme Window Content is 22:35:25.000/20/M/43
+22:35:25.000/21/M/43
+22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+[2020-03-07 22:35:29.850][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:30.354][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:30.000/30/M/79)
+[2020-03-07 22:35:30.354][SACEPICN]: Found State Content
+[2020-03-07 22:35:30.354][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:30.355][SACEPICN]: date position is: 0
+[2020-03-07 22:35:30.355][SACEPICN]: new Tuple's date is 22:35:30.000
+[2020-03-07 22:35:30.355][SACEPICN]: Slinding TIme Window Content is 22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+[2020-03-07 22:35:30.356][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:30.847][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:30.000/31/M/79)
+[2020-03-07 22:35:30.848][SACEPICN]: Found State Content
+[2020-03-07 22:35:30.848][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:30.848][SACEPICN]: date position is: 0
+[2020-03-07 22:35:30.848][SACEPICN]: new Tuple's date is 22:35:30.000
+[2020-03-07 22:35:30.849][SACEPICN]: Slinding TIme Window Content is 22:35:26.000/22/M/53
+22:35:26.000/23/M/53
+22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+[2020-03-07 22:35:30.849][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:31.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:31.000/32/F/42)
+[2020-03-07 22:35:31.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:31.349][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:31.349][SACEPICN]: date position is: 0
+[2020-03-07 22:35:31.349][SACEPICN]: new Tuple's date is 22:35:31.000
+[2020-03-07 22:35:31.350][SACEPICN]: Slinding TIme Window Content is 22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+[2020-03-07 22:35:31.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:31.848][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:31.000/33/F/42)
+[2020-03-07 22:35:31.848][SACEPICN]: Found State Content
+[2020-03-07 22:35:31.849][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:31.849][SACEPICN]: date position is: 0
+[2020-03-07 22:35:31.849][SACEPICN]: new Tuple's date is 22:35:31.000
+[2020-03-07 22:35:31.849][SACEPICN]: Slinding TIme Window Content is 22:35:27.000/24/M/17
+22:35:27.000/25/M/17
+22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+[2020-03-07 22:35:31.850][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:32.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:32.000/34/M/57)
+[2020-03-07 22:35:32.349][SACEPICN]: Found State Content
+[2020-03-07 22:35:32.349][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:32.349][SACEPICN]: date position is: 0
+[2020-03-07 22:35:32.349][SACEPICN]: new Tuple's date is 22:35:32.000
+[2020-03-07 22:35:32.350][SACEPICN]: Slinding TIme Window Content is 22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+[2020-03-07 22:35:32.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:32.848][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:32.000/35/M/57)
+[2020-03-07 22:35:32.849][SACEPICN]: Found State Content
+[2020-03-07 22:35:32.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:32.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:32.850][SACEPICN]: new Tuple's date is 22:35:32.000
+[2020-03-07 22:35:32.850][SACEPICN]: Slinding TIme Window Content is 22:35:28.000/26/M/73
+22:35:28.000/27/M/73
+22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+[2020-03-07 22:35:32.851][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:33.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:33.000/36/F/3)
+[2020-03-07 22:35:33.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:33.349][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:33.349][SACEPICN]: date position is: 0
+[2020-03-07 22:35:33.349][SACEPICN]: new Tuple's date is 22:35:33.000
+[2020-03-07 22:35:33.350][SACEPICN]: Slinding TIme Window Content is 22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+[2020-03-07 22:35:33.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:33.847][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:33.000/37/F/3)
+[2020-03-07 22:35:33.848][SACEPICN]: Found State Content
+[2020-03-07 22:35:33.848][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:33.848][SACEPICN]: date position is: 0
+[2020-03-07 22:35:33.848][SACEPICN]: new Tuple's date is 22:35:33.000
+[2020-03-07 22:35:33.849][SACEPICN]: Slinding TIme Window Content is 22:35:29.000/28/M/93
+22:35:29.000/29/M/93
+22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+[2020-03-07 22:35:33.849][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:34.347][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:34.000/38/M/47)
+[2020-03-07 22:35:34.348][SACEPICN]: Found State Content
+[2020-03-07 22:35:34.348][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:34.348][SACEPICN]: date position is: 0
+[2020-03-07 22:35:34.348][SACEPICN]: new Tuple's date is 22:35:34.000
+[2020-03-07 22:35:34.349][SACEPICN]: Slinding TIme Window Content is 22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+[2020-03-07 22:35:34.349][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:34.851][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:34.000/39/M/47)
+[2020-03-07 22:35:34.852][SACEPICN]: Found State Content
+[2020-03-07 22:35:34.852][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:34.852][SACEPICN]: date position is: 0
+[2020-03-07 22:35:34.852][SACEPICN]: new Tuple's date is 22:35:34.000
+[2020-03-07 22:35:34.853][SACEPICN]: Slinding TIme Window Content is 22:35:30.000/30/M/79
+22:35:30.000/31/M/79
+22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+[2020-03-07 22:35:34.853][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:35.363][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:35.000/40/M/63)
+[2020-03-07 22:35:35.364][SACEPICN]: Found State Content
+[2020-03-07 22:35:35.364][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:35.364][SACEPICN]: date position is: 0
+[2020-03-07 22:35:35.364][SACEPICN]: new Tuple's date is 22:35:35.000
+[2020-03-07 22:35:35.365][SACEPICN]: Slinding TIme Window Content is 22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+[2020-03-07 22:35:35.365][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:35.847][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:35.000/41/M/63)
+[2020-03-07 22:35:35.848][SACEPICN]: Found State Content
+[2020-03-07 22:35:35.848][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:35.848][SACEPICN]: date position is: 0
+[2020-03-07 22:35:35.849][SACEPICN]: new Tuple's date is 22:35:35.000
+[2020-03-07 22:35:35.849][SACEPICN]: Slinding TIme Window Content is 22:35:31.000/32/F/42
+22:35:31.000/33/F/42
+22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+[2020-03-07 22:35:35.849][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:36.349][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:36.000/42/F/89)
+[2020-03-07 22:35:36.349][SACEPICN]: Found State Content
+[2020-03-07 22:35:36.350][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:36.350][SACEPICN]: date position is: 0
+[2020-03-07 22:35:36.350][SACEPICN]: new Tuple's date is 22:35:36.000
+[2020-03-07 22:35:36.351][SACEPICN]: Slinding TIme Window Content is 22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+[2020-03-07 22:35:36.351][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:36.849][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:36.000/43/F/89)
+[2020-03-07 22:35:36.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:36.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:36.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:36.851][SACEPICN]: new Tuple's date is 22:35:36.000
+[2020-03-07 22:35:36.851][SACEPICN]: Slinding TIme Window Content is 22:35:32.000/34/M/57
+22:35:32.000/35/M/57
+22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+[2020-03-07 22:35:36.851][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:37.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:37.000/44/M/96)
+[2020-03-07 22:35:37.349][SACEPICN]: Found State Content
+[2020-03-07 22:35:37.349][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:37.349][SACEPICN]: date position is: 0
+[2020-03-07 22:35:37.350][SACEPICN]: new Tuple's date is 22:35:37.000
+[2020-03-07 22:35:37.350][SACEPICN]: Slinding TIme Window Content is 22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+[2020-03-07 22:35:37.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:37.849][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:37.000/45/M/96)
+[2020-03-07 22:35:37.849][SACEPICN]: Found State Content
+[2020-03-07 22:35:37.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:37.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:37.850][SACEPICN]: new Tuple's date is 22:35:37.000
+[2020-03-07 22:35:37.850][SACEPICN]: Slinding TIme Window Content is 22:35:33.000/36/F/3
+22:35:33.000/37/F/3
+22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+[2020-03-07 22:35:37.850][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:38.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:38.000/46/F/77)
+[2020-03-07 22:35:38.349][SACEPICN]: Found State Content
+[2020-03-07 22:35:38.350][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:38.350][SACEPICN]: date position is: 0
+[2020-03-07 22:35:38.350][SACEPICN]: new Tuple's date is 22:35:38.000
+[2020-03-07 22:35:38.351][SACEPICN]: Slinding TIme Window Content is 22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+[2020-03-07 22:35:38.351][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:38.848][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:38.000/47/F/77)
+[2020-03-07 22:35:38.849][SACEPICN]: Found State Content
+[2020-03-07 22:35:38.849][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:38.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:38.850][SACEPICN]: new Tuple's date is 22:35:38.000
+[2020-03-07 22:35:38.850][SACEPICN]: Slinding TIme Window Content is 22:35:34.000/38/M/47
+22:35:34.000/39/M/47
+22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+[2020-03-07 22:35:38.850][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:39.349][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:39.000/48/F/71)
+[2020-03-07 22:35:39.350][SACEPICN]: Found State Content
+[2020-03-07 22:35:39.351][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:39.351][SACEPICN]: date position is: 0
+[2020-03-07 22:35:39.351][SACEPICN]: new Tuple's date is 22:35:39.000
+[2020-03-07 22:35:39.352][SACEPICN]: Slinding TIme Window Content is 22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+[2020-03-07 22:35:39.352][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:39.849][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:39.000/49/F/71)
+[2020-03-07 22:35:39.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:39.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:39.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:39.850][SACEPICN]: new Tuple's date is 22:35:39.000
+[2020-03-07 22:35:39.851][SACEPICN]: Slinding TIme Window Content is 22:35:35.000/40/M/63
+22:35:35.000/41/M/63
+22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+[2020-03-07 22:35:39.851][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:40.369][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:40.000/50/F/39)
+[2020-03-07 22:35:40.369][SACEPICN]: Found State Content
+[2020-03-07 22:35:40.370][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:40.370][SACEPICN]: date position is: 0
+[2020-03-07 22:35:40.370][SACEPICN]: new Tuple's date is 22:35:40.000
+[2020-03-07 22:35:40.370][SACEPICN]: Slinding TIme Window Content is 22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+[2020-03-07 22:35:40.371][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:40.850][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:40.000/51/F/39)
+[2020-03-07 22:35:40.851][SACEPICN]: Found State Content
+[2020-03-07 22:35:40.851][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:40.851][SACEPICN]: date position is: 0
+[2020-03-07 22:35:40.851][SACEPICN]: new Tuple's date is 22:35:40.000
+[2020-03-07 22:35:40.852][SACEPICN]: Slinding TIme Window Content is 22:35:36.000/42/F/89
+22:35:36.000/43/F/89
+22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+[2020-03-07 22:35:40.852][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:41.349][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:41.000/52/M/97)
+[2020-03-07 22:35:41.350][SACEPICN]: Found State Content
+[2020-03-07 22:35:41.350][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:41.350][SACEPICN]: date position is: 0
+[2020-03-07 22:35:41.350][SACEPICN]: new Tuple's date is 22:35:41.000
+[2020-03-07 22:35:41.351][SACEPICN]: Slinding TIme Window Content is 22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+[2020-03-07 22:35:41.351][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:41.850][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:41.000/53/M/97)
+[2020-03-07 22:35:41.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:41.851][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:41.851][SACEPICN]: date position is: 0
+[2020-03-07 22:35:41.851][SACEPICN]: new Tuple's date is 22:35:41.000
+[2020-03-07 22:35:41.851][SACEPICN]: Slinding TIme Window Content is 22:35:37.000/44/M/96
+22:35:37.000/45/M/96
+22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+[2020-03-07 22:35:41.852][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:42.350][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:42.000/54/F/77)
+[2020-03-07 22:35:42.351][SACEPICN]: Found State Content
+[2020-03-07 22:35:42.351][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:42.352][SACEPICN]: date position is: 0
+[2020-03-07 22:35:42.352][SACEPICN]: new Tuple's date is 22:35:42.000
+[2020-03-07 22:35:42.352][SACEPICN]: Slinding TIme Window Content is 22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+[2020-03-07 22:35:42.352][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:42.849][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:42.000/55/F/77)
+[2020-03-07 22:35:42.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:42.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:42.851][SACEPICN]: date position is: 0
+[2020-03-07 22:35:42.851][SACEPICN]: new Tuple's date is 22:35:42.000
+[2020-03-07 22:35:42.851][SACEPICN]: Slinding TIme Window Content is 22:35:38.000/46/F/77
+22:35:38.000/47/F/77
+22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+[2020-03-07 22:35:42.851][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:43.348][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:43.000/56/F/80)
+[2020-03-07 22:35:43.349][SACEPICN]: Found State Content
+[2020-03-07 22:35:43.349][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:43.349][SACEPICN]: date position is: 0
+[2020-03-07 22:35:43.350][SACEPICN]: new Tuple's date is 22:35:43.000
+[2020-03-07 22:35:43.350][SACEPICN]: Slinding TIme Window Content is 22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+[2020-03-07 22:35:43.350][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:43.849][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:43.000/57/F/80)
+[2020-03-07 22:35:43.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:43.850][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:43.850][SACEPICN]: date position is: 0
+[2020-03-07 22:35:43.850][SACEPICN]: new Tuple's date is 22:35:43.000
+[2020-03-07 22:35:43.850][SACEPICN]: Slinding TIme Window Content is 22:35:39.000/48/F/71
+22:35:39.000/49/F/71
+22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+22:35:43.000/57/F/80
+[2020-03-07 22:35:43.851][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:44.351][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:44.000/58/F/34)
+[2020-03-07 22:35:44.352][SACEPICN]: Found State Content
+[2020-03-07 22:35:44.352][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:44.352][SACEPICN]: date position is: 0
+[2020-03-07 22:35:44.352][SACEPICN]: new Tuple's date is 22:35:44.000
+[2020-03-07 22:35:44.353][SACEPICN]: Slinding TIme Window Content is 22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+22:35:43.000/57/F/80
+22:35:44.000/58/F/34
+[2020-03-07 22:35:44.353][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:44.953][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:44.000/59/F/34)
+[2020-03-07 22:35:44.953][SACEPICN]: Found State Content
+[2020-03-07 22:35:44.954][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:44.954][SACEPICN]: date position is: 0
+[2020-03-07 22:35:44.954][SACEPICN]: new Tuple's date is 22:35:44.000
+[2020-03-07 22:35:44.954][SACEPICN]: Slinding TIme Window Content is 22:35:40.000/50/F/39
+22:35:40.000/51/F/39
+22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+22:35:43.000/57/F/80
+22:35:44.000/58/F/34
+22:35:44.000/59/F/34
+[2020-03-07 22:35:44.955][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:45.369][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:45.000/60/M/67)
+[2020-03-07 22:35:45.370][SACEPICN]: Found State Content
+[2020-03-07 22:35:45.370][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:45.370][SACEPICN]: date position is: 0
+[2020-03-07 22:35:45.370][SACEPICN]: new Tuple's date is 22:35:45.000
+[2020-03-07 22:35:45.371][SACEPICN]: Slinding TIme Window Content is 22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+22:35:43.000/57/F/80
+22:35:44.000/58/F/34
+22:35:44.000/59/F/34
+22:35:45.000/60/M/67
+[2020-03-07 22:35:45.371][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:45.850][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:45.000/61/M/67)
+[2020-03-07 22:35:45.850][SACEPICN]: Found State Content
+[2020-03-07 22:35:45.851][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:45.851][SACEPICN]: date position is: 0
+[2020-03-07 22:35:45.851][SACEPICN]: new Tuple's date is 22:35:45.000
+[2020-03-07 22:35:45.851][SACEPICN]: Slinding TIme Window Content is 22:35:41.000/52/M/97
+22:35:41.000/53/M/97
+22:35:42.000/54/F/77
+22:35:42.000/55/F/77
+22:35:43.000/56/F/80
+22:35:43.000/57/F/80
+22:35:44.000/58/F/34
+22:35:44.000/59/F/34
+22:35:45.000/60/M/67
+22:35:45.000/61/M/67
+[2020-03-07 22:35:45.852][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:50.880][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:50.000/1/M/35)
+[2020-03-07 22:35:50.881][SACEPICN]: Found State Content
+[2020-03-07 22:35:50.882][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:50.882][SACEPICN]: date position is: 0
+[2020-03-07 22:35:50.882][SACEPICN]: new Tuple's date is 22:35:50.000
+[2020-03-07 22:35:50.882][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+[2020-03-07 22:35:50.883][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:51.380][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:51.000/2/F/62)
+[2020-03-07 22:35:51.381][SACEPICN]: Found State Content
+[2020-03-07 22:35:51.381][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:51.381][SACEPICN]: date position is: 0
+[2020-03-07 22:35:51.382][SACEPICN]: new Tuple's date is 22:35:51.000
+[2020-03-07 22:35:51.382][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+[2020-03-07 22:35:51.382][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:51.880][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:51.000/3/F/62)
+[2020-03-07 22:35:51.881][SACEPICN]: Found State Content
+[2020-03-07 22:35:51.881][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:51.881][SACEPICN]: date position is: 0
+[2020-03-07 22:35:51.882][SACEPICN]: new Tuple's date is 22:35:51.000
+[2020-03-07 22:35:51.882][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+[2020-03-07 22:35:51.882][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:52.385][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:52.000/4/M/4)
+[2020-03-07 22:35:52.385][SACEPICN]: Found State Content
+[2020-03-07 22:35:52.386][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:52.386][SACEPICN]: date position is: 0
+[2020-03-07 22:35:52.386][SACEPICN]: new Tuple's date is 22:35:52.000
+[2020-03-07 22:35:52.387][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+[2020-03-07 22:35:52.387][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:52.880][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:52.000/5/M/4)
+[2020-03-07 22:35:52.881][SACEPICN]: Found State Content
+[2020-03-07 22:35:52.881][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:52.881][SACEPICN]: date position is: 0
+[2020-03-07 22:35:52.881][SACEPICN]: new Tuple's date is 22:35:52.000
+[2020-03-07 22:35:52.882][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+[2020-03-07 22:35:52.882][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:53.380][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:53.000/6/F/4)
+[2020-03-07 22:35:53.381][SACEPICN]: Found State Content
+[2020-03-07 22:35:53.381][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:53.381][SACEPICN]: date position is: 0
+[2020-03-07 22:35:53.381][SACEPICN]: new Tuple's date is 22:35:53.000
+[2020-03-07 22:35:53.382][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+[2020-03-07 22:35:53.382][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:53.880][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:53.000/7/F/4)
+[2020-03-07 22:35:53.881][SACEPICN]: Found State Content
+[2020-03-07 22:35:53.881][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:53.881][SACEPICN]: date position is: 0
+[2020-03-07 22:35:53.881][SACEPICN]: new Tuple's date is 22:35:53.000
+[2020-03-07 22:35:53.882][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+[2020-03-07 22:35:53.882][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:54.380][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:54.000/8/F/30)
+[2020-03-07 22:35:54.381][SACEPICN]: Found State Content
+[2020-03-07 22:35:54.381][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:54.381][SACEPICN]: date position is: 0
+[2020-03-07 22:35:54.381][SACEPICN]: new Tuple's date is 22:35:54.000
+[2020-03-07 22:35:54.382][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+[2020-03-07 22:35:54.382][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:54.881][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:54.000/9/F/30)
+[2020-03-07 22:35:54.882][SACEPICN]: Found State Content
+[2020-03-07 22:35:54.882][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:54.882][SACEPICN]: date position is: 0
+[2020-03-07 22:35:54.883][SACEPICN]: new Tuple's date is 22:35:54.000
+[2020-03-07 22:35:54.883][SACEPICN]: Slinding TIme Window Content is 22:35:50.000/1/M/35
+22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+[2020-03-07 22:35:54.883][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:55.384][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:55.000/10/M/92)
+[2020-03-07 22:35:55.384][SACEPICN]: Found State Content
+[2020-03-07 22:35:55.385][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:55.385][SACEPICN]: date position is: 0
+[2020-03-07 22:35:55.385][SACEPICN]: new Tuple's date is 22:35:55.000
+[2020-03-07 22:35:55.385][SACEPICN]: Slinding TIme Window Content is 22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+[2020-03-07 22:35:55.386][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:55.880][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:55.000/11/M/92)
+[2020-03-07 22:35:55.881][SACEPICN]: Found State Content
+[2020-03-07 22:35:55.881][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:55.881][SACEPICN]: date position is: 0
+[2020-03-07 22:35:55.881][SACEPICN]: new Tuple's date is 22:35:55.000
+[2020-03-07 22:35:55.882][SACEPICN]: Slinding TIme Window Content is 22:35:51.000/2/F/62
+22:35:51.000/3/F/62
+22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+[2020-03-07 22:35:55.882][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:56.382][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:56.000/12/M/51)
+[2020-03-07 22:35:56.383][SACEPICN]: Found State Content
+[2020-03-07 22:35:56.383][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:56.383][SACEPICN]: date position is: 0
+[2020-03-07 22:35:56.383][SACEPICN]: new Tuple's date is 22:35:56.000
+[2020-03-07 22:35:56.384][SACEPICN]: Slinding TIme Window Content is 22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+[2020-03-07 22:35:56.384][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:56.881][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:56.000/13/M/51)
+[2020-03-07 22:35:56.882][SACEPICN]: Found State Content
+[2020-03-07 22:35:56.882][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:56.882][SACEPICN]: date position is: 0
+[2020-03-07 22:35:56.883][SACEPICN]: new Tuple's date is 22:35:56.000
+[2020-03-07 22:35:56.883][SACEPICN]: Slinding TIme Window Content is 22:35:52.000/4/M/4
+22:35:52.000/5/M/4
+22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+[2020-03-07 22:35:56.883][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:57.381][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:57.000/14/M/75)
+[2020-03-07 22:35:57.382][SACEPICN]: Found State Content
+[2020-03-07 22:35:57.382][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:57.382][SACEPICN]: date position is: 0
+[2020-03-07 22:35:57.382][SACEPICN]: new Tuple's date is 22:35:57.000
+[2020-03-07 22:35:57.383][SACEPICN]: Slinding TIme Window Content is 22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+[2020-03-07 22:35:57.383][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:57.881][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:57.000/15/M/75)
+[2020-03-07 22:35:57.882][SACEPICN]: Found State Content
+[2020-03-07 22:35:57.882][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:57.882][SACEPICN]: date position is: 0
+[2020-03-07 22:35:57.882][SACEPICN]: new Tuple's date is 22:35:57.000
+[2020-03-07 22:35:57.883][SACEPICN]: Slinding TIme Window Content is 22:35:53.000/6/F/4
+22:35:53.000/7/F/4
+22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+[2020-03-07 22:35:57.883][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:58.382][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:58.000/16/M/66)
+[2020-03-07 22:35:58.383][SACEPICN]: Found State Content
+[2020-03-07 22:35:58.383][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:58.383][SACEPICN]: date position is: 0
+[2020-03-07 22:35:58.383][SACEPICN]: new Tuple's date is 22:35:58.000
+[2020-03-07 22:35:58.384][SACEPICN]: Slinding TIme Window Content is 22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+[2020-03-07 22:35:58.384][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:58.882][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:58.000/17/M/66)
+[2020-03-07 22:35:58.882][SACEPICN]: Found State Content
+[2020-03-07 22:35:58.883][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:58.883][SACEPICN]: date position is: 0
+[2020-03-07 22:35:58.883][SACEPICN]: new Tuple's date is 22:35:58.000
+[2020-03-07 22:35:58.883][SACEPICN]: Slinding TIme Window Content is 22:35:54.000/8/F/30
+22:35:54.000/9/F/30
+22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+[2020-03-07 22:35:58.883][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:59.382][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:59.000/18/F/15)
+[2020-03-07 22:35:59.383][SACEPICN]: Found State Content
+[2020-03-07 22:35:59.383][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:59.383][SACEPICN]: date position is: 0
+[2020-03-07 22:35:59.384][SACEPICN]: new Tuple's date is 22:35:59.000
+[2020-03-07 22:35:59.384][SACEPICN]: Slinding TIme Window Content is 22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+[2020-03-07 22:35:59.384][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:35:59.883][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:35:59.000/19/F/15)
+[2020-03-07 22:35:59.883][SACEPICN]: Found State Content
+[2020-03-07 22:35:59.883][SACEPICN]: delimiter is: /
+[2020-03-07 22:35:59.883][SACEPICN]: date position is: 0
+[2020-03-07 22:35:59.884][SACEPICN]: new Tuple's date is 22:35:59.000
+[2020-03-07 22:35:59.884][SACEPICN]: Slinding TIme Window Content is 22:35:55.000/10/M/92
+22:35:55.000/11/M/92
+22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+[2020-03-07 22:35:59.884][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:00.400][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:00.000/20/F/19)
+[2020-03-07 22:36:00.401][SACEPICN]: Found State Content
+[2020-03-07 22:36:00.401][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:00.401][SACEPICN]: date position is: 0
+[2020-03-07 22:36:00.402][SACEPICN]: new Tuple's date is 22:36:00.000
+[2020-03-07 22:36:00.402][SACEPICN]: Slinding TIme Window Content is 22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+[2020-03-07 22:36:00.402][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:00.884][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:00.000/21/F/19)
+[2020-03-07 22:36:00.884][SACEPICN]: Found State Content
+[2020-03-07 22:36:00.884][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:00.885][SACEPICN]: date position is: 0
+[2020-03-07 22:36:00.885][SACEPICN]: new Tuple's date is 22:36:00.000
+[2020-03-07 22:36:00.885][SACEPICN]: Slinding TIme Window Content is 22:35:56.000/12/M/51
+22:35:56.000/13/M/51
+22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+[2020-03-07 22:36:00.885][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:01.383][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:01.000/22/F/7)
+[2020-03-07 22:36:01.383][SACEPICN]: Found State Content
+[2020-03-07 22:36:01.384][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:01.384][SACEPICN]: date position is: 0
+[2020-03-07 22:36:01.384][SACEPICN]: new Tuple's date is 22:36:01.000
+[2020-03-07 22:36:01.385][SACEPICN]: Slinding TIme Window Content is 22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+[2020-03-07 22:36:01.385][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:01.883][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:01.000/23/F/7)
+[2020-03-07 22:36:01.883][SACEPICN]: Found State Content
+[2020-03-07 22:36:01.883][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:01.884][SACEPICN]: date position is: 0
+[2020-03-07 22:36:01.884][SACEPICN]: new Tuple's date is 22:36:01.000
+[2020-03-07 22:36:01.884][SACEPICN]: Slinding TIme Window Content is 22:35:57.000/14/M/75
+22:35:57.000/15/M/75
+22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+[2020-03-07 22:36:01.884][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:02.382][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:02.000/24/F/56)
+[2020-03-07 22:36:02.382][SACEPICN]: Found State Content
+[2020-03-07 22:36:02.382][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:02.383][SACEPICN]: date position is: 0
+[2020-03-07 22:36:02.383][SACEPICN]: new Tuple's date is 22:36:02.000
+[2020-03-07 22:36:02.383][SACEPICN]: Slinding TIme Window Content is 22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+[2020-03-07 22:36:02.383][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:02.882][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:02.000/25/F/56)
+[2020-03-07 22:36:02.883][SACEPICN]: Found State Content
+[2020-03-07 22:36:02.883][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:02.883][SACEPICN]: date position is: 0
+[2020-03-07 22:36:02.883][SACEPICN]: new Tuple's date is 22:36:02.000
+[2020-03-07 22:36:02.884][SACEPICN]: Slinding TIme Window Content is 22:35:58.000/16/M/66
+22:35:58.000/17/M/66
+22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+[2020-03-07 22:36:02.884][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:03.382][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:03.000/26/F/37)
+[2020-03-07 22:36:03.383][SACEPICN]: Found State Content
+[2020-03-07 22:36:03.383][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:03.383][SACEPICN]: date position is: 0
+[2020-03-07 22:36:03.383][SACEPICN]: new Tuple's date is 22:36:03.000
+[2020-03-07 22:36:03.384][SACEPICN]: Slinding TIme Window Content is 22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+[2020-03-07 22:36:03.384][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:03.883][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:03.000/27/F/37)
+[2020-03-07 22:36:03.884][SACEPICN]: Found State Content
+[2020-03-07 22:36:03.884][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:03.884][SACEPICN]: date position is: 0
+[2020-03-07 22:36:03.884][SACEPICN]: new Tuple's date is 22:36:03.000
+[2020-03-07 22:36:03.885][SACEPICN]: Slinding TIme Window Content is 22:35:59.000/18/F/15
+22:35:59.000/19/F/15
+22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+[2020-03-07 22:36:03.885][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:04.384][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:04.000/28/F/71)
+[2020-03-07 22:36:04.385][SACEPICN]: Found State Content
+[2020-03-07 22:36:04.386][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:04.386][SACEPICN]: date position is: 0
+[2020-03-07 22:36:04.386][SACEPICN]: new Tuple's date is 22:36:04.000
+[2020-03-07 22:36:04.386][SACEPICN]: Slinding TIme Window Content is 22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+[2020-03-07 22:36:04.387][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:04.883][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:04.000/29/F/71)
+[2020-03-07 22:36:04.883][SACEPICN]: Found State Content
+[2020-03-07 22:36:04.884][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:04.884][SACEPICN]: date position is: 0
+[2020-03-07 22:36:04.884][SACEPICN]: new Tuple's date is 22:36:04.000
+[2020-03-07 22:36:04.884][SACEPICN]: Slinding TIme Window Content is 22:36:00.000/20/F/19
+22:36:00.000/21/F/19
+22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+[2020-03-07 22:36:04.884][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:05.406][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:05.000/30/M/56)
+[2020-03-07 22:36:05.407][SACEPICN]: Found State Content
+[2020-03-07 22:36:05.407][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:05.408][SACEPICN]: date position is: 0
+[2020-03-07 22:36:05.408][SACEPICN]: new Tuple's date is 22:36:05.000
+[2020-03-07 22:36:05.408][SACEPICN]: Slinding TIme Window Content is 22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+[2020-03-07 22:36:05.408][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:05.883][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:05.000/31/M/56)
+[2020-03-07 22:36:05.883][SACEPICN]: Found State Content
+[2020-03-07 22:36:05.883][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:05.884][SACEPICN]: date position is: 0
+[2020-03-07 22:36:05.884][SACEPICN]: new Tuple's date is 22:36:05.000
+[2020-03-07 22:36:05.884][SACEPICN]: Slinding TIme Window Content is 22:36:01.000/22/F/7
+22:36:01.000/23/F/7
+22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+22:36:05.000/31/M/56
+[2020-03-07 22:36:05.885][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:06.384][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:06.000/32/F/53)
+[2020-03-07 22:36:06.385][SACEPICN]: Found State Content
+[2020-03-07 22:36:06.385][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:06.385][SACEPICN]: date position is: 0
+[2020-03-07 22:36:06.385][SACEPICN]: new Tuple's date is 22:36:06.000
+[2020-03-07 22:36:06.386][SACEPICN]: Slinding TIme Window Content is 22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+22:36:05.000/31/M/56
+22:36:06.000/32/F/53
+[2020-03-07 22:36:06.386][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:06.885][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:06.000/33/F/53)
+[2020-03-07 22:36:06.885][SACEPICN]: Found State Content
+[2020-03-07 22:36:06.886][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:06.886][SACEPICN]: date position is: 0
+[2020-03-07 22:36:06.886][SACEPICN]: new Tuple's date is 22:36:06.000
+[2020-03-07 22:36:06.886][SACEPICN]: Slinding TIme Window Content is 22:36:02.000/24/F/56
+22:36:02.000/25/F/56
+22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+22:36:05.000/31/M/56
+22:36:06.000/32/F/53
+22:36:06.000/33/F/53
+[2020-03-07 22:36:06.887][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:07.384][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:07.000/34/F/5)
+[2020-03-07 22:36:07.384][SACEPICN]: Found State Content
+[2020-03-07 22:36:07.385][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:07.385][SACEPICN]: date position is: 0
+[2020-03-07 22:36:07.385][SACEPICN]: new Tuple's date is 22:36:07.000
+[2020-03-07 22:36:07.385][SACEPICN]: Slinding TIme Window Content is 22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+22:36:05.000/31/M/56
+22:36:06.000/32/F/53
+22:36:06.000/33/F/53
+22:36:07.000/34/F/5
+[2020-03-07 22:36:07.386][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
+[2020-03-07 22:36:07.884][SACEPICN]: Started Sliding Time Window Computation, dataStream is NFNStringValue(22:36:07.000/35/F/5)
+[2020-03-07 22:36:07.884][SACEPICN]: Found State Content
+[2020-03-07 22:36:07.885][SACEPICN]: delimiter is: /
+[2020-03-07 22:36:07.885][SACEPICN]: date position is: 0
+[2020-03-07 22:36:07.885][SACEPICN]: new Tuple's date is 22:36:07.000
+[2020-03-07 22:36:07.885][SACEPICN]: Slinding TIme Window Content is 22:36:03.000/26/F/37
+22:36:03.000/27/F/37
+22:36:04.000/28/F/71
+22:36:04.000/29/F/71
+22:36:05.000/30/M/56
+22:36:05.000/31/M/56
+22:36:06.000/32/F/53
+22:36:06.000/33/F/53
+22:36:07.000/34/F/5
+22:36:07.000/35/F/5
+[2020-03-07 22:36:07.886][SACEPICN]: State for /state/call 6 /node/nodeB/nfn_service_Window '1583616837597' 'name' 'node/nodeA/sensor/victims/1' '4' 'S' saved to Network
