@@ -11,8 +11,7 @@ class AddSensor extends NFNService {
   override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
 
     def addSensor(filename: String, delimiter: String): String = {
-      SensorHelpers.addSensor(filename,delimiter)
-      //Start the script for continuously reading the sensor here
+      //SensorHelpers.addSensor(filename,delimiter)
       "Sensor added to node"
     }
 

@@ -1,0 +1,1371 @@
+[2019-02-12 14:30:42.406][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:30:42.409][SACEPICN]: Performing filter on named data
+[2019-02-12 14:30:42.409][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978238137' 'name' 'victims' '5' 'M')
+[2019-02-12 14:30:42.839][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:30:42.864][SACEPICN]: Past Time: 14:25:42.858
+[2019-02-12 14:30:42.865][SACEPICN]: Current Time: 14:30:42.858
+[2019-02-12 14:30:42.876][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:30:42.877][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143042, WINDOW content: No Results!
+[2019-02-12 14:30:42.877][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:30:43.163][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143042
+[2019-02-12 14:30:43.164][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143042
+[2019-02-12 14:30:43.165][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:30:43.165][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:30:43.170][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:30:43.170][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143043, FILTER content: No Results!
+[2019-02-12 14:30:43.171][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:30:53.249][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:30:53.250][SACEPICN]: Performing filter on named data
+[2019-02-12 14:30:53.251][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978252270' 'name' 'victims' '5' 'M')
+[2019-02-12 14:30:53.670][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:30:53.671][SACEPICN]: Past Time: 14:25:53.671
+[2019-02-12 14:30:53.671][SACEPICN]: Current Time: 14:30:53.671
+[2019-02-12 14:30:53.674][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:30:53.674][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143053, WINDOW content: No Results!
+[2019-02-12 14:30:53.675][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:30:53.945][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143053
+[2019-02-12 14:30:53.945][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143053
+[2019-02-12 14:30:53.946][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:30:53.947][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:30:53.948][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:30:53.948][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143053, FILTER content: No Results!
+[2019-02-12 14:30:53.949][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:32:21.171][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:32:21.171][SACEPICN]: Performing filter on named data
+[2019-02-12 14:32:21.172][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978332334' 'name' 'victims' '5' 'M')
+[2019-02-12 14:32:21.641][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:32:21.642][SACEPICN]: Past Time: 14:27:21.642
+[2019-02-12 14:32:21.643][SACEPICN]: Current Time: 14:32:21.642
+[2019-02-12 14:32:21.645][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:32:21.646][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143221, WINDOW content: No Results!
+[2019-02-12 14:32:21.646][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:32:21.931][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143221
+[2019-02-12 14:32:21.932][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143221
+[2019-02-12 14:32:21.933][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:32:21.933][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:32:21.934][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:32:21.935][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143221, FILTER content: No Results!
+[2019-02-12 14:32:21.935][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:32:53.352][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:32:53.353][SACEPICN]: Performing filter on named data
+[2019-02-12 14:32:53.353][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978372360' 'name' 'victims' '5' 'M')
+[2019-02-12 14:32:53.772][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:32:53.773][SACEPICN]: Past Time: 14:27:53.772
+[2019-02-12 14:32:53.773][SACEPICN]: Current Time: 14:32:53.772
+[2019-02-12 14:32:53.775][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:32:53.776][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143253, WINDOW content: No Results!
+[2019-02-12 14:32:53.777][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:32:54.062][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143253
+[2019-02-12 14:32:54.063][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143253
+[2019-02-12 14:32:54.064][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:32:54.064][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:32:54.065][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:32:54.066][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143254, FILTER content: No Results!
+[2019-02-12 14:32:54.066][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:34:59.637][SACEPICN]: Query Execution Started
+[2019-02-12 14:34:59.641][SACEPICN]: Query appended to Query Store - Source Source
+[2019-02-12 14:34:59.643][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:34:59.646][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:34:59.646][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:35:00.322][SACEPICN]: node: /9001/1434, intermediateResult: 9001|victims|9002=.2105|99
+[2019-02-12 14:35:00.324][SACEPICN]: Node Added: 9001
+[2019-02-12 14:35:00.990][SACEPICN]: node: /9002/1434, intermediateResult: 9002|victims|9003=.2241,9001=.1527,9005=.128,9004=.280|99
+[2019-02-12 14:35:00.991][SACEPICN]: Node Added: 9002
+[2019-02-12 14:35:01.660][SACEPICN]: node: /9003/1434, intermediateResult: 9003|victims|9002=.1905,9007=.1391|99
+[2019-02-12 14:35:01.660][SACEPICN]: Node Added: 9003
+[2019-02-12 14:35:02.347][SACEPICN]: node: /9004/1434, intermediateResult: 9004|victims|9002=.139|99
+[2019-02-12 14:35:02.347][SACEPICN]: Node Added: 9004
+[2019-02-12 14:35:03.030][SACEPICN]: node: /9005/1434, intermediateResult: 9005|victims|9002=.0929,9006=.150|99
+[2019-02-12 14:35:03.030][SACEPICN]: Node Added: 9005
+[2019-02-12 14:35:04.191][SACEPICN]: node: /9006/1434, intermediateResult: 9006|victims|9005=.1863|99
+[2019-02-12 14:35:04.192][SACEPICN]: Node Added: 9006
+[2019-02-12 14:35:04.192][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:35:04.562][SACEPICN]: Query Result from network node: 9007|victims|9003=.1328|99
+[2019-02-12 14:35:04.562][SACEPICN]: node: /9007/1434, intermediateResult: 9007|victims|9003=.1328|99
+[2019-02-12 14:35:04.563][SACEPICN]: Node Added: 9007
+[2019-02-12 14:35:04.563][SACEPICN]: Get Node Status Completed
+[2019-02-12 14:35:04.564][SACEPICN]: Building Paths Started
+[2019-02-12 14:35:04.566][SACEPICN]: add new Node in traversal List -> 9003
+[2019-02-12 14:35:04.567][SACEPICN]: getTraversalNodes -> on Root
+[2019-02-12 14:35:04.567][SACEPICN]: oneStepTraverse ROOT added -> NULL -> 9007
+[2019-02-12 14:35:04.568][SACEPICN]: oneStepTraverse -> on Root
+[2019-02-12 14:35:04.571][SACEPICN]: oneStepTraverse -> 9003 - 0.1328
+[2019-02-12 14:35:04.572][SACEPICN]: oneStepTraverse hop added -> 9007 -> 9003
+[2019-02-12 14:35:04.572][SACEPICN]: While -> Next -> 9003
+[2019-02-12 14:35:04.573][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.573][SACEPICN]: oneStepTraverse -> 9002 - 0.1905
+[2019-02-12 14:35:04.574][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9002
+[2019-02-12 14:35:04.574][SACEPICN]: oneStepTraverse -> 9007 - 0.1391
+[2019-02-12 14:35:04.575][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9007
+[2019-02-12 14:35:04.576][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.576][SACEPICN]: add new Node in traversal List -> 9002
+[2019-02-12 14:35:04.576][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.577][SACEPICN]: While -> Next -> 9002
+[2019-02-12 14:35:04.577][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.578][SACEPICN]: oneStepTraverse -> 9003 - 0.2241
+[2019-02-12 14:35:04.578][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9003
+[2019-02-12 14:35:04.578][SACEPICN]: oneStepTraverse -> 9001 - 0.1527
+[2019-02-12 14:35:04.579][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9001
+[2019-02-12 14:35:04.579][SACEPICN]: oneStepTraverse -> 9005 - 0.128
+[2019-02-12 14:35:04.580][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9005
+[2019-02-12 14:35:04.580][SACEPICN]: oneStepTraverse -> 9004 - 0.28
+[2019-02-12 14:35:04.580][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9004
+[2019-02-12 14:35:04.581][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.581][SACEPICN]: add new Node in traversal List -> 9001
+[2019-02-12 14:35:04.582][SACEPICN]: add new Node in traversal List -> 9005
+[2019-02-12 14:35:04.582][SACEPICN]: add new Node in traversal List -> 9004
+[2019-02-12 14:35:04.582][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.583][SACEPICN]: While -> Next -> 9001
+[2019-02-12 14:35:04.583][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.584][SACEPICN]: oneStepTraverse -> 9002 - 0.2105
+[2019-02-12 14:35:04.584][SACEPICN]: oneStepTraverse hop added -> 9001 -> 9002
+[2019-02-12 14:35:04.584][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.585][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.585][SACEPICN]: While -> Next -> 9005
+[2019-02-12 14:35:04.585][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.586][SACEPICN]: oneStepTraverse -> 9002 - 0.0929
+[2019-02-12 14:35:04.586][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9002
+[2019-02-12 14:35:04.586][SACEPICN]: oneStepTraverse -> 9006 - 0.15
+[2019-02-12 14:35:04.587][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9006
+[2019-02-12 14:35:04.587][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.588][SACEPICN]: add new Node in traversal List -> 9006
+[2019-02-12 14:35:04.588][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.588][SACEPICN]: While -> Next -> 9004
+[2019-02-12 14:35:04.589][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.589][SACEPICN]: oneStepTraverse -> 9002 - 0.139
+[2019-02-12 14:35:04.589][SACEPICN]: oneStepTraverse hop added -> 9004 -> 9002
+[2019-02-12 14:35:04.590][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.590][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.591][SACEPICN]: While -> Next -> 9006
+[2019-02-12 14:35:04.591][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:35:04.591][SACEPICN]: oneStepTraverse -> 9005 - 0.1863
+[2019-02-12 14:35:04.591][SACEPICN]: oneStepTraverse hop added -> 9006 -> 9005
+[2019-02-12 14:35:04.592][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:35:04.592][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:35:04.596][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:35:04.597][SACEPICN]: Path: NULL --(0.0)--> 9007 
+
+[2019-02-12 14:35:04.597][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:35:04.597][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.598][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.599][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=0.0 
+[2019-02-12 14:35:04.599][SACEPICN]: This is the first hop for adaptive weight application
+[2019-02-12 14:35:04.599][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 49.57)--> 9003 
+
+[2019-02-12 14:35:04.600][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:35:04.600][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.601][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.601][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:35:04.601][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.602][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.602][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.603][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:35:04.603][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.603][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 59.45)--> 9003  --(BDP: 49.6)--> 9002 
+
+[2019-02-12 14:35:04.604][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:35:04.604][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9007
+[2019-02-12 14:35:04.604][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.605][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.605][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2019-02-12 14:35:04.605][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.606][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 59.45)--> 9003 
+
+[2019-02-12 14:35:04.606][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:35:04.606][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2019-02-12 14:35:04.607][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.607][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.607][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2019-02-12 14:35:04.608][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.608][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.608][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.609][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2019-02-12 14:35:04.609][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.609][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 69.34)--> 9003  --(BDP: 59.48)--> 9002 
+
+[2019-02-12 14:35:04.610][SACEPICN]: checkPath - Current => 9001
+[2019-02-12 14:35:04.610][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:35:04.610][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.611][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.611][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.612][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.612][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.612][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.612][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.613][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.613][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.614][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2019-02-12 14:35:04.614][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.615][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 69.34)--> 9003  --(BDP: 59.48)--> 9002  --(BDP: 69.35)--> 9001 
+
+[2019-02-12 14:35:04.615][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:35:04.615][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:35:04.616][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.616][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.616][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.617][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.617][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.617][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.618][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.618][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.618][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.619][SACEPICN]: Previous Weight values were: Energy=0.4 and BDP=0.6 
+[2019-02-12 14:35:04.619][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.620][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 69.34)--> 9003  --(BDP: 59.48)--> 9002  --(BDP: 69.34)--> 9005 
+
+[2019-02-12 14:35:04.620][SACEPICN]: checkPath - Current => 9004
+[2019-02-12 14:35:04.620][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:35:04.621][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.621][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.621][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.622][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.622][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.623][SACEPICN]: Previous Weight values were: Energy=0.3 and BDP=0.7 
+[2019-02-12 14:35:04.624][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.624][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.625][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.626][SACEPICN]: Previous Weight values were: Energy=0.2 and BDP=0.8 
+[2019-02-12 14:35:04.626][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.626][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 89.11)--> 9003  --(BDP: 79.24)--> 9002  --(BDP: 69.38)--> 9004 
+
+[2019-02-12 14:35:04.627][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:35:04.627][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2019-02-12 14:35:04.628][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:35:04.628][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.628][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.629][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.629][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.629][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.630][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.630][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.630][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.631][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.631][SACEPICN]: Previous Weight values were: Energy=0.2 and BDP=0.8 
+[2019-02-12 14:35:04.632][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.632][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 89.11)--> 9003  --(BDP: 79.24)--> 9002  --(BDP: 89.12)--> 9001 
+
+[2019-02-12 14:35:04.633][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:35:04.633][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9002
+[2019-02-12 14:35:04.633][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:35:04.634][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.634][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.635][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.635][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.636][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.636][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.636][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.637][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.637][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.637][SACEPICN]: Previous Weight values were: Energy=0.2 and BDP=0.8 
+[2019-02-12 14:35:04.638][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.638][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 89.11)--> 9003  --(BDP: 79.24)--> 9002  --(BDP: 89.11)--> 9005 
+
+[2019-02-12 14:35:04.639][SACEPICN]: checkPath - Current => 9006
+[2019-02-12 14:35:04.639][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:35:04.639][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.640][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.640][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.641][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:35:04.641][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.641][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.642][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.642][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.642][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.643][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.643][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.643][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.644][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.644][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.644][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.645][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 99.0)--> 9003  --(BDP: 89.12)--> 9002  --(BDP: 99.0)--> 9005  --(BDP: 89.12)--> 9006 
+
+[2019-02-12 14:35:04.645][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:35:04.646][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9004 -> 9002
+[2019-02-12 14:35:04.646][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:35:04.647][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.647][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.647][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.648][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.648][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.648][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.649][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.649][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.649][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.649][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.650][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.650][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 99.0)--> 9003  --(BDP: 99.0)--> 9002  --(BDP: 99.0)--> 9004 
+
+[2019-02-12 14:35:04.655][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:35:04.655][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9006 -> 9005
+[2019-02-12 14:35:04.656][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:35:04.656][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.656][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.657][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.657][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:35:04.657][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.658][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.658][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.658][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:35:04.659][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.659][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=1.0 
+[2019-02-12 14:35:04.659][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.660][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:35:04.660][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:35:04.660][SACEPICN]: Previous Weight values were: Energy=0.1 and BDP=0.9 
+[2019-02-12 14:35:04.661][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:35:04.661][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 99.0)--> 9003  --(BDP: 89.12)--> 9002  --(BDP: 99.0)--> 9005  --(BDP: 99.0)--> 9006 
+
+[2019-02-12 14:35:04.662][SACEPICN]: Path Finished!
+[2019-02-12 14:35:04.662][SACEPICN]: Building Paths Completed
+[2019-02-12 14:35:04.662][SACEPICN]: Checking paths:
+[2019-02-12 14:35:04.664][SACEPICN]: 9007 - BDP: 0.0 - Hops: 1
+[2019-02-12 14:35:04.665][SACEPICN]: 9007 9003 - BDP: 49.57 - Hops: 2
+[2019-02-12 14:35:04.665][SACEPICN]: 9007 9003 9002 - BDP: 109.05000000000001 - Hops: 3
+[2019-02-12 14:35:04.665][SACEPICN]: 9007 9003 - BDP: 59.45 - Hops: 2
+[2019-02-12 14:35:04.666][SACEPICN]: 9007 9003 9002 - BDP: 128.82 - Hops: 3
+[2019-02-12 14:35:04.666][SACEPICN]: 9007 9003 9002 9001 - BDP: 198.17 - Hops: 4
+[2019-02-12 14:35:04.666][SACEPICN]: 9007 9003 9002 9005 - BDP: 198.16 - Hops: 4
+[2019-02-12 14:35:04.667][SACEPICN]: 9007 9003 9002 9004 - BDP: 237.73000000000002 - Hops: 4
+[2019-02-12 14:35:04.667][SACEPICN]: 9007 9003 9002 9001 - BDP: 257.47 - Hops: 4
+[2019-02-12 14:35:04.667][SACEPICN]: 9007 9003 9002 9005 - BDP: 257.46 - Hops: 4
+[2019-02-12 14:35:04.668][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 376.24 - Hops: 5
+[2019-02-12 14:35:04.668][SACEPICN]: 9007 9003 9002 9004 - BDP: 297.0 - Hops: 4
+[2019-02-12 14:35:04.669][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 386.12 - Hops: 5
+[2019-02-12 14:35:04.680][SACEPICN]: Checking optimal path energy weights:
+[2019-02-12 14:35:04.681][SACEPICN]: (9003,0.6)
+[2019-02-12 14:35:04.681][SACEPICN]: (9002,0.5)
+[2019-02-12 14:35:04.682][SACEPICN]: Checking optimal path BDP weights:
+[2019-02-12 14:35:04.682][SACEPICN]: (9003,0.4)
+[2019-02-12 14:35:04.683][SACEPICN]: (9002,0.5)
+[2019-02-12 14:35:04.683][SACEPICN]: Operator Placement Started
+[2019-02-12 14:35:04.683][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:35:04.684][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:35:04.684][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978499643' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978499643} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:35:04.685][SACEPICN]: Current Optimal Path 9007 9003 9002
+[2019-02-12 14:35:04.686][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:35:04.686][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:35:04.687][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:35:04.687][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978499643' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978499643} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:35:04.688][SACEPICN]: Current Optimal Path 9007 9003
+[2019-02-12 14:35:04.688][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:35:04.688][SACEPICN]: CurrentNode: JOIN - Processing Placement
+[2019-02-12 14:35:04.689][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978499643' 'name' '[Q1]' '[Q2]')
+[2019-02-12 14:35:04.689][SACEPICN]: Current Optimal Path 9007
+[2019-02-12 14:35:04.689][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:35:04.690][SACEPICN]: Operator Placement Completed
+[2019-02-12 14:35:04.690][SACEPICN]: Query Deployement Started
+[2019-02-12 14:35:04.690][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:35:04.691][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:35:04.691][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978499643' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978499643} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:35:06.704][SACEPICN]: Deployment result: /9002/Filter/onOperator/14356
+
+[2019-02-12 14:35:06.705][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:35:06.705][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:35:06.705][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:35:06.706][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978499643' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978499643} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:35:08.851][SACEPICN]: Deployment result: /9003/Filter/onOperator/14358
+
+[2019-02-12 14:35:08.851][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:35:08.852][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-12 14:35:08.852][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978499643' 'name' '/9003/Filter/onOperator/14358' '/9002/Filter/onOperator/14356')
+[2019-02-12 14:35:08.852][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:35:09.284][SACEPICN]: 
+Join OP Started
+[2019-02-12 14:35:09.284][SACEPICN]: Inside Join - Finding Left Node from content name: /9003
+[2019-02-12 14:35:10.321][SACEPICN]: Inside Join - Finding Right Node from content name: /9002
+[2019-02-12 14:35:11.630][SACEPICN]: JOIN OUTPUT: No Results!
+No Results!
+[2019-02-12 14:35:11.630][SACEPICN]: Join OP Completed
+
+[2019-02-12 14:35:11.915][SACEPICN]: Query Result from network node: No Results!
+No Results!
+[2019-02-12 14:35:11.915][SACEPICN]: Deployment result: No Results!
+No Results!
+
+[2019-02-12 14:35:11.915][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:35:11.916][SACEPICN]: Query Deployement Completed
+[2019-02-12 14:35:11.916][SACEPICN]: Query Execution Completed
+[2019-02-12 14:35:14.811][SACEPICN]: Query Execution Started
+[2019-02-12 14:35:14.811][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:35:14.812][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:35:14.812][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:35:14.812][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:35:15.655][SACEPICN]: node: /9001/1435, intermediateResult: 9001|victims|9002=.196|99
+[2019-02-12 14:35:15.655][SACEPICN]: Node Added: 9001
+[2019-02-12 14:35:16.329][SACEPICN]: node: /9002/1435, intermediateResult: 9002|victims|9003=.1569,9001=.217,9005=.1034,9004=.292|99
+[2019-02-12 14:35:16.329][SACEPICN]: Node Added: 9002
+[2019-02-12 14:35:17.070][SACEPICN]: node: /9003/1435, intermediateResult: 9003|victims|9002=.1160,9007=.119|98
+[2019-02-12 14:35:17.070][SACEPICN]: Node Added: 9003
+[2019-02-12 14:35:17.745][SACEPICN]: node: /9004/1435, intermediateResult: 9004|victims|9002=.280|99
+[2019-02-12 14:35:17.745][SACEPICN]: Node Added: 9004
+[2019-02-12 14:35:18.417][SACEPICN]: node: /9005/1435, intermediateResult: 9005|victims|9002=.1485,9006=.1874|99
+[2019-02-12 14:35:18.418][SACEPICN]: Node Added: 9005
+[2019-02-12 14:35:36.218][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:35:36.219][SACEPICN]: Performing filter on named data
+[2019-02-12 14:35:36.219][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978532491' 'name' 'victims' '5' 'M')
+[2019-02-12 14:35:36.645][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:35:36.646][SACEPICN]: Past Time: 14:30:36.645
+[2019-02-12 14:35:36.646][SACEPICN]: Current Time: 14:35:36.645
+[2019-02-12 14:35:36.650][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:35:36.651][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143536, WINDOW content: No Results!
+[2019-02-12 14:35:36.651][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:35:36.966][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143536
+[2019-02-12 14:35:36.966][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143536
+[2019-02-12 14:35:36.967][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:35:36.968][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:35:36.969][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:35:36.970][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143536, FILTER content: No Results!
+[2019-02-12 14:35:36.971][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:35:54.877][SACEPICN]: Query Execution Started
+[2019-02-12 14:35:54.878][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:35:54.878][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:35:54.878][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:35:54.879][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:35:54.881][SACEPICN]: node: /9001/1435, intermediateResult: 9001|victims|9002=.196|99
+[2019-02-12 14:35:54.881][SACEPICN]: Node Added: 9001
+[2019-02-12 14:35:54.883][SACEPICN]: node: /9002/1435, intermediateResult: 9002|victims|9003=.1569,9001=.217,9005=.1034,9004=.292|99
+[2019-02-12 14:35:54.883][SACEPICN]: Node Added: 9002
+[2019-02-12 14:35:54.885][SACEPICN]: node: /9003/1435, intermediateResult: 9003|victims|9002=.1160,9007=.119|98
+[2019-02-12 14:35:54.885][SACEPICN]: Node Added: 9003
+[2019-02-12 14:35:54.886][SACEPICN]: node: /9004/1435, intermediateResult: 9004|victims|9002=.280|99
+[2019-02-12 14:35:54.887][SACEPICN]: Node Added: 9004
+[2019-02-12 14:35:54.888][SACEPICN]: node: /9005/1435, intermediateResult: 9005|victims|9002=.1485,9006=.1874|99
+[2019-02-12 14:35:54.888][SACEPICN]: Node Added: 9005
+[2019-02-12 14:36:21.614][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:36:21.615][SACEPICN]: Performing filter on named data
+[2019-02-12 14:36:21.615][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978572531' 'name' 'victims' '5' 'M')
+[2019-02-12 14:36:22.067][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:36:22.067][SACEPICN]: Past Time: 14:31:22.067
+[2019-02-12 14:36:22.068][SACEPICN]: Current Time: 14:36:22.067
+[2019-02-12 14:36:22.070][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:36:22.070][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143622, WINDOW content: No Results!
+[2019-02-12 14:36:22.071][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:36:22.364][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143622
+[2019-02-12 14:36:22.364][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143622
+[2019-02-12 14:36:22.365][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:36:22.365][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:36:22.366][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:36:22.366][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143622, FILTER content: No Results!
+[2019-02-12 14:36:22.366][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:36:34.926][SACEPICN]: Query Execution Started
+[2019-02-12 14:36:34.927][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:36:34.927][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:36:34.928][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:36:34.928][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:36:35.717][SACEPICN]: node: /9001/1436, intermediateResult: 9001|victims|9002=.1800|98
+[2019-02-12 14:36:35.718][SACEPICN]: Node Added: 9001
+[2019-02-12 14:36:36.818][SACEPICN]: node: /9002/1436, intermediateResult: 9002|victims|9003=.166,9001=.2367,9005=.0939,9004=.159|98
+[2019-02-12 14:36:36.819][SACEPICN]: Node Added: 9002
+[2019-02-12 14:36:37.891][SACEPICN]: node: /9003/1436, intermediateResult: 9003|victims|9002=.1254,9007=.1076|98
+[2019-02-12 14:36:37.891][SACEPICN]: Node Added: 9003
+[2019-02-12 14:36:39.095][SACEPICN]: node: /9004/1436, intermediateResult: 9004|victims|9002=.2336|98
+[2019-02-12 14:36:39.096][SACEPICN]: Node Added: 9004
+[2019-02-12 14:36:39.784][SACEPICN]: node: /9005/1436, intermediateResult: 9005|victims|9002=.138,9006=.1611|98
+[2019-02-12 14:36:39.784][SACEPICN]: Node Added: 9005
+[2019-02-12 14:36:40.487][SACEPICN]: node: /9006/1436, intermediateResult: 9006|victims|9005=.156|98
+[2019-02-12 14:36:40.487][SACEPICN]: Node Added: 9006
+[2019-02-12 14:36:40.488][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:36:40.893][SACEPICN]: Query Result from network node: 9007|victims|9003=.1307|98
+[2019-02-12 14:36:40.893][SACEPICN]: node: /9007/1436, intermediateResult: 9007|victims|9003=.1307|98
+[2019-02-12 14:36:40.894][SACEPICN]: Node Added: 9007
+[2019-02-12 14:36:40.894][SACEPICN]: Get Node Status Completed
+[2019-02-12 14:36:40.894][SACEPICN]: Building Paths Started
+[2019-02-12 14:36:40.895][SACEPICN]: add new Node in traversal List -> 9003
+[2019-02-12 14:36:40.895][SACEPICN]: getTraversalNodes -> on Root
+[2019-02-12 14:36:40.895][SACEPICN]: oneStepTraverse ROOT added -> NULL -> 9007
+[2019-02-12 14:36:40.896][SACEPICN]: oneStepTraverse -> on Root
+[2019-02-12 14:36:40.896][SACEPICN]: oneStepTraverse -> 9003 - 0.1307
+[2019-02-12 14:36:40.896][SACEPICN]: oneStepTraverse hop added -> 9007 -> 9003
+[2019-02-12 14:36:40.897][SACEPICN]: While -> Next -> 9003
+[2019-02-12 14:36:40.897][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.898][SACEPICN]: oneStepTraverse -> 9002 - 0.1254
+[2019-02-12 14:36:40.898][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9002
+[2019-02-12 14:36:40.898][SACEPICN]: oneStepTraverse -> 9007 - 0.1076
+[2019-02-12 14:36:40.898][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9007
+[2019-02-12 14:36:40.899][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.899][SACEPICN]: add new Node in traversal List -> 9002
+[2019-02-12 14:36:40.899][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.900][SACEPICN]: While -> Next -> 9002
+[2019-02-12 14:36:40.900][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.900][SACEPICN]: oneStepTraverse -> 9003 - 0.166
+[2019-02-12 14:36:40.900][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9003
+[2019-02-12 14:36:40.901][SACEPICN]: oneStepTraverse -> 9001 - 0.2367
+[2019-02-12 14:36:40.901][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9001
+[2019-02-12 14:36:40.901][SACEPICN]: oneStepTraverse -> 9005 - 0.0939
+[2019-02-12 14:36:40.902][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9005
+[2019-02-12 14:36:40.902][SACEPICN]: oneStepTraverse -> 9004 - 0.159
+[2019-02-12 14:36:40.902][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9004
+[2019-02-12 14:36:40.903][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.903][SACEPICN]: add new Node in traversal List -> 9001
+[2019-02-12 14:36:40.903][SACEPICN]: add new Node in traversal List -> 9005
+[2019-02-12 14:36:40.904][SACEPICN]: add new Node in traversal List -> 9004
+[2019-02-12 14:36:40.904][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.904][SACEPICN]: While -> Next -> 9001
+[2019-02-12 14:36:40.905][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.905][SACEPICN]: oneStepTraverse -> 9002 - 0.18
+[2019-02-12 14:36:40.905][SACEPICN]: oneStepTraverse hop added -> 9001 -> 9002
+[2019-02-12 14:36:40.906][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.906][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.906][SACEPICN]: While -> Next -> 9005
+[2019-02-12 14:36:40.906][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.907][SACEPICN]: oneStepTraverse -> 9002 - 0.138
+[2019-02-12 14:36:40.907][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9002
+[2019-02-12 14:36:40.907][SACEPICN]: oneStepTraverse -> 9006 - 0.1611
+[2019-02-12 14:36:40.908][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9006
+[2019-02-12 14:36:40.908][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.908][SACEPICN]: add new Node in traversal List -> 9006
+[2019-02-12 14:36:40.909][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.909][SACEPICN]: While -> Next -> 9004
+[2019-02-12 14:36:40.909][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.909][SACEPICN]: oneStepTraverse -> 9002 - 0.2336
+[2019-02-12 14:36:40.910][SACEPICN]: oneStepTraverse hop added -> 9004 -> 9002
+[2019-02-12 14:36:40.910][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.910][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.911][SACEPICN]: While -> Next -> 9006
+[2019-02-12 14:36:40.911][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:36:40.911][SACEPICN]: oneStepTraverse -> 9005 - 0.156
+[2019-02-12 14:36:40.912][SACEPICN]: oneStepTraverse hop added -> 9006 -> 9005
+[2019-02-12 14:36:40.912][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:36:40.912][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:36:40.913][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:36:40.914][SACEPICN]: Path: NULL --(0.0)--> 9007 
+
+[2019-02-12 14:36:40.914][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:36:40.914][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.915][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.915][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=0.0 
+[2019-02-12 14:36:40.915][SACEPICN]: This is the first hop for adaptive weight application
+[2019-02-12 14:36:40.915][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 49.07)--> 9003 
+
+[2019-02-12 14:36:40.916][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:36:40.916][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.916][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.917][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:36:40.917][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.917][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.917][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.918][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:36:40.918][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.918][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 39.28)--> 9003  --(BDP: 49.06)--> 9002 
+
+[2019-02-12 14:36:40.919][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:36:40.919][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9007
+[2019-02-12 14:36:40.919][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.919][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.920][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:36:40.920][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.920][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 39.28)--> 9003 
+
+[2019-02-12 14:36:40.921][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:36:40.921][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2019-02-12 14:36:40.921][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.921][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.922][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:36:40.922][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.922][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.923][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.923][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:36:40.923][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.923][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 29.49)--> 9003  --(BDP: 39.28)--> 9002 
+
+[2019-02-12 14:36:40.924][SACEPICN]: checkPath - Current => 9001
+[2019-02-12 14:36:40.924][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:36:40.924][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.924][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:36:40.925][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.925][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.925][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.926][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:36:40.926][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.926][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.927][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.927][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:36:40.927][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.928][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 29.49)--> 9003  --(BDP: 39.28)--> 9002  --(BDP: 29.57)--> 9001 
+
+[2019-02-12 14:36:40.928][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:36:40.928][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:36:40.928][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.929][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:36:40.929][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.929][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.929][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.930][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:36:40.930][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.930][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.931][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.931][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:36:40.931][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.931][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.92)--> 9003  --(BDP: 19.7)--> 9002  --(BDP: 29.47)--> 9005 
+
+[2019-02-12 14:36:40.932][SACEPICN]: checkPath - Current => 9004
+[2019-02-12 14:36:40.932][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:36:40.932][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.932][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.933][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.933][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.933][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.934][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.934][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.934][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.935][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.935][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:36:40.935][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.936][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.92)--> 9003  --(BDP: 19.7)--> 9002  --(BDP: 9.94)--> 9004 
+
+[2019-02-12 14:36:40.936][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:36:40.936][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2019-02-12 14:36:40.937][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:36:40.937][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.937][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.937][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.938][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.938][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.938][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.939][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.939][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.939][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.939][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:36:40.940][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.941][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.92)--> 9003  --(BDP: 19.7)--> 9002  --(BDP: 10.01)--> 9001 
+
+[2019-02-12 14:36:40.941][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:36:40.941][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9002
+[2019-02-12 14:36:40.942][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:36:40.942][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.942][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.942][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.943][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.943][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.943][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.943][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.944][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.944][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.944][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.944][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.945][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.13)--> 9003  --(BDP: 0.13)--> 9002  --(BDP: 9.88)--> 9005 
+
+[2019-02-12 14:36:40.945][SACEPICN]: checkPath - Current => 9006
+[2019-02-12 14:36:40.945][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:36:40.945][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.946][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.946][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.946][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:36:40.947][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.947][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.947][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.947][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.948][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.948][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.948][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.949][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.949][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.949][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.950][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.950][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.13)--> 9003  --(BDP: 0.13)--> 9002  --(BDP: 9.88)--> 9005  --(BDP: 0.16)--> 9006 
+
+[2019-02-12 14:36:40.950][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:36:40.950][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9004 -> 9002
+[2019-02-12 14:36:40.951][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:36:40.951][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.951][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.951][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.952][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.952][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.952][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.952][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.953][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.953][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.953][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.954][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.954][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.13)--> 9003  --(BDP: 9.91)--> 9002  --(BDP: 0.16)--> 9004 
+
+[2019-02-12 14:36:40.954][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:36:40.954][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9006 -> 9005
+[2019-02-12 14:36:40.955][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:36:40.955][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.955][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.955][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.956][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:36:40.956][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.956][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.956][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.957][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:36:40.957][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.957][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:36:40.957][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.958][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:36:40.958][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:36:40.958][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:36:40.959][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:36:40.959][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.13)--> 9003  --(BDP: 0.13)--> 9002  --(BDP: 9.88)--> 9005  --(BDP: 0.16)--> 9006 
+
+[2019-02-12 14:36:40.959][SACEPICN]: Path Finished!
+[2019-02-12 14:36:40.960][SACEPICN]: Building Paths Completed
+[2019-02-12 14:36:40.960][SACEPICN]: Checking paths:
+[2019-02-12 14:36:40.960][SACEPICN]: 9007 - BDP: 0.0 - Hops: 1
+[2019-02-12 14:36:40.961][SACEPICN]: 9007 9003 - BDP: 49.07 - Hops: 2
+[2019-02-12 14:36:40.961][SACEPICN]: 9007 9003 9002 - BDP: 88.34 - Hops: 3
+[2019-02-12 14:36:40.962][SACEPICN]: 9007 9003 - BDP: 39.28 - Hops: 2
+[2019-02-12 14:36:40.962][SACEPICN]: 9007 9003 9002 - BDP: 68.77 - Hops: 3
+[2019-02-12 14:36:40.962][SACEPICN]: 9007 9003 9002 9001 - BDP: 98.33999999999999 - Hops: 4
+[2019-02-12 14:36:40.963][SACEPICN]: 9007 9003 9002 9005 - BDP: 59.09 - Hops: 4
+[2019-02-12 14:36:40.963][SACEPICN]: 9007 9003 9002 9004 - BDP: 39.56 - Hops: 4
+[2019-02-12 14:36:40.963][SACEPICN]: 9007 9003 9002 9001 - BDP: 39.63 - Hops: 4
+[2019-02-12 14:36:40.963][SACEPICN]: 9007 9003 9002 9005 - BDP: 10.140000000000002 - Hops: 4
+[2019-02-12 14:36:40.964][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 10.300000000000002 - Hops: 5
+[2019-02-12 14:36:40.964][SACEPICN]: 9007 9003 9002 9004 - BDP: 10.200000000000001 - Hops: 4
+[2019-02-12 14:36:40.964][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 10.300000000000002 - Hops: 5
+[2019-02-12 14:36:40.965][SACEPICN]: Checking optimal path energy weights:
+[2019-02-12 14:36:40.965][SACEPICN]: (9003,0.3)
+[2019-02-12 14:36:40.965][SACEPICN]: (9002,0.4)
+[2019-02-12 14:36:40.966][SACEPICN]: Checking optimal path BDP weights:
+[2019-02-12 14:36:40.966][SACEPICN]: (9003,0.7)
+[2019-02-12 14:36:40.966][SACEPICN]: (9002,0.6)
+[2019-02-12 14:36:40.967][SACEPICN]: Operator Placement Started
+[2019-02-12 14:36:40.967][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:36:40.967][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:36:40.967][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978594927' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978594927} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:36:40.968][SACEPICN]: Current Optimal Path 9007 9003 9002
+[2019-02-12 14:36:40.968][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:36:40.968][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:36:40.969][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:36:40.969][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978594927' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978594927} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:36:40.969][SACEPICN]: Current Optimal Path 9007 9003
+[2019-02-12 14:36:40.969][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:36:40.970][SACEPICN]: CurrentNode: JOIN - Processing Placement
+[2019-02-12 14:36:40.970][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978594927' 'name' '[Q1]' '[Q2]')
+[2019-02-12 14:36:40.970][SACEPICN]: Current Optimal Path 9007
+[2019-02-12 14:36:40.971][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:36:40.971][SACEPICN]: Operator Placement Completed
+[2019-02-12 14:36:40.971][SACEPICN]: Query Deployement Started
+[2019-02-12 14:36:40.971][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:36:40.972][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:36:40.972][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978594927' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978594927} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:36:43.980][SACEPICN]: Deployment result: /9002/Filter/onOperator/143643
+
+[2019-02-12 14:36:43.980][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:36:43.980][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:36:43.980][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:36:43.980][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978594927' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978594927} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:36:45.706][SACEPICN]: Deployment result: /9003/Filter/onOperator/143645
+
+[2019-02-12 14:36:45.707][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:36:45.707][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-12 14:36:45.707][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978594927' 'name' '/9003/Filter/onOperator/143645' '/9002/Filter/onOperator/143643')
+[2019-02-12 14:36:45.707][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:36:46.161][SACEPICN]: 
+Join OP Started
+[2019-02-12 14:36:46.162][SACEPICN]: Inside Join - Finding Left Node from content name: /9003
+[2019-02-12 14:36:47.245][SACEPICN]: Inside Join - Finding Right Node from content name: /9002
+[2019-02-12 14:36:48.117][SACEPICN]: JOIN OUTPUT: No Results!
+No Results!
+[2019-02-12 14:36:48.117][SACEPICN]: Join OP Completed
+
+[2019-02-12 14:36:48.421][SACEPICN]: Query Result from network node: No Results!
+No Results!
+[2019-02-12 14:36:48.422][SACEPICN]: Deployment result: No Results!
+No Results!
+
+[2019-02-12 14:36:48.422][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:36:48.422][SACEPICN]: Query Deployement Completed
+[2019-02-12 14:36:48.423][SACEPICN]: Query Execution Completed
+[2019-02-12 14:36:53.634][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:36:53.634][SACEPICN]: Performing filter on named data
+[2019-02-12 14:36:53.635][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978612556' 'name' 'victims' '5' 'M')
+[2019-02-12 14:36:54.070][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:36:54.070][SACEPICN]: Past Time: 14:31:54.070
+[2019-02-12 14:36:54.071][SACEPICN]: Current Time: 14:36:54.070
+[2019-02-12 14:36:54.073][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:36:54.073][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143654, WINDOW content: No Results!
+[2019-02-12 14:36:54.073][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:36:54.363][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143654
+[2019-02-12 14:36:54.364][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143654
+[2019-02-12 14:36:54.364][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:36:54.365][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:36:54.366][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:36:54.366][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143654, FILTER content: No Results!
+[2019-02-12 14:36:54.366][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:37:14.926][SACEPICN]: Query Execution Started
+[2019-02-12 14:37:14.927][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:37:14.927][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:37:14.928][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:37:14.928][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:37:15.666][SACEPICN]: node: /9001/1437, intermediateResult: 9001|victims|9002=.228|98
+[2019-02-12 14:37:15.666][SACEPICN]: Node Added: 9001
+[2019-02-12 14:37:16.681][SACEPICN]: node: /9002/1437, intermediateResult: 9002|victims|9003=.1370,9001=.1905,9005=.1181,9004=.295|98
+[2019-02-12 14:37:16.682][SACEPICN]: Node Added: 9002
+[2019-02-12 14:37:17.373][SACEPICN]: node: /9003/1437, intermediateResult: 9003|victims|9002=.103,9007=.13|98
+[2019-02-12 14:37:17.373][SACEPICN]: Node Added: 9003
+[2019-02-12 14:37:18.073][SACEPICN]: node: /9004/1437, intermediateResult: 9004|victims|9002=.137|98
+[2019-02-12 14:37:18.074][SACEPICN]: Node Added: 9004
+[2019-02-12 14:37:19.211][SACEPICN]: node: /9005/1437, intermediateResult: 9005|victims|9002=.1286,9006=.1758|98
+[2019-02-12 14:37:19.212][SACEPICN]: Node Added: 9005
+[2019-02-12 14:37:36.421][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:37:36.422][SACEPICN]: Performing filter on named data
+[2019-02-12 14:37:36.422][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978652592' 'name' 'victims' '5' 'M')
+[2019-02-12 14:37:36.863][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:37:36.864][SACEPICN]: Past Time: 14:32:36.864
+[2019-02-12 14:37:36.864][SACEPICN]: Current Time: 14:37:36.864
+[2019-02-12 14:37:36.866][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:37:36.867][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143736, WINDOW content: No Results!
+[2019-02-12 14:37:36.867][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:37:37.180][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143736
+[2019-02-12 14:37:37.180][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143736
+[2019-02-12 14:37:37.181][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:37:37.181][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:37:37.182][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:37:37.182][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143737, FILTER content: No Results!
+[2019-02-12 14:37:37.183][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:37:54.977][SACEPICN]: Query Execution Started
+[2019-02-12 14:37:54.978][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:37:54.978][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:37:54.979][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:37:54.979][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:37:54.981][SACEPICN]: node: /9001/1437, intermediateResult: 9001|victims|9002=.228|98
+[2019-02-12 14:37:54.981][SACEPICN]: Node Added: 9001
+[2019-02-12 14:37:54.982][SACEPICN]: node: /9002/1437, intermediateResult: 9002|victims|9003=.1370,9001=.1905,9005=.1181,9004=.295|98
+[2019-02-12 14:37:54.983][SACEPICN]: Node Added: 9002
+[2019-02-12 14:37:54.984][SACEPICN]: node: /9003/1437, intermediateResult: 9003|victims|9002=.103,9007=.13|98
+[2019-02-12 14:37:54.984][SACEPICN]: Node Added: 9003
+[2019-02-12 14:37:54.986][SACEPICN]: node: /9004/1437, intermediateResult: 9004|victims|9002=.137|98
+[2019-02-12 14:37:54.986][SACEPICN]: Node Added: 9004
+[2019-02-12 14:37:54.987][SACEPICN]: node: /9005/1437, intermediateResult: 9005|victims|9002=.1286,9006=.1758|98
+[2019-02-12 14:37:54.988][SACEPICN]: Node Added: 9005
+[2019-02-12 14:38:21.563][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:38:21.564][SACEPICN]: Performing filter on named data
+[2019-02-12 14:38:21.564][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978692630' 'name' 'victims' '5' 'M')
+[2019-02-12 14:38:22.008][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:38:22.008][SACEPICN]: Past Time: 14:33:22.008
+[2019-02-12 14:38:22.009][SACEPICN]: Current Time: 14:38:22.008
+[2019-02-12 14:38:22.011][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:38:22.011][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143822, WINDOW content: No Results!
+[2019-02-12 14:38:22.011][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:38:22.320][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143822
+[2019-02-12 14:38:22.321][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143822
+[2019-02-12 14:38:22.322][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:38:22.322][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:38:22.323][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:38:22.323][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143822, FILTER content: No Results!
+[2019-02-12 14:38:22.323][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:38:35.000][SACEPICN]: Query Execution Started
+[2019-02-12 14:38:35.000][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:38:35.001][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:38:35.001][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:38:35.001][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:38:35.971][SACEPICN]: node: /9001/1438, intermediateResult: 9001|victims|9002=.2378|98
+[2019-02-12 14:38:35.971][SACEPICN]: Node Added: 9001
+[2019-02-12 14:38:36.766][SACEPICN]: node: /9002/1438, intermediateResult: 9002|victims|9003=.1370,9001=.2273,9005=.1254,9004=.2546|98
+[2019-02-12 14:38:36.766][SACEPICN]: Node Added: 9002
+[2019-02-12 14:38:37.480][SACEPICN]: node: /9003/1438, intermediateResult: 9003|victims|9002=.150,9007=.1202|98
+[2019-02-12 14:38:37.480][SACEPICN]: Node Added: 9003
+[2019-02-12 14:38:38.201][SACEPICN]: node: /9004/1438, intermediateResult: 9004|victims|9002=.150|98
+[2019-02-12 14:38:38.201][SACEPICN]: Node Added: 9004
+[2019-02-12 14:38:39.321][SACEPICN]: node: /9005/1438, intermediateResult: 9005|victims|9002=.1664,9006=.213|98
+[2019-02-12 14:38:39.322][SACEPICN]: Node Added: 9005
+[2019-02-12 14:38:40.128][SACEPICN]: node: /9006/1438, intermediateResult: 9006|victims|9005=.163|98
+[2019-02-12 14:38:40.129][SACEPICN]: Node Added: 9006
+[2019-02-12 14:38:40.129][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:38:40.547][SACEPICN]: Query Result from network node: 9007|victims|9003=.172|98
+[2019-02-12 14:38:40.548][SACEPICN]: node: /9007/1438, intermediateResult: 9007|victims|9003=.172|98
+[2019-02-12 14:38:40.548][SACEPICN]: Node Added: 9007
+[2019-02-12 14:38:40.548][SACEPICN]: Get Node Status Completed
+[2019-02-12 14:38:40.548][SACEPICN]: Building Paths Started
+[2019-02-12 14:38:40.549][SACEPICN]: add new Node in traversal List -> 9003
+[2019-02-12 14:38:40.549][SACEPICN]: getTraversalNodes -> on Root
+[2019-02-12 14:38:40.549][SACEPICN]: oneStepTraverse ROOT added -> NULL -> 9007
+[2019-02-12 14:38:40.550][SACEPICN]: oneStepTraverse -> on Root
+[2019-02-12 14:38:40.550][SACEPICN]: oneStepTraverse -> 9003 - 0.172
+[2019-02-12 14:38:40.550][SACEPICN]: oneStepTraverse hop added -> 9007 -> 9003
+[2019-02-12 14:38:40.551][SACEPICN]: While -> Next -> 9003
+[2019-02-12 14:38:40.551][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.551][SACEPICN]: oneStepTraverse -> 9002 - 0.15
+[2019-02-12 14:38:40.551][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9002
+[2019-02-12 14:38:40.552][SACEPICN]: oneStepTraverse -> 9007 - 0.1202
+[2019-02-12 14:38:40.552][SACEPICN]: oneStepTraverse hop added -> 9003 -> 9007
+[2019-02-12 14:38:40.552][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.552][SACEPICN]: add new Node in traversal List -> 9002
+[2019-02-12 14:38:40.553][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.553][SACEPICN]: While -> Next -> 9002
+[2019-02-12 14:38:40.553][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.554][SACEPICN]: oneStepTraverse -> 9003 - 0.137
+[2019-02-12 14:38:40.554][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9003
+[2019-02-12 14:38:40.554][SACEPICN]: oneStepTraverse -> 9001 - 0.2273
+[2019-02-12 14:38:40.554][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9001
+[2019-02-12 14:38:40.555][SACEPICN]: oneStepTraverse -> 9005 - 0.1254
+[2019-02-12 14:38:40.555][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9005
+[2019-02-12 14:38:40.555][SACEPICN]: oneStepTraverse -> 9004 - 0.2546
+[2019-02-12 14:38:40.555][SACEPICN]: oneStepTraverse hop added -> 9002 -> 9004
+[2019-02-12 14:38:40.556][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.556][SACEPICN]: add new Node in traversal List -> 9001
+[2019-02-12 14:38:40.556][SACEPICN]: add new Node in traversal List -> 9005
+[2019-02-12 14:38:40.556][SACEPICN]: add new Node in traversal List -> 9004
+[2019-02-12 14:38:40.557][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.557][SACEPICN]: While -> Next -> 9001
+[2019-02-12 14:38:40.557][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.558][SACEPICN]: oneStepTraverse -> 9002 - 0.2378
+[2019-02-12 14:38:40.558][SACEPICN]: oneStepTraverse hop added -> 9001 -> 9002
+[2019-02-12 14:38:40.558][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.558][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.559][SACEPICN]: While -> Next -> 9005
+[2019-02-12 14:38:40.559][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.559][SACEPICN]: oneStepTraverse -> 9002 - 0.1664
+[2019-02-12 14:38:40.559][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9002
+[2019-02-12 14:38:40.560][SACEPICN]: oneStepTraverse -> 9006 - 0.213
+[2019-02-12 14:38:40.560][SACEPICN]: oneStepTraverse hop added -> 9005 -> 9006
+[2019-02-12 14:38:40.560][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.561][SACEPICN]: add new Node in traversal List -> 9006
+[2019-02-12 14:38:40.561][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.561][SACEPICN]: While -> Next -> 9004
+[2019-02-12 14:38:40.561][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.562][SACEPICN]: oneStepTraverse -> 9002 - 0.15
+[2019-02-12 14:38:40.562][SACEPICN]: oneStepTraverse hop added -> 9004 -> 9002
+[2019-02-12 14:38:40.562][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.563][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.563][SACEPICN]: While -> Next -> 9006
+[2019-02-12 14:38:40.563][SACEPICN]: While -> Retrieve HopInfo
+
+[2019-02-12 14:38:40.563][SACEPICN]: oneStepTraverse -> 9005 - 0.163
+[2019-02-12 14:38:40.564][SACEPICN]: oneStepTraverse hop added -> 9006 -> 9005
+[2019-02-12 14:38:40.564][SACEPICN]: While -> Retrieve other traversal nodes
+[2019-02-12 14:38:40.564][SACEPICN]: While -> remove current node from traversal
+[2019-02-12 14:38:40.565][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:38:40.565][SACEPICN]: Path: NULL --(0.0)--> 9007 
+
+[2019-02-12 14:38:40.565][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:38:40.566][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.566][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.566][SACEPICN]: Previous Weight values were: Energy=0.0 and BDP=0.0 
+[2019-02-12 14:38:40.567][SACEPICN]: This is the first hop for adaptive weight application
+[2019-02-12 14:38:40.567][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 49.09)--> 9003 
+
+[2019-02-12 14:38:40.567][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:38:40.567][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.568][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.568][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:38:40.568][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.568][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.569][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.569][SACEPICN]: Previous Weight values were: Energy=0.5 and BDP=0.5 
+[2019-02-12 14:38:40.569][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.570][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 39.3)--> 9003  --(BDP: 49.08)--> 9002 
+
+[2019-02-12 14:38:40.570][SACEPICN]: checkPath - Current => 9007
+[2019-02-12 14:38:40.570][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9007
+[2019-02-12 14:38:40.570][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.571][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.571][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:38:40.571][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.571][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 39.3)--> 9003 
+
+[2019-02-12 14:38:40.572][SACEPICN]: checkPath - Current => 9003
+[2019-02-12 14:38:40.572][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9003
+[2019-02-12 14:38:40.572][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.572][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.573][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:38:40.573][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.573][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.573][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.574][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:38:40.574][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.574][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 29.52)--> 9003  --(BDP: 39.29)--> 9002 
+
+[2019-02-12 14:38:40.575][SACEPICN]: checkPath - Current => 9001
+[2019-02-12 14:38:40.575][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:38:40.575][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.575][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:38:40.576][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.576][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.576][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.576][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:38:40.577][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.577][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.577][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.577][SACEPICN]: Previous Weight values were: Energy=0.6 and BDP=0.4 
+[2019-02-12 14:38:40.578][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.578][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 29.52)--> 9003  --(BDP: 39.29)--> 9002  --(BDP: 29.56)--> 9001 
+
+[2019-02-12 14:38:40.578][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:38:40.579][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:38:40.579][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.579][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:38:40.579][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.580][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.580][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.580][SACEPICN]: Previous Weight values were: Energy=0.7 and BDP=0.3 
+[2019-02-12 14:38:40.580][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.581][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.581][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.581][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:38:40.581][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.582][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.95)--> 9003  --(BDP: 19.72)--> 9002  --(BDP: 29.49)--> 9005 
+
+[2019-02-12 14:38:40.582][SACEPICN]: checkPath - Current => 9004
+[2019-02-12 14:38:40.582][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:38:40.582][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.583][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.583][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.583][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.584][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.584][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.584][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.584][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.585][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.585][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:38:40.585][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.585][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.95)--> 9003  --(BDP: 19.72)--> 9002  --(BDP: 10.03)--> 9004 
+
+[2019-02-12 14:38:40.586][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:38:40.586][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9001 -> 9002
+[2019-02-12 14:38:40.586][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9001
+[2019-02-12 14:38:40.586][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.587][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.587][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.587][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.587][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.588][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.588][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.588][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.588][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.589][SACEPICN]: Previous Weight values were: Energy=0.8 and BDP=0.2 
+[2019-02-12 14:38:40.589][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.589][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 9.95)--> 9003  --(BDP: 19.72)--> 9002  --(BDP: 10.0)--> 9001 
+
+[2019-02-12 14:38:40.589][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:38:40.590][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9002
+[2019-02-12 14:38:40.590][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:38:40.590][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.591][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.591][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.591][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.591][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.592][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.592][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.592][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.592][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.593][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.593][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.593][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.17)--> 9003  --(BDP: 0.15)--> 9002  --(BDP: 9.91)--> 9005 
+
+[2019-02-12 14:38:40.593][SACEPICN]: checkPath - Current => 9006
+[2019-02-12 14:38:40.594][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:38:40.594][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.594][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.594][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.595][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:38:40.595][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.595][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.595][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.596][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.596][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.596][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.596][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.597][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.597][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.597][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.598][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.598][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.17)--> 9003  --(BDP: 0.15)--> 9002  --(BDP: 9.91)--> 9005  --(BDP: 0.21)--> 9006 
+
+[2019-02-12 14:38:40.598][SACEPICN]: checkPath - Current => 9002
+[2019-02-12 14:38:40.599][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9004 -> 9002
+[2019-02-12 14:38:40.599][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9004
+[2019-02-12 14:38:40.599][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.599][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.600][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.600][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.600][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.600][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.601][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.601][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.601][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.601][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.602][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.602][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.17)--> 9003  --(BDP: 9.94)--> 9002  --(BDP: 0.25)--> 9004 
+
+[2019-02-12 14:38:40.602][SACEPICN]: checkPath - Current => 9005
+[2019-02-12 14:38:40.602][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9006 -> 9005
+[2019-02-12 14:38:40.603][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9005 -> 9006
+[2019-02-12 14:38:40.603][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.603][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.603][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.604][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9002 -> 9005
+[2019-02-12 14:38:40.604][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.604][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.604][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.605][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9003 -> 9002
+[2019-02-12 14:38:40.605][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.605][SACEPICN]: Previous Weight values were: Energy=0.9 and BDP=0.1 
+[2019-02-12 14:38:40.605][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.606][SACEPICN]: Current.Prev is not null - This node has a parent node => Path is: Parent -> Node = 9007 -> 9003
+[2019-02-12 14:38:40.606][SACEPICN]: Since we have a match - we will apply adaptive weightage
+[2019-02-12 14:38:40.606][SACEPICN]: Previous Weight values were: Energy=1.0 and BDP=0.0 
+[2019-02-12 14:38:40.606][SACEPICN]: This is a subsequent hop/s for adaptive weight application
+[2019-02-12 14:38:40.607][SACEPICN]: Path: NULL --(0.0)--> 9007  --(BDP: 0.17)--> 9003  --(BDP: 0.15)--> 9002  --(BDP: 9.91)--> 9005  --(BDP: 0.21)--> 9006 
+
+[2019-02-12 14:38:40.607][SACEPICN]: Path Finished!
+[2019-02-12 14:38:40.607][SACEPICN]: Building Paths Completed
+[2019-02-12 14:38:40.607][SACEPICN]: Checking paths:
+[2019-02-12 14:38:40.608][SACEPICN]: 9007 - BDP: 0.0 - Hops: 1
+[2019-02-12 14:38:40.608][SACEPICN]: 9007 9003 - BDP: 49.09 - Hops: 2
+[2019-02-12 14:38:40.608][SACEPICN]: 9007 9003 9002 - BDP: 88.38 - Hops: 3
+[2019-02-12 14:38:40.609][SACEPICN]: 9007 9003 - BDP: 39.3 - Hops: 2
+[2019-02-12 14:38:40.609][SACEPICN]: 9007 9003 9002 - BDP: 68.81 - Hops: 3
+[2019-02-12 14:38:40.609][SACEPICN]: 9007 9003 9002 9001 - BDP: 98.36999999999999 - Hops: 4
+[2019-02-12 14:38:40.610][SACEPICN]: 9007 9003 9002 9005 - BDP: 59.16 - Hops: 4
+[2019-02-12 14:38:40.610][SACEPICN]: 9007 9003 9002 9004 - BDP: 39.7 - Hops: 4
+[2019-02-12 14:38:40.610][SACEPICN]: 9007 9003 9002 9001 - BDP: 39.67 - Hops: 4
+[2019-02-12 14:38:40.610][SACEPICN]: 9007 9003 9002 9005 - BDP: 10.23 - Hops: 4
+[2019-02-12 14:38:40.611][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 10.440000000000001 - Hops: 5
+[2019-02-12 14:38:40.611][SACEPICN]: 9007 9003 9002 9004 - BDP: 10.36 - Hops: 4
+[2019-02-12 14:38:40.611][SACEPICN]: 9007 9003 9002 9005 9006 - BDP: 10.440000000000001 - Hops: 5
+[2019-02-12 14:38:40.612][SACEPICN]: Checking optimal path energy weights:
+[2019-02-12 14:38:40.612][SACEPICN]: (9003,0.3)
+[2019-02-12 14:38:40.612][SACEPICN]: (9002,0.4)
+[2019-02-12 14:38:40.612][SACEPICN]: Checking optimal path BDP weights:
+[2019-02-12 14:38:40.613][SACEPICN]: (9003,0.7)
+[2019-02-12 14:38:40.613][SACEPICN]: (9002,0.6)
+[2019-02-12 14:38:40.613][SACEPICN]: Operator Placement Started
+[2019-02-12 14:38:40.613][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:38:40.614][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:38:40.614][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978715001' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978715001} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:38:40.614][SACEPICN]: Current Optimal Path 9007 9003 9002
+[2019-02-12 14:38:40.615][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:38:40.615][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:38:40.615][SACEPICN]: CurrentNode: FILTER - Processing Placement
+[2019-02-12 14:38:40.615][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978715001' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978715001} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:38:40.616][SACEPICN]: Current Optimal Path 9007 9003
+[2019-02-12 14:38:40.616][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:38:40.616][SACEPICN]: CurrentNode: JOIN - Processing Placement
+[2019-02-12 14:38:40.616][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978715001' 'name' '[Q1]' '[Q2]')
+[2019-02-12 14:38:40.617][SACEPICN]: Current Optimal Path 9007
+[2019-02-12 14:38:40.617][SACEPICN]: CurrentNode: Doing recursion, back to Parent!
+[2019-02-12 14:38:40.617][SACEPICN]: Operator Placement Completed
+[2019-02-12 14:38:40.617][SACEPICN]: Query Deployement Started
+[2019-02-12 14:38:40.618][SACEPICN]: CurrentNode: JOIN - Right Exists. Process Right
+[2019-02-12 14:38:40.618][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:38:40.618][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeB/nfn_service_Filter '1549978715001' 'name' '[(call 6 /node/nodeB/nfn_service_Window {1549978715001} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:38:44.019][SACEPICN]: Deployment result: /9002/Filter/onOperator/143843
+
+[2019-02-12 14:38:44.019][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:38:44.019][SACEPICN]: CurrentNode: JOIN - Left Exists. Process Left
+[2019-02-12 14:38:44.020][SACEPICN]: CurrentNode: FILTER - Deploying Operator
+[2019-02-12 14:38:44.020][SACEPICN]: CurrentNode: FILTER - Query: (call 6 /node/nodeC/nfn_service_Filter '1549978715001' 'name' '[(call 6 /node/nodeC/nfn_service_Window {1549978715001} {name} {victims} {5} {M})]' '3=M&4>30' 'name')
+[2019-02-12 14:38:46.480][SACEPICN]: Deployment result: /9003/Filter/onOperator/143845
+
+[2019-02-12 14:38:46.481][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:38:46.481][SACEPICN]: CurrentNode: JOIN - Deploying Operator
+[2019-02-12 14:38:46.481][SACEPICN]: CurrentNode: JOIN - Query: (call 5 /node/nodeG/nfn_service_Join '1549978715001' 'name' '/9003/Filter/onOperator/143845' '/9002/Filter/onOperator/143843')
+[2019-02-12 14:38:46.481][SACEPICN]: execute NFN query called with nodeG
+[2019-02-12 14:38:46.967][SACEPICN]: 
+Join OP Started
+[2019-02-12 14:38:46.967][SACEPICN]: Inside Join - Finding Left Node from content name: /9003
+[2019-02-12 14:38:48.086][SACEPICN]: Inside Join - Finding Right Node from content name: /9002
+[2019-02-12 14:38:49.000][SACEPICN]: JOIN OUTPUT: No Results!
+No Results!
+[2019-02-12 14:38:49.000][SACEPICN]: Join OP Completed
+
+[2019-02-12 14:38:49.321][SACEPICN]: Query Result from network node: No Results!
+No Results!
+[2019-02-12 14:38:49.321][SACEPICN]: Deployment result: No Results!
+No Results!
+
+[2019-02-12 14:38:49.321][SACEPICN]: CurrentNode: Execution completed. Doing recursion, back to Parent!
+[2019-02-12 14:38:49.321][SACEPICN]: Query Deployement Completed
+[2019-02-12 14:38:49.321][SACEPICN]: Query Execution Completed
+[2019-02-12 14:38:53.818][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:38:53.818][SACEPICN]: Performing filter on named data
+[2019-02-12 14:38:53.819][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978732674' 'name' 'victims' '5' 'M')
+[2019-02-12 14:38:54.275][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:38:54.276][SACEPICN]: Past Time: 14:33:54.275
+[2019-02-12 14:38:54.276][SACEPICN]: Current Time: 14:38:54.275
+[2019-02-12 14:38:54.278][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:38:54.279][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143854, WINDOW content: No Results!
+[2019-02-12 14:38:54.279][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:38:54.591][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143854
+[2019-02-12 14:38:54.592][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143854
+[2019-02-12 14:38:54.592][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:38:54.593][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:38:54.593][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:38:54.594][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143854, FILTER content: No Results!
+[2019-02-12 14:38:54.594][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:39:15.235][SACEPICN]: Query Execution Started
+[2019-02-12 14:39:15.235][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:39:15.236][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:39:15.236][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:39:15.236][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:39:16.195][SACEPICN]: node: /9001/1439, intermediateResult: 9001|victims|9002=.1580|98
+[2019-02-12 14:39:16.196][SACEPICN]: Node Added: 9001
+[2019-02-12 14:39:17.234][SACEPICN]: node: /9002/1439, intermediateResult: 9002|victims|9003=.1086,9001=.258,9005=.0960,9004=.2094|98
+[2019-02-12 14:39:17.235][SACEPICN]: Node Added: 9002
+[2019-02-12 14:39:17.972][SACEPICN]: node: /9003/1439, intermediateResult: 9003|victims|9002=.1296,9007=.108|98
+[2019-02-12 14:39:17.972][SACEPICN]: Node Added: 9003
+[2019-02-12 14:39:19.125][SACEPICN]: node: /9004/1439, intermediateResult: 9004|victims|9002=.2000|98
+[2019-02-12 14:39:19.126][SACEPICN]: Node Added: 9004
+[2019-02-12 14:39:19.889][SACEPICN]: node: /9005/1439, intermediateResult: 9005|victims|9002=.175,9006=.21|98
+[2019-02-12 14:39:19.889][SACEPICN]: Node Added: 9005
+[2019-02-12 14:39:36.716][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:39:36.716][SACEPICN]: Performing filter on named data
+[2019-02-12 14:39:36.716][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978772684' 'name' 'victims' '5' 'M')
+[2019-02-12 14:39:37.165][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:39:37.165][SACEPICN]: Past Time: 14:34:37.165
+[2019-02-12 14:39:37.165][SACEPICN]: Current Time: 14:39:37.165
+[2019-02-12 14:39:37.167][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:39:37.167][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/143937, WINDOW content: No Results!
+[2019-02-12 14:39:37.168][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:39:37.476][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/143937
+[2019-02-12 14:39:37.477][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/143937
+[2019-02-12 14:39:37.477][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:39:37.478][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:39:37.478][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:39:37.479][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/143937, FILTER content: No Results!
+[2019-02-12 14:39:37.479][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:39:55.048][SACEPICN]: Query Execution Started
+[2019-02-12 14:39:55.049][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:39:55.049][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:39:55.049][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:39:55.049][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:39:55.051][SACEPICN]: node: /9001/1439, intermediateResult: 9001|victims|9002=.1580|98
+[2019-02-12 14:39:55.051][SACEPICN]: Node Added: 9001
+[2019-02-12 14:39:55.052][SACEPICN]: node: /9002/1439, intermediateResult: 9002|victims|9003=.1086,9001=.258,9005=.0960,9004=.2094|98
+[2019-02-12 14:39:55.053][SACEPICN]: Node Added: 9002
+[2019-02-12 14:39:55.053][SACEPICN]: node: /9003/1439, intermediateResult: 9003|victims|9002=.1296,9007=.108|98
+[2019-02-12 14:39:55.054][SACEPICN]: Node Added: 9003
+[2019-02-12 14:39:55.055][SACEPICN]: node: /9004/1439, intermediateResult: 9004|victims|9002=.2000|98
+[2019-02-12 14:39:55.055][SACEPICN]: Node Added: 9004
+[2019-02-12 14:39:55.056][SACEPICN]: node: /9005/1439, intermediateResult: 9005|victims|9002=.175,9006=.21|98
+[2019-02-12 14:39:55.057][SACEPICN]: Node Added: 9005
+[2019-02-12 14:40:35.077][SACEPICN]: Query Execution Started
+[2019-02-12 14:40:35.078][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:40:35.078][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:40:35.078][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:40:35.079][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:41:13.590][SACEPICN]: 
+Filter OP Started
+[2019-02-12 14:41:13.590][SACEPICN]: Performing filter on named data
+[2019-02-12 14:41:13.591][SACEPICN]: Intermediate Named-Function is: (call 6 /node/nodeG/nfn_service_Window '1549978812769' 'name' 'victims' '5' 'M')
+[2019-02-12 14:41:14.038][SACEPICN]: Timed Window OP Started
+
+[2019-02-12 14:41:14.039][SACEPICN]: Past Time: 14:36:14.038
+[2019-02-12 14:41:14.039][SACEPICN]: Current Time: 14:41:14.038
+[2019-02-12 14:41:14.041][SACEPICN]: Window OP: Prefix of node is: 9007
+[2019-02-12 14:41:14.041][SACEPICN]: Inside Window -> WINDOW name: /9007/window/victims/144114, WINDOW content: No Results!
+[2019-02-12 14:41:14.041][SACEPICN]: Window OP Completed
+
+[2019-02-12 14:41:14.353][SACEPICN]: Intermediate Named-Function Result is: /9007/window/victims/144114
+[2019-02-12 14:41:14.354][SACEPICN]: Intermediate Named-Interest after Named-Function is: /9007/window/victims/144114
+[2019-02-12 14:41:14.354][SACEPICN]: Intermediate Content from Named-Interest of Named-Function is: No Results!
+[2019-02-12 14:41:14.355][SACEPICN]: Inside Filter -> Child Operator Result: No Results!
+[2019-02-12 14:41:14.356][SACEPICN]: Filter OP: Prefix of node is: 9007
+[2019-02-12 14:41:14.356][SACEPICN]: Inside Filter -> FILTER name: /9007/Filter/onOperator/144114, FILTER content: No Results!
+[2019-02-12 14:41:14.356][SACEPICN]: Filter OP Completed
+
+[2019-02-12 14:41:15.113][SACEPICN]: Query Execution Started
+[2019-02-12 14:41:15.114][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:41:15.114][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:41:15.115][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:41:15.115][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:41:15.916][SACEPICN]: node: /9001/1441, intermediateResult: 9001|victims|9002=.1937|96
+[2019-02-12 14:41:15.916][SACEPICN]: Node Added: 9001
+[2019-02-12 14:41:55.139][SACEPICN]: Query Execution Started
+[2019-02-12 14:41:55.140][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:41:55.140][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:41:55.140][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:41:55.141][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:41:55.142][SACEPICN]: node: /9001/1441, intermediateResult: 9001|victims|9002=.1937|96
+[2019-02-12 14:41:55.143][SACEPICN]: Node Added: 9001
+[2019-02-12 14:42:35.159][SACEPICN]: Query Execution Started
+[2019-02-12 14:42:35.159][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:42:35.159][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:42:35.160][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:42:35.160][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:43:15.191][SACEPICN]: Query Execution Started
+[2019-02-12 14:43:15.191][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:43:15.191][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:43:15.192][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:43:15.192][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:43:55.240][SACEPICN]: Query Execution Started
+[2019-02-12 14:43:55.241][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:43:55.241][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:43:55.241][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:43:55.241][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:44:35.238][SACEPICN]: Query Execution Started
+[2019-02-12 14:44:35.239][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:44:35.239][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:44:35.239][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:44:35.240][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:45:15.268][SACEPICN]: Query Execution Started
+[2019-02-12 14:45:15.269][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:45:15.269][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:45:15.269][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:45:15.270][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:45:55.306][SACEPICN]: Query Execution Started
+[2019-02-12 14:45:55.306][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:45:55.307][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:45:55.307][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:45:55.307][SACEPICN]: Get Node Status Started - Algorithm Enum => 1
+[2019-02-12 14:46:35.308][SACEPICN]: Query Execution Started
+[2019-02-12 14:46:35.308][SACEPICN]: Query NOT appended to Query Store - Source QS
+[2019-02-12 14:46:35.309][SACEPICN]: Operator Tree creation Started
+[2019-02-12 14:46:35.309][SACEPICN]: Operator Tree creation Completed
+[2019-02-12 14:46:35.309][SACEPICN]: Get Node Status Started - Algorithm Enum => 1

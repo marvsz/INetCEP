@@ -1,0 +1,76 @@
+[2019-01-17 11:27:27.014][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1127')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:27:27.691][SACEPICN]: Query Result from network node: 9002|victims|9003=.139,9001=.213,9005=.121,9004=.1790|100
+
+[2019-01-17 11:27:31.673][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:27:33.621][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:27:34.085][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 30 "" "(call 2 /node/nodeB/nfn_service_GetContent '/9002/Predict/onOperator/112733')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:27:34.882][SACEPICN]: Query Result from network node: 16:24:02,494,0,0,0,20.968730811357496
+16:26:01,495,0,0,0,19.825424241478636
+
+[2019-01-17 11:28:07.008][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1128')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:28:07.831][SACEPICN]: Query Result from network node: 9002|victims|9003=.139,9001=.213,9005=.121,9004=.1790|100
+
+[2019-01-17 11:28:46.416][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1128')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:28:46.424][SACEPICN]: Query Result from network node: 9002|victims|9003=.139,9001=.213,9005=.121,9004=.1790|100
+
+[2019-01-17 11:29:27.073][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1129')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:29:27.776][SACEPICN]: Query Result from network node: 9002|victims|9003=.267,9001=.1800,9005=.309,9004=.258|100
+
+[2019-01-17 11:29:30.281][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:29:30.290][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:30:07.111][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1130')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:30:07.802][SACEPICN]: Query Result from network node: 9002|victims|9003=.175,9001=.198,9005=.1275,9004=.16|99
+
+[2019-01-17 11:30:10.284][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:30:10.296][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:30:56.520][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1130')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:30:56.678][SACEPICN]: Query Result from network node: 9002|victims|9003=.175,9001=.198,9005=.1275,9004=.16|99
+
+[2019-01-17 11:31:06.784][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:31:06.791][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:31:37.165][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1131')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:31:37.909][SACEPICN]: Query Result from network node: 9002|victims|9003=.1758,9001=.177,9005=.223,9004=.1821|98
+
+[2019-01-17 11:31:41.006][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:31:41.018][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:32:17.210][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1132')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:32:17.936][SACEPICN]: Query Result from network node: 9002|victims|9003=.1443,9001=.30,9005=.1496,9004=.2094|98
+
+[2019-01-17 11:32:20.412][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:32:20.429][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:32:56.621][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1132')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:32:56.627][SACEPICN]: Query Result from network node: 9002|victims|9003=.1443,9001=.30,9005=.1496,9004=.2094|98
+
+[2019-01-17 11:33:06.717][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:33:06.732][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:33:37.299][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1133')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:33:37.967][SACEPICN]: Query Result from network node: 9002|victims|9003=.222,9001=.225,9005=.1580,9004=.2693|98
+
+[2019-01-17 11:33:40.322][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:33:40.330][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:34:17.315][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1134')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:34:18.005][SACEPICN]: Query Result from network node: 9002|victims|9003=.282,9001=.292,9005=.256,9004=.3155|98
+
+[2019-01-17 11:34:20.542][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:34:20.550][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:34:56.726][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1134')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:34:56.735][SACEPICN]: Query Result from network node: 9002|victims|9003=.282,9001=.292,9005=.256,9004=.3155|98
+
+[2019-01-17 11:35:06.844][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:35:06.853][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+
+[2019-01-17 11:36:17.406][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "call 2 /node/nodeB/nfn_service_GetContent '/9002/1136')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:36:18.095][SACEPICN]: Query Result from network node: 9002|victims|9003=.172,9001=.381,9005=.1055,9004=.316|97
+
+[2019-01-17 11:36:20.479][SACEPICN]: Query sent to network node: $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 10.2.1.85/9002 -w 10 "" "(call 4 /node/nodeB/nfn_service_Prediction2 'name' '2m' '[(call 4 /node/nodeB/nfn_service_Window {plug0} {16:22:00.000} {16:27:00.000})]')/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+[2019-01-17 11:36:20.492][SACEPICN]: Query Result from network node: /9002/Predict/onOperator/112733
+

@@ -54,6 +54,7 @@ trait Placement {
           currentNode._query = query
           LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: $query")
           LogMessage(nodeName, s"Current Optimal Path ${optimalPath.mkString(" ")}")
+
           optimalPath -= optimalPath.last
 
           //This is the deployment part - we will do it in the next tree iteration:

@@ -143,7 +143,7 @@ class Window() extends NFNService {
       val newStateContent = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
       val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateState(nameOfState,newStateContent)
+      stateHolder.updateWindowState(nameOfState,newStateContent)
       LogMessage(nodeName,s"Sliding Event Window Content is $retVal")
       NFNStringValue(retVal)
     }
@@ -175,7 +175,7 @@ class Window() extends NFNService {
       val newStateContent = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
       val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateState(nameOfState,newStateContent)
+      stateHolder.updateWindowState(nameOfState,newStateContent)
       LogMessage(nodeName,s"Slinding TIme Window Content is $retVal")
       NFNStringValue(retVal)
     }

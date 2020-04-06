@@ -1,0 +1,1 @@
+QID:Client1_45 Centralized 1 Source Client1 JOIN([name],[FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name)],[FILTER(name,WINDOW(name,victims,5,M),3=M&4>30,name)]) Region1 12:06:58.200

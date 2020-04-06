@@ -21,10 +21,29 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
 
   override def process(): String = {
     var output = ""
-    if (root._stackSize > maxPath)
+    if (root._stackSize > maxPath) {
+
       LogMessage(nodeName, s"Stack size of node is too big. Stacksize is $opCount, but we can only support $maxPath operators")
+    }
     implicit val order: Double.TotalOrdering.type = Ordering.Double.TotalOrdering
-    val optimalPath: Paths = paths.filter(x => x.hopCount == opCount).minBy(_.cumulativePathCost)
+
+    var subtractor = 0
+
+    while(paths.filter(x => x.hopCount >= (opCount-subtractor)).isEmpty){
+      subtractor+=1
+    }
+    var optimalPath: Paths = paths.filter(x => x.hopCount >= (opCount-subtractor)).minBy(_.cumulativePathCost)
+
+    var newOptimalPaths: Paths = optimalPath
+
+    while(newOptimalPaths.pathNodes.size < root._stackSize){
+      newOptimalPaths = optimalPath
+      LogMessage(nodeName,s"Stack size too small, appending the last one: ${newOptimalPaths.pathNodes(newOptimalPaths.hopCount-1)} double at the end")
+      newOptimalPaths.pathNodes = optimalPath.pathNodes.appended(newOptimalPaths.pathNodes(newOptimalPaths.hopCount-1))
+      newOptimalPaths.hopCount += 1
+      optimalPath = newOptimalPaths
+      LogMessage(nodeName,s"New Path is ${optimalPath.pathNodes.mkString("-").toString}")
+    }
 
     evalHandler.selectedPath = optimalPath.pathNodes.mkString("-").toString
 

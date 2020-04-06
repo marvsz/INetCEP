@@ -59,6 +59,30 @@ object SensorHelpers {
   }
 
   /**
+   * Returns a list of Positions where to find the wanted columns.
+   * @param schema The schema for which the column IDs should be determined
+   * @param column The column for which the IDs should be determined
+   * @param delimiter the delimiter of the data stream
+   * @return A list of integer values representing all occurrences of the column
+   */
+  def getColumnIDs(schema: String, column: String, delimiter: String): List[Int] = {
+    //print(s"Schema is: $schema \n")
+    //print(s"Column is: ${column.toLowerCase} \n")
+    val columns = schema.split(delimiter)
+    var returnList: List[Int] = List()
+    var columnId = 0
+    if (columns.contains(column.toLowerCase)) {
+      for (co <- columns) {
+        if (co == column.toLowerCase){
+          returnList =   returnList :+ columnId
+        }
+        columnId += 1
+      }
+    }
+    returnList
+  }
+
+  /**
    * Returns the position of the date in a tuple when given a delimiter
    *
    * @param delimiter the delmiiter that separates the values of the tuple. based on this we can return the position of the date in the tuple
@@ -211,10 +235,10 @@ object SensorHelpers {
    * @param conditions      the conditions on which to join on
    * @return true if the new sensor schema was created, false otherwise.
    */
-  def joinSensors(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) = {
+  /*def joinSensors(leftSensorName: String, rightSensorName: String, joinOn: String, conditions: String) = {
     val broker = SchemaBrokerSingleton.getInstance()
     broker.joinSchema(joinOn, conditions, leftSensorName, rightSensorName)
-  }
+  }*/
 
   /**
    * Returns the Column Names of a Schema separated by commas
@@ -226,7 +250,7 @@ object SensorHelpers {
     val broker = SchemaBrokerSingleton.getInstance()
     val schema = broker.getSchema(sensorName)
     if (schema != null)
-      schema.toArray().mkString(",")
+      schema.toArray().mkString(broker.getDelimiter(sensorName))
     else
       "Schema does not exist"
   }
@@ -248,12 +272,12 @@ object SensorHelpers {
    * @param filename
    * @param delimiter
    */
-  def addSensor(filename:String, delimiter:String) : Unit ={
+  /*def addSensor(filename:String, delimiter:String) : Unit ={
     val connectedSensors = ConnectedSensorsSingleton.getInstance()
     val broker = SchemaBrokerSingleton.getInstance()
     connectedSensors.addSensor(filename,new Sensor(delimiter.charAt(0),filename))
     val schemaInserted = broker.insertSchema(connectedSensors.getSensor(filename).getType,connectedSensors.getSensor(filename).getSchema)
-  }
+  }*/
 
   /**
    * Removes a sensor from the connected Sensor List. Maybe deprecated?
