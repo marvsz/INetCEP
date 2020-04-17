@@ -630,7 +630,6 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         struct ccnl_pendint_s *pi;
         /*struct ccnl_pendQ_s *pq;
         struct ccnl_interest_s *qi;*/
-
         if (!i->pkt->pfx)
             continue;
 
@@ -681,7 +680,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
         }
 
         //Hook for add content to cache by callback:
-        if(i && ! i->pending) { // If the interest exists but no pending faces (This is the case when there are queries interested in the data)
+        if(i && ! i->pending) {
+            // If the interest exists but no pending faces (This is the case when there are queries interested in the data)
             if (!i->pendingQueries) {
                 DEBUGMSG_CORE(WARNING, "releasing interest 0x%p OK?\n", (void *) i);
                 c->flags |= CCNL_CONTENT_FLAGS_STATIC;
@@ -691,7 +691,8 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c)
                 cnt++;
                 //return 1;
             }
-            continue;
+                i = i->next;
+                continue;
         }
 
         // CONFORM: "Data MUST only be transmitted in response to

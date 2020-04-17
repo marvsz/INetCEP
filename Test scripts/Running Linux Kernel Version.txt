@@ -1,7 +1,7 @@
 Linux Kernel
 
 
-sudo insmod ./ccnl-lxkernel.ko e=eth0 v=trace x=/tmp/mgmt-nfn-relay-a.sock
+sudo insmod ./ccnl-lxkernel.ko e=eth0 v=trace x=/tmp/mgmt-nfn-relay-a.sock u=9001
 tail -f /var/log/syslog
 
 
