@@ -185,14 +185,18 @@ This does only return content if it acutally exists on the relay
 bash start1relay.sh
 ```
 
-2. Starting an emulated sensor with id 1, sampling rate every 500ms and the directory for the data trace at INetCEP/sensors/victims that constantly publishes the data to the ccn-lite relay with the socket mgmt-nfn-relay-a.sock:
+2. Starting an emulated gps sensor with id 1, sampling rate every 500ms and the directory for the data trace at INetCEP/sensors/gps that constantly publishes the data to the ccn-lite relay with the socket mgmt-nfn-relay-a.sock:
 ```
-~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500 -x mgmt-nfn-relay-a.sock -v trace -d ~/INetCEP/sensors/victims
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n gps -i 1 -t 1 -s 500000 -x mgmt-nfn-relay-a.sock -v trace -d ~/INetCEP/sensors/gps
+```
+Or you start a simulated victims sensor with id 1, sampling rate every 500ms and that constantly publishes the data to the ccn-lite relay with the socket mgmt-nfn-relay-a.sock:
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n victims -i 1 -t 2 -s 500000 -x mgmt-nfn-relay-a.sock -v trace
 ```
 
-3. Sending a persistent interest in this sensor to the relay:
+3. Sending a persistent interest in the victims sensor to the relay:
 ```
-bash ~/INetCEP/bin/ccn-lite-peek /ndoeA/sensor/victims/1
+bash ~/INetCEP/bin/ccn-lite-peek /node/nodeA/sensor/victims/1
 ```
 This returns content whenever the sensor sends it to the relay.
 
@@ -225,6 +229,60 @@ $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /no
 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(WINDOW(Push,nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 ```
 
+## Kernel Version
+We advise to run the kernel version in a secure environment since it is under developement and kernel panicks can occure. Read this https://www.linuxjournal.com/content/oops-debugging-kernel-panics-0 and install a crashkernel or you use a VM in VMS.cfg where the crashkernel is already installed.
+This tutorial assumes you are on VM28.
+To compile the kernel version navigate to
+```
+cd INetCEP/ccn-lite/src/ccnl-lnxkernel/
+```
+Herer you have to compile the kernel with
+```
+cmake .
+make
+```
+After that navigate to 
+```
+cd ccnl-lxkernel/
+```
+To actually see the kernel output on in the terminal you have to run 
+```
+sudo tail -f /var/log/syslog
+```
+in a seperate Terminal that is ssh'd into the VM.
+Now we insert the kernel module with
+```
+sudo insmod ./ccnl-lxkernel.ko e=eth0 v=trace x=/tmp/mgmt-nfn-relay-a.sock u=9001
+```
+This tells the kernel to have the socket at /tmp/mgmt-nfn-relay-a.sock and to listen to udp port 9001
+
+To stop the kernel module simply run
+```
+sudo rmmod ccnl-lxkernel
+```
+If you start the kernel version and encounter this log message:
+ccnl_lxkernel:
+```
+Apr 17 16:45:07 unassigned-hostname kernel: [1402381.848375] Error -98 binding UNIX socket to /tmp/mgmt-nfn-relay-a.sock (remove first, check access rights)
+```
+That means that you first have to remove the previous socket with 
+```
+sudo rm /tmp/mgmt-nfn-relay-a.sock
+```
+When the kernel module is up and running we can use the unified communication layer by first starting a sensor in a seperate terminal via
+```
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n victims -i 1 -t 2 -s 500000 -u 127.0.0.1/9001 -v trace
+```
+
+In another seperate terminal you can run the constantPeek to see that you get the output from the sensor with
+```
+ccn-lite-peekConstant /node/nodeA/sensor/victims/1 -u 127.0.0.1/9001 -v trace
+```
+
+In order to execute the window operator for this sensor simply run
+```
+ccn-lite-simplenfn -s ndn2013 -v trace -u 127.0.0.1/9001 "window /node/nodeA/sensor/victims/1 4 1" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 3
+```
 ## Query Execution
 
 In order to carry out query execution, we can access any node in the network and issue the following query. Here, any node in the network can act as a placement coordinator. Therefore, the query can be issued from any node to any node in the network.
