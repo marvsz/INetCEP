@@ -4,14 +4,16 @@ work_dir="$(cd "$(dirname "$0")" ; pwd -P)/.."
 source "$work_dir/VMS.cfg"
 count=0
 declare -a VMSdir
-# $2 queryType e.g., "QueryCentralRemNS" (argument 2 required)
-# $3 queryServiceInterval e.g., 20 (argument 3 required)
-# {"QueryCentralFixed" "QueryCentralLocalNS" "QueryCentralRemNS" "QueryDecentral" "QueryDecentralFixed" "QueryRandom" "QueryRandomLocalNS" "QueryRandomRemNS"}
+# The number of the query to execute
 queryType=$2
-placementType=$3 # 1="Centralized", 2="Decentralized", 3="Random"
-queryServiceInterval=$4
+# The placement used
+placementType=$3
+# The approach used
+approach=$4
+# Thetype of window operator that should be used
+executionPlace=$5
 #simulation run time in seconds
-simRunTime=$5
+simRunTime=$6
 #TODO fix workaround: setting CCNL_HOME for executeQuery method (env variables of the remote machine cannot be accessed if quotes are removed from "ENDSSH" and if quotes are put then "queryType" cannot be accessed)
 CCNL_HOME="~/INetCEP/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
 
@@ -28,25 +30,28 @@ if [[ -z $simRunTime ]]
 		#default runtime 10 mins
 		simRunTime=600
 	fi
-
-#Usage : bash publishRemotely.sh all "QueryCentralRemNS" 20
-#Usage : bash publishRemotely.sh all "Predict1QueryCentralRemNS" 20
-#new Usage: bash publishRemotely.sh all "Placement" 7 20 1200
-#new Usage: bash publishRemotely.sh all "Placement" 8 20 1200
+#new Usage: bash publishRemotely.sh all 3 local ucl scala 1200
+#new Usage: bash publishRemotely.sh all 3 Centralized ucl scala 1200
+#new Usage: bash publishRemotely.sh all 3 local pra scala 1200
+#new Usage: bash publishRemotely.sh all 3 Centralized pra scala 1200
+#new Usage: bash publishRemotely.sh all 3 local ucl builtin 1200
+#new Usage: bash publishRemotely.sh all 3 Centralized ucl builtin 1200
+#new Usage: bash publishRemotely.sh all 3 local pra builtin 1200
+#new Usage: bash publishRemotely.sh all 3 Centralized pra builtin 1200
 all() {
-	#echo "deploying CCN"
-	#deployCCN
-	#echo "building NFN"
-	#buildNFN
-	#sleep 2s
+	echo "deploying CCN"
+	deployCCN
+	echo "building NFN"
+	buildNFN
+	sleep 2s
 	echo "copying Node Info"
 	copyNodeInfo
 	sleep 2s
-	#echo "copying NFN Files"
-	#copyNFNFiles
-	#sleep 2s
-	#echo "Deleting old logs"
-	#deleteOldLogs
+	echo "copying NFN Files"
+	copyNFNFiles
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
 	echo "Creating Topology"
 	createTopology
 	#echo "Create Line Topology Kernel"
@@ -59,6 +64,33 @@ all() {
 	sleep 10s
 	echo "executing Query"
 	executeQueryinVMA & sleep $simRunTime; shutdown
+}
+
+readmeSetup(){
+	echo "deploying CCN"
+	deployCCN
+	echo "building NFN"
+	buildNFN
+	sleep 2s
+	echo "copying Node Info"
+	copyNodeInfo
+	sleep 2s
+	echo "copying NFN Files"
+	copyNFNFiles
+	sleep 2s
+	echo "Deleting old logs"
+	deleteOldLogs
+	sleep 1s
+	echo "Everything is set up"
+}
+
+readmeTopology(){
+	echo "Creating Topology"
+	createTopology
+	sleep 2s
+	echo "Starting UpdateNodestate Service"
+	execute
+	sleep 10s
 }
 
 latencyTestsUserland(){
@@ -426,7 +458,7 @@ for i in "${VMS[@]}"
 		ssh -t $user@$i <<-ENDSSH
 		cd ~/INetCEP/VM-Startup-Scripts
 		#second start the query service and update node state 
-		bash executeScripts.sh start $queryType $queryServiceInterval
+		bash executeScripts.sh start
 		ENDSSH
 	done
 
@@ -438,36 +470,21 @@ executeQueryinVMA() {
 	ssh $user@${VMS[0]} <<-ENDSSH
 	echo "logged in "${VMS[0]}
 	#one of a kind query
-	case $placementType in
+	case $queryType in
 	1)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	2)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'FILTER(WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	3)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15),FILTER(WINDOW($approach,node/nodeA/sensor/victims/2,4,S,$executionPlace),Gender=F&Age>30),time,none,inner)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	4)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW($approach,node/nodeA/sensor/gps/1,5,S,$executionPlace),WINDOW($approach,node/nodeA/sensor/gps/2,5,S,$executionPlace),date,none,innerjoin))' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	5)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),date,fullouter,none),Value>50)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	6)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	7)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	8)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S),Gender=F&Age>30),time,none,inner)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	9)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-	;;
-	10)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'centralized' 'centralized' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,1,M)),date,fullouter,none),Value>50)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW($approach,node/nodeA/sensor/plug/1,5,S,$executionPlace)),PREDICT2(30s,WINDOW($approach,node/nodeA/sensor/plug/1,5,S,$executionPlace)),date,fullouter,none),Value>50)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	*) echo "do_nothing"
 	;;
@@ -583,17 +600,18 @@ getOutput: pulls the Output from the VMs
 shutdown: properly shuts down the machines
 all: Run all steps to publish the cluster and start the application
 
-Available <COMMAND2> options (only with COMMAND1=all): Query Placement service
-input: {"Placement"}
+Available <COMMAND2> options (only with COMMAND1=all): Query
+input: {N}:  Any natural number that represents a Query, {1: Window, 2: Filter(Window), 3: Join(Filter(Window),Filter(Window), 4: Filter(Join(Predict2(Window),Predict2(Window))), 5: Heatmap(Join(Window,Window))}
 
-Avalable <COMMAND3> options (only with COMMAND1=all): Query service interval 
-input: {N}: Any natural number that represents a Query, {1: Window, 2: Filter(Window), 3: Join(Filter(Window),Filter(Window), 4: Join(Predict2(Window),Predict2(Window)), 5: Filter(Join(Predict2(Window),Predict2(Window))), 6: Heatmap(Join(Window,Window))}
+Available <COMMAND3> options (only with COMMAND1=all): Query Placement type
+input: {local, Centralized}:  local placement or centralized placement, more are not yet adjusted.
 
-Avalable <COMMAND4> options (only with COMMAND1=all): Query Service Interval
-input: {N}: Any natural number that represents the period in which the query store is read.
+Available <COMMAND4> options (only with COMMAND1=all): Approach
+input: {ucl, pra}: Either let it use the unified communication layer or the pra.
 
-Avalable <COMMAND5> options (only with COMMAND1=all): Run duration
-ipnut: {N}: Any natural number that represents the duration for which the query should run. 
+Available <COMMAND5> options (only with COMMAND1=all): Run duration
+ipnut: {N}: Any natural number that represents the duration for which the query should run.
+
 "
 
 
