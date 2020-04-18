@@ -356,7 +356,13 @@ The steps are the following:
     cd INetCEP/publish_scripts/
     ```
 2. Run the Setup script. This copies and compiles everything you need to the remote VMs.
-
+    ```bash
+    bash publishRemotely.sh readmeSetup
+    ```
+3. Execut Start the topology and the sensors needed for the examples below
+    ```bash
+    bash publishRemotely.sh readmeTopology
+    ```
 Now we are ready to execute Queries. 
 ### Distributed Query Execution
 In order to carry out query execution, we can access any node in the network and issue the following query. Here, any node in the network can act as a placement coordinator. Therefore, the query can be issued from any node to any node in the network.
@@ -446,7 +452,3 @@ The overall query resolution process has the following steps:
 * After the paths have been created, the path that matches the operator count and has the minimum path cost is selected. In decentralized placement, if no path is found, then the query is sent to the best 1-hop neighboring node that carries out this process.
 * The selected path is then sent to the ProcessPlacement function, that traverses the path and sets in the appropriate complex queries in it.
 * Once the complex query has been set, the ProcessDeployment function is invoked, that executes these queries in the network. Upon gathering the evaluated results for child operators, the top most operator is then evaluated and then the result is returned back to the consumer.
-
-
-
-
