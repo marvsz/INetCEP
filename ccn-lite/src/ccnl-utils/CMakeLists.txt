@@ -40,6 +40,7 @@ add_executable(ccn-lite-pktdump src/ccn-lite-pktdump.c)
 add_executable(ccn-lite-produce src/ccn-lite-produce.c)
 
 add_executable(ccn-lite-simplenfn src/ccn-lite-simplenfn.c)
+add_executable(ccn-lite-simplenfnConstant src/ccn-lite-simplenfnConstant.c)
 add_executable(ccn-lite-mkS src/ccn-lite-mkS.c)
 add_executable(ccn-lite-rmS src/ccn-lite-rmS.c)
 
@@ -111,3 +112,6 @@ target_link_libraries(ccn-lite-produce ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccn
 
 target_link_libraries(ccn-lite-simplenfn ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
 target_link_libraries(ccn-lite-simplenfn ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common)
+
+target_link_libraries(ccn-lite-simplenfnConstant ${PROJECT_LINK_LIBS} ${EXT_LINK_LIBS})
+target_link_libraries(ccn-lite-simplenfnConstant ccnl-core ccnl-pkt ccnl-fwd ccnl-unix ccnl-nfn common ccnl-dump)
