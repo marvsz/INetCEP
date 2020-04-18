@@ -609,7 +609,10 @@ input: {local, Centralized}:  local placement or centralized placement, more are
 Available <COMMAND4> options (only with COMMAND1=all): Approach
 input: {ucl, pra}: Either let it use the unified communication layer or the pra.
 
-Available <COMMAND5> options (only with COMMAND1=all): Run duration
+Available <COMMAND5> options (only with COMMAND1=all): Type of Window operator
+input: {scala, builtin}: Either the nfn-scala window operator or the builtin window operator.
+
+Available <COMMAND6> options (only with COMMAND1=all): Run duration
 ipnut: {N}: Any natural number that represents the duration for which the query should run.
 
 "
@@ -641,6 +644,8 @@ elif [ $1 == "latencyTestsUserland" ]; then latencyTestsUserland
 elif [ $1 == "latencyTestsKernel" ]; then latencyTestsKernel
 elif [ $1 == "latencyTestsUserlandFill" ]; then latencyTestsUserlandFill
 elif [ $1 == "latencyTestsKernelFill" ]; then latencyTestsKernelFill
+elif [ $1 == "readmeSetup" ]; then readmeSetup
+elif [ $1 == "readmeTopology" ]; then readmeTopology
 else echo "$help"
 fi
 
