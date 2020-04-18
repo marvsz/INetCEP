@@ -57,5 +57,6 @@ usage:
         DEBUGMSG(DEBUG,"Unable to create file.\n");
         exit(EXIT_FAILURE);
     }
+    fclose(fPtr);
     return 0;
 }
