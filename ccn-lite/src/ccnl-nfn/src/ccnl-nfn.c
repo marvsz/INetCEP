@@ -282,6 +282,7 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
 {
     struct ccnl_interest_s *i;
     struct ccnl_pkt_s **packet = pkt;
+    //(*pkt)->s.ndntlv.isPersistent=false;
 
     if (!ccnl_nfnprefix_isNFN((*pkt)->pfx)
         || ccnl->km->numOfRunningComputations >= NFN_MAX_RUNNING_COMPUTATIONS) {
@@ -299,7 +300,7 @@ ccnl_nfn_RX_request(struct ccnl_relay_s *ccnl, struct ccnl_face_s *from,
         || ccnl_nfnprefix_isIntermediate((*pkt)->pfx)) {
         return NULL;
     }
-
+    (*pkt)->s.ndntlv.isPersistent=false;
     struct ccnl_pkt_s *pkt_start = *pkt;
     int is_start_request = (ccnl_nfnprefix_isRequest((*pkt)->pfx)
                             && (*pkt)->pfx->request->type == NFN_REQUEST_TYPE_START);

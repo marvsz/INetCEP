@@ -18,13 +18,31 @@ public class NFNQueryCreator {
     {
         String call = f;
         // add each parameter as string
-        for (String p : this.parameters)
-        {
-            call += " '" + p + "'";
+        if(this.parameters.contains("builtin")){
+            call = "\"window";
+            for(String p : this.parameters)
+            {
+                if(!(p.equals("ucl") || p.equals("builtin")))
+                    if(p.equals("S"))
+                        call += " 1";
+                    else
+                        if(p.contains("node"))
+                            call += " /" + p;
+                        else
+                            call += " " + p;
+            }
+            // close
+            call += "\"";
+        }
+        else {
+            for (String p : this.parameters) {
+                if(!(p.equals("scala")||p.equals("ucl")))
+                    call += " '" + p + "'";
+            }
+            // close
+            call += ")";
         }
 
-        // close 
-        call += ")";
 
         return call;
     }
@@ -38,15 +56,28 @@ public class NFNQueryCreator {
     public String appendNFNWindowParameter(String f)
     {
         String call = f;
-        // add each parameter as string
-        call += " {" + _timestamp.getTime() + "}";
-        for (String p : this.parameters)
-        {
-            call += " {" + p + "}";
+        if(this.parameters.contains("builtin")){
+            call = "\"window";
+            for(String p : this.parameters)
+            {
+                if(p!="builtin")
+                    call += " " + p;
+            }
+            call += "\"";
+        }
+        else{
+            // add each parameter as string
+            call += " {" + _timestamp.getTime() + "}";
+            for (String p : this.parameters)
+            {
+                if(p!="scala")
+                    call += " {" + p + "}";
+            }
+
+            // close
+            call += ")";
         }
 
-        // close 
-        call += ")";
 
         return call;
     }

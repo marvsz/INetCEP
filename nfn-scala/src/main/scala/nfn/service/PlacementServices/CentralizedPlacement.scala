@@ -111,8 +111,8 @@ class CentralizedPlacement() extends NFNService {
               currentNode._query = query
               LogMessage(nodeName, s"CurrentNode: ${currentNode._type} - Query: $query")
 
-              //Determine the location (name) where this query wwriteOutputFilesill be executed:
-              var remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
+              //Determine the location (name) where this query will be executed:
+              var remoteNodeName = "nodeA"//currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
               timeNow_executeNFNquery = Calendar.getInstance().getTimeInMillis
               val intermediateResult = Helpers.executeNFNQuery(currentNode._query,remoteNodeName,ccnApi,60)
               currentNode._value = intermediateResult

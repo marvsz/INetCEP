@@ -324,7 +324,7 @@ window_purge_old_data(char *retVal, char *stateContent, char *tupleContent, int 
         strcat(retVal, "\n");
     if (intermediateArray) {
         int i = 0;
-        for (i = 0; (i < quantity - 2 && *(intermediateArray + i + 1)); i++) {
+        for (i = 1; (i < quantity - 2 && *(intermediateArray + i + 1)); i++) {
             //DEBUGMSG(DEBUG, "WINDOW: TEEEEST\n");
             //DEBUGMSG(DEBUG, "WINDOW: Start copying Datatuple %i with content %s\n",i,*(intermediateArray+i));
             strcat(retVal, *(intermediateArray + i));
@@ -471,6 +471,13 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
 
     DEBUGMSG(DEBUG, "WINDOW: EndResult is %s\n",endResult);
      */
+    char header[200];
+
+    snprintf(header,sizeof(header),"%s - Date/SensorID/SequenceNumber/Gender/Age\n",ccnl_prefix_to_path(config->prefix));
+
+    char newEndResult[sizeof(endResult)+ sizeof(header)];
+    strcat(newEndResult,header);
+    strcat(newEndResult,endResult);
     if (!state) {
         struct ccnl_interest_s *nfnInterest = ccnl_nfn_local_interest_search(ccnl, config, config->prefix);
         ccnl_makeQueryPersistent(nfnInterest, ccnl, tupleprefix);
@@ -478,12 +485,12 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
     /*else
         DEBUGMSG(DEBUG, "Datalen of the Buffer was %lu, contentlen of the pkt was %i\n",state->pkt->buf->datalen,state->pkt->contlen);*/
     //DEBUGMSG(DEBUG, "The new size of the char to safe is %lu\n",sizeof(char)*strlen(endResult)+1);
-    int len = sizeof(char) * strlen(endResult);
+    int len = sizeof(char) * strlen(newEndResult);
     struct ccnl_pkt_s *pkt = NULL;
     struct ccnl_content_s *oldState = NULL;
     //if (tuple) {
     if (state) {
-        pkt = createNewPacket(ccnl_prefix_dup(state->pkt->pfx), endResult, len);
+        pkt = createNewPacket(ccnl_prefix_dup(state->pkt->pfx), newEndResult, len);
         oldState = state;
         state = ccnl_content_new(&(pkt));
         if (!oldState->prev) {
@@ -494,7 +501,7 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
         state->next = oldState->next;
         ccnl_content_free(oldState);
     } else {
-        pkt = createNewPacket(ccnl_prefix_dup(stateprefix), endResult, len);
+        pkt = createNewPacket(ccnl_prefix_dup(stateprefix), newEndResult, len);
         state = ccnl_content_new(&(pkt));
         if (ccnl->contents) {
             ccnl->contents->prev = state;

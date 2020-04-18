@@ -269,7 +269,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
      * and asks the network if it was the first entry in the pit.
      * Thunk interests get converted to normal interests, thunks need to be enabled with the boolean flag in the message
      */
-    case NFNApi.CCNSendPersistentInterest(persistentInterest, interestedComputation, useThunks) => {
+    case NFNApi.CCNSendPersistentInterest(persistentInterest:PersistentInterest, interestedComputation:CCNName, useThunks:Boolean) => {
       val senderCopy = sender
       logger.debug(s"the name of the interested Computation we actually store is ${interestedComputation}")
       logger.debug(s"The Comps of the constant Interest are ${persistentInterest.name.cmps.toString()}")

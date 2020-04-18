@@ -681,6 +681,7 @@ ccnl_content_serve_pending(struct ccnl_relay_s *ccnl, struct ccnl_content_s *c) 
 
                 c->served_cnt++;
                 cnt++;
+                continue;
                 //return 1;
             }
             i = i->next;

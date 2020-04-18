@@ -30,6 +30,18 @@ public class OperatorTreeTest {
         assertNotNull(result);
         assertEquals(5, result._stackSize);
 
+        result = opTree.createOperatorTree("JOIN(FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,4,S,builtin),Gender=M&Age<15),FILTER(WINDOW(ucl,node/nodeA/sensor/victims/2,4,S,builtin),Gender=F&Age>30),time,none,inner)");
+        assertNotNull(result);
+        assertEquals(5, result._stackSize);
+
+        result = opTree.createOperatorTree("JOIN(FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,4,S,scala),Gender=M&Age<15),FILTER(WINDOW(ucl,node/nodeA/sensor/victims/2,4,S,scala),Gender=F&Age>30),time,none,inner)");
+        assertNotNull(result);
+        assertEquals(5, result._stackSize);
+
+        result = opTree.createOperatorTree("JOIN(FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,4,S,scala),Gender=M&Age<15),FILTER(WINDOW(pra,node/nodeA/sensor/victims/2,4,S,scala),Gender=F&Age>30),time,none,inner)");
+        assertNotNull(result);
+        assertEquals(5, result._stackSize);
+
         result = opTree.createOperatorTree("HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S),WINDOW(node/nodeA/sensor/gps/2,5,S),date,none,innerjoin))");
         assertNotNull(result);
         assertEquals(4, result._stackSize);

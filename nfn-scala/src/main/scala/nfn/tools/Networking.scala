@@ -70,7 +70,7 @@ object Networking extends LazyLogging{
   def subscribeToQuery(interestName: String, interestedComputation: String, ccnApi:ActorRef): Unit = {
     val interestedComputationName = NFNInterest(interestedComputation).name.prepend("COMPUTE")
       //CCNName(new String(interestedComputation).split("/").toIndexedSeq: _*).prepend("COMPUTE").append("NFN")
-    if(!interestName.contains("call")){
+    if(!interestName.contains("call") && !interestName.contains("window")){
       ccnApi ! makePersistentInterest(interestName,interestedComputationName,ccnApi)
     }
     else{

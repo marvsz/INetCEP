@@ -29,7 +29,7 @@ import ccn.packet.CCNName
 
 class QueryPlacement() extends NFNService {
 
-  override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future{
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder: StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = Future {
 
 
     //Algorithm: Centralized or Decentralized
@@ -39,7 +39,7 @@ class QueryPlacement() extends NFNService {
     //Query: The complex query to process
     //Region: User Region to hit for sensors (currently unused but can be used in future work)
     //Timestamp: Used to distinguish the time of arrival for the queries
-    def processQuery(algorithm: String, processing: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String): String = {
+    def processQuery(placementAlgorithm: String, communicationApproach: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String): String = {
       val algorithmEnum = 0
       var maxPath = 0
 
@@ -68,10 +68,10 @@ class QueryPlacement() extends NFNService {
 
       evalHandler.setStartTime_OpTreeCreation()
 
-      LogMessage(nodeName,s"Query is $query")
+      LogMessage(nodeName, s"Query is $query")
       val root: Map = et.createOperatorTree(query)
       val opCount = root._stackSize
-      LogMessage(nodeName,s"Stacksize is $opCount")
+      LogMessage(nodeName, s"Stacksize is $opCount")
       evalHandler.setEndTimeNow_OpTreeCreation()
 
       LogMessage(nodeName, s"Operator Tree creation Completed")
@@ -79,11 +79,11 @@ class QueryPlacement() extends NFNService {
       //Get current Network Status and Path information:
 
 
-      var allNodes:ListBuffer[NodeInfo] = null
+      var allNodes: ListBuffer[NodeInfo] = null
       var paths: ListBuffer[Paths] = null
-      if(!algorithm.toLowerCase.equals("local")) {
+      if (!placementAlgorithm.toLowerCase.equals("local")) {
         evalHandler.setStartTime_NodeDiscovery()
-        allNodes = getNodeStatus(algorithm.toLowerCase, thisNode, nodeName)
+        allNodes = getNodeStatus(placementAlgorithm.toLowerCase, thisNode, nodeName)
         if (allNodes.length < root._stackSize) {
           return "Query processing stopped."
         }
@@ -96,16 +96,16 @@ class QueryPlacement() extends NFNService {
             maxPath = path.hopCount
           }
         }
-        LogMessage(nodeName,s"Finished Checking Paths")
+        LogMessage(nodeName, s"Finished Checking Paths")
       }
 
       //Now that we have all the paths we need: Place the queries on these paths:
       //1) Find the number of operators in the query:
-      val placement: Placement = Placement(algorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount)
+      val placement: Placement = Placement(placementAlgorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount)
 
-      LogMessage(nodeName,s"Created Placment from Factory")
+      LogMessage(nodeName, s"Created Placment from Factory")
       val resultVal = placement.process()
-      LogMessage(nodeName,s"result of Deployment is: $resultVal")
+      LogMessage(nodeName, s"result of Deployment is: $resultVal")
       resultVal
     }
 
@@ -123,13 +123,13 @@ class QueryPlacement() extends NFNService {
       val now = Calendar.getInstance()
       var allNodes = new ListBuffer[NodeInfo]()
 
-      def getCentralizedNodeStatus: Unit ={
+      def getCentralizedNodeStatus: Unit = {
         for (e: NodeInformation <- NodeInformationSingleton.nodeInfoList.asScala) {
           val name = s"node/${e._nodeName}/state/nodeState"
           LogMessage(nodeName, s"sending the interest $name")
           //Get content from network
-          val intermediateResult = Networking.fetchContent(name,ccnApi,500 milliseconds)
-          if(intermediateResult.isDefined) {
+          val intermediateResult = Networking.fetchContent(name, ccnApi, 500 milliseconds)
+          if (intermediateResult.isDefined) {
             var ni = new NodeInfo(new String(intermediateResult.get.data))
             LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
             allNodes += ni
@@ -140,7 +140,7 @@ class QueryPlacement() extends NFNService {
         LogMessage(nodeName, s"Get Node Status Completed")
       }
 
-      def getDecentralizedNodeStatus: Unit ={
+      def getDecentralizedNodeStatus: Unit = {
         val kHops = Source.fromFile(Helpers.getDecentralizedKHops)
         var K = 0
         kHops.getLines().foreach {
@@ -401,7 +401,7 @@ class QueryPlacement() extends NFNService {
 
     NFNStringValue(
       args match {
-        case Seq(algorithm: NFNStringValue, processing: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processQuery(algorithm.str, processing.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str)
+        case Seq(placementAlgorithm: NFNStringValue, communicationApproach: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processQuery(placementAlgorithm.str, communicationApproach.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str)
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }

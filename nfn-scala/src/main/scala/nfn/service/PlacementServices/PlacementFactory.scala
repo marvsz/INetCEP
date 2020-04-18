@@ -111,7 +111,7 @@ trait Placement {
         //currentNode._value = executeNFNQuery(currentNode._query)
 
         //Determine the location (name) where this query wwriteOutputFilesill be executed:
-        val remoteNodeName = currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
+        val remoteNodeName = currentNode._executionNode//currentNode._query.substring(currentNode._query.indexOf("/node/node") + 6, currentNode._query.indexOf("nfn_service") - 1)
 
 
         //In order to simulate network results (which can fail due to node availability or etc - we will comment out actual deployment and introduce a delay of 1.5 seconds which is the average query response time for a distributed network node.
