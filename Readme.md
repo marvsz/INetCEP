@@ -326,16 +326,16 @@ We execute queries by using the placement functions.
 #### UCL
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 tuples of the victims sensor by gender = male and age above 30 years while using the builtin window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 #### PRA
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 ### Distributed Build and Startup
 Above we described how to interconnect two nodes. If you use different machines with different IP adresses, you have to do that on them respectively. We will set up our distributed system automatically with the following topology:
@@ -370,16 +370,16 @@ The below query issues a persistent ccn-lite-simplenfn interest to nodeID 28 for
 #### UCL
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 tuples of the victims sensor by gender = male and age above 30 years while using the builtin window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 #### PRA
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
     ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
     ```
 ## Kernel Version
 We advise to run the kernel version in a secure environment since it is under developement and kernel panicks can occure. Read this https://www.linuxjournal.com/content/oops-debugging-kernel-panics-0 and install a crashkernel or you use a VM in VMS.cfg where the crashkernel is already installed.
