@@ -171,11 +171,12 @@ main(int argc, char *argv[])
             socksize = sizeof(struct sockaddr_in);
         }
         rc = sendto(sock, buf->data, buf->datalen, 0, (struct sockaddr*)&sa, socksize);
+        DEBUGMSG(DEBUG, "sendto returned %d\n", rc);
         if (rc < 0) {
             perror("sendto");
             myexit(1);
         }
-        DEBUGMSG(DEBUG, "sendto returned %d\n", rc);
+
 
         int recievedPackets = 0;
 
