@@ -11,6 +11,17 @@ initializetopology() {
 	sleep 10s
 }
 
+initializetopologyWithSensors() {
+	rm *.log
+	nohup bash startNodes.sh > nodes.log &
+	sleep 2s
+	nohup bash startSensor.sh victims 1 2 500000 trace > sensor.log &
+	nohup bash startSensor.sh victims 2 2 500000 trace > sensor.log &
+	sleep 1s
+	nohup bash startCS.sh > CS.log &
+	sleep 10s
+}
+
 initializetopologyKernel() {
 	rm *.log
 	nohup bash startNodes.sh > nodes.log &
@@ -49,7 +60,7 @@ startexecution() {
 	cd $executionScripts
 	rm *.log
 	#execute this script the last once all the nodes and compute servers are started 
-	nohup bash startRemoteAny.sh $queryType $queryServiceInterval > startUp.log &
+	nohup bash startRemoteAny.sh > startUp.log &
 }
 
 if [ $1 == 'initialize' ]; then initializetopology

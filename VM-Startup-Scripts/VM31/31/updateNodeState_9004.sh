@@ -4,11 +4,7 @@ source "$work_dir/VMS.cfg"
 ParentIP=$1
 ParentPort=$2
 ParentNodeName=$3
-MyPort=$4
-MyNodeName=$5
-HostedSensor=$6
-QueryType=$7
-Interval=$8
+HostedSensor=$4
 deployedOperators=""
 FILE=DeployedOperators.txt
 if [[ -z $Interval ]]
@@ -17,8 +13,11 @@ then
 	Interval=20
 fi
 
-#./queryService.sh $ParentIP $ParentPort $ParentNodeName $QueryType $Interval &
-#echo 'Query Service Started'
+if [[ -z $HostedSensor ]]
+then
+	#default hosted sensors
+	HostedSensor="None"
+fi
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
@@ -39,7 +38,6 @@ Battery=100
 
 while true
 do 
-
 	#4 --> 2
 	B9002=$(echo $(ping -c 1 ${VMS[1]} | tail -1| awk '{print $4 / 2}' | cut -d '/' -f 2) \* $(iperf -c ${VMS[1]} -p 8002 -u -t 1 | tail -1 | awk '{print $8}') |bc)
 
@@ -72,7 +70,7 @@ do
 		deployedOperators=`cat DeployedOperators.txt`
 	fi
 
-	Content="$MyNodeName|$HostedSensor|$Latency|$Battery|$deployedOperators"
+	Content="$ParentPort|$HostedSensor|$Latency|$Battery|$deployedOperators"
 
 	#echo $Content
 
@@ -80,16 +78,6 @@ do
 	echo $Content > nodeStatusContent
 	$CCNL_HOME/bin/ccn-lite-mkDSC -s ndn2013 "node/$ParentNodeName/state/nodeState" -i nodeStatusContent > binaryNodeStatusContent
 	$CCNL_HOME/bin/ccn-lite-ctrl -u 127.0.0.1/$ParentPort addContentToCache binaryNodeStatusContent	
-#timeout 10 $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u $ParentIP/$ParentPort -w 10 "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-	#timeout 10 $CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u $ParentIP/$ParentPort -w 10 "" "call 4 /node/$ParentNodeName/nfn_service_UpdateNodeState '$MyPort' '$Content' '$DATE_WTIH_TIME'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-	#if [ $? -eq 124 ]; then
-	    # Timeout occurred
-		#echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request timed out after 10 seconds -' $?
-	#else
-	    # No hang
-		#echo `date "+%Y-%m-%d %H:%M:%S.%3N"` ': (Update Node State) Request Successful'
-	#fi
-
 	arrNodes=()
 
     sleep 50
