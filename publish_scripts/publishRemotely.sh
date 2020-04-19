@@ -283,6 +283,16 @@ echo "copying CCN-lite source code to remote and then building it on each"
 bash remoteInstallCCNNFN.sh deployCCN
 }
 
+deployNFN(){
+	echo "building NFN"
+	buildNFN
+	sleep 2s
+	echo "copying NFN Files"
+	copyNFNFiles
+	sleep 1s
+	echo "deployed NFN"
+}
+
 #copy the nodeInformation
 #Usage : bash publishRemotely.sh copyNodeInfo()
 copyNodeInfo() {
@@ -649,6 +659,7 @@ ipnut: {N}: Any natural number that represents the duration for which the query 
 if [ $1 == "all" ]; then all
 elif [ $1 == "deletelogs" ]; then deleteOldLogs
 elif [ $1 == "deployccn" ]; then deployCCN
+elif [ $1 == "deployNFN" ]; then deployNFN
 elif [ $1 == "getlogs" ]; then getLogs
 elif [ $1 == "restart" ]; then restartVMs
 elif [ $1 == "update" ]; then updateVMs
