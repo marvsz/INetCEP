@@ -2,6 +2,7 @@ package nfn.service
 import INetCEP.StatesSingleton
 import akka.actor.ActorRef
 import ccn.packet.CCNName
+import nfn.tools.IOHelpers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -12,6 +13,8 @@ class QueryResultPrinter extends NFNService{
     var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
     def printQueryResult(result: String): Future[NFNValue] = Future{
+      LogMessage(nodeName,s"QueryResultPrinter: Result = $result")
+      IOHelpers.writeQueryOutput(nodeName,result)
       NFNStringValue("Printed Result")
     }
 

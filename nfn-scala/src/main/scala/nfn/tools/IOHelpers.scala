@@ -1,7 +1,10 @@
 package nfn.tools
 
 import java.io.{File, FileOutputStream, PrintWriter}
+import java.time.DateTimeException
+import java.time.format.DateTimeFormatter
 import java.util.Base64
+import java.time.{Instant, ZoneId, ZonedDateTime}
 
 import myutil.FormattedOutput
 import nfn.tools.Helpers.sacepicnEnv
@@ -113,6 +116,22 @@ object IOHelpers {
     pw2.println(weightVariance)
     pw2.close()
     pw4.println("Query Result:")
+    pw4.println(queryResult)
+    pw4.close()
+  }
+
+  def writeQueryOutput(nodeName: String, queryResult:String)={
+    val queryResultFile = s"$sacepicnEnv/nodeData/queryResult"
+    val timeInMillis = System.currentTimeMillis()
+    val instant = Instant.ofEpochMilli(timeInMillis)
+    val zonedDateTimeUtc = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"))
+    val dateTimeFormatter1 = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+    val zonedDateTimeUtcString1 = dateTimeFormatter1.format(zonedDateTimeUtc)
+    val file4 = new File(queryResultFile)
+    file4.getParentFile.mkdirs()
+    file4.createNewFile()
+    val pw4 = new PrintWriter(new FileOutputStream(file4, true))
+    pw4.println(s"Query Result on $nodeName at $zonedDateTimeUtcString1:")
     pw4.println(queryResult)
     pw4.close()
   }
