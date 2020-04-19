@@ -143,6 +143,7 @@ ccnl_content_serve_pendingQueries(struct ccnl_relay_s *relay, struct ccnl_conten
                     pi->face->flags |= CCNL_FACE_FLAGS_SERVED; // else
                     cnt = cnt + 1;
                     struct ccnl_pkt_s* duplicateNFNInterest=ccnl_pkt_dup(qi->pkt);
+                    duplicateNFNInterest->s.ndntlv.isPersistent=false;
                     ccnl_fwd_handleInterest(relay, pi->face, &duplicateNFNInterest, ccnl_ndntlv_cMatch);
                 }
             }

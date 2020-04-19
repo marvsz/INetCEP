@@ -41,6 +41,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ccnl-pkt.h>
 #include "ccnl-nfn-common.h"
 #include "ccnl-nfn-krivine.h"
 #include "../../ccnl-pkt/include/ccnl-pkt-ccnb.h"
@@ -473,13 +474,17 @@ op_builtin_window(struct ccnl_relay_s *ccnl, struct configuration_s *config,
      */
     char header[200];
 
-    snprintf(header,sizeof(header),"%s - Date/SensorID/SequenceNumber/Gender/Age\n",ccnl_prefix_to_path(config->prefix));
+    snprintf(header,sizeof(header),"%s - date/sensorid/sequencenumber/gender/age\n",ccnl_prefix_to_path(config->prefix));
 
     char newEndResult[sizeof(endResult)+ sizeof(header)];
     strcat(newEndResult,header);
     strcat(newEndResult,endResult);
     if (!state) {
         struct ccnl_interest_s *nfnInterest = ccnl_nfn_local_interest_search(ccnl, config, config->prefix);
+        if(nfnInterest->pkt->s.ndntlv.isPersistent){
+            DEBUGMSG(DEBUG,"NFNInterest was persistent, setting it to non persistent or otherwise the new computation would just be appended.");
+            nfnInterest->pkt->s.ndntlv.isPersistent = false;
+        }
         ccnl_makeQueryPersistent(nfnInterest, ccnl, tupleprefix);
     }
     /*else
