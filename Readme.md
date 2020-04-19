@@ -68,7 +68,7 @@ CCN-lite requires OpenSSL. Use the following to install it:
 
     Once your assembly file (.JAR) has been created, it will be placed in the ../nfn-scala/target/scala-2.13/ folder. Use the .jar file to start the compute server.
     If you encounter any issues with the jar file, use
-    ```bash
+	```bash
     sbt clean
     ```
     to clean the project and build it again.
@@ -273,17 +273,17 @@ Execute the add function to add 1 and 2 on an already started node:
 ```
 We now describe how to run the window operator in ccn-lite:
 1. Start the node
-    ```bash
-    ~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9001 -x /tmp/mgmt-nfn-relay-a.sock
-    ```
+	```bash
+	~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9001 -x /tmp/mgmt-nfn-relay-a.sock
+	```
 2. Start a simulated victims sensor with id 1, sampling rate every 500ms (2 messages per second) and that constantly publishes the data to the ccn-lite node with the UDP socket 9001
-    ```bash
-    ~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n victims -i 1 -t 2 -s 500000 -u 127.0.0.1/9001 -v trace
-    ```
+	```bash
+	~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n victims -i 1 -t 2 -s 500000 -u 127.0.0.1/9001 -v trace
+	```
 3. Send an NFN Interest for a window with tuple size 5 that reacts to the previously started sensor:
-    ```bash
-    ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfnConstant -s ndn2013 -v trace -u 127.0.0.1/9001 "window /node/nodeA/sensor/victims/1 5 1"
-    ```
+	```bash
+	~/INetCEP/ccn-lite/bin/ccn-lite-simplenfnConstant -s ndn2013 -v trace -u 127.0.0.1/9001 "window /node/nodeA/sensor/victims/1 5 1"
+	```
 In the terminal you sent the constant NFN Interets to you will see the output.
 
 ## INetCEP
@@ -306,37 +306,37 @@ In order to use the INetCEP streaming system you have to start a node and a NFN-
     ```
     Once your assembly file (.JAR) has been created, it will be placed in the ../nfn-scala/target/scala-2.13/ folder. Use the .jar file to start the compute server.
     If you encounter any issues with the jar file, use
-    ```bash
+	```bash
     sbt clean
     ```
     to clean the project and build it again.
 
 ### Startup
 1. Start a ccn-lite node
-    ```bash
-    ~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9001 -x /tmp/mgmt-nfn-relay-a.sock
-    ```
+	```bash
+	~/INetCEP/ccn-lite/bin/ccn-lite-relay -v trace -s ndn2013 -u 9001 -x /tmp/mgmt-nfn-relay-a.sock
+	```
 2. Connect the nfn-scala compute server
-    ```bash
-    java -jar ~/INetCEP/nfn-scala/target/scala-2.13/nfn-assembly-0.2.2.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA
-    ```
+	```bash
+	java -jar ~/INetCEP/nfn-scala/target/scala-2.13/nfn-assembly-0.2.2.jar --mgmtsocket /tmp/mgmt-nfn-relay-a.sock --ccnl-port 9001 --cs-port 9002 --debug --ccnl-already-running /node/nodeA
+	```
 ### Query Execution
 We assume that the relay is up and running for the next part.
 We execute queries by using the placement functions.
 #### UCL
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 tuples of the victims sensor by gender = male and age above 30 years while using the builtin window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 #### PRA
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 ### Distributed Build and Startup
 Above we described how to interconnect two nodes. If you use different machines with different IP adresses, you have to do that on them respectively. We will set up our distributed system automatically with the following topology:
 ```
@@ -352,35 +352,35 @@ Above we described how to interconnect two nodes. If you use different machines 
 ```             
 The steps are the following:
 1. Navigate to the publish scripts
-    ```bash
-    cd INetCEP/publish_scripts/
-    ```
+	```bash
+	cd INetCEP/publish_scripts/
+	```
 2. Run the Setup script. This copies and compiles everything you need to the remote VMs.
-    ```bash
-    bash publishRemotely.sh readmeSetup
-    ```
+	```bash
+	bash publishRemotely.sh readmeSetup
+	```
 3. Execut Start the topology and the sensors needed for the examples below
-    ```bash
-    bash publishRemotely.sh readmeTopology
-    ```
+	```bash
+	bash publishRemotely.sh readmeTopology
+	```
 Now we are ready to execute Queries. 
 ### Distributed Query Execution
 In order to carry out query execution, we can access any node in the network and issue the following query. Here, any node in the network can act as a placement coordinator. Therefore, the query can be issued from any node to any node in the network.
 The below query issues a persistent ccn-lite-simplenfn interest to nodeID 28 for a decentralized query processing. The complex query is a filter that works on a window. The filter reduces the contents of the window to only the tuples where the gender is male and the age above 30. The result of the window operator is fed to its parent operator, which once complete, is returned back to the consumer node.
 #### UCL
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 tuples of the victims sensor by gender = male and age above 30 years while using the builtin window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(ucl,node/nodeA/sensor/victims/1,5,S,builtin),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 #### PRA
 * Execute a placement service on the local node that places a persistent query that filters the data of the sliding window of 5 seconds of the victims sensor by gender = male and age above 30 years while using the nfn-scala window operator:
-    ```
-    $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
-    ```
+	```
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala),gender=M&age>30)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	```
 ## Kernel Version
 We advise to run the kernel version in a secure environment since it is under developement and kernel panicks can occure. Read this https://www.linuxjournal.com/content/oops-debugging-kernel-panics-0 and install a crashkernel or you use a VM in VMS.cfg where the crashkernel is already installed.
 This tutorial assumes you are on VM28.
