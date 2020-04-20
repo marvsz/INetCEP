@@ -1,13 +1,13 @@
 package nfn.service
 
 import INetCEP.StatesSingleton
-import nfn.tools.{Helpers, SensorHelpers}
+import nfn.tools.{Helpers, Networking, SensorHelpers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 //Added for contentfetch
 import akka.actor.ActorRef
-
+import scala.concurrent.duration._
 import scala.language.postfixOps
 
 //Added for contentfetch
@@ -26,7 +26,7 @@ class Prediction2 extends NFNService {
     val nodeInfo = interestName.cmps.mkString(" ")
     val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1);
 
-    def predictionHandler(granularity: String, streamName: String, dataStream: String): String = {
+    def uclPredictionHandler(granularity: String, streamName: String, dataStream: String): String = {
       LogMessage(nodeName,"PREDICTION: Started prediction")
       val nameOfState = s"/state${interestName.toString}"
       val historyArray: Array[Double] = stateHolder.getPredictionState(nameOfState)
@@ -40,6 +40,34 @@ class Prediction2 extends NFNService {
       output
     }
 
+    def praPredictionHandler(granularity: String, streamName: String):String = {
+      LogMessage(nodeName,"PREDICTION: Started prediction")
+      val nameOfState = s"/state${interestName.toString}"
+      val historyArray: Array[Double] = stateHolder.getPredictionState(nameOfState)
+      var dataStream = ""
+      val intermediateResult = Networking.fetchContentFromNetwork(streamName, ccnApi, 500 milliseconds)
+      if(intermediateResult.isDefined){
+        dataStream = new String(intermediateResult.get.data)
+      }
+      else{
+        dataStream = "Fail"
+        LogMessage(nodeName,"PREDICTION: Finished prediction")
+        val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})"
+        Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
+        return newDataStreamName
+      }
+      var output = predict(SensorHelpers.parseData("data",dataStream), granularity,historyArray, nameOfState,stateHolder)
+      if (output != "")
+        output = output.stripSuffix("\n").stripMargin('#')
+      else
+        output += "No Results!"
+      val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})"
+      LogMessage(nodeName,"PREDICTION: Finished prediction")
+      LogMessage(nodeName, s"RREDICTION: output; $output")
+      Networking.storeResult(nodeName,output,newDataStreamName,ccnApi)
+      newDataStreamName
+    }
+
     def initialPredictionHandler(granularity:String, streamName: String): String ={
       LogMessage(nodeName,"PREDICTION: Started initial prediction")
       "PREDICTION: Started initial prediction"
@@ -47,8 +75,17 @@ class Prediction2 extends NFNService {
 
     NFNStringValue(
       args match {
-        case Seq(granularity: NFNStringValue, streamName: NFNStringValue, dataStream: NFNStringValue) => predictionHandler(granularity.str, streamName.str, dataStream.str)
-        case Seq(granularity: NFNStringValue, streamName: NFNStringValue) => initialPredictionHandler(granularity.str, streamName.str)
+        // Hier unterscheidung für communicationappraoch
+        case Seq(communicationApproach: NFNStringValue, granularity: NFNStringValue, streamName: NFNStringValue) =>
+          initialPredictionHandler(granularity.str, streamName.str)
+
+        case Seq(communicationApproach: NFNStringValue, granularity: NFNStringValue, streamName: NFNStringValue, dataStream: NFNStringValue) =>
+          communicationApproach.str.toLowerCase() match {
+            case "ucl" =>uclPredictionHandler(granularity.str, streamName.str, dataStream.str)
+            case _ =>  praPredictionHandler(granularity.str, streamName.str)
+          }
+
+
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }

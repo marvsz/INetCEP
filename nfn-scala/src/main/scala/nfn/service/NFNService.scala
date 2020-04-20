@@ -26,7 +26,7 @@ object NFNService extends LazyLogging {
   def parseAndFindFromName(name: String, stateHolder: StatesSingleton, ccnServer: ActorRef)(implicit ec: ExecutionContext): Future[CallableNFNService] = {
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
-      (ccnServer ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnServer ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     def findService(fun: String): Future[NFNService] = {

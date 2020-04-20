@@ -58,10 +58,7 @@ object FilterHelpers {
 
     queryVariable = value(1).stripPrefix("(").stripSuffix(")").trim
     for (col <- queryColumns){
-      print(s"ColumnID is $col \n")
-      print(s"Operator is $operator \n")
       val retCond = matchCondition(operator, col, queryVariable, line, delimiter)
-      print(s"return of Match Condition is $retCond \n")
       returnValue = returnValue && retCond
       if(!returnValue)
         returnValue

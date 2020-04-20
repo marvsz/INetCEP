@@ -291,7 +291,7 @@ object Helpers {
     LogMessage(nodeName, s"Query Result from network node: ${result}")
     if (result.contains("timeout") || result.contains("interest") || result == "")
       result = "No Result!"
-    return result
+    result
   }
 
   /**

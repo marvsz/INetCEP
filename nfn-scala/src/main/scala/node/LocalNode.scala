@@ -272,7 +272,7 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
    * Fire and forgets an interest to the system. Response will still arrive in the localAbstractMachine cache, but will discarded when arriving
    * @param req
    */
-  def send(req: Interest)(implicit useThunks: Boolean) = nfnMaster ! NFNApi.CCNSendReceive(req, useThunks)
+  def send(req: Interest)(implicit useThunks: Boolean) = nfnMaster ! NFNApi.CCNSendReceive(req, useThunks,true)
 
   /**
    * Sends the request and returns the future of the content
@@ -280,7 +280,7 @@ case class LocalNode(routerConfig: RouterConfig, maybeComputeNodeConfig: Option[
    * @return
    */
   def sendReceive(req: Interest)(implicit useThunks: Boolean): Future[Content] = {
-    (nfnMaster ? NFNApi.CCNSendReceive(req, useThunks)).mapTo[CCNPacket] map {
+    (nfnMaster ? NFNApi.CCNSendReceive(req, useThunks,true)).mapTo[CCNPacket] map {
       case n: Nack => throw new Exception(":NACK")
       case c: Content =>  c
       case i: Interest => throw new Exception("An interest was returned, this should never happen")

@@ -5,6 +5,7 @@ package nfn.service
  */
 
 import java.io.FileNotFoundException
+import java.util.Calendar
 
 import INetCEP.StatesSingleton
 import akka.actor.ActorRef
@@ -30,7 +31,7 @@ class Window() extends NFNService {
   val DateTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
   var relativeTime: LocalTime = null
 
-  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
+  override def function(interestName: CCNName, args: Seq[NFNValue], stateHolder: StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
 
 
     //Interest will always be in the form of: call X /node/nodeX/nfn_service_X
@@ -76,24 +77,24 @@ class Window() extends NFNService {
       contentWindow
     }
 
-    def placeWindowInterest(stream: String, interestedComputation: CCNName) : Future[NFNValue] = Future {
+    def placeWindowInterest(stream: String, interestedComputation: CCNName): Future[NFNValue] = Future {
       LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream}")
-      Networking.makePersistentInterest(stream,interestedComputation,ccnApi)
+      Networking.makePersistentInterest(stream, interestedComputation, ccnApi)
       LogMessage(nodeName, s"Paced Window Interest")
       NFNStringValue("Placed Interests")
     }
 
     def processInitialSlidingEventWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue, interestedComputationName: CCNName): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started Initial Sliding Event Window Computation, without dataStream")
+      LogMessage(nodeName, s"Started Initial Sliding Event Window Computation, without dataStream")
       val setting = sensor.str.split("/")(2).concat("/").concat(numberOfEvents.str)
       val nameOfState = s"/state/SlidingEventWindow/$setting"
       val returnValue = ""
-      Helpers.storeState(nodeName,returnValue,"SlidingEventWindow",setting,ccnApi)
-      Networking.makePersistentInterest(sensor.str,interestedComputationName,ccnApi)
-      LogMessage(nodeName,s"Initial sliding Event Window Content should be empty and is: $returnValue")
-      if(deliveryFormat.str.toLowerCase == "data")
+      Helpers.storeState(nodeName, returnValue, "SlidingEventWindow", setting, ccnApi)
+      Networking.makePersistentInterest(sensor.str, interestedComputationName, ccnApi)
+      LogMessage(nodeName, s"Initial sliding Event Window Content should be empty and is: $returnValue")
+      if (deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
-      else if(deliveryFormat.str.toLowerCase == "name"){
+      else if (deliveryFormat.str.toLowerCase == "name") {
         NFNStringValue(nameOfState)
       }
       else
@@ -101,33 +102,33 @@ class Window() extends NFNService {
     }
 
     def processInitialSlidingTimeWindow(deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, interestedComputationName: CCNName): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started Initial Sliding Time Window Computation, without dataStream")
+      LogMessage(nodeName, s"Started Initial Sliding Time Window Computation, without dataStream")
       val setting = sensor.str.split("/")(2).concat("/").concat(timerPeriod.str).concat(timeUnit.str)
       val nameOfState = s"/state/SlidingTimeWindow/$setting"
       val returnValue = ""
-      Helpers.storeState(nodeName,returnValue,"SlidingTimeWindow",setting,ccnApi)
-      Networking.makePersistentInterest(sensor.str,interestedComputationName,ccnApi)
-      LogMessage(nodeName,s"Initial sliding Time Window Content should be empty and is: $returnValue")
-      if(deliveryFormat.str.toLowerCase == "data")
+      Helpers.storeState(nodeName, returnValue, "SlidingTimeWindow", setting, ccnApi)
+      Networking.makePersistentInterest(sensor.str, interestedComputationName, ccnApi)
+      LogMessage(nodeName, s"Initial sliding Time Window Content should be empty and is: $returnValue")
+      if (deliveryFormat.str.toLowerCase == "data")
         NFNStringValue(returnValue)
-      else if(deliveryFormat.str.toLowerCase == "name"){
+      else if (deliveryFormat.str.toLowerCase == "name") {
         NFNStringValue(nameOfState)
       }
       else
         NFNStringValue("Not a matching Return Format, Allowed are data and name")
     }
 
-    def processSlidingEventWindow(sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started Sliding Event Window Computation, dataStream is $dataStream")
+    def processSlidingEventWindow(sensor: String, numberOfEvents: String, dataStream: String): Future[NFNValue] = Future {
+      LogMessage(nodeName, s"Started Sliding Event Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val nameOfState = s"/state${interestName.toString}"
       stateContent = stateHolder.getWindowState(nameOfState)
-      if(stateContent == "Null") {
-        LogMessage(nodeName,"State Content was empty")
+      if (stateContent == "Null") {
+        LogMessage(nodeName, "State Content was empty")
         stateContent = ""
       }
       else
-        LogMessage(nodeName,"Found State Content")
+        LogMessage(nodeName, "Found State Content")
       /*
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.toString,ccnApi,200 milliseconds)
       if(stateOptional.isDefined) {
@@ -138,27 +139,27 @@ class Window() extends NFNService {
         LogMessage(nodeName,"State Content was empty")
 
        */
-      val sensorName = sensor.str.split("/")(3)
-      val header = "Window("+sensor.str+","+numberOfEvents.str + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
-      val newStateContent = slideEventWindow(stateContent,dataStream.str,numberOfEvents.str.toInt)
+      val sensorName = sensor.split("/")(3)
+      val header = "Window(" + sensor + "," + numberOfEvents + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
+      val newStateContent = slideEventWindow(stateContent, dataStream, numberOfEvents.toInt)
       val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateWindowState(nameOfState,newStateContent)
-      LogMessage(nodeName,s"Sliding Event Window Content is $retVal")
+      stateHolder.updateWindowState(nameOfState, newStateContent)
+      LogMessage(nodeName, s"Sliding Event Window Content is $retVal")
       NFNStringValue(retVal)
     }
 
-    def processSlidingTimeWindow(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started Sliding Time Window Computation, dataStream is $dataStream")
+    def processUCLSlidingTimeWindow(sensor: String, timerPeriod: String, timeUnit: String, dataStream: String): Future[NFNValue] = Future {
+      LogMessage(nodeName, s"Started Sliding Time Window Computation, dataStream is $dataStream")
       var stateContent = ""
       val nameOfState = s"/state${interestName.toString}"
       stateContent = stateHolder.getWindowState(nameOfState)
-      if(stateContent == null) {
-        LogMessage(nodeName,"State Content was empty")
+      if (stateContent == null) {
+        LogMessage(nodeName, "State Content was empty")
         stateContent = ""
       }
       else {
-        LogMessage(nodeName,"Found State Content")
+        LogMessage(nodeName, "Found State Content")
       }
       /*
       val stateOptional: Option[Content] = Networking.fetchContent(nameOfState.substring(1).toString,ccnApi,200 milliseconds)
@@ -170,57 +171,114 @@ class Window() extends NFNService {
         LogMessage(nodeName,"State Content was empty")
 
        */
-      val sensorName = sensor.str.split("/")(3)
-      val header = "Window("+sensor.str+","+timerPeriod.str + "," + timeUnit.str + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
-      val newStateContent = slideTimedWindow(stateContent,dataStream.str,timerPeriod.str.toLong,timeUnit.str,nodeName)
+      val sensorName = sensor.split("/")(3)
+      val header = "Window(" + sensor + "," + timerPeriod + "," + timeUnit + ") - " + SensorHelpers.getSchema(sensorName) + "\n"
+      val newStateContent = slideTimedWindow(stateContent, dataStream, timerPeriod.toLong, timeUnit, nodeName)
       val retVal = header + newStateContent
       //Helpers.storeState(nodeName,returnValue,nameOfState,ccnApi)
-      stateHolder.updateWindowState(nameOfState,newStateContent)
-      LogMessage(nodeName,s"Slinding TIme Window Content is $retVal")
+      stateHolder.updateWindowState(nameOfState, newStateContent)
+      LogMessage(nodeName, s"Slinding TIme Window Content is $retVal")
       NFNStringValue(retVal)
     }
 
-    //NFNValue(
+    def processPRASlidingEventWindow(sensor: String, eventCount: String, periodicValue: String, predictionUnit: String): Future[NFNValue] = Future {
+      LogMessage(nodeName,s"Started sliding Event Window")
+      val timeInMills = FormattedOutput.getTimeInMills(periodicValue.toLong, predictionUnit)
+      val sb = new StringBuilder
+      var counter = 0
+      val endCoutner = eventCount.toInt
+      val sensorName = sensor.split("/")(3)
+      val header = s"Window($sensor,$eventCount) - ${SensorHelpers.getSchema(sensorName)}\n"
+      sb.append(header)
+      while (counter < endCoutner) {
+        val pre = System.currentTimeMillis()
+        val intermediateResult = Networking.fetchContentFromNetwork(sensor, ccnApi, 500 milliseconds)
+        if(intermediateResult.isDefined){
+          sb.append(new String(intermediateResult.get.data))
+        }
+        else{
+          sb.append("Fail")
+        }
+        sb.append("\n")
+        val after = System.currentTimeMillis()
+        val delta = timeInMills - (after - pre)
+        Thread.sleep(delta)
+        counter = counter + 1
+      }
+      val newDataStreamName = s"node/$nodeName/Window($sensor,$eventCount)"
+      val output = sb.toString()
+      Networking.storeResult(nodeName, output, newDataStreamName, ccnApi)
+      LogMessage(nodeName,s"Finished sliding Event Window. Result = $output")
+      NFNStringValue(newDataStreamName)
+    }
+
+    def processPRASlidingTimeWindow(sensor: String, timerPeriod: String, timeUnit: String, periodicValue: String, predictionUnit: String): Future[NFNValue] = Future {
+      LogMessage(nodeName,s"Started sliding Event Window")
+      val timeInMills = FormattedOutput.getTimeInMills(periodicValue.toLong, predictionUnit)
+      val sb = new StringBuilder
+      val endTime = FormattedOutput.getFutureTime(java.time.LocalTime.now, timerPeriod.toLong, timeUnit)
+      val sensorName = sensor.split("/")(3)
+      val header = s"Window($sensor,$timerPeriod,$timeUnit) - ${SensorHelpers.getSchema(sensorName)}\n"
+      sb.append(header)
+      while (java.time.LocalTime.now.isBefore(endTime)) {
+        val pre = System.currentTimeMillis()
+        val intermediateResult = Networking.fetchContentFromNetwork(sensor, ccnApi, 500 milliseconds)
+        if(intermediateResult.isDefined){
+          sb.append(new String(intermediateResult.get.data))
+        }
+        else{
+          sb.append("Fail")
+        }
+        sb.append("\n")
+        val after = System.currentTimeMillis()
+        val delta = timeInMills - (after - pre)
+        Thread.sleep(delta)
+      }
+      val newDataStreamName = s"node/$nodeName/Window($sensor,$timerPeriod,$timeUnit)"
+      val output = sb.toString()
+      Networking.storeResult(nodeName, output, newDataStreamName, ccnApi)
+      LogMessage(nodeName,s"Finished sliding Event Window. Result = $output")
+      NFNStringValue(newDataStreamName)
+    }
+
     args match {
 
-      //Sample Queries with signatures:
-      //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 5 /node/nodeA/nfn_service_Window 'data' 'victims' '22:18:38.841' '22:18:41.841'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-      //04.11.2018: Commenting this window (bounded window) because this conflicts with the filter handler which always passes string based parameters in window sub-queries. Possibly, this can be removed later on when the new handler is implemented. (TODO Manisha)
-      //case Seq(timestamp: NFNStringValue, outputFormat: NFNStringValue, sensor: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue) => processBoundWindow(outputFormat, sensor, lowerBound, upperBound)
 
-      //$CCNL_HOME/bin/ccn-lite-peek -s ndn2013 -u 127.0.0.1/9001 -w 10 "" "call 5 /node/nodeA/nfn_service_Window 'data' 'victims' '5' 'M'/NFN" | $CCNL_HOME/bin/ccn-lite-pktdump -f 3
-      //02.02.2018: Commenting this window because it conflicts with the bound window
-      //case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
-      //  processTimeBoundWindow(deliveryFormat, sensor, timerPeriod, timeUnit)
-
-      case Seq(sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
+      case Seq(communicationApproach: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
         placeWindowInterest(sensor.str, interestName).recover {
           case e => throw e
         }
 
-      case Seq(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
-        placeWindowInterest(sensor.str, interestName).recover {
+      case Seq(communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriodorNumberOfEvents: NFNStringValue, timeUnitOrDataStream: NFNStringValue) =>
+        timeUnitOrDataStream.str.toLowerCase() match {
+          case "s" => placeWindowInterest(sensor.str, interestName).recover {
+            case e => throw e
+          }
+          case "m" => placeWindowInterest(sensor.str, interestName).recover {
+            case e => throw e
+          }
+          case "h" => placeWindowInterest(sensor.str, interestName).recover {
+            case e => throw e
+          }
+          case _ => processSlidingEventWindow(sensor.str, timerPeriodorNumberOfEvents.str, timeUnitOrDataStream.str).recover {
+            case e => throw e
+          }
+        }
+
+      // ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 6 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5' 's'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
+      case Seq(communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
+        processUCLSlidingTimeWindow(sensor.str, timerPeriod.str, timeUnit.str, dataStream.str).recover {
+            case e => throw e
+          }
+
+
+      case Seq(timeStamp:NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
+        processPRASlidingEventWindow(sensor.str, timerPeriod.str, periodicValue.str, periodicUnit.str).recover {
           case e => throw e
         }
 
-      /*case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue) =>
-        processInitialSlidingTimeWindow(deliveryFormat, sensor, timerPeriod, timeUnit, interestName).recover {
-          case e => throw e
-        }
-
-      case Seq(timestamp: NFNStringValue, deliveryFormat: NFNStringValue, sensor: NFNStringValue, numberOfEvents: NFNStringValue) =>
-        processInitialSlidingEventWindow(deliveryFormat, sensor, numberOfEvents, interestName).recover {
-          case e => throw e
-        }*/
-
-       // ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 6 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5' 's'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
-      case Seq(sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
-        processSlidingTimeWindow(sensor, timerPeriod, timeUnit, dataStream).recover {
-          case e => throw e
-        }
-      //~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 5 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
-      case Seq(sensor: NFNStringValue, numberOfEvents: NFNStringValue, dataStream: NFNStringValue) =>
-        processSlidingEventWindow(sensor, numberOfEvents, dataStream).recover {
+      case Seq(timeStamp:NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
+        processPRASlidingTimeWindow(sensor.str, timerPeriod.str, timeUnit.str, periodicValue.str, periodicUnit.str).recover {
           case e => throw e
         }
 
@@ -233,36 +291,36 @@ class Window() extends NFNService {
   }
 
 
-  def slideTimedWindow(windowContent: String, newTuple: String, timerPeriod: Long, timeUnit: String, nodeName: String ):String ={
+  def slideTimedWindow(windowContent: String, newTuple: String, timerPeriod: Long, timeUnit: String, nodeName: String): String = {
     val delimiter = SensorHelpers.getDelimiterFromLine(newTuple)
-    LogMessage(nodeName,s"delimiter is: $delimiter")
+    LogMessage(nodeName, s"delimiter is: $delimiter")
     val datePosition = SensorHelpers.getDatePosition(delimiter)
-    LogMessage(nodeName,s"date position is: $datePosition")
-    LogMessage(nodeName,s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
+    LogMessage(nodeName, s"date position is: $datePosition")
+    LogMessage(nodeName, s"new Tuple's date is ${newTuple.split(delimiter)(datePosition)}")
     val relativeTime: LocalTime = SensorHelpers.parseTime(newTuple.split(delimiter)(datePosition), delimiter)
-    (windowContent.split("\n").filter(purgeOldData(_,relativeTime,timerPeriod,timeUnit)):+newTuple).mkString("\n")
-  }
-
-  def slideEventWindow(windowContent: String, newTuple: String, numberOfEvents: Int): String ={
-    if((windowContent.split("\n").length+1)>numberOfEvents)
-      (windowContent.split("\n").drop(1):+newTuple).mkString("\n")
-    else
-      (windowContent.split("\n"):+newTuple).mkString("\n")
+    (windowContent.split("\n").filter(purgeOldData(_, relativeTime, timerPeriod, timeUnit)) :+ newTuple).mkString("\n")
   }
 
   def purgeOldData(tuple: String, timeStamp: LocalTime, timerPeriod: Long, timeUnit: String): Boolean = {
-    if(tuple != ""){
-      val pastTime = FormattedOutput.getPastTime(timeStamp,timerPeriod,timeUnit)
+    if (tuple != "") {
+      val pastTime = FormattedOutput.getPastTime(timeStamp, timerPeriod, timeUnit)
       val delimiter = SensorHelpers.getDelimiterFromLine(tuple)
       val datePosition = SensorHelpers.getDatePosition(tuple)
-      val tupleTime = SensorHelpers.parseTime(tuple.split(delimiter)(datePosition),delimiter)
-      if((tupleTime.isAfter(pastTime) || tupleTime.equals(pastTime)) && (tupleTime.isBefore(timeStamp) || tupleTime.equals(timeStamp)))
+      val tupleTime = SensorHelpers.parseTime(tuple.split(delimiter)(datePosition), delimiter)
+      if ((tupleTime.isAfter(pastTime) || tupleTime.equals(pastTime)) && (tupleTime.isBefore(timeStamp) || tupleTime.equals(timeStamp)))
         true
       else
         false
     }
     else
       false
+  }
+
+  def slideEventWindow(windowContent: String, newTuple: String, numberOfEvents: Int): String = {
+    if ((windowContent.split("\n").length + 1) > numberOfEvents)
+      (windowContent.split("\n").drop(1) :+ newTuple).mkString("\n")
+    else
+      (windowContent.split("\n") :+ newTuple).mkString("\n")
   }
 
   def readRelativeTimedSensor(path: String, timePeriod: Long, timeUnit: String, nodeName: String): String = {
@@ -303,31 +361,9 @@ class Window() extends NFNService {
     output
   }
 
-  //Return number of specified events from the top of the event stream
-  def readEventCountSensor(outputFormat: String, path: String, numberOfEvents: Int, nodeName: String): String = {
-    val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
-
-    val sb = new StringBuilder
-
-    bufferedSource.getLines().zipWithIndex.foreach {
-      case (line, index) => {
-        if (index < numberOfEvents) //Index is the zero'th index, so we only do <, not <=. This will get the top x events from the sensor where x is the number passed to the op.
-          sb.append(line + "\n")
-      }
-    }
-
-    bufferedSource.close
-
-    var output = sb.toString()
-    if (output != "")
-      output = output.stripSuffix("\n").stripMargin('#')
-    else
-      output += "No Results!"
-
-    output
+  def handleFileNotFoundException(fileNotFoundException: FileNotFoundException, nodeName: String): Unit = {
+    LogMessage(nodeName, fileNotFoundException.toString)
   }
-
-
 
   //For actual TimeStamp:
   def readBoundSensor(path: String, lbdate: LocalTime, ubdate: LocalTime, nodeName: String): String = {
@@ -374,6 +410,30 @@ class Window() extends NFNService {
     output
   }
 
+  //Return number of specified events from the top of the event stream
+  def readEventCountSensor(outputFormat: String, path: String, numberOfEvents: Int, nodeName: String): String = {
+    val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
+
+    val sb = new StringBuilder
+
+    bufferedSource.getLines().zipWithIndex.foreach {
+      case (line, index) => {
+        if (index < numberOfEvents) //Index is the zero'th index, so we only do <, not <=. This will get the top x events from the sensor where x is the number passed to the op.
+        sb.append(line + "\n")
+      }
+    }
+
+    bufferedSource.close
+
+    var output = sb.toString()
+    if (output != "")
+      output = output.stripSuffix("\n").stripMargin('#')
+    else
+      output += "No Results!"
+
+    output
+  }
+
   //Time Unit values: 'S', 'M', 'H'
   def readTimedSensor(path: String, timePeriod: Long, timeUnit: String, nodeName: String): String = {
     var bufferedSource: BufferedSource = null
@@ -413,10 +473,6 @@ class Window() extends NFNService {
     else
       output += "No Results!"
     output
-  }
-
-  def handleFileNotFoundException(fileNotFoundException: FileNotFoundException, nodeName: String): Unit = {
-    LogMessage(nodeName, fileNotFoundException.toString)
   }
 
 }

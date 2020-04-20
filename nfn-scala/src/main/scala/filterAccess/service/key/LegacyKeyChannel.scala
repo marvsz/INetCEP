@@ -7,7 +7,7 @@ import filterAccess.json.PermissionChannelParser._
 import filterAccess.json.KeyChannelParser._
 import filterAccess.tools.Exceptions._
 import filterAccess.tools.Networking
-import nfn.tools.Networking.fetchContent
+import nfn.tools.Networking.fetchContentFromNetwork
 import filterAccess.tools.Networking
 import nfn.service._
 
@@ -67,7 +67,7 @@ class LegacyKeyChannel extends NFNService {
    */
   private def getLevelKey(name:String, level:Int, ccnApi:ActorRef):Option[String] = {
 
-    fetchContent(name, ccnApi, 2 seconds) match {
+    fetchContentFromNetwork(name, ccnApi, 2 seconds) match {
       case Some(c: Content) => extractLevelKey(new String(c.data), level)
       case _ => throw new dataUnavailableException("Timeout: Could not fetch keys.")
 
@@ -85,7 +85,7 @@ class LegacyKeyChannel extends NFNService {
    */
   private def processKeyTrack(name: String, user: String, level: Int, ccnApi: ActorRef): Option[String] = {
 
-    fetchContent(name+"/permission", ccnApi, 2 seconds) match {
+    fetchContentFromNetwork(name+"/permission", ccnApi, 2 seconds) match {
       case Some(c:Content) => {
         // Ensure permissions
         checkPermission(c.data, user, level) match {

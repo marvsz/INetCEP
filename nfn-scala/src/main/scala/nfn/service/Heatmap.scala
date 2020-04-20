@@ -7,12 +7,12 @@ package nfn.service
 //Added for contentfetch
 import INetCEP.StatesSingleton
 import akka.actor.ActorRef
-import nfn.tools.SensorHelpers
+import nfn.tools.{Networking, SensorHelpers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.postfixOps
-
+import scala.concurrent.duration._
 //Added for contentfetch
 import ccn.packet.CCNName
 
@@ -32,14 +32,14 @@ class Heatmap extends NFNService {
       "HEATMAP: Started initial prediction"
     }
 
-    def heatMapHandler(granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String, dataStream: String): String = {
+    def uclHeatMapHandler(granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String, dataStream: String): String = {
       LogMessage(nodeName,"HEATMAP OP started")
       var heatmap:Array[Array[Int]] = null
       //Sensor is not the preferred way to perform a heatmap. Suggested is 'name'
       heatmap = generateHeatmap(SensorHelpers.parseData("data",dataStream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
       var output = ""
       if (heatmap != null) {
-        output = generateIntermediateHeatmap(heatmap)
+        output = generateIntermediateHeatmap(heatmap,granularity, lowerBound, upperBound, leftBound, rightBound, streamName)
       }
       if (output != "")
         output = output.stripSuffix("\n").stripMargin('#')
@@ -50,12 +50,52 @@ class Heatmap extends NFNService {
       output
     }
 
+    def praHeatMapHandler(granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String): String = {
+      LogMessage(nodeName,"HEATMAP OP started")
+      var heatmap:Array[Array[Int]] = null
+      //Sensor is not the preferred way to perform a heatmap. Suggested is 'name'
+      var dataStream = ""
+      val intermediateResult = Networking.fetchContentFromNetwork(streamName, ccnApi, 500 milliseconds)
+      if(intermediateResult.isDefined){
+        dataStream = new String(intermediateResult.get.data)
+      }
+      else{
+        dataStream = "Fail"
+        LogMessage(nodeName, s"Filter OP Completed")
+        val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})"
+        Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
+        LogMessage(nodeName, s"Heatmap OP Completed")
+        LogMessage(nodeName, s"Output is $dataStream")
+        return newDataStreamName
+      }
+      heatmap = generateHeatmap(SensorHelpers.parseData("data",dataStream), granularity.toDouble, lowerBound.toDouble, upperBound.toDouble, leftBound.toDouble, rightBound.toDouble)
+      var output = ""
+      if (heatmap != null) {
+        output = generateIntermediateHeatmap(heatmap,granularity, lowerBound, upperBound, leftBound, rightBound, streamName)
+      }
+      if (output != "")
+        output = output.stripSuffix("\n").stripMargin('#')
+      else
+        output += "No Results!"
+      val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})"
+      LogMessage(nodeName, s"Heatmap OP Completed")
+      LogMessage(nodeName, s"Output is $output")
+      Networking.storeResult(nodeName,output,newDataStreamName,ccnApi)
+      newDataStreamName
+    }
+
     NFNStringValue(
       args match {
-        case Seq(granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue) =>
+        // Hier unterscheidung für communicationappraoch
+        case Seq(communicationApproach: NFNStringValue, granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue) =>
           initialHeatMapHandler(granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str)
-        case Seq(granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue, dataStream: NFNStringValue) =>
-          heatMapHandler(granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str, dataStream.str)
+
+        case Seq(communicationApproach: NFNStringValue, granularity: NFNStringValue, lowerBound: NFNStringValue, upperBound: NFNStringValue, leftBound: NFNStringValue, rightBound: NFNStringValue, streamName: NFNStringValue, dataStream: NFNStringValue) =>
+          communicationApproach.str.toLowerCase() match {
+            case "ucl" => uclHeatMapHandler(granularity.str, lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str, dataStream.str)
+            case _ =>praHeatMapHandler(lowerBound.str, upperBound.str, leftBound.str, rightBound.str, streamName.str, dataStream.str)
+          }
+
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
@@ -110,9 +150,12 @@ class Heatmap extends NFNService {
   }
 
 
-  def generateIntermediateHeatmap(heatmap:Array[Array[Int]]) ={
+  def generateIntermediateHeatmap(heatmap:Array[Array[Int]],granularity: String, lowerBound: String, upperBound: String, leftBound: String, rightBound: String, streamName: String) ={
 
     val sb = new StringBuilder
+    val newStreamName = s"HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})"
+    val newSchema = s"YET/TO/DEFINE"
+    sb.append(newStreamName + " - " + newSchema + "\n")
     val width = heatmap(0).length
     val height = heatmap.length
     for(j <- 0 until height -1){

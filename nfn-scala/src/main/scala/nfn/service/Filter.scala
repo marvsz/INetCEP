@@ -16,6 +16,7 @@ import config.StaticConfig
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.duration._
 import scala.language.postfixOps
 
 class Filter() extends NFNService {
@@ -33,13 +34,13 @@ class Filter() extends NFNService {
     //Sample Query: 'Victims' '2=1001&&3=M||4>46'
     //First break OR and then get AND
 
-    def placeFilterInterests(): String = {
+    def initialUCLFilter(): String = {
       /*LogMessage(nodeName, s"Placing Entries in PIT and PQT accordingly: ${interestedComputation} on ${nodeName} is interested in ${stream} from ${interestNodeName}")
       Networking.subscribeToQuery(stream,interestedComputation.toString,ccnApi)*/
       "Initial Filter Operation started --> can I get rid of this in general? Maybe have a Non-returning thing here..."
     }
 
-    def filterStream1(dataStreamName: String, filter: String, dataStream: String):String = {
+    def filterUCLStream(dataStreamName: String, filter: String, dataStream: String):String = {
       LogMessage(nodeName, s"\nFilter OP Started")
       val filterParams = FilterHelpers.parseFilterArguments(filter)
       //LogMessage(nodeName,s"Filter($dataStreamName,$filter)")
@@ -51,6 +52,32 @@ class Filter() extends NFNService {
       LogMessage(nodeName, s"Filter OP Completed")
       returnVal
       //"filtered Stream"
+    }
+
+    def FilterPRAStream(dataStreamName: String, filter: String):String = {
+      LogMessage(nodeName, s"\nFilter OP Started")
+      val filterParams = FilterHelpers.parseFilterArguments(filter)
+      var dataStream = ""
+      val intermediateResult = Networking.fetchContentFromNetwork(dataStreamName, ccnApi, 500 milliseconds)
+      if(intermediateResult.isDefined){
+        dataStream = new String(intermediateResult.get.data)
+      }
+      else{
+        dataStream = "Fail"
+        LogMessage(nodeName, s"Filter OP Completed")
+        val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)"
+        Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
+        return newDataStreamName
+      }
+      val streamHeader = dataStream.split("\n")(0)
+      val streamSchema = streamHeader.toString().split("-")(1)
+      val newHeader = s"Filter($dataStreamName,$filter)" + " - " + streamSchema + "\n"
+      LogMessage(nodeName,s"Schema is $streamSchema")
+      val returnVal = newHeader +  filterHandler(streamSchema,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
+      LogMessage(nodeName, s"Filter OP Completed")
+      val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)"
+      Networking.storeResult(nodeName,returnVal,newDataStreamName,ccnApi)
+      newDataStreamName
     }
 
     def filterInitialStream(source: String, stream: String, filter: NFNStringValue, outputFormat: NFNStringValue, interestedComputationName: CCNName): String = {
@@ -70,6 +97,8 @@ class Filter() extends NFNService {
         //return "=" + allANDs.mkString(",") + " - " + allORs.mkString(",");
         filterHandler(source, filterParams(0), filterParams(1), outputFormat.str, nodeName, dataStream.str)
     }
+
+
 
     def filterHandler(streamSchema: String, aNDS: ArrayBuffer[String], oRS: ArrayBuffer[String], outputFormat: String, nodeName: String, datastream: String): String = {
       var output = ""
@@ -92,14 +121,16 @@ class Filter() extends NFNService {
       args match {
         //Output format: Either name (/node/Filter/Sensor/Time) or data (data value directly)
         //[data/sensor][string of data][filter][outputFormat]
-        case Seq(queryInterest: NFNStringValue, filter:NFNStringValue) => placeFilterInterests()
-        case Seq(queryInterest: NFNStringValue, filter:NFNStringValue, dataStream: NFNStringValue) => filterStream1(queryInterest.str, filter.str, dataStream.str)
-        //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterInitialStream(source.str, stream.str, filter, outputFormat, interestName)
-        //case Seq(source: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, dataStream: NFNStringValue) => filterStream(source.str, stream.str, filter, dataStream)
-        //[content][contentobject][filter][outputFormat]
-        //case Seq(timestamp: NFNStringValue, source: NFNStringValue, stream: NFNContentObjectValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream(source.str, new String(stream.data), filter, outputFormat)
-        //[sensor][string of data][filter]
-        //case Seq(timestamp: NFNStringValue, stream: NFNStringValue, filter: NFNStringValue, outputFormat: NFNStringValue) => filterStream("sensor", stream.str, filter, outputFormat)
+          // Hier unterscheidung für communicationappraoch
+        case Seq(communicationApproach: NFNStringValue, dataStreamName: NFNStringValue, filter:NFNStringValue) =>
+        initialUCLFilter()
+
+        case Seq(communicationApproach: NFNStringValue, dataStreamName: NFNStringValue, filter:NFNStringValue, dataStream: NFNStringValue) =>
+          communicationApproach.str.toLowerCase() match{
+            case "ucl" => filterUCLStream(dataStreamName.str, filter.str, dataStream.str)
+            case _ =>FilterPRAStream(filter.str, dataStream.str)
+          }
+
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }
