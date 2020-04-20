@@ -51,7 +51,7 @@ class QueryRandomLocalNS() extends NFNService {
       //Initialize ExpressionTree class:
       var et = new OperatorTree();
       //Create node stack or Node tree (current: Tree)
-      var root = et.createOperatorTree(query);
+      var root = et.createOperatorTree(query,clientID);
 
       //Get current Network Status and Path information:
       var allNodes = getNodeStatus(nodeName);

@@ -69,7 +69,7 @@ class QueryPlacement() extends NFNService {
       evalHandler.setStartTime_OpTreeCreation()
 
       LogMessage(nodeName, s"Query is $query")
-      val root: Map = et.createOperatorTree(query)
+      val root: Map = et.createOperatorTree(query,communicationApproach)
       val opCount = root._stackSize
       LogMessage(nodeName, s"Stacksize is $opCount")
       evalHandler.setEndTimeNow_OpTreeCreation()
@@ -101,11 +101,23 @@ class QueryPlacement() extends NFNService {
 
       //Now that we have all the paths we need: Place the queries on these paths:
       //1) Find the number of operators in the query:
-      val placement: Placement = Placement(placementAlgorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount)
-
-      LogMessage(nodeName, s"Created Placment from Factory")
-      val resultVal = placement.process()
-      LogMessage(nodeName, s"result of Deployment is: $resultVal")
+      var resultVal:String = ""
+      if(communicationApproach.toLowerCase().equals("ucl")){
+        val placement: UCLPlacement = UCLPlacement(placementAlgorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount,communicationApproach)
+        LogMessage(nodeName, s"Created UCL Placment from Factory")
+        resultVal = placement.process()
+        LogMessage(nodeName, s"result of Deployment is: $resultVal")
+      }
+      else
+        if(communicationApproach.toLowerCase().equals("pra")){
+          /**
+           * TODO: Turn on Query Service here
+           */
+          val placement: PRAPlacement = PRAPlacement(placementAlgorithm.toLowerCase, nodeName, mapping, ccnApi, root, paths, maxPath, evalHandler, opCount,communicationApproach)
+          LogMessage(nodeName, s"Created PRA Placment from Factory")
+          resultVal = placement.process()
+          LogMessage(nodeName, s"result of Deployment is: $resultVal")
+        }
       resultVal
     }
 
@@ -128,7 +140,7 @@ class QueryPlacement() extends NFNService {
           val name = s"node/${e._nodeName}/state/nodeState"
           LogMessage(nodeName, s"sending the interest $name")
           //Get content from network
-          val intermediateResult = Networking.fetchContent(name, ccnApi, 500 milliseconds)
+          val intermediateResult = Networking.fetchContentFromNetwork(name, ccnApi, 500 milliseconds)
           if (intermediateResult.isDefined) {
             var ni = new NodeInfo(new String(intermediateResult.get.data))
             LogMessage(nodeName, s"Node Added: ${ni.NI_NodeName}")
@@ -168,7 +180,7 @@ class QueryPlacement() extends NFNService {
         case "centralized" => getCentralizedNodeStatus
         case "decentralized" => getDecentralizedNodeStatus
         case "local" => ""
-        case _ => throw NoSuchPlacementException(s"The Placement Strategy $algorithm does not exist\n")
+        case _ => throw NoSuchUCLPlacementException(s"The Placement Strategy $algorithm does not exist\n")
       }
       allNodes
     }
