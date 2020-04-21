@@ -411,9 +411,15 @@ class QueryPlacement() extends NFNService {
       retVal
     }
 
+    def processInitialPRAQuery(placementAlgorithm: String, communicationApproach: String, runID: String, sourceOfQuery: String, clientID: String, query: String, region: String, timestamp: String, timerValue:String, timerUnit:String): String = {
+      Helpers.startQueryService(placementAlgorithm,communicationApproach,runID,sourceOfQuery,clientID,query,region,timestamp,timerValue,timerUnit)
+      "Started QueryService"
+    }
+
     NFNStringValue(
       args match {
         case Seq(placementAlgorithm: NFNStringValue, communicationApproach: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processQuery(placementAlgorithm.str, communicationApproach.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str)
+        case Seq(placementAlgorithm: NFNStringValue, communicationApproach: NFNStringValue, runID: NFNStringValue, sourceOfQuery: NFNStringValue, clientID: NFNStringValue, query: NFNStringValue, timerValue:NFNStringValue, timerUnit:NFNStringValue, region: NFNStringValue, timestamp: NFNStringValue) => processInitialPRAQuery(placementAlgorithm.str, communicationApproach.str, runID.str, sourceOfQuery.str, clientID.str, query.str, region.str, timestamp.str, timerValue.str, timerUnit.str)
         case _ =>
           throw new NFNServiceArgumentException(s"$ccnName can only be applied to values of type NFNBinaryDataValue and not $args")
       }

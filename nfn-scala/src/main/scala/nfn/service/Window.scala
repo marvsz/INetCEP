@@ -182,62 +182,64 @@ class Window() extends NFNService {
     }
 
     def processPRASlidingEventWindow(sensor: String, eventCount: String, periodicValue: String, predictionUnit: String): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started sliding Event Window")
+      LogMessage(nodeName, s"Started sliding Event Window")
       val timeInMills = FormattedOutput.getTimeInMills(periodicValue.toLong, predictionUnit)
       val sb = new StringBuilder
       var counter = 0
       val endCoutner = eventCount.toInt
       val sensorName = sensor.split("/")(3)
-      val header = s"Window($sensor,$eventCount) - ${SensorHelpers.getSchema(sensorName)}\n"
+      val header = s"Window($sensor,$eventCount) - ${SensorHelpers.getSchema(sensorName)}"
       sb.append(header)
       while (counter < endCoutner) {
         val pre = System.currentTimeMillis()
         val intermediateResult = Networking.fetchContentFromNetwork(sensor, ccnApi, 500 milliseconds)
-        if(intermediateResult.isDefined){
+        if (intermediateResult.isDefined) {
+          sb.append("\n")
           sb.append(new String(intermediateResult.get.data))
         }
-        else{
+        else {
+          sb.append("\n")
           sb.append("Fail")
         }
-        sb.append("\n")
         val after = System.currentTimeMillis()
         val delta = timeInMills - (after - pre)
         Thread.sleep(delta)
         counter = counter + 1
       }
-      val newDataStreamName = s"node/$nodeName/Window($sensor,$eventCount)"
+      val newDataStreamName = s"node/$nodeName/Window($sensor,$eventCount)/${System.currentTimeMillis()}"
       val output = sb.toString()
       Networking.storeResult(nodeName, output, newDataStreamName, ccnApi)
-      LogMessage(nodeName,s"Finished sliding Event Window. Result = $output")
+      LogMessage(nodeName, s"Finished sliding Event Window and storing the data in $newDataStreamName. Result =\n$output")
       NFNStringValue(newDataStreamName)
     }
 
     def processPRASlidingTimeWindow(sensor: String, timerPeriod: String, timeUnit: String, periodicValue: String, predictionUnit: String): Future[NFNValue] = Future {
-      LogMessage(nodeName,s"Started sliding Event Window")
+      LogMessage(nodeName, s"Started sliding Time Window")
       val timeInMills = FormattedOutput.getTimeInMills(periodicValue.toLong, predictionUnit)
       val sb = new StringBuilder
       val endTime = FormattedOutput.getFutureTime(java.time.LocalTime.now, timerPeriod.toLong, timeUnit)
       val sensorName = sensor.split("/")(3)
-      val header = s"Window($sensor,$timerPeriod,$timeUnit) - ${SensorHelpers.getSchema(sensorName)}\n"
+      val header = s"Window($sensor,$timerPeriod,$timeUnit) - ${SensorHelpers.getSchema(sensorName)}"
       sb.append(header)
       while (java.time.LocalTime.now.isBefore(endTime)) {
         val pre = System.currentTimeMillis()
         val intermediateResult = Networking.fetchContentFromNetwork(sensor, ccnApi, 500 milliseconds)
-        if(intermediateResult.isDefined){
+        if (intermediateResult.isDefined) {
+          sb.append("\n")
           sb.append(new String(intermediateResult.get.data))
         }
-        else{
+        else {
+          sb.append("\n")
           sb.append("Fail")
         }
-        sb.append("\n")
         val after = System.currentTimeMillis()
         val delta = timeInMills - (after - pre)
         Thread.sleep(delta)
       }
-      val newDataStreamName = s"node/$nodeName/Window($sensor,$timerPeriod,$timeUnit)"
+      val newDataStreamName = s"node/$nodeName/Window($sensor,$timerPeriod,$timeUnit)/${System.currentTimeMillis()}"
       val output = sb.toString()
       Networking.storeResult(nodeName, output, newDataStreamName, ccnApi)
-      LogMessage(nodeName,s"Finished sliding Event Window. Result = $output")
+      LogMessage(nodeName, s"Finished sliding Event Window and storing the data in $newDataStreamName. Result =\n$output")
       NFNStringValue(newDataStreamName)
     }
 
@@ -268,16 +270,16 @@ class Window() extends NFNService {
       // ~/INetCEP/ccn-lite/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9998 -w 10 "call 6 /node/nodeA/nfn_service_Window 'someTimeStamp' 'name' '/nodeA/sensor/gps1' '5' 's'" | ~/INetCEP/ccn-lite/bin/ccn-lite-pktdump -f 2
       case Seq(communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, dataStream: NFNStringValue) =>
         processUCLSlidingTimeWindow(sensor.str, timerPeriod.str, timeUnit.str, dataStream.str).recover {
-            case e => throw e
-          }
+          case e => throw e
+        }
 
 
-      case Seq(timeStamp:NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
+      case Seq(timeStamp: NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
         processPRASlidingEventWindow(sensor.str, timerPeriod.str, periodicValue.str, periodicUnit.str).recover {
           case e => throw e
         }
 
-      case Seq(timeStamp:NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
+      case Seq(timeStamp: NFNStringValue, communicationApproach: NFNStringValue, sensor: NFNStringValue, timerPeriod: NFNStringValue, timeUnit: NFNStringValue, periodicValue: NFNStringValue, periodicUnit: NFNStringValue) =>
         processPRASlidingTimeWindow(sensor.str, timerPeriod.str, timeUnit.str, periodicValue.str, periodicUnit.str).recover {
           case e => throw e
         }
@@ -328,7 +330,8 @@ class Window() extends NFNService {
     try {
       bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
     }
-    catch {
+    catch
+    {
       case fileNotFoundException: FileNotFoundException => handleFileNotFoundException(fileNotFoundException, nodeName)
       case _: Throwable => LogMessage(nodeName, "Got some Kind of Exception")
     }
@@ -361,10 +364,6 @@ class Window() extends NFNService {
     output
   }
 
-  def handleFileNotFoundException(fileNotFoundException: FileNotFoundException, nodeName: String): Unit = {
-    LogMessage(nodeName, fileNotFoundException.toString)
-  }
-
   //For actual TimeStamp:
   def readBoundSensor(path: String, lbdate: LocalTime, ubdate: LocalTime, nodeName: String): String = {
 
@@ -372,7 +371,8 @@ class Window() extends NFNService {
     try {
       bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
     }
-    catch {
+    catch
+    {
       case fileNotFoundException: FileNotFoundException => handleFileNotFoundException(fileNotFoundException, nodeName)
       case _: Throwable => LogMessage(nodeName, "Got some Kind of Exception")
     }
@@ -473,6 +473,10 @@ class Window() extends NFNService {
     else
       output += "No Results!"
     output
+  }
+
+  def handleFileNotFoundException(fileNotFoundException: FileNotFoundException, nodeName: String): Unit = {
+    LogMessage(nodeName, fileNotFoundException.toString)
   }
 
 }

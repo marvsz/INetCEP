@@ -104,7 +104,7 @@ class Join() extends NFNService {
       else{
         rightSide = "Fail"
         LogMessage(nodeName,"PREDICTION: Finished prediction")
-        val newDataStreamName = s"node/$nodeName/$joinQuery"
+        val newDataStreamName = s"node/$nodeName/$joinQuery/${System.currentTimeMillis()}"
         Networking.storeResult(nodeName,newDataStreamName,newDataStreamName,ccnApi)
         return newDataStreamName
       }
@@ -117,7 +117,7 @@ class Join() extends NFNService {
       rightSchema = rightSide.split("\n").head.split("-")(1).trim
       LogMessage(nodeName, s"JOIN: Right schema is $rightSchema")
       val output = joinStreamsOn(leftSide.split("\n").drop(1).mkString("\n"), leftSchema, left, rightSide.split("\n").drop(1).mkString("\n"), rightSchema, right, joinOn, conditions, joinType, nodeName)
-      val newDataStreamName = s"node/$nodeName/$joinQuery"
+      val newDataStreamName = s"node/$nodeName/$joinQuery/${System.currentTimeMillis()}"
       Networking.storeResult(nodeName,output,newDataStreamName,ccnApi)
       newDataStreamName
     }

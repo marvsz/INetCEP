@@ -21,15 +21,23 @@ import scala.sys.process._
  * Updated by Johannes on 31/01/2019
  */
 object Helpers {
-  val sacepicnEnv: String = StaticConfig.systemPath
+  val inetcepEnv: String = StaticConfig.systemPath
 
 
 
-  @deprecated("Was used for the old representatino of the querystore. use the new one instead since we also store the placement algorithm in it", "4.11.2018")
+  def startQueryService(placement: String, communicationApproach: String, runID: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String, timerValue: String, timerUnit:String): Unit ={
+    val safe = save_to_QueryStore(placement,communicationApproach,runID,interestOrigin,clientID,query,region,timestamp)
+    var filename = s"$inetcepEnv/nodeData/queryService.sh"
+    val nodeName = "nodeA"
+    val port = "9001"
+    val retval = s"nohup bash $filename $port $nodeName $timerValue $timerUnit &" !
+  }
+
+  @deprecated("Was used for the old representation of the querystore. use the new one instead since we also store the placement algorithm in it", "4.11.2018")
   def save_to_QueryStore(runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
     //Source is not QueryStore and DecentralizeQuery
     if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
-      var filename = s"$sacepicnEnv/nodeData/queryStore"
+      var filename = s"$inetcepEnv/nodeData/queryStore"
       val file = new File(filename)
       file.getParentFile.mkdirs()
       file.createNewFile()
@@ -58,20 +66,20 @@ object Helpers {
   /**
    * Stores the initial query in the query store
    *
-   * @param algorithm      the algorithm of the placement service
-   * @param runID          the id of the run (the one given in the publish remotely script I guess)
-   * @param sourceOfQuery  the client on which the query runs
-   * @param interestOrigin not used
+   * @param placement      the algorithm of the placement service
+   * @param communicationApproach          The communication Approach, is always pra since only pra needs the query store
+   * @param runID  The run id
+   * @param interestOrigin Source or QS for QueryStore
    * @param clientID       the id of the client
    * @param query          the actual query
    * @param region         the region given in the query
    * @param timestamp      the timestamp given in the query
    * @return true if the source of the query was not the queryStore (so we do not flood it) or a decentralized query, false otherwise
    */
-  def save_to_QueryStore(algorithm: String, runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
+  def save_to_QueryStore(placement: String, communicationApproach: String, runID: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
     //Source is not QueryStore and DecentralizeQuery
-    if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
-      var filename = s"$sacepicnEnv/nodeData/queryStore"
+    if (interestOrigin != "QS" && interestOrigin != "DQ") {
+      var filename = s"$inetcepEnv/nodeData/queryStore"
       val file = new File(filename)
       file.getParentFile.mkdirs()
       file.createNewFile()
@@ -85,7 +93,7 @@ object Helpers {
       var now = Calendar.getInstance()
       var q_TimeStamp = now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE)
 
-      var queryToStore = s"QID:${clientID}_$q_TimeStamp $algorithm $runID $sourceOfQuery $clientID $query $region $timestamp"
+      var queryToStore = s"QID:${clientID}_$q_TimeStamp $placement $communicationApproach $runID $interestOrigin $clientID $query $region $timestamp"
       pw.println(queryToStore)
       pw.close()
 
@@ -113,7 +121,7 @@ object Helpers {
   def save_to_QueryStore(algorithm: String, processing: String, runID: String, sourceOfQuery: String, interestOrigin: String, clientID: String, query: String, region: String, timestamp: String): Boolean = {
     //Source is not QueryStore and DecentralizeQuery
     if (sourceOfQuery != "QS" && sourceOfQuery != "DQ") {
-      var filename = s"$sacepicnEnv/nodeData/queryStore"
+      var filename = s"$inetcepEnv/nodeData/queryStore"
       val file = new File(filename)
       file.getParentFile.mkdirs()
       file.createNewFile()
@@ -145,7 +153,7 @@ object Helpers {
    * @return the path for the node Information file
    */
   def getNodeInformationPath: String = {
-    s"$sacepicnEnv/nodeData/nodeInformation"
+    s"$inetcepEnv/nodeData/nodeInformation"
   }
 
   /**
@@ -154,7 +162,7 @@ object Helpers {
    * @return the path for the decentralilzed k-hop value file
    */
   def getDecentralizedKHops: String = {
-    s"$sacepicnEnv/nodeData/Decentralized_KHop"
+    s"$inetcepEnv/nodeData/Decentralized_KHop"
   }
 
   /**
@@ -164,7 +172,7 @@ object Helpers {
    * @return the decentralized node information for the given node name
    */
   def getDecentralizedNodeInformation(nodeName: String): String = {
-    s"$sacepicnEnv/nodeData/$nodeName"
+    s"$inetcepEnv/nodeData/$nodeName"
   }
 
   /**

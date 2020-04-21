@@ -52,7 +52,7 @@ class Prediction2 extends NFNService {
       else{
         dataStream = "Fail"
         LogMessage(nodeName,"PREDICTION: Finished prediction")
-        val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})"
+        val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})/${System.currentTimeMillis()}"
         Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
         return newDataStreamName
       }
@@ -61,7 +61,7 @@ class Prediction2 extends NFNService {
         output = output.stripSuffix("\n").stripMargin('#')
       else
         output += "No Results!"
-      val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})"
+      val newDataStreamName = s"node/$nodeName/PREDICT2(${granularity},${streamName})/${System.currentTimeMillis()}"
       LogMessage(nodeName,"PREDICTION: Finished prediction")
       LogMessage(nodeName, s"RREDICTION: output; $output")
       Networking.storeResult(nodeName,output,newDataStreamName,ccnApi)

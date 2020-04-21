@@ -65,7 +65,7 @@ class Filter() extends NFNService {
       else{
         dataStream = "Fail"
         LogMessage(nodeName, s"Filter OP Completed")
-        val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)"
+        val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)/${System.currentTimeMillis()}"
         Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
         return newDataStreamName
       }
@@ -75,7 +75,7 @@ class Filter() extends NFNService {
       LogMessage(nodeName,s"Schema is $streamSchema")
       val returnVal = newHeader +  filterHandler(streamSchema,  filterParams(0), filterParams(1),"data",nodeName,dataStream)
       LogMessage(nodeName, s"Filter OP Completed")
-      val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)"
+      val newDataStreamName = s"node/$nodeName/Filter($dataStreamName,$filter)/${System.currentTimeMillis()}"
       Networking.storeResult(nodeName,returnVal,newDataStreamName,ccnApi)
       newDataStreamName
     }

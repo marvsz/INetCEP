@@ -62,7 +62,7 @@ class Heatmap extends NFNService {
       else{
         dataStream = "Fail"
         LogMessage(nodeName, s"Filter OP Completed")
-        val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})"
+        val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})/${System.currentTimeMillis()}"
         Networking.storeResult(nodeName,dataStream,newDataStreamName,ccnApi)
         LogMessage(nodeName, s"Heatmap OP Completed")
         LogMessage(nodeName, s"Output is $dataStream")
@@ -77,7 +77,7 @@ class Heatmap extends NFNService {
         output = output.stripSuffix("\n").stripMargin('#')
       else
         output += "No Results!"
-      val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})"
+      val newDataStreamName = s"node/$nodeName/HEATMAP(${granularity},$lowerBound,$upperBound,$leftBound,$rightBound,${streamName})/${System.currentTimeMillis()}"
       LogMessage(nodeName, s"Heatmap OP Completed")
       LogMessage(nodeName, s"Output is $output")
       Networking.storeResult(nodeName,output,newDataStreamName,ccnApi)
