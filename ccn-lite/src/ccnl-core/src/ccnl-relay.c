@@ -795,7 +795,7 @@ ccnl_do_ageing(void *ptr, void *dummy) {
     struct ccnl_content_s *c = relay->contents;
     struct ccnl_interest_s *i = relay->pit;
     struct ccnl_face_s *f = relay->faces;
-    struct ccnl_interest_s *origin = NULL;
+    //struct ccnl_interest_s *origin = NULL;
 #ifndef CCNL_LINUXKERNEL
     char s[CCNL_MAX_PREFIX_SIZE];
     (void) s;
@@ -803,7 +803,12 @@ ccnl_do_ageing(void *ptr, void *dummy) {
     char *s = ccnl_malloc(CCNL_MAX_PREFIX_SIZE);
 #endif
     time_t t = CCNL_NOW();
-    DEBUGMSG_CORE(VERBOSE, "ageing t=%d\n", (int) t);
+    DEBUGMSG_CORE(EVAL, "ageing t=%d\n", (int) t);
+    DEBUGMSG_CORE(EVAL, "%i Interest Packets recieved\n",relay->recieved_interest_pkts_per_second);
+    DEBUGMSG_CORE(EVAL, "%i Data Packets recieved\n",relay->recieved_data_pkts_per_second);
+    DEBUGMSG_CORE(EVAL, "%i PIT Entries\n",relay->pitcnt);
+    relay->recieved_interest_pkts_per_second = 0;
+    relay->recieved_data_pkts_per_second = 0;
     (void) dummy;
 
 
@@ -880,8 +885,8 @@ ccnl_do_ageing(void *ptr, void *dummy) {
 #ifdef CCNL_LINUXKERNEL
                 //ccnl_free(s);
 #endif
-                origin = i->keepalive_origin;
-                ccnl_nfn_interest_remove(relay, origin);
+                //origin = i->keepalive_origin;
+                //ccnl_nfn_interest_remove(relay, origin);
                 i = ccnl_nfn_interest_remove(relay, i);
             }
 #else // USE_NFN_REQUESTS
