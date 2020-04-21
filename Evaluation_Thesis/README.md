@@ -46,10 +46,28 @@ bash publishRemotely.sh latencyTestsUserlandFill
 ```
 bash publishRemotely.sh latencyTestsKernelFill
 ```
-
+Then ssh into node A and start a sensor via
+```bash
+~/INetCEP/ccn-lite/bin/ccn-lite-mkS -n victims -i 1 -t 2 -s 500000 -u 127.0.0.1/9001 -v trace
+```
+Now ssh into a node where you want to recieve the data. For the pra do
+```bash
+~/INetCEP/bin/ccn-lite-peek /node/nodeA/sensor/victims/1
+```
+It gives you the time it took each time.
+For the ucl run
+```bash
+~/INetCEP/bin/ccn-lite-peekConstant node/nodeA/sensor/victims/1
+```
+Best you save the outputs into a file.
+Now look for the time when the specific tuples were emitted by the sensor and when it was received by the producer. Subtract those two and you get the delay. Try to Make sure that the  VMs are synced time-wise either doing [this](https://www.vmware.com/support/vcm/doc/help/vcm-57/Content/ProvisioningHW/ProvHW_GS_Task_Provision_UNIX_ntp.htm) or manually if that is not an option by doing [this](https://www.howtogeek.com/tips/how-to-sync-your-linux-server-time-with-network-time-servers-ntp/).
 ### Plotting
 The scripts for the latency evaluation are in the python notebook LatencyEvaluation.ipynb. They build on the generated data from the python notebook LatencyDataGenerator.ipynb. We include the generated data in the folder dataFrames.
-
+## CPU Eval
+Use the cpuEval script. It prints out the cpu usage periodically. After 30 Times take the values and copy them into the sheet. Do that for every setting you evaluate.
+```
+bash cpuEval.sh
+```
 # Window Operator Evaluation
 Here we describe the experiments we did in order to evaluate the window operator
 
