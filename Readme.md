@@ -399,8 +399,7 @@ We need to preface that with the PRA:
 	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u 127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'Centralized' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(pra,node/nodeA/sensor/victims/1,5,S,scala,500,MS),gender=M&age>30)' '500' 'MS' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	```
 ## Kernel Version
-We advise to run the kernel version in a secure environment since it is under development and kernel panics can occur. [Read this] and install a crash kernel or you use a VM in VMS.cfg where the crash kernel is already installed.
-[Read this]: https://www.linuxjournal.com/content/oops-debugging-kernel-panics-0
+We advise to run the kernel version in a secure environment since it is under development and kernel panics can occur. [Read this](https://www.linuxjournal.com/content/oops-debugging-kernel-panics-0) and install a crash kernel or you use a VM in VMS.cfg where the crash kernel is already installed.
 This tutorial assumes you are on VM28.
 To compile the kernel version navigate to
 ```
