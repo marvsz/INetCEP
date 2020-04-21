@@ -8,12 +8,10 @@ declare -a VMSdir
 queryType=$2
 # The placement used
 placementType=$3
-# The approach used
-approach=$4
 # Thetype of window operator that should be used
-executionPlace=$5
+executionPlace=$4
 #simulation run time in seconds
-simRunTime=$6
+simRunTime=$5
 #TODO fix workaround: setting CCNL_HOME for executeQuery method (env variables of the remote machine cannot be accessed if quotes are removed from "ENDSSH" and if quotes are put then "queryType" cannot be accessed)
 CCNL_HOME="~/INetCEP/ccn-lite" #requires project to copied at the home location (~) # commented for local executions
 
@@ -30,41 +28,56 @@ if [[ -z $simRunTime ]]
 		#default runtime 10 mins
 		simRunTime=600
 	fi
-#For query 1:
-#Usage: bash publishRemotely.sh all 1 local ucl scala 1200
-#Usage: bash publishRemotely.sh all 1 Centralized ucl scala 1200
-#Usage: bash publishRemotely.sh all 1 local pra scala 1200
-#Usage: bash publishRemotely.sh all 1 Centralized pra scala 1200
-#Usage: bash publishRemotely.sh all 1 local ucl builtin 1200
-#Usage: bash publishRemotely.sh all 1 Centralized ucl builtin 1200
-#For query 2:
-#Usage: bash publishRemotely.sh all 2 local ucl scala 1200
-#Usage: bash publishRemotely.sh all 2 Centralized ucl scala 1200
-#Usage: bash publishRemotely.sh all 2 local pra scala 1200
-#Usage: bash publishRemotely.sh all 2 Centralized pra scala 1200
-#Usage: bash publishRemotely.sh all 2 local ucl builtin 1200
-#Usage: bash publishRemotely.sh all 2 Centralized ucl builtin 1200
-#For query 3:
-#Usage: bash publishRemotely.sh all 3 local ucl scala 1200
-#Usage: bash publishRemotely.sh all 3 Centralized ucl scala 1200
-#Usage: bash publishRemotely.sh all 3 local pra scala 1200
-#Usage: bash publishRemotely.sh all 3 Centralized pra scala 1200
-#Usage: bash publishRemotely.sh all 3 local ucl builtin 1200
-#Usage: bash publishRemotely.sh all 3 Centralized ucl builtin 1200
-#For query 4:
-#Usage: bash publishRemotely.sh all 4 local ucl scala 1200
-#Usage: bash publishRemotely.sh all 4 Centralized ucl scala 1200
-#Usage: bash publishRemotely.sh all 4 local pra scala 1200
-#Usage: bash publishRemotely.sh all 4 Centralized pra scala 1200
-#Usage: bash publishRemotely.sh all 4 local ucl builtin 1200
-#Usage: bash publishRemotely.sh all 4 Centralized ucl builtin 1200
-#For query 5:
-#Usage: bash publishRemotely.sh all 5 local ucl scala 1200
-#Usage: bash publishRemotely.sh all 5 Centralized ucl scala 1200
-#Usage: bash publishRemotely.sh all 5 local pra scala 1200
-#Usage: bash publishRemotely.sh all 5 Centralized pra scala 1200
-#Usage: bash publishRemotely.sh all 5 local ucl builtin 1200
-#Usage: bash publishRemotely.sh all 5 Centralized ucl builtin 1200
+#For query 1 UCL:
+#Usage: bash publishRemotely.sh all 1 local scala 1200
+#Usage: bash publishRemotely.sh all 1 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 1 local builtin 1200
+#Usage: bash publishRemotely.sh all 1 Centralized builtin 1200
+#For query 2 UCL:
+#Usage: bash publishRemotely.sh all 2 local scala 1200
+#Usage: bash publishRemotely.sh all 2 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 2 local builtin 1200
+#Usage: bash publishRemotely.sh all 2 Centralized builtin 1200
+#For query 3 UCL:
+#Usage: bash publishRemotely.sh all 3 local scala 1200
+#Usage: bash publishRemotely.sh all 3 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 3 local builtin 1200
+#Usage: bash publishRemotely.sh all 3 Centralized builtin 1200
+#For query 4 UCL:
+#Usage: bash publishRemotely.sh all 4 local scala 1200
+#Usage: bash publishRemotely.sh all 4 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 4 local builtin 1200
+#Usage: bash publishRemotely.sh all 4 Centralized builtin 1200
+#For query 5 UCL:
+#Usage: bash publishRemotely.sh all 5 local scala 1200
+#Usage: bash publishRemotely.sh all 5 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 5 local builtin 1200
+#Usage: bash publishRemotely.sh all 5 Centralized builtin 1200
+#For query 1 PRA:
+#Usage: bash publishRemotely.sh all 6 local scala 1200
+#Usage: bash publishRemotely.sh all 6 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 6 local builtin 1200
+#Usage: bash publishRemotely.sh all 6 Centralized builtin 1200
+#For query 2 PRA:
+#Usage: bash publishRemotely.sh all 7 local scala 1200
+#Usage: bash publishRemotely.sh all 7 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 7 local builtin 1200
+#Usage: bash publishRemotely.sh all 7 Centralized builtin 1200
+#For query 3 PRA:
+#Usage: bash publishRemotely.sh all 8 local scala 1200
+#Usage: bash publishRemotely.sh all 8 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 8 local builtin 1200
+#Usage: bash publishRemotely.sh all 8 Centralized builtin 1200
+#For query 4 PRA:
+#Usage: bash publishRemotely.sh all 9 local scala 1200
+#Usage: bash publishRemotely.sh all 9 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 9 local builtin 1200
+#Usage: bash publishRemotely.sh all 9 Centralized builtin 1200
+#For query 5 PRA:
+#Usage: bash publishRemotely.sh all 10 local scala 1200
+#Usage: bash publishRemotely.sh all 10 Centralized scala 1200
+#Usage: bash publishRemotely.sh all 10 local builtin 1200
+#Usage: bash publishRemotely.sh all 10 Centralized builtin 1200
 
 all() {
 	echo "deploying CCN"
@@ -510,19 +523,34 @@ executeQueryinVMA() {
 	#one of a kind query
 	case $queryType in
 	1)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'ucl' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	2)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'FILTER(WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'ucl' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	3)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW($approach,node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15),FILTER(WINDOW($approach,node/nodeA/sensor/victims/2,4,S,$executionPlace),Gender=F&Age>30),time,none,inner)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'ucl' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S,$executionPlace),Gender=F&Age>30),time,none,inner)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	4)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW($approach,node/nodeA/sensor/gps/1,5,S,$executionPlace),WINDOW($approach,node/nodeA/sensor/gps/2,5,S,$executionPlace),date,none,innerjoin))' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'ucl' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S,$executionPlace),WINDOW(node/nodeA/sensor/gps/2,5,S,$executionPlace),date,none,innerjoin))' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	5)
-	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' '$approach' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW($approach,node/nodeA/sensor/plug/1,5,S,$executionPlace)),PREDICT2(30s,WINDOW($approach,node/nodeA/sensor/plug/1,5,S,$executionPlace)),date,fullouter,none),Value>50)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'ucl' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,5,S,$executionPlace)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,5,S,$executionPlace)),date,fullouter,none),Value>50)' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	6)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'pra' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace,500,MS)' '500' 'MS' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	7)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'pra' '1' 'Source' 'Client1' 'FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace,500,MS),Gender=M&Age<15)' '500' 'MS' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	8)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'pra' '1' 'Source' 'Client1' 'JOIN(FILTER(WINDOW(node/nodeA/sensor/victims/1,4,S,$executionPlace,500,MS),Gender=M&Age<15),FILTER(WINDOW(node/nodeA/sensor/victims/2,4,S,$executionPlace,500,MS),Gender=F&Age>30),time,none,inner)' '500' 'MS' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	9)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'pra' '1' 'Source' 'Client1' 'HEATMAP(0.0015,8.7262659072876,8.8215389251709,51.7832946777344,51.8207664489746,JOIN(WINDOW(node/nodeA/sensor/gps/1,5,S,$executionPlace,500,MS),WINDOW(node/nodeA/sensor/gps/2,5,S,$executionPlace,500,MS),date,none,innerjoin))' '500' 'MS' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+	;;
+	10)
+	$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  ${VMS[0]}/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement '$placementType' 'pra' '1' 'Source' 'Client1' 'FILTER(JOIN(PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,5,S,$executionPlace,500,MS)),PREDICT2(30s,WINDOW(node/nodeA/sensor/plug/1,5,S,$executionPlace,500,MS)),date,fullouter,none),Value>50)' '500' 'MS' 'Region1' '`date "+%H:%M:%S.%3N"`'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 	;;
 	*) echo "do_nothing"
 	;;
@@ -625,6 +653,7 @@ Usage: ./publishRemotely.sh <COMMAND1> <COMMAND2> <COMMAND3> <COMMAND4> <COMMAND
 Available <COMMAND1> options:
 setup: Copy the binaries and scripts to execute the application
 deployccn: deploys ccn-lite to all remote machines
+deployNFN: deploys ccn-lite to all remote machines
 getlogs: pulls the logs from the remote machine
 restart: reboots the VMs
 update: updates the VMs
@@ -644,13 +673,10 @@ input: {N}:  Any natural number that represents a Query, {1: Window, 2: Filter(W
 Available <COMMAND3> options (only with COMMAND1=all): Query Placement type
 input: {local, Centralized}:  local placement or centralized placement, more are not yet adjusted.
 
-Available <COMMAND4> options (only with COMMAND1=all): Approach
-input: {ucl, pra}: Either let it use the unified communication layer or the pra.
-
-Available <COMMAND5> options (only with COMMAND1=all): Type of Window operator
+Available <COMMAND4> options (only with COMMAND1=all): Type of Window operator
 input: {scala, builtin}: Either the nfn-scala window operator or the builtin window operator.
 
-Available <COMMAND6> options (only with COMMAND1=all): Run duration
+Available <COMMAND5> options (only with COMMAND1=all): Run duration
 ipnut: {N}: Any natural number that represents the duration for which the query should run.
 
 "
