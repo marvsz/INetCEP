@@ -421,7 +421,7 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
             ccnl_sensor_sample(sensor, name, (struct sockaddr *) &si, sock, socksize);
         }
 
-        DEBUGMSG(EVAL,"sent %i Messages\n",cnt);
+        DEBUGMSG(DEBUG,"sent %i Messages\n",cnt);
 
         sensorStopped(sensor,stopPath);
         clock_gettime(CLOCK_MONOTONIC,&tend);
@@ -451,14 +451,22 @@ int sendTuple(struct ccnl_sensor_tuple_s* currentData, struct ccnl_prefix_s* nam
     // set the length of the body
     len = (int) currentData->datalen +1;
     // free the allocated memory for the tuple
-    ccnl_free(currentData);
+
     // prepend the data stream content
     len = ccnl_ndntlv_prependDataStreamContent(name, body, len, NULL, NULL, &offs, out);
 
 
     //Now we send it
-
+    long            ns; // Nanoseconds
+    time_t          s;  // Seconds
+    struct timespec spec;
+    clock_gettime(CLOCK_REALTIME, &spec);
+    s  = spec.tv_sec;
+    ns =  spec.tv_nsec;
+    DEBUGMSG(EVAL,"Sent Data Packet %.*s. Current time: %"PRIdMAX".%09ld seconds since the Epoch. ",
+            (int)currentData->datalen,currentData->data,(intmax_t)s, ns);
     rc = sendto(sock, out+offs, len, 0, sa, socksize);
+    ccnl_free(currentData);
     /*
     while(cnt < 100){
         //since the content is at the end of the buffer we send only the end.
@@ -507,13 +515,7 @@ void ccnl_sensor_sample(struct ccnl_sensor_s *sensor, struct ccnl_prefix_s* name
         }
     }
     returnVal = sendTuple(currentData,name, sa, sock, socksize);
-    DEBUGMSG(DEBUG,"Sendto returned %i",returnVal);
-    long            ns; // Nanoseconds
-    time_t          s;  // Seconds
-    struct timespec spec;
-    clock_gettime(CLOCK_REALTIME, &spec);
-    s  = spec.tv_sec;
-    ns =  spec.tv_nsec;
-    DEBUGMSG(EVAL,"Current time: %"PRIdMAX".%09ld seconds since the Epoch\n",
-             (intmax_t)s, ns);
+    DEBUGMSG(DEBUG,"Sendto returned %i\n",returnVal);
+
+
 }

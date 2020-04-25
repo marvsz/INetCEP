@@ -71,8 +71,8 @@ void* sendRequest(void* arguments){
     struct timespec tend;
     struct timespec tdelta;
     struct timespec resultsleep;
-    ts.tv_sec = samplingRate / 1000;
-    ts.tv_nsec = (samplingRate % 1000) * 1000000;
+    ts.tv_sec = samplingRate / 1000000;
+    ts.tv_nsec = (samplingRate % 1000000) * 1000;
     DEBUGMSG(DEBUG, "Sampling rate is %i microseconds\n",samplingRate);
 
     while(true){
@@ -196,7 +196,7 @@ void* recvContent(void *arguments){
             s  = spec.tv_sec;
             ns =  spec.tv_nsec;
             recievedPackets++;
-            DEBUGMSG(EVAL,"Current Time at recieving packet number %i: %"PRIdMAX".%09ld seconds since the Epoch\n",recievedPackets,
+            DEBUGMSG(EVAL,"Current Time at recieving packet number %i: %"PRIdMAX".%09ld seconds since the Epoch.n Packet:",recievedPackets,
                      (intmax_t)s, ns);
             dump_content(0,out,out,len,2,-1,stdout);
             fflush(stdout);
