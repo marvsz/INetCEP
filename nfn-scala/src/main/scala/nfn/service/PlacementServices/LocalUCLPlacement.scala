@@ -6,7 +6,7 @@ import nfn.tools.{EvaluationHandler, Helpers}
 
 import scala.collection.mutable.ListBuffer
 
-class TestPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends Placement {
+class LocalUCLPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends UCLPlacement {
   override val nodeName: String = _nodeName
   override val mapping: NodeMapping = _mapping
   override val ccnApi: ActorRef = _ccnApi

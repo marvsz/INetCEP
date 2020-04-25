@@ -5,7 +5,7 @@ import java.util.concurrent.TimeoutException
 import akka.actor.ActorRef
 import akka.pattern._
 import akka.util.Timeout
-import ccn.packet.{CCNName, PersistentInterest, Content, Interest, NFNInterest}
+import ccn.packet.{CCNName, Content, Interest, MetaInfo, NFNInterest, PersistentInterest}
 import com.typesafe.scalalogging.LazyLogging
 import nfn.NFNApi
 import nfn.service._
@@ -96,7 +96,7 @@ object Networking extends LazyLogging{
   def fetchContent(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     // try to fetch data and return if successful
@@ -114,7 +114,7 @@ object Networking extends LazyLogging{
   def fetchContentRepeatedly(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content] = {
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     while (true) {
@@ -159,7 +159,7 @@ object Networking extends LazyLogging{
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     def keepaliveInterest(interest: Interest): Interest = Interest(interest.name.makeKeepaliveName)
@@ -259,7 +259,7 @@ object Networking extends LazyLogging{
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     def blockingRequest(): Option[Content] = {
@@ -296,7 +296,7 @@ object Networking extends LazyLogging{
 
     def loadFromCacheOrNetwork(interest: Interest): Future[Content] = {
       implicit val timeout = Timeout(timeoutDuration.toMillis,MILLISECONDS)
-      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false)).mapTo[Content]
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,true)).mapTo[Content]
     }
 
     val f = Future {
@@ -326,7 +326,11 @@ object Networking extends LazyLogging{
     }
   }
 
-
+  def storeResult(nodeName: String, content: String, contentName: String, ccnApi: ActorRef)={
+    val nameOfContentWithoutPrefixToAdd = CCNName(new String(contentName).split("/").toIndexedSeq: _*)
+    LogMessage(nodeName, s"Content for $contentName saved to Network")
+    ccnApi ! NFNApi.AddDataStreamToCCNCache(Content(nameOfContentWithoutPrefixToAdd, content.getBytes, MetaInfo.empty))
+  }
 
   /**
     * Try to fetch content object by name.
@@ -336,9 +340,35 @@ object Networking extends LazyLogging{
     * @param    time       Timeout
     * @return              Content Object (on success)
     */
-  def fetchContent(name: String, ccnApi: ActorRef, time: Duration): Option[Content] = {
+  def fetchContentFromNetwork(name: String, ccnApi: ActorRef, time: Duration): Option[Content] = {
     val i = Interest(CCNName(name.split("/").toIndexedSeq: _*))
-    fetchContent(i, ccnApi, time)
+    fetchContentFromNetwork(i, ccnApi, time)
+  }
+
+  /**
+   * Try to fetch content object by given interest.
+   *
+   * @param    interest   Interest to send out
+   * @param    ccnApi     Actor Reference
+   * @param    time       Timeout
+   * @return              Content Object (on success)
+   */
+  def fetchContentFromNetwork(interest: Interest, ccnApi: ActorRef, time: Duration): Option[Content]  = {
+    def loadFromNetwork(interest: Interest): Future[Content] = {
+      implicit val timeout = Timeout(time.toMillis,MILLISECONDS)
+      (ccnApi ? NFNApi.CCNSendReceive(interest, useThunks = false,false)).mapTo[Content]
+    }
+
+    // try to fetch data and return if successful
+    try {
+      val futServiceContent: Future[Content] = loadFromNetwork(interest)
+      Await.result(futServiceContent, time) match {
+        case c: Content => Some(c)
+        case _ => None  // send keepalive interest
+      }
+    } catch {
+      case e: TimeoutException => logger.error("fetchContent timed out."); None
+    }
   }
   //
   //  def intermediateDataOrRedirect(ccnApi: ActorRef, name: CCNName, data: Array[Byte]): Future[Array[Byte]] = {

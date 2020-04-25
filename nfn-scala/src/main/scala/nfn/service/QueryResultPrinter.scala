@@ -9,8 +9,8 @@ import scala.concurrent.Future
 
 class QueryResultPrinter extends NFNService{
   override def function(interestName: CCNName, args: Seq[NFNValue],stateHolder:StatesSingleton, ccnApi: ActorRef): Future[NFNValue] = {
-    var nodeInfo = interestName.cmps.mkString(" ")
-    var nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
+    val nodeInfo = interestName.cmps.mkString(" ")
+    val nodeName = nodeInfo.substring(nodeInfo.indexOf("/node") + 6, nodeInfo.indexOf("nfn_service") - 1)
 
     def printQueryResult(result: String): Future[NFNValue] = Future{
       LogMessage(nodeName,s"QueryResultPrinter: Result = $result")

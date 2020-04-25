@@ -87,23 +87,22 @@ public abstract class OperatorA {
 
     /**
      * Set specific checks and return if passes or fails
-     * 
-     * @param queryParameter
+     *
      * @return
      */
     public abstract Boolean checkParameters();
     
-    public abstract String genNFNQuery();
+    public abstract String genNFNQuery(String communicationAppraoch);
 
     //public abstract String genNFNQuery(String processing);
 
-    public String genFlatNFNQuery() { return null;};
+    public String genFlatNFNQuery(String communicationAppraoch) { return null;};
 
     /**
      * parse a Query and return appropriate node with nfn_query
      * @return Node 
      */
-    public Node parseQuery(Node parent) throws ParameterNamesNotFoundException {
+    public Node parseQuery(Node parent, String communicationApproach) throws ParameterNamesNotFoundException {
         // tempQuery = removeOuterOperator(query, operator);
         Node thisNode;
 
@@ -113,7 +112,7 @@ public abstract class OperatorA {
         
         // not creating new node for nested query
         String op = OperatorA.getOperator(this.query);
-        thisNode = new Node(genNFNQuery(), OperatorA.validOperators.get(op), OperatorTree.getID(), this.parameters);
+        thisNode = new Node(genNFNQuery(communicationApproach), OperatorA.validOperators.get(op), OperatorTree.getID(), this.parameters);
         thisNode.parent = parent;
 
         String[] nestedQueries = getNestedQueries(this.parameters);
@@ -128,10 +127,10 @@ public abstract class OperatorA {
             String operatorLeft = getOperator(nestedQueries[0]);
             OperatorA nextOp = createOperator(operatorLeft, nestedQueries[0]);
             if (!isOperatorCreatingNode && operatorLeft.equals("WINDOW")) {
-                thisNode._query = thisNode._query.replace("Q1", nextOp.genFlatNFNQuery());
+                thisNode._query = thisNode._query.replace("Q1", nextOp.genNFNQuery(communicationApproach));
             }
             else {
-                thisNode.left = nextOp.parseQuery(thisNode);
+                thisNode.left = nextOp.parseQuery(thisNode,communicationApproach);
             }
 
             if (nestedQueries.length == 2)
@@ -139,10 +138,10 @@ public abstract class OperatorA {
                 String operatorRight = getOperator(nestedQueries[1]);
                 nextOp = createOperator(operatorRight, nestedQueries[1]);
                 if (!isOperatorCreatingNode && operatorRight.equals("WINDOW")) {
-                    thisNode._query = thisNode._query.replace("Q2", nextOp.genNFNQuery());
+                    thisNode._query = thisNode._query.replace("Q2", nextOp.genNFNQuery(communicationApproach));
                 }
                 else {
-                    thisNode.right = nextOp.parseQuery(thisNode);
+                    thisNode.right = nextOp.parseQuery(thisNode,communicationApproach);
                 }
             }
         }
@@ -157,7 +156,6 @@ public abstract class OperatorA {
      * 
      * 
      * @param query
-     * @param operator
      * @return
      */
     public String[] getParameters(String query) throws Exception {
@@ -208,7 +206,6 @@ public abstract class OperatorA {
      *  "op(params...)" => "params..."
      * 
      * @param query current full query
-     * @param operator current outer operator
      * @return only parameters as string (raw)
      */
     private String removeOuterOperator(String query) {
@@ -344,7 +341,6 @@ public abstract class OperatorA {
 
     /**
      * return Operator as string of current query
-     * @param query
      * @return
      */
     public static String getOperator(String q) {

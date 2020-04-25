@@ -52,7 +52,7 @@ class QueryCentralLocalNS() extends NFNService {
       var et = new OperatorTree();
       //Create node stack or Node tree (current: Tree)
       LogMessage(nodeName, s"Operator Tree creation Started");
-      var root = et.createOperatorTree(query);
+      var root = et.createOperatorTree(query,thisNode);
       LogMessage(nodeName, s"Operator Tree creation Completed");
 
       //Get current Network Status and Path information:

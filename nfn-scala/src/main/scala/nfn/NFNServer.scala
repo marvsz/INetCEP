@@ -38,7 +38,7 @@ object NFNServer {
 
 object NFNApi {
 
-  case class CCNSendReceive(interest: Interest, useThunks: Boolean)
+  case class CCNSendReceive(interest: Interest, useThunks: Boolean, allowLocal: Boolean)
 
   case class CCNSendPersistentInterest(persistentInterest: PersistentInterest, interestedComputation: CCNName, useThunks: Boolean)
 
@@ -235,7 +235,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     // If it is an interest, start a compute request
     case packet: CCNPacket => {
       val senderCopy = sender
-      handlePacket(packet, senderCopy)
+      handlePacket(packet, senderCopy,true)
     }
     case UDPConnection.Received(data, sendingRemote) => {
       val senderCopy = sender
@@ -252,14 +252,14 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
      * and asks the network if it was the first entry in the pit.
      * Thunk interests get converted to normal interests, thunks need to be enabled with the boolean flag in the message
      */
-    case NFNApi.CCNSendReceive(interest, useThunks) => {
+    case NFNApi.CCNSendReceive(interest, useThunks, allowLocal) => {
       val senderCopy = sender
 
       logger.debug(s"API: Sending interest $interest (f=$senderCopy)")
       val maybeThunkInterest =
         if (interest.name.isNFN && useThunks) interest.thunkify
         else interest
-      handlePacket(maybeThunkInterest, senderCopy)
+      handlePacket(maybeThunkInterest, senderCopy, allowLocal)
     }
 
     /**
@@ -279,7 +279,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       val maybeThunkInterest =
         if (persistentInterest.name.isNFN && useThunks) persistentInterest.thunkify
         else persistentInterest
-      handlePacket(maybeThunkInterest, senderCopy)
+      handlePacket(maybeThunkInterest, senderCopy,false)
     }
 
     case NFNApi.CCNStartService(interest, useThunks) => {
@@ -287,7 +287,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       val maybeThunkInterest =
         if (interest.name.isNFN && useThunks) interest.thunkify
         else interest
-      handlePacket(maybeThunkInterest, senderCopy)
+      handlePacket(maybeThunkInterest, senderCopy,false)
     }
 
     case NFNApi.AddToCCNCache(content) => {
@@ -356,11 +356,11 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
   }
 
-  def handlePacket(packet: CCNPacket, senderCopy: ActorRef) = {
+  def handlePacket(packet: CCNPacket, senderCopy: ActorRef, allowLocal: Boolean) = {
     packet match {
       case i: Interest => {
         logger.info(s"Received interest: $i (f=$senderCopy)")
-        handleInterest(i, senderCopy)
+        handleInterest(i, senderCopy, allowLocal)
       }
       case ci: PersistentInterest => {
         logger.info(s"Received constantInterest: $ci (f=$senderCopy)")
@@ -475,7 +475,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
         chunkNums match {
           case chunkNum :: _ =>
             val chunkInterest = Interest(CCNName(contentChunk.name.cmps, Some(chunkNum)))
-            self ! NFNApi.CCNSendReceive(chunkInterest, contentChunk.name.isThunk)
+            self ! NFNApi.CCNSendReceive(chunkInterest, contentChunk.name.isThunk,true)
           case _ => logger.warning(s"chunk store was already removed or never existed in contentstore for contentname ${contentChunk.name}")
         }
       }
@@ -573,7 +573,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
             logger.debug(s"unescapednamecmps: " + unescapedNameCmps.toString())
             logger.info(s"Redirect for $unescapedNameCmps")
             implicit val timeout = Timeout(defaultTimeoutDuration)
-            (self ? NFNApi.CCNSendReceive(Interest(CCNName(unescapedNameCmps, None)), useThunks = false)).mapTo[CCNPacket] map {
+            (self ? NFNApi.CCNSendReceive(Interest(CCNName(unescapedNameCmps, None)), useThunks = false,true)).mapTo[CCNPacket] map {
               case c: Content => {
                 logger.debug(s"fetch content from each pending face")
                 pendingFaces foreach { pendingFace => {
@@ -625,7 +625,7 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
     }
   }
 
-  private def handleInterest(i: Interest, senderCopy: ActorRef) = {
+  private def handleInterest(i: Interest, senderCopy: ActorRef, allowLocal: Boolean) = {
 
     /*if (i.name.isKeepalive) {
       logger.debug(s"Receive keepalive interest: " + i.name)
@@ -638,19 +638,115 @@ case class NFNServer(routerConfig: RouterConfig, computeNodeConfig: ComputeNodeC
       }
     } else {*/
     logger.debug(s"Handle interest.")
-    cs.get(i.name) match {
-      /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
+    allowLocal match {
+      case true => cs.get(i.name) match {
+        /*Hier wird der kram vom lokalen Speicher geholt. wollen wir das? (22.7.2019) Weiterhin ist im Query Store script was komisch, da irgendwann folgendes passiert:
 
-    *[ERROR] [07/22/2019 00:59:44.759] [Sys-node-nodeA-akka.actor.default-dispatcher-11] [akka://Sys-node-nodeA/user/NFNServer/ComputeServer/ComputeWorker-931157519] Added to futures: /COMPUTE/call 9 /node/nodeA/nfn_service_Placement 'Centralized' '1' '' 'QS' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200' '00:59:44.563'/NFN
-success
+      *[ERROR] [07/22/2019 00:59:44.759] [Sys-node-nodeA-akka.actor.default-dispatcher-11] [akka://Sys-node-nodeA/user/NFNServer/ComputeServer/ComputeWorker-931157519] Added to futures: /COMPUTE/call 9 /node/nodeA/nfn_service_Placement 'Centralized' '1' '' 'QS' 'FILTER(name,WINDOW(name,victims,4,S),3=M&4>30,name)' 'Region1' '16:22:00.200' '00:59:44.563'/NFN
+  success
 
-    Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
-    */
-      case Some(contentFromLocalCS) => {
-        logger.debug(s"Served $contentFromLocalCS from local CS")
-        senderCopy ! contentFromLocalCS
+      Also wird hier ein Feld nicht befüllt. schauen, ob das irgendwo probleme gibt.
+      */
+        case Some(contentFromLocalCS) => {
+          logger.debug(s"Served $contentFromLocalCS from local CS")
+          senderCopy ! contentFromLocalCS
+        }
+        case None => {
+          val senderFace = senderCopy
+          pit.get(i.name) match {
+            case Some(pendingFaces) => {
+              if (!i.name.isRequest) {
+                pit.add(i.name, false, senderFace, defaultTimeoutDuration)
+                //                nfnGateway ! i
+              }
+            }
+            case None => {
+              if(i.name.isSStart){
+                startDynService(i, senderCopy)
+              }
+              else{
+                if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
+                  pit.add(i.name, false, senderFace, defaultTimeoutDuration)
+                }
+
+                // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
+                i.name.chunkNum foreach { _ => {
+                  logger.info("Try to add content for a specific chunk to the senderFace")
+                  pit.add(CCNName(i.name.cmps, None), false, senderFace, defaultTimeoutDuration)
+
+                }
+
+                }
+
+
+
+                //Updated by Ali
+                // /.../.../NFN
+                // nfn interests are either:
+                // - send to the compute server if they start with compute
+                // - send to a local AM if one exists
+                // - forwarded to nfn gateway
+                // not nfn interests are always forwarded to the nfn gateway
+                logger.info("The interest is NFN? " + i.name.isNFN)
+                logger.info("The interest is called :" + i.name)
+                if (i.name.isNFN) {
+                  // /COMPUTE/call .../.../NFN
+                  // A compute flag at the beginning means that the interest is a binary computation
+                  // to be executed on the compute server
+                  if (i.name.isCompute) {
+                    logger.debug(s"Interest is a compute interest: ${i.name}")
+                    if (i.name.isThunk) {
+                      logger.debug(s"Interest is a compute interest and with Thunks: ${i.name}")
+                      computeServer ! ComputeServer.Thunk(i.name)
+                    } else if (i.name.isRequest) {
+                      i.name.requestType match {
+                        case "KEEPALIVE" => {
+                          logger.debug(s"Receive keepalive interest: " + i.name)
+                          val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 3, Nil, 2)
+                          val nfnName = i.name.copy(cmps = nfnCmps)
+                          pit.get(nfnName) match {
+                            case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+                              senderCopy ! Content(i.name, " ".getBytes)
+                            case None => logger.debug(s"Did not find in PIT.")
+                          }
+                        }
+                        case "CTRL" => {
+                          logger.debug(s"Receive control message: " + i.name + " Save to CS for later retrieval by computation.")
+                          val emptyContent = Content(i.name, Array[Byte]())
+                          cs.add(emptyContent)
+                          senderCopy ! Content(i.name, " ".getBytes)
+                        }
+                        case _ => {
+                          computeServer ! ComputeServer.RequestToComputation(i.name, senderCopy)
+                        }
+                      }
+                    } else {
+                      logger.debug(s"the name of the compute interest we have to store is ${i.name}")
+                      computeServer ! ComputeServer.Compute(i.name)
+                    }
+                    // /.../.../NFN
+                    // An NFN interest without compute flag means that it must be reduced by an abstract machine
+                    // If no local machine is available, forward it to the nfn network
+                  } else {
+                    logger.debug(s"Interest is a simple NFN interest: ${i.name}")
+                    maybeLocalAbstractMachine match {
+                      case Some(localAbstractMachine) => {
+                        localAbstractMachine ! i
+                      }
+                      case None => {
+                        nfnGateway ! i
+                      }
+                    }
+                  }
+                } else {
+                  nfnGateway ! i
+                }
+              }
+            }
+          }
+        }
       }
-      case None => {
+      case false => {
         val senderFace = senderCopy
         pit.get(i.name) match {
           case Some(pendingFaces) => {
@@ -664,87 +760,88 @@ success
               startDynService(i, senderCopy)
             }
             else{
-            if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
-              pit.add(i.name, false, senderFace, defaultTimeoutDuration)
-            }
+              if (!i.name.isRequest || i.name.requestType == "CIM" || i.name.requestType == "GIM") {
+                pit.add(i.name, false, senderFace, defaultTimeoutDuration)
+              }
 
-            // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
-            i.name.chunkNum foreach { _ => {
-              logger.info("Try to add content for a specific chunk to the senderFace")
-              pit.add(CCNName(i.name.cmps, None), false, senderFace, defaultTimeoutDuration)
+              // If the interest has a chunknum, make sure that the original interest (still) exists in the pit
+              i.name.chunkNum foreach { _ => {
+                logger.info("Try to add content for a specific chunk to the senderFace")
+                pit.add(CCNName(i.name.cmps, None), false, senderFace, defaultTimeoutDuration)
 
-            }
+              }
 
-            }
+              }
 
 
 
-            //Updated by Ali
-            // /.../.../NFN
-            // nfn interests are either:
-            // - send to the compute server if they start with compute
-            // - send to a local AM if one exists
-            // - forwarded to nfn gateway
-            // not nfn interests are always forwarded to the nfn gateway
-            logger.info("The interest is NFN? " + i.name.isNFN)
-            logger.info("The interest is called :" + i.name)
-            if (i.name.isNFN) {
-              // /COMPUTE/call .../.../NFN
-              // A compute flag at the beginning means that the interest is a binary computation
-              // to be executed on the compute server
-              if (i.name.isCompute) {
-                logger.debug(s"Interest is a compute interest: ${i.name}")
-                if (i.name.isThunk) {
-                  logger.debug(s"Interest is a compute interest and with Thunks: ${i.name}")
-                  computeServer ! ComputeServer.Thunk(i.name)
-                } else if (i.name.isRequest) {
-                  i.name.requestType match {
-                    case "KEEPALIVE" => {
-                      logger.debug(s"Receive keepalive interest: " + i.name)
-                      val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 3, Nil, 2)
-                      val nfnName = i.name.copy(cmps = nfnCmps)
-                      pit.get(nfnName) match {
-                        case Some(pendingInterest) => logger.debug(s"Found in PIT.")
-                          senderCopy ! Content(i.name, " ".getBytes)
-                        case None => logger.debug(s"Did not find in PIT.")
+              //Updated by Ali
+              // /.../.../NFN
+              // nfn interests are either:
+              // - send to the compute server if they start with compute
+              // - send to a local AM if one exists
+              // - forwarded to nfn gateway
+              // not nfn interests are always forwarded to the nfn gateway
+              logger.info("The interest is NFN? " + i.name.isNFN)
+              logger.info("The interest is called :" + i.name)
+              if (i.name.isNFN) {
+                // /COMPUTE/call .../.../NFN
+                // A compute flag at the beginning means that the interest is a binary computation
+                // to be executed on the compute server
+                if (i.name.isCompute) {
+                  logger.debug(s"Interest is a compute interest: ${i.name}")
+                  if (i.name.isThunk) {
+                    logger.debug(s"Interest is a compute interest and with Thunks: ${i.name}")
+                    computeServer ! ComputeServer.Thunk(i.name)
+                  } else if (i.name.isRequest) {
+                    i.name.requestType match {
+                      case "KEEPALIVE" => {
+                        logger.debug(s"Receive keepalive interest: " + i.name)
+                        val nfnCmps = i.name.cmps.patch(i.name.cmps.size - 3, Nil, 2)
+                        val nfnName = i.name.copy(cmps = nfnCmps)
+                        pit.get(nfnName) match {
+                          case Some(pendingInterest) => logger.debug(s"Found in PIT.")
+                            senderCopy ! Content(i.name, " ".getBytes)
+                          case None => logger.debug(s"Did not find in PIT.")
+                        }
+                      }
+                      case "CTRL" => {
+                        logger.debug(s"Receive control message: " + i.name + " Save to CS for later retrieval by computation.")
+                        val emptyContent = Content(i.name, Array[Byte]())
+                        cs.add(emptyContent)
+                        senderCopy ! Content(i.name, " ".getBytes)
+                      }
+                      case _ => {
+                        computeServer ! ComputeServer.RequestToComputation(i.name, senderCopy)
                       }
                     }
-                    case "CTRL" => {
-                      logger.debug(s"Receive control message: " + i.name + " Save to CS for later retrieval by computation.")
-                      val emptyContent = Content(i.name, Array[Byte]())
-                      cs.add(emptyContent)
-                      senderCopy ! Content(i.name, " ".getBytes)
-                    }
-                    case _ => {
-                      computeServer ! ComputeServer.RequestToComputation(i.name, senderCopy)
-                    }
+                  } else {
+                    logger.debug(s"the name of the compute interest we have to store is ${i.name}")
+                    computeServer ! ComputeServer.Compute(i.name)
                   }
+                  // /.../.../NFN
+                  // An NFN interest without compute flag means that it must be reduced by an abstract machine
+                  // If no local machine is available, forward it to the nfn network
                 } else {
-                  logger.debug(s"the name of the compute interest we have to store is ${i.name}")
-                  computeServer ! ComputeServer.Compute(i.name)
+                  logger.debug(s"Interest is a simple NFN interest: ${i.name}")
+                  maybeLocalAbstractMachine match {
+                    case Some(localAbstractMachine) => {
+                      localAbstractMachine ! i
+                    }
+                    case None => {
+                      nfnGateway ! i
+                    }
+                  }
                 }
-                // /.../.../NFN
-                // An NFN interest without compute flag means that it must be reduced by an abstract machine
-                // If no local machine is available, forward it to the nfn network
               } else {
-                logger.debug(s"Interest is a simple NFN interest: ${i.name}")
-                maybeLocalAbstractMachine match {
-                  case Some(localAbstractMachine) => {
-                    localAbstractMachine ! i
-                  }
-                  case None => {
-                    nfnGateway ! i
-                  }
-                }
+                nfnGateway ! i
               }
-            } else {
-              nfnGateway ! i
             }
-          }
           }
         }
       }
     }
+
     //}
   }
 

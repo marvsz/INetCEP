@@ -18,7 +18,7 @@ class OperatorT extends OperatorA {
     }
 
     @Override
-    public String genNFNQuery() {
+    public String genNFNQuery(String communicationApproach) {
         return "(call me ... )";
     }
 
@@ -77,17 +77,17 @@ public class OperatorTest {
     }
 
     @Test
-    public void testParseQuery() throws Exception {
+    public void testParseQuery(String communicationApproach) throws Exception {
         OperatorA operator = new OperatorJoin("JOIN([name],[name],[FILTER(name,WINDOW(victims,22:18:36.800,22:18:44.001),3=M&4>30,name)],[FILTER(name,WINDOW(survivors,22:18:35.800,22:18:41.001),3=F&4>20,name)])");
-        Node root = operator.parseQuery(null);
+        Node root = operator.parseQuery(null,communicationApproach);
         assertNotNull(root);
     }
 
     @Test
-    public void testParseQueryException() {
+    public void testParseQueryException(String communicationApproach) {
         Assertions.assertThrows(ParameterNamesNotFoundException.class, () -> {
             OperatorA operator = new OperatorJoin("JOIN(JOIN(WINDOW, WINDOW), JOIN(WINDOW, WINDOW))");
-            Node root = operator.parseQuery(null);
+            Node root = operator.parseQuery(null,communicationApproach);
             assertNotNull(root);
         });
     }

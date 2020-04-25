@@ -8,7 +8,7 @@ import nfn.tools.{EvaluationHandler, Helpers}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-trait Placement {
+trait UCLPlacement {
   val nodeName: String
   val mapping: NodeMapping
   val ccnApi: ActorRef
@@ -160,16 +160,16 @@ trait Placement {
   }*/
 }
 
-final case class NoSuchPlacementException(private val message: String = "", private val cause: Throwable = None.orNull) extends Exception(message, cause)
+final case class NoSuchUCLPlacementException(private val message: String = "", private val cause: Throwable = None.orNull) extends Exception(message, cause)
 
-object Placement {
+object UCLPlacement {
 
-  def apply(s: String,_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int): Placement = {
+  def apply(s: String,_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int, _communicationApproach:String): UCLPlacement = {
       s match {
-        case "centralized" =>  new InitiativePlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
-        case "decentraliized" => new DecentralizedPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
-        case "local" => new TestPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
-        case _ => throw NoSuchPlacementException(s"The Placement Strategy $s does not exist\n")
+        case "centralized" =>  new InitiativeUCLPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
+        case "decentraliized" => new DecentralizedUCLPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
+        case "local" => new LocalUCLPlacement(_nodeName:String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int)
+        case _ => throw NoSuchUCLPlacementException(s"The Placement Strategy $s does not exist\n")
       }
   }
 

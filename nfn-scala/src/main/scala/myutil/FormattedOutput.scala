@@ -3,6 +3,7 @@ package myutil
 import java.time.LocalTime
 import java.time.Duration
 import java.lang.Object
+import java.time.temporal.TemporalUnit
 
 /**
  * Created by basil on 16/09/14.
@@ -73,7 +74,26 @@ object FormattedOutput {
     //Default case: seconds (if the option is not correctly stated in the query)
     return currentTime.minusMinutes(timePeriod)
   }
+
+  def getTimeInMills(timePeriod: Long, unit: String):Long = {
+    var RetVal = 0L
+    if(unit.toUpperCase() == "MS"){
+      RetVal = timePeriod
+    }
+    if(unit.toUpperCase() == "S"){
+      RetVal = 1000*timePeriod
+    }
+    if(unit.toUpperCase() == "M") {
+      RetVal = 1000*60*timePeriod
+    }
+    if(unit.toUpperCase() == "H") {
+      RetVal = 1000*60*60*timePeriod
+    }
+    RetVal
+  }
   def getFutureTime(currentTime: LocalTime, timePeriod: Long, unit: String):LocalTime = {
+    if(unit.toUpperCase() == "MS")
+      return currentTime.plusNanos(timePeriod*1000*1000)
     if(unit.toUpperCase() == "S")
       return currentTime.plusSeconds(timePeriod)
     if(unit.toUpperCase() == "M")

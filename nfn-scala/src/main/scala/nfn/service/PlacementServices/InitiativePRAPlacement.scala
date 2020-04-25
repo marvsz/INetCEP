@@ -9,7 +9,7 @@ import nfn.tools.{EvaluationHandler, Helpers, IOHelpers}
 import scala.collection.mutable.ListBuffer
 import scala.math.Ordering.Double
 
-class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends Placement {
+class InitiativePRAPlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: ActorRef, _root: Map, _paths: ListBuffer[Paths], _maxPath: Int, _evalHandler: EvaluationHandler, _opCount: Int) extends PRAPlacement {
   override val nodeName: String = _nodeName
   override val mapping: NodeMapping = _mapping
   override val ccnApi: ActorRef = _ccnApi
@@ -84,11 +84,16 @@ class InitiativePlacement(_nodeName: String, _mapping: NodeMapping, _ccnApi: Act
     //output = deployedRoot._value
     //output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
     //if (output != null && !output.isEmpty)
-      //output = output.stripSuffix("\n").stripMargin('#')
+    //output = output.stripSuffix("\n").stripMargin('#')
     //else
-      //output += "No Results!"
+    //output += "No Results!"
     evalHandler.setEndTimeNow()
-    output = "Built Operator Tree"
+    output = deployedRoot._value
+    output = Helpers.executeInterestQuery(output, nodeName, ccnApi)
+    if (output != null && !output.isEmpty)
+      output = output.stripSuffix("\n").stripMargin('#')
+    else
+      output += "No Results!"
     LogMessage(nodeName, s"Query Execution Completed")
     LogMessage(nodeName, s"Query Output = $output")
     val outputForPrecision = s"${evalHandler.runID.toString}"

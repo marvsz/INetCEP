@@ -41,7 +41,7 @@ class Echo extends NFNService{
                   NFNNameValue(networkname)
                   val interest = Interest(networkname)
                   implicit val timeout = Timeout(10000,TimeUnit.SECONDS)
-                  val fres: Future[Content] = (ccnApi ? NFNApi.CCNSendReceive(interest, false)).mapTo[Content]
+                  val fres: Future[Content] = (ccnApi ? NFNApi.CCNSendReceive(interest, false,true)).mapTo[Content]
                   val res = Await.result(fres, timeout.duration)
 
                   res match{

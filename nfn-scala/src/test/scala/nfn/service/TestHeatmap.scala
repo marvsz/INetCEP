@@ -33,6 +33,6 @@ class TestHeatmap {
     val lines = (for (line <- bufferedSource.getLines()) yield line).toList
     val heatmap = new Heatmap()
     System.out.println("Heatmap:")
-    System.out.print(heatmap.generateIntermediateHeatmap(heatmap.generateHeatmap(lines,granularity.toDouble,minLong.toDouble,maxLong.toDouble,minLat.toDouble,maxLat.toDouble)))
+    System.out.print(heatmap.generateIntermediateHeatmap(heatmap.generateHeatmap(lines,granularity.toDouble,minLong.toDouble,maxLong.toDouble,minLat.toDouble,maxLat.toDouble),granularity,minLong,maxLong,minLat,maxLat,"HEATMAPTHING"))
   }
 }

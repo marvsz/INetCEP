@@ -7,7 +7,7 @@ import java.util.Base64
 import java.time.{Instant, ZoneId, ZonedDateTime}
 
 import myutil.FormattedOutput
-import nfn.tools.Helpers.sacepicnEnv
+import nfn.tools.Helpers.inetcepEnv
 
 import scala.io.Source
 
@@ -45,7 +45,7 @@ object IOHelpers {
    * @return void
    */
   def writeMetricsToStore(Energy: String, Overhead: String): Any = {
-    val weights = s"$sacepicnEnv/nodeData/placementUtilityFunction"
+    val weights = s"$inetcepEnv/nodeData/placementUtilityFunction"
     val file1 = new File(weights)
     file1.getParentFile.mkdirs()
     file1.createNewFile()
@@ -66,8 +66,8 @@ object IOHelpers {
    */
   def writeOutputFiles(runAnalysis: String, queryResult: String): Any = {
 
-    var queryOutput = s"$sacepicnEnv/nodeData/queryOutput"
-    var queryResultFile = s"$sacepicnEnv/nodeData/queryResult"
+    var queryOutput = s"$inetcepEnv/nodeData/queryOutput"
+    var queryResultFile = s"$inetcepEnv/nodeData/queryResult"
     val file1 = new File(queryOutput)
     val file4 = new File(queryResultFile)
     file1.getParentFile.mkdirs()
@@ -94,9 +94,9 @@ object IOHelpers {
    */
   def writeOutputFiles(runAnalysis: String, weightVariance: String, queryResult: String): Any = {
 
-    var queryOutput = s"$sacepicnEnv/nodeData/queryOutput"
-    var queryWeightVariance = s"$sacepicnEnv/nodeData/queryWeightVariance"
-    var queryResultFile = s"$sacepicnEnv/nodeData/queryResult"
+    var queryOutput = s"$inetcepEnv/nodeData/queryOutput"
+    var queryWeightVariance = s"$inetcepEnv/nodeData/queryWeightVariance"
+    var queryResultFile = s"$inetcepEnv/nodeData/queryResult"
     val file1 = new File(queryOutput)
     val file2 = new File(queryWeightVariance)
     val file4 = new File(queryResultFile)
@@ -121,7 +121,7 @@ object IOHelpers {
   }
 
   def writeQueryOutput(nodeName: String, queryResult:String)={
-    val queryResultFile = s"$sacepicnEnv/nodeData/queryResult"
+    val queryResultFile = s"$inetcepEnv/nodeData/queryResult"
     val timeInMillis = System.currentTimeMillis()
     val instant = Instant.ofEpochMilli(timeInMillis)
     val zonedDateTimeUtc = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"))
@@ -138,10 +138,10 @@ object IOHelpers {
 
   def writeOutputFiles(runAnalysis: String, weightVariance: String, accuracyOutput: String, queryResult: String): Any = {
 
-    var queryOutput = s"$sacepicnEnv/nodeData/queryOutput"
-    var queryWeightVariance = s"$sacepicnEnv/nodeData/queryWeightVariance"
-    var accuracyOutputFile = s"$sacepicnEnv/nodeData/queryAccuracy"
-    var queryResultFile = s"$sacepicnEnv/nodeData/queryResult"
+    var queryOutput = s"$inetcepEnv/nodeData/queryOutput"
+    var queryWeightVariance = s"$inetcepEnv/nodeData/queryWeightVariance"
+    var accuracyOutputFile = s"$inetcepEnv/nodeData/queryAccuracy"
+    var queryResultFile = s"$inetcepEnv/nodeData/queryResult"
     val file1 = new File(queryOutput)
     val file2 = new File(queryWeightVariance)
     val file3 = new File(accuracyOutputFile)
@@ -170,7 +170,7 @@ object IOHelpers {
   }
 
   def getMultiObjectiveFunctionMetrics: Array[Double] = {
-    val bufferedSource = Source.fromFile(s"$sacepicnEnv/nodeData/placementUtilityFunction")
+    val bufferedSource = Source.fromFile(s"$inetcepEnv/nodeData/placementUtilityFunction")
     var returnData = new Array[Double](2); //0.8|0.2 (ENERGY|BANDWIDTH.DELAY.PRODUCT)
     //To ensure that we always have utility function. Else, we get it from the file
     returnData(0) = 0.5

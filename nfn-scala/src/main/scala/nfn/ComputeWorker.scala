@@ -126,7 +126,7 @@ case class ComputeWorker(ccnServer: ActorRef, nodePrefix: CCNName, stateHolder:S
     futCallable foreach { callable =>
       val cancellable = KlangCancellableFuture {
         try {
-          val resultValue: NFNValue = Await.result(callable.exec,5 seconds)
+          val resultValue: NFNValue = Await.result(callable.exec,60 seconds)
           val futResultData = resultDataOrRedirect(resultValue.toDataRepresentation, name, ccnServer)
           val resultData = Await.result(futResultData, 1 seconds)
           Content(name.withoutThunkAndIsThunk._1, resultData, MetaInfo.empty)

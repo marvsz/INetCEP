@@ -72,7 +72,7 @@ class QueryCentralRemNS() extends NFNService {
       //Create node stack or Node tree (current: Tree)
       LogMessage(nodeName, s"Operator Tree creation Started");
       var timeNow_OpTreeCreation = Calendar.getInstance().getTimeInMillis()
-      var root = et.createOperatorTree(query);
+      var root = et.createOperatorTree(query,sourceOfQuery);
       var timeOffset_OpTreeCreation = Calendar.getInstance().getTimeInMillis() - timeNow_OpTreeCreation
       LogMessage(nodeName, s"Operator Tree creation Completed");
 

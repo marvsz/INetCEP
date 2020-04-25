@@ -10,5 +10,7 @@ do
 	pkill -f "ccn"
 	pkill -f "nfn"
 	pkill -f "bash"
+	pkill -f "ccn-lite"
+	pkill -f "queryService"
 	ENDSSH
 done

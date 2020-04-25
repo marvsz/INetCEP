@@ -43,7 +43,7 @@ public class OperatorTree {
      * @param query
      * @return Map an operator tree data structure
      */
-    public Map createOperatorTree(String query) {
+    public Map createOperatorTree(String query, String communicationAppraoch) {
         String operator = OperatorA.getOperator(query);
         if (operator == null) {
             // * ? some logging?
@@ -54,7 +54,7 @@ public class OperatorTree {
         Node root = null;
 
         try {
-            root = op.parseQuery(null);
+            root = op.parseQuery(null,communicationAppraoch);
         } catch (ParameterNamesNotFoundException e) {
             // return this as default Map for faulty queries
             return getErrorMap();

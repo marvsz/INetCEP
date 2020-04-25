@@ -35,9 +35,14 @@ public class NFNQueryCreator {
             call += "\"";
         }
         else {
+            if(this.parameters.contains("pra")){
+                call += " '" + _timestamp.getTime() + "'";
+            }
             for (String p : this.parameters) {
-                if(!(p.equals("scala")||p.equals("ucl")))
+                if(!(p.equals("scala"))){
                     call += " '" + p + "'";
+                }
+
             }
             // close
             call += ")";

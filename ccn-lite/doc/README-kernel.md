@@ -16,12 +16,12 @@ The Linux Kernel Module was tested with Ubuntu 17.10, Nov, 22, 17 patches, with 
     make
     ```
 
-    Use the target `ccn-lite-lnxkernel` to compile only the module.
+    Use the target `ccnl-lxkernel` to compile only the module.
 
 2.  Insert the module:
     ```bash
     cd ccnl_lxkernel
-    sudo insmod ./ccn-lite-lxkernel.ko e=eth0 v=trace
+    sudo insmod ./ccnl-lxkernel.ko e=eth0 v=trace x=/tmp/mgmt-nfn-relay-a.sock u=9001
     ```
 
 3.  Verify that the module was succesfully inserted into the kernel with:
@@ -44,7 +44,7 @@ The Linux Kernel Module was tested with Ubuntu 17.10, Nov, 22, 17 patches, with 
 The module has several options when inserting. You can list them using `modinfo`:
 
 ```bash
-modinfo ./ccn-lite-lnxkernel.ko
+modinfo ./ccnl-lxkernel.ko
 ```
 
 [//]: # (Add link to document, more information on key options)
@@ -68,5 +68,5 @@ Notice that you need to use `sudo` issuing the control command to access the UNI
 
 Use `rmmod` to remove the module from the kernel:
 ```bash
-sudo rmmod ccn_lite_lnxkernel
+sudo rmmod ccnl-lxkernel
 ```

@@ -734,11 +734,13 @@ ccnl_ccnb_fwd(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     if (pkt->flags & CCNL_PKT_REQUEST) { // interest
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccnb_cMatch)){
             relay->recieved_interest_pkts++;
+            relay->recieved_interest_pkts_per_second++;
         }
             goto Done;
     } else { // content
         if (ccnl_fwd_handleContent(relay, from, &pkt)){
             relay->recieved_data_pkts++;
+            relay->recieved_data_pkts_per_second++;
         }
             goto Done;
     }
@@ -902,6 +904,7 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
             // DEBUGMSG_CFWD(DEBUG, "  interest=<%s>\n", ccnl_prefix_to_path(pkt->pfx));
             if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ccntlv_cMatch)){
                 relay->recieved_interest_pkts++;
+                relay->recieved_interest_pkts_per_second++;
                 goto Done;
             }
 
@@ -913,6 +916,7 @@ ccnl_ccntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         if (pkt->type == CCNX_TLV_TL_Object) {
             pkt->flags |= CCNL_PKT_REPLY;
             relay->recieved_data_pkts++;
+            relay->recieved_data_pkts_per_second++;
             ccnl_fwd_handleContent(relay, from, &pkt);
         } else {
             DEBUGMSG_CFWD(WARNING, "  ccntlv: data pkt type mismatch %d %d\n",
@@ -958,12 +962,14 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
     switch (typ) {
     case NDN_TLV_Interest:
         relay->recieved_interest_pkts++;
+        relay->recieved_interest_pkts_per_second++;
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
 
         break;
     case NDN_TLV_PersistentInterest:
         relay->recieved_persistent_interest_pkts++;
+        relay->recieved_interest_pkts_per_second++;
         if (ccnl_fwd_handleInterest(relay, from, &pkt, ccnl_ndntlv_cMatch))
             goto Done;
         break;
@@ -974,11 +980,13 @@ ccnl_ndntlv_forwarder(struct ccnl_relay_s *relay, struct ccnl_face_s *from,
         break;
     case NDN_TLV_Data:
         relay->recieved_data_pkts++;
+        relay->recieved_data_pkts_per_second++;
         if (ccnl_fwd_handleContent(relay, from, &pkt))
             goto Done;
         break;
     case NDN_TLV_Datastream:
         relay->recieved_data_stream_pkts++;
+        relay->recieved_data_pkts_per_second++;
         if (ccnl_fwd_handleContent(relay, from, &pkt))
             goto Done;
         break;

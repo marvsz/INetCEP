@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 import INetCEP.{ConnectedSensorsSingleton, SchemaBrokerSingleton, Sensor}
-import nfn.tools.Helpers.sacepicnEnv
+import nfn.tools.Helpers.inetcepEnv
 
 import scala.io.Source
 
@@ -123,7 +123,7 @@ object SensorHelpers {
    * @return the delimiter specifically for the tuples in this file
    */
   def getDelimiterFromPath(path: String): String = {
-    val bufferedSource = Source.fromFile(s"$sacepicnEnv/sensors/" + path)
+    val bufferedSource = Source.fromFile(s"$inetcepEnv/sensors/" + path)
     var output: String = ""
     //val b = bufferedSource.getLines().find(_ => true).toString()
     if (bufferedSource.getLines().find(_ => true).toString().contains("/"))
@@ -145,7 +145,7 @@ object SensorHelpers {
   def parseData(inputSource: String, sourceValue: String): List[String] = {
     var output: List[String] = null
     if (inputSource == "sensor") {
-      val dataSource = Source.fromFile(s"$sacepicnEnv/sensors/" + sourceValue)
+      val dataSource = Source.fromFile(s"$inetcepEnv/sensors/" + sourceValue)
       output = dataSource.getLines.toList
       dataSource.close
     }

@@ -62,7 +62,7 @@ class CentralizedPlacement() extends NFNService {
 
         var timeNow_OpTreeCreation = Calendar.getInstance().getTimeInMillis
         //create operator graph
-        var root = et.createOperatorTree(query)
+        var root = et.createOperatorTree(query,processing)
 
         var timeOffset_OpTreeCreation = Calendar.getInstance().getTimeInMillis - timeNow_OpTreeCreation
 
