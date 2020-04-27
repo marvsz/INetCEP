@@ -349,7 +349,7 @@ echo "copying NodeInformation"
 	done
 }
 
-copyTestScripts(){
+copyEvalScripts(){
 ((count=0))
 	for i in "${VMS[@]}"
 	do
@@ -357,7 +357,7 @@ copyTestScripts(){
 		#ssh -t $user@$i <<-'ENDSSH'	
 		#rm -rf ~/INetCEP/Test\ scripts/
 		#ENDSSH
-		scp -rp "$work_dir"/Test\ scripts $user@$i:~/INetCEP/
+		scp -rp "$work_dir"/Evaluation_Thesis $user@$i:~/INetCEP/
 		((count++))
 	
 	done	
@@ -698,7 +698,7 @@ elif [ $1 == "execute" ]; then execute
 elif [ $1 == "executeQuery" ]; then executeQueryinVMA
 elif [ $1 == "getOutput" ]; then getOutput
 elif [ $1 == "upgradegcc" ]; then installGCC7
-elif [ $1 == "copyTest" ]; then copyTestScripts
+elif [ $1 == "copyEval" ]; then copyEvalScripts
 elif [ $1 == "shutdownKernel" ]; then shutdownKernel
 elif [ $1 == "shutdown" ]; then shutdown
 elif [ $1 == "unifiedLogs" ]; then getUnifiedTestLogs

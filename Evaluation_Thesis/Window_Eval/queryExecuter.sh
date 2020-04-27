@@ -26,6 +26,6 @@ fi
 
 while true
 do
-	nohup $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  127.0.0.1/9001 -w 20 "call 8 /node/nodeA/nfn_service_Window '`date "+%H:%M:%S.%3N"`' 'pra' 'node/nodeA/sensor/victims/1' '1000' '500' 'MS'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2 >> windowLog &
+	nohup $CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  127.0.0.1/9001 -w 20 "call 8 /node/nodeA/nfn_service_Window '`date "+%H:%M:%S.%3N"`' 'pra' 'node/nodeA/sensor/victims/1' '$3' '$1' '$2'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2 >> windowLog &
 sleep $interval
 done
