@@ -1,0 +1,277 @@
+[A] 1.0000: ageing t=1
+[A] 1.0010: 1 Interest Packets recieved
+[A] 1.0010: 0 Data Packets recieved
+[A] 1.0010: 1 PIT Entries
+[A] 2.0020: ageing t=2
+[A] 2.0020: 0 Interest Packets recieved
+[A] 2.0020: 0 Data Packets recieved
+[A] 2.0020: 1 PIT Entries
+[A] 3.0030: ageing t=3
+[A] 3.0030: 0 Interest Packets recieved
+[A] 3.0030: 4922 Data Packets recieved
+[A] 3.0030: 1 PIT Entries
+[A] 4.0030: ageing t=4
+[A] 4.0030: 0 Interest Packets recieved
+[A] 4.0030: 67157 Data Packets recieved
+[A] 4.0030: 1 PIT Entries
+[A] 5.0030: ageing t=5
+[A] 5.0030: 0 Interest Packets recieved
+[A] 5.0030: 69597 Data Packets recieved
+[A] 5.0030: 1 PIT Entries
+[A] 6.0030: ageing t=6
+[A] 6.0030: 0 Interest Packets recieved
+[A] 6.0030: 70036 Data Packets recieved
+[A] 6.0030: 1 PIT Entries
+[A] 7.0030: ageing t=7
+[A] 7.0030: 0 Interest Packets recieved
+[A] 7.0030: 65736 Data Packets recieved
+[A] 7.0030: 1 PIT Entries
+[A] 8.0030: ageing t=8
+[A] 8.0030: 0 Interest Packets recieved
+[A] 8.0030: 67595 Data Packets recieved
+[A] 8.0030: 1 PIT Entries
+[A] 9.0030: ageing t=9
+[A] 9.0030: 0 Interest Packets recieved
+[A] 9.0030: 64522 Data Packets recieved
+[A] 9.0030: 1 PIT Entries
+[A] 10.0000: ageing t=10
+[A] 10.0000: 0 Interest Packets recieved
+[A] 10.0000: 65100 Data Packets recieved
+[A] 10.0000: 1 PIT Entries
+[A] 11.0000: ageing t=11
+[A] 11.0000: 0 Interest Packets recieved
+[A] 11.0000: 70231 Data Packets recieved
+[A] 11.0000: 1 PIT Entries
+[A] 12.0000: ageing t=12
+[A] 12.0000: 0 Interest Packets recieved
+[A] 12.0000: 59315 Data Packets recieved
+[A] 12.0000: 1 PIT Entries
+[A] 13.0000: ageing t=13
+[A] 13.0000: 0 Interest Packets recieved
+[A] 13.0000: 67056 Data Packets recieved
+[A] 13.0000: 1 PIT Entries
+[A] 14.0000: ageing t=14
+[A] 14.0000: 0 Interest Packets recieved
+[A] 14.0000: 60289 Data Packets recieved
+[A] 14.0000: 1 PIT Entries
+[A] 15.0000: ageing t=15
+[A] 15.0000: 0 Interest Packets recieved
+[A] 15.0000: 61643 Data Packets recieved
+[A] 15.0000: 1 PIT Entries
+[A] 16.0000: ageing t=16
+[A] 16.0000: 0 Interest Packets recieved
+[A] 16.0000: 61713 Data Packets recieved
+[A] 16.0000: 1 PIT Entries
+[A] 17.0100: ageing t=17
+[A] 17.0100: 0 Interest Packets recieved
+[A] 17.0100: 62168 Data Packets recieved
+[A] 17.0100: 1 PIT Entries
+[A] 18.0100: ageing t=18
+[A] 18.0200: 0 Interest Packets recieved
+[A] 18.0200: 55258 Data Packets recieved
+[A] 18.0200: 1 PIT Entries
+[A] 19.0200: ageing t=19
+[A] 19.0300: 0 Interest Packets recieved
+[A] 19.0300: 60377 Data Packets recieved
+[A] 19.0300: 1 PIT Entries
+[A] 20.0300: ageing t=20
+[A] 20.0400: 0 Interest Packets recieved
+[A] 20.0400: 39273 Data Packets recieved
+[A] 20.0400: 1 PIT Entries
+[A] 21.0400: ageing t=21
+[A] 21.0400: 0 Interest Packets recieved
+[A] 21.0400: 57637 Data Packets recieved
+[A] 21.0400: 1 PIT Entries
+[A] 22.0400: ageing t=22
+[A] 22.0400: 0 Interest Packets recieved
+[A] 22.0400: 44314 Data Packets recieved
+[A] 22.0400: 1 PIT Entries
+[A] 23.0400: ageing t=23
+[A] 23.0400: 0 Interest Packets recieved
+[A] 23.0400: 68202 Data Packets recieved
+[A] 23.0400: 1 PIT Entries
+[A] 24.0400: ageing t=24
+[A] 24.0400: 0 Interest Packets recieved
+[A] 24.0400: 53455 Data Packets recieved
+[A] 24.0400: 1 PIT Entries
+[A] 25.0400: ageing t=25
+[A] 25.0400: 0 Interest Packets recieved
+[A] 25.0400: 56995 Data Packets recieved
+[A] 25.0400: 1 PIT Entries
+[A] 26.0400: ageing t=26
+[A] 26.0600: 0 Interest Packets recieved
+[A] 26.0600: 52214 Data Packets recieved
+[A] 26.0600: 1 PIT Entries
+[A] 27.0600: ageing t=27
+[A] 27.0600: 0 Interest Packets recieved
+[A] 27.0600: 61335 Data Packets recieved
+[A] 27.0600: 1 PIT Entries
+[A] 28.0600: ageing t=28
+[A] 28.0600: 0 Interest Packets recieved
+[A] 28.0600: 62531 Data Packets recieved
+[A] 28.0600: 1 PIT Entries
+[A] 29.0700: ageing t=29
+[A] 29.0700: 0 Interest Packets recieved
+[A] 29.0700: 59199 Data Packets recieved
+[A] 29.0700: 1 PIT Entries
+[A] 31.0300: ageing t=30
+[A] 32.4700: 0 Interest Packets recieved
+[A] 32.4900: 41154 Data Packets recieved
+[A] 32.4900: 1 PIT Entries
+[A] 35.2500: ageing t=35
+[A] 35.7200: 0 Interest Packets recieved
+[A] 35.7200: 3 Data Packets recieved
+[A] 35.7200: 1 PIT Entries
+[A] 37.7800: ageing t=37
+[A] 37.8400: 0 Interest Packets recieved
+[A] 37.8400: 2 Data Packets recieved
+[A] 37.8400: 1 PIT Entries
+[A] 39.3200: ageing t=39
+[A] 39.5800: 0 Interest Packets recieved
+[A] 39.5800: 2 Data Packets recieved
+[A] 39.5800: 1 PIT Entries
+[A] 40.9900: ageing t=40
+[A] 41.1400: 0 Interest Packets recieved
+[A] 41.1500: 1 Data Packets recieved
+[A] 41.1500: 1 PIT Entries
+[A] 43.1300: ageing t=43
+[A] 43.4200: 0 Interest Packets recieved
+[A] 43.4600: 2 Data Packets recieved
+[A] 43.4600: 1 PIT Entries
+[A] 45.6300: ageing t=45
+[A] 45.6800: 0 Interest Packets recieved
+[A] 45.6800: 1 Data Packets recieved
+[A] 45.6800: 1 PIT Entries
+[A] 47.9600: ageing t=47
+[A] 48.1200: 0 Interest Packets recieved
+[A] 48.3000: 2 Data Packets recieved
+[A] 48.3300: 1 PIT Entries
+[A] 50.0800: ageing t=50
+[A] 50.2200: 0 Interest Packets recieved
+[A] 50.5900: 1 Data Packets recieved
+[A] 50.8400: 1 PIT Entries
+[A] 52.4800: ageing t=52
+[A] 52.8400: 0 Interest Packets recieved
+[A] 52.8800: 1 Data Packets recieved
+[A] 52.9100: 1 PIT Entries
+[A] 55.9900: ageing t=55
+[A] 56.1900: 0 Interest Packets recieved
+[A] 56.1900: 2 Data Packets recieved
+[A] 56.1900: 1 PIT Entries
+[A] 57.6700: ageing t=57
+[A] 57.8000: 0 Interest Packets recieved
+[A] 57.8000: 3 Data Packets recieved
+[A] 57.8000: 1 PIT Entries
+[A] 59.5100: ageing t=59
+[A] 59.9300: 0 Interest Packets recieved
+[A] 60.3000: 2247 Data Packets recieved
+[A] 60.4400: 1 PIT Entries
+[A] 61.8600: ageing t=61
+[A] 61.9000: 0 Interest Packets recieved
+[A] 61.9000: 22 Data Packets recieved
+[A] 61.9000: 1 PIT Entries
+[A] 63.4400: ageing t=63
+[A] 63.5700: 0 Interest Packets recieved
+[A] 63.6800: 4 Data Packets recieved
+[A] 63.6800: 1 PIT Entries
+[A] 65.4400: ageing t=65
+[A] 65.5600: 0 Interest Packets recieved
+[A] 65.5600: 8 Data Packets recieved
+[A] 65.5600: 1 PIT Entries
+[A] 66.8400: ageing t=66
+[A] 67.0200: 0 Interest Packets recieved
+[A] 67.0200: 2789 Data Packets recieved
+[A] 67.0200: 1 PIT Entries
+[A] 68.8900: ageing t=68
+[A] 68.9300: 0 Interest Packets recieved
+[A] 68.9300: 3 Data Packets recieved
+[A] 68.9300: 1 PIT Entries
+[A] 70.8800: ageing t=70
+[A] 71.0800: 0 Interest Packets recieved
+[A] 71.1800: 31 Data Packets recieved
+[A] 71.1800: 1 PIT Entries
+[A] 72.2700: ageing t=72
+[A] 72.4300: 0 Interest Packets recieved
+[A] 72.5100: 17 Data Packets recieved
+[A] 72.5100: 1 PIT Entries
+[A] 74.9200: ageing t=74
+[A] 75.1000: 0 Interest Packets recieved
+[A] 75.3700: 2 Data Packets recieved
+[A] 75.5700: 1 PIT Entries
+[A] 78.0700: ageing t=78
+[A] 78.1000: 0 Interest Packets recieved
+[A] 78.1000: 1 Data Packets recieved
+[A] 78.1000: 1 PIT Entries
+[A] 79.8000: ageing t=79
+[A] 79.8900: 0 Interest Packets recieved
+[A] 79.8900: 6 Data Packets recieved
+[A] 79.8900: 1 PIT Entries
+[A] 80.9300: ageing t=80
+[A] 81.1100: 0 Interest Packets recieved
+[A] 81.1500: 2 Data Packets recieved
+[A] 81.1500: 1 PIT Entries
+[A] 83.4300: ageing t=83
+[A] 83.5300: 0 Interest Packets recieved
+[A] 83.5400: 3 Data Packets recieved
+[A] 83.5400: 1 PIT Entries
+[A] 86.1100: ageing t=86
+[A] 86.1700: 0 Interest Packets recieved
+[A] 86.1700: 2 Data Packets recieved
+[A] 86.1700: 1 PIT Entries
+[A] 88.1700: ageing t=88
+[A] 88.1900: 0 Interest Packets recieved
+[A] 88.1900: 1 Data Packets recieved
+[A] 88.1900: 1 PIT Entries
+[A] 89.8200: ageing t=89
+[A] 90.2100: 0 Interest Packets recieved
+[A] 90.9400: 1 Data Packets recieved
+[A] 90.9400: 1 PIT Entries
+[A] 92.7100: ageing t=92
+[A] 92.7400: 0 Interest Packets recieved
+[A] 92.7400: 2 Data Packets recieved
+[A] 92.7400: 1 PIT Entries
+[A] 94.5100: ageing t=94
+[A] 94.6600: 0 Interest Packets recieved
+[A] 94.7300: 12 Data Packets recieved
+[A] 94.7300: 1 PIT Entries
+[A] 97.1100: ageing t=97
+[A] 97.3100: 0 Interest Packets recieved
+[A] 97.3700: 3 Data Packets recieved
+[A] 97.3700: 1 PIT Entries
+[A] 98.6400: ageing t=98
+[A] 98.8600: 0 Interest Packets recieved
+[A] 99.0700: 2 Data Packets recieved
+[A] 99.1500: 1 PIT Entries
+[A] 100.5000: ageing t=100
+[A] 100.5000: 0 Interest Packets recieved
+[A] 100.5000: 4 Data Packets recieved
+[A] 100.5000: 1 PIT Entries
+[A] 102.2000: ageing t=102
+[A] 102.2000: 0 Interest Packets recieved
+[A] 102.2000: 2 Data Packets recieved
+[A] 102.2000: 1 PIT Entries
+[A] 103.5000: ageing t=103
+[A] 103.5000: 0 Interest Packets recieved
+[A] 103.5000: 2 Data Packets recieved
+[A] 103.5000: 1 PIT Entries
+[A] 105.3000: ageing t=105
+[A] 105.3000: 0 Interest Packets recieved
+[A] 105.3000: 3 Data Packets recieved
+[A] 105.3000: 1 PIT Entries
+[A] 107.8000: ageing t=107
+[A] 109.1000: 0 Interest Packets recieved
+[A] 109.1000: 2509 Data Packets recieved
+[A] 109.1000: 1 PIT Entries
+[A] 110.1000: ageing t=110
+[A] 110.1000: 1 Interest Packets recieved
+[A] 110.1000: 1 Data Packets recieved
+[A] 110.1000: 1 PIT Entries
+[A] 110.8000: Recieved Interest Packets: 0
+[A] 110.8000: Recieved Persistent Interest Packets: 2
+[A] 110.8000: Recieved Data Packets: 0
+[A] 110.8000: Recieved Data Stream Packets: 1636723
+[A] 110.8000: Served Content Packets: 1636723
+[A] 110.8000: Overall Served Packets: 1636723
+[M] 110.8000: @@@ memory dump starts
+addr 0x55618f1828a0 88744 Bytes, ccn-lite-relay.c:171 @0.0000
+[M] 110.8000: @@@ memory dump ends
