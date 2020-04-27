@@ -345,7 +345,7 @@ char getNodeName(char* socket){
 int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
 
     /*sendTuples(sensor);*/
-    struct timespec ts, tstart, tend, resultsleep;
+    struct timespec ts/*, tstart, tend, resultsleep*/;
     char *addr = NULL, *ux = NULL;
     //struct sockaddr sa;
     int port, cnt=0, sock = 0, suite = CCNL_SUITE_DEFAULT;
@@ -408,11 +408,12 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
     DEBUGMSG(TRACE, "sensor loop started\n");
     ts.tv_sec = sensor->settings->samplingRate / 1000000;
     ts.tv_nsec = (sensor->settings->samplingRate % 1000000) * 1000;
+    (void) ts;
     while (!sensor->stopflag) {
         //clock_gettime(CLOCK_MONOTONIC,&resultsleep);
         //resultsleep.tv_sec = resultsleep.tv_sec + ts.tv_sec;
         //resultsleep.tv_nsec = resultsleep.tv_nsec + ts.tv_nsec;
-        clock_gettime(CLOCK_MONOTONIC,&tstart);
+        //clock_gettime(CLOCK_MONOTONIC,&tstart);
         cnt++;
         //ccnl_sensor_sample(sensor, name, sa, sock, socksize);
         if(!sensor->settings->use_udp){
@@ -423,12 +424,12 @@ int ccnl_sensor_loop(struct ccnl_sensor_s *sensor) {
 
         DEBUGMSG(DEBUG,"sent %i Messages\n",cnt);
 
-        sensorStopped(sensor,stopPath);
-        clock_gettime(CLOCK_MONOTONIC,&tend);
-        resultsleep.tv_sec = ts.tv_sec - (tend.tv_sec - tstart.tv_sec);
-        resultsleep.tv_nsec = ts.tv_nsec - (tend.tv_nsec - tstart.tv_nsec);
+        //sensorStopped(sensor,stopPath);
+        //clock_gettime(CLOCK_MONOTONIC,&tend);
+        //resultsleep.tv_sec = ts.tv_sec - (tend.tv_sec - tstart.tv_sec);
+        //resultsleep.tv_nsec = ts.tv_nsec - (tend.tv_nsec - tstart.tv_nsec);
         //DEBUGMSG(EVAL,"t nano delta was %lu\n",tdelta.tv_nsec);
-        clock_nanosleep(CLOCK_MONOTONIC, 0,&resultsleep, NULL);
+        //clock_nanosleep(CLOCK_MONOTONIC, 0,&resultsleep, NULL);
 
     }
     close(sock);
