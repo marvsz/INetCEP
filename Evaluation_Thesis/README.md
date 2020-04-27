@@ -1,17 +1,27 @@
 This README guides the reader through the steps he or she has to take in order to reproduce the evaluation results.
 The experiments are ordered as they are written in the thesis. First we compare the throughput, accuracy, precision, recall, f-score and latency of both approaches in the forwarding plane against each other. After that we describe the tests for the different window operators. This is finished by the experiments we did with the whole INetCEP System.
-
+Copy the scripts to the VMs with the following command:
+```bash
+cd ~/INetCEP/publish_scripts
+bash publishRemotely.sh copyEval
+```
+Then ssh into the VM where you want to run the evaluation scripts in.
+The best strategy is to run it on all of your VMs to maximize everything.
 # Forwarding Evaluation
 Here are the experiments we did for evaluating the forwarding capabilities of both approaches
 ## Throughput Tets
 Our problem here is, that with one producer we are only capable of sending out about 500 pkt/s consistently. So in order to achieve a higher sensor sampling rate we started multiple producers concurrently.
 This does also mean, that for the periodic request approach (PRA) we have to start an equal amount of concurrent consumers that request data at the same rate. We wrote scripts that automate this process for you.
 ### Userland
-For generating the data in the userland the script ucl_userland_throughput_test_starter.sh has to be started for the UCL. For the PRA the script pra_userland_throughput_test_starter.sh has to be started. The parameters are 
+For generating the data in the userland the script *ucl_userland_throughput_test_starter.sh* has to be started for the UCL. For the PRA the script *pra_userland_throughput_test_starter.sh* has to be started. The parameters are 
 1. The overall sensor sampling rate that the tester wants to achive in pkt/s
 2. The Number of how many times we want to run this experiment
 3. How long the experiment should run in seconds
-This means executing ucl_userland_throughput_test_starter.sh 10000 30 3600 would mean an overall sampling rate of 10.000 pkt/s will be inserted into the relay, the experiment will be repeated 30 times and will run for one hour. Beware: this will in total take 30 hours.
+This means executing 
+```
+bash ucl_userland_throughput_test_starter.sh 10000 30 3600
+```
+would mean an overall sampling rate of 10.000 pkt/s will be inserted into the relay, the experiment will be repeated 30 times and will run for one hour. Beware: this will in total take 30 hours.
 
 ### Kernel
 For the kernel basically the same format is used but the user has to first insert the module into the kernel. Compile it and insert it via:
@@ -69,21 +79,28 @@ Use the cpuEval script. It prints out the cpu usage periodically. After 30 Times
 bash cpuEval.sh
 ```
 # Window Operator Evaluation
-Here we describe the experiments we did in order to evaluate the window operator
+Here we describe the experiments we did in order to evaluate the window operator. SSH into a VM and navigate to the directory via:
+```bash
+cd ~/INetCEP/Evaluation_Thesis/WindowEval
+```
 
 ## Latency
 Here we again use a topology with a single broker. The broker is started via the start1node.sh script. UCL vs. PRA using the nfn-scala window operator while increasing the number of tuples in the window operator:
-To start a Window Operator that uses the PRA use the following query:
+To start a PRA Window Operator you have to start a script that periodically executes the Window Query. You also have to give it the rate at which to sample the sensor. To start a Window Query with a window size of 10 and a sampling rate of 500 MS run :
+```bash
+bash queryExecuter.sh 500 MS 100
 ```
-$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,100,pull,scala)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+To start a NFN-Scala Window Operator that uses the UCL use the following query:
 ```
-To start a Window Operator that uses the UCL use the following query:
+$CCNL_HOME/bin/ccn-lite-simplenfnConstant -s ndn2013 -u  127.0.0.1/9001 -w 20 "call 5 /node/nodeQuery/nfn_service_Window 'ucl' 'node/nodeA/sensor/victims/1' '10'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 ```
-$CCNL_HOME/bin/ccn-lite-simplenfn -s ndn2013 -u  127.0.0.1/9001 -w 20 "call 9 /node/nodeA/nfn_service_PlacementServices_QueryPlacement 'local' 'local' '1' 'Source' 'Client1' 'WINDOW(node/nodeA/sensor/victims/1,100,S,push,scala)' 'Region1' '12:06:58.200'" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
+To start a CCN-Lite Window Operator that uses the UCL by default use the following query:
+```
+$CCNL_HOME/bin/ccn-lite-simplenfnConstant -s ndn2013 -u  127.0.0.1/9001 -w 20 "window /node/nodeA/sensor/victims/1 10 1" | $CCNL_HOME/bin/ccn-lite-pktdump -f 2
 ```
 These start window operators with a window size of 100 tuples.
 
-## Latency, Recall Precision and Latency
+## Recall and Precision
 C-Window in the Userland vs. C-Window in the Kernel vs. NFN-Scala Window with state in ccnlite vs. NFN-Scala Window with state in NFN-Scala:
 Start a Scala Window Operator using ccn lite to store the state:
 ```
